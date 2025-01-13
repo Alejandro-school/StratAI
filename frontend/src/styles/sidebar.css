@@ -70,7 +70,7 @@
 /* Estilo para el enlace y el ícono en hover */
 .menu-item:hover a,
 .menu-item:hover svg {
-    color: #3f086b !important; /* Cambiar color al pasar el ratón */
+    color: #8402ee !important; /* Cambiar color al pasar el ratón */
     transform: scale(1.05); /* Efecto de zoom suave */
 }
 

@@ -58,10 +58,10 @@ const SidebarComponent = ({ user }) => {
           Stats
         </div>
         <MenuItem icon={<BarChart />} className="menu-item">
-          <Link to="/MatchSummary">Partidas</Link>
+          <Link to="/HistoryGames">Partidas</Link>
         </MenuItem>
         <MenuItem icon={<EmojiPeopleOutlined />} className="menu-item">
-          <Link to="/analysis/strategies">Desempeño personal</Link>
+          <Link to="/RecentShareCodes">Desempeño personal</Link>
         </MenuItem>
         <MenuItem icon={<MapOutlined />} className="menu-item">
           <Link to="/analysis/movements">Rendimiento mapas</Link>
@@ -75,7 +75,7 @@ const SidebarComponent = ({ user }) => {
           Learn
         </div>
         <MenuItem icon={<FileUploadOutlined />} className="menu-item">
-          <Link to="/ApiTemporal">Analizar Demos</Link>
+          <Link to="/MatchSummary">Analizar Demos</Link>
         </MenuItem>
         <MenuItem icon={<AirlineStopsOutlined />} className="menu-item">
           <Link to="/training/recommendations">Progreso</Link>

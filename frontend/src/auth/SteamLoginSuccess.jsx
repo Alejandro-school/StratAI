@@ -14,7 +14,7 @@ function SteamLoginSuccess() {
         });
 
         if (response.ok) {
-          navigate('/dashboard'); // Redirige al Dashboard si el login fue exitoso
+          navigate('/HistoryCodeForm'); // Redirige al Dashboard si el login fue exitoso
         } else {
           navigate('/');
         }

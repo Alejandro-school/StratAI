@@ -29,6 +29,8 @@ const MatchSummary = () => {
   // Filtrar estadísticas relevantes (Kills y Deaths)
   const totalKills = stats.find(stat => stat.name === 'total_kills')?.value || 0;
   const totalDeaths = stats.find(stat => stat.name === 'total_deaths')?.value || 0;
+  const totalTime = stats.find(stat => stat.name === 'total_time_played')?.value || 0;
+
 
   const chartData = {
     labels: ['Kills', 'Deaths'],
@@ -63,11 +65,11 @@ const MatchSummary = () => {
 
       <div className="match-cards">
         <div className="match-card">
-          <h3>Total Kills</h3>
+          <h3>Kills totales</h3>
           <p>{totalKills}</p>
         </div>
         <div className="match-card">
-          <h3>Total Deaths</h3>
+          <h3>Muertes totales</h3>
           <p>{totalDeaths}</p>
         </div>
       </div>

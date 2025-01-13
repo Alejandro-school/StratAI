@@ -6,10 +6,13 @@ from fastapi_users.authentication import CookieTransport, RedisStrategy, Authent
 from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
 from dotenv import load_dotenv
-from app.routes import steam_auth, steam_service
+
+# Rutas
+from .routes import steam_auth, steam_service
 
 # Cargar variables de entorno
 load_dotenv()
+STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 
 app = FastAPI()
 
@@ -25,7 +28,7 @@ app.add_middleware(
 # Conexión a Redis
 redis = aioredis.from_url("redis://localhost", decode_responses=True)
 
-# Configuración del backend de autenticación
+# Configuración del backend de autenticación (FastAPI Users)
 cookie_transport = CookieTransport(cookie_name="session", cookie_max_age=3600)
 
 def get_redis_strategy() -> RedisStrategy:
@@ -37,7 +40,7 @@ auth_backend = AuthenticationBackend(
     get_strategy=get_redis_strategy,
 )
 
-# Añadir middleware de sesión (opcional)
+# Añadir middleware de sesión
 app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv("SESSION_SECRET_KEY", "super_secret_key"),
@@ -47,8 +50,8 @@ app.add_middleware(
     https_only=False,
 )
 
-# Incluir routers
-app.include_router(steam_auth.router)
+# Incluir Routers
+app.include_router(steam_auth.router)      # <--- Asegúrate de que exista
 app.include_router(steam_service.router)
 
 @app.on_event("startup")
@@ -59,3 +62,9 @@ async def startup():
 @app.get("/ping")
 def ping():
     return {"message": "pong"}
+
+@app.on_event("startup")
+async def startup_event():
+    for route in app.routes:
+        print(f"📢 Endpoint registrado: {route.path}")
+
