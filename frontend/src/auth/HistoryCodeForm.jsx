@@ -7,26 +7,25 @@ const HistoryCodeForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // 🔄 Obtener y guardar los Share Codes
   const handleGetAndSaveShareCodes = async () => {
     setLoading(true);
     try {
-      // 📥 Obtener los share codes desde el backend
+      // 1. Obtener los sharecodes desde el backend
       const response = await axios.get('http://localhost:8000/steam/all-sharecodes', {
         params: { auth_code: authCode, last_code: lastCode },
         withCredentials: true,
       });
 
+      // 2. Guardarlos en Redis
       const shareCodes = response.data.sharecodes;
-
-      // 💾 Guardar los share codes en el backend
       await axios.post('http://localhost:8000/steam/save-sharecodes', {
         sharecodes: shareCodes,
+        auth_code: authCode,
+        last_code: lastCode,
       }, { withCredentials: true });
 
       setError('');
-      
-      // 🚀 Redirigir al Dashboard después de guardar
+      // Redirigir o actualizar la vista
       window.location.href = '/dashboard';
     } catch (err) {
       console.error(err);
@@ -39,8 +38,6 @@ const HistoryCodeForm = () => {
   return (
     <div>
       <h2>Obtener hasta 30 partidas</h2>
-
-      {/* 🔑 Auth Code */}
       <label>Auth Code:</label>
       <input
         type="text"
@@ -49,23 +46,17 @@ const HistoryCodeForm = () => {
         placeholder="Ej: 8TRL-ZC6HV-VKWG"
       />
       <br />
-
-      {/* 🔄 Último Share Code */}
       <label>Último Share Code:</label>
       <input
         type="text"
         value={lastCode}
         onChange={(e) => setLastCode(e.target.value)}
-        placeholder="Ej: CSGO-EFCsv-SuLwK-Jkaqu-xmBU5-LB6iL"
+        placeholder="Ej: CSGO-XXXX-XXXX"
       />
       <br />
-
-      {/* 📥 Botón para obtener y guardar Share Codes */}
       <button onClick={handleGetAndSaveShareCodes} disabled={loading}>
         {loading ? 'Procesando...' : 'Obtener y Guardar Share Codes'}
       </button>
-
-      {/* ⚠️ Error */}
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

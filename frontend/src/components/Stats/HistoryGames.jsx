@@ -40,7 +40,7 @@ const HistoryGames = () => {
     <div>
       <h2>📂 Partidas Guardadas</h2>
       <button onClick={handleProcessDemos} disabled={loading}>
-        {loading ? 'Procesando...' : 'Procesar Demos'}
+        {loading ? 'Procesando...' : 'Descargar y Procesar Demos'}
       </button>
       <ul>
         {stats.map((stat, index) => (
