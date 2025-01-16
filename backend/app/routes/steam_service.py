@@ -8,17 +8,21 @@ import asyncio
 router = APIRouter()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# 🔄 Conexión a Redis
+# Conexión a Redis (ajusta la URL a tu entorno)
 redis = aioredis.from_url("redis://localhost", decode_responses=True)
 
-# 🔑 Cargar la API KEY desde el .env
+# Carga la API KEY de Steam desde .env
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 
 @router.post("/steam/save-api-key")
 async def save_api_key(request: Request, user_api_key: str = Form(...)):
+    """
+    Guarda la clave de API de Steam por usuario (steam_id) en Redis.
+    """
     steam_id = request.session.get("steam_id")
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
+
     await redis.set(f"user_api_key:{steam_id}", user_api_key)
     logging.info(f"🔐 Clave API guardada para Steam ID {steam_id}")
 
@@ -30,6 +34,12 @@ async def get_all_sharecodes(
     auth_code: str = Query(...),
     last_code: str = Query(...)
 ):
+    """
+    Llama a la API oficial de Steam (GetNextMatchSharingCode) para obtener
+    share codes de manera secuencial.
+    Guarda auth_code y last_code en Redis.
+    Devuelve hasta 5 share codes nuevos (ejemplo).
+    """
     steam_id = request.session.get("steam_id")
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
@@ -37,9 +47,11 @@ async def get_all_sharecodes(
     url = "https://api.steampowered.com/ICSGOPlayers_730/GetNextMatchSharingCode/v1/"
     sharecodes = []
     current_code = last_code
+
+    # Ajusta límites de reintentos y backoff
     max_retries = 5
     delay_seconds = 0.2
-    max_codes = 5  # Ajusta según cuántos ShareCodes quieras obtener
+    max_codes = 5
 
     try:
         async with httpx.AsyncClient() as client:
@@ -53,7 +65,7 @@ async def get_all_sharecodes(
                 for attempt in range(max_retries):
                     response = await client.get(url, params=params)
                     if response.status_code == 429:
-                        # Si hay demasiadas peticiones, esperamos y reintentamos
+                        # Too many requests, backoff
                         await asyncio.sleep(delay_seconds)
                         delay_seconds *= 2
                         continue
@@ -65,13 +77,15 @@ async def get_all_sharecodes(
                 
                 next_code = data.get("result", {}).get("nextcode")
                 if not next_code:
+                    # Ya no hay más share codes
                     break
+
                 sharecodes.append(next_code)
                 current_code = next_code
-                # Pequeña pausa para no saturar
+                # Pequeño delay para no abusar
                 await asyncio.sleep(1)
 
-        # 🔒 Guardar auth_code y last_code en Redis después de obtener los ShareCodes
+        # Guardamos authCode y lastCode en Redis
         await redis.set(f"{steam_id}:authCode", auth_code)
         await redis.set(f"{steam_id}:lastCode", current_code)
 
@@ -84,6 +98,10 @@ async def get_all_sharecodes(
 
 @router.post("/steam/save-sharecodes")
 async def save_sharecodes(request: Request):
+    """
+    Endpoint que recibe un JSON con 'sharecodes', 'auth_code' y 'last_code',
+    los guarda en Redis y notifica al bot (Node.js) para que inicie la descarga.
+    """
     data = await request.json()
     sharecodes = data.get("sharecodes", [])
     auth_code = data.get("auth_code")
@@ -97,15 +115,27 @@ async def save_sharecodes(request: Request):
     if not auth_code or not last_code:
         raise HTTPException(status_code=400, detail="No se proporcionaron códigos de autenticación.")
 
-    # 🔒 Guardar ShareCodes en Redis
+    # Borramos la lista de sharecodes previa y guardamos la nueva
     await redis.delete(f"sharecodes:{steam_id}")
     await redis.rpush(f"sharecodes:{steam_id}", *sharecodes)
 
-    # 🔑 Guardar auth_code y last_code en Redis
+    # Guardamos en Redis el auth_code y last_code
     await redis.set(f"{steam_id}:authCode", auth_code)
     await redis.set(f"{steam_id}:lastCode", last_code)
 
-    logging.info(f"🔒 ShareCodes y códigos de autenticación guardados en Redis para Steam ID {steam_id}")
+    # Notificamos a Node.js (opcional si quieres forzar descarga inmediata)
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "http://localhost:3000/start-download",
+                json={
+                    "steam_id": steam_id,
+                    "sharecodes": sharecodes
+                }
+            )
+            if response.status_code != 200:
+                logging.error("❌ Error al notificar al bot para iniciar la descarga.")
+    except Exception as e:
+        logging.error(f"❌ Error en la conexión con el bot: {str(e)}")
 
-    # Cambiamos el mensaje final para que no mencione la descarga de demos
-    return {"message": "✅ ShareCodes guardados y bot notificado para obtener estadísticas."}
+    return {"message": "✅ ShareCodes guardados y bot notificado para descargar demos."}

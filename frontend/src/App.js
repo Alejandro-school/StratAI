@@ -17,9 +17,9 @@ function App() {
     <Router>
      <div className="app-container">
       <Routes>
-        <Route path="/HistoryCodeForm" element={<HistoryCodeForm />} /> {/* ⬅️ Nueva ruta */}
         <Route path="/" element={<SteamLoginButton />} />
         <Route path="/steam-login-success" element={<SteamLoginSuccess />} />
+        <Route path="/HistoryCodeForm" element={<HistoryCodeForm />} /> {/* ⬅️ Nueva ruta */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/UploadDemo" element={<UploadDemo />} />
         <Route path="/HistoryGames" element={<HistoryGames />} />
