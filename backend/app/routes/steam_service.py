@@ -51,7 +51,7 @@ async def get_all_sharecodes(
     # Ajusta límites de reintentos y backoff
     max_retries = 5
     delay_seconds = 0.2
-    max_codes = 5
+    max_codes = 3
 
     try:
         async with httpx.AsyncClient() as client:
@@ -127,7 +127,7 @@ async def save_sharecodes(request: Request):
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                "http://localhost:3000/start-download",
+                "http://localhost:4000/start-download",
                 json={
                     "steam_id": steam_id,
                     "sharecodes": sharecodes

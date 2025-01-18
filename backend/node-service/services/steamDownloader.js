@@ -8,11 +8,22 @@ const PQueue = require('p-queue').default;
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { ShareCode } = require('globaloffensive-sharecode');
+const Language = require('globaloffensive/language.js');
+const Protos = require('globaloffensive/protobufs/generated/_load.js');
+
+
 
 // Configuración básica de credenciales
 const BOT_USERNAME = process.env.BOT_USERNAME;
 const BOT_PASSWORD = process.env.BOT_PASSWORD;
 const BOT_SHARED_SECRET = process.env.BOT_SHARED_SECRET;
+
+if (!BOT_USERNAME || !BOT_PASSWORD || !BOT_SHARED_SECRET) {
+  console.error('❌ Error: Faltan credenciales en el archivo .env');
+  process.exit(1);
+}
+
 
 // Carpeta donde se guardarán las demos
 const DEMOS_DIR = path.join(__dirname, '../../data/demos');
@@ -23,7 +34,7 @@ if (!fs.existsSync(DEMOS_DIR)) {
 // Creamos una cola para gestionar descargas secuenciales
 const queue = new PQueue({ 
   concurrency: 1,     // procesar de 1 en 1
-  interval: 3000,     // cada 3 segundos
+  interval: 5000,     // cada 3 segundos
   intervalCap: 1      // máximo 1 tarea por intervalo
 });
 
@@ -67,87 +78,122 @@ function iniciarSesionSteam() {
 
   csgo.on('connectedToGC', () => {
     console.log('🎮 Conectado al Game Coordinator de CS2/CS:GO');
+    console.log(`🟢 Estado de la sesión con GC: ${csgo.haveGCSession}`);
   });
-
+  
   csgo.on('disconnectedFromGC', (reason) => {
     console.error(`❌ Desconectado del Game Coordinator: ${reason}`);
   });
 }
 
-// Decodificar el share code (transforma CSGO-XXXXX-XXXXX-XXXXX en matchId, outcomeId y token)
-function decodeShareCode(sharecode) {
-  const cleaned = sharecode.replace('CSGO-', '').replace(/-/g, '');
-  const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-
-  let result = 0n;
-  for (let i = 0; i < cleaned.length; i++) {
-    const index = ALPHABET.indexOf(cleaned[i]);
-    if (index === -1) {
-      throw new Error(`Carácter inválido en ShareCode: ${cleaned[i]}`);
-    }
-    result = result * 64n + BigInt(index);
-  }
-
-  const token = Number(result & 0xFFFFn);
-  result >>= 16n;
-
-  const outcomeId = (result & 0xFFFFFFFFn).toString();
-  result >>= 32n;
-
-  const matchId = result.toString();
-
-  return { matchId, outcomeId, token };
-}
-
 // Realiza la petición al GC para obtener la URL de la demo
-function requestMatchListPorSharecode(sharecode, intentos = 3) {
+// Solicitar la demo con reintentos controlados
+// 🔄 Función optimizada para solicitar la demo al GC con reintentos
+GlobalOffensive.prototype.requestGameAsync = function (shareCodeOrDetails, intentosMaximos = 5) {
   return new Promise((resolve, reject) => {
-    console.log(`➡️  Solicitando partida con ShareCode: ${sharecode}`);
+    let shareCodeDecoded;
 
-    const { matchId, outcomeId, token } = decodeShareCode(sharecode);
-    console.log(`🔍 matchId: ${matchId}, outcomeId: ${outcomeId}, token: ${token}`);
-
-    csgo.requestGame({ matchId, outcomeId, token }, (err, response) => {
-      if (err) {
-          console.error(`❌ Error al solicitar la partida: ${err.message}`);
-          return reject(err);
+    // 🔍 Decodificar el ShareCode
+    if (typeof shareCodeOrDetails === 'string') {
+      try {
+        shareCodeDecoded = (new ShareCode(shareCodeOrDetails)).decode();
+        console.log(`📝 ShareCode decodificado correctamente:
+        🔑 Match ID: ${shareCodeDecoded.matchId}
+        📊 Outcome ID: ${shareCodeDecoded.outcomeId}
+        🛡️ Token: ${shareCodeDecoded.token}`);
+      } catch (err) {
+        console.error(`❌ Error al decodificar el ShareCode: ${err.message}`);
+        return reject(err);
       }
-  
-      if (!response || !response.url) {
-          console.error('❌ No se encontró la URL de la demo en la respuesta del GC. Respuesta:', response);
+    }
+
+    let intentos = 0;
+
+    const solicitarDemo = () => {
+      if (intentos >= intentosMaximos) {
+        console.error('❌ Se alcanzó el máximo de reintentos.');
+        return reject(new Error('No se pudo obtener la URL de la demo.'));
+      }
+
+      intentos++;
+      console.log(`🔄 Intento ${intentos} de ${intentosMaximos}`);
+
+      if (!this.haveGCSession) {
+        console.warn('⚠️ Sin sesión activa con el GC. Reintentando en 5s...');
+        return setTimeout(solicitarDemo, 5000);
+      }
+
+      // 🔔 Solicitar demo al GC
+      this._send(Language.MatchListRequestFullGameInfo, Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo, {
+        matchid: shareCodeDecoded.matchId,
+        outcomeid: shareCodeDecoded.outcomeId,
+        token: shareCodeDecoded.token
+      });
+
+
+
+      const respuestaGC = (matches) => {
+        // Filtrar solo los matches que tienen un 'map' no nulo y que empieza con 'http'
+        const partidasValidas = matches.filter(match => 
+          match.roundstatsall &&                      // Asegura que roundstatsall existe
+          Array.isArray(match.roundstatsall) &&      // Verifica que es un arreglo
+          match.roundstatsall.some(round =>          // Revisa si al menos una ronda tiene un map válido
+            round.map && typeof round.map === 'string' && round.map.startsWith('http')
+          )
+        );
+      
+        console.log(partidasValidas);
+      
+        // ⚠️ Si no hay mapas válidos, reintentar
+        if (!partidasValidas.length) {
+          console.warn(`⚠️ No se encontró URL válida. Reintentando en 5s...`);
+          if (intentos < intentosMaximos) {
+            return setTimeout(solicitarDemo, 5000);
+          }
           return reject(new Error('No se encontró la URL de la demo.'));
-      }
-  
-      console.log(`🔗 URL de la demo recibida: ${response.url}`);  // 🔍 Verificar la URL
-      resolve(response.url);
-  });
-  
-  
-  });
-}
+        }
+      
+        // ✅ Extraer la última URL válida
+        const demoUrl = partidasValidas
+          .flatMap(match => match.roundstatsall)
+          .reverse()
+          .find(round => round.map && typeof round.map === 'string' && round.map.startsWith('http')).map;
+      
+          const demoUrlSegura = demoUrl.replace(/^http:/, 'https:');
+          console.log(`✅ URL de la demo detectada: ${demoUrlSegura}`);
+          this.removeListener('matchList', respuestaGC);
+          resolve(demoUrlSegura);
+      };
+      
+      // 🎯 Escuchar respuesta solo una vez
+      this.once('matchList', respuestaGC);
+    };
 
-// Descarga un fichero .dem.bz2 desde una URL HTTPS
+    // 🚀 Iniciar solicitud
+    solicitarDemo();
+  });
+};
+
+// 📥 Función para descargar el archivo .dem.bz2
 function descargarFicheroHTTP(url, filePath) {
   return new Promise((resolve, reject) => {
-    // Si ya existe, no lo descargamos de nuevo
+    console.log(`⬇️ Descargando desde: ${url}`);
+
     if (fs.existsSync(filePath)) {
-      console.log(`📁 La demo ya existe en: ${filePath}`);
+      console.log(`📂 La demo ya existe en: ${filePath}`);
       return resolve(filePath);
     }
 
-    console.log(`⬇️  Descargando demo desde: ${url}`);
     const fileStream = fs.createWriteStream(filePath);
-
-    const req = https.get(url, (res) => {
+    const req = https.get(url, { rejectUnauthorized: false }, (res) => {
       if (res.statusCode !== 200) {
-        console.error(`❌ Error al descargar la demo. Código HTTP: ${res.statusCode}`);
+        console.error(`❌ Error al descargar. HTTP: ${res.statusCode}`);
         fileStream.close();
         fs.unlink(filePath, () => {});
         return reject(new Error(`HTTP status: ${res.statusCode}`));
       }
 
       res.pipe(fileStream);
-
       fileStream.on('finish', () => {
         fileStream.close();
         console.log(`✅ Demo guardada en: ${filePath}`);
@@ -156,7 +202,7 @@ function descargarFicheroHTTP(url, filePath) {
     });
 
     req.on('error', (err) => {
-      console.error('❌ Error en la solicitud HTTPS:', err);
+      console.error(`❌ Error en la descarga: ${err}`);
       fileStream.close();
       fs.unlink(filePath, () => {});
       reject(err);
@@ -164,42 +210,25 @@ function descargarFicheroHTTP(url, filePath) {
   });
 }
 
-// Función que pide la URL oficial al GC y luego descarga la demo
-async function descargarDemoDesdeSharecode(sharecode) {
-  const demoUrl = await requestMatchListPorSharecode(sharecode);
-  // A veces en la respuesta del GC, la URL puede venir directa en "demoUrl"
-  // o dentro de "replays[0].url". node-globaloffensive la expone en "response.url"
-  // (arriba en requestMatchListPorSharecode). Asumimos demoUrl es la url final
-
-  const cleaned = sharecode.replace('CSGO-', '').replace(/-/g, '');
-  const fileName = `match_${cleaned}.dem.bz2`;  // Nombre de la demo
-  const filePath = path.join(DEMOS_DIR, fileName);
-
-  await descargarFicheroHTTP(demoUrl, filePath);
-  return filePath;
-}
-
-// Procesa un sharecode, asegurándose de que exista la sesión con GC
+// 🔄 Procesar ShareCode mejorado
 async function procesarShareCode(sharecode, steamID) {
-  console.log(`\n🔍 Procesando ShareCode ${sharecode} para SteamID ${steamID}...`);
+  console.log(`🔍 Procesando ShareCode ${sharecode} para SteamID ${steamID}...`);
 
   if (!csgo.haveGCSession) {
-    console.error('❌ No está conectado al Game Coordinator. Esperando conexión...');
+    console.warn('⚠️ No conectado al GC. Reintentando...');
     return setTimeout(() => procesarShareCode(sharecode, steamID), 5000);
   }
 
-  // Normalizar sharecode por si viene sin formatear
-  const cleaned = sharecode.replace('CSGO-', '').replace(/-/g, '');
-  const finalSharecode = `CSGO-${cleaned.slice(0,5)}-${cleaned.slice(5,10)}-${cleaned.slice(10)}`;
-
   try {
-    const filePath = await descargarDemoDesdeSharecode(finalSharecode);
-    console.log(`✅ Demo descargada: ${filePath}`);
+    const demoUrl = await csgo.requestGameAsync(sharecode);
+    const cleanedCode = sharecode.replace(/CSGO-|-/g, '');
+    const filePath = path.join(DEMOS_DIR, `match_${cleanedCode}.dem`);
+    await descargarFicheroHTTP(demoUrl, filePath);
+    console.log(`✅ Demo descargada correctamente: ${filePath}`);
   } catch (err) {
-    console.error(`❌ Error en la descarga del sharecode: ${finalSharecode}`, err);
+    console.error(`❌ Error en el proceso del ShareCode: ${sharecode}`, err);
   }
 }
-
 // Suscriptor de Redis para detectar cuando se añaden nuevos sharecodes
 async function monitorearShareCodes() {
   const subscriber = redisClient.duplicate();
@@ -226,9 +255,13 @@ async function monitorearShareCodes() {
         queue.add(() => procesarShareCode(code, steamID));
       }
 
+      queue.on('active', (task) => {
+        console.log('🔄 Procesando tarea en la cola...');
+      });
+
       // Cuando termine la cola
       queue.onIdle().then(() => {
-        console.log(`✅ Todos los ShareCodes para SteamID ${steamID} han sido procesados.`);
+        console.log('✅ Todas las tareas en la cola han sido procesadas.');
       });
     }
   });
@@ -275,8 +308,8 @@ app.post('/start-download', async (req, res) => {
   // Suscribirse a los eventos de Redis
   monitorearShareCodes();
 
-  // Levantar el servidor en puerto 3000
-  const PORT = process.env.PORT || 3000;
+  // Levantar el servidor en puerto 4000
+  const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
     console.log(`🚀 Servidor Node.js corriendo en http://localhost:${PORT}`);
   });
