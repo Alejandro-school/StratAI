@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import BodyVideo from './BodyVideo';
-import '../styles/dashboard.css';
-import { data } from 'react-router-dom';
+import Header from '../Layout/Header';
+import BodyVideo from '../Layout/BodyVideo';
+import '../../styles/Start/dashboard.css';
+import SidebarComponent from '../Layout/Sidebar';  // ✅ Corrección
+import { useLocation } from 'react-router-dom';
+
+
+
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
+  const location = useLocation();
+console.log('Ubicación actual:', location.pathname);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -35,7 +40,7 @@ function Dashboard() {
   return (
     <div className="container">
       {/* Sidebar */}
-      <Sidebar user={data} />
+      <SidebarComponent user={user} />
       <div className="main-content">
         {/* Header */}
         <Header user={user} />

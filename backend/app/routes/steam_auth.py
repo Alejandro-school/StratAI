@@ -65,35 +65,22 @@ async def steam_callback(request: Request, openid_mode: str = Query(None, alias=
         logging.error(f"❌ Steam ID inválido: {steam_id}")
         raise HTTPException(status_code=400, detail="Steam ID inválido.")
 
-    request.session["steam_id"] = steam_id
-    logging.info(f"✅ Steam ID guardado en la sesión: {steam_id}")
+    response = RedirectResponse(url=FRONTEND_SUCCESS_URL)
+    response.set_cookie(
+        key="session",
+        value=steam_id,
+        httponly=True,
+        secure=False,  # Cambiar a True en producción con HTTPS
+        samesite="Lax",
+        max_age=30 * 24 * 60 * 60  # 30 días
+    )
 
-    return RedirectResponse(url=FRONTEND_SUCCESS_URL)
-
-
-# Validación de la clave API
-if not STEAM_API_KEY:
-    logging.error("❌ La clave STEAM_API_KEY no está configurada.")
-    raise RuntimeError("La clave STEAM_API_KEY no está configurada en el entorno.")
-
+    logging.info(f"✅ Steam ID guardado en la cookie de sesión y redirigiendo al Dashboard")
+    return response
 
 @router.get("/auth/steam/status")
 async def steam_status(request: Request):
-    """
-    Devuelve información sobre el perfil de Steam (nickname, avatar, steam_id) 
-    si el usuario está autenticado y su SteamID está en sesión.
-    
-    Para ello:
-      1. Verifica si hay un steam_id en la sesión.
-      2. Llama a la API de Steam (GetPlayerSummaries) usando STEAM_API_KEY.
-      3. Retorna un JSON con la info del jugador si todo va bien.
-
-    Errores:
-      - 401 si no hay steam_id en sesión (no autenticado).
-      - 404 si no se encuentra el perfil en la API de Steam.
-      - 500 si ocurre un error de conexión con la API.
-    """
-    steam_id = request.session.get("steam_id")
+    steam_id = request.cookies.get("session")
     if not steam_id:
         raise HTTPException(status_code=401, detail="No autenticado")
 
@@ -121,9 +108,19 @@ async def steam_status(request: Request):
         return {
             "authenticated": True,
             "username": player.get("personaname", "Usuario desconocido"),
-            "avatar": player.get("avatar", ""),
+            "avatar": player.get("avatarfull", ""),
             "steam_id": steam_id
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener el perfil: {str(e)}")
+
+from fastapi import APIRouter, Response
+
+@router.post("/auth/steam/logout")
+async def steam_logout(response: Response):
+    """
+    Elimina la cookie de sesión del usuario para cerrar sesión.
+    """
+    response.delete_cookie("session")
+    return {"message": "Sesión cerrada correctamente"}

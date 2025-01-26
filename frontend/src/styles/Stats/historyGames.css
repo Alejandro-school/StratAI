@@ -1,0 +1,124 @@
+/* Contenedor principal */
+.container {
+    display: flex; /* Para que sidebar y contenido estén uno al lado del otro */
+  }
+  
+  /* Sidebar se define en tu SidebarComponent; aquí puedes ajustar si lo necesitas */
+  /* .sidebar { width: 240px; ... } */
+  
+  /* Contenedor que engloba el historial de partidas */
+  .stats-container {
+    flex: 1; /* Para que ocupe el espacio disponible si la sidebar tiene ancho fijo */
+    padding: 20px;
+    background-color: #1f1f1f;
+    color: #fff;
+  }
+  
+  /* Título principal */
+  .stats-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para mensajes */
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* Contenedor de partidas */
+  .games-list {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px;
+  }
+  
+  /* Tarjeta individual de cada partida */
+  .game-card {
+    background-color: #2f2f2f;
+    padding: 15px;
+    border-radius: 8px;
+    width: 300px; /* Ajusta el ancho deseado */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .game-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Título con resultado */
+  .game-card .result {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  /* Colores según resultado */
+  .result.victory {
+    color: #4caf50; /* verde */
+  }
+  
+  .result.defeat {
+    color: #f44336; /* rojo */
+  }
+  
+  .result.tie {
+    color: #ffc107; /* amarillo */
+  }
+  
+  /* Pequeña sección de iconos */
+  .icons {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .share-code, .kda {
+    background-color: #3f3f3f;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  /* Estilo para el disparador del collapsible */
+  .collapsible-trigger {
+    display: inline-block;
+    margin-top: 15px;
+    color: #06c;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* Cuando está abierto */
+  .collapsible-trigger.open {
+    color: #0c6;
+  }
+  
+  /* Contenido desplegado */
+  .collapsible-content {
+    margin-top: 10px;
+    background-color: #383838;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  /* Tabla de scoreboard */
+  .scoreboard-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .scoreboard-table thead {
+    background-color: #4a4a4a;
+  }
+  
+  .scoreboard-table th, .scoreboard-table td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .scoreboard-table tr:nth-child(even) {
+    background-color: #505050;
+  }
+  

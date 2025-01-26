@@ -1,31 +1,35 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SteamLoginButton from './auth/SteamLoginButton';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LandingPage from './components/Start/LandingPage';
 import SteamLoginSuccess from './auth/SteamLoginSuccess';
-import Dashboard from './components/Dashboard';
-import UploadDemo from './components/UploadDemo';
-//import MatchSummary from './components/Stats/MatchSummary';
-import HistoryCodeForm from './auth/HistoryCodeForm'; // ⬅️ Nueva importación
-import HistoryGames from './components/Stats/HistoryGames'; // ⬅️ Nueva importación
+import BotInstructions from './auth/BotInstructions';
+import Dashboard from './components/Start/Dashboard';
+import HistoryCodeForm from './auth/HistoryCodeForm';
+import SessionHandler from './auth/SessionHandler';
+import HistoryGames from './components/Stats/HistoryGames';
 
-
-
-import './styles/common.css';
 
 function App() {
   return (
-    <Router>
-     <div className="app-container">
-      <Routes>
-        <Route path="/" element={<SteamLoginButton />} />
-        <Route path="/steam-login-success" element={<SteamLoginSuccess />} />
-        <Route path="/HistoryCodeForm" element={<HistoryCodeForm />} /> {/* ⬅️ Nueva ruta */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/UploadDemo" element={<UploadDemo />} />
-        <Route path="/HistoryGames" element={<HistoryGames />} />
-      </Routes>
-     </div>
-    </Router>
+<BrowserRouter>
+  <Routes>
+    {/* Rutas públicas */}
+    <Route path="/" element={<LandingPage />} />
+
+
+    {/* Rutas privadas, con SessionHandler como wrapper */}
+    <Route element={<SessionHandler />}>
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/bot-instructions" element={<BotInstructions />} />
+      <Route path="/HistoryCodeForm" element={<HistoryCodeForm />} />
+      <Route path="/steam-login-success" element={<SteamLoginSuccess />} />
+      <Route path="/HistoryGames" element={<HistoryGames />} />
+
+    </Route>
+
+  </Routes>
+</BrowserRouter>
+
   );
 }
 

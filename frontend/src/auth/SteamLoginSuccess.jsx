@@ -1,32 +1,16 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// SteamLoginSuccess.jsx
+import React from 'react';
 
-const API_URL = 'http://localhost:8000';
-
+// Si tras loguearte en Steam tu backend te redirige aquí,
+// simplemente muestras un “Cargando” o “Has iniciado sesión con éxito”
+// pero la verdadera decisión de a dónde navegar la hace el SessionHandler
 function SteamLoginSuccess() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const response = await fetch(`${API_URL}/auth/steam/status`, {
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          navigate('/HistoryCodeForm'); // Redirige al Dashboard si el login fue exitoso
-        } else {
-          navigate('/');
-        }
-      } catch {
-        navigate('/');
-      }
-    };
-
-    checkLogin();
-  }, [navigate]);
-
-  return <div>Cargando...</div>;
+  return (
+    <div>
+      <h2>¡Te has logueado correctamente con Steam!</h2>
+      <p>Un momento mientras comprobamos tu estado...</p>
+    </div>
+  );
 }
 
 export default SteamLoginSuccess;

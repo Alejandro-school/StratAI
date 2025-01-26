@@ -1,17 +1,27 @@
+"""
+steam_service.py
+----------------
+Rutas de FastAPI relacionadas con la gestión de sharecodes,
+verificación de amistad, API Key, y obtención de partidas procesadas.
+Obtiene tantos sharecodes como sea posible (sin límite estricto),
+encadenando 'GetNextMatchSharingCode', guardando en Redis.
+"""
+
 import os
-from fastapi import APIRouter, Request, HTTPException, Form, Query
-import redis.asyncio as aioredis
-import httpx
+import json
 import logging
+import httpx
 import asyncio
+import redis.asyncio as aioredis
+from fastapi import APIRouter, Request, HTTPException, Form, Query
 
 router = APIRouter()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# Conexión a Redis (ajusta la URL a tu entorno)
+# Conexión a Redis
 redis = aioredis.from_url("redis://localhost", decode_responses=True)
 
-# Carga la API KEY de Steam desde .env
+# Carga la Steam API Key desde .env
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 
 @router.post("/steam/save-api-key")
@@ -19,7 +29,7 @@ async def save_api_key(request: Request, user_api_key: str = Form(...)):
     """
     Guarda la clave de API de Steam por usuario (steam_id) en Redis.
     """
-    steam_id = request.session.get("steam_id")
+    steam_id = request.cookies.get("session")
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
@@ -28,6 +38,43 @@ async def save_api_key(request: Request, user_api_key: str = Form(...)):
 
     return {"message": "Clave API guardada e iniciado el bot exitosamente."}
 
+@router.get("/steam/check-friend-status")
+async def check_friend_status(request: Request):
+    """
+    Verifica si el bot es amigo del usuario en Steam.
+    """
+    steam_id = request.cookies.get("session")
+    if not steam_id:
+        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
+
+    friend_status = await redis.get(f"friend_status:{steam_id}")
+    if friend_status is not None:
+        return {"is_friend": friend_status == "true"}
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(f"http://localhost:4000/steam/check-friend?steam_id={steam_id}")
+        if response.status_code != 200:
+            raise HTTPException(status_code=500, detail="Error verificando la amistad con el bot.")
+        friend_status = response.json().get("is_friend", False)
+        await redis.set(f"friend_status:{steam_id}", "true" if friend_status else "false", ex=86400)
+
+    return {"is_friend": friend_status}
+
+@router.get("/steam/check-sharecodes")
+async def check_sharecodes(request: Request):
+    """
+    Comprueba si ya existen sharecodes en Redis para el usuario.
+    """
+    steam_id = request.cookies.get("session")
+    if not steam_id:
+        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
+
+    existing_sharecodes = await redis.lrange(f"sharecodes:{steam_id}", 0, -1)
+    if existing_sharecodes:
+        return {"exists": True, "sharecodes": existing_sharecodes}
+    else:
+        return {"exists": False}
+
 @router.get("/steam/all-sharecodes")
 async def get_all_sharecodes(
     request: Request,
@@ -35,78 +82,96 @@ async def get_all_sharecodes(
     last_code: str = Query(...)
 ):
     """
-    Llama a la API oficial de Steam (GetNextMatchSharingCode) para obtener
-    share codes de manera secuencial.
-    Guarda auth_code y last_code en Redis.
-    Devuelve hasta 5 share codes nuevos (ejemplo).
+    Llama de forma secuencial a la API oficial de Steam (GetNextMatchSharingCode)
+    a partir de un 'knowncode' y 'auth_code', para obtener todos los share codes
+    que estén disponibles, sin tope estricto (aunque hay un top de 300 por seguridad).
     """
-    steam_id = request.session.get("steam_id")
+    steam_id = request.cookies.get("session")
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    
+
+    # Cargamos la Steam API Key (por si la guardas por usuario o global)
+    # Si no la usas por usuario, simplemente usa STEAM_API_KEY global
+    # steam_api_key = await redis.get(f"user_api_key:{steam_id}") or STEAM_API_KEY
+    steam_api_key = STEAM_API_KEY
+    if not steam_api_key:
+        raise HTTPException(status_code=400, detail="Falta Steam API Key")
+
     url = "https://api.steampowered.com/ICSGOPlayers_730/GetNextMatchSharingCode/v1/"
     sharecodes = []
     current_code = last_code
 
-    # Ajusta límites de reintentos y backoff
     max_retries = 5
     delay_seconds = 0.2
-    max_codes = 3
+    max_total_codes = 50  # Evitar un bucle infinito, 300 es un tope razonable
+
+    logging.info(f"[all-sharecodes] Iniciando obtención masiva para steam_id={steam_id}, from={last_code}")
 
     try:
         async with httpx.AsyncClient() as client:
-            while len(sharecodes) < max_codes:
+            while True:
                 params = {
-                    "key": STEAM_API_KEY,
+                    "key": steam_api_key,
                     "steamid": steam_id,
                     "steamidkey": auth_code,
                     "knowncode": current_code
                 }
+                success = False
                 for attempt in range(max_retries):
-                    response = await client.get(url, params=params)
-                    if response.status_code == 429:
-                        # Too many requests, backoff
+                    resp = await client.get(url, params=params)
+                    if resp.status_code == 429:
+                        logging.warning("Recibido 429, esperando %.1f s...", delay_seconds)
                         await asyncio.sleep(delay_seconds)
-                        delay_seconds *= 2
+                        delay_seconds *= 1
                         continue
-                    response.raise_for_status()
-                    data = response.json()
+                    resp.raise_for_status()
+                    data = resp.json()
+                    success = True
                     break
-                else:
-                    raise HTTPException(status_code=429, detail="Demasiadas solicitudes. Intenta nuevamente más tarde.")
-                
+                if not success:
+                    # No logramos obtener una respuesta 2xx tras max_retries
+                    raise HTTPException(
+                        status_code=429,
+                        detail="Demasiadas solicitudes a la API de Steam. Intenta luego."
+                    )
+
                 next_code = data.get("result", {}).get("nextcode")
                 if not next_code:
-                    # Ya no hay más share codes
+                    # Significa que no hay más
                     break
 
                 sharecodes.append(next_code)
                 current_code = next_code
-                # Pequeño delay para no abusar
+
+                # Delay para no saturar
                 await asyncio.sleep(1)
 
-        # Guardamos authCode y lastCode en Redis
+                if len(sharecodes) >= max_total_codes:
+                    logging.info("Se alcanzó el tope de %d sharecodes. Detenemos.", max_total_codes)
+                    break
+
+        # Guardamos en Redis la info
         await redis.set(f"{steam_id}:authCode", auth_code)
         await redis.set(f"{steam_id}:lastCode", current_code)
 
-        logging.info(f"🔒 AuthCode y LastCode guardados en Redis para Steam ID {steam_id}")
+        logging.info(f"[all-sharecodes] Obtenidos {len(sharecodes)} sharecodes para {steam_id}")
 
-        return {"sharecodes": sharecodes, "has_more": len(sharecodes) == max_codes}
+        return {"sharecodes": sharecodes, "has_more": (len(sharecodes) == max_total_codes)}
 
     except httpx.HTTPError as e:
-        raise HTTPException(status_code=500, detail=f"Error al obtener los share codes: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al obtener los sharecodes: {str(e)}")
 
 @router.post("/steam/save-sharecodes")
 async def save_sharecodes(request: Request):
     """
-    Endpoint que recibe un JSON con 'sharecodes', 'auth_code' y 'last_code',
-    los guarda en Redis y notifica al bot (Node.js) para que inicie la descarga.
+    Recibe un JSON con 'sharecodes', 'auth_code' y 'last_code'.
+    Los guarda en Redis y notifica al bot Node.js para descargar .dem.
     """
     data = await request.json()
     sharecodes = data.get("sharecodes", [])
     auth_code = data.get("auth_code")
     last_code = data.get("last_code")
-    steam_id = request.session.get("steam_id")
+    steam_id = request.cookies.get("session")
 
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
@@ -115,27 +180,40 @@ async def save_sharecodes(request: Request):
     if not auth_code or not last_code:
         raise HTTPException(status_code=400, detail="No se proporcionaron códigos de autenticación.")
 
-    # Borramos la lista de sharecodes previa y guardamos la nueva
+    # Borramos la lista anterior y guardamos la nueva
     await redis.delete(f"sharecodes:{steam_id}")
     await redis.rpush(f"sharecodes:{steam_id}", *sharecodes)
-
-    # Guardamos en Redis el auth_code y last_code
     await redis.set(f"{steam_id}:authCode", auth_code)
     await redis.set(f"{steam_id}:lastCode", last_code)
 
-    # Notificamos a Node.js (opcional si quieres forzar descarga inmediata)
+    logging.info(f"[save-sharecodes] Se almacenaron {len(sharecodes)} sharecodes en Redis para {steam_id}")
+
+    # Notificar a Node.js
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 "http://localhost:4000/start-download",
-                json={
-                    "steam_id": steam_id,
-                    "sharecodes": sharecodes
-                }
+                json={"steam_id": steam_id, "sharecodes": sharecodes}
             )
             if response.status_code != 200:
-                logging.error("❌ Error al notificar al bot para iniciar la descarga.")
+                logging.error("❌ Error al notificar al bot Node para descargar.")
     except Exception as e:
-        logging.error(f"❌ Error en la conexión con el bot: {str(e)}")
+        logging.error(f"❌ Error de conexión con el bot Node.js: {str(e)}")
 
     return {"message": "✅ ShareCodes guardados y bot notificado para descargar demos."}
+
+@router.get("/steam/get-processed-demos")
+async def get_processed_demos(request: Request):
+    """
+    Devuelve las partidas procesadas (estadísticas) almacenadas en Redis.
+    """
+    steam_id = request.cookies.get("session")
+    if not steam_id:
+        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
+
+    processed_demos = await redis.lrange(f"processed_demos:{steam_id}", 0, -1)
+    if not processed_demos:
+        raise HTTPException(status_code=404, detail="No hay partidas procesadas disponibles.")
+
+    demos = [json.loads(demo) for demo in processed_demos]
+    return {"steam_id": steam_id, "demos": demos}

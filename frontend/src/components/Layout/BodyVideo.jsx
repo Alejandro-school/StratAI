@@ -1,6 +1,6 @@
 import React from 'react';
-import '../styles/dashboard.css';
-import videoBackground from '..//media/Background.mp4'; // Ruta del video de fondo
+import '../../styles/Start/dashboard.css';
+import videoBackground from '../../media/Background.mp4'; // Ruta del video de fondo
 
 const BodyVideo = () => {
   return (

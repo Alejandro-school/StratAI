@@ -1,24 +1,20 @@
-// Sidebar.js
 import React, { useState } from 'react';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import {
-        Home, BarChart, Timeline,
-        Build, FileUploadOutlined,AirlineStopsOutlined,
-        LockOpenOutlined,MapOutlined, MissedVideoCall, 
-        EmojiPeopleOutlined,FlightTakeoffOutlined,DesktopWindowsOutlined
-      
-      } from '@mui/icons-material';
+  Home, BarChart,
+  Build, FileUploadOutlined, AirlineStopsOutlined, MapOutlined, MissedVideoCall,
+  EmojiPeopleOutlined, FlightTakeoffOutlined, DesktopWindowsOutlined
+} from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import Grow from '@mui/material/Grow';
-
-import '../styles/sidebar.css';
 import Avatar from '@mui/material/Avatar';
-import { Box } from '@mui/material';
-
+import { Box, Menu as DropdownMenu, MenuItem as DropdownItem, IconButton } from '@mui/material';
+import '../../styles/Layout/sidebar.css';
 
 const SidebarComponent = ({ user }) => {
   const [collapsed, setCollapsed] = useState(true);
   const [hovered, setHovered] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -30,6 +26,29 @@ const SidebarComponent = ({ user }) => {
     setCollapsed(true);
   };
 
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/auth/steam/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        window.location.href = '/';  // Redirigir a la página de inicio
+      }
+    } catch (error) {
+      console.error("Error al cerrar sesión", error);
+    }
+  };
+
   return (
     <Sidebar
       collapsed={collapsed && !hovered}
@@ -39,13 +58,23 @@ const SidebarComponent = ({ user }) => {
     >
       {/* Header del Sidebar con Avatar y Nombre de Usuario */}
       <Box className="sidebar-header">
+        <IconButton onClick={handleAvatarClick}>
+          {user && user.avatar ? (
+            <Avatar alt="Avatar" src={user.avatar} sx={{ width: 56, height: 56 }} />
+          ) : (
+            <Avatar alt="Avatar" src="/default-avatar.png" sx={{ width: 56, height: 56 }} />
+          )}
+        </IconButton>
 
-        <Grow in={user} timeout={500}>
-
-            <Avatar alt="Avatar" src={user.avatar} sx={{ width: 56, height: 56}} />
-
-        </Grow>
-
+        <DropdownMenu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleCloseMenu}
+        >
+          <DropdownItem onClick={handleCloseMenu}>Perfil</DropdownItem>
+          <DropdownItem onClick={handleCloseMenu}>Configuración</DropdownItem>
+          <DropdownItem onClick={handleLogout}>Cerrar sesión</DropdownItem>
+        </DropdownMenu>
       </Box>
 
       <Menu className="menu">
@@ -53,10 +82,7 @@ const SidebarComponent = ({ user }) => {
           <Link to="/dashboard">Inicio</Link>
         </MenuItem>
 
-        {/* Análisis de Partidas */}
-        <div className="menu-section-title">
-          Stats
-        </div>
+        <div className="menu-section-title">Stats</div>
         <MenuItem icon={<BarChart />} className="menu-item">
           <Link to="/HistoryGames">Partidas</Link>
         </MenuItem>
@@ -70,10 +96,7 @@ const SidebarComponent = ({ user }) => {
           <Link to="/analysis/events">Repeticiones 2D</Link>
         </MenuItem>
 
-        {/* Entrenamiento de IA */}
-        <div className="menu-section-title">
-          Learn
-        </div>
+        <div className="menu-section-title">Learn</div>
         <MenuItem icon={<FileUploadOutlined />} className="menu-item">
           <Link to="/MatchSummary">Analizar Demos</Link>
         </MenuItem>
@@ -87,10 +110,7 @@ const SidebarComponent = ({ user }) => {
           <Link to="/training/progress">Simulaciones</Link>
         </MenuItem>
 
-        {/* Datos en Tiempo Real */}
-        <div className="menu-section-title">
-         Live
-        </div>
+        <div className="menu-section-title">Live</div>
         <MenuItem icon={<Build />} className="menu-item">
           <Link to="/live/monitor">Monitor de Partidas</Link>
         </MenuItem>

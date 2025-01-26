@@ -1,24 +1,21 @@
 import React from 'react';
 import { FaSteam } from 'react-icons/fa';
+import '../styles/Start/landing.css';  // Aseguramos que use los nuevos estilos
 
-
-// Configurar la URL base del backend
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 function SteamLoginButton() {
   const handleLogin = () => {
-    window.location.href = `${API_URL}/auth/steam/login`; // Redirigir a Steam
+    window.location.href = `${API_URL}/auth/steam/login`;
   };
 
   return (
-    <div className="login-container">
-      <h2>Welcome to CS2 Coach AI</h2>
-      <p>Analyze your gameplay with advanced statistics.</p>
-      <button className="login-btn" onClick={handleLogin}>
-        <FaSteam /> Login with Steam
-      </button>
-    </div>
+    <button className="steam-login-btn" onClick={handleLogin}>
+      <FaSteam size={28} style={{ marginRight: '10px' }} />
+      Inicia sesión con Steam
+    </button>
   );
 }
 
 export default SteamLoginButton;
+
