@@ -51,8 +51,7 @@ async function fetchAllUsersSharecodes() {
             auth_code: authCode,
             last_code: lastCode
           },
-          // Si tu FastAPI necesita cookies, adaptas "withCredentials" y "headers"
-          // withCredentials: true
+            withCredentials: true,
         });
       } catch (err) {
         console.error(`❌ [CRON] Error al obtener sharecodes para ${steam_id}:`, err.message);

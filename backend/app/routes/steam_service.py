@@ -102,7 +102,7 @@ async def get_all_sharecodes(
     current_code = last_code
 
     max_retries = 5
-    delay_seconds = 0.2
+    delay_seconds = 0.1
     max_total_codes = 50  # Evitar un bucle infinito, 300 es un tope razonable
 
     logging.info(f"[all-sharecodes] Iniciando obtención masiva para steam_id={steam_id}, from={last_code}")
@@ -217,3 +217,27 @@ async def get_processed_demos(request: Request):
 
     demos = [json.loads(demo) for demo in processed_demos]
     return {"steam_id": steam_id, "demos": demos}
+
+
+@router.post("/steam/save-steam-id")
+async def save_steam_id(request: Request):
+    """
+    Guarda automáticamente el Steam ID en el set de Redis "all_steam_ids"
+    cuando el usuario inicia sesión, evitando duplicados.
+    """
+    steam_id = request.cookies.get("session")
+    if not steam_id:
+        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
+
+    # Verificar si la ID ya existe en Redis
+    is_member = await redis.sismember("all_steam_ids", steam_id)
+    if is_member:
+        logging.info(f"⚠️ Steam ID {steam_id} ya está registrado en all_steam_ids.")
+        return {"message": "Steam ID ya estaba registrado."}
+
+    # Agregar el steam_id al set de IDs activos
+    await redis.sadd("all_steam_ids", steam_id)
+    logging.info(f"✅ Steam ID {steam_id} guardado en all_steam_ids.")
+
+    return {"message": "Steam ID registrado correctamente."}
+

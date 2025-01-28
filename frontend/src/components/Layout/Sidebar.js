@@ -6,15 +6,17 @@ import {
   EmojiPeopleOutlined, FlightTakeoffOutlined, DesktopWindowsOutlined
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import Grow from '@mui/material/Grow';
 import Avatar from '@mui/material/Avatar';
 import { Box, Menu as DropdownMenu, MenuItem as DropdownItem, IconButton } from '@mui/material';
 import '../../styles/Layout/sidebar.css';
+import { useUser } from '../../context/UserContext';
 
-const SidebarComponent = ({ user }) => {
+
+const SidebarComponent = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [hovered, setHovered] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { user } = useUser();
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -60,7 +62,7 @@ const SidebarComponent = ({ user }) => {
       <Box className="sidebar-header">
         <IconButton onClick={handleAvatarClick}>
           {user && user.avatar ? (
-            <Avatar alt="Avatar" src={user.avatar} sx={{ width: 56, height: 56 }} />
+            <Avatar alt="Avatar" src={user?.avatar} sx={{ width: 56, height: 56 }} />
           ) : (
             <Avatar alt="Avatar" src="/default-avatar.png" sx={{ width: 56, height: 56 }} />
           )}
