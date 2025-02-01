@@ -32,7 +32,7 @@ iniciarSesionSteam();
 monitorearShareCodes();
 
 // 3. Iniciar la tarea CRON
-iniciarCron();
+//iniciarCron();
 
 // Ponemos a escuchar el servidor en el puerto 4000 (o el configurado en .env)
 const PORT = process.env.PORT || 4000;

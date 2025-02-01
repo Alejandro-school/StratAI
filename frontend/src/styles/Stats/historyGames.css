@@ -3,12 +3,12 @@
 /* Contenedor principal */
 .container-historyGames {
   display: flex;
-  background-color: #1a1a1a; /* Fondo oscuro general */
+  background-color: #1a1a1a;
   min-height: 100vh;
-  color: #ffffff; /* Texto en blanco */
+  color: #ffffff;
 }
 
-/* Contenido de las estadísticas (panel derecho) */
+/* Panel derecho */
 .stats-container {
   flex: 1;
   padding: 2rem;
@@ -21,10 +21,12 @@
   font-size: 1.8rem;
 }
 
-/* Lista de partidas */
+/* Lista de partidas:
+   Exactamente 3 columnas en desktop.
+   Ajusta breakpoints si quieres responsive. */
 .games-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
@@ -36,7 +38,7 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.7);
 }
 
-/* Fondo de la tarjeta que muestra la imagen del mapa */
+/* Fondo */
 .game-background {
   width: 100%;
   height: 180px;
@@ -47,19 +49,18 @@
   justify-content: center;
   transition: transform 0.3s ease;
 }
-
 .game-background:hover {
   transform: scale(1.05);
 }
 
-/* Capa oscura sobre la imagen para resaltar el texto */
+/* Overlay */
 .game-overlay {
   width: 100%;
   background: linear-gradient(to top, rgba(0,0,0,0.7), transparent 60%);
   padding: 1rem;
 }
 
-/* Título del resultado (Victory / Defeat) */
+/* Resultado (victory/defeat) */
 .result {
   font-size: 1.3rem;
   font-weight: 700;
@@ -68,34 +69,29 @@
   align-items: center;
   gap: 0.5rem;
 }
-
 .result.victory {
-  color: #4caf50; /* Verde */
+  color: #4caf50;
 }
-
 .result.defeat {
-  color: #e53935; /* Rojo */
+  color: #e53935;
 }
-
-/* Marcador (8 : 13, etc.) */
 .score {
   font-weight: 400;
   font-size: 1.1rem;
   color: #e0e0e0;
 }
 
-/* Información de fecha y duración */
+/* Fecha y duración */
 .game-info {
   margin-bottom: 1rem;
 }
-
 .date-time {
   font-size: 0.9rem;
   opacity: 0.9;
 }
 
-/* Botón de mostrar/ocultar */
-.collapsible-trigger {
+/* Botón "Ver detalles" */
+.details-button {
   background-color: #333;
   color: #fff;
   border: none;
@@ -104,21 +100,8 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
-
-.collapsible-trigger:hover {
+.details-button:hover {
   background-color: #444;
-}
-
-.collapsible-trigger.open {
-  background-color: #666;
-}
-
-/* Contenido colapsable */
-.collapsible-content {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 1rem;
-  margin-top: 0.5rem;
-  border-radius: 4px;
 }
 
 /* Mensaje de error */
@@ -126,34 +109,4 @@
   color: #ff5555;
   margin: 1rem 0;
   font-weight: 600;
-}
-
-/* Tabla de scoreboard */
-.scoreboard-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.scoreboard-table th,
-.scoreboard-table td {
-  padding: 0.5rem;
-  text-align: center;
-}
-
-.scoreboard-table thead {
-  background-color: #212121;
-  border-bottom: 2px solid #444;
-}
-
-.scoreboard-table th {
-  font-weight: bold;
-}
-
-.scoreboard-table tbody tr:nth-child(even) {
-  background-color: rgba(255,255,255,0.05);
-}
-
-.scoreboard-table tbody tr:hover {
-  background-color: rgba(255,255,255,0.1);
 }

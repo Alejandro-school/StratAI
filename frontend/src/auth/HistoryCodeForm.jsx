@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../styles/Auth/codeForm.css';  // Aseguramos que use los nuevos estilos
+import '../styles/Auth/codeForm.css';
 
 const HistoryCodeForm = () => {
+  // Renombramos "knowCode" a "knownCode"
   const [authCode, setAuthCode] = useState('');
-  const [lastCode, setLastCode] = useState('');
+  const [knownCode, setKnownCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showAuthGuide, setShowAuthGuide] = useState(false);
@@ -13,16 +14,18 @@ const HistoryCodeForm = () => {
   const handleGetAndSaveShareCodes = async () => {
     setLoading(true);
     try {
+      // Ajustamos el nombre del parámetro de la query y el body a "known_code"
       const response = await axios.get('http://localhost:8000/steam/all-sharecodes', {
-        params: { auth_code: authCode, last_code: lastCode },
+        params: { auth_code: authCode, known_code: knownCode },
         withCredentials: true,
       });
 
       const shareCodes = response.data.sharecodes;
+
       await axios.post('http://localhost:8000/steam/save-sharecodes', {
         sharecodes: shareCodes,
         auth_code: authCode,
-        last_code: lastCode,
+        known_code: knownCode,
       }, { withCredentials: true });
 
       setError('');
@@ -48,13 +51,21 @@ const HistoryCodeForm = () => {
         </label>
         {showAuthGuide && (
           <div className="guide">
-            <p>1. Inicia sesión en Steama través de Google.</p>
-            <p>2. Haz click en Soporte y accede a Counter-strike 2 </p>
-            <p>3. Accede a Administrar mis códigos de autenticación.</p>
-            <p>4. Obten el código de acceso al historial de partidas:</p>
-            <img src="/images/codes.png" alt="Cómo obtener el código de autenticación" style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }} />
+            <p>1. Inicia sesión en Steam a través de Google.</p>
+            <p>2. Haz click en Soporte y accede a Counter-strike 2</p>
+            <p>3. Accede a “Administrar mis códigos de autenticación.”</p>
+            <p>4. Obtén el código de acceso al historial de partidas:</p>
+            <img
+              src="/images/codes.png"
+              alt="Cómo obtener el código de autenticación"
+              style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }}
+            />
             <p>5. Copia el código de autenticación:</p>
-            <img src="/images/codes2.png" alt="Cómo obtener el código de autenticación" style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }} />
+            <img
+              src="/images/codes2.png"
+              alt="Cómo obtener el código de autenticación"
+              style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }}
+            />
           </div>
         )}
         <input
@@ -73,17 +84,20 @@ const HistoryCodeForm = () => {
         {showLastGuide && (
           <div className="guide">
             <p>1. Abre CS2 y ve al historial de partidas.</p>
-            <p>2. Busca la demo mas antigua disponible para analizar el máximo posible</p>
-            <p>3. Verifica que el botón de descargar se encuentra disponible y no ha caducado la demo. </p>
-            <p>4. Copia el código y pegalo en el navegador o un bloc de notas. </p>
-            <img src="/images/code-share.png" alt="Cómo obtener el código de autenticación" style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }} />
-            <p>5. Copia el código que empieza por CSGO-XXX, se encuentra al final del enlace.</p>
+            <p>2. Busca la demo más antigua para analizar el máximo posible.</p>
+            <p>3. Asegúrate de que la demo no esté caducada (se pueda descargar).</p>
+            <p>4. Copia el share code (empieza por CSGO-XXX) desde el botón de descarga.</p>
+            <img
+              src="/images/code-share.png"
+              alt="Cómo obtener el último share code"
+              style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }}
+            />
           </div>
         )}
         <input
           type="text"
-          value={lastCode}
-          onChange={(e) => setLastCode(e.target.value)}
+          value={knownCode}
+          onChange={(e) => setKnownCode(e.target.value)}
           placeholder="Ej: CSGO-XXXX-XXXX"
         />
 

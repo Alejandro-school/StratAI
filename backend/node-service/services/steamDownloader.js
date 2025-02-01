@@ -50,9 +50,9 @@ Cola de descargas/procesos.
  Ajusta si quieres algo más rápido o más lento para no colapsar el GC.
 */
 const queue = new PQueue({
-  concurrency: 10,
+  concurrency: 1,
   interval: 2000,
-  intervalCap: 10
+  intervalCap: 1
 });
 
 // Inicializamos el cliente de Steam y la instancia de CSGO
@@ -111,7 +111,7 @@ function iniciarSesionSteam() {
  * Envía una solicitud al GC para obtener la URL de la demo de un sharecode dado.
  * Si no la encuentra, lanza error => esa demo se considera "no disponible".
  */
-GlobalOffensive.prototype.requestGameAsync = function (shareCodeStr, intentosMaximos = 5) {
+GlobalOffensive.prototype.requestGameAsync = function (shareCodeStr, intentosMaximos = 2) {
   return new Promise((resolve, reject) => {
     let shareCodeDecoded;
     try {
@@ -130,7 +130,7 @@ GlobalOffensive.prototype.requestGameAsync = function (shareCodeStr, intentosMax
 
       if (!this.haveGCSession) {
         console.warn('⚠️ Sin sesión GC. Reintentando en 5s...');
-        return setTimeout(solicitarDemo, 5000);
+        return setTimeout(solicitarDemo, 2000);
       }
 
       // Petición al GC
@@ -156,7 +156,7 @@ GlobalOffensive.prototype.requestGameAsync = function (shareCodeStr, intentosMax
         if (!partidasValidas.length) {
           console.warn('⚠️ No se encontró URL válida para la demo. Reintentamos en 5s...');
           if (intentos < intentosMaximos) {
-            setTimeout(solicitarDemo, 5000);
+            setTimeout(solicitarDemo, 1000);
           } else {
             reject(new Error('No se encontró la URL de la demo (partida caducada).'));
           }

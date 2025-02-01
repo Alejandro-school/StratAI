@@ -36,8 +36,8 @@ async function fetchAllUsersSharecodes() {
     for (const steam_id of steamIDs) {
       // Recuperamos authCode y lastCode de Redis
       const authCode = await redisClient.get(`${steam_id}:authCode`);
-      const lastCode = await redisClient.get(`${steam_id}:lastCode`);
-      if (!authCode || !lastCode) {
+      const knownCode = await redisClient.get(`${steam_id}:knownCode`);
+      if (!authCode || !knownCode) {
         console.log(`⚠️ [CRON] Usuario ${steam_id} no tiene authCode/lastCode en Redis.`);
         continue;
       }
@@ -49,7 +49,7 @@ async function fetchAllUsersSharecodes() {
         await axios.get('http://localhost:8000/steam/all-sharecodes', {
           params: {
             auth_code: authCode,
-            last_code: lastCode
+            known_code: knownCode
           },
             withCredentials: true,
         });
