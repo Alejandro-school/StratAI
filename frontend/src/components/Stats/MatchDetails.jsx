@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiArrowLeft, FiUser, FiTarget, FiActivity, FiEyeOff} from 'react-icons/fi';
+import { motion } from 'framer-motion';
 import '../../styles/Stats/MatchDetails.css';
-import { FaGun } from "react-icons/fa6";
-import { GiHeadshot, GiPositionMarker  } from "react-icons/gi";
-
 
 const MatchDetails = () => {
   const { steamID, matchID } = useParams();
@@ -18,185 +14,217 @@ const MatchDetails = () => {
     const fetchMatchData = async () => {
       try {
         const url = `http://localhost:8080/match/${steamID}/${matchID}`;
-        const response = await axios.get(url);
+        const response = await axios.get(url, { withCredentials: true });
         setMatch(response.data);
       } catch (err) {
+        console.error(err);
         setError('Error al cargar los detalles de la partida.');
       } finally {
         setLoading(false);
       }
     };
-    
     fetchMatchData();
   }, [steamID, matchID]);
 
+  /**
+   * Separa a los jugadores en mi equipo y el equipo enemigo,
+   * basándonos en la coincidencia de steamID con el jugador local.
+   */
   const splitPlayersByTeam = (players) => {
-    console.log("Jugadores disponibles:", players);
-  
     const userPlayer = players.find(p => String(p.steamID).trim() === String(steamID).trim());
-
-    players.forEach(p => {
-      console.log(`Comparando p.steamID="${p.steamID}" con param="${steamID}"`);
-    });
-    
-  
     if (!userPlayer) {
-      console.warn(`No se encontró el jugador con SteamID: ${steamID}`);
       return { myTeam: [], enemyTeam: players };
     }
-  
     return {
       myTeam: players.filter(p => p.team === userPlayer.team),
-      enemyTeam: players.filter(p => p.team !== userPlayer.team)
+      enemyTeam: players.filter(p => p.team !== userPlayer.team),
     };
   };
 
-  if (loading) return <div className="match-details-container">Cargando...</div>;
-  if (error) return <div className="match-details-container">{error}</div>;
-  if (!match) return <div className="match-details-container">No se encontraron datos.</div>;
-
-  const { myTeam, enemyTeam } = splitPlayersByTeam(match.players || []);
-
-const getPerformanceClass = (kd) => {
-  if (kd > 1.2) return "high-performer";
-  if (kd < 0.8) return "low-performer";
-  return "";
-};
-
-  // Función para detectar el MVP
-  const getMVP = (players) => {
-    return players.reduce((mvp, player) => (player.adr > mvp.adr ? player : mvp), players[0]);
+  /**
+   * Ordena los jugadores por 'rating' y devuelve los 3 primeros.
+   * (Si prefieres otra métrica, cámbiala aquí).
+   */
+  const getTop3Players = (allPlayers = []) => {
+    const sorted = [...allPlayers].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    return sorted.slice(0, 3);
   };
 
-  const mvpPlayer = getMVP([...myTeam, ...enemyTeam]);
-
-  const formatDuration = (duration) => {
-    if (!duration || duration === "00:00") return "Desconocida";
-    const [min, sec] = duration.split(":").map(Number);
+  /**
+   * Da formato "mm:ss" -> "Xm Ys" para la duración.
+   */
+  const formatDuration = (dur) => {
+    if (!dur || dur === "00:00") return "Desconocida";
+    const [min, sec] = dur.split(":").map(Number);
     return `${min}m ${sec}s`;
-};
+  };
 
-  // Función para renderizar jugadores
-  const renderPlayers = (players) => (
-    
-    <AnimatePresence>
-      {players.map((player, index) => (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          className={`player-card ${getPerformanceClass(player.kd_ratio)} ${player.steamID === mvpPlayer.steamID ? "mvp" : ""}`}
-          >
+  if (loading) {
+    return <div className="match-details-container">Cargando...</div>;
+  }
+  if (error) {
+    return <div className="match-details-container">{error}</div>;
+  }
+  if (!match) {
+    return <div className="match-details-container">No se encontraron datos.</div>;
+  }
 
-            <div className="player-info">
-              <img src={player.avatar ? player.avatar : "/assets/default_avatar.png"} alt="avatar" className="player-avatar" />
-              <h3 style={{ color: "var(--text-primary)" }}>
-                {player.name}
-                {player.steamID === steamID && (
-                  <span style={{ fontSize: "0.8em", color: "var(--accent-teal)", marginLeft: "0.5rem" }}>(TÚ)</span>
-                )}
-              </h3>
-            </div>
+  const { map_name, date, team_score, opponent_score, duration, players = [] } = match;
+  const { myTeam, enemyTeam } = splitPlayersByTeam(players);
 
-            <div className="stat-item rank-container">
-              <div className="stat-value">
-                {player.rank ? (
-                  <img src={`/assets/ranks/${player.rank}.png`} alt="Rango" className="rank-icon" />
-                ) : (
-                  "N/A"
-                )}
-              </div>
-            </div>
+  // Calculamos el top 3 (por rating) para mostrarlos arriba
+  const top3Players = getTop3Players(players);
 
+  // Determinamos si mi equipo ganó o no (para la tabla)
+  const isMyTeamWinner = team_score > opponent_score;
+  const isEnemyTeamWinner = opponent_score > team_score;
 
-          <div className="stats-grid">
-            <div className="stat-item">
-              <div className="stat-label"><FiTarget /> Kills</div>
-              <div className="stat-value highlight-stat">{player.kills}</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-label"><FiTarget /> Deaths</div>
-              <div className="stat-value highlight-stat">{player.deaths}</div>
-            </div>
-            <div className="stat-item">
-                <div className="stat-label"><FiActivity/>K/D</div>
-                <div className="stat-value">{player.kd_ratio.toFixed(2)}</div>
-                <div className="progress-bar">
-                  <div className="progress-fill" style={{ width: `${(player.kd_ratio / 2) * 100}%` }}></div>
-                </div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-label"><GiHeadshot  /> HS%</div>
-              <div className="stat-value">{player.hs_percentage.toFixed(1)}%</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-label">< FaGun /> ADR</div>
-              <div className="stat-value">{player.adr.toFixed(1)}</div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${player.adr / 2}%` }}></div>
-              </div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-label"><FiEyeOff /> Flash</div>
-              <div className="stat-value">{player.flash_assists}</div>
-            </div>
-            <div className="stat-item">
-              <div className="stat-label"><GiPositionMarker />Posición</div>
-              <div className="stat-value highlight-stat">{player.position ? `#${player.position}` : "N/A"} </div>
-            </div>
-          </div>
-        </motion.div>
-      ))}
-    </AnimatePresence>
-  );
- 
+  /**
+   * Renderiza la tabla con tus estadísticas anteriores: 
+   * Player, Kills, Deaths, K/D, HS%, ADR, Flash, Posición
+   */
+  const renderTeamTable = (teamPlayers, teamLabel, isWinner) => {
+    return (
+      <div className="team-table-container">
+        <div className="team-table-header">
+          <h2>{teamLabel}</h2>
+          <span className={`team-result-badge ${isWinner ? 'win' : 'loss'}`}>
+            {isWinner ? 'WIN' : 'LOSS'}
+          </span>
+        </div>
+        <table className="scoreboard-table">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Kills</th>
+              <th>Deaths</th>
+              <th>K/D</th>
+              <th>HS%</th>
+              <th>ADR</th>
+              <th>Flash</th>
+              <th>Posición</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamPlayers.map((player, i) => (
+              <tr key={i} className={i === 0 ? 'top-performer' : (player.steamID === steamID ? 'current-player' : '')}>
+                <td className="player-cell">
+                  <img
+                    src={player.avatar || '/assets/default_avatar.png'}
+                    alt="Avatar"
+                    className="table-avatar"
+                  />
+                  <span>
+                    {player.name}
+                    {player.steamID === steamID && ' (TÚ)'}
+                  </span>
+                </td>
+                <td>{player.kills !== undefined ? player.kills : '-'}</td>
+                <td>{player.deaths !== undefined ? player.deaths : '-'}</td>
+                <td>
+                  {player.kd_ratio !== undefined
+                    ? player.kd_ratio.toFixed(2)
+                    : '-'
+                  }
+                </td>
+                <td>
+                  {player.hs_percentage !== undefined
+                    ? player.hs_percentage.toFixed(1) + '%'
+                    : '-'
+                  }
+                </td>
+                <td>
+                  {player.adr !== undefined
+                    ? player.adr.toFixed(1)
+                    : '-'
+                  }
+                </td>
+                <td>
+                  {player.flash_assists !== undefined
+                    ? player.flash_assists
+                    : '-'
+                  }
+                </td>
+                <td>
+                  {player.position
+                    ? `#${player.position}`
+                    : 'N/A'
+                  }
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   return (
     <div className="match-details-container">
-      <div className="background-blobs"></div>
-      
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-        <div className="match-header">
+      <motion.div
+        className="scoreboard-content"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* ENCABEZADO O BOTÓN DE VOLVER */}
+        <div className="header-back">
           <Link to="/HistoryGames" className="back-link">
-            <FiArrowLeft /> Volver al historial
+            &larr; Volver al historial
           </Link>
-          <h1 style={{ color: 'var(--text-primary)', margin: '2rem 0' }}>
-            {match.map_name} <span style={{ color: 'var(--text-secondary)', fontWeight: 300 }}>| {match.date}</span>
+        </div>
+
+        {/* ENCABEZADO PROFESIONAL */}
+        <div className="match-top-header">
+          {/* Info principal del match: Mapa, fecha, resultado, duración */}
+          <div className="match-main-info">
+          <h1 className="map-name">
+            {map_name.replace(/^de_/, '').charAt(0).toUpperCase() + map_name.replace(/^de_/, '').slice(1)}
           </h1>
-          
-          <div className="match-info">
-            <div className="info-box">
-              <h3 style={{ color: 'var(--text-secondary)' }}>Resultado</h3>
-              <p style={{ fontSize: '1.5rem', color: 'var(--accent-teal)' }}>
-                {match.team_score} : {match.opponent_score}
+            <span className="match-date">{date}</span>
+            <div className="score-duration-boxes">
+            <div className={`score-box ${isMyTeamWinner ? 'win' : 'loss'}`}>
+              <p className="score-label">Resultado</p>
+              <p className="score-value">
+                {team_score} : {opponent_score}
               </p>
             </div>
-            <div className="info-box">
-              <h3 style={{ color: 'var(--text-secondary)' }}>Duración</h3>
-              <p style={{ fontSize: '1.5rem', color: 'var(--text-primary)' }}>{formatDuration(match.duration)}</p>
+              <div className="score-box">
+                <p className="score-label">Duración</p>
+                <p className="score-value">{formatDuration(duration)}</p>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="teams-container">
-          <div className="team-section my-team">
-            <div className="team-header">
-              <h2><FiUser /> Mi Equipo</h2>
-            </div>
-            {renderPlayers(myTeam)}
           </div>
 
-          <div className="team-section enemy-team">
-            <div className="team-header">
-              <h2><FiUser /> Equipo Enemigo</h2>
-            </div>
-            {renderPlayers(enemyTeam)}
+          {/* Top 3 jugadores */}
+          <div className="top3-wrapper">
+            {top3Players.map((player, index) => (
+              <div className="top3-card" key={player.steamID || index}>
+                <h4 className="top3-rank">
+                  {index + 1}º - {player.name}
+                </h4>
+                <img
+                  src={player.avatar || '/assets/default_avatar.png'}
+                  alt="Top player avatar"
+                  className="top3-avatar"
+                />
+                {/* Ejemplo: mostrar su rating */}
+                {player.rating !== undefined && (
+                  <p className="top3-sub">Rating: {player.rating.toFixed(2)}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* SECCIÓN DE TABLAS (EQUIPOS) */}
+        <div className="teams-scoreboard">
+          {renderTeamTable(myTeam, 'My Team', isMyTeamWinner)}
+          {renderTeamTable(enemyTeam, 'Enemy Team', isEnemyTeamWinner)}
+        </div>
       </motion.div>
     </div>
   );
-
-
 };
 
 export default MatchDetails;

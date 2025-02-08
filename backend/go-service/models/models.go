@@ -1,6 +1,6 @@
 package models
 
-// PlayerStats representa las estadísticas de UN jugador.
+// PlayerStats representa las estadísticas de un jugador.
 type PlayerStats struct {
 	SteamID      string  `json:"steamID"`
 	Name         string  `json:"name"`
@@ -12,21 +12,20 @@ type PlayerStats struct {
 	HSPercentage float64 `json:"hs_percentage"`
 	KDRatio      float64 `json:"kd_ratio"`
 	FlashAssists int     `json:"flash_assists"`
-	RankScore    int     `json:"rank_score"` // 🎯 Puntuación de Premiere
-	Avatar       string  `json:"avatar"`     // 🖼️ URL del avatar
-	Position     int     `json:"position"`   // 🏆 Posición basada en rendimiento
-
+	Avatar       string  `json:"avatar"`   // URL del avatar
+	Rank         string  `json:"rank"`     // Rango de CS2 Premiere (extraído de rank_type)
+	Position     int     `json:"position"` // Posición basada en rendimiento
 }
 
-// DemoParseResult almacena la info de toda la partida.
+// DemoParseResult almacena la información de toda la partida.
 type DemoParseResult struct {
-	MatchID       string        `json:"match_id"` // un ID único para identificar la partida
+	MatchID       string        `json:"match_id"` // ID único para identificar la partida
 	MapName       string        `json:"map_name"`
-	Duration      string        `json:"duration"` // Ej: "28:44"
-	Result        string        `json:"result"`   // "victory" o "defeat"
+	Duration      string        `json:"match_duration"` // Ej: "28:44"
+	Result        string        `json:"result"`         // "victory" o "defeat"
 	TeamScore     int           `json:"team_score"`
 	OpponentScore int           `json:"opponent_score"`
 	Players       []PlayerStats `json:"players"`
 	Filename      string        `json:"filename"`
-	Date          string        `json:"date"` // Extraída de la fecha del archivo
+	Date          string        `json:"date"` // Fecha real del partido (o derivada)
 }

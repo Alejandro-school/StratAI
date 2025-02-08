@@ -4,35 +4,35 @@ import (
 	"log"
 	"net/http"
 
-	// Importamos nuestros paquetes locales
-	"cs2-demo-service/db" // si creaste db/redis.go
+	"cs2-demo-service/db"
 	"cs2-demo-service/handlers"
-
-	//"cs2-demo-service/inspect"
 	"cs2-demo-service/middlewares"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Inicializa Redis (podrías hacerlo aquí o en un init() dentro de db/redis.go)
+
+	// Cargar el fichero .env desde la raíz del backend
+	err := godotenv.Load("../.env") // Ajusta la ruta según la ubicación de tu .env
+	if err != nil {
+		log.Println("No se pudo cargar el fichero .env:", err)
+	}
+	// Inicializa Redis.
 	db.InitRedis()
 
-	// Llamamos alguna función de inspección si la necesitas
-	//inspect.InspectDemo()
-
-	// Creamos el router de Gorilla
+	// Crea el router.
 	router := mux.NewRouter()
 
-	// Registramos los endpoints y sus handlers
+	// Registra los endpoints.
 	router.HandleFunc("/process-downloaded-demo", handlers.HandleProcessDownloadedDemo).Methods("POST")
 	router.HandleFunc("/get-processed-demos", handlers.HandleGetProcessedDemos).Methods("GET")
 	router.HandleFunc("/match/{steamID}/{matchID}", handlers.HandleGetMatchByID).Methods("GET")
 
-	// Aplicamos el middleware de CORS
+	// Aplica el middleware de CORS.
 	handlerWithCors := middlewares.WithCors(router)
 
-	// Arrancamos el servidor
 	log.Println("Servidor corriendo en puerto :8080")
 	http.ListenAndServe(":8080", handlerWithCors)
 }
