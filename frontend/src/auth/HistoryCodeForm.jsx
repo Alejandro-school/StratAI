@@ -54,7 +54,7 @@ const HistoryCodeForm = () => {
             <p>1. Inicia sesión en Steam a través de Google.</p>
             <p>2. Haz click en Soporte y accede a Counter-strike 2</p>
             <p>3. Accede a “Administrar mis códigos de autenticación.”</p>
-            <p>4. Obtén el código de acceso al historial de partidas:</p>
+            <p>4. 4. Crea el código de autenticación si aún no lo tienes creado</p>
             <img
               src="/images/codes.png"
               alt="Cómo obtener el código de autenticación"
@@ -83,10 +83,18 @@ const HistoryCodeForm = () => {
         </label>
         {showLastGuide && (
           <div className="guide">
-            <p>1. Abre CS2 y ve al historial de partidas.</p>
-            <p>2. Busca la demo más antigua para analizar el máximo posible.</p>
-            <p>3. Asegúrate de que la demo no esté caducada (se pueda descargar).</p>
-            <p>4. Copia el share code (empieza por CSGO-XXX) desde el botón de descarga.</p>
+            <p>1. Inicia sesión en Steam a través de Google.</p>
+            <p>2. Haz click en Soporte y accede a Counter-strike 2</p>
+            <p>3. Accede a “Administrar mis códigos de autenticación.”</p>
+            <p>4. Crea el código de autenticación si aún no lo tienes creado</p>
+            <img
+              src="/images/codes.png"
+              alt="Cómo obtener el código de autenticación"
+              style={{ width: '100%', maxWidth: '400px', borderRadius: '8px' }}
+            />
+                      
+            <p>5. Copia el código de tu última partida completada. </p>
+
             <img
               src="/images/code-share.png"
               alt="Cómo obtener el último share code"

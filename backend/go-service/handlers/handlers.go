@@ -13,47 +13,53 @@ import (
 	"cs2-demo-service/models"
 
 	"github.com/gorilla/mux"
+	"github.com/redis/go-redis/v9"
 )
 
-// HandleProcessDownloadedDemo -> POST /process-downloaded-demo
+// GetMatchJSONFromRedis intenta obtener de Redis el JSON con matchDuration.
+func GetMatchJSONFromRedis(matchID string) (string, error) {
+	jsonData, err := db.Rdb.Get(db.Ctx, "match_data:"+matchID).Result()
+	if err == redis.Nil {
+		return "", fmt.Errorf("No hay datos en Redis para matchID: %s", matchID)
+	} else if err != nil {
+		return "", fmt.Errorf("Error obteniendo JSON desde Redis: %v", err)
+	}
+	return jsonData, nil
+}
+
+// HandleProcessDownloadedDemo procesa una demo descargada y almacena el resultado básico en Redis.
+// Se usa la función ProcessDemoFileBasic para obtener solo los datos necesarios para el frontend.
 func HandleProcessDownloadedDemo(w http.ResponseWriter, r *http.Request) {
+	log.Println("DEBUG: --> Entró a HandleProcessDownloadedDemo")
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
 		return
 	}
+
 	var payload struct {
 		SteamID  string `json:"steam_id"`
 		Filename string `json:"filename"`
+		MatchID  string `json:"match_id"`
 	}
-	err := json.NewDecoder(r.Body).Decode(&payload)
-	if err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
 		http.Error(w, "Error al parsear JSON", http.StatusBadRequest)
 		return
 	}
-	if payload.SteamID == "" || payload.Filename == "" {
-		http.Error(w, "Faltan steam_id o filename", http.StatusBadRequest)
+
+	if payload.SteamID == "" || payload.Filename == "" || payload.MatchID == "" {
+		http.Error(w, "Faltan steam_id, filename o match_id", http.StatusBadRequest)
 		return
 	}
 
-	demoPath := filepath.Join("..", "data", "demos", payload.Filename)
-	if _, err := os.Stat(demoPath); os.IsNotExist(err) {
-		http.Error(w, "No se encontró el archivo .dem", http.StatusNotFound)
-		return
-	}
-
-	parseResult, err := demo.ProcessDemoFile(demoPath, payload.SteamID)
-	if err != nil {
-		log.Printf("Error al procesar la demo: %v", err)
-		http.Error(w, "Error interno al procesar la demo", http.StatusInternalServerError)
-		return
-	}
-
+	// 1) Comprobar si ya procesamos esta demo en Redis
 	key := fmt.Sprintf("processed_demos:%s", payload.SteamID)
 	entries, _ := db.Rdb.LRange(db.Ctx, key, 0, -1).Result()
 	for _, e := range entries {
-		var existing models.DemoParseResult
+		var existing models.BasicDemoParseResult
 		if json.Unmarshal([]byte(e), &existing) == nil {
-			if existing.MatchID == parseResult.MatchID {
+			if existing.MatchID == payload.MatchID {
+				// Ya existe => devolvemos
 				response := map[string]interface{}{
 					"status":  "warning",
 					"message": "Partida ya existente en Redis.",
@@ -66,28 +72,62 @@ func HandleProcessDownloadedDemo(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	data, _ := json.Marshal(parseResult)
-	db.Rdb.RPush(db.Ctx, key, string(data))
+	// 2) Intentar leer de Redis el JSON con la duración: "match_data:<matchID>"
+	matchDataJSON, err := GetMatchJSONFromRedis(payload.MatchID)
+	if err == redis.Nil {
+		log.Printf("No se encontró match_data para matchID=%s en Redis", payload.MatchID)
+		matchDataJSON = "{}"
+	} else if err != nil {
+		log.Printf("Error leyendo match_data:%s => %v", payload.MatchID, err)
+		http.Error(w, "Error al obtener match_data de Redis", http.StatusInternalServerError)
+		return
+	}
 
+	// 3) Procesamos la demo usando la función básica.
+	demoPath := filepath.Join("..", "data", "demos", payload.Filename)
+	if _, err := os.Stat(demoPath); os.IsNotExist(err) {
+		http.Error(w, "No se encontró el archivo .dem", http.StatusNotFound)
+		return
+	}
+
+	basicResult, err := demo.ProcessDemoFileBasic(demoPath, payload.SteamID, matchDataJSON)
+	if err != nil {
+		log.Printf("Error al procesar la demo: %v", err)
+		http.Error(w, "Error interno al procesar la demo", http.StatusInternalServerError)
+		return
+	}
+
+	// Asignamos el matchID que nos mandó el frontend.
+	basicResult.MatchID = payload.MatchID
+
+	// 4) Guardamos en Redis la partida parseada (versión básica).
+	data, marshalErr := json.Marshal(basicResult)
+	if marshalErr != nil {
+		log.Printf("[ERROR] Marshal falló: %v", marshalErr)
+	} else {
+		db.Rdb.RPush(db.Ctx, key, string(data))
+		log.Printf("[OK] Procesado matchID=%s para steamID=%s", basicResult.MatchID, payload.SteamID)
+	}
+
+	// 5) Respuesta al frontend.
 	response := map[string]interface{}{
 		"status":  "success",
 		"message": fmt.Sprintf("Demo %s procesada y almacenada", payload.Filename),
 		"data": map[string]interface{}{
-			"match_id":       parseResult.MatchID,
-			"map_name":       parseResult.MapName,
-			"date":           parseResult.Date,
-			"duration":       parseResult.Duration,
-			"team_score":     parseResult.TeamScore,
-			"opponent_score": parseResult.OpponentScore,
-			"players":        parseResult.Players,
+			"match_id":       basicResult.MatchID,
+			"map_name":       basicResult.MapName,
+			"date":           basicResult.Date,
+			"duration":       basicResult.Duration,
+			"team_score":     basicResult.TeamScore,
+			"opponent_score": basicResult.OpponentScore,
+			"players":        basicResult.Players,
 		},
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
 
-// HandleGetProcessedDemos -> GET /get-processed-demos?steam_id=XXXX
+// HandleGetProcessedDemos retorna todas las demos procesadas (versión básica) para un steam_id.
 func HandleGetProcessedDemos(w http.ResponseWriter, r *http.Request) {
 	steamID := r.URL.Query().Get("steam_id")
 	if steamID == "" {
@@ -102,15 +142,15 @@ func HandleGetProcessedDemos(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	demosMap := make(map[string]models.DemoParseResult)
+	demosMap := make(map[string]models.BasicDemoParseResult)
 	for _, e := range entries {
-		var d models.DemoParseResult
+		var d models.BasicDemoParseResult
 		if json.Unmarshal([]byte(e), &d) == nil {
 			demosMap[d.MatchID] = d
 		}
 	}
 
-	var demos []models.DemoParseResult
+	var demos []models.BasicDemoParseResult
 	for _, v := range demosMap {
 		demos = append(demos, v)
 	}
@@ -123,7 +163,7 @@ func HandleGetProcessedDemos(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-// HandleGetMatchByID -> GET /match/{steamID}/{matchID}
+// HandleGetMatchByID retorna los detalles (versión básica) de una demo específica.
 func HandleGetMatchByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	steamID := vars["steamID"]
@@ -140,9 +180,9 @@ func HandleGetMatchByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var found *models.DemoParseResult
+	var found *models.BasicDemoParseResult
 	for _, e := range entries {
-		var demoData models.DemoParseResult
+		var demoData models.BasicDemoParseResult
 		if json.Unmarshal([]byte(e), &demoData) == nil {
 			if demoData.MatchID == matchID {
 				found = &demoData
@@ -154,10 +194,6 @@ func HandleGetMatchByID(w http.ResponseWriter, r *http.Request) {
 	if found == nil {
 		http.Error(w, "No se encontró ese match", http.StatusNotFound)
 		return
-	}
-
-	for _, player := range found.Players {
-		log.Printf("Jugador: %s | Posición: %d", player.Name, player.Position)
 	}
 
 	response := map[string]interface{}{

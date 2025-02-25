@@ -6,12 +6,9 @@
   --card-bg: #1c1c1c;
   --text-color: #fafafa;
   --secondary-text: #b8b8b8;
-
-  /* Colores acento */
   --accent-positive: #00ffc8;
   --accent-negative: #ff4655;
   --accent-neutral: #999;
-
   --border-color: #333;
 }
 
@@ -33,14 +30,12 @@ body {
   background: var(--bg-color);
 }
 
-/* Contenedor principal para la transición */
 .scoreboard-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-/* Encabezado para volver al historial */
 .header-back {
   margin-bottom: 1rem;
 }
@@ -81,7 +76,6 @@ body {
   color: var(--secondary-text);
 }
 
-/* Cajas: Resultado / Duración */
 .score-duration-boxes {
   display: flex;
   gap: 2rem;
@@ -102,12 +96,11 @@ body {
   color: var(--text-color);
 }
 .win .score-value {
-  color: var(--accent-positive); /* Verde si se gana */
+  color: var(--accent-positive);
 }
 .loss .score-value {
-  color: var(--accent-negative); /* Rojo si se pierde */
+  color: var(--accent-negative);
 }
-
 
 /* Top 3 */
 .top3-wrapper {
@@ -146,7 +139,6 @@ body {
   gap: 2rem;
 }
 
-/* Cada tabla contenedora */
 .team-table-container {
   background: #1a1a1a;
   border-radius: 8px;
@@ -173,13 +165,12 @@ body {
   background: #666;
 }
 .team-result-badge.win {
-  background: #2aa765; /* tono verde */
+  background: #2aa765;
 }
 .team-result-badge.loss {
-  background: #c13b3b; /* tono rojo */
+  background: #c13b3b;
 }
 
-/* Tabla */
 .scoreboard-table {
   width: 100%;
   border-collapse: collapse;
@@ -204,7 +195,6 @@ body {
   background: #242424;
 }
 
-/* Columna Player con avatar */
 .player-cell {
   display: flex;
   align-items: center;
@@ -227,8 +217,25 @@ body {
   border-left: 4px solid rgb(43, 37, 71);
 }
 
+/* Pestañas para estadísticas */
+.stats-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.stats-tab {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background: var(--card-bg);
+  border-radius: 4px;
+  color: var(--text-color);
+  transition: background 0.2s;
+}
+.stats-tab.active {
+  background: var(--accent-positive);
+}
 
-/* Ajustes responsive */
+/* Responsive */
 @media (max-width: 768px) {
   .match-top-header {
     flex-direction: column;

@@ -1,9 +1,7 @@
 import React from 'react';
 import '../styles/Auth/botInstructions.css';
 
-const BotInstructions = () => {
-    const botSteamId = "BOT_STEAM_ID_AQUI";
-
+const BotInstructions = ({ userSteamId, botSteamId }) => {
     const handleSendFriendRequest = async () => {
         try {
             const response = await fetch("http://localhost:8000/steam/send-friend-request", {
@@ -12,13 +10,14 @@ const BotInstructions = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ steam_id: "BOT_STEAM_ID_AQUI" })
+                // Enviamos el steam_id del usuario en lugar del id del bot
+                body: JSON.stringify({ steam_id: userSteamId })
             });            
             const data = await response.json();
             if (response.ok) {
                 alert("✅ Solicitud de amistad enviada correctamente.");
             } else {
-                alert(`❌ Error: ${data.detail}`);
+                alert(`❌ Error: ${data.error || data.detail}`);
             }
         } catch (error) {
             console.error("Error al enviar solicitud de amistad:", error);

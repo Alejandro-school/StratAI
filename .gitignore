@@ -44,8 +44,10 @@ go-service/bin/
 go-service/*.exe
 
 # Archivos de carga de demos
-/cs2-coach-ai/data/*.dem
+/cs2-coach-ai/data/demos/*.dem
 /cs2-coach-ai/frontend/src/media/Background.mp4
+/cs2-coach-ai/data/exports/*.csv
+
 
 *.mp4
 *.mov

@@ -11,7 +11,6 @@ import { Box, Menu as DropdownMenu, MenuItem as DropdownItem, IconButton } from 
 import '../../styles/Layout/sidebar.css';
 import { useUser } from '../../context/UserContext';
 
-
 const SidebarComponent = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [hovered, setHovered] = useState(false);
@@ -89,7 +88,7 @@ const SidebarComponent = () => {
           <Link to="/HistoryGames">Partidas</Link>
         </MenuItem>
         <MenuItem icon={<EmojiPeopleOutlined />} className="menu-item">
-          <Link to="/RecentShareCodes">Desempeño personal</Link>
+          <Link to="/PersonalPerformance">Desempeño personal</Link>
         </MenuItem>
         <MenuItem icon={<MapOutlined />} className="menu-item">
           <Link to="/analysis/movements">Rendimiento mapas</Link>

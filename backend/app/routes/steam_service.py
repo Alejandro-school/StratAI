@@ -188,8 +188,9 @@ async def get_all_sharecodes(
 @router.post("/steam/save-sharecodes")
 async def save_sharecodes(request: Request):
     """
-    Recibe sharecodes, auth_code, known_code y los almacena en Redis.
-    Luego notifica al bot de Node.js para que empiece a descargar las demos.
+    Recibe sharecodes, auth_code y known_code, y los almacena en Redis.
+    Se asume que el bot de Node.js está suscrito a los eventos de rpush y
+    se encargará de iniciar la descarga de demos cuando se actualice la lista.
     """
     data = await request.json()
     sharecodes = data.get("sharecodes", [])
@@ -204,26 +205,19 @@ async def save_sharecodes(request: Request):
     if not auth_code or not known_code:
         raise HTTPException(status_code=400, detail="Faltan auth_code o known_code.")
 
+    # Actualizamos la lista de sharecodes del usuario
     await redis.delete(f"sharecodes:{steam_id}")
     await redis.rpush(f"sharecodes:{steam_id}", *sharecodes)
+
+    # Guardamos auth_code y known_code en Redis para futuros procesos
     await redis.set(f"{steam_id}:authCode", auth_code)
     await redis.set(f"{steam_id}:knownCode", known_code)
 
     logging.info(f"[save-sharecodes] Almacenados {len(sharecodes)} sharecodes en Redis para {steam_id}")
 
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                "http://localhost:4000/start-download",
-                json={"steam_id": steam_id, "sharecodes": sharecodes}
-            )
-            if response.status_code != 200:
-                logging.error("❌ Error al notificar al bot Node para descargar.")
-    except Exception as e:
-        logging.error(f"❌ Error de conexión con Node.js: {str(e)}")
-
-    return {"message": "✅ ShareCodes guardados y bot notificado."}
-
+    # Se elimina la notificación manual al bot de Node.js,
+    # ya que el bot se activa automáticamente al detectar el rpush.
+    return {"message": "✅ ShareCodes guardados. El bot se activará automáticamente."}
 
 @router.get("/steam/check-friend-status")
 async def check_friend_status(request: Request):

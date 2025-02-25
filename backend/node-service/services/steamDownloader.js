@@ -1,13 +1,3 @@
-/**
- * steamDownloader.js
- * ------------------
- * Módulo principal que administra:
- *  - Conexión a Steam y Game Coordinator (GC) de CS:GO/CS2.
- *  - Decodificación de sharecodes y descarga secuencial de .dem.
- *  - Comprobación si una demo sigue disponible. Si no, la marcamos "descartada".
- *  - Tras descargar, llama a Go para parsear la demo y guardar stats en Redis.
- */
-
 require('dotenv').config();
 const SteamUser = require('steam-user');
 const GlobalOffensive = require('globaloffensive');
@@ -28,27 +18,21 @@ const BOT_USERNAME = process.env.BOT_USERNAME;
 const BOT_PASSWORD = process.env.BOT_PASSWORD;
 const BOT_SHARED_SECRET = process.env.BOT_SHARED_SECRET;
 
-// Verificación básica
 if (!BOT_USERNAME || !BOT_PASSWORD || !BOT_SHARED_SECRET) {
   console.error('❌ Error: Faltan credenciales del bot en .env');
   process.exit(1);
 }
 
-// Directorio de demos
+// Directorio donde se guardan las demos
 const DEMOS_DIR = path.join(__dirname, '../../data/demos');
 if (!fs.existsSync(DEMOS_DIR)) {
   fs.mkdirSync(DEMOS_DIR, { recursive: true });
 }
 
-// Mapa para controlar reintentos por cada sharecode
+// Control de reintentos por sharecode
 const reintentosSharecode = {};
 
-/*
-Cola de descargas/procesos. 
- concurrency=2 => procesar hasta 2 sharecodes simultáneamente
- interval=3000, intervalCap=2 => en cada 3s se inician 2 tareas como máximo.
- Ajusta si quieres algo más rápido o más lento para no colapsar el GC.
-*/
+// Cola para procesar sharecodes secuencialmente
 const queue = new PQueue({
   concurrency: 1,
   interval: 2000,
@@ -108,87 +92,92 @@ function iniciarSesionSteam() {
 /**
  * requestGameAsync:
  * -----------------
- * Envía una solicitud al GC para obtener la URL de la demo de un sharecode dado.
- * Si no la encuentra, lanza error => esa demo se considera "no disponible".
+ * Solicita al GC la URL de la demo correspondiente a un sharecode.
  */
 GlobalOffensive.prototype.requestGameAsync = function (shareCodeStr, intentosMaximos = 2) {
   return new Promise((resolve, reject) => {
-    let shareCodeDecoded;
-    try {
-      shareCodeDecoded = new ShareCode(shareCodeStr).decode();
-      console.log(`📝 ShareCode decodificado: ${JSON.stringify(shareCodeDecoded)}`);
-    } catch (err) {
-      return reject(new Error(`No se pudo decodificar el sharecode: ${shareCodeStr} => ${err.message}`));
-    }
-
-    let intentos = 0;
-    const solicitarDemo = () => {
-      if (intentos >= intentosMaximos) {
-        return reject(new Error('❌ Máximo de reintentos para obtener la URL de la demo.'));
-      }
-      intentos++;
-
-      if (!this.haveGCSession) {
-        console.warn('⚠️ Sin sesión GC. Reintentando en 5s...');
-        return setTimeout(solicitarDemo, 2000);
+      let shareCodeDecoded;
+      try {
+          shareCodeDecoded = new ShareCode(shareCodeStr).decode();
+          console.log(`📝 ShareCode decodificado: ${JSON.stringify(shareCodeDecoded)}`);
+      } catch (err) {
+          return reject(new Error(`No se pudo decodificar el sharecode: ${shareCodeStr} => ${err.message}`));
       }
 
-      // Petición al GC
-      this._send(
-        Language.MatchListRequestFullGameInfo,
-        Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo,
-        {
-          matchid: shareCodeDecoded.matchId,
-          outcomeid: shareCodeDecoded.outcomeId,
-          token: shareCodeDecoded.token
-        }
-      );
-
-      const onMatchList = (matches) => {
-        const partidasValidas = matches.filter(
-          match =>
-            match.roundstatsall &&
-            Array.isArray(match.roundstatsall) &&
-            match.roundstatsall.some(
-              round => round.map && round.map.startsWith('http')
-            )
-        );
-        if (!partidasValidas.length) {
-          console.warn('⚠️ No se encontró URL válida para la demo. Reintentamos en 5s...');
-          if (intentos < intentosMaximos) {
-            setTimeout(solicitarDemo, 1000);
-          } else {
-            reject(new Error('No se encontró la URL de la demo (partida caducada).'));
+      let intentos = 0;
+      const solicitarDemo = () => {
+          if (intentos >= intentosMaximos) {
+              return reject(new Error('❌ Máximo de reintentos para obtener la URL de la demo.'));
           }
-          this.removeListener('matchList', onMatchList);
-          return;
-        }
+          intentos++;
 
-        // Tomamos la última con map válido
-        const demoUrl = partidasValidas
-          .flatMap(match => match.roundstatsall)
-          .reverse()
-          .find(round => round.map && round.map.startsWith('http'))
-          .map;
+          if (!this.haveGCSession) {
+              console.warn('⚠️ Sin sesión GC. Reintentando en 2s...');
+              return setTimeout(solicitarDemo, 2000);
+          }
 
-        this.removeListener('matchList', onMatchList);
-        const demoUrlSegura = demoUrl.replace(/^http:/, 'https:');
-        console.log(`✅ URL de la demo: ${demoUrlSegura}`);
-        resolve(demoUrlSegura);
+          // Enviar petición al GC
+          this._send(
+              Language.MatchListRequestFullGameInfo,
+              Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo,
+              {
+                  matchid: shareCodeDecoded.matchId,
+                  outcomeid: shareCodeDecoded.outcomeId,
+                  token: shareCodeDecoded.token
+              }
+          );
+
+          const onMatchList = (matches) => {
+              const partidasValidas = matches.filter(
+                  match =>
+                      match.roundstatsall &&
+                      Array.isArray(match.roundstatsall) &&
+                      match.roundstatsall.some(round => round.map && round.map.startsWith('http'))
+              );
+
+              if (!partidasValidas.length) {
+                  console.warn('⚠️ No se encontró URL válida para la demo. Reintentamos...');
+                  if (intentos < intentosMaximos) {
+                      setTimeout(solicitarDemo, 1000);
+                  } else {
+                      reject(new Error('No se encontró la URL de la demo (partida caducada).'));
+                  }
+                  this.removeListener('matchList', onMatchList);
+                  return;
+              }
+
+              // Se toma la primera partida válida
+              const matchData = partidasValidas[0];
+              const demoUrl = matchData.roundstatsall.find(round => round.map && round.map.startsWith('http')).map;
+
+              // Extraer duración de la partida
+              const lastRound = matchData.roundstatsall[matchData.roundstatsall.length - 1];
+              const matchDuration = lastRound ? lastRound.match_duration || 0 : 0;
+
+              this.removeListener('matchList', onMatchList);
+              const demoUrlSegura = demoUrl.replace(/^http:/, 'https:');
+
+              console.log(`✅ URL de la demo: ${demoUrlSegura}`);
+              console.log(`🕒 Duración de la partida: ${matchDuration} segundos`);
+
+              resolve({
+                  demoUrl: demoUrlSegura,
+                  matchDuration: matchDuration,
+                  matchID: shareCodeDecoded.matchId
+              });
+          };
+
+          this.once('matchList', onMatchList);
       };
 
-      this.once('matchList', onMatchList);
-    };
-
-    solicitarDemo();
+      solicitarDemo();
   });
 };
 
 /**
  * descargarFicheroHTTP:
  * ---------------------
- * Descarga un fichero .dem (o .bz2) vía HTTPS y lo guarda en filePath.
- * Si es .bz2, lo descomprime "al vuelo".
+ * Descarga el fichero de demo y lo guarda en filePath.
  */
 function descargarFicheroHTTP(url, filePath) {
   return new Promise((resolve, reject) => {
@@ -206,7 +195,7 @@ function descargarFicheroHTTP(url, filePath) {
         fs.unlink(filePath, () => {});
         return reject(new Error(`HTTP status: ${res.statusCode}`));
       }
-      // Descomprime si es .bz2
+      // Si el archivo está comprimido, se descomprime al vuelo
       if (esBz2) {
         res.pipe(unbzip2Stream()).pipe(fileStream);
       } else {
@@ -231,102 +220,114 @@ function descargarFicheroHTTP(url, filePath) {
 /**
  * procesarShareCode:
  * ------------------
- * 1) Verifica disponibilidad de la demo en el GC (requestGameAsync).
- * 2) Descarga el .dem.
- * 3) Llama a Go (POST /process-downloaded-demo) para parsear y guardar en Redis.
+ * Procesa un sharecode:
+ * 1. Solicita la URL y datos de la demo.
+ * 2. Descarga la demo.
+ * 3. Guarda datos básicos en Redis.
+ * 4. Notifica a Go para analizar la demo.
+ * 5. Marca el sharecode como "processed".
  */
 async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
   console.log(`\n🔍 Procesando ShareCode ${sharecode} (SteamID: ${steamID})`);
+
   if (!reintentosSharecode[sharecode]) {
-    reintentosSharecode[sharecode] = 0;
+      reintentosSharecode[sharecode] = 0;
   }
 
   if (!csgo.haveGCSession) {
-    console.warn('⚠️ No hay sesión GC. Reintentamos en 5s...');
-    return setTimeout(() => procesarShareCode(sharecode, steamID, maxReintentos), 5000);
+      console.warn('⚠️ No hay sesión GC. Reintentamos en 5s...');
+      return setTimeout(() => procesarShareCode(sharecode, steamID, maxReintentos), 5000);
   }
 
   try {
-    // 1) Petición al GC para ver si la demo está
-    const demoUrl = await csgo.requestGameAsync(sharecode);
-    // 2) Descargamos
-    const cleanedCode = sharecode.replace(/CSGO-|-/g, '');
-    const filename = `match_${cleanedCode}.dem`;
-    const filePath = path.join(DEMOS_DIR, filename);
+      // Paso 1: Solicitar la demo
+      const { demoUrl, matchDuration, matchID } = await csgo.requestGameAsync(sharecode);
 
-    await descargarFicheroHTTP(demoUrl, filePath);
+      // Paso 2: Descargar la demo
+      const cleanedCode = sharecode.replace(/CSGO-|-/g, '');
+      const filename = `match_${cleanedCode}.dem`;
+      const filePath = path.join(DEMOS_DIR, filename);
+      await descargarFicheroHTTP(demoUrl, filePath);
 
-    // 3) Llamar a Go para parsear
-    try {
-      await axios.post('http://localhost:8080/process-downloaded-demo', {
-        steam_id: steamID,
-        filename
-      });
-      console.log(`✅ Stats de la demo ${filename} procesadas y almacenadas en Redis.`);
-    } catch (err) {
-      console.error(`❌ Error al llamar a Go: ${err.message}`);
-    }
+      // Paso 3: Guardar datos en Redis
+      const matchData = {
+          matchID: matchID,
+          matchDuration: matchDuration
+      };
+      await redisClient.set(`match_data:${matchID}`, JSON.stringify(matchData), 'EX', 3600);
+      console.log(`✅ Match data guardado en Redis: match_data:${matchID}`);
 
-    reintentosSharecode[sharecode] = 0;
+      // Paso 4: Notificar a Go para analizar la demo
+      try {
+          await axios.post('http://localhost:8080/process-downloaded-demo', {
+              steam_id: steamID,
+              filename,
+              match_id: matchID
+          });
+          console.log(`✅ Stats de la demo ${filename} procesadas y almacenadas en Redis.`);
+      } catch (err) {
+          console.error(`❌ Error al llamar a Go: ${err.message}`);
+      }
+
+      // Paso 5: Marcar el sharecode como procesado
+      await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, 'processed');
+      reintentosSharecode[sharecode] = 0;
+
   } catch (err) {
-    console.error(`❌ Error al procesar el ShareCode ${sharecode}:`, err);
+      console.error(`❌ Error al procesar el ShareCode ${sharecode}:`, err);
 
-    // Si "No se encontró la URL" => es demo caducada
-    if (err.message.includes('caducada') || err.message.includes('No se encontró la URL')) {
-      // Podríamos marcar en Redis que este sharecode no está disponible, 
-      // para no reintentarlo
-      console.log(`ℹ️ Marcando sharecode caducado: ${sharecode}`);
-      await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, 'caducado');
-      return;
-    }
+      // Si la demo está caducada o no disponible, marcamos y no reintentamos
+      if (err.message.includes('caducada') || err.message.includes('No se encontró la URL')) {
+          console.log(`ℹ️ Marcando sharecode caducado: ${sharecode}`);
+          await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, 'caducado');
+          return;
+      }
 
-    // Sino, reintentos
-    reintentosSharecode[sharecode]++;
-    if (reintentosSharecode[sharecode] < maxReintentos) {
-      console.log(`♻️ Reintentando sharecode ${sharecode} (intento ${reintentosSharecode[sharecode]} de ${maxReintentos})...`);
-      queue.add(() => procesarShareCode(sharecode, steamID, maxReintentos));
-    } else {
-      console.error(`❌ Sharecode ${sharecode} alcanzó el máximo de reintentos.`);
-    }
+      // Reintentos en caso de error
+      reintentosSharecode[sharecode]++;
+      if (reintentosSharecode[sharecode] < maxReintentos) {
+          console.log(`♻️ Reintentando sharecode ${sharecode} (intento ${reintentosSharecode[sharecode]} de ${maxReintentos})...`);
+          queue.add(() => procesarShareCode(sharecode, steamID, maxReintentos));
+      } else {
+          console.error(`❌ Sharecode ${sharecode} alcanzó el máximo de reintentos.`);
+      }
   }
 }
 
 /**
  * monitorearShareCodes:
  * ---------------------
- * Suscribe a Redis para detectar rpush en sharecodes:steamID,
- * y encola la descarga+proceso para cada sharecode nuevo.
+ * Se suscribe a eventos de Redis para detectar nuevos sharecodes en
+ * la clave "sharecodes:{steamID}" y encola su procesamiento.
  */
 async function monitorearShareCodes() {
   const subscriber = redisClient.duplicate();
   await subscriber.connect();
   console.log('📡 Escuchando rpush en Redis para nuevos ShareCodes...');
 
-  // Activamos eventos de listas
+  // Activamos notificaciones de listas en Redis
   await subscriber.configSet('notify-keyspace-events', 'KEA');
 
   await subscriber.subscribe('__keyevent@0__:rpush', async (key) => {
     console.log(`\n🔔 rpush detectado en clave: ${key}`);
     if (key.startsWith('sharecodes:')) {
       const steamID = key.split(':')[1];
+
+      // Leemos todos los sharecodes almacenados para el usuario
       const sharecodes = await redisClient.lRange(`sharecodes:${steamID}`, 0, -1);
-      if (!sharecodes.length) {
-        console.warn(`⚠️ No hay sharecodes en Redis para: ${steamID}`);
-        return;
-      }
       console.log(`📥 ShareCodes (SteamID: ${steamID}):`, sharecodes);
 
+      // Procesamos solo los sharecodes que no estén marcados
       for (const code of sharecodes) {
-        // Opcional: comprobar si ya se marcó "caducado" en sharecode_status
         const status = await redisClient.hGet(`sharecode_status:${steamID}`, code);
-        if (status === 'caducado') {
-          console.log(`⚠️ Sharecode ${code} ya marcado como caducado. Saltamos.`);
-          continue;
+        if (!status || status === 'pending') {
+          queue.add(() => procesarShareCode(code, steamID));
+        } else {
+          console.log(`⚠️ Sharecode ${code} ya tiene estado "${status}". Se omite.`);
         }
-        // Encolamos la descarga y parseo
-        queue.add(() => procesarShareCode(code, steamID));
       }
 
+      // Log de estado de la cola
       queue.on('active', () => {
         console.log('🔄 Procesando siguiente tarea en la cola...');
       });
@@ -337,7 +338,7 @@ async function monitorearShareCodes() {
   });
 }
 
-// Exportar funciones principales
+// Exportamos las funciones principales
 module.exports = {
   client,
   csgo,
