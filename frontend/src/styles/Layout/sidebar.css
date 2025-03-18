@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* General del Sidebar */
+.css-dip3t8 {
+    position: relative !important;
+    color: #E0E0E0 !important;
+    background: rgba(0, 0, 0, 0.74) !important; /* Asegura que no afecte la transparencia del sidebar */
+    z-index: auto !important; /* Evitar conflictos con el z-index del sidebar */
+    overflow: hidden !important; /* Mantener el contenido dentro */
+    height: 100vh !important;
+    width: 100% !important; /* Ajustar a las dimensiones del contenedor */
+    justify-content: space-between;
+    backdrop-filter: blur(5px); /* Efecto de desenfoque */
+    
+}
+/* Ajustar ancho al expandirse el sidebar*/
+.sidebar:hover {
+    width: 300px;
+}
+
+/* Ocultar títulos cuando el sidebar está colapsado */
+.hidden {
+    display: none;
+}
+
+.menu-section-title {
+    color: #F0F0F0; /* Texto más claro */
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 20px 15px 10px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    transition: opacity 0.3s ease;
+    font-family: 'Roboto', Arial, sans-serif !important;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out
+    
+}
+
+/* Enlace base */
+.ps-sidebar-root {
+    border-right: none !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo base para los elementos del menú */
+.menu-item {
+    background: none !important; /* Eliminar cualquier fondo predefinido */
+    margin: 0 !important;
+    padding: 0 !important;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+/* Enlaces dentro de los elementos del menú */
+.menu-item a{
+    color: #E0E0E0 !important; /* Texto claro */
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    text-decoration: none !important;
+    background: none !important; /* Sin fondo */
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    padding: 10px 15px; /* Espaciado interno */
+    font-family: 'Roboto', Arial, sans-serif !important;
+    font-size: 16px;
+    transition: color 0.3s ease, transform 0.3s ease;
+
+}
+
+/* Estilo para el enlace y el ícono en hover */
+.menu-item:hover a,
+.menu-item:hover svg {
+    color: #8402ee !important; /* Cambiar color al pasar el ratón */
+    transform: scale(1.05); /* Efecto de zoom suave */
+}
+
+/* Eliminar hover individual en los íconos */
+.menu-item svg {
+    font-size: 20px;
+    color: #C0C0C0 !important; /* Color base del ícono */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Evitar fondos predefinidos en react-pro-sidebar */
+.pro-menu-item,
+.pro-menu-item:hover {
+    background: none !important; /* Eliminar fondo forzado */
+}
+
+.sidebar:hover .user-avatar {
+    transform: scale(1.1); /* Efecto de zoom suave */
+}
+
+.sidebar-header {
+    margin: 10px 0;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,27 @@
+.api-key-container {
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .api-key-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .api-key-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .api-key-container button:hover {
+    background-color: #45a049;
+  }
+  

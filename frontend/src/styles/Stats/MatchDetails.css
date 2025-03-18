@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&display=swap');
+
+/* Colores base */
+:root {
+  --bg-color: #0d0d0d;
+  --card-bg: #1c1c1c;
+  --text-color: #fafafa;
+  --secondary-text: #b8b8b8;
+  --accent-positive: #00ffc8;
+  --accent-negative: #ff4655;
+  --accent-neutral: #999;
+  --border-color: #333;
+}
+
+/* Reset y tipografía */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Exo 2', sans-serif;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.match-details-container {
+  min-height: 100vh;
+  background: var(--bg-color);
+}
+
+.scoreboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.header-back {
+  margin-bottom: 1rem;
+}
+.back-link {
+  color: var(--secondary-text);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-size: 0.9rem;
+}
+.back-link:hover {
+  color: var(--accent-positive);
+}
+
+/* ---- Header profesional ---- */
+.match-top-header {
+  background: #1d1d1d;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.match-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.map-name {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #fafafa;
+}
+.match-date {
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+}
+
+.score-duration-boxes {
+  display: flex;
+  gap: 2rem;
+}
+.score-box {
+  background: var(--card-bg);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  text-align: center;
+}
+.score-label {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+.score-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+.win .score-value {
+  color: var(--accent-positive);
+}
+.loss .score-value {
+  color: var(--accent-negative);
+}
+
+/* Top 3 */
+.top3-wrapper {
+  display: flex;
+  gap: 1.5rem;
+}
+.top3-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  width: 90px;
+  padding: 0.5rem;
+  text-align: center;
+}
+.top3-rank {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+.top3-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 0.3rem;
+  object-fit: cover;
+  border: 2px solid #666;
+}
+.top3-sub {
+  font-size: 0.7rem;
+  color: #aaa;
+}
+
+/* ---- Sección de equipos (tablas) ---- */
+.teams-scoreboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.team-table-container {
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.team-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.team-table-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.team-result-badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #fff;
+  background: #666;
+}
+.team-result-badge.win {
+  background: #2aa765;
+}
+.team-result-badge.loss {
+  background: #c13b3b;
+}
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.scoreboard-table thead {
+  background: #2c2c2c;
+}
+.scoreboard-table th {
+  text-align: left;
+  font-weight: normal;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  border-bottom: 1px solid #333;
+}
+.scoreboard-table td {
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #2a2a2a;
+}
+.scoreboard-table tr:hover {
+  background: #242424;
+}
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.table-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #555;
+}
+
+.top-performer {
+  background: rgba(0, 255, 200, 0.1);
+  border-left: 4px solid var(--accent-positive);
+}
+.current-player {
+  background: rgba(255, 200, 0, 0.1);
+  border-left: 4px solid rgb(43, 37, 71);
+}
+
+/* Pestañas para estadísticas */
+.stats-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.stats-tab {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background: var(--card-bg);
+  border-radius: 4px;
+  color: var(--text-color);
+  transition: background 0.2s;
+}
+.stats-tab.active {
+  background: var(--accent-positive);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .match-top-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .score-duration-boxes {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .top3-wrapper {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}

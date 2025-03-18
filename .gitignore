@@ -1,0 +1,57 @@
+# Node.js (React)
+node_modules/
+build/
+dist/
+.env
+.env.local
+
+# Python (FastAPI)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+instance/
+.venv/
+venv/
+env/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDEs y editores
+.vscode/
+.idea/
+*.code-workspace
+
+# Archivos de configuración de entorno
+*.pem
+*.key
+*.crt
+steam_api_key.txt
+
+# Redis o bases de datos locales
+*.rdb
+dump.rdb
+
+# Archivos de compilación de Go
+go-service/bin/
+go-service/*.exe
+
+# Archivos de carga de demos
+/cs2-coach-ai/data/demos/*.dem
+/cs2-coach-ai/frontend/src/media/Background.mp4
+/cs2-coach-ai/data/exports/*.csv
+
+
+*.mp4
+*.mov
+*.zip
+*.rar
+*.dem
+*.exe
