@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/icons-material": "^6.4.5",
+    "@mui/material": "^6.4.5",
+    "@mui/styles": "^6.4.5",
+    "axios": "^1.7.9",
+    "framer-motion": "^12.4.7",
+    "react-pro-sidebar": "^1.1.0",
+    "react-router-dom": "^7.2.0"
+  }
+}

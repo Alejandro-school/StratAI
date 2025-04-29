@@ -1,0 +1,30 @@
+/* Header */
+.header {
+    height: 60px;
+    background-color: transparent; /* Color uniforme con el sidebar */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    box-shadow: none
+  }
+  .header-profile span {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  
+  /* Contenido */
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f4f4f4; /* Fondo más suave para contraste */
+  }
+
+  header-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
