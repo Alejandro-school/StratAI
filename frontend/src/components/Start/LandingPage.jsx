@@ -4,6 +4,7 @@ import '../../styles/Start/landing.css';
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 import { FaSteam, FaChartLine, FaTrophy, FaUsers } from 'react-icons/fa';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -143,13 +144,19 @@ const LandingPage = () => {
             }}
             className="features-swiper"
           >
-            {features.map(({ Icon, title, text }) => (
+            {features.map(({ Icon, title, text }, idx) => (
               <SwiperSlide key={title}>
-                <div className="feature-card">
+                <motion.div
+                  className="feature-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx * 0.2 }}
+                  viewport={{ once: true }}
+                >
                   <Icon className="feature-icon" />
                   <h3 className="feature-title">{title}</h3>
                   <p className="feature-text">{text}</p>
-                </div>
+                </motion.div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -176,10 +183,14 @@ const LandingPage = () => {
         <div className="section-content">
           <h2 className="section-title">Planes</h2>
           <div className="pricing-grid">
-            {['Free', 'Pro'].map((plan) => (
-              <div
+            {['Free', 'Pro'].map((plan, idx) => (
+              <motion.div
                 key={plan}
                 className={`price-card${plan === 'Pro' ? ' recommended' : ''}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.2 }}
+                viewport={{ once: true }}
               >
                 <h3>{plan}</h3>
                 <p>
@@ -190,7 +201,7 @@ const LandingPage = () => {
                 <button className="btn-primary">
                   {plan === 'Free' ? 'Empezar' : 'Probar 7 días'}
                 </button>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
