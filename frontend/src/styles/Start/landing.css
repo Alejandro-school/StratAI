@@ -257,6 +257,28 @@ body,
   box-shadow: 0 0 0 2px var(--primary);
 }
 
+/* ---------- testimonials ---------- */
+.testimonial-card {
+  background: var(--glass);
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.testimonial-text {
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+
+.testimonial-author {
+  font-weight: 600;
+  opacity: 0.8;
+}
+
 /* ---------- demo ---------- */
 .demo-wrapper {
   border-radius: 16px;
