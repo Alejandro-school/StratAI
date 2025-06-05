@@ -3,6 +3,7 @@ package demo
 import (
 	"fmt"
 
+	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
 )
 
@@ -12,9 +13,9 @@ func registerBombHandlers(ctx *DemoContext) {
 		planter := e.Player
 		var tAlive, ctAlive int
 		for _, p := range ctx.parser.GameState().Participants().Playing() {
-			if p.Team == 2 && p.IsAlive() {
+			if p.Team == common.TeamTerrorists && p.IsAlive() {
 				tAlive++
-			} else if p.Team == 3 && p.IsAlive() {
+			} else if p.Team == common.TeamCounterTerrorists && p.IsAlive() {
 				ctAlive++
 			}
 		}
@@ -41,9 +42,9 @@ func registerBombHandlers(ctx *DemoContext) {
 		defuser := e.Player
 		var tAlive, ctAlive int
 		for _, p := range ctx.parser.GameState().Participants().Playing() {
-			if p.Team == 2 && p.IsAlive() {
+			if p.Team == common.TeamTerrorists && p.IsAlive() {
 				tAlive++
-			} else if p.Team == 3 && p.IsAlive() {
+			} else if p.Team == common.TeamCounterTerrorists && p.IsAlive() {
 				ctAlive++
 			}
 		}
@@ -62,9 +63,9 @@ func registerBombHandlers(ctx *DemoContext) {
 	ctx.parser.RegisterEventHandler(func(e events.BombExplode) {
 		var tAlive, ctAlive int
 		for _, p := range ctx.parser.GameState().Participants().Playing() {
-			if p.Team == 2 && p.IsAlive() {
+			if p.Team == common.TeamTerrorists && p.IsAlive() {
 				tAlive++
-			} else if p.Team == 3 && p.IsAlive() {
+			} else if p.Team == common.TeamCounterTerrorists && p.IsAlive() {
 				ctAlive++
 			}
 		}

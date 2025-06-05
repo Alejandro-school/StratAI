@@ -3,13 +3,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import CookieTransport, AuthenticationBackend
-from fastapi_users.authentication.strategy import RedisStrategy
+from fastapi_users.authentication.strategy.redis import RedisStrategy
 from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
 from dotenv import load_dotenv
 
 # Rutas
-from .routes import steam_auth, steam_service
+from .routes import steam_auth, steam_service, buycoach_router
+
 
 # Cargar variables de entorno
 load_dotenv()
@@ -54,6 +55,8 @@ app.add_middleware(
 # Incluir Routers
 app.include_router(steam_auth.router)      # <--- Asegúrate de que exista
 app.include_router(steam_service.router)
+app.include_router(buycoach_router.router)
+
 
 @app.on_event("startup")
 async def startup():

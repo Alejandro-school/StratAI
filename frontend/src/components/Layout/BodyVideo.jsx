@@ -1,15 +1,22 @@
 import React from 'react';
+import videoBackground from '../../media/Background.mp4';
 import '../../styles/Start/dashboard.css';
-import videoBackground from '../../media/Background.mp4'; // Ruta del video de fondo
 
-const BodyVideo = () => {
-  return (
-    <div className="video-container">
-      <video autoPlay loop muted className="background-video">
-        <source src={videoBackground} type="video/mp4" />
-      </video>
-    </div>
-  );
-};
+const BodyVideo = () => (
+  <>
+    {/* vídeo fijo a pantalla completa */}
+    <video
+      className="background-video"
+      src={videoBackground}
+      autoPlay
+      loop
+      muted
+      playsInline   // evita pantallazo en iOS
+    />
+
+    {/*  oscurecido opcional; ajusta el 0.35 a tu gusto  */}
+    <div className="video-overlay" />
+  </>
+);
 
 export default BodyVideo;

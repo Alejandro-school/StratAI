@@ -16,22 +16,28 @@
 }
 
 /* Para mantener el video debajo */
-.video-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
+/*  --- capa de vídeo ---  */
+.video-container {            /* <<<  SI YA no usarás el <div>, puedes borrar todo este bloque  */
+  display: none;
 }
 
+/*  vídeo a tamaño completo  */
 .background-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw; /* Ocupa el ancho completo de la ventana */
-    height: 100vh; /* Ocupa la altura completa de la ventana */
-    object-fit: cover; /* Mantiene la proporción del video y evita bordes vacíos */
+  position: fixed;
+  inset: 0;                  /* top:0; right:0; bottom:0; left:0 */
+  width: 100vw;              /* llena todo el viewport */
+  height: 100vh;
+  object-fit: cover;         /* mantiene la proporción y recorta lo sobrante */
+  object-position: center;
+  pointer-events: none;      /* para que no interfiera con clics/scroll */
+  z-index: -10;
+}
+
+/*  oscurecido opcional (quita si no lo necesitas)  */
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);  /* 35 % de opacidad; ajusta al gusto */
+  pointer-events: none;
+  z-index: -9;                       /* justo encima del vídeo */
 }

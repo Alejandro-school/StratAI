@@ -11,3 +11,7 @@ itsdangerous  # Middleware de sesión en Starlette
 fastapi-users[redis]  # Manejo de usuarios con autenticación en Redis
 pydantic  # Validación de datos
 asyncio  # Soporte para procesos asíncronos
+pandas
+lightgbm
+joblib
+
