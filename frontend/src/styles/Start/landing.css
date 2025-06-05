@@ -108,6 +108,15 @@ body,
   z-index: -9;
 }
 
+/* gradiente superior para mejorar contraste del video */
+.video-gradient {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 100%);
+  pointer-events: none;
+  z-index: -9;
+}
+
 /* ---------- hero ---------- */
 .hero {
   text-align: center;
