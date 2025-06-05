@@ -5,7 +5,15 @@ import '../../styles/Start/landing.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
-import { FaSteam, FaChartLine, FaTrophy, FaUsers } from 'react-icons/fa';
+import {
+  FaSteam,
+  FaChartLine,
+  FaTrophy,
+  FaUsers,
+  FaShieldAlt,
+  FaUserFriends,
+  FaDiscord,
+} from 'react-icons/fa';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
@@ -28,6 +36,37 @@ const features = [
     Icon: FaUsers,
     title: 'Coaching personalizado',
     text: 'Recibe recomendaciones diarias basadas en tu estilo de juego y objetivos.',
+  },
+  {
+    Icon: FaShieldAlt,
+    title: 'Protección de datos',
+    text: 'Mantén tu información segura con cifrado y políticas de privacidad rigurosas.',
+  },
+  {
+    Icon: FaUserFriends,
+    title: 'Retos y comunidad',
+    text: 'Participa en desafíos semanales y comparte tus logros con otros jugadores.',
+  },
+];
+
+const plans = [
+  {
+    name: 'Free',
+    desc: 'Estadísticas básicas para iniciarte.',
+    features: [
+      'Análisis limitado de partidas',
+      'Acceso a la comunidad',
+      '5 partidas semanales',
+    ],
+  },
+  {
+    name: 'Pro',
+    desc: 'Coaching avanzado y datos en tiempo real.',
+    features: [
+      'Estadísticas ilimitadas',
+      'Asesoramiento personalizado',
+      'Retos exclusivos y rankings',
+    ],
   },
 ];
 // Barra de tareas (taskbar) simple para la landing page
@@ -175,6 +214,11 @@ const LandingPage = () => {
               preload="metadata"
             />
           </div>
+          <ul className="demo-list">
+            <li>Visualiza cómo se registran tus partidas en segundos.</li>
+            <li>Comprueba la interfaz intuitiva y fácil de usar.</li>
+            <li>Descubre consejos rápidos para mejorar tu rendimiento.</li>
+          </ul>
         </div>
       </section>
 
@@ -183,23 +227,24 @@ const LandingPage = () => {
         <div className="section-content">
           <h2 className="section-title">Planes</h2>
           <div className="pricing-grid">
-            {['Free', 'Pro'].map((plan, idx) => (
+            {plans.map((plan, idx) => (
               <motion.div
-                key={plan}
-                className={`price-card${plan === 'Pro' ? ' recommended' : ''}`}
+                key={plan.name}
+                className={`price-card${plan.name === 'Pro' ? ' recommended' : ''}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.2 }}
                 viewport={{ once: true }}
               >
-                <h3>{plan}</h3>
-                <p>
-                  {plan === 'Free'
-                    ? 'Estadísticas básicas para iniciarte.'
-                    : 'Coaching avanzado y datos en tiempo real.'}
-                </p>
+                <h3>{plan.name}</h3>
+                <p>{plan.desc}</p>
+                <ul className="plan-features">
+                  {plan.features.map((f) => (
+                    <li key={f}>{f}</li>
+                  ))}
+                </ul>
                 <button className="btn-primary">
-                  {plan === 'Free' ? 'Empezar' : 'Probar 7 días'}
+                  {plan.name === 'Free' ? 'Empezar' : 'Probar 7 días'}
                 </button>
               </motion.div>
             ))}
@@ -213,9 +258,19 @@ const LandingPage = () => {
           <h2 className="section-title">¿Preparado para la victoria?</h2>
           <p className="contact-text">
             Escríbenos y descubre cómo podemos impulsar tu rendimiento.
+            Únete a nuestra comunidad para estar al día de las novedades.
           </p>
           <a href="mailto:contacto@stratai.gg" className="btn-primary">
             Contactar
+          </a>
+          <a
+            href="https://discord.gg/stratai"
+            className="btn-primary discord-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaDiscord style={{ marginRight: '0.4rem' }} />
+            Únete a Discord
           </a>
         </div>
       </section>
