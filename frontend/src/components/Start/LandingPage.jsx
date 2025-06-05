@@ -55,11 +55,11 @@ const Taskbar = () => (
 );
 
 const navItems = [
-  { id: 'hero', label: '01' },
-  { id: 'features', label: '02' },
-  { id: 'demo', label: '03' },
-  { id: 'pricing', label: '04' },
-  { id: 'contact', label: '05' },
+  { id: 'hero', label: 'Inicio' },
+  { id: 'features', label: 'Características' },
+  { id: 'demo', label: 'Demo' },
+  { id: 'pricing', label: 'Planes' },
+  { id: 'contact', label: 'Contacto' },
 ];
 
 const LandingPage = () => {
