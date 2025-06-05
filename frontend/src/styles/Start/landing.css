@@ -43,7 +43,7 @@ body,
 /* ---------- side navigation ---------- */
 .side-nav {
   position: fixed;
-  left: 1.2rem;
+  left: 1.6rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -57,6 +57,7 @@ body,
   font-family: monospace;
   font-size: 0.9rem;
   opacity: 0.4;
+  white-space: nowrap;
   transition: opacity 0.25s, transform 0.25s;
 }
 
@@ -281,6 +282,6 @@ body,
     padding: 2.2rem 2rem;
   }
   .side-nav {
-    left: 0.6rem;
+    left: 1rem;
   }
 }
