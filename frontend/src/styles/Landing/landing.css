@@ -150,3 +150,9 @@ section {
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
 }
+
+/* parallax helper */
+.parallax {
+  will-change: transform;
+}
+

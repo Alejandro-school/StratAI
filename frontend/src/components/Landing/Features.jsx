@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaChartLine, FaRobot, FaPlayCircle, FaStar } from 'react-icons/fa';
 import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
+import useParallax from '../../hooks/useParallax';
 
 const data = [
   { icon: <FaChartLine size={32} />, title: 'An\u00e1lisis de partidas', text: 'Revisa cada detalle de tus encuentros.' },
@@ -10,10 +11,11 @@ const data = [
 ];
 
 const Features = () => {
-  const ref = useFadeInOnScroll();
+  const fadeRef = useFadeInOnScroll();
+  const parallaxRef = useParallax(0.1);
   return (
-    <section ref={ref} className="fade-section">
-      <div className="container">
+    <section ref={fadeRef} className="fade-section">
+      <div ref={parallaxRef} className="container parallax">
         <h2>Funciones Principales</h2>
         <div className="features-grid">
           {data.map((f, i) => (

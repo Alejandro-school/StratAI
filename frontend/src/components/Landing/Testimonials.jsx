@@ -1,5 +1,6 @@
 import React from 'react';
 import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
+import useParallax from '../../hooks/useParallax';
 
 const reviews = [
   { name: 'Carlos', text: 'Sub\u00ed de 0.9 a 1.3 de K/D en 3 semanas con StratAI.' },
@@ -7,10 +8,11 @@ const reviews = [
 ];
 
 const Testimonials = () => {
-  const ref = useFadeInOnScroll();
+  const fadeRef = useFadeInOnScroll();
+  const parallaxRef = useParallax(0.05);
   return (
-    <section ref={ref} className="fade-section">
-      <div className="container">
+    <section ref={fadeRef} className="fade-section">
+      <div ref={parallaxRef} className="container parallax">
         <h2>Testimonios</h2>
         <div className="testimonials">
           {reviews.map((r, i) => (
