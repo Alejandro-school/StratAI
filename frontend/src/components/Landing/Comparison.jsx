@@ -1,11 +1,14 @@
 import React from 'react';
 import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
+import useParallax from '../../hooks/useParallax';
 
 const Comparison = () => {
-  const ref = useFadeInOnScroll();
+  const fadeRef = useFadeInOnScroll();
+  const parallaxRef = useParallax(0.08);
   return (
-    <section ref={ref} className="fade-section">
-      <div className="container">
+    <section ref={fadeRef} className="fade-section">
+      <div ref={parallaxRef} className="container parallax">
+
         <h2>Antes y Despu\u00e9s</h2>
         <table className="comparison-table">
           <thead>

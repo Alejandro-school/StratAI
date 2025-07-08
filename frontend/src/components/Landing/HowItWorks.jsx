@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaSteam, FaCogs, FaChartBar } from 'react-icons/fa';
 import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
+import useParallax from '../../hooks/useParallax';
+
 
 const steps = [
   { icon: <FaSteam size={28} />, text: 'Inicia sesi\u00f3n con Steam' },
@@ -9,10 +11,11 @@ const steps = [
 ];
 
 const HowItWorks = () => {
-  const ref = useFadeInOnScroll();
+  const fadeRef = useFadeInOnScroll();
+  const parallaxRef = useParallax(0.1);
   return (
-    <section ref={ref} className="fade-section">
-      <div className="container">
+    <section ref={fadeRef} className="fade-section">
+      <div ref={parallaxRef} className="container parallax">
         <h2>\u00bfC\u00f3mo funciona?</h2>
         <div className="steps">
           {steps.map((s, i) => (
