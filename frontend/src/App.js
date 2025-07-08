@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LandingPage from './components/Start/LandingPage';
+import LandingPage from './components/Landing/LandingPage';
 import SteamLoginSuccess from './auth/SteamLoginSuccess';
 import BotInstructions from './auth/BotInstructions';
 import Dashboard from './components/Start/Dashboard';
