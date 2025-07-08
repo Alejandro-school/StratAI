@@ -3,6 +3,7 @@ import { FaSteam, FaCogs, FaChartBar } from 'react-icons/fa';
 import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
 import useParallax from '../../hooks/useParallax';
 
+
 const steps = [
   { icon: <FaSteam size={28} />, text: 'Inicia sesi\u00f3n con Steam' },
   { icon: <FaCogs size={28} />, text: 'Procesamos tus partidas autom\u00e1ticamente' },

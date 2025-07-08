@@ -1,7 +1,13 @@
 :root {
+
   --bg-color: #0b0b0d;
   --accent-blue: #00c2ff;
   --accent-purple: #8f3bff;
+
+  --bg-color: #0e0e0e;
+  --accent-blue: #00e1ff;
+  --accent-green: #00ffb9;
+
   --text-color: #ffffff;
   font-family: 'Poppins', sans-serif;
 }
@@ -37,6 +43,8 @@ section {
   display: inline-block;
   padding: 0.8rem 2rem;
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
   color: #fff;
   text-decoration: none;
   border: none;
@@ -90,6 +98,8 @@ section {
 }
 
 .feature-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
   padding: 2rem 1.5rem;
   text-align: center;
 }
@@ -113,6 +123,8 @@ section {
 
 .step {
   flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
 }
@@ -125,6 +137,8 @@ section {
 }
 
 .testimonial {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
   padding: 1.5rem;
 }
 
@@ -142,6 +156,7 @@ section {
 
 .comparison-table th {
   background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* footer */
@@ -156,3 +171,6 @@ section {
   will-change: transform;
 }
 
+  background: #000;
+  color: rgba(255, 255, 255, 0.7);
+}

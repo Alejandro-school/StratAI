@@ -8,6 +8,7 @@ const Comparison = () => {
   return (
     <section ref={fadeRef} className="fade-section">
       <div ref={parallaxRef} className="container parallax">
+
         <h2>Antes y Despu\u00e9s</h2>
         <table className="comparison-table">
           <thead>

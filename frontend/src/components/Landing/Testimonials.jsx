@@ -2,6 +2,8 @@ import React from 'react';
 import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
 import useParallax from '../../hooks/useParallax';
 
+
+
 const reviews = [
   { name: 'Carlos', text: 'Sub\u00ed de 0.9 a 1.3 de K/D en 3 semanas con StratAI.' },
   { name: 'Luc\u00eda', text: 'El an\u00e1lisis ronda a ronda me ayud\u00f3 a entender mis errores.' },

@@ -8,10 +8,11 @@ import Comparison from './Comparison';
 import CTA from './CTA';
 import Footer from './Footer';
 import BodyVideo from '../Layout/BodyVideo';
+
 import '../../styles/Landing/landing.css';
 
 const LandingPage = () => (
-  <>
+  
     <BodyVideo />
     <Hero />
     <About />
