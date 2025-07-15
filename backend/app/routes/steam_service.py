@@ -67,14 +67,13 @@ async def save_steam_id(request: Request):
     logging.info(f"🔍 Cookies recibidas: {request.cookies}")  # Verifica si la cookie session está en la petición
 
     # Obtenemos el Steam ID del usuario a partir de la cookie "session"
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
     # Guardamos el Steam ID en Redis
     await redis.sadd("all_steam_ids", steam_id)
     logging.info(f"✅ Steam ID {steam_id} agregado al set 'all_steam_ids'.")
-
     return {"message": "Steam ID guardado correctamente en Redis."}
 
 
@@ -96,7 +95,7 @@ async def get_all_sharecodes(
             - sharecodes (list[str]): Lista de sharecodes nuevos.
             - has_more (bool): Indica si probablemente existan más códigos.
     """
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
     if not STEAM_API_KEY:
@@ -197,7 +196,7 @@ async def save_sharecodes(request: Request):
     auth_code = data.get("auth_code")
     known_code = data.get("known_code")
 
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
     if not sharecodes:
@@ -225,7 +224,7 @@ async def check_friend_status(request: Request):
     Verifica en Redis o llama al servicio de Node.js para ver si
     el usuario (steam_id) es amigo del bot de Steam.
     """
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
@@ -249,7 +248,7 @@ async def check_sharecodes(request: Request):
     Devuelve la lista de sharecodes que el usuario (steam_id) tiene en Redis,
     junto con un indicador booleano 'exists' si no está vacío.
     """
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
@@ -263,7 +262,7 @@ async def get_processed_demos(request: Request):
     Retorna la lista de demos procesadas para el usuario autenticado,
     añadiendo el avatar y el rango a cada jugador en cada demo.
     """
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
@@ -286,7 +285,7 @@ async def get_user_data(request: Request):
     """
     Retorna el avatar y el rango del usuario autenticado.
     """
-    steam_id = request.cookies.get("session")
+    steam_id = request.session.get("steam_id")            # ✅
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
     

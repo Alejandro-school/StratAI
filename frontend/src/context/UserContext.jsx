@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
-const UserContext = createContext();
+const UserContext = createContext(null);            // ① valor inicial null
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -9,19 +9,15 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('http://localhost:8000/auth/steam/status', {
-          credentials: 'include',
+        const res = await fetch("http://localhost:8000/auth/steam/status", {
+          credentials: "include",
         });
-
-        if (response.ok) {
-          const data = await response.json();
+        if (res.ok) {
+          const data = await res.json();
           setUser(data);
-        } else {
-          setUser(null);
         }
-      } catch (error) {
-        console.error('Error al obtener la información del usuario:', error);
-        setUser(null);
+      } catch (err) {
+        console.error("Error al obtener usuario:", err);
       } finally {
         setLoading(false);
       }
@@ -37,7 +33,10 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-// Hook personalizado para acceder al contexto
+/** Hook de consumo; avisa si se usa fuera del provider */
 export const useUser = () => {
-  return useContext(UserContext);
+  const ctx = useContext(UserContext);
+  if (ctx === null)
+    throw new Error("useUser must be used inside <UserProvider>"); // ②
+  return ctx;                                                     // ③ devuelve { user, setUser, loading }
 };

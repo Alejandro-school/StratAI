@@ -1,26 +1,32 @@
+// Archivo: Testimonials.jsx
 import React from 'react';
-import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
-import useParallax from '../../hooks/useParallax';
+import styles from '../../styles/Landing/Testimonials.module.css';
 
-
-
-const reviews = [
-  { name: 'Carlos', text: 'Sub\u00ed de 0.9 a 1.3 de K/D en 3 semanas con StratAI.' },
-  { name: 'Luc\u00eda', text: 'El an\u00e1lisis ronda a ronda me ayud\u00f3 a entender mis errores.' },
+const testimonials = [
+  {
+    name: 'Carlos “D4rk” Fernández',
+    text: 'StratAI me ayudó a subir de nivel. Antes cometía errores sin darme cuenta, ahora entiendo mis fallos y he mejorado mi winrate.'
+  },
+  {
+    name: 'Lucía “Foxie” Martínez',
+    text: 'Gracias a las recomendaciones automáticas descubrí que rotaba tarde o mal. Ahora mis timings son mucho más precisos.'
+  },
+  {
+    name: 'Javier “SniperOne” Gómez',
+    text: 'No es solo un analizador, es un coach real. La IA detecta patrones que ningún humano ve. Me encanta.'
+  }
 ];
 
 const Testimonials = () => {
-  const fadeRef = useFadeInOnScroll();
-  const parallaxRef = useParallax(0.05);
   return (
-    <section ref={fadeRef} className="fade-section">
-      <div ref={parallaxRef} className="container parallax">
-        <h2>Testimonios</h2>
-        <div className="testimonials">
-          {reviews.map((r, i) => (
-            <div key={i} className="testimonial">
-              <p>{r.text}</p>
-              <strong>- {r.name}</strong>
+    <section className={styles.testimonialSection}>
+      <div className={styles.container}>
+        <h2 className={styles.heading}>Lo que dicen nuestros jugadores</h2>
+        <div className={styles.testimonialGrid}>
+          {testimonials.map((item, index) => (
+            <div key={index} className={styles.card}>
+              <p className={styles.text}>&ldquo;{item.text}&rdquo;</p>
+              <span className={styles.name}>— {item.name}</span>
             </div>
           ))}
         </div>

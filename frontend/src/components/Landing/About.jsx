@@ -1,18 +1,17 @@
+// Archivo: About.jsx
 import React from 'react';
-import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
-import useParallax from '../../hooks/useParallax';
-import styles from './About.module.css';
+import styles from '../../styles/Landing/About.module.css';
 
 const About = () => {
-  const fadeRef = useFadeInOnScroll();
-  const parallaxRef = useParallax(0.15);
-
   return (
-    <section ref={fadeRef} className="fade-section">
-      <div ref={parallaxRef} className="container parallax">
-        <h2>¿Qué es StratAI?</h2>
-        <p className={styles.text}>
-          StratAI es una plataforma de análisis de partidas para CS2 que utiliza inteligencia artificial para ofrecer recomendaciones reales.
+    <section className={styles.aboutSection}>
+      <div className={styles.contentWrapper}>
+        <h2 className={styles.heading}>¿Qué es StratAI?</h2>
+        <p className={styles.paragraph}>
+          StratAI es tu entrenador personal de Counter-Strike 2. Utilizando inteligencia artificial, analiza tus partidas, detecta errores estratégicos, técnicos y de posicionamiento, y te da consejos personalizados para mejorar.
+        </p>
+        <p className={styles.paragraph}>
+          Nuestra plataforma te ofrece una ventaja competitiva analizando estadísticas avanzadas, jugadas clave, gestión de economía y más. No es solo un tracker, es un **coach virtual** con visión real de juego.
         </p>
       </div>
     </section>

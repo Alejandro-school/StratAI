@@ -11,6 +11,8 @@ import { Box, Menu as DropdownMenu, MenuItem as DropdownItem, IconButton } from 
 import '../../styles/Layout/sidebar.css';
 import { useUser } from '../../context/UserContext';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 const SidebarComponent = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [hovered, setHovered] = useState(false);
@@ -37,7 +39,7 @@ const SidebarComponent = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8000/auth/steam/logout', {
+      const response = await fetch(`${API_URL}/auth/steam/logout`, {
         method: 'POST',
         credentials: 'include',
       });

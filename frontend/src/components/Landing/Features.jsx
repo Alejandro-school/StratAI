@@ -1,29 +1,36 @@
+// Archivo: Features.jsx
 import React from 'react';
-import { FaChartLine, FaRobot, FaPlayCircle, FaStar } from 'react-icons/fa';
-import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
-import useParallax from '../../hooks/useParallax';
+import styles from '../../styles/Landing/Features.module.css';
 
-
-const data = [
-  { icon: <FaChartLine size={32} />, title: 'An\u00e1lisis de partidas', text: 'Revisa cada detalle de tus encuentros.' },
-  { icon: <FaRobot size={32} />, title: 'Entrenador virtual', text: 'Recibe sugerencias autom\u00e1ticas para mejorar.' },
-  { icon: <FaPlayCircle size={32} />, title: 'Repeticiones 2D', text: 'Visualiza cada ronda desde un punto de vista estrat\u00e9gico.' },
-  { icon: <FaStar size={32} />, title: 'Seguimiento del progreso', text: 'Observa c\u00f3mo evoluciona tu rendimiento semana a semana.' },
+const features = [
+  {
+    title: 'Estadísticas Avanzadas',
+    description: 'Analiza cada detalle de tu rendimiento: K/D, ADR, HS%, economía, y más con visualizaciones claras y útiles.'
+  },
+  {
+    title: 'Detección de Errores',
+    description: 'Identificamos errores tácticos, mecánicos y de posicionamiento para que sepas exactamente qué mejorar.'
+  },
+  {
+    title: 'Coach Inteligente',
+    description: 'Recomendaciones automáticas y personalizadas basadas en IA que evolucionan con tu juego.'
+  },
+  {
+    title: 'Historial Completo',
+    description: 'Consulta el histórico de tus partidas, clasificaciones por mapa, y evalúa tu evolución a lo largo del tiempo.'
+  }
 ];
-const Features = () => {
-  const fadeRef = useFadeInOnScroll();
-  const parallaxRef = useParallax(0.1);
-  return (
-    <section ref={fadeRef} className="fade-section">
-      <div ref={parallaxRef} className="container parallax">
 
-        <h2>Funciones Principales</h2>
-        <div className="features-grid">
-          {data.map((f, i) => (
-            <div key={i} className="feature-item">
-              {f.icon}
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
+const Features = () => {
+  return (
+    <section className={styles.featuresSection}>
+      <div className={styles.container}>
+        <h2 className={styles.title}>Funciones Clave</h2>
+        <div className={styles.grid}>
+          {features.map((feature, index) => (
+            <div key={index} className={styles.card}>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
             </div>
           ))}
         </div>

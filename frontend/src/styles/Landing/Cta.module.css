@@ -1,0 +1,38 @@
+/* Archivo: CTA.module.css */
+
+.ctaSection {
+    background: linear-gradient(90deg, #00ffc3 0%, #007dff 100%);
+    padding: 4rem 2rem;
+    text-align: center;
+    color: #0e0e0e;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .heading {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  
+  .ctaButton {
+    background-color: #0e0e0e;
+    color: #00ffc3;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+  .ctaButton:hover {
+    background-color: #ffffff;
+    color: #007dff;
+  }
+  

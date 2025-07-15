@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaSteam } from 'react-icons/fa';
-import '../styles/Start/landing.css';  // Aseguramos que use los nuevos estilos
+import '../styles/Landing/landing.css';  // Aseguramos que use los nuevos estilos
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 

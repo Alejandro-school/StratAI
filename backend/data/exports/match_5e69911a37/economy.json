@@ -1,0 +1,8882 @@
+{
+  "match_id": "match_5e69911a37",
+  "economy_history": [
+    {
+      "round_number": 1,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "final_money": 3650
+    },
+    {
+      "round_number": 1,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 300,
+      "final_money": 4000
+    },
+    {
+      "round_number": 1,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3400
+    },
+    {
+      "round_number": 1,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1400
+    },
+    {
+      "round_number": 1,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 1700
+    },
+    {
+      "round_number": 1,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1550
+    },
+    {
+      "round_number": 1,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 2150
+    },
+    {
+      "round_number": 1,
+      "name": "1",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 79
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "final_money": 4300
+    },
+    {
+      "round_number": 1,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3400
+    },
+    {
+      "round_number": 1,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1550
+    },
+    {
+      "round_number": 2,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 3650,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3250,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "final_money": 3650
+    },
+    {
+      "round_number": 2,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 4000,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 3250,
+      "purchases": [
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 300,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 4300
+    },
+    {
+      "round_number": 2,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 3400,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2700,
+      "purchases": [
+        {
+          "name": "SSG 08",
+          "price": 1700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 65
+        },
+        {
+          "name": "SSG 08",
+          "price": 1700
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "final_money": 4850
+    },
+    {
+      "round_number": 2,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 1900,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3800
+    },
+    {
+      "round_number": 2,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 2200,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 300,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3800
+    },
+    {
+      "round_number": 2,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 2050,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3950
+    },
+    {
+      "round_number": 2,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 2650,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4550
+    },
+    {
+      "round_number": 2,
+      "name": "1",
+      "team": "T",
+      "initial_money": 4300,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2250,
+      "purchases": [
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "final_money": 5900
+    },
+    {
+      "round_number": 2,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 3400,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2400,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 61
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        }
+      ],
+      "final_money": 4850
+    },
+    {
+      "round_number": 2,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 2050,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4250
+    },
+    {
+      "round_number": 3,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 4500,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        }
+      ],
+      "spent_in_buy": 1200,
+      "purchases": [
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4700
+    },
+    {
+      "round_number": 3,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 4750,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4600,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 91
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "final_money": 3400
+    },
+    {
+      "round_number": 3,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 3650,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 4850
+    },
+    {
+      "round_number": 3,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 4300,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5700
+    },
+    {
+      "round_number": 3,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 4850,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "SSG 08",
+          "price": 1700
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5550
+    },
+    {
+      "round_number": 3,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 94
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 3950
+    },
+    {
+      "round_number": 3,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3350
+    },
+    {
+      "round_number": 3,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 4450,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4400,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 3600
+    },
+    {
+      "round_number": 3,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 5050,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 79
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 4000
+    },
+    {
+      "round_number": 3,
+      "name": "1",
+      "team": "T",
+      "initial_money": 5900,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4700,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 2600
+    },
+    {
+      "round_number": 4,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 3400,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 4900
+    },
+    {
+      "round_number": 4,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 4850,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4700,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 91
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "final_money": 4000
+    },
+    {
+      "round_number": 4,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 5700,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4350
+    },
+    {
+      "round_number": 4,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 5550,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 300,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 84
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 4800
+    },
+    {
+      "round_number": 4,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 3950,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 1400,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4450
+    },
+    {
+      "round_number": 4,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 3350,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3750,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1500
+    },
+    {
+      "round_number": 4,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 3600,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        }
+      ],
+      "spent_in_buy": 1500,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4300
+    },
+    {
+      "round_number": 4,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 4000,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1500,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4400
+    },
+    {
+      "round_number": 4,
+      "name": "1",
+      "team": "T",
+      "initial_money": 2600,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 1200,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 4650
+    },
+    {
+      "round_number": 4,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 4700,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4400,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3550
+    },
+    {
+      "round_number": 5,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 4400,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4250,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "FAMAS",
+          "price": 1950
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 4250
+    },
+    {
+      "round_number": 5,
+      "name": "1",
+      "team": "T",
+      "initial_money": 5350,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4700,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 2650
+    },
+    {
+      "round_number": 5,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 3550,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 300,
+      "final_money": 3350
+    },
+    {
+      "round_number": 5,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 4900,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3500
+    },
+    {
+      "round_number": 5,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 4000,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3300,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 2400
+    },
+    {
+      "round_number": 5,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 4350,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4300,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1450
+    },
+    {
+      "round_number": 5,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 4800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5500
+    },
+    {
+      "round_number": 5,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4450,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "UMP-45",
+          "price": 1200
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 92
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "final_money": 5900
+    },
+    {
+      "round_number": 5,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 2450,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3050,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 3200
+    },
+    {
+      "round_number": 5,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4300,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3500
+    },
+    {
+      "round_number": 6,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4500,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 1700,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 90
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        }
+      ],
+      "final_money": 6950
+    },
+    {
+      "round_number": 6,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 5300,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3000,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 97
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        }
+      ],
+      "final_money": 5850
+    },
+    {
+      "round_number": 6,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 3500,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3250,
+      "purchases": [
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3500
+    },
+    {
+      "round_number": 6,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 4250,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2600,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 98
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 5200
+    },
+    {
+      "round_number": 6,
+      "name": "1",
+      "team": "T",
+      "initial_money": 3250,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 900,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 4550
+    },
+    {
+      "round_number": 6,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 3950,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 2400,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3450
+    },
+    {
+      "round_number": 6,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 3500,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2700,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 4050
+    },
+    {
+      "round_number": 6,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 3000,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4100
+    },
+    {
+      "round_number": 6,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 2050,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3950
+    },
+    {
+      "round_number": 6,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 6100,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1400,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 6600
+    },
+    {
+      "round_number": 7,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 4100,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4000,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 300,
+      "final_money": 3950
+    },
+    {
+      "round_number": 7,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 3950,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 3900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3300
+    },
+    {
+      "round_number": 7,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 6600,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 6550,
+      "purchases": [
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 100,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 3400
+    },
+    {
+      "round_number": 7,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4250,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4650
+    },
+    {
+      "round_number": 7,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 5850,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        }
+      ],
+      "spent_in_buy": 1100,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "final_money": 7050
+    },
+    {
+      "round_number": 7,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 3500,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3250,
+      "purchases": [
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1650
+    },
+    {
+      "round_number": 7,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 3600,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4300
+    },
+    {
+      "round_number": 7,
+      "name": "1",
+      "team": "T",
+      "initial_money": 4550,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4400,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 3400
+    },
+    {
+      "round_number": 7,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 3450,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3350,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 4250
+    },
+    {
+      "round_number": 7,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 4050,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 600,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4850
+    },
+    {
+      "round_number": 8,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 3300,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3250,
+      "purchases": [
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 2550
+    },
+    {
+      "round_number": 8,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 3400,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4300
+    },
+    {
+      "round_number": 8,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4650,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4650,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 400,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 3650
+    },
+    {
+      "round_number": 8,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 7050,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 6450,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 76
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "final_money": 3850
+    },
+    {
+      "round_number": 8,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 1650,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1650,
+      "purchases": [
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 3550
+    },
+    {
+      "round_number": 8,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 5600,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 2550
+    },
+    {
+      "round_number": 8,
+      "name": "1",
+      "team": "T",
+      "initial_money": 3400,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4000,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "Galil AR",
+          "price": 1800
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 1300
+    },
+    {
+      "round_number": 8,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 4250,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2000,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4150
+    },
+    {
+      "round_number": 8,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 4850,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4800,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 97
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "final_money": 3600
+    },
+    {
+      "round_number": 8,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 3950,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 3900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1950
+    },
+    {
+      "round_number": 9,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 1450,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3850
+    },
+    {
+      "round_number": 9,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 2050,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 600,
+      "purchases": [
+        {
+          "name": "P250",
+          "price": 300
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "P250",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4150
+    },
+    {
+      "round_number": 9,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 3800,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1450,
+      "purchases": [
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4750
+    },
+    {
+      "round_number": 9,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 3650,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 1300,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 80
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        }
+      ],
+      "final_money": 5600
+    },
+    {
+      "round_number": 9,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 4200,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 3600,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3850
+    },
+    {
+      "round_number": 9,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 3550,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 6000
+    },
+    {
+      "round_number": 9,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 4200,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        }
+      ],
+      "kill_reward": 500,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        }
+      ],
+      "final_money": 4750
+    },
+    {
+      "round_number": 9,
+      "name": "1",
+      "team": "T",
+      "initial_money": 1500,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 4200
+    },
+    {
+      "round_number": 9,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 3650,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 5000,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "SG 553",
+          "price": 3000
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 1350
+    },
+    {
+      "round_number": 9,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 3600,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 6050
+    },
+    {
+      "round_number": 10,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 4750,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        }
+      ],
+      "spent_in_buy": 1100,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 100,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 7000
+    },
+    {
+      "round_number": 10,
+      "name": "1",
+      "team": "T",
+      "initial_money": 3700,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3700,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 3200
+    },
+    {
+      "round_number": 10,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 3450,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3350,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3000
+    },
+    {
+      "round_number": 10,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 6050,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 7450,
+      "purchases": [
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "SSG 08",
+          "price": 1700
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        }
+      ],
+      "final_money": 2450
+    },
+    {
+      "round_number": 10,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 3350,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3300,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Galil AR",
+          "price": 1800
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 2950
+    },
+    {
+      "round_number": 10,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 3950,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 2950
+    },
+    {
+      "round_number": 10,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 4250,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 2950
+    },
+    {
+      "round_number": 10,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 5150,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        }
+      ],
+      "spent_in_buy": 3700,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 74
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        }
+      ],
+      "final_money": 4700
+    },
+    {
+      "round_number": 10,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 3850,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2300,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 200,
+      "Reward_for_Plant": 0,
+      "final_money": 5000
+    },
+    {
+      "round_number": 10,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 6000,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 5600,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3650
+    },
+    {
+      "round_number": 11,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 100,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 88
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "final_money": 6850
+    },
+    {
+      "round_number": 11,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 2450,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1500,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4350
+    },
+    {
+      "round_number": 11,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 2450,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2800,
+      "purchases": [
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3050
+    },
+    {
+      "round_number": 11,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 2450,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2350,
+      "purchases": [
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 4100
+    },
+    {
+      "round_number": 11,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4700,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4050
+    },
+    {
+      "round_number": 11,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 5000,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 5350
+    },
+    {
+      "round_number": 11,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 3650,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2300,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4900
+    },
+    {
+      "round_number": 11,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 6700,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 100,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        }
+      ],
+      "final_money": 9250
+    },
+    {
+      "round_number": 11,
+      "name": "1",
+      "team": "T",
+      "initial_money": 2700,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2200,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 3900
+    },
+    {
+      "round_number": 11,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 2500,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "C4",
+          "price": 0
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2100,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "final_money": 4700
+    },
+    {
+      "round_number": 12,
+      "name": "Torraojr",
+      "team": "T",
+      "initial_money": 3600,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 300,
+      "final_money": 3500
+    },
+    {
+      "round_number": 12,
+      "name": "Conrad Harder",
+      "team": "CT",
+      "initial_money": 4050,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2700,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 2750
+    },
+    {
+      "round_number": 12,
+      "name": "Casa :)",
+      "team": "CT",
+      "initial_money": 5350,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4700,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Negev",
+          "price": 1700
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 2050
+    },
+    {
+      "round_number": 12,
+      "name": "Karim Benzema",
+      "team": "CT",
+      "initial_money": 5100,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 5100,
+      "purchases": [
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 2000
+    },
+    {
+      "round_number": 12,
+      "name": "MAGnificent Player",
+      "team": "CT",
+      "initial_money": 9250,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Tec-9",
+          "price": 500
+        }
+      ],
+      "spent_in_buy": 1200,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Zeus x27",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 9750
+    },
+    {
+      "round_number": 12,
+      "name": "1",
+      "team": "T",
+      "initial_money": 4100,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4100,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "final_money": 3500
+    },
+    {
+      "round_number": 12,
+      "name": "N A R S U",
+      "team": "T",
+      "initial_money": 4200,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2200,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 6100
+    },
+    {
+      "round_number": 12,
+      "name": "Kerchak",
+      "team": "CT",
+      "initial_money": 6850,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        }
+      ],
+      "spent_in_buy": 1100,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "P250",
+          "price": 300
+        }
+      ],
+      "kill_reward": 200,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 75
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 7350
+    },
+    {
+      "round_number": 12,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "T",
+      "initial_money": 3850,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3700,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3650
+    },
+    {
+      "round_number": 12,
+      "name": "carapau",
+      "team": "T",
+      "initial_money": 3050,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 2700,
+      "purchases": [
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 1200,
+      "Reward_for_Plant": 0,
+      "final_money": 5050
+    },
+    {
+      "round_number": 13,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1050,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 3750
+    },
+    {
+      "round_number": 13,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 300,
+      "final_money": 3700
+    },
+    {
+      "round_number": 13,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3550
+    },
+    {
+      "round_number": 13,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3550
+    },
+    {
+      "round_number": 13,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 3950
+    },
+    {
+      "round_number": 13,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 950,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "P250",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "P250",
+          "price": 300
+        }
+      ],
+      "final_money": 3950
+    },
+    {
+      "round_number": 13,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 800,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 3850
+    },
+    {
+      "round_number": 13,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 3900
+    },
+    {
+      "round_number": 13,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 950,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        }
+      ],
+      "final_money": 3650
+    },
+    {
+      "round_number": 13,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1150,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3150
+    },
+    {
+      "round_number": 14,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 3500,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1950,
+      "purchases": [
+        {
+          "name": "P90",
+          "price": 2350
+        },
+        {
+          "name": "FAMAS",
+          "price": 1950
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4800
+    },
+    {
+      "round_number": 14,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 3250,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3250,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 1200,
+      "Reward_for_Plant": 0,
+      "final_money": 4600
+    },
+    {
+      "round_number": 14,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 2800,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 1550,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4650
+    },
+    {
+      "round_number": 14,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 2650,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2650,
+      "purchases": [
+        {
+          "name": "MAC-10",
+          "price": 1050
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3400
+    },
+    {
+      "round_number": 14,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 2650,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5050
+    },
+    {
+      "round_number": 14,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 3950,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 1200,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 3500
+    },
+    {
+      "round_number": 14,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 4400,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "P250",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 4400,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 3550
+    },
+    {
+      "round_number": 14,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 2950,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2900,
+      "purchases": [
+        {
+          "name": "UMP-45",
+          "price": 1200
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 3750
+    },
+    {
+      "round_number": 14,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 3900,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "XM1014",
+          "price": 2000
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 85
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "final_money": 3850
+    },
+    {
+      "round_number": 14,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 3800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3350,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4000
+    },
+    {
+      "round_number": 15,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 3600,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1350,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 5950
+    },
+    {
+      "round_number": 15,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 3950,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1600,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5750
+    },
+    {
+      "round_number": 15,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 2400,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 300,
+      "purchases": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5500
+    },
+    {
+      "round_number": 15,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 2950,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 500,
+      "purchases": [
+        {
+          "name": "Tec-9",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5850
+    },
+    {
+      "round_number": 15,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 5150,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 1800,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 7500
+    },
+    {
+      "round_number": 15,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 3550,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1950,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 5450
+    },
+    {
+      "round_number": 15,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 2750,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5450
+    },
+    {
+      "round_number": 15,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 3850,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3700,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 85
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        }
+      ],
+      "final_money": 3400
+    },
+    {
+      "round_number": 15,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 4000,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3850,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 0
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 3400
+    },
+    {
+      "round_number": 15,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 3800,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3750,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "FAMAS",
+          "price": 1950
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 99
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "FAMAS",
+          "price": 1950
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 3600
+    },
+    {
+      "round_number": 16,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 5000,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 99
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 3650
+    },
+    {
+      "round_number": 16,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 5350,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 4300
+    },
+    {
+      "round_number": 16,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 7500,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 6150,
+      "purchases": [
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 100,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 2850
+    },
+    {
+      "round_number": 16,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 5100,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 300,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 6200
+    },
+    {
+      "round_number": 16,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 4950,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 300,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 96
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "final_money": 3600
+    },
+    {
+      "round_number": 16,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 3400,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3800
+    },
+    {
+      "round_number": 16,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 3400,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4100
+    },
+    {
+      "round_number": 16,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 3600,
+      "loss_bonus": 1400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "FAMAS",
+          "price": 1950
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4200
+    },
+    {
+      "round_number": 16,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 5450,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 4400
+    },
+    {
+      "round_number": 16,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 5250,
+      "loss_bonus": 3400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3600
+    },
+    {
+      "round_number": 17,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 4300,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4400,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3400
+    },
+    {
+      "round_number": 17,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 3050,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3650,
+      "purchases": [
+        {
+          "name": "Desert Eagle",
+          "price": 700
+        },
+        {
+          "name": "FAMAS",
+          "price": 1950
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 1300
+    },
+    {
+      "round_number": 17,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 6200,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4850,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "final_money": 4150
+    },
+    {
+      "round_number": 17,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 3600,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 1100,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 6300
+    },
+    {
+      "round_number": 17,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 3800,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4650,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 1200,
+      "Reward_for_Plant": 0,
+      "final_money": 2250
+    },
+    {
+      "round_number": 17,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 4100,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4050,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1950
+    },
+    {
+      "round_number": 17,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 4200,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 1900
+    },
+    {
+      "round_number": 17,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 4400,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 900,
+      "purchases": [
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 7000
+    },
+    {
+      "round_number": 17,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 3600,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2300,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4800
+    },
+    {
+      "round_number": 17,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 3650,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 600,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 200,
+      "Reward_for_Plant": 300,
+      "final_money": 7050
+    },
+    {
+      "round_number": 18,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 7000,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 5950,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "MAC-10",
+          "price": 1050
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 300,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "final_money": 4600
+    },
+    {
+      "round_number": 18,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 4800,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2800,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 91
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 6150
+    },
+    {
+      "round_number": 18,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 7050,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 5700
+    },
+    {
+      "round_number": 18,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 3500,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 2200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "final_money": 4850
+    },
+    {
+      "round_number": 18,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 2000,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        },
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 4400
+    },
+    {
+      "round_number": 18,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 3850,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2700,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "MP9",
+          "price": 1250
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "final_money": 4150
+    },
+    {
+      "round_number": 18,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 3800,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3700,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "final_money": 3350
+    },
+    {
+      "round_number": 18,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 3150,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1000,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4550
+    },
+    {
+      "round_number": 18,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 1950,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 500,
+      "purchases": [
+        {
+          "name": "Five-SeveN",
+          "price": 500
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3850
+    },
+    {
+      "round_number": 18,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 1900,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4300
+    },
+    {
+      "round_number": 19,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 3350,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 1500,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3750
+    },
+    {
+      "round_number": 19,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 4550,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4550,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 85
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        }
+      ],
+      "final_money": 3850
+    },
+    {
+      "round_number": 19,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 3850,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3850,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "final_money": 3250
+    },
+    {
+      "round_number": 19,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 97
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "final_money": 3650
+    },
+    {
+      "round_number": 19,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 5650,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 400,
+      "purchases": [
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 7150
+    },
+    {
+      "round_number": 19,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 4150,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "C4",
+          "price": 0
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5350
+    },
+    {
+      "round_number": 19,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 5700,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 2700
+    },
+    {
+      "round_number": 19,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 4850,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 300,
+      "purchases": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 6450
+    },
+    {
+      "round_number": 19,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 4400,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4400,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "final_money": 3250
+    },
+    {
+      "round_number": 19,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 4150,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4150,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "final_money": 3850
+    },
+    {
+      "round_number": 20,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 3850,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 700,
+      "purchases": [
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5550
+    },
+    {
+      "round_number": 20,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 3250,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "spent_in_buy": 1600,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "P250",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 4050
+    },
+    {
+      "round_number": 20,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 3650,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 800,
+      "purchases": [
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5250
+    },
+    {
+      "round_number": 20,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 6650,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 6550,
+      "purchases": [
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3350
+    },
+    {
+      "round_number": 20,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 4850,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2500,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 70
+        },
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "final_money": 5600
+    },
+    {
+      "round_number": 20,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 4900,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 80
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "final_money": 3550
+    },
+    {
+      "round_number": 20,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 5950,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4900,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 88
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "final_money": 5200
+    },
+    {
+      "round_number": 20,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 3250,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 1400,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "end_round_items": [
+        {
+          "name": "UNKNOWN",
+          "price": 0
+        }
+      ],
+      "final_money": 4250
+    },
+    {
+      "round_number": 20,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 3850,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 1400,
+      "purchases": [
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Defuse Kit",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 5150
+    },
+    {
+      "round_number": 20,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 3250,
+      "loss_bonus": 2400,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3200,
+      "purchases": [
+        {
+          "name": "UMP-45",
+          "price": 1200
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 600,
+      "Reward_for_Plant": 300,
+      "end_round_items": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 0,
+          "armor": 100
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "final_money": 4200
+    },
+    {
+      "round_number": 21,
+      "name": "Kerchak",
+      "team": "T",
+      "initial_money": 4200,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "AWP",
+          "price": 4750
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "C4",
+          "price": 0
+        }
+      ],
+      "spent_in_buy": 3200,
+      "purchases": [
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 300,
+      "final_money": 4200
+    },
+    {
+      "round_number": 21,
+      "name": "♛BELLOTA:)PALI♛",
+      "team": "CT",
+      "initial_money": 5050,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4850,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Incendiary Grenade",
+          "price": 500
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5050
+    },
+    {
+      "round_number": 21,
+      "name": "carapau",
+      "team": "CT",
+      "initial_money": 3550,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 3550,
+      "purchases": [
+        {
+          "name": "Kevlar Vest",
+          "price": 650
+        },
+        {
+          "name": "M4A1",
+          "price": 2900
+        }
+      ],
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3550
+    },
+    {
+      "round_number": 21,
+      "name": "Torraojr",
+      "team": "CT",
+      "initial_money": 4750,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4750,
+      "purchases": [
+        {
+          "name": "AWP",
+          "price": 4750
+        }
+      ],
+      "kill_reward": 100,
+      "Reward_for_Plant": 0,
+      "final_money": 4750
+    },
+    {
+      "round_number": 21,
+      "name": "Conrad Harder",
+      "team": "T",
+      "initial_money": 3350,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 2200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 3350
+    },
+    {
+      "round_number": 21,
+      "name": "Casa :)",
+      "team": "T",
+      "initial_money": 5600,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Dual Berettas",
+          "price": 300
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 5600
+    },
+    {
+      "round_number": 21,
+      "name": "Karim Benzema",
+      "team": "T",
+      "initial_money": 3550,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        },
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 0,
+      "Reward_for_Plant": 0,
+      "final_money": 3550
+    },
+    {
+      "round_number": 21,
+      "name": "MAGnificent Player",
+      "team": "T",
+      "initial_money": 5200,
+      "loss_bonus": 1900,
+      "start_round_items": [
+        {
+          "name": "HE Grenade",
+          "price": 300
+        },
+        {
+          "name": "Molotov",
+          "price": 400
+        },
+        {
+          "name": "Glock-18",
+          "price": 200
+        },
+        {
+          "name": "AK-47",
+          "price": 2700
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "spent_in_buy": 0,
+      "kill_reward": 900,
+      "Reward_for_Plant": 0,
+      "final_money": 5200
+    },
+    {
+      "round_number": 21,
+      "name": "1",
+      "team": "CT",
+      "initial_money": 4150,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4100,
+      "purchases": [
+        {
+          "name": "M4A1",
+          "price": 2900
+        },
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "Flashbang",
+          "price": 200
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4150
+    },
+    {
+      "round_number": 21,
+      "name": "N A R S U",
+      "team": "CT",
+      "initial_money": 4300,
+      "loss_bonus": 2900,
+      "start_round_items": [
+        {
+          "name": "USP-S",
+          "price": 200
+        }
+      ],
+      "spent_in_buy": 4200,
+      "purchases": [
+        {
+          "name": "Kevlar + Helmet",
+          "price": 1000
+        },
+        {
+          "name": "M4A4",
+          "price": 2900
+        },
+        {
+          "name": "Smoke Grenade",
+          "price": 300
+        }
+      ],
+      "kill_reward": 300,
+      "Reward_for_Plant": 0,
+      "final_money": 4300
+    }
+  ]
+}

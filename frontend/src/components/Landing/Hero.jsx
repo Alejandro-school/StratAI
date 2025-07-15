@@ -1,17 +1,21 @@
+// Archivo: Hero.jsx
 import React from 'react';
-import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
-import useParallax from '../../hooks/useParallax';
-import styles from './Hero.module.css';
+import styles from '../../styles/Landing/Hero.module.css';
+import backgroundVideo from '../../media/Background.mp4';
+import SteamLoginButton from '../../auth/SteamLoginButton.jsx';
 
 const Hero = () => {
-  const fadeRef = useFadeInOnScroll();
-  const parallaxRef = useParallax(0.2);
   return (
-    <section ref={fadeRef} className={`hero fade-section ${styles.heroSection}`}>
-      <div ref={parallaxRef} className="hero-content parallax">
-        <h1>Mejora tu rendimiento. Entiende tus errores. Gana m\u00e1s partidas.</h1>
-        <p>StratAI analiza tus partidas de CS2 y te ofrece consejos personalizados con IA.</p>
-        <a href="/auth/steam" className="btn-primary">Inicia sesi\u00f3n con Steam</a>
+    <section className={styles.heroSection}>
+      <video autoPlay muted loop className={styles.backgroundVideo}>
+        <source src={backgroundVideo} type="video/mp4" />
+      </video>
+      <div className={styles.overlay}>
+        <h1 className={styles.title}>Domina tus partidas con <span>StratAI</span></h1>
+        <p className={styles.subtitle}>
+          Analiza, aprende y mejora tu rendimiento en CS2 gracias a inteligencia artificial avanzada.
+        </p>
+        <SteamLoginButton />
       </div>
     </section>
   );

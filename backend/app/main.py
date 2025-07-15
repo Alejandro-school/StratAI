@@ -7,9 +7,10 @@ from fastapi_users.authentication.strategy.redis import RedisStrategy
 from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
 from dotenv import load_dotenv
+from .routes import auth_status
 
 # Rutas
-from .routes import steam_auth, steam_service, buycoach_router
+from .routes import steam_auth, steam_service
 
 
 # Cargar variables de entorno
@@ -47,7 +48,7 @@ app.add_middleware(
     SessionMiddleware,
     secret_key=os.getenv("SESSION_SECRET_KEY", "super_secret_key"),
     session_cookie="session",
-    max_age=3600,
+    max_age=30 * 24 * 60 * 60,
     same_site="lax",
     https_only=False,
 )
@@ -55,7 +56,7 @@ app.add_middleware(
 # Incluir Routers
 app.include_router(steam_auth.router)      # <--- Asegúrate de que exista
 app.include_router(steam_service.router)
-app.include_router(buycoach_router.router)
+app.include_router(auth_status.router)
 
 
 @app.on_event("startup")

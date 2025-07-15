@@ -1,27 +1,36 @@
+// Archivo: HowItWorks.jsx
 import React from 'react';
-import { FaSteam, FaCogs, FaChartBar } from 'react-icons/fa';
-import useFadeInOnScroll from '../../hooks/useFadeInOnScroll';
-import useParallax from '../../hooks/useParallax';
-
+import styles from '../../styles/Landing/HowItWorks.module.css';
 
 const steps = [
-  { icon: <FaSteam size={28} />, text: 'Inicia sesi\u00f3n con Steam' },
-  { icon: <FaCogs size={28} />, text: 'Procesamos tus partidas autom\u00e1ticamente' },
-  { icon: <FaChartBar size={28} />, text: 'Recibes an\u00e1lisis detallado' },
+  {
+    step: '1',
+    title: 'Conecta tu cuenta de Steam',
+    text: 'Accede con tu cuenta de Steam de forma segura y empieza a sincronizar tus partidas.'
+  },
+  {
+    step: '2',
+    title: 'Sube tus demos o códigos',
+    text: 'Nuestro sistema detectará automáticamente tus partidas recientes para analizarlas.'
+  },
+  {
+    step: '3',
+    title: 'Recibe tu análisis',
+    text: 'Visualiza las estadísticas detalladas, errores detectados y sugerencias de mejora.'
+  }
 ];
 
 const HowItWorks = () => {
-  const fadeRef = useFadeInOnScroll();
-  const parallaxRef = useParallax(0.1);
   return (
-    <section ref={fadeRef} className="fade-section">
-      <div ref={parallaxRef} className="container parallax">
-        <h2>\u00bfC\u00f3mo funciona?</h2>
-        <div className="steps">
-          {steps.map((s, i) => (
-            <div key={i} className="step">
-              {s.icon}
-              <p>{s.text}</p>
+    <section className={styles.section}>
+      <div className={styles.container}>
+        <h2 className={styles.heading}>¿Cómo Funciona?</h2>
+        <div className={styles.steps}>
+          {steps.map((item, index) => (
+            <div className={styles.stepCard} key={index}>
+              <span className={styles.stepNumber}>{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
             </div>
           ))}
         </div>

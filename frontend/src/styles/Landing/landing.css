@@ -1,176 +1,83 @@
-:root {
+/* Archivo: landing.css */
 
-  --bg-color: #0b0b0d;
-  --accent-blue: #00c2ff;
-  --accent-purple: #8f3bff;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-  --bg-color: #0e0e0e;
-  --accent-blue: #00e1ff;
-  --accent-green: #00ffb9;
-
-  --text-color: #ffffff;
-  font-family: 'Poppins', sans-serif;
-}
-
-body {
-  background: var(--bg-color);
-  color: var(--text-color);
+html, body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  background-color: #0e0e0e;
+  color: white;
+  scroll-behavior: smooth;
+}
+
+main {
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 section {
-  padding: 4rem 1rem;
+  width: 100%;
 }
 
-.fade-section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.fade-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.btn-primary {
-  display: inline-block;
-  padding: 0.8rem 2rem;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: transform 0.2s;
-}
-
-.btn-primary:hover {
-  transform: translateY(-3px);
-}
-
-/* hero */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
-}
-
-.hero video,
-.hero img {
+/* --- Video de fondo --- */
+video {
+  display: block;
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(40%);
   z-index: -1;
 }
 
-.hero-content h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  margin-bottom: 1rem;
+.video-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -11;
+  pointer-events: none;
 }
 
-.hero-content p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
+.background-video {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  z-index: -10;
 }
 
-/* features grid */
-.features-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+.video-gradient {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 100%);
+  pointer-events: none;
+  z-index: -9;
 }
 
-.feature-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 2rem 1.5rem;
-  text-align: center;
-}
-
-.feature-item h3 {
-  margin-top: 1rem;
-}
-
-/* how it works */
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .steps {
-    flex-direction: row;
-  }
-}
-
-.step {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-/* testimonials */
-.testimonials {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.testimonial {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-/* comparison table */
-.comparison-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.comparison-table th,
-.comparison-table td {
-  padding: 0.8rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.comparison-table th {
-  background: rgba(255, 255, 255, 0.05);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* footer */
-.footer {
-  padding: 2rem 1rem;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* parallax helper */
-.parallax {
-  will-change: transform;
-}
-
-  background: #000;
-  color: rgba(255, 255, 255, 0.7);
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.18);
+  pointer-events: none;
+  z-index: -8;
 }
