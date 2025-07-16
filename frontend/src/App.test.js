@@ -17,6 +17,14 @@ test('renders landing page heading', () => {
   render(
     <MemoryRouter>
       <LandingPage />
+
+import App from './App';
+
+test('renders landing page heading', () => {
+  render(
+    <MemoryRouter>
+      <App />
+
     </MemoryRouter>
   );
   const heading = screen.getByText(/Domina tus partidas/i);
