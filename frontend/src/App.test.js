@@ -1,8 +1,24 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import { MemoryRouter } from 'react-router-dom';
+import LandingPage from './components/Landing/LandingPage';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Mock GSAP and ScrollTrigger to avoid importing ESM modules in Jest
+jest.mock('gsap', () => ({
+  __esModule: true,
+  default: { registerPlugin: jest.fn(), to: jest.fn() }
+}));
+jest.mock('gsap/ScrollTrigger', () => ({
+  __esModule: true,
+  default: {}
+}));
+jest.mock('./media/Background.mp4', () => 'video');
+
+test('renders landing page heading', () => {
+  render(
+    <MemoryRouter>
+      <LandingPage />
+    </MemoryRouter>
+  );
+  const heading = screen.getByText(/Domina tus partidas/i);
+  expect(heading).toBeInTheDocument();
 });

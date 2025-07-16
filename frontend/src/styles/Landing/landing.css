@@ -81,3 +81,26 @@ video {
   pointer-events: none;
   z-index: -8;
 }
+
+/* --- Botón de inicio de sesión en Steam --- */
+.steam-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0.75rem 2rem;
+  background: #00ffc3;
+  color: #0e0e0e;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.steam-login-btn:hover {
+  background: #00d6aa;
+  transform: translateY(-2px);
+}
