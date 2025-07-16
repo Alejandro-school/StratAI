@@ -1,5 +1,5 @@
 // Archivo: LandingPage.jsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../../styles/Landing/landing.css';
 
 import Hero from './Hero';
@@ -12,6 +12,20 @@ import CTA from './CTA';
 import Footer from './Footer';
 
 const LandingPage = () => {
+  const indexRef = useRef(0);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('main > section');
+    if (sections.length === 0) return;
+
+    const interval = setInterval(() => {
+      indexRef.current = (indexRef.current + 1) % sections.length;
+      sections[indexRef.current].scrollIntoView({ behavior: 'smooth' });
+    }, 10000); // cada 10 segundos
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <main>
