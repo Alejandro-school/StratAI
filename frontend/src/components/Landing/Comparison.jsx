@@ -4,7 +4,7 @@ import styles from '../../styles/Landing/Comparison.module.css';
 
 const Comparison = () => {
   return (
-    <section className={styles.section}>
+    <section id="comparison" className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.heading}>¿Por qué StratAI?</h2>
         <div className={styles.tableWrapper}>

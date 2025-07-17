@@ -23,7 +23,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className={styles.featuresSection}>
+    <section id="features" className={styles.featuresSection}>
       <div className={styles.container}>
         <h2 className={styles.title}>Funciones Clave</h2>
         <div className={styles.grid}>

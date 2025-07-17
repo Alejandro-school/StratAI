@@ -6,7 +6,7 @@ import SteamLoginButton from '../../auth/SteamLoginButton.jsx';
 
 const Hero = () => {
   return (
-    <section className={styles.heroSection}>
+    <section id="hero" className={styles.heroSection}>
       <video autoPlay muted loop className={styles.backgroundVideo}>
         <source src={backgroundVideo} type="video/mp4" />
       </video>

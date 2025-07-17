@@ -22,7 +22,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className={styles.section}>
+    <section id="how-it-works" className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.heading}>¿Cómo Funciona?</h2>
         <div className={styles.steps}>

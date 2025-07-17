@@ -19,7 +19,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className={styles.testimonialSection}>
+    <section id="testimonials" className={styles.testimonialSection}>
       <div className={styles.container}>
         <h2 className={styles.heading}>Lo que dicen nuestros jugadores</h2>
         <div className={styles.testimonialGrid}>
