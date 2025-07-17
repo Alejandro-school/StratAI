@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import LandingPage from './components/Landing/LandingPage';
-
 // Stub media import used in Hero
 jest.mock('./media/Background.mp4', () => 'video');
 
@@ -20,8 +19,18 @@ test('renders landing page heading', () => {
   render(
     <MemoryRouter>
       <LandingPage />
-    </MemoryRouter>
-  );
+
+// Mock GSAP and ScrollTrigger to avoid importing ESM modules in Jest
+jest.mock('gsap', () => ({
+  __esModule: true,
+  default: { registerPlugin: jest.fn(), to: jest.fn() }
+}));
+jest.mock('gsap/ScrollTrigger', () => ({
+  __esModule: true,
+  default: {}
+}));
+jest.mock('./media/Background.mp4', () => 'video');
+
   const heading = screen.getByText(/Domina tus partidas/i);
   expect(heading).toBeInTheDocument();
 });
