@@ -1,12 +1,12 @@
 /* Archivo: landing.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap');
 
 html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Source Code Pro', monospace;
   background-color: #0e0e0e;
   color: white;
   scroll-behavior: smooth;
@@ -89,18 +89,19 @@ video {
   gap: 0.5rem;
   margin-top: 2rem;
   padding: 0.75rem 2rem;
-  background: #00ffc3;
+  background: #b19eff;
   color: #0e0e0e;
   border: none;
   border-radius: 50px;
   font-size: 1.1rem;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Source Code Pro', monospace;
+
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .steam-login-btn:hover {
-  background: #00d6aa;
+  background: #a88bfe;
   transform: translateY(-2px);
 }

@@ -4,7 +4,7 @@ import styles from '../../styles/Landing/About.module.css';
 
 const About = () => {
   return (
-    <section className={styles.aboutSection}>
+    <section id="about" className={styles.aboutSection}>
       <div className={styles.contentWrapper}>
         <h2 className={styles.heading}>¿Qué es StratAI?</h2>
         <p className={styles.paragraph}>

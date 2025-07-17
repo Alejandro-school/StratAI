@@ -10,6 +10,7 @@ import Testimonials from './Testimonials';
 import Comparison from './Comparison';
 import CTA from './CTA';
 import Footer from './Footer';
+import SectionIndex from './SectionIndex';
 
 const LandingPage = () => {
   const indexRef = useRef(0);
@@ -28,6 +29,7 @@ const LandingPage = () => {
 
   return (
     <>
+      <SectionIndex />
       <main>
         <Hero />
         <About />
