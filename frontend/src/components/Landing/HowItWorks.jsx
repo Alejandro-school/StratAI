@@ -1,5 +1,6 @@
 // Archivo: HowItWorks.jsx
-import React from 'react';
+import React, { useRef } from 'react';
+import { useGsapFadeIn } from '../../hooks/useGsapFadeIn';
 import styles from '../../styles/Landing/HowItWorks.module.css';
 
 const steps = [
@@ -21,16 +22,19 @@ const steps = [
 ];
 
 const HowItWorks = () => {
+  const ref = useRef(null);
+  useGsapFadeIn(ref, { y: 80 });
+
   return (
-    <section id="how-it-works" className={styles.section}>
-      <div className={styles.container}>
-        <h2 className={styles.heading}>¿Cómo Funciona?</h2>
-        <div className={styles.steps}>
-          {steps.map((item, index) => (
-            <div className={styles.stepCard} key={index}>
-              <span className={styles.stepNumber}>{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
+    <section id="how" ref={ref} className={styles.howSection}>
+      <div className={styles.wrapper}>
+        <h2 className={styles.title}>¿Cómo funciona?</h2>
+        <div className={styles.stepsGrid}>
+          {steps.map((s, i) => (
+            <div className={styles.stepCard} key={i}>
+              <span className={styles.stepNumber}>{s.step}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
             </div>
           ))}
         </div>

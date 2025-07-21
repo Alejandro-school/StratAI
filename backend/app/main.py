@@ -62,7 +62,7 @@ app.include_router(auth_status.router)
 @app.on_event("startup")
 async def startup():
     await redis.ping()
-    print("✅ Conectado a Redis")
+    print("Conectado a Redis")
 
 @app.get("/ping")
 def ping():
@@ -71,5 +71,5 @@ def ping():
 @app.on_event("startup")
 async def startup_event():
     for route in app.routes:
-        print(f"📢 Endpoint registrado: {route.path}")
+        print(f"Endpoint registrado: {route.path}")
 

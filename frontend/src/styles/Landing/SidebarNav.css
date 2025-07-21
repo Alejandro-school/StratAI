@@ -1,0 +1,85 @@
+/* ───────────────────────── VARIABLES GLOBALES ───────────────────────── */
+:root{
+    --accent:        #b19eff;   /* morado (lo mantenemos para otros acentos) */
+    --highlight:     #00ffc3;   /* NUEVO – color de relleno del item activo  */
+    --nav-w:         220px;
+    --transition:    .3s cubic-bezier(.4,.0,.2,1);
+  }
+  
+  /* ───────────────────────── CONTENEDOR ───────────────────────── */
+  .sidebar-nav{
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--nav-w);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom,#0e0e0e 0%,rgba(14,14,14,.5) 40%,rgba(14,14,14,0) 100%);
+    pointer-events:none;
+  }
+  
+  .sidebar-nav nav ul{
+    list-style:none;
+    margin:0;
+    padding-left:1.5rem;
+  }
+  
+  /* ───────────────────────── ÍTEMS ───────────────────────── */
+  .sidebar-nav nav li{
+    font:300 .9rem/1.4 'Poppins',sans-serif;
+    color:#9b9b9b;
+    position:relative;          /* referencia para .progress */
+    padding:.25rem 0 .25rem .25rem;
+    cursor:pointer;
+    transition:color var(--transition);
+    pointer-events:auto;
+  }
+  
+  .sidebar-nav nav li .label{
+    position:relative;
+    display:inline-block;
+    z-index:1;
+    padding:0 .3rem;            /* deja píxeles de aire para ver la esquina redondeada */
+  }
+  
+  /* barra de relleno que crece de iz-q → der (desktop) o abajo → arriba (móvil) */
+  .sidebar-nav nav li .progress{
+    position:absolute;
+    top:0;
+    height:100%;
+    background:var(--highlight);
+    border-radius:4px;
+    transform-origin:left;
+    transform:scaleX(0);        /* oculto por defecto */
+    opacity: 0;                     /* ➊ invisible hasta que empiece a crecer */
+    transition: transform .15s ease-out, opacity .15s ease-out;
+    z-index:0;                  /* queda detrás del texto */
+  }
+  
+  .sidebar-nav nav li.active{
+    color:#ffffff;
+    font-weight:600;
+  }
+  
+  /* ───────────────────────── RESPONSIVE (<700 px) ───────────────────────── */
+  @media (max-width:700px){
+    :root{ --nav-w:56px; }
+  
+    .sidebar-nav{ align-items:center; }
+    .sidebar-nav nav ul{ padding-left:0; }
+  
+    .sidebar-nav nav li{
+      writing-mode:vertical-rl;
+      transform:rotate(180deg);
+      font-size:.75rem;
+      padding:0;
+    }
+  
+    .sidebar-nav nav li .progress{
+      left:0; width:100%;
+      transform-origin:bottom;
+      transform:scaleY(0);      /* ahora crecerá en vertical */
+    }
+  }
+  

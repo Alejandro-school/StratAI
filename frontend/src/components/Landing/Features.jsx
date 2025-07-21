@@ -1,5 +1,6 @@
 // Archivo: Features.jsx
-import React from 'react';
+import React, { useRef } from 'react';
+import { useGsapFadeIn } from '../../hooks/useGsapFadeIn';
 import styles from '../../styles/Landing/Features.module.css';
 
 const features = [
@@ -22,15 +23,18 @@ const features = [
 ];
 
 const Features = () => {
+  const ref = useRef(null);
+  useGsapFadeIn(ref);
+
   return (
-    <section id="features" className={styles.featuresSection}>
+    <section id="features" ref={ref} className={styles.featuresSection}>
       <div className={styles.container}>
         <h2 className={styles.title}>Funciones Clave</h2>
         <div className={styles.grid}>
-          {features.map((feature, index) => (
-            <div key={index} className={styles.card}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
+          {features.map(({ title, description }, i) => (
+            <div key={i} className={styles.card}>
+              <h3>{title}</h3>
+              <p>{description}</p>
             </div>
           ))}
         </div>

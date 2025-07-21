@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/../.env' });
 const SteamUser = require('steam-user');
 const GlobalOffensive = require('globaloffensive');
 const SteamTotp = require('steam-totp');

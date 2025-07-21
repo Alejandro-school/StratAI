@@ -34,53 +34,6 @@ section {
   width: 100%;
 }
 
-/* --- Video de fondo --- */
-video {
-  display: block;
-  object-fit: cover;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.video-wrapper {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -11;
-  pointer-events: none;
-}
-
-.background-video {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  object-position: center;
-  pointer-events: none;
-  z-index: -10;
-}
-
-.video-gradient {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 100%);
-  pointer-events: none;
-  z-index: -9;
-}
-
-.video-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.18);
-  pointer-events: none;
-  z-index: -8;
-}
 
 /* --- Botón de inicio de sesión en Steam --- */
 .steam-login-btn {
@@ -89,7 +42,7 @@ video {
   gap: 0.5rem;
   margin-top: 2rem;
   padding: 0.75rem 2rem;
-  background: #b19eff;
+  background: #00ffc3;
   color: #0e0e0e;
   border: none;
   border-radius: 50px;
@@ -102,6 +55,15 @@ video {
 }
 
 .steam-login-btn:hover {
-  background: #a88bfe;
+  background: #00ffc3;
   transform: translateY(-2px);
 }
+
+/* === wrappers creados en LandingPage === */
+.landing-section{
+  min-height: 100vh;
+  padding: 6rem 2rem 4rem;
+  scroll-margin-top: 4rem;   /* para que scrollIntoView no tape títulos */
+  
+}
+
