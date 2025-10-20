@@ -1,21 +1,28 @@
+// src/components/SteamLoginButton.jsx
 import React from 'react';
 import { FaSteam } from 'react-icons/fa';
-import '../styles/Landing/landing.css';  // Aseguramos que use los nuevos estilos
+import '../styles/Landing/landing.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
-function SteamLoginButton() {
-  const handleLogin = () => {
-    window.location.href = `${API_URL}/auth/steam/login`;
-  };
+// 👉 Construye la URL de login con (o sin) plan
+export const buildSteamLoginUrl = (plan) =>
+  `${API_URL}/auth/steam/login${plan ? `?plan=${plan}` : ''}`;
+
+// 👉 Navegación coherente en todo el proyecto
+export const steamLogin = (plan) => {
+  window.location.assign(buildSteamLoginUrl(plan));
+};
+
+function SteamLoginButton({ className = 'steam-login-btn', children }) {
+  const handleLogin = () => steamLogin();
 
   return (
-    <button className="steam-login-btn" onClick={handleLogin}>
+    <button className={className} onClick={handleLogin}>
       <FaSteam size={28} style={{ marginRight: '10px' }} />
-      Inicia sesión con Steam
+      {children || 'Inicia sesión con Steam'}
     </button>
   );
 }
 
 export default SteamLoginButton;
-

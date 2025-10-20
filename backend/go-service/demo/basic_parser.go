@@ -1,6 +1,9 @@
 package demo
 
-import "cs2-demo-service/models"
+import (
+	"cs2-demo-service/models"
+	"fmt"
+)
 
 // ProcessDemoFileBasic llama al parser core y transforma el resultado en BasicDemoParseResult.
 func ProcessDemoFileBasic(filePath, userSteamID, jsonData string) (*models.BasicDemoParseResult, error) {
@@ -32,6 +35,9 @@ func ProcessDemoFileBasic(filePath, userSteamID, jsonData string) (*models.Basic
 			QuadKills:      p.QuadKills,
 			Ace:            p.Ace,
 			ClutchWins:     p.ClutchWins,
+			EntryKills:     p.EntryKills,
+			UtilityDamage:  p.UtilityDamage,
+			FlashAssists:   p.FlashAssists,
 		})
 	}
 
@@ -45,6 +51,13 @@ func ProcessDemoFileBasic(filePath, userSteamID, jsonData string) (*models.Basic
 		Players:       basicPlayers,
 		Filename:      advancedResult.Filename,
 		Date:          advancedResult.Date,
+		EventLogs:     advancedResult.EventLogs, // Incluir event logs para estadísticas de armas
+	}
+
+	// DEBUG: Verificar cuántos eventos se están incluyendo
+	fmt.Printf("DEBUG: BasicDemoParseResult para %s - EventLogs count: %d\n", advancedResult.MatchID, len(advancedResult.EventLogs))
+	if len(advancedResult.EventLogs) > 0 {
+		fmt.Printf("DEBUG: Primer evento: %+v\n", advancedResult.EventLogs[0])
 	}
 
 	return &basicResult, nil

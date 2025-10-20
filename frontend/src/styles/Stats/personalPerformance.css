@@ -1,12 +1,392 @@
-.dashboard-container {
-    padding: 2rem;
-    background: #f5f5f5;
-    min-height: 100vh;
+/* ========================================
+   PERSONAL PERFORMANCE - STATS SECTION
+   Estilos para el componente PersonalPerformance
+======================================== */
+
+.pp-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(16px, 2.5vw, 32px);
+}
+
+/* ==================== FILTERS ==================== */
+.pp-filters {
+  display: flex;
+  gap: 12px;
+}
+
+.pp-filter-select {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.pp-filter-select:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.pp-filter-select:focus {
+  border-color: rgba(139, 92, 246, 0.6);
+}
+
+.pp-filter-select option {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+/* ==================== KPIS GRID ==================== */
+.pp-kpis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pp-kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px !important;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.pp-kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pp-kpi-card:hover::before {
+  opacity: 1;
+}
+
+.pp-kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.pp-kpi-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pp-kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.pp-kpi-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #f1f5f9;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pp-kpi-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.pp-kpi-change.up {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.pp-kpi-change.down {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.pp-kpi-change.down svg {
+  transform: rotate(180deg);
+}
+
+/* ==================== CONTENT GRID ==================== */
+.pp-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.pp-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 4px 0;
+}
+
+.pp-card-subtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0 0 24px 0;
+}
+
+/* ==================== TRENDS CHART ==================== */
+.pp-trends-chart {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  height: 200px;
+  padding: 20px 0;
+  margin-bottom: 16px;
+}
+
+.pp-trend-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.pp-trend-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: auto;
+}
+
+.pp-trend-bars {
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.pp-bar-wrapper {
+  width: 18px;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.pp-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.4s ease;
+  min-height: 4px;
+}
+
+.pp-bar:hover {
+  opacity: 0.8;
+  transform: scaleY(1.05);
+}
+
+.pp-bar-kd {
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+
+.pp-bar-adr {
+  background: linear-gradient(180deg, #f093fb 0%, #f5576c 100%);
+}
+
+.pp-bar-hs {
+  background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.pp-trends-legend {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding-top: 16px;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.pp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.pp-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.pp-legend-kd {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.pp-legend-adr {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.pp-legend-hs {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* ==================== WEAPONS TABLE ==================== */
+.pp-weapons-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pp-weapons-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pp-weapon-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  align-items: center;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.pp-weapon-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateX(4px);
+}
+
+.pp-weapon-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.pp-weapon-icon {
+  color: #8b5cf6;
+}
+
+.pp-weapon-stat {
+  font-size: 14px;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.pp-stat-highlight {
+  color: #a78bfa;
+  font-weight: 700;
+}
+
+.pp-stat-bold {
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+/* ==================== LOADING STATE ==================== */
+.pp-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  gap: 16px;
+}
+
+.pp-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(139, 92, 246, 0.2);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: pp-spin 0.8s linear infinite;
+}
+
+@keyframes pp-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pp-loading p {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1024px) {
+  .pp-content-grid {
+    grid-template-columns: 1fr;
   }
   
-  @media (max-width: 600px) {
-    .dashboard-container {
-      padding: 1rem;
-    }
+  .pp-kpis-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 768px) {
+  .pp-filters {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .pp-filter-select {
+    width: 100%;
+  }
+  
+  .pp-kpis-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pp-weapons-header,
+  .pp-weapon-row {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+  
+  .pp-weapons-header span:nth-child(3),
+  .pp-weapons-header span:nth-child(4),
+  .pp-weapon-row .pp-weapon-stat:nth-child(3),
+  .pp-weapon-row .pp-weapon-stat:nth-child(4) {
+    display: none;
+  }
+}
   

@@ -55,3 +55,20 @@ go-service/*.exe
 *.rar
 *.dem
 *.exe
+ 
+# Carpeta frontend adicional
+frontend/.cache/
+frontend/build/
+
+# Artefactos de Go específicos del proyecto
+backend/go-service/main.exe
+backend/go-service/reprocess_demos.exe
+backend/go-service/scripts/reprocess_demos.exe
+backend/go-service/IA.zip
+
+# Datos generados/exports
+backend/data/exports/
+backend/go-service/data/exports/
+
+# Otros
+cookies.txt

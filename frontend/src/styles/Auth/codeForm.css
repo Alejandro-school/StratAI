@@ -1,11 +1,12 @@
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: #f5f5f5;
-    font-family: 'Arial', sans-serif;
-  }
+.codeform-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #f5f5f5;
+  font-family: 'Arial', sans-serif;
+}
+
   
   .form-container {
     background: #fff;

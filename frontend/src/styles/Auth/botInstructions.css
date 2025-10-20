@@ -1,34 +1,140 @@
-.bot-instructions-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #1e1e1e;
-    color: #ffffff;
-    text-align: center;
-}
-
-.bot-instructions-container h2 {
-    color: #00bfff;
-}
-
-.bot-instructions-container ol {
-    text-align: left;
-    margin: 20px 0;
-}
-
-.add-friend-btn {
-    background-color: #00bfff;
-    color: #fff;
+/* Contenedor principal */
+.bot-card{
+    --bg: rgba(18,20,22,0.55);
+    --border: rgba(255,255,255,0.08);
+    --shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --accent: #3fe0b9;      /* acento elegante (verde-azulado) */
+    --accent-2: #90f0dd;    /* para hover suave */
+    --text: #e9f0f1;
+    --muted: #a9b4b6;
+  
+    max-width: 820px;
+    margin: clamp(24px,5vh,56px) auto;
+    padding: clamp(20px,3.5vw,36px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+  }
+  
+  /* Banner servicio caído */
+  .bot-banner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+    background: rgba(255, 196, 0, 0.12);
+    border: 1px dashed rgba(255, 196, 0, 0.45);
+    color: #ffe29b;
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+  }
+  
+  .bot-header h2{
+    font-size: clamp(22px, 2.2vw, 30px);
+    margin: 4px 0 4px;
+    letter-spacing: .3px;
+  }
+  
+  .subtitle{
+    color: var(--muted);
+    margin: 0 0 6px 0;
+  }
+  
+  /* Lista de pasos */
+  .bot-steps{
+    margin: 18px 0 24px;
+    padding-left: 18px;
+    line-height: 1.6;
+  }
+  .bot-steps li{
+    margin: 6px 0;
+    color: #d5dfe0;
+  }
+  
+  /* Acciones */
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .cta{
     border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 5px;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.add-friend-btn:hover {
-    background-color: #009acd;
-}
+    background: radial-gradient(120% 120% at 0% 0%, var(--accent), #1ea889);
+    color: #0c1515;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .2s ease, background .25s ease;
+    box-shadow: 0 6px 16px rgba(63,224,185,.2);
+  }
+  .cta:hover{ transform: translateY(-1px); background: radial-gradient(120% 120% at 0% 0%, var(--accent-2), var(--accent)); }
+  .cta.disabled, .cta:disabled{ opacity:.55; cursor:not-allowed; transform:none; }
+  
+  .secondary{
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .secondary:hover{ background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+  
+  .ghost-btn{
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 12px 10px;
+    border-radius: 10px;
+    transition: color .2s ease, background .2s ease;
+  }
+  .ghost-btn:hover{ color: var(--text); background: rgba(255,255,255,0.05); }
+  
+  /* Bot ID + copiar */
+  .bot-id{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap: 10px 14px;
+    margin-top: 6px;
+    color: var(--muted);
+  }
+  .bot-id code{
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 10px;
+    color: #dff7f1;
+  }
+  .bot-id .copy{
+    border: none;
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s ease;
+  }
+  .bot-id .copy:hover{ background: rgba(255,255,255,0.07); }
+  
+  /* Fuente origen + feedback */
+  .source-note{
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .feedback{
+    margin-top: 10px;
+    color: #d8ffee;
+  }
+  

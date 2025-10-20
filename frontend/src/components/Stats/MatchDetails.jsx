@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useParams, useNavigate } from 'react-router-dom';
+import SidebarComponent from '../Layout/Sidebar';
+import { useUser } from '../../context/UserContext';
 import '../../styles/Stats/MatchDetails.css';
 
 const MatchDetails = () => {
   const { steamID, matchID } = useParams();
+  const { user } = useUser();
+  const navigate = useNavigate();
   const [match, setMatch] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(0); // 0: Básicas, 1: Avanzadas
+  const [activeTab, setActiveTab] = useState('overview'); // overview, performance, detailed
 
   useEffect(() => {
     const fetchMatchData = async () => {
@@ -28,19 +31,37 @@ const MatchDetails = () => {
   }, [steamID, matchID]);
 
   const splitPlayersByTeam = (players) => {
-    const userPlayer = players.find(p => String(p.steamID).trim() === String(steamID).trim());
+    // Encontrar al jugador autenticado
+    const userPlayer = players.find(p => 
+      String(p.steamID || p.steam_id || '').trim() === String(steamID).trim()
+    );
+    
     if (!userPlayer) {
-      return { myTeam: [], enemyTeam: players };
+      console.warn('No se encontró el jugador autenticado en los datos de la partida');
+      // Si no encontramos al usuario, intentamos dividir por el campo team
+      const terrorists = players.filter(p => p.team === 'Terrorist' || p.team === 'T' || p.team === 2);
+      const counterTerrorists = players.filter(p => p.team === 'CounterTerrorist' || p.team === 'CT' || p.team === 3);
+      
+      return { 
+        myTeam: terrorists.sort((a, b) => (b.kills || 0) - (a.kills || 0)),
+        enemyTeam: counterTerrorists.sort((a, b) => (b.kills || 0) - (a.kills || 0))
+      };
     }
-    return {
-      myTeam: players.filter(p => p.team === userPlayer.team),
-      enemyTeam: players.filter(p => p.team !== userPlayer.team),
-    };
-  };
 
-  const getTop3Players = (allPlayers = []) => {
-    const sorted = [...allPlayers].sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    return sorted.slice(0, 3);
+    // Normalizar el valor del team del usuario
+    const userTeam = userPlayer.team;
+    
+    console.log('Usuario encontrado:', userPlayer.name, 'Team:', userTeam);
+    console.log('Todos los jugadores:', players.map(p => ({ name: p.name, team: p.team })));
+    
+    // Filtrar jugadores por equipo
+    const myTeam = players.filter(p => p.team === userTeam);
+    const enemyTeam = players.filter(p => p.team !== userTeam);
+    
+    return {
+      myTeam: myTeam.sort((a, b) => (b.kills || 0) - (a.kills || 0)),
+      enemyTeam: enemyTeam.sort((a, b) => (b.kills || 0) - (a.kills || 0)),
+    };
   };
 
   const formatDuration = (dur) => {
@@ -49,208 +70,210 @@ const MatchDetails = () => {
     return `${min}m ${sec}s`;
   };
 
+  const getMVP = (players = []) => {
+    if (!players.length) return null;
+    return [...players].sort((a, b) => {
+      const scoreA = (a.kills || 0) * 2 + (a.assists || 0) - (a.deaths || 0);
+      const scoreB = (b.kills || 0) * 2 + (b.assists || 0) - (b.deaths || 0);
+      return scoreB - scoreA;
+    })[0];
+  };
+
   if (loading) {
-    return <div className="match-details-container">Cargando...</div>;
+    return (
+      <div className="match-details-wrapper">
+        <SidebarComponent user={user} />
+        <div className="match-details-content">
+          <div className="loading-state">
+            <div className="loading-spinner"></div>
+            <p>Cargando detalles de la partida...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
-  if (error) {
-    return <div className="match-details-container">{error}</div>;
-  }
-  if (!match) {
-    return <div className="match-details-container">No se encontraron datos.</div>;
+
+  if (error || !match) {
+    return (
+      <div className="match-details-wrapper">
+        <SidebarComponent user={user} />
+        <div className="match-details-content">
+          <div className="error-state">
+            <h3>{error || 'No se encontraron datos de la partida'}</h3>
+            <button className="back-btn" onClick={() => navigate('/history-games')}>
+              Volver al historial
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const { map_name, date, team_score, opponent_score, duration, players = [] } = match;
   const { myTeam, enemyTeam } = splitPlayersByTeam(players);
-  const top3Players = getTop3Players(players);
   const isMyTeamWinner = team_score > opponent_score;
-  const isEnemyTeamWinner = opponent_score > team_score;
+  const mvpPlayer = getMVP(players);
 
-  const renderBasicTeamTable = (teamPlayers, teamLabel, isWinner) => (
-    <div className="team-table-container">
-      <div className="team-table-header">
-        <h2>{teamLabel}</h2>
-        <span className={`team-result-badge ${isWinner ? 'win' : 'loss'}`}>
-          {isWinner ? 'WIN' : 'LOSS'}
-        </span>
-      </div>
-      <table className="scoreboard-table">
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th>Kills</th>
-            <th>Deaths</th>
-            <th>K/D</th>
-            <th>HS%</th>
-            <th>ADR</th>
-            <th>Flash</th>
-            <th>Posición</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teamPlayers.map((player, i) => (
-            <tr key={i} className={i === 0 ? 'top-performer' : (player.steamID === steamID ? 'current-player' : '')}>
-              <td className="player-cell">
-                <img
-                  src={player.avatar || '/assets/default_avatar.png'}
-                  alt="Avatar"
-                  className="table-avatar"
-                />
-                <span>
-                  {player.name}
-                  {player.steamID === steamID && ' (TÚ)'}
-                </span>
-              </td>
-              <td>{player.kills !== undefined ? player.kills : '-'}</td>
-              <td>{player.deaths !== undefined ? player.deaths : '-'}</td>
-              <td>{player.kd_ratio !== undefined ? player.kd_ratio.toFixed(2) : '-'}</td>
-              <td>{player.hs_percentage !== undefined ? player.hs_percentage.toFixed(1) + '%' : '-'}</td>
-              <td>{player.adr !== undefined ? player.adr.toFixed(1) : '-'}</td>
-              <td>{player.EnemiesFlashed !== undefined ? player.EnemiesFlashed : '-'}</td>
-              <td>{player.position ? `#${player.position}` : 'N/A'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-
-  const renderAdvancedTeamTable = (teamPlayers, teamLabel, isWinner) => (
-    <div className="team-table-container">
-      <div className="team-table-header">
-        <h2>{teamLabel}</h2>
-        <span className={`team-result-badge ${isWinner ? 'win' : 'loss'}`}>
-          {isWinner ? 'WIN' : 'LOSS'}
-        </span>
-      </div>
-      <table className="scoreboard-table">
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th>Disparos</th>
-            <th>Mirilla</th>
-            <th>2K</th>
-            <th>3K</th>
-            <th>4K</th>
-            <th>Ace</th>
-            <th>Clutch</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teamPlayers.map((player, i) => (
-            <tr key={i} className={i === 0 ? 'top-performer' : (player.steamID === steamID ? 'current-player' : '')}>
-              <td className="player-cell">
-                <img
-                  src={player.avatar || '/assets/default_avatar.png'}
-                  alt="Avatar"
-                  className="table-avatar"
-                />
-                <span>
-                  {player.name}
-                  {player.steamID === steamID && ' (TÚ)'}
-                </span>
-              </td>
-              <td>{player.shots_fired !== undefined ? player.shots_fired : '-'}</td>
-              <td>{player.aim_placement !== undefined ? player.aim_placement.toFixed(1) : '-'}</td>
-              <td>{player.double_kills !== undefined ? player.double_kills : '-'}</td>
-              <td>{player.triple_kills !== undefined ? player.triple_kills : '-'}</td>
-              <td>{player.quad_kills !== undefined ? player.quad_kills : '-'}</td>
-              <td>{player.ace !== undefined ? player.ace : '-'}</td>
-              <td>{player.clutch_wins !== undefined ? player.clutch_wins : '-'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-
-  const renderTeamSection = () => {
-    if (currentPage === 0) {
-      return (
-        <div className="teams-scoreboard">
-          {renderBasicTeamTable(myTeam, 'My Team', isMyTeamWinner)}
-          {renderBasicTeamTable(enemyTeam, 'Enemy Team', isEnemyTeamWinner)}
-        </div>
-      );
-    } else {
-      return (
-        <div className="teams-scoreboard">
-          {renderAdvancedTeamTable(myTeam, 'My Team', isMyTeamWinner)}
-          {renderAdvancedTeamTable(enemyTeam, 'Enemy Team', isEnemyTeamWinner)}
-        </div>
-      );
-    }
-  };
-
-  return (
-    <div className="match-details-container">
-      <motion.div
-        className="scoreboard-content"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="header-back">
-          <Link to="/HistoryGames" className="back-link">
-            &larr; Volver al historial
-          </Link>
-        </div>
-
-        <div className="match-top-header">
-          <div className="match-main-info">
-            <h1 className="map-name">
-              {map_name.replace(/^de_/, '').charAt(0).toUpperCase() + map_name.replace(/^de_/, '').slice(1)}
-            </h1>
-            <span className="match-date">{date}</span>
-            <div className="score-duration-boxes">
-              <div className={`score-box ${isMyTeamWinner ? 'win' : 'loss'}`}>
-                <p className="score-label">Resultado</p>
-                <p className="score-value">
-                  {team_score} : {opponent_score}
-                </p>
-              </div>
-              <div className="score-box">
-                <p className="score-label">Duración</p>
-                <p className="score-value">{formatDuration(duration)}</p>
-              </div>
+  const renderPlayerRow = (player, index) => {
+    const isCurrentUser = String(player.steamID).trim() === String(steamID).trim();
+    const isMVP = mvpPlayer && String(mvpPlayer.steamID).trim() === String(player.steamID).trim();
+    
+    return (
+      <tr key={index} className={`${isCurrentUser ? 'current-user' : ''} ${isMVP ? 'mvp' : ''}`}>
+        <td className="player-info-cell">
+          <div className="player-info">
+            {isMVP && <div className="mvp-badge">MVP</div>}
+            <img
+              src={player.avatar || '/assets/default_avatar.png'}
+              alt="Avatar"
+              className="player-avatar"
+            />
+            <div className="player-name-wrapper">
+              <span className="player-name">{player.name}</span>
+              {isCurrentUser && <span className="you-badge">TÚ</span>}
             </div>
           </div>
-          <div className="top3-wrapper">
-            {top3Players.map((player, index) => (
-              <div className="top3-card" key={player.steamID || index}>
-                <h4 className="top3-rank">
-                  {index + 1}º - {player.name}
-                </h4>
-                <img
-                  src={player.avatar || '/assets/default_avatar.png'}
-                  alt="Top player avatar"
-                  className="top3-avatar"
-                />
-                {player.rating !== undefined && (
-                  <p className="top3-sub">Rating: {player.rating.toFixed(2)}</p>
-                )}
+        </td>
+        <td className="stat-cell">
+          <div className="stat-value">{player.kills || 0}</div>
+        </td>
+        <td className="stat-cell">
+          <div className="stat-value">{player.deaths || 0}</div>
+        </td>
+        <td className="stat-cell">
+          <div className="stat-value">{player.assists || 0}</div>
+        </td>
+        <td className="stat-cell">
+          <div className={`stat-value ${(player.kd_ratio || 0) >= 1 ? 'positive' : 'negative'}`}>
+            {player.kd_ratio?.toFixed(2) || '0.00'}
+          </div>
+        </td>
+        <td className="stat-cell">
+          <div className="stat-value">{player.adr?.toFixed(0) || '0'}</div>
+        </td>
+        <td className="stat-cell">
+          <div className="stat-value">{player.hs_percentage?.toFixed(0) || '0'}%</div>
+        </td>
+      </tr>
+    );
+  };
+
+  const renderTeamTable = (teamPlayers, teamName, isWinner) => (
+    <div className="team-section">
+      <div className="team-header">
+        <div className="team-info">
+          <h3>{teamName}</h3>
+          <div className={`team-badge ${isWinner ? 'winner' : 'loser'}`}>
+            {isWinner ? 'VICTORIA' : 'DERROTA'}
+          </div>
+        </div>
+      </div>
+      
+      <div className="team-table-wrapper">
+        <table className="team-table">
+          <thead>
+            <tr>
+              <th className="player-header">Jugador</th>
+              <th>K</th>
+              <th>D</th>
+              <th>A</th>
+              <th>K/D</th>
+              <th>ADR</th>
+              <th>HS%</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamPlayers.map((player, index) => renderPlayerRow(player, index))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="match-details-wrapper">
+      <SidebarComponent user={user} />
+      <div className="match-details-content">
+        {/* Back button */}
+        <button className="back-button" onClick={() => navigate('/history-games')}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Volver al historial
+        </button>
+
+        {/* Match Header */}
+        <div className="match-header-card">
+          <div 
+            className="match-header-bg"
+            style={{
+              backgroundImage: `url(/images/maps/${map_name}.png)`,
+            }}
+          />
+          <div className="match-header-overlay">
+            <div className="match-header-info">
+              <h1 className="match-map-title">
+                {map_name?.replace('de_', '').toUpperCase()}
+              </h1>
+              <div className="match-metadata">
+                <span className="metadata-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  {date}
+                </span>
+                <span className="metadata-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  {formatDuration(duration)}
+                </span>
               </div>
-            ))}
+            </div>
+            
+            <div className="match-score-display">
+              <div className="score-section">
+                <div className="score-label">Marcador Final</div>
+                <div className="score-numbers">
+                  <span className={`score ${isMyTeamWinner ? 'win-score' : ''}`}>{team_score}</span>
+                  <span className="score-divider">:</span>
+                  <span className={`score ${!isMyTeamWinner ? 'win-score' : ''}`}>{opponent_score}</span>
+                </div>
+                <div className={`result-badge ${isMyTeamWinner ? 'victory' : 'defeat'}`}>
+                  {isMyTeamWinner ? 'VICTORIA' : 'DERROTA'}
+                </div>
+              </div>
+            </div>
+
+            {/* MVP Section */}
+            {mvpPlayer && (
+              <div className="mvp-section">
+                <div className="mvp-label">MVP</div>
+                <img
+                  src={mvpPlayer.avatar || '/assets/default_avatar.png'}
+                  alt="MVP"
+                  className="mvp-avatar"
+                />
+                <div className="mvp-name">{mvpPlayer.name}</div>
+                <div className="mvp-stats">
+                  {mvpPlayer.kills || 0}K / {mvpPlayer.deaths || 0}D / {mvpPlayer.assists || 0}A
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Navegación entre pestañas de estadísticas */}
-        <div className="stats-tabs">
-          <div
-            className={`stats-tab ${currentPage === 0 ? 'active' : ''}`}
-            onClick={() => setCurrentPage(0)}
-          >
-            Básicas
-          </div>
-          <div
-            className={`stats-tab ${currentPage === 1 ? 'active' : ''}`}
-            onClick={() => setCurrentPage(1)}
-          >
-            Avanzadas
-          </div>
+        {/* Teams Section */}
+        <div className="teams-container">
+          {renderTeamTable(myTeam, 'Mi Equipo', isMyTeamWinner)}
+          {renderTeamTable(enemyTeam, 'Equipo Enemigo', !isMyTeamWinner)}
         </div>
-
-        {renderTeamSection()}
-      </motion.div>
+      </div>
     </div>
   );
 };

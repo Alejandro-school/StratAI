@@ -100,6 +100,15 @@ func compileResults(ctx *DemoContext, filePath string, userSteamID string, match
 	var sortedPlayers []models.PlayerStats
 	for sid, ps := range ctx.PlayerStatsMap {
 		ps.SteamID = fmt.Sprintf("%d", sid)
+
+		// Asignar el equipo del jugador
+		for _, pl := range gs.Participants().All() {
+			if pl.SteamID64 == sid {
+				ps.Team = teamString(pl)
+				break
+			}
+		}
+
 		sortedPlayers = append(sortedPlayers, *ps)
 	}
 
@@ -141,6 +150,27 @@ func compileResults(ctx *DemoContext, filePath string, userSteamID string, match
 		result = "victory"
 	}
 
+	// Obtener la fecha del archivo .dem combinada con la hora real del partido
+	matchDate := time.Now().Format("2006-01-02 15:04:05")
+	if fileInfo, err := os.Stat(filePath); err == nil {
+		fileDate := fileInfo.ModTime()
+		
+		// Calcular la hora real del partido restando la duración
+		// Parsear la duración en formato MM:SS
+		var mins, secs int
+		if matchDuration != "00:00" && matchDuration != "" {
+			fmt.Sscanf(matchDuration, "%d:%d", &mins, &secs)
+			durationInSeconds := mins*60 + secs
+			
+			// Restar la duración del partido a la fecha del archivo
+			actualMatchTime := fileDate.Add(-time.Duration(durationInSeconds) * time.Second)
+			matchDate = actualMatchTime.Format("2006-01-02 15:04:05")
+		} else {
+			// Si no hay duración, usar la fecha del archivo directamente
+			matchDate = fileDate.Format("2006-01-02 15:04:05")
+		}
+	}
+
 	/* ----------------------------------------------------------------
 	   1)  Empaquetamos las GRANADAS de la última ronda (aún en memoria)
 	----------------------------------------------------------------- */
@@ -173,7 +203,7 @@ func compileResults(ctx *DemoContext, filePath string, userSteamID string, match
 		Players:       sortedPlayers,
 		EventLogs:     ctx.EventLogs,
 		Filename:      filepath.Base(filePath),
-		Date:          time.Now().Format("2006-01-02 15:04:05"),
+		Date:          matchDate,
 
 		EconomyHistory: ctx.EconomyHistory,
 		Grenades:       ctx.AllGrenadeTrajectories, // ← única fuente que usa exporter

@@ -9,7 +9,7 @@ const https = require('https');
 const { ShareCode } = require('globaloffensive-sharecode');
 const Language = require('globaloffensive/language.js');
 const Protos = require('globaloffensive/protobufs/generated/_load.js');
-const redisClient = require('./redisClient');
+const { redisClient, ensureRedis } = require('./redisClient'); // 👈
 const unbzip2Stream = require('unbzip2-stream');
 const axios = require('axios');
 const http = require('http');
@@ -280,7 +280,8 @@ async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
           matchID: matchID,
           matchDuration: matchDuration
       };
-      await redisClient.set(`match_data:${matchID}`, JSON.stringify(matchData), 'EX', 3600);
+      await redisClient.set(`match_data:${matchID}`, JSON.stringify(matchData), { EX: 3600 });
+
       console.log(`✅ Match data guardado en Redis: match_data:${matchID}`);
 
       // Paso 4: Notificar a Go para analizar la demo
@@ -327,39 +328,24 @@ async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
  * la clave "sharecodes:{steamID}" y encola su procesamiento.
  */
 async function monitorearShareCodes() {
-  const subscriber = redisClient.duplicate();
+  await ensureRedis(); // 👈 asegura conexión antes de duplicar
+  const subscriber = redisClient.duplicate(); // v4 OK
   await subscriber.connect();
   console.log('📡 Escuchando rpush en Redis para nuevos ShareCodes...');
 
-  // Activamos notificaciones de listas en Redis
   await subscriber.configSet('notify-keyspace-events', 'KEA');
 
   await subscriber.subscribe('__keyevent@0__:rpush', async (key) => {
-    console.log(`\n🔔 rpush detectado en clave: ${key}`);
-    if (key.startsWith('sharecodes:')) {
-      const steamID = key.split(':')[1];
+    if (!key.startsWith('sharecodes:')) return;
 
-      // Leemos todos los sharecodes almacenados para el usuario
-      const sharecodes = await redisClient.lRange(`sharecodes:${steamID}`, 0, -1);
-      console.log(`📥 ShareCodes (SteamID: ${steamID}):`, sharecodes);
+    const steamID = key.split(':')[1];
+    const sharecodes = await redisClient.lRange(`sharecodes:${steamID}`, 0, -1);
 
-      // Procesamos solo los sharecodes que no estén marcados
-      for (const code of sharecodes) {
-        const status = await redisClient.hGet(`sharecode_status:${steamID}`, code);
-        if (!status || status === 'pending') {
-          queue.add(() => procesarShareCode(code, steamID));
-        } else {
-          console.log(`⚠️ Sharecode ${code} ya tiene estado "${status}". Se omite.`);
-        }
+    for (const code of sharecodes) {
+      const status = await redisClient.hGet(`sharecode_status:${steamID}`, code);
+      if (!status || status === 'pending') {
+        queue.add(() => procesarShareCode(code, steamID));
       }
-
-      // Log de estado de la cola
-      queue.on('active', () => {
-        console.log('🔄 Procesando siguiente tarea en la cola...');
-      });
-      queue.onIdle().then(() => {
-        console.log('✅ Cola de descargas finalizada o en espera.');
-      });
     }
   });
 }

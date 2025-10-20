@@ -6,10 +6,12 @@ body, html {
 }
 
 /* Container principal */
-.container {
+/* Container principal SOLO para el shell del dashboard */
+.dashboard-layout > .container {
   display: flex;
   height: 100vh;
 }
+
 
 /* Responsividad */
 @media (max-width: 768px) {

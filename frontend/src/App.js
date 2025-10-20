@@ -6,12 +6,19 @@ import LandingPage from "./components/Landing/LandingPage";
 import SteamLoginSuccess from "./auth/SteamLoginSuccess";
 
 // ───────────── Rutas privadas ──────────────
-import Dashboard from "./components/Start/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 import BotInstructions from "./auth/BotInstructions";
 import HistoryCodeForm from "./auth/HistoryCodeForm";
 import HistoryGames from "./components/Stats/HistoryGames";
-import PersonalPerformance from "./components/Stats/PersonalPerformance";
 import MatchDetails from "./components/Stats/MatchDetails";
+
+// ───────────── Nuevos componentes Stats ──────────────
+import PersonalPerformance from "./components/Stats/PersonalPerformance";
+import MapPerformance from "./components/Stats/MapPerformance";
+import Replays2D from "./components/Stats/Replays2D";
+import AnalyzeDemos from "./components/Stats/AnalyzeDemos";
+import Progress from "./components/Stats/Progress";
+import Improvements from "./components/Stats/Improvements";
 
 // ───────────── Contextos & Auth ──────────────
 import { AuthProvider } from "./auth/useAuth";
@@ -56,8 +63,17 @@ const App = () => (
         <Route path="/bot-instructions" element={<BotInstructions />} />
         <Route path="/history-code" element={<HistoryCodeForm />} />
         <Route path="/history-games" element={<HistoryGames />} />
-        <Route path="/personal-performance" element={<PersonalPerformance />} />
         <Route path="/match/:steamID/:matchID" element={<MatchDetails />} />
+        
+        {/* Stats Section */}
+        <Route path="/personal-performance" element={<PersonalPerformance />} />
+        <Route path="/map-performance" element={<MapPerformance />} />
+        <Route path="/replays-2d" element={<Replays2D />} />
+        
+        {/* Learn Section */}
+        <Route path="/analyze-demos" element={<AnalyzeDemos />} />
+        <Route path="/progress" element={<Progress />} />
+        <Route path="/improvements" element={<Improvements />} />
       </Route>
     </Routes>
   </BrowserRouter>

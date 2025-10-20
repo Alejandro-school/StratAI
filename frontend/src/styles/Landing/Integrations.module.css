@@ -1,7 +1,0 @@
-.section { padding:5rem 0; text-align:center; }
-.title   { font-size:clamp(2rem,4vw,2.6rem); margin-bottom:3rem; }
-.marquee { overflow:hidden; }
-.track   { display:flex; gap:4rem; animation:scroll 20s linear infinite; }
-.logo    { height:60px; opacity:.8; filter:grayscale(1); transition:filter .3s; }
-.logo:hover { filter:grayscale(0); }
-@keyframes scroll { to { transform:translateX(-50%); } }

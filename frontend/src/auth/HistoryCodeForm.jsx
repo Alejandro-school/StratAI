@@ -14,20 +14,29 @@ const HistoryCodeForm = () => {
   const handleGetAndSaveShareCodes = async () => {
     setLoading(true);
     try {
-      // Ajustamos el nombre del parámetro de la query y el body a "known_code"
-      const response = await axios.get('http://localhost:8000/steam/all-sharecodes', {
-        params: { auth_code: authCode, known_code: knownCode },
+      // GET correcto: el endpoint acepta last_code en la query
+      const { data } = await axios.get('http://localhost:8000/steam/all-sharecodes', {
+        params: { auth_code: authCode, last_code: knownCode },
         withCredentials: true,
       });
-
-      const shareCodes = response.data.sharecodes;
-
-      await axios.post('http://localhost:8000/steam/save-sharecodes', {
-        sharecodes: shareCodes,
-        auth_code: authCode,
-        known_code: knownCode,
-      }, { withCredentials: true });
-
+  
+      const shareCodes = Array.isArray(data?.sharecodes) ? data.sharecodes : [];
+  
+      // Usa como known_code final el último que recibiste;
+      // si no hubo nuevos, usa el que el usuario escribió.
+      const finalKnown = shareCodes.length ? shareCodes[shareCodes.length - 1] : knownCode;
+  
+      // ⬇️ AQUÍ EL FIX: enviar known_code (no last_code)
+      await axios.post(
+        'http://localhost:8000/steam/save-sharecodes',
+        {
+          sharecodes: shareCodes,     // array de strings
+          auth_code: authCode,        // exacto
+          known_code: finalKnown,     // <-- NOMBRE CORRECTO
+        },
+        { withCredentials: true }
+      );
+  
       setError('');
       window.location.href = '/dashboard';
     } catch (err) {
@@ -37,9 +46,10 @@ const HistoryCodeForm = () => {
       setLoading(false);
     }
   };
+  
 
   return (
-    <div className="container">
+    <div className="codeform-page">
       <div className="form-container">
         <h2>Códigos</h2>
         
@@ -54,7 +64,7 @@ const HistoryCodeForm = () => {
             <p>1. Inicia sesión en Steam a través de Google.</p>
             <p>2. Haz click en Soporte y accede a Counter-strike 2</p>
             <p>3. Accede a “Administrar mis códigos de autenticación.”</p>
-            <p>4. 4. Crea el código de autenticación si aún no lo tienes creado</p>
+            <p>4. Crea el código de autenticación si aún no lo tienes creado</p>
             <img
               src="/images/codes.png"
               alt="Cómo obtener el código de autenticación"

@@ -1,4 +1,11 @@
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Cargar variables de entorno
+env_path = Path(__file__).resolve().parents[1] / ".env"
+load_dotenv(dotenv_path=env_path)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_users import FastAPIUsers
@@ -6,16 +13,12 @@ from fastapi_users.authentication import CookieTransport, AuthenticationBackend
 from fastapi_users.authentication.strategy.redis import RedisStrategy
 from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
-from dotenv import load_dotenv
-from .routes import auth_status
 
 # Rutas
-from .routes import steam_auth, steam_service
+from .routes import steam_auth, steam_service, auth_status
 
-
-# Cargar variables de entorno
-load_dotenv()
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
+print(f"STEAM_API_KEY cargada (longitud={len(STEAM_API_KEY)})")
 
 app = FastAPI()
 

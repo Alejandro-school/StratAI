@@ -1,5 +1,0 @@
-.section { padding: 5rem 0; background: #0f1524; color: #fff; }
-.grid    { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); max-width: 1000px; margin: 0 auto; }
-.card    { text-align: center; }
-.number  { font-size: clamp(2rem,5vw,3.5rem); font-weight: 700; display: block; }
-.label   { margin-top: .5rem; font-size: 1rem; opacity: .8; }

@@ -21,6 +21,10 @@ type BasicPlayerStats struct {
 	QuadKills      int     `json:"quad_kills"`
 	Ace            int     `json:"ace"`
 	ClutchWins     int     `json:"clutch_wins"`
+	// Estadísticas adicionales para el dashboard
+	EntryKills     int `json:"entry_kills"`
+	UtilityDamage  int `json:"utility_damage"`
+	FlashAssists   int `json:"flash_assists"`
 }
 
 // BasicDemoParseResult solo contiene la información necesaria para el frontend.
@@ -34,4 +38,5 @@ type BasicDemoParseResult struct {
 	Players       []BasicPlayerStats `json:"players"`
 	Filename      string             `json:"filename"`
 	Date          string             `json:"date"`
+	EventLogs     []EventLog         `json:"event_logs"` // Añadido para estadísticas de armas
 }
