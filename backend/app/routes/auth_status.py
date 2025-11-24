@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Request
+from typing import Any
 
 router = APIRouter()
 
 @router.get("/auth/status")
-async def auth_status(request: Request):
+async def auth_status(request: Request) -> dict[str, Any]:
     if "steam_id" in request.session:
         return {
             "authenticated": True,

@@ -17,11 +17,36 @@ const MatchDetails = () => {
   useEffect(() => {
     const fetchMatchData = async () => {
       try {
-        const url = `http://localhost:8080/match/${steamID}/${matchID}`;
-        const response = await axios.get(url, { withCredentials: true });
+        // 1. Intentar cargar desde caché primero (navegación instantánea)
+        const cacheKey = `match_details_${matchID}`;
+        const cached = localStorage.getItem(cacheKey);
+        
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          const isRecent = (Date.now() - timestamp) < 3600000; // 1 hora
+          
+          if (isRecent) {
+            console.log('✅ Cargando desde caché:', matchID);
+            setMatch(data);
+            setLoading(false);
+            return; // Carga instantánea desde caché
+          }
+        }
+        
+        // 2. Si no hay caché válido, cargar desde servidor Go (más rápido)
+        console.log('📡 Cargando desde Go service:', matchID);
+        const url = `http://localhost:8080/match-details/${matchID}`;
+        const response = await axios.get(url);
+        
+        // 3. Guardar en caché para próximas visitas
+        localStorage.setItem(cacheKey, JSON.stringify({
+          data: response.data,
+          timestamp: Date.now()
+        }));
+        
         setMatch(response.data);
       } catch (err) {
-        console.error(err);
+        console.error('Error al cargar detalles:', err);
         setError('Error al cargar los detalles de la partida.');
       } finally {
         setLoading(false);
@@ -115,8 +140,10 @@ const MatchDetails = () => {
   const mvpPlayer = getMVP(players);
 
   const renderPlayerRow = (player, index) => {
-    const isCurrentUser = String(player.steamID).trim() === String(steamID).trim();
-    const isMVP = mvpPlayer && String(mvpPlayer.steamID).trim() === String(player.steamID).trim();
+    const playerSteamID = String(player.steamID || player.steam_id || '').trim();
+    const isCurrentUser = playerSteamID === String(steamID).trim();
+    const mvpSteamID = mvpPlayer ? String(mvpPlayer.steamID || mvpPlayer.steam_id || '').trim() : '';
+    const isMVP = mvpPlayer && playerSteamID === mvpSteamID;
     
     return (
       <tr key={index} className={`${isCurrentUser ? 'current-user' : ''} ${isMVP ? 'mvp' : ''}`}>

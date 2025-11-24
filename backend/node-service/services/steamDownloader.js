@@ -286,12 +286,21 @@ async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
 
       // Paso 4: Notificar a Go para analizar la demo
       try {
-          await axios.post('http://localhost:8080/process-downloaded-demo', {
+          const goResponse = await axios.post('http://localhost:8080/process-demo', {
+              demo_path: filePath,
               steam_id: steamID,
-              filename,
               match_id: matchID
           });
-          console.log(`✅ Stats de la demo ${filename} procesadas y almacenadas en Redis.`);
+          
+          if (goResponse.data && goResponse.data.status === 'success') {
+              console.log(`✅ Stats de la demo ${filename} procesadas por Go service`);
+              
+              // El Go service ya guarda en Redis, pero verificamos que los datos existan
+              const savedData = await redisClient.lRange(`processed_demos:${steamID}`, -1, -1);
+              if (savedData && savedData.length > 0) {
+                  console.log(`✅ Datos confirmados en Redis para ${steamID}`);
+              }
+          }
       } catch (err) {
           console.error(`❌ Error al llamar a Go: ${err.message}`);
       }

@@ -9,6 +9,45 @@ import (
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
 )
 
+// ========== HELPER: Finalizar spray y calcular calidad ==========
+func finalizeSpray(ctx *DemoContext, sid uint64, ps *models.PlayerStats, spray *models.RecoilSpray) {
+	if spray.ShotCount < 3 {
+		// No consideramos sprays de menos de 3 disparos
+		return
+	}
+
+	// Calcular promedios
+	spray.AvgPitchPerShot = spray.TotalPitchDelta / float32(spray.ShotCount-1)
+	spray.AvgYawPerShot = spray.TotalYawDelta / float32(spray.ShotCount-1)
+
+	// Determinar calidad basada en control del recoil
+	// Menor delta = mejor control
+	avgTotal := spray.AvgPitchPerShot + spray.AvgYawPerShot
+
+	if avgTotal < 2.0 {
+		spray.ControlQuality = "excellent"
+		ps.ExcellentSprays++
+	} else if avgTotal < 5.0 {
+		spray.ControlQuality = "good"
+	} else if avgTotal < 10.0 {
+		spray.ControlQuality = "fair"
+	} else {
+		spray.ControlQuality = "poor"
+		ps.PoorSprays++
+	}
+
+	ps.TotalSprays++
+	ps.RecoilSprays = append(ps.RecoilSprays, *spray)
+}
+
+// ========== HELPER: Valor absoluto de float32 ==========
+func abs32(x float32) float32 {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
 func registerPlayerHandlers(ctx *DemoContext) {
 	// --- Kills ---
 	ctx.parser.RegisterEventHandler(func(e events.Kill) {
@@ -31,8 +70,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 		}
 		if killer == nil && victim != nil {
 			// WorldKill => muertes ambientales
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+			ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 				"WorldKill",
 				fmt.Sprintf("Player %s died due to environmental causes (%s)", victim.Name, weaponUsed),
 				"",
@@ -45,8 +83,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 		}
 		if killer != nil && victim != nil && killer.SteamID64 == victim.SteamID64 {
 			// Suicidio
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+			ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 				"Suicide",
 				fmt.Sprintf("Player %s committed suicide using %s", victim.Name, weaponUsed),
 				teamString(victim),
@@ -61,8 +98,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 			// TeamKill
 			if victim != nil && killer.Team == victim.Team && killer.Team != common.TeamUnassigned {
 				psK.TeamKillCount++
-				ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-					ctx.RoundNumber,
+				ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 					"TeamKill",
 					fmt.Sprintf("Player %s killed teammate %s", killer.Name, victim.Name),
 					teamString(killer),
@@ -71,6 +107,19 @@ func registerPlayerHandlers(ctx *DemoContext) {
 				// Kill normal
 				if victim != nil {
 					psK.Kills++
+
+					// === NUEVO: Trackear weapon stats ===
+					if psK.WeaponStats == nil {
+						psK.WeaponStats = make(map[string]*models.WeaponStat)
+					}
+					if _, exists := psK.WeaponStats[weaponUsed]; !exists {
+						psK.WeaponStats[weaponUsed] = &models.WeaponStat{}
+					}
+					psK.WeaponStats[weaponUsed].Kills++
+
+					if e.IsHeadshot {
+						psK.WeaponStats[weaponUsed].Headshots++
+					}
 				}
 				if e.IsHeadshot {
 					ctx.HeadshotsCount[sidK]++
@@ -155,22 +204,28 @@ func registerPlayerHandlers(ctx *DemoContext) {
 			psV := getOrCreatePlayerStats(ctx, sidV, victim.Name)
 			psV.Deaths++
 			deathPos := victim.Position()
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+
+			// EventLog de muerte con estado capturado
+			deathLog := newEventLog(ctx,
 				"DeathPosition",
 				fmt.Sprintf("Player %s died at (%.1f, %.1f, %.1f)", victim.Name, deathPos.X, deathPos.Y, deathPos.Z),
 				teamString(victim),
-			))
+			)
+
+			ctx.EventLogs = append(ctx.EventLogs, deathLog)
 		}
 
 	FINISH_KILL:
-		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+		// Capturar estado completo para IA
+		eventLog := newEventLog(ctx,
 			"Kill",
 			fmt.Sprintf("Killer=%s, Victim=%s, Weapon=%s, HS=%v, NoScope=%v, ThroughSmoke=%v, AttackerBlind=%v, Dist=%.2f",
 				nameOrNil(killer), nameOrNil(victim), weaponUsed, e.IsHeadshot, e.NoScope, e.ThroughSmoke, e.AttackerBlind, e.Distance),
 			teamString(killer),
-		))
+		)
+		eventLog.WeaponUsed = weaponUsed
+
+		ctx.EventLogs = append(ctx.EventLogs, eventLog)
 	})
 
 	// --- PlayerHurt ---
@@ -185,28 +240,97 @@ func registerPlayerHandlers(ctx *DemoContext) {
 		sidA := e.Attacker.SteamID64
 		psA := getOrCreatePlayerStats(ctx, sidA, e.Attacker.Name)
 
+		// Trackear daño de granadas HE y fuego
+		weapon := e.Weapon
+		if weapon != nil {
+			weaponType := weapon.Type
+
+			// Si el daño fue causado por HE
+			if weaponType == common.EqHE {
+				// Buscar la HE más reciente de este atacante
+				for i := len(ctx.Grenades) - 1; i >= 0; i-- {
+					g := &ctx.Grenades[i]
+					if g.GrenadeType == "HE" && g.ThrowerSteamID == fmt.Sprintf("%d", sidA) && g.Round == ctx.RoundNumber {
+						// Inicializar punteros si es necesario
+						if g.TotalDamage == nil {
+							zero := 0
+							g.TotalDamage = &zero
+							g.EnemiesDamaged = &zero
+							g.TeammatesDamaged = &zero
+						}
+
+						*g.TotalDamage += int(e.HealthDamage)
+
+						// Contar enemigos dañados vs aliados dañados (solo contar unique)
+						if e.Player.Team == e.Attacker.Team {
+							*g.TeammatesDamaged++
+						} else {
+							*g.EnemiesDamaged++
+						}
+						break
+					}
+				}
+			}
+
+			// Si el daño fue causado por fuego (molotov/incendiary)
+			if weaponType == common.EqMolotov || weaponType == common.EqIncendiary {
+				// Buscar el molotov/incendiary más reciente de este atacante
+				for i := len(ctx.Grenades) - 1; i >= 0; i-- {
+					g := &ctx.Grenades[i]
+					if (g.GrenadeType == "Molotov" || g.GrenadeType == "Incendiary") &&
+						g.ThrowerSteamID == fmt.Sprintf("%d", sidA) && g.Round == ctx.RoundNumber {
+						// Inicializar puntero si es necesario
+						if g.FireDamage == nil {
+							zero := 0
+							g.FireDamage = &zero
+						}
+						*g.FireDamage += int(e.HealthDamage)
+						break
+					}
+				}
+			}
+		}
+
 		if e.Attacker.Team == e.Player.Team && e.Attacker.Team != common.TeamUnassigned {
 			psA.TeamDamage += int(e.HealthDamage)
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+			ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 				"TeamDamage",
 				fmt.Sprintf("%s dealt %d dmg to teammate %s", e.Attacker.Name, e.HealthDamage, e.Player.Name),
 				teamString(e.Attacker),
 			))
 		} else {
 			ctx.DamageDone[sidA] += float64(e.HealthDamage)
-		}
 
-		psA.ShotsConnected++
+			// Utility damage tracking eliminado - simplificado para que la IA lo aprenda
 
-		if e.Weapon != nil {
-			wt := e.Weapon.Type
-			if wt == common.EqMolotov || wt == common.EqIncendiary || wt == common.EqHE {
-				psA.UtilityDamage += int(e.HealthDamage)
+			psA.ShotsConnected++
+
+			// === NUEVO: Trackear damage por arma ===
+			if weapon != nil {
+				weaponName := weapon.String()
+				if psA.WeaponStats == nil {
+					psA.WeaponStats = make(map[string]*models.WeaponStat)
+				}
+				if _, exists := psA.WeaponStats[weaponName]; !exists {
+					psA.WeaponStats[weaponName] = &models.WeaponStat{}
+				}
+				psA.WeaponStats[weaponName].DamageDealt += int(e.HealthDamage)
+				psA.WeaponStats[weaponName].ShotsHit++
+			}
+
+			// === NUEVO: First Shot Accuracy tracking ===
+			// Si el disparo que causó el daño fue un "first shot", contar como hit
+			if wasFirst, exists := ctx.LastShotWasFirst[sidA]; exists && wasFirst {
+				psA.FirstShotHits++
+				// Decrementar el miss que se contó en WeaponFire
+				if psA.FirstShotMisses > 0 {
+					psA.FirstShotMisses--
+				}
+				ctx.LastShotWasFirst[sidA] = false // Marcar como ya contado
 			}
 		}
-		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+
+		ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 			"PlayerHurt",
 			fmt.Sprintf("Player %s took %d dmg from %s (newHP=%d, newArmor=%d)",
 				e.Player.Name, e.HealthDamage, e.Attacker.Name, e.Player.Health(), e.Player.Armor()),
@@ -215,19 +339,10 @@ func registerPlayerHandlers(ctx *DemoContext) {
 	})
 
 	// --- BulletDamage ---
-	ctx.parser.RegisterEventHandler(func(e events.BulletDamage) {
-		if ctx.parser.GameState().IsWarmupPeriod() {
-			return
-		}
-
-		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
-			"BulletDamage",
-			fmt.Sprintf("Attacker=%s, Victim=%s, Dist=%.1f, Penetrations=%d, NoScope=%v, AttackerInAir=%v",
-				nameOrNil(e.Attacker), nameOrNil(e.Victim), e.Distance, e.NumPenetrations, e.IsNoScope, e.IsAttackerInAir),
-			teamString(e.Attacker),
-		))
-	})
+	// ELIMINADO: Evento redundante con PlayerHurt, genera demasiado ruido para IA
+	// ctx.parser.RegisterEventHandler(func(e events.BulletDamage) {
+	// 	...
+	// })
 
 	// --- WeaponFire ---
 	ctx.parser.RegisterEventHandler(func(e events.WeaponFire) {
@@ -243,54 +358,191 @@ func registerPlayerHandlers(ctx *DemoContext) {
 			// Omitimos el log de WeaponFire para el cuchillo
 			return
 		}
-		if isGrenade(e.Weapon) {
-			// No registramos log para granadas en WeaponFire
-			return
-		}
 
 		sid := e.Shooter.SteamID64
 		ps := getOrCreatePlayerStats(ctx, sid, e.Shooter.Name)
 		ps.ShotsFired++
 
-		speed := ctx.LastSpeed[sid]
-		if speed > 200.0 {
-			ps.AccidentalShots++
+		// === NUEVO: Trackear shots fired por arma ===
+		weaponName := e.Weapon.String()
+		if ps.WeaponStats == nil {
+			ps.WeaponStats = make(map[string]*models.WeaponStat)
+		}
+		if _, exists := ps.WeaponStats[weaponName]; !exists {
+			ps.WeaponStats[weaponName] = &models.WeaponStat{}
+		}
+		ps.WeaponStats[weaponName].ShotsFired++
+
+		currentTick := ctx.parser.GameState().IngameTick()
+
+		// === NUEVO: First Shot Tracking ===
+		// Considerar "first shot" si han pasado >128 ticks (~1s) desde último disparo
+		const firstShotThreshold = 128
+		isFirstShot := false
+		if lastTick, exists := ctx.LastWeaponFireTick[sid]; !exists || (currentTick-lastTick) > firstShotThreshold {
+			isFirstShot = true
+			// Incrementar miss por defecto, se decrementará si hay hit en PlayerHurt
+			ps.FirstShotMisses++
+		}
+		ctx.LastWeaponFireTick[sid] = currentTick
+		ctx.LastShotWasFirst[sid] = isFirstShot
+
+		// === NUEVO: Capturar contexto del disparo para análisis de aim ===
+		velocity := ctx.LastSpeed[sid]
+		wasMoving := velocity > 50.0 // Threshold para considerar "en movimiento"
+		wasScoped := false
+		if wpn := e.Shooter.ActiveWeapon(); wpn != nil {
+			wasScoped = wpn.ZoomLevel() > 0
 		}
 
-		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+		mapName := ctx.parser.Header().MapName
+		zone := GetZoneForPosition(mapName, e.Shooter.Position())
+
+		shotContext := models.ShotContext{
+			Tick:       ctx.parser.GameState().IngameTick(),
+			Weapon:     e.Weapon.String(),
+			Velocity:   velocity,
+			WasMoving:  wasMoving,
+			WasDucking: e.Shooter.IsDucking(),
+			WasScoped:  wasScoped,
+			Zone:       zone,
+		}
+
+		// === NUEVO: Recoil Analysis - Trackear view angles ===
+		pitch := e.Shooter.ViewDirectionX()
+		yaw := calculateYawFromViewDirection(e.Shooter)
+		shotContext.ViewPitch = pitch
+		shotContext.ViewYaw = yaw
+
+		// Detectar spray: disparos consecutivos con el mismo arma en menos de 500ms
+		weaponFireTick := ctx.parser.GameState().IngameTick()
+		const sprayWindow = 64 // ~500ms en 128 tick/s
+
+		if spray, exists := ctx.CurrentSpray[sid]; exists {
+			// Continúa spray existente si:
+			// 1. Misma arma
+			// 2. Menos de 500ms desde último disparo
+			if spray.Weapon == e.Weapon.String() && (weaponFireTick-spray.EndTick) < sprayWindow {
+				// Calcular deltas
+				lastPitch := ctx.LastShotPitch[sid]
+				lastYaw := ctx.LastShotYaw[sid]
+
+				pitchDelta := abs32(pitch - lastPitch)
+				yawDelta := abs32(yaw - lastYaw)
+
+				spray.ShotCount++
+				spray.EndTick = weaponFireTick
+				spray.TotalPitchDelta += pitchDelta
+				spray.TotalYawDelta += yawDelta
+			} else {
+				// Finalizar spray anterior y empezar uno nuevo
+				finalizeSpray(ctx, sid, ps, spray)
+
+				// Iniciar nuevo spray
+				ctx.CurrentSpray[sid] = &models.RecoilSpray{
+					Round:     ctx.RoundNumber,
+					StartTick: weaponFireTick,
+					EndTick:   weaponFireTick,
+					ShotCount: 1,
+					Weapon:    e.Weapon.String(),
+				}
+			}
+		} else {
+			// Iniciar nuevo spray
+			ctx.CurrentSpray[sid] = &models.RecoilSpray{
+				Round:     ctx.RoundNumber,
+				StartTick: weaponFireTick,
+				EndTick:   weaponFireTick,
+				ShotCount: 1,
+				Weapon:    e.Weapon.String(),
+			}
+		}
+
+		// Actualizar último pitch/yaw
+		ctx.LastShotPitch[sid] = pitch
+		ctx.LastShotYaw[sid] = yaw
+
+		// Guardar en PlayerStats para análisis agregado
+		ps.Shots = append(ps.Shots, shotContext)
+
+		// === NUEVO: Reaction Time - Tiempo desde que vio enemigo hasta que disparó ===
+		if seenEnemies, exists := ctx.EnemyFirstSeenTick[sid]; exists {
+			currentTick := ctx.parser.GameState().IngameTick()
+
+			// Inicializar mapa de registrados si no existe
+			if _, exists := ctx.ReactionRegistered[sid]; !exists {
+				ctx.ReactionRegistered[sid] = make(map[uint64]bool)
+			}
+
+			// Buscar si algún enemigo visible fue visto recientemente
+			for enemyID, firstSeenTick := range seenEnemies {
+				// Saltar si ya registramos este evento de reacción
+				if ctx.ReactionRegistered[sid][enemyID] {
+					continue
+				}
+
+				// Ventana de reacción: 3 segundos (384 ticks a 128 tick/s)
+				const reactionWindow = 384
+				timeSinceSeen := currentTick - firstSeenTick
+
+				if timeSinceSeen <= reactionWindow && timeSinceSeen > 0 {
+					// Calcular tiempo de reacción en ms
+					reactionTimeMs := int(float64(timeSinceSeen) / ctx.parser.TickRate() * 1000)
+
+					// Buscar el enemigo para calcular distancia
+					var enemy *common.Player
+					for _, pl := range ctx.parser.GameState().Participants().All() {
+						if pl.SteamID64 == enemyID {
+							enemy = pl
+							break
+						}
+					}
+
+					distance := 0.0
+					if enemy != nil {
+						distance = vectorDistance(e.Shooter.Position(), enemy.Position())
+					}
+
+					// Guardar evento de reaction time
+					reactionEvent := models.ReactionTimeEvent{
+						Round:           ctx.RoundNumber,
+						EnemyID:         enemyID,
+						FirstSeenTick:   firstSeenTick,
+						FirstShotTick:   currentTick,
+						ReactionTimeMs:  reactionTimeMs,
+						DistanceToEnemy: distance,
+						KilledEnemy:     false, // Se puede determinar después si fue kill
+					}
+
+					ps.ReactionTimes = append(ps.ReactionTimes, reactionEvent)
+					ps.TotalReactionTimeMs += reactionTimeMs
+					ps.ReactionTimeCount++
+
+					// Marcar como registrado para no contar múltiples veces
+					ctx.ReactionRegistered[sid][enemyID] = true
+
+					break // Solo un enemigo por disparo
+				}
+			}
+		}
+
+		// EventLog con contexto
+		eventLog := newEventLog(ctx,
 			"WeaponFire",
-			fmt.Sprintf("Player %s fired %s (speed=%.2f)", e.Shooter.Name, e.Weapon.String(), speed),
+			fmt.Sprintf("Player %s fired %s (vel=%.1f, moving=%v)", e.Shooter.Name, e.Weapon.String(), velocity, wasMoving),
 			teamString(e.Shooter),
-		))
+		)
+		eventLog.ShotContext = &shotContext
+
+		ctx.EventLogs = append(ctx.EventLogs, eventLog)
 	})
 
 	// --- WeaponReload ---
-	ctx.parser.RegisterEventHandler(func(e events.WeaponReload) {
-		if ctx.parser.GameState().IsWarmupPeriod() {
-			return
-		}
-
-		if e.Player == nil {
-			return
-		}
-
-		currentTick := ctx.parser.GameState().IngameTick()
-		lastTick, exists := ctx.LastReloadTick[e.Player.SteamID64]
-		// Si ya se registró un reload recientemente, ignoramos este evento.
-		if exists && (currentTick-lastTick < 100) {
-			return
-		}
-		// Actualizamos el último tick registrado para este jugador.
-		ctx.LastReloadTick[e.Player.SteamID64] = currentTick
-
-		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
-			"WeaponReload",
-			fmt.Sprintf("Player %s recargó su arma.", e.Player.Name),
-			teamString(e.Player),
-		))
-	})
+	// ELIMINADO: Genera ruido masivo sin valor para IA
+	// Podemos derivar reloads críticos del análisis de ticks entre disparos
+	// ctx.parser.RegisterEventHandler(func(e events.WeaponReload) {
+	// 	...
+	// })
 
 	// --------------------------------------------------
 	// ITEM PICKUP => actualizamos SpentInBuy (si aplica)
@@ -328,8 +580,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 		// Si no tiene precio => simple "pick_up" del suelo.
 		if cost <= 0 {
 			ctx.LastKnownMoney[sid] = e.Player.Money()
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+			ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 				"ItemPickup",
 				fmt.Sprintf("Player %s picked_up %s", e.Player.Name, e.Weapon.String()),
 				teamString(e.Player),
@@ -363,8 +614,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 			// Ajustamos el "último dinero conocido" tras la compra
 			ctx.LastKnownMoney[sid] = lastMoney - cost
 
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+			ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 				"ItemBought",
 				fmt.Sprintf("Player %s bought %s [cost=%d]", e.Player.Name, e.Weapon.String(), cost),
 				teamString(e.Player),
@@ -372,8 +622,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 		} else {
 			// Caso: pick-up gratis (arma en el suelo, etc.)
 			ctx.LastKnownMoney[sid] = currentMoney
-			ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-				ctx.RoundNumber,
+			ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 				"ItemPickup",
 				fmt.Sprintf("Player %s picked_up %s [cost=%d]", e.Player.Name, e.Weapon.String(), cost),
 				teamString(e.Player),
@@ -423,8 +672,7 @@ func registerPlayerHandlers(ctx *DemoContext) {
 		}
 
 		// Registramos en logs
-		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+		ctx.EventLogs = append(ctx.EventLogs, newEventLog(ctx,
 			"ItemRefund",
 			fmt.Sprintf("Player %s refunded %s (+%d)", e.Player.Name, e.Weapon.String(), cost),
 			teamString(e.Player),
@@ -432,12 +680,9 @@ func registerPlayerHandlers(ctx *DemoContext) {
 	})
 }
 
-// getWeaponPrice simplifica la obtención de precio para un EquipmentType.
+// getWeaponPrice obtiene el precio de un arma directamente del map
 func getWeaponPrice(eqType common.EquipmentType) int {
-	if p, ok := weaponPrices[eqType]; ok {
-		return p
-	}
-	return 0
+	return weaponPrices[eqType]
 }
 
 // getOrCreatePlayerStats busca PlayerStats en el mapa; si no existe, lo crea.
@@ -450,15 +695,4 @@ func getOrCreatePlayerStats(ctx *DemoContext, sid uint64, name string) *models.P
 		ps.Name = name
 	}
 	return ps
-}
-
-func isGrenade(w *common.Equipment) bool {
-	if w == nil {
-		return false
-	}
-	switch w.Type {
-	case common.EqFlash, common.EqSmoke, common.EqHE, common.EqDecoy, common.EqMolotov, common.EqIncendiary:
-		return true
-	}
-	return false
 }

@@ -36,7 +36,6 @@ type DemoContext struct {
 	LastPositions map[uint64]r3.Vector
 	LastTick      int
 	LastSpeed     map[uint64]float64
-	MaxSpeed      map[uint64]float64
 
 	// Control de rondas
 	RoundNumber      int
@@ -63,35 +62,36 @@ type DemoContext struct {
 	LossBonusT  int
 	LossBonusCT int
 
-	PendingMolotovs map[int]models.MolotovData
-
 	BombPlanted     bool
 	LastRoundWinner common.Team
 	LastRoundReason events.RoundEndReason
 
-	LastReloadTick map[uint64]int
-
-	//Registra el mismo ID para la granada cuando es lanzada y cuando explota. Si no registra 2 veces la misma granada.
-	InfernoToProjectile map[int]int // infernoID → projectileID
-
 	//Guardamos el dinero actual
 	LastKnownMoney map[uint64]int
 
-	// -----------------------------
-	// Campo para trayectorias
-	// -----------------------------
-	ProjectileTrajectories map[int][]models.ProjectileTrajectoryEntry
-	GrenadeMetas           map[int]*models.GrenadeMetadata
-	GrenadeTrajectories    map[int][]models.ProjectileTrajectoryEntry
+	// First Shot Tracking - para calcular first shot accuracy
+	LastWeaponFireTick map[uint64]int  // Último tick de disparo por jugador
+	LastShotWasFirst   map[uint64]bool // Si el último disparo fue "primero" del engagement
 
-	// -----------------------------
-	// Granadas (recopilación final)
-	// -----------------------------
+	// Reaction Time Tracking - cuando un enemigo se vuelve visible
+	EnemyFirstSeenTick map[uint64]map[uint64]int  // [playerID][enemyID] = tick primera vez visto
+	ReactionRegistered map[uint64]map[uint64]bool // [playerID][enemyID] = true si ya se registró evento de reacción
+	LastVisibleEnemies map[uint64]map[uint64]bool // [playerID][enemyID] = true si estaba visible en frame anterior
 
-	AllGrenadeTrajectories []models.GrenadeMetadata
+	// Rotation Tracking - última zona de cada jugador para detectar cambios
+	LastZone        map[uint64]string // [playerID] = última zona
+	ZoneEnteredTick map[uint64]int    // [playerID] = tick al entrar a última zona
 
-	// Control de muestreo -> último tick en que guardamos la posición
-	lastGrenadeRecordTick map[int]int
+	BombPlantedSite string // A qué sitio se plantó la bomba ("A", "B", "Unknown")
+	BombPlantedTick int    // Tick cuando se plantó
+
+	// Recoil Analysis Tracking - para detectar sprays
+	CurrentSpray  map[uint64]*models.RecoilSpray // [playerID] = spray actual en progreso
+	LastShotPitch map[uint64]float32             // [playerID] = último pitch al disparar
+	LastShotYaw   map[uint64]float32             // [playerID] = último yaw al disparar
+
+	// Grenade Tracking - todas las granadas lanzadas
+	Grenades []models.GrenadeEvent
 }
 
 // NewDemoContext crea e inicializa un DemoContext vacío.
@@ -104,7 +104,6 @@ func NewDemoContext() *DemoContext {
 		EventLogs:      []models.EventLog{},
 		LastPositions:  make(map[uint64]r3.Vector),
 		LastSpeed:      make(map[uint64]float64),
-		MaxSpeed:       make(map[uint64]float64),
 
 		DiedPostRound:    make(map[uint64]bool),
 		RoundPlayerKills: make(map[uint64]int),
@@ -116,21 +115,26 @@ func NewDemoContext() *DemoContext {
 		BuyWindowEndTickForRound: make(map[int]int),
 		FlashEvents:              make(map[uint64][]flashData),
 		LastScopedState:          make(map[uint64]bool),
-		PendingMolotovs:          make(map[int]models.MolotovData),
 
 		LossBonusT:  1400,
 		LossBonusCT: 1400,
 
-		ProjectileTrajectories: make(map[int][]models.ProjectileTrajectoryEntry),
+		LastKnownMoney: make(map[uint64]int),
 
-		GrenadeMetas:          make(map[int]*models.GrenadeMetadata),
-		GrenadeTrajectories:   make(map[int][]models.ProjectileTrajectoryEntry),
-		lastGrenadeRecordTick: make(map[int]int),
+		LastWeaponFireTick: make(map[uint64]int),
+		LastShotWasFirst:   make(map[uint64]bool),
 
-		AllGrenadeTrajectories: []models.GrenadeMetadata{},
+		EnemyFirstSeenTick: make(map[uint64]map[uint64]int),
+		ReactionRegistered: make(map[uint64]map[uint64]bool),
+		LastVisibleEnemies: make(map[uint64]map[uint64]bool),
 
-		LastReloadTick:      make(map[uint64]int),
-		LastKnownMoney:      make(map[uint64]int),
-		InfernoToProjectile: make(map[int]int),
+		LastZone:        make(map[uint64]string),
+		ZoneEnteredTick: make(map[uint64]int),
+		BombPlantedSite: "",
+		BombPlantedTick: 0,
+
+		CurrentSpray:  make(map[uint64]*models.RecoilSpray),
+		LastShotPitch: make(map[uint64]float32),
+		LastShotYaw:   make(map[uint64]float32),
 	}
 }

@@ -20,14 +20,45 @@ const HistoryGames = () => {
       try {
         if (!user?.steam_id) return;
 
-        const steamID = user.steam_id;
-        const url = `http://localhost:8080/get-processed-demos?steam_id=${steamID}`;
-        const response = await axios.get(url);
+        // 1. Intentar cargar desde caché primero (navegación instantánea)
+        const cacheKey = `history_games_${user.steam_id}`;
+        const cached = localStorage.getItem(cacheKey);
+        
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          const isRecent = (Date.now() - timestamp) < 300000; // 5 minutos
+          
+          if (isRecent) {
+            console.log('✅ Historial desde caché');
+            setGames(data);
+            setFilteredGames(data);
+            setLoading(false);
+            return; // Carga instantánea
+          }
+        }
 
-        setGames(response.data.demos || []);
-        setFilteredGames(response.data.demos || []);
+        // 2. Cargar desde servidor
+        console.log('📡 Historial desde servidor');
+        const url = 'http://localhost:8000/steam/get-processed-demos';
+        const response = await axios.get(url, { withCredentials: true });
+
+        const demos = response.data.demos || [];
+        
+        // 3. Guardar en caché
+        localStorage.setItem(cacheKey, JSON.stringify({
+          data: demos,
+          timestamp: Date.now()
+        }));
+
+        setGames(demos);
+        setFilteredGames(demos);
       } catch (err) {
-        setError('Error al obtener las partidas.');
+        console.error('Error al obtener partidas:', err);
+        if (err.response?.status === 404) {
+          setError('No hay partidas procesadas aún.');
+        } else {
+          setError('Error al obtener las partidas.');
+        }
       } finally {
         setLoading(false);
       }
@@ -78,7 +109,35 @@ const HistoryGames = () => {
   };
 
   const handleViewDetails = (matchID) => {
+    // Prefetch: cargar datos en background antes de navegar
+    prefetchMatchDetails(matchID);
     navigate(`/match/${user.steam_id}/${matchID}`);
+  };
+  
+  // Prefetch inteligente: cargar datos de partidas en background desde Go service
+  const prefetchMatchDetails = async (matchID) => {
+    const cacheKey = `match_details_${matchID}`;
+    const cached = localStorage.getItem(cacheKey);
+    
+    // Si ya está cacheado y es reciente, no hacer nada
+    if (cached) {
+      const { timestamp } = JSON.parse(cached);
+      if ((Date.now() - timestamp) < 3600000) return;
+    }
+    
+    // Cargar en background sin bloquear UI (usando Go service)
+    try {
+      const url = `http://localhost:8080/match-details/${matchID}`;
+      const response = await axios.get(url);
+      
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data: response.data,
+        timestamp: Date.now()
+      }));
+      console.log('✅ Prefetch completado:', matchID);
+    } catch (err) {
+      console.warn('⚠️ Error en prefetch:', err);
+    }
   };
 
   const getPlayerStats = (game) => {

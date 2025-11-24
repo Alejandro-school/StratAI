@@ -18,34 +18,6 @@ func registerRoundHandlers(ctx *DemoContext) {
 	// ──────────────────────────────────────────────────────────────────────────
 	ctx.parser.RegisterEventHandler(func(e events.RoundStart) {
 
-		// ╭───────────────────────────────────────────────────────────────────╮
-		// │ •• PERSISTIR GRANADAS DE LA RONDA ANTERIOR ANTES DEL RESET ••    │
-		// ╰───────────────────────────────────────────────────────────────────╯
-		for key, meta := range ctx.GrenadeMetas {
-			traj := ctx.GrenadeTrajectories[key]
-
-			ctx.AllGrenadeTrajectories = append(ctx.AllGrenadeTrajectories,
-				models.GrenadeMetadata{
-					ProjectileID:      meta.ProjectileID,
-					Round:             meta.Round,
-					ThrowerSteamID:    meta.ThrowerSteamID,
-					ThrowerName:       meta.ThrowerName,
-					ThrowerTeam:       meta.ThrowerTeam,
-					NadeType:          meta.NadeType,
-					Exploded:          meta.Exploded,
-					ExplosionPosition: meta.ExplosionPosition,
-					Trajectory:        traj,
-				})
-		}
-
-		//---------------------------------------------------------------------
-		// 🚩 RESET de estructuras que usan entity-ID (granadas)
-		//---------------------------------------------------------------------
-		ctx.GrenadeMetas = make(map[int]*models.GrenadeMetadata)
-		ctx.GrenadeTrajectories = make(map[int][]models.ProjectileTrajectoryEntry)
-		ctx.lastGrenadeRecordTick = make(map[int]int)
-		ctx.PendingMolotovs = make(map[int]models.MolotovData)
-
 		//---------------------------------------------------------------------
 		// Estado de la ronda
 		//---------------------------------------------------------------------
@@ -57,10 +29,31 @@ func registerRoundHandlers(ctx *DemoContext) {
 		ctx.RoundFirstKill = true
 		ctx.LastTeamKillTick = make(map[int]int)
 
+		// === NUEVO: Limpiar tracking de rotaciones para nueva ronda ===
+		ctx.BombPlantedSite = ""
+		ctx.BombPlantedTick = 0
+		ctx.LastZone = make(map[uint64]string)
+		ctx.ZoneEnteredTick = make(map[uint64]int)
+		ctx.EnemyFirstSeenTick = make(map[uint64]map[uint64]int)
+		ctx.ReactionRegistered = make(map[uint64]map[uint64]bool)
+		ctx.LastVisibleEnemies = make(map[uint64]map[uint64]bool)
+
+		// === NUEVO: Finalizar sprays en progreso al final de ronda ===
+		for sid, spray := range ctx.CurrentSpray {
+			if spray != nil && spray.ShotCount >= 3 {
+				ps := getOrCreatePlayerStats(ctx, sid, "")
+				finalizeSpray(ctx, sid, ps, spray)
+			}
+		}
+		ctx.CurrentSpray = make(map[uint64]*models.RecoilSpray)
+
 		//---------------------------------------------------------------------
 		// Economía inicial
 		//---------------------------------------------------------------------
 		ctx.RoundEconomyMap[ctx.RoundNumber] = make(map[uint64]*models.RoundEconomyStats)
+
+		// Calcular contexto de la ronda (halftime, OT, etc.)
+		roundContext := GetRoundContext(ctx.RoundNumber)
 
 		for _, pl := range ctx.parser.GameState().Participants().All() {
 			if pl.SteamID64 == 0 || pl.Team == common.TeamUnassigned {
@@ -79,6 +72,7 @@ func registerRoundHandlers(ctx *DemoContext) {
 				InitialMoney: pl.Money(),
 				FinalMoney:   pl.Money(),
 				LossBonus:    bonus,
+				Context:      roundContext, // NUEVO: Contexto de la ronda
 			}
 			econ.StartRoundItems = getPlayerInventorySnapshot(pl)
 
@@ -88,7 +82,7 @@ func registerRoundHandlers(ctx *DemoContext) {
 		}
 
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"RoundStart",
 			fmt.Sprintf("Round %d started (freeze time)", ctx.RoundNumber),
 			"",
@@ -107,7 +101,7 @@ func registerRoundHandlers(ctx *DemoContext) {
 		ctx.BuyWindowEndTickForRound[ctx.RoundNumber] = freezeTimeEndTick + buyWindowTicks
 
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"FreezeTimeEnded",
 			fmt.Sprintf("Round %d: freeze ended (buy window ~%ds)", ctx.RoundNumber, buyTimeSeconds),
 			"",
@@ -145,7 +139,7 @@ func registerRoundHandlers(ctx *DemoContext) {
 		}
 
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"RoundEnd",
 			fmt.Sprintf("Round %d ended. Reason=%v (Winner=%v)", ctx.RoundNumber, e.Reason, e.Winner),
 			"",
@@ -173,6 +167,14 @@ func registerRoundHandlers(ctx *DemoContext) {
 
 		winAmount := GetWinAmount(ctx.LastRoundWinner, winType)
 
+		// Contar T eliminados para bonus de CT
+		terroristsKilled := 0
+		for _, pl := range ctx.parser.GameState().Participants().All() {
+			if pl.Team == common.TeamTerrorists && !pl.IsAlive() {
+				terroristsKilled++
+			}
+		}
+
 		// Calculamos dinero final jugador a jugador
 		for _, pl := range ctx.parser.GameState().Participants().All() {
 			econ, ok := ctx.RoundEconomyMap[ctx.RoundNumber][pl.SteamID64]
@@ -190,6 +192,12 @@ func registerRoundHandlers(ctx *DemoContext) {
 			} else {
 				finalCalc += econ.LossBonus
 			}
+
+			// NUEVO: CTs ganan $50 por cada T eliminado (todo el equipo)
+			if pl.Team == common.TeamCounterTerrorists {
+				finalCalc += terroristsKilled * 50
+			}
+
 			econ.FinalMoney = finalCalc
 		}
 
@@ -206,7 +214,7 @@ func registerRoundHandlers(ctx *DemoContext) {
 		ctx.InRoundEndPeriod = false
 
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"RoundEndOfficial",
 			fmt.Sprintf("Survivors equip: %v", survivors),
 			"",
@@ -287,7 +295,7 @@ func processFlashEvents(ctx *DemoContext) {
 			if fd.friendlyCount > fd.enemyCount && fd.friendlyCount > 0 {
 				ps.BadFlashCount++
 				ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-					ctx.RoundNumber,
+					ctx,
 					"BadFlash",
 					fmt.Sprintf("%s's flash blinded %d teammates vs %d enemies",
 						ps.Name, fd.friendlyCount, fd.enemyCount),

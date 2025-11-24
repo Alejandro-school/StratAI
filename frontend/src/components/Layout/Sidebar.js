@@ -26,6 +26,20 @@ const SidebarComponent = () => {
     setAnchorEl(null);
   };
 
+  const handleClearCache = () => {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('match_details_')) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+    console.log(`🗑️ Limpiados ${keysToRemove.length} matches del caché`);
+    alert(`Caché limpiado: ${keysToRemove.length} partidas eliminadas`);
+    handleCloseMenu();
+  };
+
   const handleLogout = async () => {
     try {
       const response = await fetch(`${API_URL}/auth/steam/logout`, {
@@ -141,6 +155,10 @@ const SidebarComponent = () => {
             <DropdownItem onClick={handleCloseMenu} sx={{ py: 1.5, px: 2, color: '#e0e0e0' }}>
               <SettingsOutlined sx={{ mr: 2, fontSize: 20 }} />
               Configuración
+            </DropdownItem>
+            <DropdownItem onClick={handleClearCache} sx={{ py: 1.5, px: 2, color: '#f59e0b' }}>
+              <SettingsOutlined sx={{ mr: 2, fontSize: 20 }} />
+              Limpiar caché
             </DropdownItem>
             <Box sx={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)', mt: 0.5 }}>
               <DropdownItem 

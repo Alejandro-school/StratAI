@@ -3,7 +3,6 @@ package demo
 import (
 	"fmt"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
 )
 
@@ -11,19 +10,25 @@ func registerBombHandlers(ctx *DemoContext) {
 	ctx.parser.RegisterEventHandler(func(e events.BombPlanted) {
 		ctx.BombPlanted = true
 		planter := e.Player
-		var tAlive, ctAlive int
-		for _, p := range ctx.parser.GameState().Participants().Playing() {
-			if p.Team == common.TeamTerrorists && p.IsAlive() {
-				tAlive++
-			} else if p.Team == common.TeamCounterTerrorists && p.IsAlive() {
-				ctAlive++
-			}
+		tAlive, ctAlive := getAlivePlayersCount(ctx)
+
+		// === NUEVO: Guardar información del plant para rotation tracking ===
+		ctx.BombPlantedTick = ctx.parser.GameState().IngameTick()
+		// Determinar sitio de la bomba (A o B) desde el sitio del plant
+		// Bombsite es un tipo especial (rune), convertirlo a string
+		siteChar := rune(e.Site)
+		if siteChar == 'A' {
+			ctx.BombPlantedSite = "A"
+		} else if siteChar == 'B' {
+			ctx.BombPlantedSite = "B"
+		} else {
+			ctx.BombPlantedSite = "Unknown"
 		}
 
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"BombPlanted",
-			fmt.Sprintf("Bomb planted by %s at (T_alive=%d,CT_alive=%d)", nameOrNil(planter), tAlive, ctAlive),
+			fmt.Sprintf("Bomb planted by %s at %c (T_alive=%d,CT_alive=%d)", nameOrNil(planter), e.Site, tAlive, ctAlive),
 			teamString(planter),
 		))
 
@@ -40,16 +45,10 @@ func registerBombHandlers(ctx *DemoContext) {
 
 	ctx.parser.RegisterEventHandler(func(e events.BombDefused) {
 		defuser := e.Player
-		var tAlive, ctAlive int
-		for _, p := range ctx.parser.GameState().Participants().Playing() {
-			if p.Team == common.TeamTerrorists && p.IsAlive() {
-				tAlive++
-			} else if p.Team == common.TeamCounterTerrorists && p.IsAlive() {
-				ctAlive++
-			}
-		}
+		tAlive, ctAlive := getAlivePlayersCount(ctx)
+
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"BombDefused",
 			fmt.Sprintf("Bomb defused by %s at (T_alive=%d,CT_alive=%d)", nameOrNil(defuser), tAlive, ctAlive),
 			teamString(defuser),
@@ -61,16 +60,10 @@ func registerBombHandlers(ctx *DemoContext) {
 	})
 
 	ctx.parser.RegisterEventHandler(func(e events.BombExplode) {
-		var tAlive, ctAlive int
-		for _, p := range ctx.parser.GameState().Participants().Playing() {
-			if p.Team == common.TeamTerrorists && p.IsAlive() {
-				tAlive++
-			} else if p.Team == common.TeamCounterTerrorists && p.IsAlive() {
-				ctAlive++
-			}
-		}
+		tAlive, ctAlive := getAlivePlayersCount(ctx)
+
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"BombExploded",
 			fmt.Sprintf("Bomb exploded (T_alive=%d,CT_alive=%d)", tAlive, ctAlive),
 			"",
@@ -79,18 +72,18 @@ func registerBombHandlers(ctx *DemoContext) {
 
 	ctx.parser.RegisterEventHandler(func(e events.BombPlantBegin) {
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"BombBeginPlant",
-			fmt.Sprintf("Player %s comenzó a plantar la bomba.", nameOrNil(e.Player)),
+			fmt.Sprintf("Player %s started planting the bomb.", nameOrNil(e.Player)),
 			teamString(e.Player),
 		))
 	})
 
 	ctx.parser.RegisterEventHandler(func(e events.BombDefuseStart) {
 		ctx.EventLogs = append(ctx.EventLogs, newEventLog(
-			ctx.RoundNumber,
+			ctx,
 			"BombBeginDefuse",
-			fmt.Sprintf("Player %s comenzó a desactivar la bomba.", nameOrNil(e.Player)),
+			fmt.Sprintf("Player %s started defusing the bomb.", nameOrNil(e.Player)),
 			teamString(e.Player),
 		))
 	})

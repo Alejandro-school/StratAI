@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"cs2-demo-service/db"
 	"cs2-demo-service/handlers"
 	"cs2-demo-service/middlewares"
 
@@ -14,25 +13,25 @@ import (
 
 func main() {
 
-	// Cargar el fichero .env desde la raíz del backend
-	err := godotenv.Load("../.env") // Ajusta la ruta según la ubicación de tu .env
+	// Cargar el fichero .env desde la raíz del proyecto
+	err := godotenv.Load("../.env")
 	if err != nil {
-		log.Println("No se pudo cargar el fichero .env:", err)
+		log.Println("No se pudo cargar el fichero .env (no es crítico):", err)
 	}
-	// Inicializa Redis.
-	db.InitRedis()
 
 	// Crea el router.
 	router := mux.NewRouter()
 
-	// Registra los endpoints.
-	router.HandleFunc("/process-downloaded-demo", handlers.HandleProcessDownloadedDemo).Methods("POST")
-	router.HandleFunc("/get-processed-demos", handlers.HandleGetProcessedDemos).Methods("GET")
-	router.HandleFunc("/match/{steamID}/{matchID}", handlers.HandleGetMatchByID).Methods("GET")
+	// Endpoint simplificado: procesa una demo y devuelve el JSON directamente
+	router.HandleFunc("/process-demo", handlers.HandleProcessDemo).Methods("POST")
+	router.HandleFunc("/health", handlers.HandleHealth).Methods("GET")
+
+	// Endpoint para obtener detalles de un match desde exports/
+	router.HandleFunc("/match-details/{matchID}", handlers.HandleGetMatchDetails).Methods("GET")
 
 	// Aplica el middleware de CORS.
 	handlerWithCors := middlewares.WithCors(router)
 
-	log.Println("Servidor corriendo en puerto :8080")
+	log.Println("🚀 Servicio de análisis de demos CS2 iniciado en puerto :8080")
 	http.ListenAndServe(":8080", handlerWithCors)
 }

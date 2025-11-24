@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Request, HTTPException, Query, Response
+from fastapi import APIRouter, Request, HTTPException, Query
 from starlette.responses import RedirectResponse
 import urllib.parse
 import requests
 import os
 import logging
 from dotenv import load_dotenv
+from typing import Any
 
 
 load_dotenv()
@@ -74,7 +75,7 @@ async def steam_callback(
 
 # ---------- STATUS ----------
 @router.get("/auth/steam/status")
-async def steam_status(request: Request):
+async def steam_status(request: Request) -> dict[str, Any]:
     """Devuelve si el usuario está autenticado y, opcionalmente, su perfil."""
     steam_id = request.session.get("steam_id")            # ✅ sesión, no cookie
     if not steam_id:

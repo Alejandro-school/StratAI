@@ -22,33 +22,30 @@ export const useDashboardData = (user) => {
       try {
         setLoading(true);
         
-        console.log('Dashboard: Fetching demos for steam_id:', steamId);
+        console.log('Dashboard: Fetching dashboard stats for steam_id:', steamId);
         
-        // Obtener demos procesadas
-        const response = await fetch(`${API_URL}/steam/get-processed-demos`, {
+        // Usar endpoint OPTIMIZADO que no incluye event_logs
+        const response = await fetch(`${API_URL}/steam/get-dashboard-stats`, {
           credentials: 'include',
         });
 
         if (!response.ok) {
-          throw new Error('No se pudieron obtener las demos');
+          throw new Error('No se pudieron obtener las estadísticas');
         }
 
         const data = await response.json();
-        console.log('Dashboard: Received data:', data);
+        console.log('Dashboard: Received optimized data:', data);
         
-        const demos = data.demos || [];
-        console.log('Dashboard: Number of demos:', demos.length);
-
-        if (demos.length === 0) {
-          console.log('Dashboard: No demos found');
+        if (data.stats.total_matches === 0) {
+          console.log('Dashboard: No matches found');
           setDashboardData(getEmptyDashboardData());
           setLoading(false);
           return;
         }
 
-        // Procesar datos
-        const processedData = processDemos(demos, steamId);
-        console.log('Dashboard: Processed data:', processedData);
+        // Transformar datos del backend al formato esperado por el componente
+        const processedData = transformBackendData(data);
+        console.log('Dashboard: Transformed data:', processedData);
         setDashboardData(processedData);
         setError(null);
       } catch (err) {
@@ -66,7 +63,106 @@ export const useDashboardData = (user) => {
   return { dashboardData, loading, error };
 };
 
-// Procesar demos para obtener estadísticas del dashboard
+// Transformar datos del backend optimizado al formato del componente
+const transformBackendData = (backendData) => {
+  const { stats, recent_matches, weapon_stats, map_stats } = backendData;
+  
+  // Calcular tendencias comparando últimas 5 vs anteriores
+  const recentMatches = recent_matches.slice(0, 5);
+  const olderMatches = recent_matches.slice(5, 10);
+  
+  const recentHS = recentMatches.length > 0 
+    ? recentMatches.reduce((sum, m) => sum + m.hs_percentage, 0) / recentMatches.length 
+    : stats.avg_hs;
+  const olderHS = olderMatches.length > 0 
+    ? olderMatches.reduce((sum, m) => sum + m.hs_percentage, 0) / olderMatches.length 
+    : stats.avg_hs;
+  
+  const recentADR = recentMatches.length > 0 
+    ? recentMatches.reduce((sum, m) => sum + m.adr, 0) / recentMatches.length 
+    : stats.avg_adr;
+  const olderADR = olderMatches.length > 0 
+    ? olderMatches.reduce((sum, m) => sum + m.adr, 0) / olderMatches.length 
+    : stats.avg_adr;
+  
+  const recentKD = recentMatches.length > 0 
+    ? recentMatches.reduce((sum, m) => sum + m.kd_ratio, 0) / recentMatches.length 
+    : stats.avg_kd;
+  const olderKD = olderMatches.length > 0 
+    ? olderMatches.reduce((sum, m) => sum + m.kd_ratio, 0) / olderMatches.length 
+    : stats.avg_kd;
+  
+  const recentWins = recentMatches.filter(m => m.result === 'W').length;
+  const recentWR = recentMatches.length > 0 ? (recentWins / recentMatches.length) * 100 : stats.win_rate;
+  const olderWins = olderMatches.filter(m => m.result === 'W').length;
+  const olderWR = olderMatches.length > 0 ? (olderWins / olderMatches.length) * 100 : stats.win_rate;
+  
+  return {
+    totalMatches: stats.total_matches,
+    mainStats: {
+      headshot: {
+        value: Math.round(stats.avg_hs),
+        change: parseFloat((recentHS - olderHS).toFixed(1)),
+        trend: recentHS >= olderHS ? "up" : "down"
+      },
+      adr: {
+        value: Math.round(stats.avg_adr),
+        change: parseFloat((recentADR - olderADR).toFixed(1)),
+        trend: recentADR >= olderADR ? "up" : "down"
+      },
+      kd: {
+        value: parseFloat(stats.avg_kd.toFixed(2)),
+        change: parseFloat((recentKD - olderKD).toFixed(2)),
+        trend: recentKD >= olderKD ? "up" : "down"
+      },
+      winRate: {
+        value: Math.round(stats.win_rate),
+        change: parseFloat((recentWR - olderWR).toFixed(1)),
+        trend: recentWR >= olderWR ? "up" : "down"
+      },
+      totalKills: stats.total_kills
+    },
+    performanceData: recent_matches.slice(0, 7).reverse().map((match, index) => ({
+      match: index + 1,
+      kd: match.kd_ratio || 0,
+      adr: Math.round(match.adr || 0),
+      hs: Math.round(match.hs_percentage || 0)
+    })),
+    recentMatches: recent_matches.slice(0, 4).map((match, index) => ({
+      id: index + 1,
+      map: match.map,
+      result: match.result === 'W' ? 'Victoria' : 'Derrota',
+      score: `${match.team_score}-${match.opponent_score}`,
+      kd: match.kd_ratio || 0,
+      adr: Math.round(match.adr || 0),
+      hsp: Math.round(match.hs_percentage || 0),
+      kills: match.kills || 0,
+      deaths: match.deaths || 0,
+      assists: match.assists || 0,
+      date: formatRelativeDate(match.date)
+    })),
+    weaponStats: weapon_stats.map(w => ({
+      weapon: cleanWeaponName(w.weapon),
+      kills: w.kills,
+      accuracy: 0
+    })),
+    mapStats: map_stats.slice(0, 4).map(m => ({
+      map: m.map,
+      wins: m.wins,
+      losses: m.losses,
+      winRate: Math.round(m.win_rate)
+    })),
+    advancedStats: {
+      multiKills: { double: 0, triple: 0, quad: 0, ace: 0 },
+      clutchesWon: 0,
+      entryFrags: 0,
+      utilityDamage: 0,
+      flashAssists: 0
+    }
+  };
+};
+
+// LEGACY: Procesar demos para obtener estadísticas del dashboard (ya no se usa)
 const processDemos = (demos, userSteamId) => {
   console.log('Processing demos. User Steam ID:', userSteamId);
   console.log('Total demos to process:', demos.length);
