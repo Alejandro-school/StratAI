@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"cs2-demo-service/handlers"
+	"cs2-demo-service/api"
 	"cs2-demo-service/middlewares"
 
 	"github.com/gorilla/mux"
@@ -23,11 +23,11 @@ func main() {
 	router := mux.NewRouter()
 
 	// Endpoint simplificado: procesa una demo y devuelve el JSON directamente
-	router.HandleFunc("/process-demo", handlers.HandleProcessDemo).Methods("POST")
-	router.HandleFunc("/health", handlers.HandleHealth).Methods("GET")
+	router.HandleFunc("/process-demo", api.HandleProcessDemo).Methods("POST")
+	router.HandleFunc("/health", api.HandleHealth).Methods("GET")
 
 	// Endpoint para obtener detalles de un match desde exports/
-	router.HandleFunc("/match-details/{matchID}", handlers.HandleGetMatchDetails).Methods("GET")
+	router.HandleFunc("/match-details/{matchID}", api.HandleGetMatchDetails).Methods("GET")
 
 	// Aplica el middleware de CORS.
 	handlerWithCors := middlewares.WithCors(router)

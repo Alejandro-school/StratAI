@@ -9,6 +9,13 @@ require (
 )
 
 require (
+	github.com/galaco/bsp v0.3.1 // indirect
+	github.com/go-gl/mathgl v1.0.0 // indirect
+	github.com/qmuntal/gltf v0.28.0 // indirect
+	golang.org/x/image v0.18.0 // indirect
+)
+
+require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/golang/geo v0.0.0-20230421003525-6adc56603217

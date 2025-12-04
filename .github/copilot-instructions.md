@@ -30,10 +30,10 @@ This opens separate terminals for each service and checks Redis connectivity.
 - Go Service: `http://localhost:8080`
 - React Frontend: `http://localhost:3000`
 
-### Testing Automated Flow
-```powershell
-python backend/scripts/test_automatic_flow.py
-```
+### Common Tasks
+- **Test Automated Flow**: `python backend/scripts/test_automatic_flow.py`
+- **Reprocess All Demos**: `python backend/reprocess_all_simple.py` (Calls Go service for all local demos)
+- **Debug Go Parser**: `go run process_demo.go` (in `backend/go-service/`) for standalone file testing
 
 ## 📊 Redis as Central Data Store
 
@@ -47,14 +47,6 @@ python backend/scripts/test_automatic_flow.py
 - `processed_demos:{steam_id}` - List of analyzed match data
 - `match_data:{match_id}` - Individual match statistics
 
-### Monitoring Commands
-```bash
-redis-cli
-> SMEMBERS all_steam_ids              # List users
-> LLEN sharecodes:{steam_id}          # Queue length
-> HGETALL sharecode_status:{steam_id} # Processing states
-```
-
 ## 🤖 Automatic Match Detection System
 
 ### Cron Job Logic (`backend/node-service/services/cronJob.js`)
@@ -67,32 +59,29 @@ redis-cli
 - **Steam GC Integration**: Requests demo URLs from CS:GO Game Coordinator
 - **Demo Processing Pipeline**: Downloads → Saves to `backend/data/demos/` → Triggers Go analysis
 
-### Critical Files for Bot Debugging
-- Check Steam credentials in `backend/node-service/.env`
-- Monitor logs with `[CRON]` and `📡` prefixes
-- Verify `BOT_USERNAME`, `BOT_PASSWORD`, `BOT_SHARED_SECRET` are set
-
 ## 🔧 Service-Specific Patterns
 
 ### Python Backend (`backend/app/`)
 - **FastAPI with Redis Strategy**: Uses `fastapi_users` with Redis session storage
 - **Steam OAuth**: Session-based authentication through Steam OpenID
 - **CORS Configuration**: Hardcoded for `http://localhost:3000`
-- **Route Structure**: `steam_auth.py` (OAuth), `steam_service.py` (API calls), `auth_status.py` (session checks)
 
-### Go Service Architecture
-- **Gorilla Mux Router**: Simple REST endpoints for demo processing
-- **Concurrency Pattern**: Processes one demo at a time to avoid resource conflicts
-- **Redis Integration**: Stores parsed results as JSON in `match_data:` keys
-- **File Handling**: Reads from `../data/demos/` directory relative to go-service
+### Go Service Architecture (`backend/go-service/`)
+- **Router**: `gorilla/mux` handling `/process-demo` (POST) and `/match-details/{matchID}` (GET)
+- **Parser Package** (`parser/`):
+  - `parser.go`: Core parsing logic
+  - `timeline_exporter.go`: Generates round-by-round timeline events
+  - `exporter.go`: Handles JSON output generation
+- **Output**: Generates JSON files in `backend/data/exports/` and stores in Redis
 
-### React Frontend Patterns
-- **Route Protection**: Uses `RequireAuth` wrapper for authenticated routes
-- **Context Providers**: `AuthProvider` + `UserProvider` for global state
-- **Component Structure**: 
-  - `components/Dashboard/` - Main dashboard
-  - `components/Stats/` - Statistics visualization components
-  - `auth/` - Authentication components and hooks
+### React Frontend Patterns (`frontend/src/`)
+- **Stats Components** (`components/Stats/`):
+  - Modular components: `PersonalPerformance`, `MapPerformance`, `Replays2D`
+  - Centralized exports in `components/Stats/index.js`
+- **Design System**:
+  - **Glass Morphism**: `backdrop-filter: blur(20px)`, dark backgrounds (`#0f172a`)
+  - **Styles**: CSS modules in `styles/Stats/` with specific prefixes (e.g., `pp-*` for PersonalPerformance)
+- **State**: `AuthProvider` + `UserProvider` for global state
 
 ## 🔍 Common Debugging Scenarios
 
@@ -121,28 +110,6 @@ redis-cli
 - Main `.env` in project root for shared configs
 - Service-specific `.env` files override as needed
 - Redis connection defaults to `redis://localhost`
-
-### PowerShell Scripts
-- `start_services.ps1` - Development launcher
-- `test_*.ps1` files - Individual service testing
-- `check_current_state.ps1` - System health check
-
-## 🎯 Key Integration Points
-
-### Steam API Dependencies
-- **Authentication**: Requires Steam OpenID for user login
-- **Match Data**: Uses Steam Web API with user's auth codes
-- **Demo Access**: Bot must be friends with users to access private matches
-
-### Cross-Service Communication
-- **Python → Node.js**: Via Redis queues (`rpush` to `sharecodes:*`)
-- **Node.js → Go**: HTTP POST to `/process-downloaded-demo`
-- **Go → Frontend**: Via Redis storage (`match_data:*` keys)
-
-### Third-Party Dependencies
-- **Steam Bot**: Uses `globaloffensive` npm package for CS:GO integration
-- **Demo Parsing**: Go service uses custom demo parser (not demoinfocs)
-- **Frontend Charts**: Uses `react-chartjs-2` for statistics visualization
 
 ## 🧠 Code Review & Feature Evaluation Philosophy
 

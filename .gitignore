@@ -48,6 +48,11 @@ go-service/*.exe
 /cs2-coach-ai/frontend/src/media/Background.mp4
 /cs2-coach-ai/data/exports/*.csv
 
+# Archivos de mapas CS2 (muy grandes - usar Git LFS o descargar localmente)
+backend/data/maps/**/*.bin
+backend/data/maps/**/*.gltf
+backend/data/maps/**/*.png
+
 
 *.mp4
 *.mov
