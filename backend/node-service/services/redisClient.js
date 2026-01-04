@@ -2,18 +2,14 @@
  * backend/node-service/redisClient.js
  * Cliente Redis robusto para node-redis v4
  */
-require('dotenv').config();
+const config = require('./config');
 const { createClient } = require('redis');
 
-const REDIS_URL = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
-const CONNECT_TIMEOUT = parseInt(process.env.REDIS_CONNECT_TIMEOUT || '10000', 10);
-const MAX_RETRIES = parseInt(process.env.REDIS_MAX_RETRIES || '50', 10);
-
 const client = createClient({
-  url: REDIS_URL,
+  url: config.redis.url,
   socket: {
-    connectTimeout: CONNECT_TIMEOUT,
-    keepAlive: 5000,
+    connectTimeout: config.redis.connectTimeout,
+    keepAlive: config.redis.keepAlive,
     noDelay: true
   }
 });
@@ -47,7 +43,7 @@ async function connectWithRetry() {
         }
         retries += 1;
         console.error(`❌ [Redis] connect() falló (#${retries}): ${err?.message || err}`);
-        if (retries > MAX_RETRIES) {
+        if (retries > config.redis.maxRetries) {
           console.error('⛔ [Redis] Máximo de reintentos alcanzado. Sigo en modo degradado.');
           break;
         }

@@ -3,11 +3,10 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
+	"time"
 
 	"cs2-demo-service/db"
 	"cs2-demo-service/parser"
@@ -15,66 +14,93 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// ProcessDemoRequest represents the JSON body from Node service
+type ProcessDemoRequest struct {
+	DemoPath      string `json:"demo_path"`
+	SteamID       string `json:"steam_id"`
+	MatchID       string `json:"match_id"`
+	MatchDate     string `json:"match_date"`     // ISO 8601 date from Steam GC
+	MatchDuration int    `json:"match_duration"` // Duration in seconds from GC
+}
+
 // HandleProcessDemo procesa una demo y devuelve el JSON
 func HandleProcessDemo(w http.ResponseWriter, r *http.Request) {
 	log.Println("📥 Procesando demo...")
 
-	// Leer archivo demo del body
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "Error leyendo body", http.StatusBadRequest)
+	// Parse JSON body from Node service
+	var req ProcessDemoRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Printf("❌ Error decodificando JSON: %v", err)
+		http.Error(w, "Error decodificando JSON", http.StatusBadRequest)
 		return
 	}
 	defer r.Body.Close()
 
-	// Extraer matchID del header o generar uno
-	matchID := r.Header.Get("X-Match-ID")
-	if matchID == "" {
-		matchID = fmt.Sprintf("match_%d", len(body)%100000)
-	}
-
-	// Guardar demo temporal
-	demoPath := filepath.Join("../data/demos", fmt.Sprintf("match_%s.dem", matchID))
-	err = os.WriteFile(demoPath, body, 0644)
-	if err != nil {
-		http.Error(w, "Error guardando demo", http.StatusInternalServerError)
+	// Validate required fields
+	if req.DemoPath == "" {
+		http.Error(w, "Falta demo_path", http.StatusBadRequest)
 		return
 	}
 
+	// Use provided matchID or generate one
+	matchID := req.MatchID
+	if matchID == "" {
+		matchID = fmt.Sprintf("match_%d", len(req.DemoPath)%100000)
+	}
+
+	log.Printf("📁 Demo path: %s", req.DemoPath)
+	log.Printf("📅 Match date: %s", req.MatchDate)
+
+	// Check if file exists and is valid
+	fileInfo, err := os.Stat(req.DemoPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			log.Printf("❌ Demo file does not exist: %s", req.DemoPath)
+			http.Error(w, fmt.Sprintf("Demo file not found: %s", req.DemoPath), http.StatusNotFound)
+			return
+		}
+		log.Printf("❌ Error accessing demo file: %v", err)
+		http.Error(w, fmt.Sprintf("Error accessing file: %v", err), http.StatusInternalServerError)
+		return
+	}
+
+	// Check file size - a valid demo should be at least a few MB
+	if fileInfo.Size() < 1024*100 { // Less than 100KB is definitely corrupt
+		log.Printf("❌ Demo file too small (%d bytes), likely corrupt or incomplete: %s", fileInfo.Size(), req.DemoPath)
+		http.Error(w, fmt.Sprintf("Demo file too small (%d bytes), likely corrupt", fileInfo.Size()), http.StatusBadRequest)
+		return
+	}
+	log.Printf("📊 Demo file size: %.2f MB", float64(fileInfo.Size())/(1024*1024))
+
+	// ⏱️ TIMING: ParseDemo
+	parseStart := time.Now()
 	// Parsear demo usando nueva arquitectura
-	ctx, err := parser.ParseDemo(demoPath)
+	ctx, err := parser.ParseDemo(req.DemoPath)
 	if err != nil {
 		log.Printf("❌ Error parseando demo: %v", err)
 		http.Error(w, fmt.Sprintf("Error parseando: %v", err), http.StatusInternalServerError)
 		return
 	}
+	log.Printf("⏱️ ParseDemo took: %v", time.Since(parseStart))
 
 	matchData := ctx.MatchData
 
 	// Asignar matchID
 	matchData.MatchID = matchID
 
-	// NUEVO: Exportar Timeline (formato coaching)
 	exportBaseDir := "../data/exports"
-	err = parser.ExportTimelineData(ctx, matchID, exportBaseDir)
-	if err != nil {
-		log.Printf("⚠️  Error exportando timeline: %v", err)
-	}
 
-	// NUEVO: Exportar Analysis (optimización queries)
-	err = parser.ExportAnalysisData(ctx, matchID, exportBaseDir)
+	// ⏱️ TIMING: ExportAIModels
+	exportStart := time.Now()
+	// Exportar AI Models (pass match_date directly)
+	err = parser.ExportAIModels(ctx, matchID, exportBaseDir, req.MatchDate)
 	if err != nil {
-		log.Printf("⚠️  Error exportando analysis: %v", err)
+		log.Printf("⚠️  Error exportando AI models: %v", err)
 	}
-
-	// LEGACY: REMOVED
-	// exportDir := filepath.Join("../data/exports", fmt.Sprintf("%s_%d-%d", matchData.MapName, matchData.CTScore, matchData.TScore))
-	// err = parser.ExportOptimizedData(matchData, exportDir)
-	// if err != nil {
-	// 	log.Printf("⚠️  Error exportando archivos legacy: %v", err)
-	// }
+	log.Printf("⏱️ ExportAIModels took: %v", time.Since(exportStart))
 
 	// Guardar en Redis
+
 	err = db.SaveMatchData(matchID, matchData)
 	if err != nil {
 		log.Printf("⚠️  Error guardando en Redis: %v", err)
@@ -82,9 +108,14 @@ func HandleProcessDemo(w http.ResponseWriter, r *http.Request) {
 
 	// Devolver JSON
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(matchData)
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"status":   "success",
+		"match_id": matchID,
+		"kills":    len(matchData.Kills),
+		"rounds":   len(matchData.Rounds),
+	})
 
-	log.Printf("✅ Demo procesada: %s (%d kills, %d rounds, %d timeline events)", matchID, len(matchData.Kills), len(matchData.Rounds), len(ctx.Timeline))
+	log.Printf("✅ Demo procesada: %s (%d kills, %d rounds)", matchID, len(matchData.Kills), len(matchData.Rounds))
 }
 
 // HandleHealth retorna el estado del servicio

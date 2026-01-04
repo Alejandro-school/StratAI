@@ -6,11 +6,11 @@ import LandingPage from "./components/Landing/LandingPage";
 import SteamLoginSuccess from "./auth/SteamLoginSuccess";
 
 // ───────────── Rutas privadas ──────────────
-import Dashboard from "./components/Dashboard/Dashboard";
+import Dashboard from "./components/Dashboard/DashboardMapV2";
 import BotInstructions from "./auth/BotInstructions";
 import HistoryCodeForm from "./auth/HistoryCodeForm";
 import HistoryGames from "./components/Stats/HistoryGames";
-import MatchDetails from "./components/Stats/MatchDetails";
+import MatchDetails from "./components/Match/MatchDetails";
 
 // ───────────── Nuevos componentes Stats ──────────────
 import PersonalPerformance from "./components/Stats/PersonalPerformance";

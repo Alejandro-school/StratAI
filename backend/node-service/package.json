@@ -17,7 +17,6 @@
     "follow-redirects": "^1.15.9",
     "fs-extra": "^11.2.0",
     "globaloffensive": "^3.2.0",
-    "ioredis": "^5.4.2",
     "node-cron": "^3.0.3",
     "p-queue": "^8.1.0",
     "readline-sync": "^1.4.10",

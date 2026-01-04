@@ -43,10 +43,10 @@ dump.rdb
 go-service/bin/
 go-service/*.exe
 
-# Archivos de carga de demos
-/cs2-coach-ai/data/demos/*.dem
-/cs2-coach-ai/frontend/src/media/Background.mp4
-/cs2-coach-ai/data/exports/*.csv
+# Data directories
+backend/data/demos/
+backend/data/exports/
+backend/data/maps/
 
 # Archivos de mapas CS2 (muy grandes - usar Git LFS o descargar localmente)
 backend/data/maps/**/*.bin
@@ -72,8 +72,6 @@ backend/go-service/scripts/reprocess_demos.exe
 backend/go-service/IA.zip
 
 # Datos generados/exports
-backend/data/exports/
-backend/go-service/data/exports/
 
 # Otros
 cookies.txt

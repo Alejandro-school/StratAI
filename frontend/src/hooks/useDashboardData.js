@@ -24,10 +24,18 @@ export const useDashboardData = (user) => {
         
         console.log('Dashboard: Fetching dashboard stats for steam_id:', steamId);
         
+        // Forzar refresh si es la primera carga de la sesión
+        const hasRefreshed = sessionStorage.getItem('dashboard_refreshed');
+        const forceRefresh = !hasRefreshed ? 'true' : 'false';
+        
         // Usar endpoint OPTIMIZADO que no incluye event_logs
-        const response = await fetch(`${API_URL}/steam/get-dashboard-stats`, {
+        const response = await fetch(`${API_URL}/steam/get-dashboard-stats?force_refresh=${forceRefresh}`, {
           credentials: 'include',
         });
+        
+        if (!hasRefreshed) {
+          sessionStorage.setItem('dashboard_refreshed', 'true');
+        }
 
         if (!response.ok) {
           throw new Error('No se pudieron obtener las estadísticas');
@@ -152,15 +160,103 @@ const transformBackendData = (backendData) => {
       losses: m.losses,
       winRate: Math.round(m.win_rate)
     })),
-    advancedStats: {
+    advancedStats: calculateAdvancedStatsFromMatches(recent_matches)
+  };
+};
+
+// Calculate advanced stats by aggregating data from all matches
+const calculateAdvancedStatsFromMatches = (matches) => {
+  if (!matches || matches.length === 0) {
+    return {
       multiKills: { double: 0, triple: 0, quad: 0, ace: 0 },
       clutchesWon: 0,
       entryFrags: 0,
       utilityDamage: 0,
-      flashAssists: 0
-    }
+      flashAssists: 0,
+      // New advanced stats
+      avgHltvRating: 0,
+      avgKAST: 0,
+      totalOpeningDuels: 0,
+      openingSuccessRate: 0,
+      totalTradeKills: 0,
+      avgUtilityEfficiency: 0
+    };
+  }
+
+  // Aggregate stats from all matches
+  const totals = {
+    hltvRating: 0,
+    kast: 0,
+    openingDuelsWon: 0,
+    openingDuelsLost: 0,
+    tradeKills: 0,
+    flashAssists: 0,
+    clutches1v1: 0,
+    clutches1v2: 0,
+    enemiesFlashedPerFlash: 0,
+    heDamagePerNade: 0,
+    molotovDamagePerNade: 0
   };
-};
+
+  let matchCount = 0;
+
+  matches.forEach(match => {
+    if (!match) return;
+    
+    matchCount++;
+    
+    // Accumulate ratings and percentages
+    totals.hltvRating += match.hltv_rating || 0;
+    totals.kast += match.kast || 0;
+    
+    // Entry duels
+    totals.openingDuelsWon += match.opening_duels_won || 0;
+    totals.openingDuelsLost += match.opening_duels_lost || 0;
+    
+    // Trading and teamplay
+    totals.tradeKills += match.trade_kills || 0;
+    totals.flashAssists += match.flash_assists || 0;
+    
+    // Clutches
+    totals.clutches1v1 += match.clutches_1v1_won || 0;
+    totals.clutches1v2 += match.clutches_1v2_won || 0;
+    
+    // Utility efficiency
+    totals.enemiesFlashedPerFlash += match.enemies_flashed_per_flash || 0;
+    totals.heDamagePerNade += match.he_damage_per_nade || 0;
+    totals.molotovDamagePerNade += match.molotov_damage_per_nade || 0;
+  });
+
+  // Calculate averages
+  const avgHltvRating = matchCount > 0 ? totals.hltvRating / matchCount : 0;
+  const avgKAST = matchCount > 0 ? totals.kast / matchCount : 0;
+  const totalOpeningDuels = totals.openingDuelsWon + totals.openingDuelsLost;
+  const openingSuccessRate = totalOpeningDuels > 0 
+    ? (totals.openingDuelsWon / totalOpeningDuels) * 100 
+    : 0;
+  
+  // Utility efficiency (average of the three utility types)
+  const avgUtilityEff = matchCount > 0 
+    ? (totals.enemiesFlashedPerFlash + totals.heDamagePerNade + totals.molotovDamagePerNade) / 3 / matchCount
+    : 0;
+
+  return {
+    // Legacy stats (TODO: extract from detailed combat data if available)
+    multiKills: { double: 0, triple: 0, quad: 0, ace: 0 },
+    clutchesWon: totals.clutches1v1 + totals.clutches1v2,
+    entryFrags: totals.openingDuelsWon,
+    utilityDamage: Math.round(totals.heDamagePerNade + totals.molotovDamagePerNade),
+    flashAssists: totals.flashAssists,
+    
+    // New advanced stats
+    avgHltvRating: parseFloat(avgHltvRating.toFixed(2)),
+    avgKAST: parseFloat(avgKAST.toFixed(1)),
+    totalOpeningDuels,
+    openingSuccessRate: parseFloat(openingSuccessRate.toFixed(1)),
+    totalTradeKills: totals.tradeKills,
+    avgUtilityEfficiency: parseFloat(avgUtilityEff.toFixed(2))
+  };
+}
 
 // LEGACY: Procesar demos para obtener estadísticas del dashboard (ya no se usa)
 const processDemos = (demos, userSteamId) => {

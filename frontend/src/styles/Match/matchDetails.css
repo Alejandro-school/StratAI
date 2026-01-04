@@ -1,0 +1,508 @@
+/* frontend/src/styles/Match/matchDetails.css */
+/* Match Details Page Styles */
+
+.match-details-container {
+  min-height: 100vh;
+  background: #0a0c10;
+  color: #f1f5f9;
+}
+
+/* Loading / Error States */
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 16px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(139, 92, 246, 0.2);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-state h2 {
+  color: #ef4444;
+  margin: 0;
+}
+
+.error-state button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  color: #a5b4fc;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.error-state button:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+/* ==================== HEADER ==================== */
+.match-header {
+  position: relative;
+  padding: 40px;
+  background-size: cover;
+  background-position: center;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.match-header .header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(10, 12, 16, 0.7) 0%,
+    rgba(10, 12, 16, 0.95) 100%
+  );
+}
+
+.match-header .header-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 10;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+}
+
+.match-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.match-result .map-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.match-result .result-badge {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.result-badge.win {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.result-badge.loss {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.score-display .team-score {
+  font-size: 56px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+}
+
+.score-display .team-score.winner {
+  color: #f1f5f9;
+}
+
+.match-header.victory .score-display .team-score:first-child {
+  color: #22c55e;
+}
+
+.match-header.defeat .score-display .team-score:last-child {
+  color: #ef4444;
+}
+
+.score-display .score-divider {
+  font-size: 36px;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.match-meta {
+  display: flex;
+  gap: 24px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.match-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==================== SECTIONS ==================== */
+.section {
+  padding: 24px;
+  margin: 0 24px 24px;
+  background: rgba(15, 18, 25, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+}
+
+.section h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.section h2 svg {
+  color: #8b5cf6;
+}
+
+/* ==================== SCOREBOARD ==================== */
+.team-table {
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.team-table:last-child {
+  margin-bottom: 0;
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 8px 8px 0 0;
+  background: rgba(139, 92, 246, 0.1);
+  color: #a5b4fc;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+.team-header.enemy {
+  background: rgba(251, 146, 60, 0.1);
+  color: #fb923c;
+  border-bottom: 2px solid rgba(251, 146, 60, 0.3);
+}
+
+.team-result-badge {
+  margin-left: auto;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.team-result-badge.win {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.team-result-badge.loss {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.team-table.winner-team {
+  border-left: 3px solid #22c55e;
+}
+
+.team-table.loser-team {
+  border-left: 3px solid #ef4444;
+}
+
+.team-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.team-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.team-table td {
+  padding: 12px;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.team-table tr:last-child td {
+  border-bottom: none;
+}
+
+.team-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.team-table tr.current-user {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.team-table tr.current-user td {
+  color: #f1f5f9;
+}
+
+.player-name {
+  font-weight: 600;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mvp-badge {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
+/* ==================== PERFORMANCE STATS ==================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stat-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.stat-card h3 svg {
+  color: #8b5cf6;
+}
+
+.stat-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-item .value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.stat-item .label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+/* Multikills */
+.multikills {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.mk {
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.mk.highlight {
+  background: rgba(139, 92, 246, 0.2);
+  color: #a5b4fc;
+}
+
+.mk.ace {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+/* Body hits */
+.body-hits {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* Grenade breakdown */
+.grenade-breakdown {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 11px;
+  flex-wrap: wrap;
+}
+
+/* ==================== WEAPONS ==================== */
+.weapons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.weapon-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 14px;
+  transition: all 0.2s;
+}
+
+.weapon-card:hover {
+  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.weapon-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 12px;
+}
+
+.weapon-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.ws {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ws .val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #a5b4fc;
+}
+
+.ws .lbl {
+  font-size: 9px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .match-header {
+    padding: 60px 20px 30px;
+  }
+  
+  .back-btn {
+    top: 10px;
+    left: 10px;
+  }
+  
+  .score-display .team-score {
+    font-size: 40px;
+  }
+  
+  .section {
+    margin: 0 12px 16px;
+    padding: 16px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .team-table th:nth-child(n+6),
+  .team-table td:nth-child(n+6) {
+    display: none;
+  }
+}

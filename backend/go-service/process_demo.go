@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	demoFilename := "match_6DhZ28LiQKRMfj4tDG8CKUGnK.dem"
+	demoFilename := "match_EM3x9b7fGC2uZEMFCtKfZjenL.dem"
 	demoPath := filepath.Join("..", "data", "demos", demoFilename)
 	outputDir := filepath.Join("..", "data", "exports")
 
@@ -35,16 +35,14 @@ func main() {
 	fmt.Printf("Parsing took: %v\n", time.Since(start))
 	fmt.Printf("Rounds: %d\n", len(ctx.RoundTimelines))
 
-	// 2. Export
+	// 2. Export (date comes from Node via API - empty for local testing)
 	matchID := "test_verification"
-	err = parser.ExportTimelineData(ctx, matchID, outputDir)
-	if err != nil {
-		log.Fatalf("Error exporting timeline: %v", err)
-	}
 
-	err = parser.ExportAnalysisData(ctx, matchID, outputDir)
+	// For local testing, date would normally come from Steam GC via Node service
+	// Pass empty string since we don't have GC access here
+	err = parser.ExportAIModels(ctx, matchID, outputDir)
 	if err != nil {
-		log.Fatalf("Error exporting analysis: %v", err)
+		log.Fatalf("Error exporting AI models: %v", err)
 	}
 
 	fmt.Println("Done!")

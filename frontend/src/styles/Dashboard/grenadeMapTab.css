@@ -1,0 +1,1011 @@
+/* frontend/src/styles/Dashboard/grenadeMapTab.css */
+/* Grenade Intel System - Professional CS2 Analysis Dashboard */
+
+/* ============================================
+   VARIABLES
+============================================ */
+:root {
+  --grenade-bg-dark: rgba(10, 12, 16, 0.95);
+  --grenade-bg-medium: rgba(15, 18, 25, 0.9);
+  --grenade-border: rgba(255, 255, 255, 0.08);
+  --grenade-border-hover: rgba(255, 255, 255, 0.15);
+  --grenade-text: #f1f5f9;
+  --grenade-text-secondary: #94a3b8;
+  --grenade-text-muted: #64748b;
+  --grenade-accent: #8b5cf6;
+  --grenade-success: #22c55e;
+  --grenade-warning: #f59e0b;
+  --grenade-danger: #ef4444;
+}
+
+/* ============================================
+   MAIN PANEL CONTAINER
+============================================ */
+.grenade-intel-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.grenade-intel-panel.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 20px;
+  color: var(--grenade-text-muted);
+}
+
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(139, 92, 246, 0.2);
+  border-top-color: var(--grenade-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   GRENADE ARSENAL - Compact Summary
+============================================ */
+.grenade-arsenal {
+  background: var(--grenade-bg-dark);
+  border: 1px solid var(--grenade-border);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.arsenal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.arsenal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arsenal-title h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--grenade-text);
+  letter-spacing: 0.3px;
+}
+
+.arsenal-icon {
+  color: var(--grenade-accent);
+}
+
+.arsenal-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.total-count {
+  color: var(--grenade-text);
+  background: rgba(139, 92, 246, 0.15);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.matches-count {
+  color: var(--grenade-text-muted);
+}
+
+/* Arsenal Grid - 4 columns with larger icons */
+.arsenal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.arsenal-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.arsenal-item:hover {
+  background: var(--item-bg);
+  border-color: var(--item-color);
+}
+
+.arsenal-item.active {
+  background: var(--item-bg);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.arsenal-item.inactive {
+  opacity: 0.4;
+}
+
+.arsenal-item.inactive:hover {
+  opacity: 0.7;
+}
+
+/* Large icon styling */
+.item-icon-large {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.item-icon-large .grenade-icon-img {
+  transition: transform 0.2s ease;
+}
+
+.arsenal-item:hover .item-icon-large .grenade-icon-img {
+  transform: scale(1.1);
+}
+
+/* Stats section */
+.item-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.item-count-large {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--grenade-text);
+  line-height: 1;
+}
+
+.arsenal-item.inactive .item-count-large {
+  color: var(--grenade-text-muted);
+}
+
+.item-effect-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.item-effect-compact .effect-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--item-color);
+}
+
+.arsenal-item.inactive .item-effect-compact .effect-value {
+  color: var(--grenade-text-muted);
+}
+
+.effect-label-small {
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--grenade-text-muted);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Visibility icon */
+.item-visibility-icon {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: var(--grenade-text-muted);
+  opacity: 0.4;
+}
+
+.arsenal-item.active .item-visibility-icon {
+  color: var(--item-color);
+  opacity: 0.8;
+}
+
+/* Legacy support for old class names */
+.item-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-count {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--grenade-text);
+}
+
+.arsenal-item.inactive .item-count {
+  color: var(--grenade-text-muted);
+}
+
+.item-effect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.effect-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--item-color);
+}
+
+.arsenal-item.inactive .effect-value {
+  color: var(--grenade-text-muted);
+}
+
+.effect-label {
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--grenade-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.item-visibility {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  color: var(--grenade-text-muted);
+  opacity: 0.5;
+}
+
+.arsenal-item.active .item-visibility {
+  color: var(--item-color);
+  opacity: 1;
+}
+
+/* Grayscale filter for inactive */
+.grenade-icon-img.grayscale {
+  filter: grayscale(100%) opacity(0.6);
+}
+
+/* ============================================
+   LINEUP DETAIL PANEL
+============================================ */
+.lineup-detail-panel {
+  background: var(--grenade-bg-dark);
+  border: 1px solid var(--grenade-border);
+  border-left: 3px solid var(--panel-color);
+  border-radius: 14px;
+  padding: 14px;
+  animation: panelSlideIn 0.25s ease;
+}
+
+@keyframes panelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.lineup-detail-panel.empty {
+  border-left-color: var(--grenade-text-muted);
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--grenade-text-muted);
+}
+
+.empty-content h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--grenade-text-secondary);
+}
+
+.empty-content p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Panel Header */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.panel-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.panel-title-text h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--grenade-text);
+  letter-spacing: 0.5px;
+}
+
+.panel-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--grenade-text-muted);
+  margin-top: 2px;
+}
+
+.panel-close {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 6px;
+  color: var(--grenade-text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.panel-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--grenade-text);
+}
+
+/* Route Info */
+.route-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.route-from {
+  color: var(--grenade-text-secondary);
+  font-weight: 500;
+}
+
+.route-info svg {
+  color: var(--grenade-text-muted);
+}
+
+.route-to {
+  color: var(--panel-color);
+  font-weight: 600;
+}
+
+/* Usage Badge */
+.usage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--grenade-text-secondary);
+  margin-bottom: 12px;
+}
+
+.usage-badge svg {
+  color: var(--grenade-accent);
+}
+
+.usage-badge strong {
+  color: var(--grenade-text);
+  font-weight: 700;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.metric-card.good {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.metric-card.bad {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.metric-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--grenade-text);
+}
+
+.metric-card.good .metric-value {
+  color: var(--grenade-success);
+}
+
+.metric-card.bad .metric-value {
+  color: var(--grenade-danger);
+}
+
+.metric-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--grenade-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Zones Section */
+.zones-section {
+  padding-top: 10px;
+  border-top: 1px solid var(--grenade-border);
+  margin-bottom: 10px;
+}
+
+.zones-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grenade-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zone-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.zone-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grenade-text);
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+/* Insight Box */
+.insight-box {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.insight-box p {
+  margin: 0;
+  color: var(--grenade-text);
+}
+
+.insight-box.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.insight-box.success svg {
+  color: var(--grenade-success);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.insight-box.warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.insight-box.warning svg {
+  color: var(--grenade-warning);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ============================================
+   TOP LINEUPS SECTION
+============================================ */
+.top-lineups-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lineup-category {
+  background: var(--grenade-bg-dark);
+  border: 1px solid var(--grenade-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--grenade-border);
+}
+
+.category-header h5 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grenade-text);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.lineup-category.best .category-icon {
+  color: var(--grenade-success);
+}
+
+.lineup-category.practice .category-icon {
+  color: var(--grenade-warning);
+}
+
+.lineup-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.lineup-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  width: 100%;
+}
+
+.lineup-item:last-child {
+  border-bottom: none;
+}
+
+.lineup-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lineup-rank {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--grenade-success);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.lineup-item.needs-practice .lineup-rank {
+  display: none;
+}
+
+.lineup-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lineup-color);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+.lineup-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.lineup-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--grenade-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lineup-effect {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--lineup-color);
+}
+
+.lineup-effect.bad {
+  color: var(--grenade-warning);
+}
+
+.lineup-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grenade-text-muted);
+}
+
+/* ============================================
+   SMART GRENADE MARKERS - Map Overlay
+============================================ */
+.grenade-overlay-intel {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.grenade-marker-smart {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 15;
+  transition: all 0.2s ease;
+}
+
+.grenade-marker-smart:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 25;
+}
+
+.grenade-marker-smart.selected {
+  transform: translate(-50%, -50%) scale(1.15);
+  z-index: 30;
+}
+
+.grenade-marker-smart.highlighted {
+  transform: translate(-50%, -50%) scale(1.2);
+  z-index: 28;
+}
+
+/* Pulse animation */
+.marker-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: var(--marker-bg);
+  opacity: 0;
+  animation: markerPulse 2s ease-in-out infinite;
+}
+
+.grenade-marker-smart.selected .marker-pulse,
+.grenade-marker-smart.highlighted .marker-pulse {
+  animation: markerPulseActive 1.2s ease-in-out infinite;
+}
+
+@keyframes markerPulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.3); opacity: 0; }
+}
+
+@keyframes markerPulseActive {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Marker Body */
+.marker-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: rgba(10, 12, 16, 0.92);
+  border: 2px solid var(--marker-color);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 12px var(--marker-glow),
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
+  transition: all 0.2s;
+}
+
+.grenade-marker-smart:hover .marker-body {
+  background: rgba(15, 18, 25, 0.95);
+  border-width: 3px;
+  box-shadow: 
+    0 0 20px var(--marker-glow),
+    inset 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+.grenade-marker-smart.selected .marker-body {
+  background: var(--marker-color);
+  box-shadow: 
+    0 0 25px var(--marker-glow),
+    0 0 40px var(--marker-glow);
+}
+
+.grenade-marker-smart.selected .marker-body .grenade-icon-img {
+  filter: brightness(1.3) saturate(1.2) drop-shadow(0 0 8px rgba(255,255,255,0.5));
+}
+
+/* Grenade icon image styles */
+.grenade-icon-img {
+  transition: filter 0.2s ease;
+}
+
+.grenade-icon-img.grayscale {
+  filter: grayscale(1) opacity(0.5);
+}
+
+/* Count badge - positioned outside the marker body */
+.marker-count-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--marker-color);
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: 0 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  z-index: 5;
+}
+
+.grenade-marker-smart.selected .marker-count-badge {
+  background: #fff;
+  color: #000;
+}
+
+/* Efficiency Bar under marker */
+.marker-efficiency-bar {
+  width: 32px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.efficiency-fill {
+  height: 100%;
+  background: var(--marker-color);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.grenade-marker-smart.good .efficiency-fill {
+  background: var(--grenade-success);
+}
+
+.grenade-marker-smart.bad .efficiency-fill {
+  background: var(--grenade-warning);
+}
+
+/* Marker Label */
+.marker-label {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--grenade-text);
+  background: rgba(10, 12, 16, 0.9);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.grenade-marker-smart:hover .marker-label,
+.grenade-marker-smart.selected .marker-label {
+  opacity: 1;
+}
+
+/* ============================================
+   TRAJECTORY VISUALIZATION - Clean Static
+============================================ */
+.trajectory-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 14;
+}
+
+.trajectory-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.trajectory-group {
+  opacity: 0;
+  animation: fadeInTrajectory 0.3s ease forwards;
+}
+
+@keyframes fadeInTrajectory {
+  to { opacity: 0.9; }
+}
+
+.trajectory-path {
+  stroke-linecap: round;
+}
+
+/* Landing indicators - simple static circles */
+.landing-indicator {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0;
+  animation: fadeInLanding 0.4s ease 0.2s forwards;
+}
+
+.landing-indicator img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px var(--landing-color));
+}
+
+@keyframes fadeInLanding {
+  to { opacity: 0.85; }
+}
+
+/* Subtle glow ring around landing */
+.landing-indicator::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--landing-glow) 0%, transparent 70%);
+  opacity: 0.5;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+============================================ */
+@media (max-width: 900px) {
+  .arsenal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .arsenal-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  
+  .arsenal-item {
+    padding: 8px 4px;
+  }
+  
+  .item-count {
+    font-size: 16px;
+  }
+  
+  .lineup-item {
+    padding: 8px 10px;
+  }
+}
+
+/* ============================================
+   LEGACY SUPPORT (backward compatibility)
+============================================ */
+.grenade-tab-premium {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grenade-overlay-premium {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.grenade-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grenade-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+

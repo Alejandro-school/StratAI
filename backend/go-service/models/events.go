@@ -24,10 +24,17 @@ type KillEvent struct {
 	VictimX           float64 `json:"victim_x"`
 	VictimY           float64 `json:"victim_y"`
 	VictimZ           float64 `json:"victim_z"`
+	// PHASE 1: Map Area Names (Callouts)
+	KillerAreaName string `json:"killer_area_name,omitempty"`
+	VictimAreaName string `json:"victim_area_name,omitempty"`
 
 	// Mechanics on Kill
 	CounterStrafeRating float64 `json:"counter_strafe_rating,omitempty"` // 0-100
 	TimeToDamage        float64 `json:"time_to_damage,omitempty"`        // ms
+
+	// PHASE 1: Weapon State Integration
+	WeaponStateBefore *WeaponStateSnapshot `json:"weapon_state_before,omitempty"` // Estado antes del kill
+	WeaponStateAfter  *WeaponStateSnapshot `json:"weapon_state_after,omitempty"`  // Estado después del kill
 }
 
 // DamageEvent representa daño infligido a un jugador
@@ -41,6 +48,13 @@ type DamageEvent struct {
 	ArmorDamage  int    `json:"armor_damage"`
 	HitGroup     string `json:"hit_group"`
 	VictimHealth int    `json:"victim_health"`
+	// PHASE 1: Map Area Names (Callouts)
+	AttackerAreaName string `json:"attacker_area_name,omitempty"`
+	VictimAreaName   string `json:"victim_area_name,omitempty"`
+
+	// PHASE 1: Weapon State Integration
+	WeaponState        *WeaponStateSnapshot `json:"weapon_state,omitempty"`         // Estado del arma del atacante (Start of Spray)
+	WeaponStateCurrent *WeaponStateSnapshot `json:"weapon_state_current,omitempty"` // Estado del arma en el momento del impacto
 }
 
 // FlashEvent representa una flash detonada
@@ -52,12 +66,18 @@ type FlashEvent struct {
 	Y       float64       `json:"y"`
 	Z       float64       `json:"z"`
 	Victims []FlashVictim `json:"victims"`
+	// PHASE 1: Map Area Names & Team Flash Detection
+	ThrowerAreaName string `json:"thrower_area_name,omitempty"`
+	LandAreaName    string `json:"land_area_name,omitempty"`
+	EnemiesBlinded  int    `json:"enemies_blinded"`
+	AlliesBlinded   int    `json:"allies_blinded"`
 }
 
 // FlashVictim representa un jugador flasheado
 type FlashVictim struct {
 	Name     string  `json:"name"`
 	Duration float32 `json:"duration"`
+	Team     string  `json:"team"` // PHASE 1: CT o T para detectar team flashes
 }
 
 // HEEvent representa una HE detonada
@@ -68,6 +88,9 @@ type HEEvent struct {
 	X       float64 `json:"x"`
 	Y       float64 `json:"y"`
 	Z       float64 `json:"z"`
+	// PHASE 1: Map Area Names
+	ThrowerAreaName string `json:"thrower_area_name,omitempty"`
+	LandAreaName    string `json:"land_area_name,omitempty"`
 }
 
 // SmokeEvent representa un smoke lanzado
@@ -78,6 +101,9 @@ type SmokeEvent struct {
 	X       float64 `json:"x"`
 	Y       float64 `json:"y"`
 	Z       float64 `json:"z"`
+	// PHASE 1: Map Area Names
+	ThrowerAreaName string `json:"thrower_area_name,omitempty"`
+	LandAreaName    string `json:"land_area_name,omitempty"`
 }
 
 // MolotovEvent representa un molotov/incendiary lanzado
@@ -88,6 +114,23 @@ type MolotovEvent struct {
 	X       float64 `json:"x"`
 	Y       float64 `json:"y"`
 	Z       float64 `json:"z"`
+	// PHASE 1: Map Area Names
+	ThrowerAreaName string `json:"thrower_area_name,omitempty"`
+	LandAreaName    string `json:"land_area_name,omitempty"`
+}
+
+// ReloadEvent representa un evento de recarga
+type ReloadEvent struct {
+	Tick        int     `json:"tick"`
+	Round       int     `json:"round"`
+	Player      string  `json:"player"`
+	SteamID     uint64  `json:"steam_id"`
+	Weapon      string  `json:"weapon"`
+	AmmoBefore  int     `json:"ammo_before"`  // Balas en cargador antes de recargar
+	AmmoReserve int     `json:"ammo_reserve"` // Balas en reserva antes de recargar
+	X           float64 `json:"x"`
+	Y           float64 `json:"y"`
+	Z           float64 `json:"z"`
 }
 
 // BombEvent representa eventos relacionados con la bomba
@@ -100,6 +143,27 @@ type BombEvent struct {
 	X         float64 `json:"x,omitempty"`
 	Y         float64 `json:"y,omitempty"`
 	Z         float64 `json:"z,omitempty"`
+}
+
+// WeaponStateSnapshot captures weapon state at a specific moment (PHASE 1)
+type WeaponStateSnapshot struct {
+	WeaponName  string `json:"weapon_name"`
+	AmmoInMag   int    `json:"ammo_in_mag"`
+	AmmoReserve int    `json:"ammo_reserve"`
+	IsReloading bool   `json:"is_reloading"`
+	ZoomLevel   int    `json:"zoom_level"`
+}
+
+// DefuseKitPickup represents picking up a defuse kit from a dead teammate (PHASE 1)
+type DefuseKitPickup struct {
+	Tick          int     `json:"tick"`
+	Round         int     `json:"round"`
+	PlayerSteamID uint64  `json:"player_steam_id"`
+	PlayerName    string  `json:"player_name"`
+	PickedFrom    string  `json:"picked_from"` // Nombre del jugador muerto del que lo recoge
+	X             float64 `json:"x"`
+	Y             float64 `json:"y"`
+	Z             float64 `json:"z"`
 }
 
 // MovementLog guarda la posición, velocidad y estado del jugador en un tick
@@ -188,14 +252,18 @@ type ReactionTimeEvent struct {
 	EnemyID        uint64 `json:"enemy_id"`
 	FirstSeenTick  int    `json:"first_seen_tick"`
 	FirstShotTick  int    `json:"first_shot_tick"`
-	ReactionTimeMs int    `json:"reaction_time_ms"`
+	ReactionTimeMs int    `json:"reaction_time_ms"` // Time to Shoot
 
 	// Metadata para analítica avanzada
-	WasFlashed        bool    `json:"was_flashed"`        // Si tenía flash residual
-	FlashDuration     float32 `json:"flash_duration"`     // Duración del flash en segundos
-	SmokeInPath       bool    `json:"smoke_in_path"`      // Si había humo en la línea de visión
-	Distance          float64 `json:"distance"`           // Distancia al enemigo en unidades
-	PenetratedObjects int     `json:"penetrated_objects"` // Objetos penetrados en la kill (0 = visión clara)
+	CrosshairPlacementError float64 `json:"crosshair_placement_error"` // Error at First Visible Frame
+	PitchError              float64 `json:"pitch_error"`               // Pitch Error at First Visible Frame
+	YawError                float64 `json:"yaw_error"`                 // Yaw Error at First Visible Frame
+	TimeToDamage            float64 `json:"time_to_damage"`            // Time to First Damage (ms)
+	WasFlashed              bool    `json:"was_flashed"`               // Si tenía flash residual
+	FlashDuration           float32 `json:"flash_duration"`            // Duración del flash en segundos
+	SmokeInPath             bool    `json:"smoke_in_path"`             // Si había humo en la línea de visión
+	Distance                float64 `json:"distance"`                  // Distancia al enemigo en unidades
+	PenetratedObjects       int     `json:"penetrated_objects"`        // Objetos penetrados en la kill (0 = visión clara)
 }
 
 // CrosshairStats estadísticas de crosshair placement
@@ -253,8 +321,9 @@ type MatchData struct {
 	Players map[uint64]*PlayerData `json:"players"`
 
 	// Combat events
-	Kills  []KillEvent   `json:"kills"`
-	Damage []DamageEvent `json:"damage"`
+	Kills   []KillEvent   `json:"kills"`
+	Damage  []DamageEvent `json:"damage"`
+	Reloads []ReloadEvent `json:"reloads"`
 
 	// Grenade events
 	Flashes    []FlashEvent   `json:"flashes"`

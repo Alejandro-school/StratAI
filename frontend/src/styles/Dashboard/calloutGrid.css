@@ -1,0 +1,220 @@
+/* ========================================
+   CALLOUT GRID - Chip-based callout display
+======================================== */
+
+.callout-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.callout-grid.compact .grid-chips {
+  gap: 6px;
+}
+
+.callout-grid.compact .callout-chip {
+  padding: 8px 10px;
+}
+
+/* Header */
+.grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.grid-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.grid-legend {
+  display: flex;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.legend-item.good { color: #22c55e; }
+.legend-item.neutral { color: #94a3b8; }
+.legend-item.bad { color: #ef4444; }
+
+/* Chips Container */
+.grid-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Individual Chip */
+.callout-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  text-align: left;
+}
+
+.callout-chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.callout-chip.selected {
+  border-color: rgba(139, 92, 246, 0.6);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+/* Rating-based styling */
+.callout-chip.good {
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.callout-chip.good:hover {
+  border-color: rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.callout-chip.bad {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.callout-chip.bad:hover {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.callout-chip.best {
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+}
+
+.callout-chip.worst {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+/* Chip Header */
+.chip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.chip-badge {
+  flex-shrink: 0;
+}
+
+.chip-badge.best {
+  color: #22c55e;
+}
+
+.chip-badge.worst {
+  color: #ef4444;
+}
+
+/* Chip Stats */
+.chip-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip-kd {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.chip-icon {
+  display: flex;
+  align-items: center;
+}
+
+.callout-chip.good .chip-icon { color: #22c55e; }
+.callout-chip.neutral .chip-icon { color: #94a3b8; }
+.callout-chip.bad .chip-icon { color: #ef4444; }
+
+/* Win Rate */
+.chip-wr {
+  display: flex;
+}
+
+.wr-value {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wr-value.good { color: #22c55e; background: rgba(34, 197, 94, 0.1); }
+.wr-value.neutral { color: #94a3b8; }
+.wr-value.bad { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+
+/* Sample Size */
+.chip-sample {
+  font-size: 10px;
+  color: #64748b;
+}
+
+/* Empty State */
+.callout-grid-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px;
+  color: #64748b;
+  text-align: center;
+}
+
+.callout-grid-empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .callout-chip {
+    min-width: 70px;
+    padding: 8px 10px;
+  }
+  
+  .chip-name {
+    max-width: 70px;
+  }
+}

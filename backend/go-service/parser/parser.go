@@ -44,22 +44,27 @@ func ParseDemo(demoPath string) (*models.DemoContext, error) {
 
 	// Attempt to load the map
 	mapName := p.Header().MapName
-	// Map names in header are like "de_mirage" or "maps/de_mirage.bsp"
-	// The manager handles sanitization
-	// We don't block if map fails to load (it will use fallback)
-	_ = mapManager.LoadMap(mapName)
+	if mapName != "" {
+		_ = mapManager.LoadMap(mapName)
+	} else {
+		fmt.Println("Map name not found in header. Waiting for RoundStart event.")
+	}
 
 	ctx.MapManager = mapManager
 
 	// Registrar todos los handlers
 	handlers.RegisterTimelineHandlers(ctx) // NEW: Timeline & GameState sampling
 	handlers.RegisterChatHandlers(ctx)     // NEW: Chat tracking
-	handlers.RegisterPlayerHandlers(ctx)
+	handlers.RegisterPlayerHandlers(ctx)   // Includes: Movement, Weapon State, Spotting, Zones (Phase 1)
 	handlers.RegisterCombatHandlers(ctx)
 	handlers.RegisterGrenadeHandlers(ctx)
-	handlers.RegisterRoundHandlers(ctx)
+	handlers.RegisterRoundHandlers(ctx) // Includes: Zone reset (Phase 1)
 	handlers.RegisterEconomyHandlers(ctx)
-	handlers.RegisterBombHandlers(ctx)
+	handlers.RegisterBombHandlers(ctx)    // Includes: Defuse kit tracking (Phase 1)
+	handlers.RegisterTrackingHandler(ctx) // NEW: AI Tracking (2Hz sampling)
+
+	// NEW: Advanced Player Stats (Phase 1 AI)
+	statsHandler := handlers.RegisterPlayerStatsHandler(ctx)
 
 	// Register analyzers
 	analyzers.RegisterSprayAnalyzer(ctx)
@@ -83,6 +88,9 @@ func ParseDemo(demoPath string) (*models.DemoContext, error) {
 	if err != nil {
 		return nil, fmt.Errorf("parsing failed: %w", err)
 	}
+
+	// Final Step: Collect aggregated player stats with combat metrics
+	ctx.AI_PlayersSummary = statsHandler.GetStatsWithContext(ctx)
 
 	// Construir output final
 	matchData := BuildMatchData(ctx)

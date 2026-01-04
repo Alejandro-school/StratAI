@@ -189,10 +189,48 @@ func LoadGLTF(path string) (*Mesh, error) {
 	min := r3.Vector{X: 1e9, Y: 1e9, Z: 1e9}
 	max := r3.Vector{X: -1e9, Y: -1e9, Z: -1e9}
 
+	// Physics groups to INCLUDE (whitelist approach)
+	// Only load geometry from these specific physics groups for raycasting
+	includeGroups := []string{
+		"clip",        // playerclip - blocks players and bullets
+		"grenadeclip", // blocks grenades (included for completeness)
+		"passbullets", // explicitly blocks bullets
+		"window",      // glass/windows
+	}
+
 	for _, mesh := range doc.Meshes {
+		// Check if mesh name matches any of our included groups
+		meshName := strings.ToLower(mesh.Name)
+		meshIncluded := false
+		for _, group := range includeGroups {
+			if strings.Contains(meshName, group) {
+				meshIncluded = true
+				break
+			}
+		}
+
 		for _, primitive := range mesh.Primitives {
 			// We only support TRIANGLES (mode 4)
 			if primitive.Mode != gltf.PrimitiveTriangles {
+				continue
+			}
+
+			// Check material name as fallback
+			shouldInclude := meshIncluded
+			if !shouldInclude && primitive.Material != nil {
+				matIdx := int(*primitive.Material)
+				if matIdx < len(doc.Materials) {
+					matName := strings.ToLower(doc.Materials[matIdx].Name)
+					for _, group := range includeGroups {
+						if strings.Contains(matName, group) {
+							shouldInclude = true
+							break
+						}
+					}
+				}
+			}
+
+			if !shouldInclude {
 				continue
 			}
 
@@ -451,6 +489,100 @@ func LoadOBJ(path string) (*Mesh, error) {
 		Triangles: triangles,
 		BVH:       bvhRoot,
 	}, nil
+}
+
+// RayCast returns the distance to the first intersection and the surface normal, or -1 if none
+func (m *Mesh) RayCast(origin, dir r3.Vector, maxDist float64) (float64, r3.Vector) {
+	if m.BVH == nil {
+		return -1, r3.Vector{}
+	}
+	return rayCastBVH(m.BVH, origin, dir, maxDist)
+}
+
+func rayCastBVH(node *BVHNode, origin, dir r3.Vector, maxDist float64) (float64, r3.Vector) {
+	// Check AABB
+	if !node.AABB.Intersects(origin, dir, maxDist) {
+		return -1, r3.Vector{}
+	}
+
+	// Leaf node
+	if node.Left == nil && node.Right == nil {
+		minDist := -1.0
+		var bestNormal r3.Vector
+
+		for _, tri := range node.Triangles {
+			dist := RayCastTriangle(origin, dir, tri, maxDist)
+			if dist > 0 {
+				if minDist == -1 || dist < minDist {
+					minDist = dist
+					bestNormal = tri.Normal
+				}
+			}
+		}
+		return minDist, bestNormal
+	}
+
+	// Internal node - check children
+	distLeft := -1.0
+	var normLeft r3.Vector
+	distRight := -1.0
+	var normRight r3.Vector
+
+	if node.Left != nil {
+		distLeft, normLeft = rayCastBVH(node.Left, origin, dir, maxDist)
+	}
+	if node.Right != nil {
+		distRight, normRight = rayCastBVH(node.Right, origin, dir, maxDist)
+	}
+
+	if distLeft != -1 && distRight != -1 {
+		if distLeft < distRight {
+			return distLeft, normLeft
+		}
+		return distRight, normRight
+	}
+	if distLeft != -1 {
+		return distLeft, normLeft
+	}
+	return distRight, normRight
+}
+
+// RayCastTriangle returns distance t if intersection occurs, or -1
+func RayCastTriangle(origin, dir r3.Vector, tri Triangle, maxDist float64) float64 {
+	const epsilon = 1e-6
+
+	edge1 := tri.V1.Sub(tri.V0)
+	edge2 := tri.V2.Sub(tri.V0)
+
+	h := dir.Cross(edge2)
+	a := edge1.Dot(h)
+
+	if a > -epsilon && a < epsilon {
+		return -1 // Ray is parallel to triangle
+	}
+
+	f := 1.0 / a
+	s := origin.Sub(tri.V0)
+	u := f * s.Dot(h)
+
+	if u < 0.0 || u > 1.0 {
+		return -1
+	}
+
+	q := s.Cross(edge1)
+	v := f * dir.Dot(q)
+
+	if v < 0.0 || u+v > 1.0 {
+		return -1
+	}
+
+	t := f * edge2.Dot(q)
+
+	if t > epsilon && t < maxDist {
+		return t
+	}
+
+	return -1
 }
 
 // RayIntersectsMesh checks if a ray hits any triangle in the mesh

@@ -1,0 +1,380 @@
+/* frontend/src/styles/Dashboard/levelSelector.css */
+/* Professional Multi-Level Selector for Nuke, Vertigo, Train */
+
+/* ============================================
+   COMPACT MODE - Simple Toggle Buttons
+============================================ */
+.level-selector-compact {
+  display: flex;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.level-btn-compact {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.level-btn-compact:hover {
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.level-btn-compact.active {
+  color: var(--level-color, #8b5cf6);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px var(--level-color, #8b5cf6);
+}
+
+.level-btn-compact svg {
+  transition: transform 0.2s;
+}
+
+.level-btn-compact.active svg {
+  color: var(--level-color);
+}
+
+/* ============================================
+   FULL MODE - Expandable Selector
+============================================ */
+.level-selector {
+  position: relative;
+  z-index: 50;
+}
+
+.level-current {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 160px;
+}
+
+.level-current:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: var(--level-color, rgba(255, 255, 255, 0.2));
+}
+
+.level-selector.expanded .level-current {
+  border-color: var(--level-color);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Level Indicator Stack */
+.level-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--level-color, #8b5cf6);
+}
+
+.level-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stack-layer {
+  width: 12px;
+  height: 3px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.2s;
+}
+
+.stack-layer.active {
+  background: var(--level-color, #8b5cf6);
+  box-shadow: 0 0 6px var(--level-color, #8b5cf6);
+}
+
+.stack-layer.upper {
+  transform-origin: bottom;
+}
+
+.stack-layer.lower {
+  transform-origin: top;
+}
+
+/* Level Info */
+.level-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.level-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.3px;
+}
+
+.level-sublabel {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.level-chevron {
+  color: #64748b;
+  transition: transform 0.25s ease;
+}
+
+.level-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   EXPANDED PANEL
+============================================ */
+.level-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(10, 12, 18, 0.98);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: panelSlide 0.2s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes panelSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Level Option */
+.level-option {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.level-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.level-option.active {
+  background: rgba(var(--level-color-rgb, 139, 92, 246), 0.1);
+  border-color: var(--level-color, #8b5cf6);
+}
+
+.option-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-icon {
+  color: var(--level-color, #8b5cf6);
+}
+
+.option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.option-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.option-sublabel {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.option-active-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--level-color, #8b5cf6);
+  box-shadow: 0 0 8px var(--level-color, #8b5cf6);
+  animation: pulse 2s ease infinite;
+}
+
+/* Zone Tags */
+.option-zones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-left: 28px;
+}
+
+.zone-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.zone-tag svg {
+  color: var(--level-color, #8b5cf6);
+  opacity: 0.7;
+}
+
+.zone-more {
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Optional Stats */
+.option-stats {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 28px;
+  margin-top: 4px;
+}
+
+.option-stats .stat {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.option-stats .stat-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.option-stats .stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.option-stats .stat-divider {
+  color: #475569;
+  font-size: 12px;
+}
+
+/* Hint */
+.level-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  font-size: 10px;
+  color: #475569;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 4px;
+}
+
+/* ============================================
+   FLOATING INDICATOR (On Map)
+============================================ */
+.level-floating-indicator {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--level-color, rgba(255, 255, 255, 0.15));
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.level-floating-indicator svg {
+  color: var(--level-color, #8b5cf6);
+}
+
+.level-floating-indicator span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #f1f5f9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   ANIMATIONS
+============================================ */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+  .level-current {
+    min-width: 140px;
+    padding: 8px 12px;
+  }
+  
+  .level-label {
+    font-size: 12px;
+  }
+  
+  .option-zones {
+    display: none;
+  }
+}

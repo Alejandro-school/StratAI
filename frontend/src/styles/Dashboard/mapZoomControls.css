@@ -1,0 +1,235 @@
+/* frontend/src/styles/Dashboard/mapZoomControls.css */
+/* Map Zoom Controls - Interactive zoom for dense areas */
+
+/* ============================================
+   ZOOM CONTROLS CONTAINER
+============================================ */
+.map-zoom-controls {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  z-index: 20;
+}
+
+/* ============================================
+   ZOOM INDICATOR
+============================================ */
+.zoom-indicator {
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.zoom-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ============================================
+   ZOOM BUTTONS
+============================================ */
+.zoom-buttons {
+  display: flex;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.zoom-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zoom-btn:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+}
+
+.zoom-btn:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.zoom-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.zoom-btn.reset {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  margin-left: 2px;
+  padding-left: 4px;
+}
+
+/* ============================================
+   ZOOM HINT
+============================================ */
+.zoom-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #a78bfa;
+  animation: hintPulse 2s ease infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.zoom-hint svg {
+  animation: focusSpin 4s linear infinite;
+}
+
+@keyframes focusSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   DENSITY ZONE INDICATOR
+============================================ */
+.density-zone-indicator {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 5;
+}
+
+.density-zone-indicator .zone-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 2px dashed rgba(139, 92, 246, 0.5);
+  border-radius: 50%;
+  animation: zoneRingPulse 2s ease infinite;
+}
+
+@keyframes zoneRingPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.density-zone-indicator .zone-core {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.density-zone-indicator:hover .zone-core {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.6);
+  transform: scale(1.1);
+}
+
+.density-zone-indicator .zone-core svg {
+  color: #a78bfa;
+}
+
+.density-zone-indicator .zone-core span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+/* ============================================
+   ZOOMABLE CONTAINER
+============================================ */
+.zoomable-map-container {
+  position: relative;
+  /* Width/height inherited from .map-container when used together */
+  transition: transform 0.3s ease;
+  /* Note: will-change removed to prevent stacking context isolation of mix-blend-mode */
+  background: transparent;
+}
+
+/* When used as map-container, inherit those styles */
+.zoomable-map-container.map-container {
+  /* .map-container styles take precedence */
+}
+
+.zoomable-map-container.zoomed {
+  cursor: grab;
+}
+
+.zoomable-map-container.zoomed:active {
+  cursor: grabbing;
+}
+
+/* Smooth scaling for child elements */
+.zoomable-map-container > * {
+  transition: transform 0.3s ease;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 768px) {
+  .map-zoom-controls {
+    bottom: 12px;
+    right: 12px;
+  }
+  
+  .zoom-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .zoom-hint {
+    display: none;
+  }
+}

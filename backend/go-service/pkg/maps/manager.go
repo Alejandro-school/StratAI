@@ -2,6 +2,7 @@ package maps
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -19,12 +20,18 @@ type VisibilityChecker interface {
 	IsVisible(start, end r3.Vector) bool
 	// IsLoaded returns true if a map is currently loaded
 	IsLoaded() bool
+	// GetCallout returns the callout name for a given position
+	GetCallout(pos r3.Vector) string
+	// RayCast returns the distance to the first intersection and the surface normal, or -1 if none
+	RayCast(origin, dir r3.Vector, maxDist float64) (float64, r3.Vector)
 }
 
 // MapManager handles loading maps and performing visibility checks
 type MapManager struct {
 	mapsDir     string
 	currentMesh *geometry.Mesh // Only support GLTF meshes for CS2
+	currentNav  *NavMesh       // Navigation Mesh for callouts
+	callouts    []Callout      // List of named callouts (from places.json)
 	mapName     string
 	mutex       sync.RWMutex
 	useFallback bool // If true, use heuristic (FOV/Smoke) only
@@ -35,6 +42,36 @@ func NewMapManager(mapsDir string) *MapManager {
 	return &MapManager{
 		mapsDir: mapsDir,
 	}
+}
+
+// GetCallout returns the callout name for a given position
+func (m *MapManager) GetCallout(pos r3.Vector) string {
+	m.mutex.RLock()
+	defer m.mutex.RUnlock()
+
+	// Priority 1: Check JSON callouts (CS2 specific)
+	if len(m.callouts) > 0 {
+		if name := FindCallout(pos, m.callouts); name != "" {
+			return name
+		}
+	}
+
+	// Priority 2: Check Nav Mesh (Legacy/Fallback)
+	if m.currentNav != nil {
+		return m.currentNav.GetPlaceName(pos)
+	}
+	return ""
+}
+
+// RayCast returns the distance to the first intersection and the surface normal, or -1 if none
+func (m *MapManager) RayCast(origin, dir r3.Vector, maxDist float64) (float64, r3.Vector) {
+	m.mutex.RLock()
+	defer m.mutex.RUnlock()
+
+	if m.currentMesh != nil {
+		return m.currentMesh.RayCast(origin, dir, maxDist)
+	}
+	return -1, r3.Vector{}
 }
 
 // IsLoaded returns true if a map is currently loaded
@@ -81,6 +118,50 @@ func (m *MapManager) LoadMap(mapName string) error {
 			m.mapName = mapName
 			m.useFallback = false
 			fmt.Printf("CS2 Mesh loaded successfully: %s (%d triangles)\n", mapName, len(mesh.Triangles))
+
+			// Try loading .nav file
+			navPath := filepath.Join(m.mapsDir, baseName, baseName+".nav")
+			if _, err := os.Stat(navPath); err == nil {
+				fmt.Printf("Loading Nav Mesh: %s\n", navPath)
+				nav, err := LoadNavMesh(navPath)
+				if err == nil {
+					m.currentNav = nav
+					fmt.Printf("Nav Mesh loaded successfully: %d areas, %d places\n", len(nav.Areas), len(nav.Places))
+				} else {
+					// v36 parsing not fully supported yet - fallback to demo's LastPlaceName() will be used
+					fmt.Printf("Nav Mesh v36 not supported (using demo fallback): %v\n", err)
+				}
+			} else {
+				fmt.Printf("Nav file not found: %s\n", navPath)
+			}
+
+			// Try loading places.json (CS2 Callouts)
+			// Priority 1: maps/mapName/mapName_places.json
+			placesPath := filepath.Join(m.mapsDir, baseName, baseName+"_places.json")
+			if _, err := os.Stat(placesPath); err != nil {
+				// Priority 2: maps/mapName_places.json
+				placesPath = filepath.Join(m.mapsDir, baseName+"_places.json")
+			}
+
+			if _, err := os.Stat(placesPath); err == nil {
+				fmt.Printf("Loading Callouts JSON: %s\n", placesPath)
+				callouts, err := LoadCallouts(placesPath)
+				if err == nil {
+					m.callouts = callouts
+					fmt.Printf("Callouts loaded successfully: %d places\n", len(callouts))
+
+					// Map seeds to NavMesh if available
+					if m.currentNav != nil {
+						m.MapCalloutsToNavMesh(callouts)
+					}
+				} else {
+					fmt.Printf("Failed to load Callouts JSON: %v\n", err)
+				}
+			} else {
+				// No places.json - will use demo's LastPlaceName() as fallback
+				// fmt.Printf("Callouts file not found: %s (using demo fallback)\n", placesPath)
+			}
+
 			return nil
 		}
 		fmt.Printf("Failed to load GLTF: %v\n", err)
@@ -151,20 +232,30 @@ func HeuristicIsVisible(shooter, enemy *common.Player, activeSmokes []r3.Vector)
 	toEnemy := enemyPos.Sub(shooterPos)
 
 	// Shooter view vector
-	viewX := shooter.ViewDirectionX()
-	viewY := shooter.ViewDirectionY()
-	viewDir := r3.Vector{X: float64(viewX), Y: float64(viewY), Z: 0} // Simplified 2D check for FOV is usually enough
+	// ViewDirectionX is Pitch, ViewDirectionY is Yaw
+	// We only care about Yaw for 2D FOV check
+	yaw := float64(shooter.ViewDirectionY())
+	yawRad := yaw * math.Pi / 180.0
+
+	// Calculate 2D view direction vector from Yaw
+	viewDir := r3.Vector{
+		X: math.Cos(yawRad),
+		Y: math.Sin(yawRad),
+		Z: 0,
+	}
 
 	// Normalize
 	toEnemy2D := r3.Vector{X: toEnemy.X, Y: toEnemy.Y, Z: 0}.Normalize()
-	viewDir = viewDir.Normalize()
+	// viewDir is already normalized by definition (cos^2 + sin^2 = 1)
 
 	// Dot product
 	dot := viewDir.Dot(toEnemy2D)
 	// acos(dot) gives angle.
-	// 90 degree FOV means +/- 45 degrees from center.
-	// cos(45°) = 0.707 - usar valor exacto para CS2
-	if dot < 0.707 { // 90° FOV total (real CS2 FOV)
+	// 90 degree FOV means +/- 45 degrees from center. cos(45°) = 0.707
+	// 16:9 FOV means +/- 53 degrees from center. cos(53°) = 0.601
+	// Usamos 0.6 para dar soporte a 16:9. Es mejor un falso positivo (decir que lo ve cuando no)
+	// que un falso negativo (decir que no lo ve, y que luego tenga 0ms de reaction time).
+	if dot < 0.6 {
 		return false
 	}
 
@@ -199,4 +290,45 @@ func distancePointToSegment(p, a, b r3.Vector) float64 {
 
 	// Distance
 	return p.Sub(nearest).Norm()
+}
+
+// MapCalloutsToNavMesh maps point-based callouts to NavMesh PlaceIDs
+func (m *MapManager) MapCalloutsToNavMesh(callouts []Callout) {
+	if m.currentNav == nil {
+		return
+	}
+
+	// 1. Find Max PlaceID
+	maxPlaceID := uint16(0)
+	for i := range m.currentNav.Areas {
+		if m.currentNav.Areas[i].PlaceID > maxPlaceID {
+			maxPlaceID = m.currentNav.Areas[i].PlaceID
+		}
+	}
+
+	// 2. Initialize Places array
+	if len(m.currentNav.Places) < int(maxPlaceID) {
+		newPlaces := make([]string, maxPlaceID)
+		copy(newPlaces, m.currentNav.Places)
+		m.currentNav.Places = newPlaces
+	}
+
+	// 3. Map Seeds to PlaceIDs
+	count := 0
+	for _, c := range callouts {
+		// Only process point seeds (where Min/Max are nil)
+		if c.Min == nil && c.Max == nil {
+			pos := r3.Vector{X: c.X, Y: c.Y, Z: c.Z}
+			area := m.currentNav.GetNearestArea(pos)
+			if area != nil && area.PlaceID > 0 {
+				// PlaceID is 1-based
+				idx := int(area.PlaceID) - 1
+				if idx < len(m.currentNav.Places) {
+					m.currentNav.Places[idx] = c.Name
+					count++
+				}
+			}
+		}
+	}
+	fmt.Printf("Mapped %d callouts to NavMesh PlaceIDs\n", count)
 }

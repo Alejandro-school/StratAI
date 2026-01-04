@@ -97,17 +97,29 @@ type PlayerEconomyState struct {
 	SteamID   uint64   `json:"steam_id"`
 	Name      string   `json:"name"`
 	Team      string   `json:"team"`
+	AreaName  string   `json:"area_name,omitempty"` // Spawn area at round start
 	Money     int      `json:"money"`
 	Inventory []string `json:"inventory"` // Items al inicio de la ronda
 }
 
 // RoundEndEvent marca fin de ronda
 type RoundEndEvent struct {
-	RoundNumber int    `json:"round_number"`
-	Winner      string `json:"winner"` // "CT", "T"
-	Reason      string `json:"reason"` // "BombDefused", "TargetBombed", "TerroristsEliminated", etc.
-	CTScore     int    `json:"ct_score"`
-	TScore      int    `json:"t_score"`
+	RoundNumber int                      `json:"round_number"`
+	Winner      string                   `json:"winner"` // "CT", "T"
+	Reason      string                   `json:"reason"` // "BombDefused", "TargetBombed", "TerroristsEliminated", etc.
+	CTScore     int                      `json:"ct_score"`
+	TScore      int                      `json:"t_score"`
+	Survivors   []PlayerSurvivalSnapshot `json:"survivors,omitempty"` // Estado de supervivientes al final de ronda
+}
+
+// PlayerSurvivalSnapshot captura el equipo que un jugador llevaba al final de la ronda
+type PlayerSurvivalSnapshot struct {
+	SteamID                uint64   `json:"steam_id"`
+	Name                   string   `json:"name"`
+	Team                   string   `json:"team"`
+	Survived               bool     `json:"survived"`
+	EndRoundItems          []string `json:"end_round_items,omitempty"` // Inventario al final de ronda
+	EquipmentValueSurvived int      `json:"equipment_value_survived"`  // Valor total del equipo guardado
 }
 
 // BuyEvent representa una compra de un jugador
@@ -185,11 +197,14 @@ type ChatEvent struct {
 
 // GrenadeTrajectoryEvent representa la trayectoria de una granada
 type GrenadeTrajectoryEvent struct {
-	GrenadeType  string `json:"grenade_type"`
-	Thrower      string `json:"thrower"`
-	ThrowerID    uint64 `json:"thrower_id"`
-	Positions    []XYZ  `json:"positions"` // Lista de coordenadas de la trayectoria
-	LandPosition XYZ    `json:"land_position"`
+	GrenadeType     string `json:"grenade_type"`
+	Thrower         string `json:"thrower"`
+	ThrowerID       uint64 `json:"thrower_id"`
+	TickThrow       int    `json:"tick_throw"` // Tick when the throw started
+	ThrowerAreaName string `json:"thrower_area_name,omitempty"`
+	LandAreaName    string `json:"land_area_name,omitempty"`
+	Positions       []XYZ  `json:"positions"` // Lista de coordenadas de la trayectoria
+	LandPosition    XYZ    `json:"land_position"`
 }
 
 type XYZ struct {

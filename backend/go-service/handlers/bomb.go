@@ -76,4 +76,5 @@ func RegisterBombHandlers(ctx *models.DemoContext) {
 		// ADD TO TIMELINE
 		AddBombToTimeline(ctx, ctx.Parser.GameState().IngameTick(), &explodeEvent)
 	})
+
 }

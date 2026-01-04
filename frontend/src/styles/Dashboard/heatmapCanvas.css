@@ -1,0 +1,254 @@
+/* ========================================
+   HEATMAP CANVAS - Kill/Death visualization overlay
+======================================== */
+
+.heatmap-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Cluster Point */
+.heatmap-cluster {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.heatmap-cluster:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.cluster-count {
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Pulse animation for important clusters */
+@keyframes cluster-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+  }
+}
+
+.heatmap-cluster.important {
+  animation: cluster-pulse 2s infinite;
+}
+
+/* Legend for heatmap */
+.heatmap-legend {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(10, 12, 16, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.kills {
+  background: rgba(34, 197, 94, 0.8);
+  border: 1px solid #22c55e;
+}
+
+.legend-dot.deaths {
+  background: rgba(239, 68, 68, 0.8);
+  border: 1px solid #ef4444;
+}
+
+.legend-dot.mixed {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 50%, rgba(239, 68, 68, 0.8) 50%);
+  border: 1px solid #f59e0b;
+}
+
+/* Toggle Controls */
+.heatmap-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 20;
+}
+
+.heatmap-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(10, 12, 16, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.heatmap-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.heatmap-toggle.active {
+  border-color: rgba(139, 92, 246, 0.5);
+  color: #f1f5f9;
+}
+
+.heatmap-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.heatmap-toggle.active .toggle-indicator {
+  opacity: 1;
+}
+
+.toggle-indicator.kills {
+  background: #22c55e;
+}
+
+.toggle-indicator.deaths {
+  background: #ef4444;
+}
+/* ============================================
+   COMPACT MAP MODE - Smaller clusters
+============================================ */
+.heatmap-overlay.compact .heatmap-cluster {
+  border-width: 1.5px;
+}
+
+.heatmap-overlay.compact .cluster-count {
+  font-size: 9px;
+}
+
+.heatmap-cluster.compact {
+  border-width: 1.5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.heatmap-cluster.compact:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* ============================================
+   HOVER STATE WITH GLOW
+============================================ */
+.heatmap-cluster.hovered {
+  z-index: 15;
+  box-shadow: 0 0 16px var(--glow-color, rgba(255, 255, 255, 0.3)),
+              0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   CLUSTER TOOLTIP
+============================================ */
+.cluster-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  background: rgba(10, 12, 18, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 100;
+  animation: tooltipFade 0.15s ease;
+}
+
+@keyframes tooltipFade {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.cluster-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(10, 12, 18, 0.98);
+}
+
+.cluster-tooltip .tooltip-callout {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.cluster-tooltip .tooltip-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cluster-tooltip .kills {
+  color: #22c55e;
+}
+
+.cluster-tooltip .deaths {
+  color: #ef4444;
+}
+
+.cluster-tooltip .divider {
+  color: #475569;
+}

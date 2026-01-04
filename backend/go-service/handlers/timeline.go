@@ -20,7 +20,6 @@ var initialEquipment = map[string]bool{
 	"P2000":    true,
 	"Glock-18": true,
 	"C4":       true,
-	"Zeus x27": true,
 }
 
 // RegisterTimelineHandlers registra todos los handlers para el sistema de timeline
@@ -28,6 +27,32 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 	// GameState sampling cada 128 ticks (SOLO después de freeze time)
 	ctx.Parser.RegisterEventHandler(func(e events.FrameDone) {
 		currentTick := ctx.Parser.GameState().IngameTick()
+
+		// Update PreviousPlayerPosition for velocity calculation (every frame)
+		for _, p := range ctx.Parser.GameState().Participants().Playing() {
+			ctx.PreviousPlayerPosition[p.SteamID64] = p.Position()
+		}
+
+		// FLUSH PENDING COMBAT EVENTS (Buffer logic)
+		// If an event is older than 3 seconds (3 * 128 = 384 ticks), commit it as a non-fatal duel
+		// This handles the case where damage happens but no kill follows immediately
+		tickRate := ctx.Parser.TickRate()
+		if tickRate == 0 {
+			tickRate = 128
+		}
+		timeoutTicks := int(3.0 * tickRate)
+
+		activePending := []models.AI_CombatDuel{}
+		for _, pending := range ctx.PendingCombatEvents {
+			if currentTick-pending.Tick > timeoutTicks {
+				// Timeout reached: Commit to main list
+				ctx.AI_CombatDuels = append(ctx.AI_CombatDuels, pending)
+			} else {
+				// Keep waiting
+				activePending = append(activePending, pending)
+			}
+		}
+		ctx.PendingCombatEvents = activePending
 
 		// Sample cada 128 ticks, solo durante ronda activa Y después de freeze time
 		if ctx.InRound && ctx.FreezeTimeEnded && (currentTick-ctx.LastGameStateTick >= GAME_STATE_SAMPLE_INTERVAL) {
@@ -56,6 +81,9 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 
 		log.Printf("[DEBUG] RoundStart: %d (TotalPlayed: %d)\n", currentRound, roundNum)
 
+		// Update ActualRoundNumber in context for other handlers
+		ctx.ActualRoundNumber = currentRound
+
 		// SKIP si ya procesamos esta ronda
 		if currentRound == ctx.CurrentRound {
 			return
@@ -66,6 +94,8 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 		ctx.CurrentRoundEvents = []models.TimelineEvent{} // Reset eventos de ronda
 		ctx.FreezeTimeEnded = false                       // Reset freeze time flag
 		ctx.PlayerMoneyBefore = make(map[uint64]int)      // Reset money tracking
+		ctx.RoundDamage = make(map[uint64]map[uint64]int) // Reset damage tracking
+		ctx.LastKnownHealth = make(map[uint64]int)        // FIX Bug 3: Reset HP tracking
 
 		// Calcular dinero inicial de equipos Y guardar dinero individual
 		ctMoney, tMoney := 0, 0
@@ -97,6 +127,7 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 				SteamID:   player.SteamID64,
 				Name:      player.Name,
 				Team:      teamStr,
+				AreaName:  player.LastPlaceName(), // Spawn area at round start
 				Money:     player.Money(),
 				Inventory: inventory,
 			})
@@ -129,6 +160,7 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 	// Freeze time end - habilitar game state sampling
 	ctx.Parser.RegisterEventHandler(func(e events.RoundFreezetimeEnd) {
 		ctx.FreezeTimeEnded = true
+		ctx.FreezeTimeEndTick = ctx.Parser.GameState().IngameTick() // Track round action start
 	})
 
 	// Round end - crear evento + guardar timeline de ronda
@@ -153,10 +185,12 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 		winner := "Unknown"
 		if e.Winner == common.TeamCounterTerrorists {
 			winner = "CT"
+			ctx.CTRoundsWon++
 			ctx.CTConsecutiveLosses = 0
 			ctx.TConsecutiveLosses++
 		} else if e.Winner == common.TeamTerrorists {
 			winner = "T"
+			ctx.TRoundsWon++
 			ctx.TConsecutiveLosses = 0
 			ctx.CTConsecutiveLosses++
 		} else {

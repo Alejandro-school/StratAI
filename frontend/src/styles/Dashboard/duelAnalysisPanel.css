@@ -1,0 +1,395 @@
+/* frontend/src/styles/Dashboard/duelAnalysisPanel.css */
+/* Styles for Duel Analysis Panel */
+
+/* ==================== PANEL CONTAINER ==================== */
+.duel-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.duel-panel.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+.duel-panel.empty p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.duel-panel.empty .hint {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+}
+
+/* ==================== SUMMARY ==================== */
+.duel-summary {
+  background: rgba(15, 18, 25, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.summary-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.summary-stat .value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.summary-stat .label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.summary-zones {
+  display: flex;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.zone-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.zone-badge.good {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.zone-badge.bad {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.zone-wr {
+  margin-left: auto;
+  font-weight: 800;
+}
+
+/* ==================== DETAIL CARD ==================== */
+.duel-detail-card {
+  background: rgba(15, 18, 25, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px;
+  border-left: 4px solid;
+}
+
+.duel-detail-card.good { border-left-color: #22c55e; }
+.duel-detail-card.bad { border-left-color: #ef4444; }
+.duel-detail-card.neutral { border-left-color: #f59e0b; }
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-left svg {
+  color: #8b5cf6;
+}
+
+.header-left h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #f1f5f9;
+}
+
+.detail-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-card.primary {
+  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.stat-card.primary svg {
+  color: #8b5cf6;
+}
+
+.stat-card svg {
+  color: #64748b;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-content .stat-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+
+.stat-content .stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+/* ==================== DUEL BREAKDOWN ==================== */
+.duel-breakdown {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.duel-breakdown h5 {
+  margin: 0 0 10px 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.breakdown-row {
+  display: flex;
+  gap: 16px;
+}
+
+.breakdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.breakdown-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.breakdown-value {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.breakdown-value.good { color: #22c55e; }
+.breakdown-value.bad { color: #ef4444; }
+
+/* ==================== FLASH WARNING ==================== */
+.flash-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fbbf24;
+}
+
+.flash-warning svg {
+  flex-shrink: 0;
+}
+
+/* ==================== DUEL LIST ==================== */
+.duel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.list-title {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.callout-duel-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.callout-duel-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.callout-duel-row.selected {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.row-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.callout-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.callout-indicator.good { background: #22c55e; }
+.callout-indicator.bad { background: #ef4444; }
+.callout-indicator.neutral { background: #f59e0b; }
+
+.callout-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-mini {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.stat-mini .stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.stat-mini .stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.stat-divider {
+  color: #475569;
+  font-size: 12px;
+}
+
+.stat-winrate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+.row-arrow {
+  color: #475569;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+
+.callout-duel-row:hover .row-arrow,
+.callout-duel-row.selected .row-arrow {
+  transform: translateX(2px);
+  color: #8b5cf6;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 480px) {
+  .detail-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-row {
+    flex-wrap: wrap;
+  }
+  
+  .summary-stat {
+    min-width: 45%;
+  }
+}

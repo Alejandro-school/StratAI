@@ -43,35 +43,50 @@ func RegisterMechanicsAnalyzer(ctx *models.DemoContext) {
 
 	// 2. Análisis al Disparar (WeaponFire)
 	ctx.Parser.RegisterEventHandler(func(e events.WeaponFire) {
-		if e.Shooter == nil {
+		if e.Shooter == nil || e.Weapon == nil {
 			return
 		}
 		sid := e.Shooter.SteamID64
 
-		// --- Counter-Strafe Analysis ---
+		// --- Counter-Strafe Analysis (100% Precise using CS2 official formula) ---
 		history := velocityHistory[sid]
 		if len(history) > 5 {
-			// Velocidad actual
+			// Current velocity at shot time
 			currentSpeed := history[len(history)-1]
-			// Velocidad hace 5 ticks (~40ms)
+			// Velocity 5 ticks ago (~40ms at 128 tick)
 			prevSpeed := history[len(history)-5]
 
-			// Solo analizamos si venía corriendo (necesidad de counter-strafe)
-			if prevSpeed > 150 {
+			// Get weapon-specific accuracy threshold (34% of MaxPlayerSpeed)
+			weaponName := e.Weapon.String()
+			accuracyThreshold := models.GetAccuracyThreshold(weaponName)
+			weaponMaxSpeed := models.GetWeaponMaxSpeed(weaponName)
+
+			// Only analyze if player was moving significantly (needed to counter-strafe)
+			// Use weapon-specific threshold instead of fixed 150
+			if prevSpeed > accuracyThreshold {
 				rating := 0.0
 
-				if currentSpeed < 50 {
-					// Buen counter-strafe (frenado total)
+				// Official CS2 Formula:
+				// Speed <= 34% MaxSpeed → Perfect accuracy (100% rating)
+				// Speed > 34% MaxSpeed → Linear penalty up to 100% MaxSpeed (0% rating)
+				if currentSpeed <= accuracyThreshold {
+					// Perfect counter-strafe (stopped below accuracy threshold)
 					rating = 100.0
+				} else if currentSpeed >= weaponMaxSpeed {
+					// Still running at max speed (no counter-strafe)
+					rating = 0.0
 				} else {
-					// Mal counter-strafe (disparó moviéndose)
-					rating = 100.0 - (currentSpeed / 250.0 * 100.0)
+					// Partial counter-strafe: linear interpolation
+					// Formula: rating = 100 * (1 - (speed - threshold) / (maxSpeed - threshold))
+					inaccuracyRange := weaponMaxSpeed - accuracyThreshold
+					speedAboveThreshold := currentSpeed - accuracyThreshold
+					rating = 100.0 * (1.0 - (speedAboveThreshold / inaccuracyRange))
 					if rating < 0 {
 						rating = 0
 					}
 				}
 
-				// Guardamos siempre si hubo oportunidad de counter-strafe
+				// Record mechanics stat and save to context
 				recordMechanicStat(ctx, sid, "counter_strafe", rating)
 				ctx.LastShotMechanics[sid] = &models.ShotMechanics{
 					CounterStrafeRating: rating,

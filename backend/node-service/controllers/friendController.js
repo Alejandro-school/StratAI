@@ -4,6 +4,7 @@
  * Verificación/solicitud de amistad + health del bot.
  */
 const express = require('express');
+const config = require('../services/config');
 const { redisClient, ensureRedis } = require('../services/redisClient');
 const { client, csgo } = require('../services/steamDownloader');
 const SteamUser = require('steam-user');
@@ -45,9 +46,11 @@ router.get('/steam/check-friend', async (req, res) => {
 
   await ensureRedis();
 
-  // Valor cacheado por si el bot está caído
-  const cached = await redisClient.get(`friend_status:${steam_id}`);
-  const cachedTs = await redisClient.get(`friend_status_ts:${steam_id}`);
+  // Batch Redis reads con mGet
+  const [cached, cachedTs] = await redisClient.mGet([
+    `friend_status:${steam_id}`,
+    `friend_status_ts:${steam_id}`
+  ]);
 
   const health = botHealth();
   const serviceDown = !(health.logged_in && health.friends_ready);
@@ -68,8 +71,11 @@ router.get('/steam/check-friend', async (req, res) => {
   const isFriend = (relationship === SteamUser.EFriendRelationship.Friend);
   const status = isFriend ? 'friend' : (cached === 'pending' ? 'pending' : 'not_friend');
 
-  await redisClient.set(`friend_status:${steam_id}`, status, { EX: 86400 });
-  await redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: 86400 });
+  // Batch Redis writes con Promise.all
+  await Promise.all([
+    redisClient.set(`friend_status:${steam_id}`, status, { EX: config.ttl.friendStatus }),
+    redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: config.ttl.friendStatus })
+  ]);
 
   return res.json({
     is_friend: isFriend,
@@ -123,8 +129,11 @@ router.post('/steam/send-friend-request', async (req, res) => {
 
   try {
     await sendFriendWithBackoff(steam_id);
-    await redisClient.set(`friend_status:${steam_id}`, 'pending', { EX: 86400 });
-    await redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: 86400 });
+    // Batch Redis writes con Promise.all
+    await Promise.all([
+      redisClient.set(`friend_status:${steam_id}`, 'pending', { EX: config.ttl.friendStatus }),
+      redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: config.ttl.friendStatus })
+    ]);
     return res.json({ message: 'Solicitud de amistad enviada', status: 'pending' });
   } catch (err) {
     console.error(`❌ Error al enviar solicitud a ${steam_id}: ${err.message}`);

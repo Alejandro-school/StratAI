@@ -1,0 +1,444 @@
+/* ========================================
+   TACTICAL HUD NAVIGATION
+   Esports Control Panel Style
+======================================== */
+
+:root {
+  --hud-bg: #0a0c10;
+  --hud-surface: rgba(15, 18, 25, 0.95);
+  --hud-border: rgba(255, 255, 255, 0.06);
+  --hud-text: #e2e8f0;
+  --hud-muted: #64748b;
+  --hud-accent: #8b5cf6;
+  --hud-accent-glow: rgba(139, 92, 246, 0.5);
+  --hud-success: #22c55e;
+}
+
+/* ==================== LAYOUT ==================== */
+.hud-layout {
+  min-height: 100vh;
+  background: var(--hud-bg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Ambient gradient background */
+.hud-layout::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse 100% 60% at 50% -10%, rgba(139, 92, 246, 0.08), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(139, 92, 246, 0.04), transparent),
+    radial-gradient(ellipse 80% 50% at 0% 80%, rgba(34, 211, 238, 0.03), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==================== HEADER ==================== */
+.hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 64px;
+  background: var(--hud-surface);
+  border-bottom: 1px solid var(--hud-border);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo */
+.hud-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--hud-text);
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hud-accent);
+}
+
+.logo-mark svg {
+  width: 28px;
+  height: 28px;
+}
+
+.logo-name {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--hud-text);
+}
+
+.logo-accent {
+  color: var(--hud-accent);
+}
+
+/* Navigation Tabs */
+.hud-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid var(--hud-border);
+}
+
+.nav-indicator {
+  position: absolute;
+  top: 6px;
+  height: calc(100% - 12px);
+  background: linear-gradient(135deg, var(--hud-accent), #7c3aed);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 0 20px var(--hud-accent-glow),
+    0 0 40px rgba(139, 92, 246, 0.2);
+  z-index: 0;
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hud-muted);
+  text-decoration: none;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.2s ease;
+}
+
+.nav-tab:hover {
+  color: var(--hud-text);
+}
+
+.nav-tab.active {
+  color: white;
+}
+
+.nav-tab svg {
+  flex-shrink: 0;
+}
+
+/* Right Side */
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hud-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--hud-border);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.hud-user:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hud-text);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.hud-user:hover .user-avatar {
+  border-color: var(--hud-accent);
+}
+
+/* User Dropdown */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: var(--hud-surface);
+  border: 1px solid var(--hud-border);
+  border-radius: 14px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  animation: dropdownIn 0.2s ease;
+  overflow: hidden;
+  z-index: 200;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+
+.dropdown-header img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--hud-text);
+}
+
+.dropdown-status {
+  font-size: 11px;
+  color: var(--hud-success);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--hud-border);
+  margin: 0 10px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--hud-text);
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown-item.logout {
+  color: #ef4444;
+}
+
+.dropdown-item.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ==================== CONTENT ==================== */
+.hud-content {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+/* ==================== HUD CORNERS ==================== */
+.hud-corners {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.corner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: rgba(10, 12, 16, 0.85);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.corner-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--hud-muted);
+  letter-spacing: 1.5px;
+}
+
+.corner-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--hud-text);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.corner-bl {
+  gap: 8px;
+}
+
+/* Hide version corner when map is visible (legend is in same position) */
+.map-dashboard ~ .hud-corners .corner-bl,
+.hud-content:has(.map-dashboard) ~ .hud-corners .corner-bl {
+  display: none;
+}
+
+/* Hide status corner when map is visible (legend is in same position) */
+.map-dashboard ~ .hud-corners .corner-br,
+.hud-content:has(.map-dashboard) ~ .hud-corners .corner-br {
+  display: none;
+}
+
+.corner-br {
+  gap: 20px;
+}
+
+.corner-ping,
+.corner-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ping-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+}
+
+.ping-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #22c55e;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--hud-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--hud-accent);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-text {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--hud-accent);
+  letter-spacing: 1px;
+}
+
+.corner-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hud-text);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1100px) {
+  .nav-tab span {
+    display: none;
+  }
+  
+  .nav-tab {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hud-header {
+    padding: 0 16px;
+    height: 56px;
+  }
+
+  .logo-name {
+    display: none;
+  }
+
+  .hud-nav {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    justify-content: center;
+    background: var(--hud-surface);
+    border-radius: 14px;
+    z-index: 100;
+  }
+
+  .nav-tab {
+    padding: 12px;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .hud-corners {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hud-nav {
+    gap: 2px;
+    padding: 4px;
+  }
+
+  .nav-tab {
+    padding: 10px;
+  }
+
+  .nav-tab svg {
+    width: 18px;
+    height: 18px;
+  }
+}

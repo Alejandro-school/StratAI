@@ -91,4 +91,5 @@ func RegisterPlayerHandlers(ctx *models.DemoContext) {
 			playerData.Movement = append(playerData.Movement, snapshot)
 		}
 	})
+
 }

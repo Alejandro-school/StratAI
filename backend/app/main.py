@@ -15,7 +15,7 @@ from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
 
 # Rutas
-from .routes import steam_auth, steam_service, auth_status
+from .routes import steam_auth, steam_service, auth_status, sharecodes, dashboard
 
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 print(f"STEAM_API_KEY cargada (longitud={len(STEAM_API_KEY)})")
@@ -60,6 +60,8 @@ app.add_middleware(
 app.include_router(steam_auth.router)      # <--- Asegúrate de que exista
 app.include_router(steam_service.router)
 app.include_router(auth_status.router)
+app.include_router(sharecodes.router)
+app.include_router(dashboard.router)
 
 
 @app.on_event("startup")
