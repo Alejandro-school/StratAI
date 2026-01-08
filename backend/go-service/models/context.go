@@ -130,6 +130,9 @@ type DemoContext struct {
 
 	// FIX: Track active weapon name per player each tick (for victim weapon in kills)
 	LastActiveWeapon map[uint64]string // SteamID -> Active weapon name (updated each tick)
+
+	// 2D Replay Data (for frontend visualization)
+	ReplayData *ReplayData
 }
 
 // FirstSeenData stores metadata when an enemy is first seen

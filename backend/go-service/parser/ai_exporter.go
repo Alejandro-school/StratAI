@@ -200,6 +200,16 @@ func ExportAIModels(ctx *models.DemoContext, matchID string, outputDir string, m
 		return err
 	}
 
+	// 7. Export Replay Data (for 2D visualization)
+	if ctx.ReplayData != nil {
+		// Update matchID in replay data
+		ctx.ReplayData.Metadata.MatchID = matchID
+		if err := writeJSON(filepath.Join(matchDir, "replay.json"), ctx.ReplayData); err != nil {
+			return err
+		}
+		fmt.Printf("📹 Replay data exported: %d rounds\n", len(ctx.ReplayData.Rounds))
+	}
+
 	return nil
 }
 

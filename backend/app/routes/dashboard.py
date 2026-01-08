@@ -1680,3 +1680,136 @@ def _is_b_site(area: str) -> bool:
     area_lower = area.lower()
     return "b site" in area_lower or "bsite" in area_lower or area_lower == "b"
 
+
+# ============================================================================
+# 2D REPLAY DATA
+# ============================================================================
+@router.get("/match/{match_id}/replay")
+async def get_match_replay(match_id: str) -> dict:
+    """
+    Endpoint para obtener datos de replay 2D de una partida.
+    
+    Lee el archivo replay.json de la carpeta de exports de la partida.
+    """
+    logging.info(f"[get-match-replay] Fetching replay data for {match_id}")
+    
+    # Buscar el archivo replay.json
+    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
+    match_folder = os.path.join(exports_path, f"match_{match_id}")
+    replay_path = os.path.join(match_folder, "replay.json")
+    
+    if not os.path.exists(replay_path):
+        logging.warning(f"[get-match-replay] Replay file not found: {replay_path}")
+        raise HTTPException(status_code=404, detail="Replay data not found for this match")
+    
+    try:
+        with open(replay_path, 'r', encoding='utf-8') as f:
+            replay_data = json.load(f)
+        
+        logging.info(f"[get-match-replay] Loaded replay with {len(replay_data.get('rounds', []))} rounds")
+        return replay_data
+        
+    except json.JSONDecodeError as e:
+        logging.error(f"[get-match-replay] Error parsing replay JSON: {e}")
+        raise HTTPException(status_code=500, detail="Error parsing replay data")
+    except Exception as e:
+        logging.error(f"[get-match-replay] Error reading replay file: {e}")
+        raise HTTPException(status_code=500, detail="Error reading replay data")
+
+
+@router.get("/match/{match_id}/replay/metadata")
+async def get_match_replay_metadata(match_id: str) -> dict:
+    """
+    Endpoint para obtener solo los metadatos del replay (carga instantánea).
+    
+    Devuelve metadata + resumen de rondas sin los frames (para carga progresiva).
+    """
+    logging.info(f"[get-match-replay-metadata] Fetching metadata for {match_id}")
+    
+    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
+    match_folder = os.path.join(exports_path, f"match_{match_id}")
+    replay_path = os.path.join(match_folder, "replay.json")
+    
+    if not os.path.exists(replay_path):
+        raise HTTPException(status_code=404, detail="Replay data not found for this match")
+    
+    try:
+        with open(replay_path, 'r', encoding='utf-8') as f:
+            replay_data = json.load(f)
+        
+        # Build rounds summary (without heavy frames data)
+        rounds_summary = []
+        for i, round_data in enumerate(replay_data.get("rounds", [])):
+            rounds_summary.append({
+                "round": round_data.get("round", i + 1),
+                "winner": round_data.get("winner", ""),
+                "start_tick": round_data.get("start_tick", 0),
+                "end_tick": round_data.get("end_tick", 0),
+                "frame_count": len(round_data.get("frames", [])),
+                "event_count": len(round_data.get("events", [])),
+                # Include events for timeline markers
+                "events": round_data.get("events", [])
+            })
+        
+        return {
+            "metadata": replay_data.get("metadata", {}),
+            "rounds_summary": rounds_summary,
+            "total_rounds": len(rounds_summary)
+        }
+        
+    except Exception as e:
+        logging.error(f"[get-match-replay-metadata] Error: {e}")
+        raise HTTPException(status_code=500, detail="Error reading replay metadata")
+
+
+@router.get("/match/{match_id}/replay/round/{round_num}")
+async def get_match_replay_round(match_id: str, round_num: int) -> dict:
+    """
+    Endpoint para obtener los datos de una ronda específica (carga lazy).
+    
+    Solo devuelve los frames de la ronda solicitada para reducir tamaño de transferencia.
+    """
+    logging.info(f"[get-match-replay-round] Fetching round {round_num} for {match_id}")
+    
+    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
+    match_folder = os.path.join(exports_path, f"match_{match_id}")
+    replay_path = os.path.join(match_folder, "replay.json")
+    
+    if not os.path.exists(replay_path):
+        raise HTTPException(status_code=404, detail="Replay data not found for this match")
+    
+    try:
+        with open(replay_path, 'r', encoding='utf-8') as f:
+            replay_data = json.load(f)
+        
+        rounds = replay_data.get("rounds", [])
+        
+        # Find the round (round_num is 1-indexed)
+        round_data = None
+        for r in rounds:
+            if r.get("round") == round_num:
+                round_data = r
+                break
+        
+        # Fallback to array index if round number not found
+        if round_data is None and 0 < round_num <= len(rounds):
+            round_data = rounds[round_num - 1]
+        
+        if round_data is None:
+            raise HTTPException(status_code=404, detail=f"Round {round_num} not found")
+        
+        return {
+            "round": round_data.get("round", round_num),
+            "winner": round_data.get("winner", ""),
+            "start_tick": round_data.get("start_tick", 0),
+            "end_tick": round_data.get("end_tick", 0),
+            "frames": round_data.get("frames", []),
+            "events": round_data.get("events", [])
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"[get-match-replay-round] Error: {e}")
+        raise HTTPException(status_code=500, detail="Error reading round data")
+

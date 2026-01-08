@@ -15,7 +15,6 @@ import MatchDetails from "./components/Match/MatchDetails";
 // ───────────── Nuevos componentes Stats ──────────────
 import PersonalPerformance from "./components/Stats/PersonalPerformance";
 import MapPerformance from "./components/Stats/MapPerformance";
-import Replays2D from "./components/Stats/Replays2D";
 import AnalyzeDemos from "./components/Stats/AnalyzeDemos";
 import Progress from "./components/Stats/Progress";
 import Improvements from "./components/Stats/Improvements";
@@ -68,7 +67,6 @@ const App = () => (
         {/* Stats Section */}
         <Route path="/personal-performance" element={<PersonalPerformance />} />
         <Route path="/map-performance" element={<MapPerformance />} />
-        <Route path="/replays-2d" element={<Replays2D />} />
         
         {/* Learn Section */}
         <Route path="/analyze-demos" element={<AnalyzeDemos />} />

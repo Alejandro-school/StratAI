@@ -13,9 +13,24 @@ import (
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
 )
 
+// ParseDemoResult contains the parsing results including replay data
+type ParseDemoResult struct {
+	Context    *models.DemoContext
+	ReplayData *models.ReplayData
+}
+
 // ParseDemo es la función principal que procesa una demo completa
 // Devuelve el contexto completo para poder exportar timeline
 func ParseDemo(demoPath string) (*models.DemoContext, error) {
+	result, err := ParseDemoWithReplay(demoPath)
+	if err != nil {
+		return nil, err
+	}
+	return result.Context, nil
+}
+
+// ParseDemoWithReplay parses a demo and returns full results including replay data
+func ParseDemoWithReplay(demoPath string) (*ParseDemoResult, error) {
 	// Abrir archivo demo
 	f, err := os.Open(demoPath)
 	if err != nil {
@@ -63,6 +78,9 @@ func ParseDemo(demoPath string) (*models.DemoContext, error) {
 	handlers.RegisterBombHandlers(ctx)    // Includes: Defuse kit tracking (Phase 1)
 	handlers.RegisterTrackingHandler(ctx) // NEW: AI Tracking (2Hz sampling)
 
+	// NEW: 2D Replay data collection
+	replayHandler := handlers.RegisterReplayHandlers(ctx)
+
 	// NEW: Advanced Player Stats (Phase 1 AI)
 	statsHandler := handlers.RegisterPlayerStatsHandler(ctx)
 
@@ -96,5 +114,12 @@ func ParseDemo(demoPath string) (*models.DemoContext, error) {
 	matchData := BuildMatchData(ctx)
 	ctx.MatchData = matchData
 
-	return ctx, nil
+	// Build replay data and attach to context (placeholder matchID, will be set on export)
+	replayData := replayHandler.GetReplayData("")
+	ctx.ReplayData = &replayData
+
+	return &ParseDemoResult{
+		Context:    ctx,
+		ReplayData: &replayData,
+	}, nil
 }

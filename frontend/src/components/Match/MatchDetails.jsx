@@ -5,9 +5,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavigationFrame from '../Layout/NavigationFrame';
 import { useUser } from '../../context/UserContext';
+import { Replay2DViewer } from '../Stats';
 import { 
   ArrowLeft, Clock, Users, Target, Crosshair, Zap, Trophy, 
-  Sword, TrendingUp, Activity, Flame
+  Sword, TrendingUp, Activity, Flame, Play
 } from 'lucide-react';
 
 import '../../styles/Match/matchDetails.css';
@@ -458,6 +459,12 @@ const MatchDetails = () => {
             </div>
           </section>
         )}
+
+        {/* 2D Replay Section */}
+        <section className="section replay-section">
+          <h2><Play size={20} /> Replay 2D</h2>
+          <Replay2DViewer matchId={matchID} initialRound={1} />
+        </section>
       </div>
     </NavigationFrame>
   );
