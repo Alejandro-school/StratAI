@@ -115,6 +115,7 @@ async def check_friend_status(request: Request) -> dict[str, Any]:
             return {
                 "is_friend": is_friend,
                 "status": status,
+                "bot_steam_id": data.get("bot_steam_id"),
                 "service_down": service_down,
                 "source": source,
                 "cached_at": cached_ts

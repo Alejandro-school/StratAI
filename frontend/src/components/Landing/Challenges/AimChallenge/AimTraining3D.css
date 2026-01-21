@@ -1,0 +1,100 @@
+/**
+ * AimTraining3D CSS - Main container styles
+ */
+
+.aim-training-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+  background: #050a0d;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Only hide cursor during active gameplay, not on start/results screens */
+.aim-training-3d--playing {
+  cursor: none;
+}
+
+.aim-training-3d canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure proper stacking */
+.aim-training-3d > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.aim-training-3d canvas {
+  z-index: 1;
+  /* Let clicks pass through to UI elements when not playing */
+  pointer-events: none;
+}
+
+.aim-training-3d--playing canvas {
+  /* Only capture clicks during gameplay */
+  pointer-events: auto;
+}
+
+.aim-training-3d .aim-hud {
+  z-index: 10;
+  /* Ensure HUD elements can receive clicks */
+  pointer-events: none;
+}
+
+/* Override for interactive elements in HUD */
+.aim-training-3d .aim-hud__overlay {
+  pointer-events: auto;
+}
+
+.aim-training-3d .crosshair,
+.aim-training-3d .hitmarker {
+  z-index: 100;
+}
+
+/* Loading state */
+.aim-training-3d__loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 50;
+}
+
+.aim-training-3d__loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(0, 255, 255, 0.2);
+  border-top-color: #00ffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.aim-training-3d__loading-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.1em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .aim-training-3d {
+    min-height: 500px;
+  }
+}

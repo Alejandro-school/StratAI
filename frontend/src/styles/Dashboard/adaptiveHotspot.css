@@ -1,5 +1,5 @@
 /* frontend/src/styles/Dashboard/adaptiveHotspot.css */
-/* Adaptive Hotspots - Smart sizing for all map densities */
+/* Modern Pill-Shaped Design for Callouts */
 
 /* ============================================
    LAYER CONTAINER
@@ -10,12 +10,8 @@
   pointer-events: none;
 }
 
-.adaptive-hotspot-layer.compact {
-  /* Compact maps get tighter spacing */
-}
-
 /* ============================================
-   BASE HOTSPOT
+   PILL HOTSPOT (Redesign)
 ============================================ */
 .adaptive-hotspot {
   position: absolute;
@@ -26,414 +22,160 @@
   cursor: pointer;
   padding: 0;
   z-index: 10;
-  transition: z-index 0s, transform 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Scale variable for zoom support */
+  --scale: var(--marker-scale, 1);
 }
 
 .adaptive-hotspot:hover,
 .adaptive-hotspot.selected {
-  z-index: 25;
+  z-index: 50;
+  transform: translate(-50%, -50%) scale(1.1);
 }
 
 .adaptive-hotspot.hovered {
-  z-index: 30;
+  z-index: 40;
 }
 
 /* ============================================
-   PULSE RING - Only for significant markers
+   CORE MARKER - PILL SHAPE
+============================================ */
+.adaptive-hotspot .hotspot-core {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.85); /* Slate-900 with transparency */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px 8px; /* Dynamic width based on content */
+  border-radius: 9999px; /* Pill shape */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.adaptive-hotspot:hover .hotspot-core,
+.adaptive-hotspot.selected .hotspot-core {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   RATING STYLES (Border & Glow)
+============================================ */
+.adaptive-hotspot.good .hotspot-core {
+  border-left: 3px solid #22c55e;
+}
+
+.adaptive-hotspot.bad .hotspot-core {
+  border-left: 3px solid #ef4444;
+}
+
+.adaptive-hotspot.neutral .hotspot-core {
+  border-left: 3px solid #f59e0b;
+}
+
+/* Selected state - Full glow */
+.adaptive-hotspot.selected.good .hotspot-core { box-shadow: 0 0 15px rgba(34, 197, 94, 0.3); border-color: #22c55e; }
+.adaptive-hotspot.selected.bad .hotspot-core { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); border-color: #ef4444; }
+.adaptive-hotspot.selected.neutral .hotspot-core { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); border-color: #f59e0b; }
+
+/* ============================================
+   TEXT LABELS
+============================================ */
+.adaptive-hotspot .hotspot-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #f8fafc; /* Slate-50 */
+  letter-spacing: 0.02em;
+  text-transform: none; /* No forced uppercase for better readability */
+}
+
+/* ============================================
+   MINI STAT PILL
+============================================ */
+.mini-stat-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.adaptive-hotspot.good .mini-stat-pill { color: #86efac; background: rgba(34, 197, 94, 0.15); }
+.adaptive-hotspot.bad .mini-stat-pill { color: #fca5a5; background: rgba(239, 68, 68, 0.15); }
+
+/* ============================================
+   PULSE RING
 ============================================ */
 .adaptive-hotspot .hotspot-pulse {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(var(--marker-size, 36px) * 1.6);
-  height: calc(var(--marker-size, 36px) * 1.6);
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  opacity: 0;
-  animation: adaptivePulse 2.5s ease-out infinite;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  animation: pillPulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+  z-index: -1;
 }
 
-@keyframes adaptivePulse {
-  0% {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1.4);
-    opacity: 0;
+.adaptive-hotspot.good .hotspot-pulse { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+.adaptive-hotspot.bad .hotspot-pulse { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+
+@keyframes pillPulse {
+  to {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
   }
 }
 
 /* ============================================
-   CORE MARKER
-============================================ */
-.adaptive-hotspot .hotspot-core {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  min-width: var(--marker-size, 36px);
-  height: var(--marker-size, 36px);
-  padding: 0 8px;
-  background: rgba(10, 12, 18, 0.95);
-  border: 2px solid currentColor;
-  border-radius: calc(var(--marker-size, 36px) / 2);
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-.adaptive-hotspot:hover .hotspot-core,
-.adaptive-hotspot.selected .hotspot-core {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px currentColor, 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-.adaptive-hotspot.selected .hotspot-core {
-  background: currentColor;
-}
-
-.adaptive-hotspot.selected .hotspot-label {
-  color: #0a0c10;
-  font-weight: 900;
-}
-
-/* ============================================
-   LABEL
-============================================ */
-.adaptive-hotspot .hotspot-label {
-  font-size: var(--font-size, 10px);
-  font-weight: 700;
-  color: #f1f5f9;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-  text-transform: uppercase;
-}
-
-/* Micro stat indicator for compact mode */
-.micro-stat {
-  font-size: 8px;
-  font-weight: 900;
-  opacity: 0.8;
-  margin-left: 1px;
-}
-
-.adaptive-hotspot.good .micro-stat { color: #22c55e; }
-.adaptive-hotspot.bad .micro-stat { color: #ef4444; }
-.adaptive-hotspot.neutral .micro-stat { color: #f59e0b; }
-
-/* ============================================
-   RATING COLORS
-============================================ */
-.adaptive-hotspot.good {
-  color: #22c55e;
-}
-
-.adaptive-hotspot.bad {
-  color: #ef4444;
-}
-
-.adaptive-hotspot.neutral {
-  color: #f59e0b;
-}
-
-/* ============================================
-   COMPACT MAP ADJUSTMENTS
-============================================ */
-.adaptive-hotspot.compact-map .hotspot-core {
-  min-width: calc(var(--marker-size, 36px) * 0.9);
-  height: calc(var(--marker-size, 36px) * 0.9);
-  padding: 0 6px;
-  border-width: 1.5px;
-}
-
-.adaptive-hotspot.compact-map .hotspot-label {
-  font-size: calc(var(--font-size, 10px) * 0.9);
-}
-
-.adaptive-hotspot.compact-map .hotspot-pulse {
-  width: calc(var(--marker-size, 36px) * 1.3);
-  height: calc(var(--marker-size, 36px) * 1.3);
-  border-width: 1.5px;
-}
-
-/* Hover expansion for compact maps */
-.adaptive-hotspot.compact-map.hovered .hotspot-core {
-  min-width: 44px;
-  height: 32px;
-  padding: 0 10px;
-}
-
-/* ============================================
-   TOOLTIP
-============================================ */
-.adaptive-hotspot .hotspot-tooltip {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) translateY(5px);
-  min-width: 180px;
-  padding: 12px;
-  background: rgba(10, 12, 18, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: all 0.2s ease;
-  z-index: 100;
-}
-
-.adaptive-hotspot .hotspot-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 8px solid transparent;
-  border-top-color: rgba(10, 12, 18, 0.98);
-}
-
-/* Tooltip only on hover - NOT on selected (user preference) */
-.adaptive-hotspot:hover .hotspot-tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Tooltip positioning for edge cases */
-.adaptive-hotspot[style*="left: 1"],
-.adaptive-hotspot[style*="left: 2"],
-.adaptive-hotspot[style*="left: 3"],
-.adaptive-hotspot[style*="left: 4"],
-.adaptive-hotspot[style*="left: 5"],
-.adaptive-hotspot[style*="left: 6"],
-.adaptive-hotspot[style*="left: 7"],
-.adaptive-hotspot[style*="left: 8"],
-.adaptive-hotspot[style*="left: 9"] {
-  /* Near left edge */
-}
-
-.adaptive-hotspot .hotspot-tooltip {
-  /* Ensure tooltip doesn't go off screen */
-  max-width: 220px;
-}
-
-/* Tooltip Header */
-.tooltip-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.tooltip-name {
-  font-size: 14px;
-  font-weight: 800;
-  color: #f1f5f9;
-  letter-spacing: 0.3px;
-}
-
-.tooltip-badge {
-  font-size: 9px;
-  font-weight: 800;
-  padding: 3px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.tooltip-badge.best {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
-}
-
-.tooltip-badge.worst {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-}
-
-/* Tooltip Stats */
-.tooltip-stats {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 2px;
-  padding: 0;
-  background: transparent;
-  border-radius: 0;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  flex: 1;
-  padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-}
-
-.stat-item:first-child {
-  border-radius: 6px 0 0 6px;
-}
-
-.stat-item:last-child {
-  border-radius: 0 6px 6px 0;
-}
-
-.stat-item .stat-value {
-  font-size: 15px;
-  font-weight: 800;
-  color: #f1f5f9;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
-.stat-item .stat-value.good { color: #22c55e; }
-.stat-item .stat-value.bad { color: #ef4444; }
-.stat-item .stat-value.neutral { color: #f59e0b; }
-
-.stat-item .stat-label {
-  font-size: 8px;
-  font-weight: 700;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Tooltip Insight */
-.tooltip-insight {
-  margin-top: 10px;
-  padding: 8px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.tooltip-insight.positive {
-  background: rgba(34, 197, 94, 0.1);
-  color: #86efac;
-  border-left: 2px solid #22c55e;
-}
-
-.tooltip-insight.negative {
-  background: rgba(239, 68, 68, 0.1);
-  color: #fca5a5;
-  border-left: 2px solid #ef4444;
-}
-
-/* ============================================
-   BADGE INDICATORS
-============================================ */
-.badge-indicator {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: 900;
-  animation: badgePop 0.3s ease, badgeFloat 2s ease infinite 0.3s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-.badge-indicator.best {
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-  color: #fff;
-}
-
-.badge-indicator.worst {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #fff;
-}
-
-@keyframes badgePop {
-  0% {
-    transform: scale(0);
-  }
-  70% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes badgeFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-2px);
-  }
-}
-
-/* ============================================
-   POSITION CONNECTOR (for adjusted markers)
+   CONNECTOR LINES
 ============================================ */
 .position-connector {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  color: currentColor;
-  opacity: 0.3;
-}
-
-.adaptive-hotspot.adjusted::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.3;
+  opacity: 0.4;
+  overflow: visible;
+  z-index: -2;
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE SCALING
 ============================================ */
+/* Scale down slightly on small screens */
+@media (max-width: 1024px) {
+  .adaptive-hotspot {
+    --scale: 0.9;
+  }
+}
+
 @media (max-width: 768px) {
+  .adaptive-hotspot {
+    --scale: 0.8;
+  }
+  
   .adaptive-hotspot .hotspot-core {
-    min-width: 28px;
-    height: 28px;
-    padding: 0 6px;
+    padding: 3px 6px;
   }
   
   .adaptive-hotspot .hotspot-label {
-    font-size: 8px;
+    font-size: 10px;
   }
   
-  .adaptive-hotspot .hotspot-tooltip {
-    min-width: 150px;
-    padding: 10px;
-  }
-  
-  .tooltip-stats {
-    flex-wrap: wrap;
-  }
-  
-  .tooltip-stats .stat-divider {
-    display: none;
+  .mini-stat-pill {
+    padding: 0 3px;
+    font-size: 9px;
   }
 }

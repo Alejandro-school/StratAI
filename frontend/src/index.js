@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles';
+import './styles/responsive.css'; // Global responsive styles
 
 const theme = createTheme({
   palette: { mode: 'dark', primary: { main: '#3F9CFF' } },

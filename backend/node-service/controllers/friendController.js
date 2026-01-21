@@ -28,6 +28,7 @@ function isBotLoggedIn() {
 function botHealth() {
   return {
     logged_in: isBotLoggedIn(),
+    bot_steam_id: client.steamID ? client.steamID.getSteamID64() : null,
     friends_ready: friendsReady,
     gc_session: !!csgo?.haveGCSession,
     redis_ready: !!redisClient?.isReady

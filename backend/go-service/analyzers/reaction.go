@@ -269,7 +269,7 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 						}.Normalize()
 
 						// Vector Real (Hacia donde mira el jugador)
-						// NOTE: ViewDirectionX is Yaw, ViewDirectionY is Pitch
+						// NOTE: ViewDirectionX is Yaw, ViewDirectionY is Pitch in demoinfocs
 						vecReal := anglesToR3Vector(result.shooter.ViewDirectionY(), result.shooter.ViewDirectionX())
 
 						// Calcular ángulo total
@@ -297,12 +297,17 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 						}
 						yawError := math.Abs(yawDiff)
 
+						// Calculate shooter velocity for peek/hold classification
+						shooterVel := result.shooter.Velocity()
+						shooterSpeed := math.Sqrt(shooterVel.X*shooterVel.X + shooterVel.Y*shooterVel.Y)
+
 						ctx.EnemyFirstSeenTick[result.shooterID][result.enemyID] = models.FirstSeenData{
 							Tick:                    currentTick,
 							LastSeenTick:            currentTick,
 							CrosshairPlacementError: angleError,
 							PitchError:              pitchError,
 							YawError:                yawError,
+							ShooterVelocity:         shooterSpeed,
 						}
 					}
 				}
@@ -434,6 +439,7 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 						CrosshairPlacementError: firstSeenData.CrosshairPlacementError,
 						PitchError:              firstSeenData.PitchError,
 						YawError:                firstSeenData.YawError,
+						ShooterVelocity:         firstSeenData.ShooterVelocity,
 					}
 					playerData.ReactionTimes = append(playerData.ReactionTimes, reactionEvent)
 
@@ -558,13 +564,24 @@ func distancePointToSegment(p, a, b r3.Vector) float64 {
 }
 
 func anglesToR3Vector(pitch, yaw float32) r3.Vector {
-	p := float64(pitch) * math.Pi / 180.0
+	// Normalize pitch from demoinfocs range (270 to 90, where 270 = -90) to standard -90 to 90
+	// demoinfocs: 270° = looking up (-90°), 90° = looking down (+90°), 0° = horizontal
+	p := float64(pitch)
+	if p > 180 {
+		p = p - 360 // Convert 270 → -90, 315 → -45, etc.
+	}
+	p = p * math.Pi / 180.0
+
 	y := float64(yaw) * math.Pi / 180.0
 	sinP := math.Sin(p)
 	cosP := math.Cos(p)
 	sinY := math.Sin(y)
 	cosY := math.Cos(y)
-	return r3.Vector{X: cosP * cosY, Y: cosP * sinY, Z: -sinP}
+	// Source engine: positive pitch = looking down, so Z = +sinP (down is negative Z)
+	// Actually in Source: Z+ is up, and looking down means negative Z direction
+	// With positive pitch = looking down: Z = -sinP
+	// BUT if crosshair is too close (2.8°), maybe our sign is inverted
+	return r3.Vector{X: cosP * cosY, Y: cosP * sinY, Z: sinP}
 }
 
 func calculateAngle(v1, v2 r3.Vector) float64 {

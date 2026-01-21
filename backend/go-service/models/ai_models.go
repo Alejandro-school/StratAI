@@ -272,9 +272,10 @@ type AI_DuelParticipant struct {
 	AvgTimeToFirstDamage  float64 `json:"avg_time_to_first_damage,omitempty"` // Average across exchanges
 
 	// Player Movement & State
-	Velocity  float64 `json:"velocity,omitempty"`
-	IsBlind   bool    `json:"is_blind,omitempty"`
-	IsDucking bool    `json:"is_ducking,omitempty"`
+	Velocity       float64 `json:"velocity,omitempty"`
+	EngagementType string  `json:"engagement_type,omitempty"` // "peek" (>100 u/s) or "hold" (≤100 u/s)
+	IsBlind        bool    `json:"is_blind,omitempty"`
+	IsDucking      bool    `json:"is_ducking,omitempty"`
 }
 
 // AI_DuelExchange represents a single damage/kill event within a duel
@@ -558,52 +559,43 @@ type AI_PlayerStats struct {
 	TADR     float64 `json:"t_adr"`
 
 	// === ENTRY / OPENING DUELS ===
-	OpeningDuelsAttempted        int     `json:"opening_duels_attempted"`
-	OpeningDuelsWon              int     `json:"opening_duels_won"`
-	OpeningDuelsLost             int     `json:"opening_duels_lost"`
-	OpeningKillRating            float64 `json:"opening_kill_rating"` // Ratio or custom score
-	OpeningSuccessRate           float64 `json:"opening_success_rate"`
-	TeamWinPercentAfterFirstKill float64 `json:"team_win_percent_after_first_kill"` // Win% when this player gets first kill
+	OpeningDuelsAttempted int     `json:"opening_duels_attempted"`
+	OpeningDuelsWon       int     `json:"opening_duels_won"`
+	OpeningDuelsLost      int     `json:"opening_duels_lost"`
+	OpeningSuccessRate    float64 `json:"opening_success_rate"`
 
 	// === TRADING & SUPPORT ===
-	TradeKills     int `json:"trade_kills"`     // Killed the killer of a teammate (refrag)
-	TradedDeaths   int `json:"traded_deaths"`   // Died and was avenged by teammate
-	FlashAssists   int `json:"flash_assists"`   // Enemies blinded by this player who died
-	EnemiesSpotted int `json:"enemies_spotted"` // Unique enemies spotted
-	SupportRounds  int `json:"support_rounds"`  // Rounds with assist/flash assist/survival but no kill
+	TradeKills   int `json:"trade_kills"`   // Killed the killer of a teammate (refrag)
+	TradedDeaths int `json:"traded_deaths"` // Died and was avenged by teammate
+	FlashAssists int `json:"flash_assists"` // Kills on enemies that were blinded by this player
 
 	// === CLUTCHING ===
-	Clutches1v1Won       int `json:"clutches_1v1_won"`
-	Clutches1v1Attempted int `json:"clutches_1v1_attempted"`
-	Clutches1v2Won       int `json:"clutches_1v2_won"`
-	Clutches1v2Attempted int `json:"clutches_1v2_attempted"`
-	Clutches1v3Won       int `json:"clutches_1v3_won"`
-	Clutches1v3Attempted int `json:"clutches_1v3_attempted"`
-	Clutches1v4Won       int `json:"clutches_1v4_won"`
-	Clutches1v4Attempted int `json:"clutches_1v4_attempted"`
-	Clutches1v5Won       int `json:"clutches_1v5_won"`
-	Clutches1v5Attempted int `json:"clutches_1v5_attempted"`
+	Clutches1v1Won int `json:"clutches_1v1_won"`
+	Clutches1v2Won int `json:"clutches_1v2_won"`
+	Clutches1v3Won int `json:"clutches_1v3_won"`
+	Clutches1v4Won int `json:"clutches_1v4_won"`
+	Clutches1v5Won int `json:"clutches_1v5_won"`
 
 	// === MULTIKILLS ===
 	MultiKills map[string]int `json:"multikills"` // "1k", "2k", "3k", "4k", "ace"
 
 	// === DAMAGE BREAKDOWN ===
-	TotalDamage    int            `json:"total_damage"`
-	UtilityDamage  int            `json:"utility_damage"`
-	GrenadeDamage  map[string]int `json:"grenade_damage"` // "he", "molotov", "smoke", "flash"
-	DamagePerRound float64        `json:"damage_per_round"`
+	TotalDamage   int            `json:"total_damage"`
+	UtilityDamage int            `json:"utility_damage"`
+	GrenadeDamage map[string]int `json:"grenade_damage"` // "he", "molotov", "smoke", "flash"
 
 	// === AIM METRICS ===
 	TimeToDamageAvgMS          float64        `json:"time_to_damage_avg_ms"`
 	CrosshairPlacementAvgError float64        `json:"crosshair_placement_avg_error"`
+	CrosshairPlacementPeek     float64        `json:"crosshair_placement_peek"` // Error when peeking (>100 u/s)
+	CrosshairPlacementHold     float64        `json:"crosshair_placement_hold"` // Error when holding (≤100 u/s)
 	ShotsFired                 int            `json:"shots_fired"`
 	ShotsHit                   int            `json:"shots_hit"`
 	AccuracyOverall            float64        `json:"accuracy_overall"`
 	BodyPartHits               map[string]int `json:"body_part_hits"` // "head", "chest", "stomach", "legs"
 
 	// === UTILITY EFFICIENCY ===
-	GrenadesThrownTotal  int                `json:"grenades_thrown_total"`
-	UtilityUsagePerRound map[string]float64 `json:"utility_usage_per_round"` // "flash", "smoke", etc. avg per round
+	GrenadesThrownTotal int `json:"grenades_thrown_total"`
 
 	FlashesThrown          int     `json:"flashes_thrown"`
 	EnemiesFlashedTotal    int     `json:"enemies_flashed_total"`
@@ -620,11 +612,7 @@ type AI_PlayerStats struct {
 	SmokesThrown int `json:"smokes_thrown"`
 
 	// === ECONOMY ===
-	AvgEquipmentValue int     `json:"avg_equipment_value"`
-	TotalSpent        int     `json:"total_spent"`
-	RoundsSurvived    int     `json:"rounds_survived"`
-	EcoRoundKills     int     `json:"eco_round_kills"`  // Kills with < $2000 equipment value
-	SpendEfficiency   float64 `json:"spend_efficiency"` // Damage dealt per $1000 spent
+	RoundsSurvived int `json:"rounds_survived"`
 
 	// === WEAPON STATS ===
 	WeaponStats map[string]AI_WeaponStat `json:"weapon_stats"`

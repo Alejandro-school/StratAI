@@ -1,0 +1,180 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHARED COMPONENTS - Buttons, Cards, etc.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Button Base
+   ───────────────────────────────────────────────────────────────────────────── */
+.landing-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--landing-space-sm);
+  padding: var(--landing-space-md) var(--landing-space-xl);
+  font-family: var(--landing-font-primary);
+  font-size: var(--landing-text-base);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--landing-radius-lg);
+  cursor: pointer;
+  transition: all var(--landing-transition-base);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.landing-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Primary Button - "Aceptar el Desafío"
+   ───────────────────────────────────────────────────────────────────────────── */
+.landing-btn--primary {
+  background: var(--landing-gradient-primary);
+  color: var(--landing-bg-primary);
+  min-width: 280px;
+  padding: var(--landing-space-lg) var(--landing-space-2xl);
+  font-size: var(--landing-text-lg);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: var(--landing-shadow-glow);
+}
+
+.landing-btn--primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.landing-btn--primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.5), 0 0 80px rgba(0, 240, 255, 0.3);
+}
+
+.landing-btn--primary:hover::before {
+  left: 100%;
+}
+
+.landing-btn--primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Primary Button Pulse Animation */
+.landing-btn--primary.landing-btn--pulse {
+  animation: btnPulse 2s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 40px rgba(0, 240, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.6), 0 0 60px rgba(0, 240, 255, 0.3), 0 0 80px rgba(255, 0, 170, 0.2);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Secondary Button - "Skip / No tengo tiempo"
+   ───────────────────────────────────────────────────────────────────────────── */
+.landing-btn--secondary {
+  background: transparent;
+  color: var(--landing-text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: var(--landing-space-md) var(--landing-space-xl);
+}
+
+.landing-btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--landing-text-primary);
+}
+
+.landing-btn--secondary:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Ghost Button - Minimal style
+   ───────────────────────────────────────────────────────────────────────────── */
+.landing-btn--ghost {
+  background: transparent;
+  color: var(--landing-text-muted);
+  padding: var(--landing-space-sm) var(--landing-space-md);
+  font-size: var(--landing-text-sm);
+  font-weight: 500;
+}
+
+.landing-btn--ghost:hover {
+  color: var(--landing-text-secondary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Button with Icon
+   ───────────────────────────────────────────────────────────────────────────── */
+.landing-btn__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.landing-btn__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Icon animations */
+.landing-btn--primary .landing-btn__icon--arrow {
+  transition: transform var(--landing-transition-base);
+}
+
+.landing-btn--primary:hover .landing-btn__icon--arrow {
+  transform: translateX(4px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Button Sizes
+   ───────────────────────────────────────────────────────────────────────────── */
+.landing-btn--sm {
+  padding: var(--landing-space-sm) var(--landing-space-md);
+  font-size: var(--landing-text-sm);
+}
+
+.landing-btn--lg {
+  padding: var(--landing-space-lg) var(--landing-space-2xl);
+  font-size: var(--landing-text-lg);
+}
+
+.landing-btn--xl {
+  padding: var(--landing-space-xl) var(--landing-space-3xl);
+  font-size: var(--landing-text-xl);
+  min-width: 320px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .landing-btn--primary {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .landing-btn--secondary {
+    width: 100%;
+  }
+}

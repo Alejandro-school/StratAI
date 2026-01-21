@@ -142,6 +142,7 @@ type FirstSeenData struct {
 	CrosshairPlacementError float64
 	PitchError              float64
 	YawError                float64
+	ShooterVelocity         float64 // Velocity at first sight (u/s) for peek/hold classification
 }
 
 // NewDemoContext crea un nuevo contexto inicializado

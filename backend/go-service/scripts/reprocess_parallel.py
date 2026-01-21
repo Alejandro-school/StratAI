@@ -30,8 +30,9 @@ GO_SERVICE_URL = "http://localhost:8080"
 DEMOS_DIR = Path(__file__).parent.parent.parent / "data" / "demos"
 EXPORTS_DIR = Path(__file__).parent.parent.parent / "data" / "exports"
 
-# Concurrencia - 6 workers para 5800X3D (deja 2 cores libres)
-MAX_WORKERS = 6
+# Concurrencia - 2 workers para evitar colapso del PC
+# Cada demo usa internamente 6 threads para raycasting, por lo que 2 demos = 12 threads max
+MAX_WORKERS = 2
 
 # Estado global con lock para thread safety
 stats_lock = Lock()
@@ -47,7 +48,7 @@ def print_header():
     """Imprime el encabezado del script"""
     print(Fore.CYAN + "=" * 60)
     print(Fore.CYAN + "  Reprocesamiento PARALELO de Demos")
-    print(Fore.CYAN + f"  Workers: {MAX_WORKERS} | CPU: AMD 5800X3D")
+    print(Fore.CYAN + f"  Workers: {MAX_WORKERS} (low CPU mode)")
     print(Fore.CYAN + "=" * 60)
     print()
 
@@ -80,10 +81,11 @@ def get_demo_files():
 
 
 def extract_match_id(demo_filename):
-    """Extrae el match_id del nombre del archivo de demo"""
+    """Extrae el match_id del nombre del archivo de demo (sin prefijo match_)"""
     name = demo_filename.stem
     if name.startswith("match_"):
-        return name
+        # Return without prefix - Go service will add match_ when creating folder
+        return name[6:]  # Remove "match_" prefix
     return None
 
 

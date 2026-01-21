@@ -55,9 +55,9 @@ CALLOUT_FIXED_POSITIONS = {
         "Crane": {"x": 52, "y": 32},
         
         # Outside
-        "Outside": {"x": 36, "y": 48},
+        "Outside": {"x": 46, "y": 52},
         "Silo": {"x": 32, "y": 50},
-        "Mini": {"x": 46, "y": 52},
+        "Mini": {"x": 36, "y": 48},
         
         # CT Side
         "CT Spawn": {"x": 73, "y": 26},

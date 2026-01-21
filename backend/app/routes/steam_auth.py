@@ -4,6 +4,7 @@ import urllib.parse
 import requests
 import os
 import logging
+import re
 from dotenv import load_dotenv
 from typing import Any
 
@@ -15,32 +16,85 @@ STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 router = APIRouter()
 logging.basicConfig(level=logging.INFO)
 
-# URL base del OpenID de Steam para el flujo de autenticación.
+# URL base del OpenID de Steam
 STEAM_OPENID_URL = "https://steamcommunity.com/openid/login"
 
-# URL de retorno (callback) en tu backend, donde Steam enviará la respuesta.
-CALLBACK_URL = "http://localhost:8000/auth/steam/callback"
+def get_base_url(request: Request) -> str:
+    """Returns the base URL for BACKEND callbacks (e.g., port 8000 or tunnel)."""
+    # X-Forwarded-Host can be a comma-separated list if multiple proxies are used
+    forwarded_host = request.headers.get("x-forwarded-host")
+    if forwarded_host:
+        host = forwarded_host.split(",")[0].strip()
+    else:
+        host = request.headers.get("host", "localhost:8000")
+    
+    forwarded_proto = request.headers.get("x-forwarded-proto")
+    if forwarded_proto:
+        scheme = forwarded_proto.split(",")[0].strip()
+    else:
+        scheme = request.url.scheme
+    
+    # --- AGGRESSIVE SANITIZATION (Bulletproof V2) ---
+    # Strip any protocol-like prefix RECURSIVELY (handles https://http:// etc.)
+    clean_host = host
+    while re.match(r'^https?[:/]+', clean_host, re.IGNORECASE):
+        clean_host = re.sub(r'^https?[:/]+', '', clean_host, flags=re.IGNORECASE)
+        
+    # Strip everything except letters from the scheme
+    clean_scheme = re.sub(r'[^a-zA-Z]', '', scheme).lower()
+    
+    base_url = f"{clean_scheme}://{clean_host}"
+    
+    # Print for terminal visibility (easier for user to see)
+    print(f"\n[STEAM_AUTH] DEBUG URL CONSTRUCTION:")
+    print(f"  - Raw Host Header: {request.headers.get('host')}")
+    print(f"  - Raw X-Forwarded-Host: {forwarded_host}")
+    print(f"  - Raw X-Forwarded-Proto: {forwarded_proto}")
+    print(f"  - Cleaned Scheme: {clean_scheme}")
+    print(f"  - Cleaned Host: {clean_host}")
+    print(f"  - FINAL BASE URL: {base_url}\n")
+    
+    return base_url
 
-# URL del frontend al que redirigirás tras un login exitoso.
-FRONTEND_SUCCESS_URL = "http://localhost:3000/steam-login-success"
-
-
+def get_frontend_url(request: Request) -> str:
+    """Returns the base URL for FRONTEND redirects."""
+    forwarded_host = request.headers.get("x-forwarded-host")
+    if forwarded_host:
+        host = forwarded_host.split(",")[0].strip()
+        clean_host = host
+        while re.match(r'^https?[:/]+', clean_host, re.IGNORECASE):
+            clean_host = re.sub(r'^https?[:/]+', '', clean_host, flags=re.IGNORECASE)
+            
+        forwarded_proto = request.headers.get("x-forwarded-proto", "https")
+        scheme = forwarded_proto.split(",")[0].strip()
+        clean_scheme = re.sub(r'[^a-zA-Z]', '', scheme).lower()
+            
+        return f"{clean_scheme}://{clean_host}"
+    
+    # Si no hay proxy, asumimos desarrollo local (puerto 3000)
+    return "http://localhost:3000"
 
 @router.get("/auth/steam/login")
 async def steam_login(request: Request):
     """
     Inicia el flujo de login con Steam mediante OpenID.
-    
-    1. Construye los parámetros necesarios para la petición de autenticación.
-    2. Redirige al usuario a la URL de Steam (STEAM_OPENID_URL) junto a dichos parámetros
-    
-    Al finalizar, Steam redirige al CALLBACK_URL (definido arriba).
+    Dynamically constructs callback URL based on the request host.
     """
+    logging.info("--- STEAM LOGIN START ---")
+    logging.info(f"Headers: {dict(request.headers)}")
+    
+    base_url = get_base_url(request)
+    callback_url = f"{base_url}/auth/steam/callback"
+    realm_url = base_url
+    
+    logging.info(f"Callback URL: {callback_url}")
+    logging.info(f"Realm URL: {realm_url}")
+    
     params = {
         "openid.ns":         "http://specs.openid.net/auth/2.0",
         "openid.mode":       "checkid_setup",
-        "openid.return_to":  CALLBACK_URL,
-        "openid.realm":      CALLBACK_URL,
+        "openid.return_to":  callback_url,
+        "openid.realm":      realm_url,
         "openid.identity":   "http://specs.openid.net/auth/2.0/identifier_select",
         "openid.claimed_id": "http://specs.openid.net/auth/2.0/identifier_select",
     }
@@ -70,7 +124,11 @@ async def steam_callback(
     request.session["steam_id"] = steam_id
     logging.info(f"🔐 Steam ID guardado en sesión: {steam_id}")
 
-    return RedirectResponse(FRONTEND_SUCCESS_URL, status_code=303)
+    # Redirigir al frontend usando la URL adecuada (3000 en local, túnel en remoto)
+    frontend_base = get_frontend_url(request)
+    frontend_success_url = f"{frontend_base}/steam-login-success"
+
+    return RedirectResponse(frontend_success_url, status_code=303)
 
 
 # ---------- STATUS ----------

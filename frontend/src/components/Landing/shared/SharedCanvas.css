@@ -1,0 +1,15 @@
+.shared-canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: auto; /* CRITICAL: Allow mouse events for 3D interaction */
+}
+
+.shared-canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto !important; /* Ensure canvas receives mouse events */
+}

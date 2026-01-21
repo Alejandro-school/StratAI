@@ -241,9 +241,10 @@ type PlayerData struct {
 
 // MechanicsStats agrupa métricas mecánicas avanzadas
 type MechanicsStats struct {
-	AvgCounterStrafeRating float64 `json:"avg_counter_strafe_rating"` // 0-100
-	AvgRecoilControl       float64 `json:"avg_recoil_control"`        // 0-100
-	AvgTimeToDamage        float64 `json:"avg_time_to_damage"`        // ms
+	AvgCounterStrafeRating float64   `json:"avg_counter_strafe_rating"` // 0-100 (MEDIAN)
+	AvgRecoilControl       float64   `json:"avg_recoil_control"`        // 0-100
+	AvgTimeToDamage        float64   `json:"avg_time_to_damage"`        // ms
+	CounterStrafeValues    []float64 `json:"-"`                         // For MEDIAN calculation (not exported)
 }
 
 // ReactionTimeEvent almacena un evento de reaction time
@@ -264,6 +265,7 @@ type ReactionTimeEvent struct {
 	SmokeInPath             bool    `json:"smoke_in_path"`             // Si había humo en la línea de visión
 	Distance                float64 `json:"distance"`                  // Distancia al enemigo en unidades
 	PenetratedObjects       int     `json:"penetrated_objects"`        // Objetos penetrados en la kill (0 = visión clara)
+	ShooterVelocity         float64 `json:"shooter_velocity"`          // Velocity at first sight (u/s) for peek/hold classification
 }
 
 // CrosshairStats estadísticas de crosshair placement

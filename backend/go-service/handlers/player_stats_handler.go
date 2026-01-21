@@ -3,6 +3,7 @@ package handlers
 import (
 	"cs2-demo-service/models"
 	"math"
+	"sort"
 	"strconv"
 
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
@@ -125,6 +126,7 @@ func (h *PlayerStatsHandler) GetStatsWithContext(ctx *models.DemoContext) []mode
 }
 
 // calculateCombatMetrics aggregates time_to_damage and crosshair_placement from ReactionTimes
+// Uses MEDIAN instead of MEAN to exclude outliers (matching Leetify methodology)
 func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 	// Iterate through all players in match data
 	for steamID, playerData := range ctx.MatchData.Players {
@@ -138,35 +140,86 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 			continue
 		}
 
-		// Calculate averages from ReactionTimes
-		var ttdSum float64
-		var ttdCount int
-		var crosshairSum float64
-		var crosshairCount int
+		// Collect valid values for MEDIAN calculation
+		var ttdValues []float64
+		var crosshairValues []float64
+		var crosshairPeekValues []float64 // >100 u/s
+		var crosshairHoldValues []float64 // ≤100 u/s
+
+		const peekVelocityThreshold = 100.0 // u/s threshold for peek vs hold
 
 		for _, rt := range playerData.ReactionTimes {
-			// Time to damage (only if > 0, meaning it was calculated)
-			if rt.TimeToDamage > 0 {
-				ttdSum += rt.TimeToDamage
-				ttdCount++
+			// Time to damage filters:
+			// - Must have dealt damage (TimeToDamage > 0)
+			// - Exclude through smoke (not a real visual reaction)
+			// - Exclude < 50ms (pre-fire, not real reaction)
+			// - Exclude > 2500ms (strategic delay, not reaction)
+			if rt.TimeToDamage > 0 && !rt.SmokeInPath {
+				if rt.TimeToDamage >= 50 && rt.TimeToDamage <= 2500 {
+					ttdValues = append(ttdValues, rt.TimeToDamage)
+				}
 			}
 
-			// Crosshair placement error (only if > 0)
-			if rt.CrosshairPlacementError > 0 {
-				crosshairSum += rt.CrosshairPlacementError
-				crosshairCount++
+			// Crosshair placement error filters:
+			// - Must be > 0 (was calculated)
+			// - Exclude > 90 degrees (looking completely away, likely rotating)
+			if rt.CrosshairPlacementError > 0 && rt.CrosshairPlacementError <= 90 {
+				crosshairValues = append(crosshairValues, rt.CrosshairPlacementError)
+
+				// Separate by velocity for peek/hold
+				if rt.ShooterVelocity > peekVelocityThreshold {
+					crosshairPeekValues = append(crosshairPeekValues, rt.CrosshairPlacementError)
+				} else {
+					crosshairHoldValues = append(crosshairHoldValues, rt.CrosshairPlacementError)
+				}
 			}
 		}
 
-		// Apply averages to player stats
-		if ttdCount > 0 {
-			playerStats.TimeToDamageAvgMS = ttdSum / float64(ttdCount)
+		// Calculate MEDIAN for TTD
+		if len(ttdValues) > 0 {
+			playerStats.TimeToDamageAvgMS = calculateMedian(ttdValues)
 		}
 
-		if crosshairCount > 0 {
-			playerStats.CrosshairPlacementAvgError = crosshairSum / float64(crosshairCount)
+		// Calculate MEDIAN for Crosshair Placement (overall)
+		if len(crosshairValues) > 0 {
+			playerStats.CrosshairPlacementAvgError = calculateMedian(crosshairValues)
+		}
+
+		// Calculate MEDIAN for Crosshair Placement (peek)
+		if len(crosshairPeekValues) > 0 {
+			playerStats.CrosshairPlacementPeek = calculateMedian(crosshairPeekValues)
+		}
+
+		// Calculate MEDIAN for Crosshair Placement (hold)
+		if len(crosshairHoldValues) > 0 {
+			playerStats.CrosshairPlacementHold = calculateMedian(crosshairHoldValues)
+		}
+
+		// Calculate MEDIAN for Counter-Strafe Rating from accumulated values
+		if playerData.Mechanics != nil && len(playerData.Mechanics.CounterStrafeValues) > 0 {
+			playerData.Mechanics.AvgCounterStrafeRating = calculateMedian(playerData.Mechanics.CounterStrafeValues)
 		}
 	}
+}
+
+// calculateMedian returns the median value of a slice of float64
+func calculateMedian(values []float64) float64 {
+	if len(values) == 0 {
+		return 0
+	}
+
+	// Sort values
+	sorted := make([]float64, len(values))
+	copy(sorted, values)
+	sort.Float64s(sorted)
+
+	mid := len(sorted) / 2
+	if len(sorted)%2 == 0 {
+		// Even number of elements: average of two middle values
+		return (sorted[mid-1] + sorted[mid]) / 2
+	}
+	// Odd number of elements: middle value
+	return sorted[mid]
 }
 
 func (h *PlayerStatsHandler) HandleRoundStart(e events.RoundStart, ctx *models.DemoContext) {
@@ -243,15 +296,20 @@ func (h *PlayerStatsHandler) HandleKill(e events.Kill, ctx *models.DemoContext) 
 			}
 		}
 
-		// Trade Kill Logic
+		// Trade Kill Logic (5 second window = 320 ticks at 64 tick/s)
+		const tradeWindowTicks = 320
+		currentTick := ctx.Parser.GameState().IngameTick()
 		for _, d := range h.recentDeaths {
+			// Check if victim was the killer of a recent teammate death within 5 seconds
 			if e.Victim != nil && d.killerID == e.Victim.SteamID64 {
-				s.TradeKills++
-				h.roundTraded[d.victimID] = true
-				if tStats, exists := h.stats[d.victimID]; exists {
-					tStats.TradedDeaths++
+				if currentTick-d.tick <= tradeWindowTicks {
+					s.TradeKills++
+					h.roundTraded[d.victimID] = true
+					if tStats, exists := h.stats[d.victimID]; exists {
+						tStats.TradedDeaths++
+					}
+					break // Only count one trade per kill
 				}
-				break // Only count one trade per kill
 			}
 		}
 	}
@@ -269,9 +327,11 @@ func (h *PlayerStatsHandler) HandleKill(e events.Kill, ctx *models.DemoContext) 
 		}
 
 		// Record death for potential trade
+		deathTick := ctx.Parser.GameState().IngameTick()
 		h.recentDeaths = append(h.recentDeaths, deathEvent{
 			victimID: e.Victim.SteamID64,
 			killerID: 0,
+			tick:     deathTick,
 		})
 		if e.Killer != nil {
 			h.recentDeaths[len(h.recentDeaths)-1].killerID = e.Killer.SteamID64
@@ -334,22 +394,6 @@ func (h *PlayerStatsHandler) checkForClutchSituation(ctx *models.DemoContext) {
 			PlayerTeam:     common.TeamCounterTerrorists,
 			EnemiesAtStart: enemyCount,
 		}
-
-		// Mark as attempted
-		if playerStats, exists := h.stats[clutcherID]; exists {
-			switch enemyCount {
-			case 1:
-				playerStats.Clutches1v1Attempted++
-			case 2:
-				playerStats.Clutches1v2Attempted++
-			case 3:
-				playerStats.Clutches1v3Attempted++
-			case 4:
-				playerStats.Clutches1v4Attempted++
-			case 5:
-				playerStats.Clutches1v5Attempted++
-			}
-		}
 	}
 
 	// Check for T clutch (1 T vs X CTs)
@@ -362,22 +406,6 @@ func (h *PlayerStatsHandler) checkForClutchSituation(ctx *models.DemoContext) {
 			PlayerID:       clutcherID,
 			PlayerTeam:     common.TeamTerrorists,
 			EnemiesAtStart: enemyCount,
-		}
-
-		// Mark as attempted
-		if playerStats, exists := h.stats[clutcherID]; exists {
-			switch enemyCount {
-			case 1:
-				playerStats.Clutches1v1Attempted++
-			case 2:
-				playerStats.Clutches1v2Attempted++
-			case 3:
-				playerStats.Clutches1v3Attempted++
-			case 4:
-				playerStats.Clutches1v4Attempted++
-			case 5:
-				playerStats.Clutches1v5Attempted++
-			}
 		}
 	}
 }
@@ -590,14 +618,13 @@ func (h *PlayerStatsHandler) getOrCreateStats(player *common.Player) *models.AI_
 		}
 
 		h.stats[id] = &models.AI_PlayerStats{
-			SteamID:              strconv.FormatUint(player.SteamID64, 10),
-			Name:                 player.Name,
-			Team:                 team,
-			MultiKills:           make(map[string]int),
-			GrenadeDamage:        make(map[string]int),
-			BodyPartHits:         make(map[string]int),
-			UtilityUsagePerRound: make(map[string]float64),
-			WeaponStats:          make(map[string]models.AI_WeaponStat),
+			SteamID:       strconv.FormatUint(player.SteamID64, 10),
+			Name:          player.Name,
+			Team:          team,
+			MultiKills:    make(map[string]int),
+			GrenadeDamage: make(map[string]int),
+			BodyPartHits:  make(map[string]int),
+			WeaponStats:   make(map[string]models.AI_WeaponStat),
 		}
 	}
 	return h.stats[id]
@@ -656,9 +683,6 @@ func (h *PlayerStatsHandler) calculateFinalStats(s *models.AI_PlayerStats) {
 	if s.ShotsFired > 0 {
 		s.AccuracyOverall = (float64(s.ShotsHit) / float64(s.ShotsFired)) * 100.0
 	}
-
-	// DamagePerRound field - this is proper ADR
-	s.DamagePerRound = s.ADR
 
 	// Calculate accuracy for each weapon
 	for wName, ws := range s.WeaponStats {

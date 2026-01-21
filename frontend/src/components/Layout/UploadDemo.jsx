@@ -15,7 +15,7 @@ const UploadDemo = () => {
     setSelectedFile(e.target.files[0]);
   };
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+  const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8080' : '');
 
   const handleUpload = async () => {
     if (!selectedFile || !selectedFile.name.endsWith('.dem')) {

@@ -11,8 +11,9 @@ export const MAP_DENSITY_PROFILES = {
   de_nuke: { 
     density: 'compact', 
     clusterThreshold: 2.5, 
-    markerScale: 0.65,
+    markerScale: 0.9,  // Increased for better visibility
     hasLevels: true,
+    minMarkerSize: 38, // Minimum size in pixels
     description: 'Very compact map with multiple levels'
   },
   de_vertigo: { 
@@ -292,13 +293,14 @@ export const processCalloutsForDisplay = (callouts, mapName) => {
  */
 export const calculateMarkerSize = (mapName, zoomLevel = 1, isSelected = false) => {
   const profile = getMapProfile(mapName);
-  const baseSize = 36; // Base marker size in pixels
+  const baseSize = 42; // Base marker size in pixels (increased for better visibility)
   
   // Scale by map profile and zoom
   let size = baseSize * profile.markerScale * zoomLevel;
   
-  // Clamp size
-  size = Math.max(24, Math.min(56, size));
+  // Use minMarkerSize from profile if available
+  const minSize = profile.minMarkerSize || 28;
+  size = Math.max(minSize, Math.min(60, size));
   
   // Selected markers are slightly larger
   if (isSelected) {

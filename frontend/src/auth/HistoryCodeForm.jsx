@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/Auth/codeForm.css';
 
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
+
 const HistoryCodeForm = () => {
   const [authCode, setAuthCode] = useState('');
   const [knownCode, setKnownCode] = useState('');
@@ -11,7 +13,7 @@ const HistoryCodeForm = () => {
   const handleGetAndSaveShareCodes = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get('http://localhost:8000/steam/all-sharecodes', {
+      const { data } = await axios.get(`${API_URL}/steam/all-sharecodes`, {
         params: { auth_code: authCode, last_code: knownCode },
         withCredentials: true,
       });
@@ -20,7 +22,7 @@ const HistoryCodeForm = () => {
       const finalKnown = shareCodes.length ? shareCodes[shareCodes.length - 1] : knownCode;
   
       await axios.post(
-        'http://localhost:8000/steam/save-sharecodes',
+        `${API_URL}/steam/save-sharecodes`,
         {
           sharecodes: shareCodes,
           auth_code: authCode,

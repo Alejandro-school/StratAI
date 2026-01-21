@@ -2,6 +2,10 @@
 # backend/app/routes/dashboard.py
 # -------------------------------
 # Rutas para el dashboard del frontend (stats, mapas, granadas, etc.)
+#
+# OPTIMIZATION (2026-01-08): 
+# This file now uses pre-calculated user aggregate files for O(1) lookups
+# instead of O(n) folder scanning. See utils/user_aggregates.py for details.
 
 import os
 import json
@@ -12,6 +16,14 @@ from fastapi import APIRouter, Request, HTTPException
 
 # Import utils
 from ..utils.maps import normalize_callout, game_to_radar_percent, CALLOUT_FIXED_POSITIONS
+from ..utils.user_aggregates import (
+    load_user_aggregate,
+    load_user_map_data,
+    user_has_aggregates,
+    user_has_map_data,
+    load_match_history,
+    EXPORTS_PATH
+)
 
 
 router = APIRouter()
@@ -260,8 +272,12 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     """
     Endpoint OPTIMIZADO para el dashboard.
     
+    OPTIMIZATION (2026-01-08):
+    - Now reads from pre-calculated data/users/{steam_id}/aggregate.json
+    - O(1) file lookup instead of O(n) folder scanning
+    - Falls back to legacy scanning if aggregate file doesn't exist
+    
     - NO devuelve event_logs (evita transferir miles de eventos innecesarios)
-    - Lee desde data/exports/ cuando existe (datos pre-calculados)
     - Cache con TTL de 1 hora (invalidado automáticamente al procesar demos)
     - Solo incluye stats agregadas: KDA, ADR, HS%, mapas, armas
     - Param force_refresh=true para forzar recálculo sin usar cache
@@ -272,14 +288,41 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
     
+    steam_id_str = str(steam_id)
+    
+    # ==========================================================================
+    # FAST PATH: Try to load from pre-calculated aggregate file (O(1))
+    # ==========================================================================
+    if not force_refresh and user_has_aggregates(steam_id_str):
+        logging.info(f"[dashboard-stats] Using pre-calculated aggregate for {steam_id_str}")
+        aggregate = load_user_aggregate(steam_id_str)
+        
+        if aggregate:
+            # Return in the expected format
+            return {
+                "steam_id": steam_id_str,
+                "stats": aggregate.get("stats", {}),
+                "aim_stats": aggregate.get("aim_stats", {}),
+                "recent_matches": aggregate.get("recent_matches", []),
+                "weapon_stats": aggregate.get("weapon_stats", []),
+                "map_stats": aggregate.get("map_stats", [])
+            }
+    
+    # ==========================================================================
+    # FALLBACK: Legacy folder scanning (O(n)) - only if aggregates don't exist
+    # ==========================================================================
+    logging.info(f"[dashboard-stats] Fallback to folder scanning for {steam_id_str}")
+    
     # 1. Verificar caché (se invalida automáticamente al procesar demos)
     cache_key = f"dashboard_stats:{steam_id}"
     
+    # [DEBUG] Force refresh checking for now to ensure user sees fixed data
     if not force_refresh:
-        cached = await redis.get(cache_key)
-        if cached:
-            logging.info(f"[dashboard-stats] Cache HIT para {steam_id}")
-            return json.loads(cached)
+        # cached = await redis.get(cache_key)
+        # if cached:
+        #     logging.info(f"[dashboard-stats] Cache HIT para {steam_id}")
+        #     return json.loads(cached)
+        pass
     else:
         logging.info(f"[dashboard-stats] Force refresh solicitado para {steam_id}")
         await redis.delete(cache_key)  # Limpiar cache viejo
@@ -292,9 +335,18 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     # 3. Cargar datos OPTIMIZADOS desde data/exports/ o Redis
     exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
     matches_data = []
-    weapon_kills: dict[str, int] = {}
+    weapon_stats_agg = {} # {weapon: {kills, shots, hits, damage, headshots}}
     map_results: dict[str, dict[str, int]] = {}
     
+    # Aggregators for AIM
+    agg_body_parts = {"head": 0, "chest": 0, "stomach": 0, "left_arm": 0, "right_arm": 0, "left_leg": 0, "right_leg": 0, "generic": 0}
+    agg_ttd_sum = 0
+    agg_ttd_count = 0
+    agg_crosshair_sum = 0
+    agg_crosshair_count = 0
+    agg_shots_fired = 0
+    agg_shots_hit = 0
+
     # FALLBACK: Si Redis está vacío, escanear carpeta exports para encontrar partidas del usuario
     if not processed_demos_raw:
         logging.info(f"[dashboard-stats] Redis vacío para {steam_id} - escaneando exports/...")
@@ -316,7 +368,8 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
                         for p in players_data.get("players", []):
                             if str(p.get("steam_id", "")) == str(steam_id):
                                 # Usuario encontrado en esta partida
-                                match_id = folder_name.replace("match_", "")
+                                # FIX: Only replace first occurrence to handle match_match_ cases
+                                match_id = folder_name.replace("match_", "", 1)
                                 processed_demos_raw.append(json.dumps({"match_id": match_id}))
                                 break
                     except Exception as e:
@@ -332,6 +385,7 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
                 "avg_kd": 0.0, "avg_adr": 0.0, "avg_hs": 0.0, "win_rate": 0.0,
                 "wins": 0, "losses": 0
             },
+            "aim_stats": {},
             "recent_matches": [], "weapon_stats": [], "map_stats": []
         }
         await redis.set(cache_key, json.dumps(empty_response), ex=3600)
@@ -343,7 +397,22 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
         match_id = demo.get("match_id")
         
         # Intentar leer desde data/exports/ primero (más eficiente)
-        match_folder = os.path.join(exports_path, f"match_{match_id}")
+        # FIX: Robust folder finding
+        possible_folders = [
+            os.path.join(exports_path, f"match_{match_id}"),
+            os.path.join(exports_path, match_id), # In case match_id already has match_ prefix
+            os.path.join(exports_path, match_id.replace("match_", "")) # In case double match was stripped
+        ]
+        
+        match_folder = None
+        for pf in possible_folders:
+            if os.path.exists(pf):
+                match_folder = pf
+                break
+        
+        if not match_folder:
+            continue
+            
         players_summary_path = os.path.join(match_folder, "players_summary.json")
         match_info_path = os.path.join(match_folder, "match_info.json")
         combat_path = os.path.join(match_folder, "combat.json")
@@ -440,6 +509,41 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
             opponent_score = match_info.get("opponent_score", 0)
             result = "W" if team_score > opponent_score else "L"
             
+            # --- START AGGREGATION FOR AIM & WEAPONS ---
+            
+            # 1. Body Parts (add to total)
+            bp = player_stats.get("body_part_hits", {})
+            for part, count in bp.items():
+                if part in agg_body_parts:
+                    agg_body_parts[part] += count
+            
+            # 2. Aim Metrics
+            ttd = player_stats.get("time_to_damage_avg_ms", 0)
+            if ttd > 0:
+                agg_ttd_sum += ttd
+                agg_ttd_count += 1
+            
+            cp = player_stats.get("crosshair_placement_avg_error", 0)
+            if cp > 0:
+                agg_crosshair_sum += cp
+                agg_crosshair_count += 1
+                
+            agg_shots_fired += player_stats.get("shots_fired", 0)
+            agg_shots_hit += player_stats.get("shots_hit", 0)
+
+            # 3. Weapon Stats Aggregation
+            if "weapon_stats" in player_stats:
+                for weapon, stats in player_stats["weapon_stats"].items():
+                    if weapon not in weapon_stats_agg:
+                        weapon_stats_agg[weapon] = {"kills": 0, "shots": 0, "hits": 0, "damage": 0, "headshots": 0}
+                    
+                    ws = weapon_stats_agg[weapon]
+                    ws["kills"] += stats.get("kills", 0)
+                    ws["shots"] += stats.get("shots_fired", 0)
+                    ws["hits"] += stats.get("shots_hit", 0)
+                    ws["damage"] += stats.get("damage", 0)
+                    ws["headshots"] += stats.get("headshots", 0)
+
             match_data = {
                 "match_id": match_id,
                 "map": match_info.get("map_name", "unknown"),
@@ -465,11 +569,6 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
             else:
                 map_results[map_name]["losses"] += 1
 
-            if "weapon_stats" in player_stats:
-                for weapon, stats in player_stats["weapon_stats"].items():
-                    w_kills = stats.get("kills", 0)
-                    if w_kills > 0:
-                        weapon_kills[weapon] = weapon_kills.get(weapon, 0) + w_kills
     
     # Aggregation
     total_matches = len(matches_data)
@@ -482,9 +581,24 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     losses = total_matches - wins
     win_rate = (wins / total_matches * 100) if total_matches > 0 else 0.0
     
-    # Top weapons
-    top_weapons = sorted(weapon_kills.items(), key=lambda x: x[1], reverse=True)[:4]
-    weapon_stats_list = [{"weapon": w, "kills": k} for w, k in top_weapons]
+    # Final Aim Stats
+    avg_ttd = agg_ttd_sum / agg_ttd_count if agg_ttd_count > 0 else 0
+    avg_crosshair_error = agg_crosshair_sum / agg_crosshair_count if agg_crosshair_count > 0 else 0
+    accuracy_overall = (agg_shots_hit / agg_shots_fired * 100) if agg_shots_fired > 0 else 0
+    
+    # Final Weapon Stats List (Full)
+    weapon_stats_list = []
+    for w, s in weapon_stats_agg.items():
+        if s["kills"] > 0 or s["shots"] > 0:
+            weapon_stats_list.append({
+                "weapon": w,
+                "kills": s["kills"],
+                "accuracy": round((s["hits"] / s["shots"] * 100), 1) if s["shots"] > 0 else 0,
+                "hs_pct": round((s["headshots"] / s["kills"] * 100), 1) if s["kills"] > 0 else 0,
+                "damage": s["damage"]
+            })
+    # Sort by kills
+    weapon_stats_list.sort(key=lambda x: x["kills"], reverse=True)
     
     # Map stats
     map_stats_list = []
@@ -513,6 +627,12 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
             "win_rate": round(win_rate, 1),
             "wins": wins,
             "losses": losses
+        },
+        "aim_stats": {
+            "accuracy_overall": round(accuracy_overall, 1),
+            "time_to_damage_avg_ms": round(avg_ttd, 1),
+            "crosshair_placement_avg_error": round(avg_crosshair_error, 1),
+            "body_part_hits": agg_body_parts
         },
         "recent_matches": recent_matches,
         "weapon_stats": weapon_stats_list,
@@ -685,6 +805,10 @@ async def get_map_zone_stats(request: Request, map_name: str = "de_dust2") -> di
 async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dict[str, Any]:
     """
     Granular per-callout statistics with full data: K/D, win rates, weapons, context, etc.
+    
+    OPTIMIZATION (2026-01-08):
+    - Now reads from pre-calculated data/users/{steam_id}/maps/{map_name}.json
+    - O(1) file lookup instead of O(n) folder scanning
     """
     steam_id = request.session.get("steam_id")
     if not steam_id:
@@ -693,6 +817,28 @@ async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dic
     steam_id_str = str(steam_id)
     logging.info(f"[callout-stats] Request for sid={steam_id_str}, map={map_name}")
     
+    # ==========================================================================
+    # FAST PATH: Try to load from pre-calculated map aggregate file (O(1))
+    # ==========================================================================
+    if user_has_map_data(steam_id_str, map_name):
+        logging.info(f"[callout-stats] Using pre-calculated map data for {steam_id_str}/{map_name}")
+        map_data = load_user_map_data(steam_id_str, map_name)
+        
+        if map_data:
+            return {
+                "callouts": map_data.get("callout_stats", {}),
+                "heatmap_data": map_data.get("heatmap_data", []),
+                "matches_analyzed": map_data.get("matches_analyzed", 0),
+                "map_name": map_name,
+                "side_stats": map_data.get("side_stats", {})
+            }
+    
+    # ==========================================================================
+    # FALLBACK: Legacy folder scanning (O(n)) - only if map data doesn't exist
+    # ==========================================================================
+    logging.info(f"[callout-stats] Fallback to folder scanning for {steam_id_str}/{map_name}")
+    
+
     # Init stats with full structure
     callout_stats = {}
     heatmap_points = []
@@ -1109,6 +1255,10 @@ def cluster_grenade_positions(positions: list, cluster_radius: float = 150.0) ->
 async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -> dict[str, Any]:
     """
     Aggregate grenade statistics across all matches for a map.
+    
+    OPTIMIZATION (2026-01-08):
+    - Now reads from pre-calculated data/users/{steam_id}/maps/{map_name}.json
+    - O(1) file lookup instead of O(n) folder scanning
     """
     steam_id = request.session.get("steam_id")
     if not steam_id:
@@ -1117,9 +1267,120 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
     steam_id_str = str(steam_id)
     logging.info(f"[aggregate-grenades] Request for sid={steam_id_str}, map={map_name}")
     
+    # ==========================================================================
+    # FAST PATH: Try to load from pre-calculated map aggregate file (O(1))
+    # ==========================================================================
+    if user_has_map_data(steam_id_str, map_name):
+        logging.info(f"[aggregate-grenades] Using pre-calculated map data for {steam_id_str}/{map_name}")
+        map_data = load_user_map_data(steam_id_str, map_name)
+        
+        if map_data and "grenades" in map_data:
+            grenades = map_data["grenades"]
+            raw_by_type = grenades.get("by_type", {})
+            
+            # Process each grenade type: cluster and compute stats (same as fallback)
+            result_by_type = {}
+            for g_type, positions in raw_by_type.items():
+                if not positions:
+                    result_by_type[g_type] = []
+                    continue
+                
+                # Cluster positions using the same function as fallback
+                clusters = cluster_grenade_positions(positions)
+                
+                # Process each cluster to add all required fields
+                for c in clusters:
+                    # Convert cluster center to radar coordinates
+                    radar = game_to_radar_percent(c["game_x"], c["game_y"], map_name)
+                    c["x"] = radar["x"] if radar else 50
+                    c["y"] = radar["y"] if radar else 50
+                    
+                    # Aggregate cluster stats from raw positions
+                    raw_positions = c.get("positions", [])
+                    c["total_damage"] = sum(p.get("damage_dealt", 0) for p in raw_positions)
+                    c["avg_damage"] = round(c["total_damage"] / len(raw_positions), 1) if raw_positions else 0
+                    c["total_blinded"] = sum(p.get("enemies_blinded", 0) for p in raw_positions)
+                    c["avg_blinded"] = round(c["total_blinded"] / len(raw_positions), 2) if raw_positions else 0
+                    
+                    # Calculate avg_z for multi-level maps
+                    z_values = [p.get("end_z", 0) for p in raw_positions if p.get("end_z", 0) != 0]
+                    c["avg_z"] = round(sum(z_values) / len(z_values), 1) if z_values else None
+                    
+                    c["areas"] = list(set(p.get("land_area", "") for p in raw_positions if p.get("land_area")))
+                    
+                    # Build trajectories from raw positions
+                    trajectories = []
+                    used_trajectories = set()
+                    
+                    for i, p in enumerate(raw_positions):
+                        if i in used_trajectories:
+                            continue
+                        
+                        end_x = p.get("end_x", 0)
+                        end_y = p.get("end_y", 0)
+                        
+                        if end_x == 0 and end_y == 0:
+                            continue
+                        
+                        # Group similar trajectories
+                        traj_group = [p]
+                        for j, other in enumerate(raw_positions):
+                            if j == i or j in used_trajectories:
+                                continue
+                            other_end_x = other.get("end_x", 0)
+                            other_end_y = other.get("end_y", 0)
+                            dist = ((end_x - other_end_x) ** 2 + (end_y - other_end_y) ** 2) ** 0.5
+                            if dist < 100:
+                                traj_group.append(other)
+                                used_trajectories.add(j)
+                        
+                        used_trajectories.add(i)
+                        
+                        # Average end position and convert to radar
+                        avg_end_x = sum(t.get("end_x", 0) for t in traj_group) / len(traj_group)
+                        avg_end_y = sum(t.get("end_y", 0) for t in traj_group) / len(traj_group)
+                        
+                        end_radar = game_to_radar_percent(avg_end_x, avg_end_y, map_name)
+                        
+                        trajectories.append({
+                            "x1": c["x"],
+                            "y1": c["y"],
+                            "x2": end_radar["x"] if end_radar else c["x"],
+                            "y2": end_radar["y"] if end_radar else c["y"],
+                            "count": len(traj_group),
+                            "damage": sum(t.get("damage_dealt", 0) for t in traj_group),
+                            "land_area": traj_group[0].get("land_area", "") if traj_group else ""
+                        })
+                    
+                    # Sort by count and keep top 5
+                    trajectories.sort(key=lambda t: t["count"], reverse=True)
+                    c["trajectories"] = trajectories[:5]
+                    
+                    # Remove raw positions to reduce response size
+                    if "positions" in c:
+                        del c["positions"]
+                
+                result_by_type[g_type] = clusters
+            
+            return {
+                "by_type": result_by_type,
+                "summary": grenades.get("summary", {}),
+                "insights": grenades.get("insights", []),
+                "matches_analyzed": map_data.get("matches_analyzed", 0),
+                "map_name": map_name
+            }
+
+
+    
+    # ==========================================================================
+    # FALLBACK: Legacy folder scanning (O(n)) - only if map data doesn't exist
+    # ==========================================================================
+    logging.info(f"[aggregate-grenades] Fallback to folder scanning for {steam_id_str}/{map_name}")
+    
     grenade_positions = {"smoke": [], "flash": [], "he": [], "molotov": []}
     exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
     matches_analyzed = 0
+
     
     if os.path.exists(exports_path):
         for folder_name in os.listdir(exports_path):
@@ -1353,6 +1614,11 @@ async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> di
     """
     Movement analysis for the Hybrid Flow + Heatmap visualization.
     
+    OPTIMIZATION (2026-01-08):
+    - Now reads from pre-calculated data/users/{steam_id}/maps/{map_name}.json
+    - O(1) file lookup instead of O(n) folder scanning
+    - This is a HUGE win since tracking.json files are ~16MB each!
+    
     Processes tracking.json to extract:
     - Heatmap grid: Position density across 20x20 grid cells
     - Flow lines: Common routes between map areas
@@ -1365,6 +1631,69 @@ async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> di
     steam_id_str = str(steam_id)
     steam_id_int = int(steam_id)
     logging.info(f"[movement-stats] Request for sid={steam_id_str}, map={map_name}")
+    
+    # ==========================================================================
+    # FAST PATH: Try to load from pre-calculated map aggregate file (O(1))
+    # ==========================================================================
+    if user_has_map_data(steam_id_str, map_name):
+        logging.info(f"[movement-stats] Using pre-calculated map data for {steam_id_str}/{map_name}")
+        map_data = load_user_map_data(steam_id_str, map_name)
+        
+        if map_data and "movement" in map_data:
+            movement = map_data["movement"]
+            raw_grid = movement.get("heatmap_grid", [])
+            
+            # Transform raw grid data to frontend format
+            # Raw: {grid_x, grid_y, total, ct, t, game_x, game_y}
+            # Frontend: {x, y, intensity, ct_ratio, sample_count}
+            # Note: We need to use game_to_radar_percent for accurate positioning
+            max_count = max((g.get("total", 0) for g in raw_grid), default=1) or 1
+            
+            heatmap_grid = []
+            for g in raw_grid:
+                total = g.get("total", 0)
+                if total < 1:
+                    continue
+                
+                # Use game coordinates if available for accurate positioning
+                game_x = g.get("game_x", 0)
+                game_y = g.get("game_y", 0)
+                ct = g.get("ct", 0)
+                
+                intensity = round((total / max_count) * 100, 1)
+                if intensity < 1:
+                    continue
+                
+                # Convert game coordinates to radar percentages
+                radar_pos = game_to_radar_percent(game_x, game_y, map_name)
+                
+                if radar_pos:
+                    heatmap_grid.append({
+                        "x": radar_pos.get("x", 50),
+                        "y": radar_pos.get("y", 50),
+                        "intensity": intensity,
+                        "ct_ratio": round(ct / total * 100, 1) if total > 0 else 50,
+                        "sample_count": total,
+                        "avg_z": g.get("avg_z", 0)
+                    })
+            
+            # Sort by intensity for rendering order
+            heatmap_grid.sort(key=lambda x: x["intensity"])
+            
+            return {
+                "heatmap_grid": heatmap_grid,
+                "flow_lines": movement.get("flow_lines", []),
+                "metrics": movement.get("metrics", {}),
+                "matches_analyzed": map_data.get("matches_analyzed", 0),
+                "map_name": map_name
+            }
+
+
+    
+    # ==========================================================================
+    # FALLBACK: Legacy folder scanning (O(n)) - only if map data doesn't exist
+    # ==========================================================================
+    logging.info(f"[movement-stats] Fallback to folder scanning for {steam_id_str}/{map_name}")
     
     exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
     
@@ -1383,6 +1712,7 @@ async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> di
     
     if not os.path.exists(exports_path):
         return _empty_movement_response(map_name)
+
     
     for folder_name in os.listdir(exports_path):
         if not folder_name.startswith("match_"):

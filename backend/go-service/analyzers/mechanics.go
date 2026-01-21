@@ -4,6 +4,7 @@ import (
 	"cs2-demo-service/models"
 	"math"
 
+	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
 	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
 )
 
@@ -46,6 +47,21 @@ func RegisterMechanicsAnalyzer(ctx *models.DemoContext) {
 		if e.Shooter == nil || e.Weapon == nil {
 			return
 		}
+
+		// Counter-strafe only applies to rifles (per Leetify methodology)
+		wType := e.Weapon.Type
+		isRifle := wType == common.EqAK47 || wType == common.EqM4A4 ||
+			wType == common.EqM4A1 || wType == common.EqGalil ||
+			wType == common.EqFamas || wType == common.EqSG556 || wType == common.EqAUG
+		if !isRifle {
+			return
+		}
+
+		// Exclude shots while crouching (no counter-strafe needed when crouched)
+		if e.Shooter.IsDucking() {
+			return
+		}
+
 		sid := e.Shooter.SteamID64
 
 		// --- Counter-Strafe Analysis (100% Precise using CS2 official formula) ---
@@ -53,7 +69,7 @@ func RegisterMechanicsAnalyzer(ctx *models.DemoContext) {
 		if len(history) > 5 {
 			// Current velocity at shot time
 			currentSpeed := history[len(history)-1]
-			// Velocity 5 ticks ago (~40ms at 128 tick)
+			// Velocity 5 ticks ago (~78ms at 64 tick CS2)
 			prevSpeed := history[len(history)-5]
 
 			// Get weapon-specific accuracy threshold (34% of MaxPlayerSpeed)
@@ -62,7 +78,7 @@ func RegisterMechanicsAnalyzer(ctx *models.DemoContext) {
 			weaponMaxSpeed := models.GetWeaponMaxSpeed(weaponName)
 
 			// Only analyze if player was moving significantly (needed to counter-strafe)
-			// Use weapon-specific threshold instead of fixed 150
+			// Require previous speed > accuracy threshold (was running before shot)
 			if prevSpeed > accuracyThreshold {
 				rating := 0.0
 
@@ -106,16 +122,14 @@ func recordMechanicStat(ctx *models.DemoContext, steamID uint64, statType string
 
 	player := ctx.MatchData.Players[steamID]
 	if player.Mechanics == nil {
-		player.Mechanics = &models.MechanicsStats{}
+		player.Mechanics = &models.MechanicsStats{
+			CounterStrafeValues: make([]float64, 0, 100), // Pre-allocate for efficiency
+		}
 	}
 
-	// Acumulación simple (promedio móvil)
+	// Accumulate values for MEDIAN calculation at end of match
 	switch statType {
 	case "counter_strafe":
-		if player.Mechanics.AvgCounterStrafeRating == 0 {
-			player.Mechanics.AvgCounterStrafeRating = value
-		} else {
-			player.Mechanics.AvgCounterStrafeRating = (player.Mechanics.AvgCounterStrafeRating + value) / 2
-		}
+		player.Mechanics.CounterStrafeValues = append(player.Mechanics.CounterStrafeValues, value)
 	}
 }

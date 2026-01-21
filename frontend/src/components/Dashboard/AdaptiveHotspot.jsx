@@ -33,24 +33,11 @@ const AdaptiveHotspot = ({
     [mapName, zoomLevel, isSelected]
   );
   
-  const profile = getMapProfile(mapName);
-  const isCompact = profile.density === 'compact';
+  // Redesigned AdaptiveHotspot - Professional Pill Shape
+  // Always show full name for better readability (no truncation)
+  const isCompact = false; // Disable compact mode for cleaner design
   
-  // Truncate name intelligently (must be called before any early returns)
-  const displayName = useMemo(() => {
-    if (sizeConfig.showLabel || isSelected || isHovered) {
-      // Show more when expanded
-      return name.length > 6 ? name.slice(0, 6) : name;
-    }
-    // Ultra-compact: show 3-4 chars
-    return name.length > 4 ? name.slice(0, 3) : name;
-  }, [name, sizeConfig.showLabel, isSelected, isHovered]);
-  
-  // Early return after all hooks have been called
-  if (!position) return null;
-  
-  // Use adjusted position if available (from anti-overlap)
-  // Clamp to valid range [0-100] to prevent overflow
+  // Use adjusted position if available
   const rawX = position.x ?? callout.adjustedX ?? callout.x ?? 0;
   const rawY = position.y ?? callout.adjustedY ?? callout.y ?? 0;
   const displayX = Math.max(2, Math.min(98, rawX));
@@ -67,35 +54,31 @@ const AdaptiveHotspot = ({
         ${isSelected ? 'selected' : ''} 
         ${isBest ? 'best' : ''} 
         ${isWorst ? 'worst' : ''}
-        ${isCompact ? 'compact-map' : ''}
         ${isHovered ? 'hovered' : ''}
         ${wasAdjusted ? 'adjusted' : ''}
       `}
       style={{ 
         left: `${displayX}%`, 
         top: `${displayY}%`,
-        '--marker-size': `${sizeConfig.size}px`,
-        '--font-size': `${sizeConfig.fontSize}px`
+        '--marker-scale': `${sizeConfig.size / 36}` // Scale factor
       }}
       onClick={() => onClick(callout)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Pulse ring - only on significant hotspots */}
+      {/* Pulse ring - only on active/best/worst */}
       {(isBest || isWorst || isSelected) && (
         <div className="hotspot-pulse" />
       )}
       
-      {/* Core marker */}
+      {/* Core marker - Pill Shape */}
       <div className="hotspot-core">
-        <span className="hotspot-label">{displayName}</span>
+        <span className="hotspot-label">{name}</span>
         
-        {/* Micro K/D indicator */}
-        {isCompact && !isHovered && (
-          <div className="micro-stat">
-            {kills > deaths ? '↑' : kills < deaths ? '↓' : '•'}
-          </div>
-        )}
+        {/* Integrated simple stat */}
+        <div className="mini-stat-pill">
+          {win_rate}%
+        </div>
       </div>
       
       {/* Connector line if position was adjusted */}

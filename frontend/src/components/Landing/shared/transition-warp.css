@@ -1,0 +1,111 @@
+/**
+ * Transition Warp Effect Styles
+ * Creates converging speed lines effect for scene transitions
+ */
+
+.transition-warp-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(5, 5, 8, 0) 0%, rgba(5, 5, 8, 0.9) 100%);
+}
+
+.warp-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.warp-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(20, 184, 166, 0.8) 30%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(20, 184, 166, 0.8) 70%,
+    transparent 100%
+  );
+  transform-origin: center top;
+  transform: rotate(var(--angle)) translateY(var(--distance));
+  animation: warp-extend 1.2s ease-out forwards;
+  animation-delay: var(--delay);
+  border-radius: 2px;
+  box-shadow: 
+    0 0 10px rgba(20, 184, 166, 0.6),
+    0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+@keyframes warp-extend {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    height: var(--length);
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(calc(var(--distance) + 50vh));
+  }
+}
+
+.warp-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 20%,
+    rgba(5, 5, 8, 0.5) 60%,
+    rgba(5, 5, 8, 0.95) 100%
+  );
+  pointer-events: none;
+}
+
+/* Add motion blur effect during warp */
+.transition-warp-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: center-pulse 0.8s ease-out forwards;
+  box-shadow: 
+    0 0 30px rgba(20, 184, 166, 0.8),
+    0 0 60px rgba(20, 184, 166, 0.5),
+    0 0 100px rgba(20, 184, 166, 0.3);
+}
+
+@keyframes center-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(50);
+    opacity: 0;
+  }
+}

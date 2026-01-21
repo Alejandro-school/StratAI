@@ -15,21 +15,24 @@ from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
 
 # Rutas
-from .routes import steam_auth, steam_service, auth_status, sharecodes, dashboard
+from .routes import steam_auth, steam_service, auth_status, sharecodes, dashboard, performance
 
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 print(f"STEAM_API_KEY cargada (longitud={len(STEAM_API_KEY)})")
 
 app = FastAPI()
 
-# CORS para frontend
+# CORS flexible para túneles dinámicos (trycloudflare.com)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    # Permitimos cualquier origen que termine en .trycloudflare.com, localhost o IPs locales
+    allow_origin_regex=r"https?://.*\.trycloudflare\.com|https?://localhost(:[0-9]+)?|https?://127\.0\.0\.1(:[0-9]+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# Nota: Al unificar todo bajo el proxy (puerto 9000), el navegador lo ve como mismo origen,
+# pero mantenemos esto por si se accede a servicios individuales.
 
 # Conexión a Redis
 redis = aioredis.from_url("redis://localhost", decode_responses=True)
@@ -62,6 +65,7 @@ app.include_router(steam_service.router)
 app.include_router(auth_status.router)
 app.include_router(sharecodes.router)
 app.include_router(dashboard.router)
+app.include_router(performance.router)
 
 
 @app.on_event("startup")

@@ -11,7 +11,7 @@ import { Box, Menu as DropdownMenu, MenuItem as DropdownItem, IconButton } from 
 import '../../styles/Layout/sidebar.css';
 import { useUser } from '../../context/UserContext';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 const SidebarComponent = () => {
   const [anchorEl, setAnchorEl] = useState(null);

@@ -3,6 +3,8 @@ import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import '../../styles/Stats/matchSummary.css';
 
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
+
 // Registro de los componentes necesarios de Chart.js
 import {
   Chart as ChartJS,
@@ -21,7 +23,7 @@ const MatchSummary = () => {
   const [stats, setStats] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/steam/match-history', { withCredentials: true })
+    axios.get(`${API_URL}/steam/match-history`, { withCredentials: true })
     .then(response => setStats(response.data.stats))
     .catch(error => console.error('Error al cargar las estadísticas:', error));  
   }, []);

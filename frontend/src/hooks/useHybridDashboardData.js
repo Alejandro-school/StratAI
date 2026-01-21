@@ -2,7 +2,7 @@
 // Hook híbrido: Carga stats instantáneas primero, luego enriquece con análisis profundo
 import { useState, useEffect, useCallback } from 'react';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 export const useHybridDashboardData = (user) => {
   const [loading, setLoading] = useState(true);

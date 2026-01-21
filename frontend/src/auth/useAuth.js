@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 
 const AuthContext = createContext(null);
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

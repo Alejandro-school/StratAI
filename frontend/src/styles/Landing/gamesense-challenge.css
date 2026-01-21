@@ -1,0 +1,450 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   GAMESENSE CHALLENGE - HIGH END 3D COCKPIT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3D Scene Container
+   ───────────────────────────────────────────────────────────────────────────── */
+.gamesense-3d-scene {
+  width: 100%;
+  max-width: 1600px;
+  min-height: 700px;
+  margin: 0 auto;
+  perspective: 2500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--landing-space-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Context HUD - Tech Style
+   ───────────────────────────────────────────────────────────────────────────── */
+.gamesense-hud {
+  width: 100%;
+  max-width: 600px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.gamesense-hud.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gamesense-hud__glass {
+  background: rgba(10, 15, 30, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 2px solid var(--landing-accent); /* Tech accent */
+  border-radius: 4px; /* Harder tech corners */
+  padding: 16px 24px;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.gamesense-hud__glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.gamesense-hud__label {
+  font-family: var(--landing-font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--landing-accent);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.gamesense-hud__glass h3 {
+  font-family: var(--landing-font-display);
+  font-size: 20px;
+  color: white;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.gamesense-hud__glass p {
+  color: var(--landing-text-secondary);
+  font-size: 14px;
+}
+
+.gamesense-hud__glass strong {
+  color: #fff;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3D Layout Grid
+   ───────────────────────────────────────────────────────────────────────────── */
+.gamesense-layout-3d {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  transform-style: preserve-3d;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3D Side Panels
+   ───────────────────────────────────────────────────────────────────────────── */
+.gamesense-panel-3d {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.gamesense-panel-3d--left {
+  transform: translateX(100px) rotateY(0deg);
+  transform-origin: right center;
+}
+
+.gamesense-panel-3d--right {
+  transform: translateX(-100px) rotateY(0deg);
+  transform-origin: left center;
+}
+
+.gamesense-panel-3d.visible.gamesense-panel-3d--left {
+  opacity: 1;
+  transform: translateX(0) rotateY(15deg) translateZ(50px);
+}
+
+.gamesense-panel-3d.visible.gamesense-panel-3d--right {
+  opacity: 1;
+  transform: translateX(0) rotateY(-15deg) translateZ(50px);
+}
+
+/* Option Cards - High End Glass */
+.gamesense__side-option {
+  position: relative;
+  background: rgba(13, 17, 28, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateZ(0); /* Hardware accel */
+}
+
+/* Shine effect */
+.gamesense-card-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: skewX(-20deg);
+  transition: all 0.5s;
+  pointer-events: none;
+}
+
+.gamesense__side-option:hover .gamesense-card-shine {
+  left: 150%;
+  transition: all 0.8s;
+}
+
+.gamesense__side-option:hover {
+  background: rgba(20, 25, 40, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateZ(20px) scale(1.05); /* Pop out in 3D */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.gamesense__side-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.gamesense__side-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-family: var(--landing-font-mono);
+  font-weight: 700;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.gamesense__side-header h4 {
+  font-family: var(--landing-font-sans);
+  font-weight: 600;
+  color: #fff;
+  font-size: 16px;
+  margin: 0;
+}
+
+.gamesense__side-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+/* Selection States */
+.gamesense__side-option--selected {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--landing-text-primary);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.gamesense__side-option--correct {
+  background: rgba(74, 222, 128, 0.15) !important;
+  border-color: #4ade80 !important;
+  box-shadow: 0 0 40px rgba(74, 222, 128, 0.2) !important;
+}
+
+.gamesense__side-option--incorrect {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Video Frame Center
+   ───────────────────────────────────────────────────────────────────────────── */
+.gamesense-video-frame {
+  flex: 1; /* occupy remaining center */
+  max-width: 900px;
+  aspect-ratio: 16/9;
+  position: relative;
+  background: #000;
+  border-radius: 8px;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
+  /* The Border Glow */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.gamesense-video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8; /* Slight cinematic dim */
+  transition: opacity 0.3s;
+}
+
+.gamesense-video-frame:hover .gamesense-video-player {
+  opacity: 1;
+}
+
+/* Screen Effects (Scanlines) */
+.gamesense-screen-effects {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.1;
+  z-index: 5;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Internal Video Overlays
+   ───────────────────────────────────────────────────────────────────────────── */
+.gamesense-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.gamesense-overlay--start {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.gamesense-play-glow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gamesense-play-glow::before {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: var(--landing-accent);
+  filter: blur(40px);
+  opacity: 0.4;
+  border-radius: 50%;
+  animation: pulseGlow 2s infinite;
+}
+
+.gamesense-play-btn {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  color: white;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.gamesense-overlay--start:hover .gamesense-play-btn {
+  transform: scale(1.1);
+  background: white;
+  color: black;
+}
+
+.gamesense-overlay--start p {
+  font-family: var(--landing-font-mono);
+  letter-spacing: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Glitch Text Question */
+.gamesense-question-glitch {
+  font-family: var(--landing-font-display);
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  text-shadow: 2px 2px var(--landing-accent), -2px -2px #ef4444;
+  animation: glitch 2s infinite alternate;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 40px;
+}
+
+/* Feedback Cards 3D */
+.gamesense-feedback-card.incorrect-3d,
+.gamesense-feedback-card.correct-3d {
+  background: rgba(10, 10, 12, 0.95);
+  border: 1px solid;
+  padding: 40px;
+  border-radius: 2px; /* Tech style */
+  text-align: center;
+  position: relative;
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  /* Tech corners */
+  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+}
+
+.incorrect-3d {
+  border-color: #ef4444;
+}
+
+.correct-3d {
+  border-color: #4ade80;
+}
+
+.feedback-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.incorrect-3d .feedback-icon-wrapper { color: #ef4444; border: 1px solid #ef4444; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+.correct-3d .feedback-icon-wrapper { color: #4ade80; border: 1px solid #4ade80; box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+
+.incorrect-3d h4 { color: #ef4444; font-family: var(--landing-font-display); font-size: 24px; margin-bottom: 8px; }
+.correct-3d h4 { color: #4ade80; font-family: var(--landing-font-display); font-size: 24px; margin-bottom: 8px; }
+
+.gamesense-feedback-card p {
+  color: #ccc;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+.gamesense-actions button {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 10px 24px;
+  font-family: var(--landing-font-mono);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gamesense-actions button:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Mobile */
+@media (max-width: 1200px) {
+  .gamesense-layout-3d {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .gamesense-panel-3d {
+    width: 100%;
+    flex-direction: row;
+    opacity: 1 !important;
+    transform: none !important; /* Disable 3D on mobile */
+  }
+  
+  .gamesense__side-option {
+    flex: 1;
+  }
+  
+  .gamesense-video-frame {
+    order: -1; /* Video top */
+    width: 100%;
+  }
+}

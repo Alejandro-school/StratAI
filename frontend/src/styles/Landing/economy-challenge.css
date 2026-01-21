@@ -1,0 +1,339 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ECONOMY CHALLENGE - Tactical Buy Decision Styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Scenario Card
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__scenario {
+  width: 100%;
+  max-width: 800px;
+  background: var(--landing-bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--landing-radius-lg);
+  overflow: hidden;
+  opacity: 0;
+  animation: landingFadeInUp 0.6s ease 0.2s forwards;
+}
+
+.economy-challenge__scenario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--landing-space-lg);
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.economy-challenge__map-info {
+  display: flex;
+  align-items: center;
+  gap: var(--landing-space-md);
+}
+
+.economy-challenge__map-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--landing-space-sm);
+  padding: var(--landing-space-sm) var(--landing-space-md);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--landing-radius-md);
+  font-size: var(--landing-text-sm);
+  font-weight: 600;
+}
+
+.economy-challenge__map-badge--ct {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.economy-challenge__map-badge--t {
+  background: rgba(234, 179, 8, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.economy-challenge__round-info {
+  display: flex;
+  align-items: center;
+  gap: var(--landing-space-lg);
+}
+
+.economy-challenge__score {
+  display: flex;
+  align-items: center;
+  gap: var(--landing-space-sm);
+  font-family: var(--landing-font-mono);
+  font-size: var(--landing-text-lg);
+  font-weight: 700;
+}
+
+.economy-challenge__score-ct {
+  color: #60a5fa;
+}
+
+.economy-challenge__score-t {
+  color: #fbbf24;
+}
+
+.economy-challenge__score-divider {
+  color: var(--landing-text-muted);
+}
+
+.economy-challenge__round-number {
+  font-family: var(--landing-font-mono);
+  font-size: var(--landing-text-sm);
+  color: var(--landing-text-muted);
+  padding: var(--landing-space-xs) var(--landing-space-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--landing-radius-sm);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Scenario Content
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__scenario-content {
+  padding: var(--landing-space-xl);
+}
+
+.economy-challenge__context {
+  font-size: var(--landing-text-base);
+  color: var(--landing-text-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--landing-space-xl);
+}
+
+.economy-challenge__context strong {
+  color: var(--landing-text-primary);
+  font-weight: 600;
+}
+
+.economy-challenge__context .highlight-money {
+  color: #4ade80;
+  font-family: var(--landing-font-mono);
+  font-weight: 600;
+}
+
+.economy-challenge__context .highlight-warning {
+  color: #fbbf24;
+}
+
+.economy-challenge__context .highlight-danger {
+  color: #f87171;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Economy Stats Bar
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--landing-space-2xl);
+  padding: var(--landing-space-lg);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--landing-radius-md);
+  margin-bottom: var(--landing-space-xl);
+}
+
+.economy-challenge__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--landing-space-xs);
+}
+
+.economy-challenge__stat-value {
+  font-family: var(--landing-font-mono);
+  font-size: var(--landing-text-xl);
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.economy-challenge__stat-label {
+  font-size: var(--landing-text-xs);
+  color: var(--landing-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Question
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__question {
+  font-family: var(--landing-font-display);
+  font-size: var(--landing-text-xl);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: var(--landing-space-xl);
+  color: var(--landing-text-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Options
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--landing-space-md);
+}
+
+.economy-challenge__option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--landing-space-md);
+  padding: var(--landing-space-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--landing-radius-lg);
+  cursor: pointer;
+  transition: all var(--landing-transition-base);
+  text-align: left;
+}
+
+.economy-challenge__option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.economy-challenge__option--selected {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--landing-accent-cyan);
+}
+
+.economy-challenge__option--correct {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: #4ade80;
+  pointer-events: none;
+}
+
+.economy-challenge__option--incorrect {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: #f87171;
+  pointer-events: none;
+}
+
+.economy-challenge__option-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--landing-radius-md);
+  font-family: var(--landing-font-mono);
+  font-size: var(--landing-text-sm);
+  font-weight: 700;
+  color: var(--landing-text-secondary);
+  transition: all var(--landing-transition-base);
+}
+
+.economy-challenge__option--selected .economy-challenge__option-letter {
+  background: var(--landing-accent-cyan);
+  color: var(--landing-bg-primary);
+}
+
+.economy-challenge__option--correct .economy-challenge__option-letter {
+  background: #4ade80;
+  color: var(--landing-bg-primary);
+}
+
+.economy-challenge__option--incorrect .economy-challenge__option-letter {
+  background: #f87171;
+  color: var(--landing-bg-primary);
+}
+
+.economy-challenge__option-text {
+  flex: 1;
+  font-size: var(--landing-text-base);
+  color: var(--landing-text-secondary);
+  line-height: 1.5;
+}
+
+.economy-challenge__option:hover .economy-challenge__option-text {
+  color: var(--landing-text-primary);
+}
+
+.economy-challenge__option--selected .economy-challenge__option-text,
+.economy-challenge__option--correct .economy-challenge__option-text {
+  color: var(--landing-text-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Feedback
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__feedback {
+  margin-top: var(--landing-space-xl);
+  padding: var(--landing-space-lg);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--landing-radius-lg);
+  border-left: 4px solid var(--landing-accent-cyan);
+  animation: landingFadeInUp 0.4s ease forwards;
+}
+
+.economy-challenge__feedback--correct {
+  border-left-color: #4ade80;
+}
+
+.economy-challenge__feedback--incorrect {
+  border-left-color: #f87171;
+}
+
+.economy-challenge__feedback-title {
+  display: flex;
+  align-items: center;
+  gap: var(--landing-space-sm);
+  font-family: var(--landing-font-display);
+  font-size: var(--landing-text-lg);
+  font-weight: 700;
+  margin-bottom: var(--landing-space-sm);
+}
+
+.economy-challenge__feedback--correct .economy-challenge__feedback-title {
+  color: #4ade80;
+}
+
+.economy-challenge__feedback--incorrect .economy-challenge__feedback-title {
+  color: #f87171;
+}
+
+.economy-challenge__feedback-text {
+  font-size: var(--landing-text-base);
+  color: var(--landing-text-secondary);
+  line-height: 1.6;
+}
+
+.economy-challenge__feedback-text strong {
+  color: var(--landing-text-primary);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Continue Button
+   ───────────────────────────────────────────────────────────────────────────── */
+.economy-challenge__continue {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--landing-space-xl);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .economy-challenge__scenario-header {
+    flex-direction: column;
+    gap: var(--landing-space-md);
+  }
+  
+  .economy-challenge__options {
+    grid-template-columns: 1fr;
+  }
+  
+  .economy-challenge__stats {
+    flex-wrap: wrap;
+    gap: var(--landing-space-lg);
+  }
+}

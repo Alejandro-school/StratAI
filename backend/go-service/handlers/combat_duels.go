@@ -37,6 +37,16 @@ func isFireGrenade(weapon string) bool {
 	return weapon == "Incendiary Grenade" || weapon == "Molotov"
 }
 
+// getEngagementType returns "peek" or "hold" based on velocity threshold
+// Peek: actively moving (>100 u/s), Hold: stationary or jiggling (≤100 u/s)
+func getEngagementType(velocity float64) string {
+	const peekVelocityThreshold = 100.0
+	if velocity > peekVelocityThreshold {
+		return "peek"
+	}
+	return "hold"
+}
+
 // ConsolidateDuels groups raw combat events into consolidated duels
 // Handles two cases:
 // 1. Grenades: Group by attacker + weapon (multi-victim possible)
@@ -391,6 +401,7 @@ func buildMultiVictimDuel(ctx *models.DemoContext, events []models.RawCombatEven
 					AvgTimeToReaction:     winnerAvgTTR,
 					AvgTimeToFirstDamage:  winnerAvgTTFD,
 					Velocity:              winnerStats.Velocity,
+					EngagementType:        getEngagementType(winnerStats.Velocity),
 					IsBlind:               winnerStats.IsBlind,
 					IsDucking:             winnerStats.IsDucking,
 					Position:              &winnerStats.Position, // [NEW]
@@ -434,6 +445,7 @@ func buildMultiVictimDuel(ctx *models.DemoContext, events []models.RawCombatEven
 						AvgTimeToReaction:     loserAvgTTR,
 						AvgTimeToFirstDamage:  loserAvgTTFD,
 						Velocity:              loserStats.Velocity,
+						EngagementType:        getEngagementType(loserStats.Velocity),
 						IsBlind:               loserStats.IsBlind,
 						IsDucking:             loserStats.IsDucking,
 						Position:              &loserStats.Position, // [NEW]
@@ -524,6 +536,7 @@ func buildMultiVictimDuel(ctx *models.DemoContext, events []models.RawCombatEven
 			ArmorAfter:       stats.ArmorAfter,
 			EquipmentValue:   stats.EquipmentValue,
 			Velocity:         stats.Velocity,
+			EngagementType:   getEngagementType(stats.Velocity),
 			IsBlind:          stats.IsBlind,
 			IsDucking:        stats.IsDucking,
 			Position:         &stats.Position, // [NEW]
@@ -679,6 +692,7 @@ func buildMultiVictimDuel(ctx *models.DemoContext, events []models.RawCombatEven
 			AvgTimeToReaction:     avgTTR,
 			AvgTimeToFirstDamage:  avgTTFD,
 			Velocity:              attackerStats.Velocity,
+			EngagementType:        getEngagementType(attackerStats.Velocity),
 			IsBlind:               attackerStats.IsBlind,
 			IsDucking:             attackerStats.IsDucking,
 		},

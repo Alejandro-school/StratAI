@@ -4,11 +4,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import { 
-  Home, BarChart2, Target, Brain, Upload, Settings, LogOut, User, Zap
+  Home, BarChart2, Target, Brain, TrendingUp, Settings, LogOut, User
 } from 'lucide-react';
 import '../../styles/Layout/navigationFrame.css';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 const NavigationFrame = ({ children }) => {
   const { user } = useUser();
@@ -23,13 +23,13 @@ const NavigationFrame = ({ children }) => {
     return () => clearInterval(timer);
   }, []);
 
+  // 5 Secciones principales de navegación
   const navItems = [
     { path: '/dashboard', icon: Home, label: 'Dashboard' },
     { path: '/history-games', icon: BarChart2, label: 'Partidas' },
-    { path: '/personal-performance', icon: Target, label: 'Análisis' },
-    { path: '/map-performance', icon: Zap, label: 'Mapas' },
-    { path: '/improvements', icon: Brain, label: 'Coach IA' },
-    { path: '/analyze-demos', icon: Upload, label: 'Subir Demo' },
+    { path: '/performance', icon: Target, label: 'Performance' },
+    { path: '/coach', icon: Brain, label: 'Coach IA' },
+    { path: '/progress', icon: TrendingUp, label: 'Progreso' },
   ];
 
   // Update indicator position when route changes

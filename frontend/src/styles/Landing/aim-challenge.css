@@ -1,0 +1,310 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   AIM CHALLENGE - Precision Test Styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Game Area
+   ───────────────────────────────────────────────────────────────────────────── */
+.aim-challenge__arena {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  background: linear-gradient(180deg, var(--landing-bg-secondary) 0%, var(--landing-bg-tertiary) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--landing-radius-lg);
+  overflow: hidden;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.aim-challenge__arena::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  pointer-events: none;
+}
+
+/* Crosshair overlay */
+.aim-challenge__crosshair {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.aim-challenge__arena:hover .aim-challenge__crosshair {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Target
+   ───────────────────────────────────────────────────────────────────────────── */
+.aim-challenge__target {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-50%, -50%) scale(0);
+  animation: targetAppear 0.15s ease forwards;
+  transition: transform 0.1s ease;
+}
+
+.aim-challenge__target:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.aim-challenge__target:active {
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+@keyframes targetAppear {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Target layers */
+.aim-challenge__target-outer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 0, 100, 0.2) 0%, rgba(255, 0, 100, 0.4) 100%);
+  border: 2px solid rgba(255, 0, 100, 0.6);
+}
+
+.aim-challenge__target-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 50, 100, 0.3) 0%, rgba(255, 50, 100, 0.5) 100%);
+  border: 2px solid rgba(255, 50, 100, 0.8);
+}
+
+.aim-challenge__target-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  height: 30%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff3366 0%, #ff0066 100%);
+  box-shadow: 0 0 15px rgba(255, 0, 100, 0.8), 0 0 30px rgba(255, 0, 100, 0.4);
+}
+
+/* Target hit effect */
+.aim-challenge__target--hit {
+  animation: targetHit 0.3s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes targetHit {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Hit particles */
+.aim-challenge__particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.aim-challenge__particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--landing-accent-cyan);
+  border-radius: 50%;
+  animation: particleBurst 0.5s ease-out forwards;
+}
+
+@keyframes particleBurst {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Start Screen
+   ───────────────────────────────────────────────────────────────────────────── */
+.aim-challenge__start {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 15, 0.9);
+  z-index: 10;
+}
+
+.aim-challenge__start-title {
+  font-family: var(--landing-font-display);
+  font-size: var(--landing-text-3xl);
+  font-weight: 700;
+  margin-bottom: var(--landing-space-md);
+}
+
+.aim-challenge__start-subtitle {
+  color: var(--landing-text-secondary);
+  margin-bottom: var(--landing-space-xl);
+}
+
+.aim-challenge__countdown {
+  font-family: var(--landing-font-mono);
+  font-size: var(--landing-text-6xl);
+  font-weight: 700;
+  background: var(--landing-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: countdownPulse 1s ease-in-out infinite;
+}
+
+@keyframes countdownPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Live Stats
+   ───────────────────────────────────────────────────────────────────────────── */
+.aim-challenge__live-stats {
+  position: absolute;
+  top: var(--landing-space-md);
+  left: var(--landing-space-md);
+  display: flex;
+  gap: var(--landing-space-lg);
+  z-index: 5;
+}
+
+.aim-challenge__live-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--landing-space-sm);
+  padding: var(--landing-space-sm) var(--landing-space-md);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: var(--landing-radius-md);
+  backdrop-filter: blur(10px);
+}
+
+.aim-challenge__live-stat-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--landing-accent-cyan);
+}
+
+.aim-challenge__live-stat-value {
+  font-family: var(--landing-font-mono);
+  font-size: var(--landing-text-sm);
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Miss Indicator
+   ───────────────────────────────────────────────────────────────────────────── */
+.aim-challenge__miss {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: missIndicator 0.4s ease-out forwards;
+}
+
+.aim-challenge__miss::before,
+.aim-challenge__miss::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #ef4444;
+  transform-origin: center;
+}
+
+.aim-challenge__miss::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.aim-challenge__miss::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@keyframes missIndicator {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Responsive
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .aim-challenge__arena {
+    height: 400px;
+  }
+  
+  .aim-challenge__target {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .aim-challenge__live-stats {
+    flex-direction: column;
+    gap: var(--landing-space-sm);
+  }
+}

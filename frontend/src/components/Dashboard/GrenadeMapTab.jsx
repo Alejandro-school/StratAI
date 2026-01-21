@@ -144,67 +144,127 @@ const GrenadeMarkerSmart = ({ cluster, type, onClick, isSelected, isHighlighted 
 };
 
 // ============================================
-// TRAJECTORY VISUALIZATION - Simple & Clean
+// TRAJECTORY VISUALIZATION - Natural Flight with Grenade Icon
 // ============================================
 
 const TrajectoryVisualization = ({ cluster, type }) => {
   const config = GRENADE_TYPES[type];
+  const [animationKey, setAnimationKey] = useState(0);
+  
+  // Reset animation when cluster changes
+  React.useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [cluster]);
   
   if (!cluster?.trajectories || cluster.trajectories.length === 0) return null;
   
+  // Calculate distance for animation timing
+  const getDistance = (traj) => {
+    const dx = traj.x2 - traj.x1;
+    const dy = traj.y2 - traj.y1;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  
   return (
-    <div className="trajectory-container">
-      {/* Simple SVG trajectories */}
-      <svg className="trajectory-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <defs>
-          <marker id={`landing-${type}`} markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-            <circle cx="4" cy="4" r="3" fill={config.color} />
-          </marker>
-        </defs>
+    <div className="trajectory-container animated" key={animationKey}>
+      {cluster.trajectories.slice(0, 3).map((traj, idx) => {
+        const dist = getDistance(traj);
+        const angle = Math.atan2(traj.y2 - traj.y1, traj.x2 - traj.x1) * (180 / Math.PI);
         
-        {cluster.trajectories.slice(0, 5).map((traj, idx) => {
-          const dist = Math.sqrt(Math.pow(traj.x2 - traj.x1, 2) + Math.pow(traj.y2 - traj.y1, 2));
-          const arcHeight = Math.min(15, dist * 0.25);
-          const ctrlY = Math.min(traj.y1, traj.y2) - arcHeight;
-          const ctrlX = (traj.x1 + traj.x2) / 2;
-          
-          return (
-            <g key={idx} className="trajectory-group">
-              {/* Curved path */}
-              <path
-                d={`M${traj.x1},${traj.y1} Q${ctrlX},${ctrlY} ${traj.x2},${traj.y2}`}
+        // Animation timing
+        const animationDelay = idx * 0.4;
+        const flightDuration = 0.6 + (dist / 80) * 0.3; // Natural speed
+        
+        return (
+          <div key={idx} className="trajectory-flight-group">
+            {/* Dashed line trail */}
+            <svg 
+              className="trajectory-line-svg"
+              style={{
+                animationDelay: `${animationDelay}s`,
+                '--flight-duration': `${flightDuration}s`
+              }}
+            >
+              <line
+                x1={`${traj.x1}%`}
+                y1={`${traj.y1}%`}
+                x2={`${traj.x2}%`}
+                y2={`${traj.y2}%`}
                 stroke={config.color}
-                strokeWidth="0.5"
-                strokeDasharray="1.5 1"
-                fill="none"
-                opacity="0.7"
-                markerEnd={`url(#landing-${type})`}
+                strokeWidth="2"
+                strokeDasharray="6 4"
+                strokeLinecap="round"
+                opacity="0.6"
+                className="trajectory-dashed-line"
               />
-              {/* Start point */}
-              <circle cx={traj.x1} cy={traj.y1} r="0.8" fill={config.gradientStart} opacity="0.9" />
-            </g>
-          );
-        })}
-      </svg>
+            </svg>
+            
+            {/* Flying grenade icon */}
+            <div 
+              className="flying-grenade"
+              style={{
+                '--start-x': `${traj.x1}%`,
+                '--start-y': `${traj.y1}%`,
+                '--end-x': `${traj.x2}%`,
+                '--end-y': `${traj.y2}%`,
+                '--flight-duration': `${flightDuration}s`,
+                '--angle': `${angle}deg`,
+                animationDelay: `${animationDelay}s`
+              }}
+            >
+              <GrenadeImage type={type} size={24} />
+            </div>
+            
+            {/* Explosion effect */}
+            <div 
+              className={`explosion-effect ${type}`}
+              style={{
+                left: `${traj.x2}%`,
+                top: `${traj.y2}%`,
+                '--explosion-color': config.explosionColor,
+                '--glow-color': config.glowColor,
+                animationDelay: `${animationDelay + flightDuration}s`
+              }}
+            >
+              <div className="explosion-ring-1" />
+              <div className="explosion-ring-2" />
+              {type === 'flash' && <div className="flash-white-burst" />}
+              {(type === 'he' || type === 'molotov') && <div className="fire-burst" />}
+              {type === 'smoke' && <div className="smoke-puff" />}
+            </div>
+            
+            {/* Landing indicator with grenade icon */}
+            <div 
+              className={`landing-marker ${type}`}
+              style={{
+                left: `${traj.x2}%`,
+                top: `${traj.y2}%`,
+                '--marker-color': config.color,
+                '--marker-glow': config.glowColor,
+                animationDelay: `${animationDelay + flightDuration + 0.2}s`
+              }}
+            >
+              <GrenadeImage type={type} size={22} />
+            </div>
+          </div>
+        );
+      })}
       
-      {/* Landing zone indicators */}
-      {cluster.trajectories.slice(0, 3).map((traj, idx) => (
+      {/* Start point indicator */}
+      {cluster.trajectories.length > 0 && (
         <div 
-          key={`landing-${idx}`}
-          className={`landing-indicator ${type}`}
+          className="throw-point"
           style={{
-            left: `${traj.x2}%`,
-            top: `${traj.y2}%`,
-            '--landing-color': config.color,
-            '--landing-glow': config.glowColor
+            left: `${cluster.trajectories[0].x1}%`,
+            top: `${cluster.trajectories[0].y1}%`,
+            '--point-color': config.gradientStart
           }}
-        >
-          <GrenadeImage type={type} size={20} />
-        </div>
-      ))}
+        />
+      )}
     </div>
   );
 };
+
 
 // ============================================
 // GRENADE ARSENAL - Compact Summary with Filters

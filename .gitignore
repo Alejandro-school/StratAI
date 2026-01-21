@@ -44,9 +44,7 @@ go-service/bin/
 go-service/*.exe
 
 # Data directories
-backend/data/demos/
-backend/data/exports/
-backend/data/maps/
+backend/data/
 
 # Archivos de mapas CS2 (muy grandes - usar Git LFS o descargar localmente)
 backend/data/maps/**/*.bin
@@ -70,8 +68,6 @@ backend/go-service/main.exe
 backend/go-service/reprocess_demos.exe
 backend/go-service/scripts/reprocess_demos.exe
 backend/go-service/IA.zip
-
-# Datos generados/exports
 
 # Otros
 cookies.txt

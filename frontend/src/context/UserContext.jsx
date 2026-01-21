@@ -7,9 +7,10 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:8000/auth/steam/status", {
+        const res = await fetch(`${API_URL}/auth/steam/status`, {
           credentials: "include",
         });
         if (res.ok) {

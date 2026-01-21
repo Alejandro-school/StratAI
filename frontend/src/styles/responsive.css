@@ -1,0 +1,220 @@
+/* frontend/src/styles/responsive.css */
+/* Comprehensive Responsive Layout Rules */
+
+/* =========================================================================
+   VARIABLES & BREAKPOINTS
+   XL: 1400px (Large laptops)
+   LG: 1200px (Laptops/Small Desktops)
+   MD: 992px  (Tablets Landscape)
+   SM: 768px  (Tablets Portrait)
+   XS: 480px  (Mobile)
+========================================================================= */
+
+:root {
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 80px;
+  --header-height: 70px;
+}
+
+/* =========================================================================
+   1. LAYOUT & NAVIGATION
+========================================================================= */
+
+/* Large Screens (≤ 1400px) */
+@media (max-width: 1400px) {
+  .dashboard-container {
+    max-width: 100vw;
+    padding: 0 20px;
+  }
+}
+
+/* Medium Screens (≤ 1200px) - Stack Layout */
+@media (max-width: 1200px) {
+  .map-dashboard.v2 {
+    flex-direction: column;
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  .map-main {
+    height: 60vh; /* Map takes top 60% */
+    min-height: 500px;
+  }
+  
+  .map-sidebar {
+    width: 100%;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+}
+
+/* Tablet Layout (≤ 992px) */
+@media (max-width: 992px) {
+  .navigation-frame {
+    /* Adjust main layout for sidebar toggle usually handled by JS state */
+  }
+  
+  /* Map Controls become more compact */
+  .map-header {
+    padding: 10px 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .map-selector-wrapper {
+    width: auto;
+  }
+  
+  .section-nav-wrapper {
+    flex: 1;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+}
+
+/* Mobile Layout (≤ 768px) */
+@media (max-width: 768px) {
+  /* Global Resets */
+  html, body {
+    font-size: 14px;
+    overflow-x: hidden;
+  }
+  
+  /* Stack everything */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Sidebar handling - often needs JS toggle on mobile */
+  /* Assuming there's a mobile nav component or we adjust the frame */
+  
+  /* Map adjustments */
+  .map-main {
+    height: 50vh;
+    min-height: 400px;
+  }
+  
+  /* Map header items stack */
+  .map-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .map-selector {
+    width: 100%;
+  }
+  
+  .section-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .section-btn span {
+    display: none; /* Hide text on mobile tabs */
+  }
+  
+  .side-filter-toggle {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  
+  /* Sidebar Content Stacking */
+  .map-sidebar {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  
+  /* Detail panels full width */
+  .detail-content {
+    width: 100%;
+  }
+}
+
+/* Small Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .map-main {
+    height: 45vh;
+  }
+  
+  /* Reduce marker sizes further via variables if using calc() */
+  /* Handled in adaptiveHotspot.css media queries */
+  
+  /* Simplify stats */
+  .side-stats-container {
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .side-numbers {
+    gap: 8px;
+  }
+  
+  .stat-label {
+    font-size: 8px;
+  }
+  
+  .stat-value {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================================
+   2. COMPONENT SPECIFIC ADJUSTMENTS
+========================================================================= */
+
+/* Hero Section */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+}
+
+/* Cards & Grid */
+@media (max-width: 768px) {
+  .info-card {
+    padding: 15px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tables */
+@media (max-width: 768px) {
+  .data-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .data-table {
+    min-width: 600px; /* Force scroll */
+  }
+}
+
+/* Modals/Dialogs */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95vw;
+    margin: 10px;
+    padding: 15px;
+  }
+}
+
+/* Utility classes for visibility */
+@media (max-width: 768px) {
+  .desktop-only { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+}

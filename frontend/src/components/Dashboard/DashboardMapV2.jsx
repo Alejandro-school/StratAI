@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import '../../styles/Dashboard/dashboardMap.css';
 
-// Available maps configuration  
+// Available maps configuration - Current CS2 Competitive Pool
 const AVAILABLE_MAPS = [
   { id: 'de_dust2', name: 'Dust II', img: 'de_dust2_radar_psd.png', available: true },
   { id: 'de_mirage', name: 'Mirage', img: 'de_mirage_radar_psd.png', available: true },
@@ -36,17 +36,10 @@ const AVAILABLE_MAPS = [
     zThreshold: -500 // Below this = lower, above = upper
   },
   { id: 'de_overpass', name: 'Overpass', img: 'de_overpass_radar_psd.png', available: true },
-  { id: 'de_train', name: 'Train', img: 'de_train_radar_psd.png', available: true,
-    levels: { upper: 'de_train_radar_psd.png', lower: 'de_train_lower_radar_psd.png' },
-    zThreshold: -50 // Below this = lower, above = upper
-  },
-  { id: 'de_vertigo', name: 'Vertigo', img: 'de_vertigo_radar_psd.png', available: true,
-    levels: { upper: 'de_vertigo_radar_psd.png', lower: 'de_vertigo_lower_radar_psd.png' },
-    zThreshold: 11700 // Vertigo: upper floor is Z > 11700 (based on CS2 data)
-  },
-  { id: 'de_anubis', name: 'Anubis', img: 'de_anubis_radar_psd.png', available: true },
+  { id: 'de_train', name: 'Train', img: 'de_train_radar_psd.png', available: true },
   { id: 'de_ancient', name: 'Ancient', img: 'de_ancient_radar_psd.png', available: true },
 ];
+
 
 // Map sections (displayed on map header)
 const MAP_SECTIONS = [

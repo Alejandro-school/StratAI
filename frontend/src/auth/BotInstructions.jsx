@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useUser } from "../context/UserContext";
 import "../styles/Auth/botInstructions.css";
 
 const STATUS_LABEL = {
@@ -8,7 +9,13 @@ const STATUS_LABEL = {
   unknown: "Comprobar estado",
 };
 
-export default function BotInstructions({ userSteamId, botSteamId }) {
+const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
+
+export default function BotInstructions({ userSteamId: propUserSteamId, botSteamId: propBotSteamId }) {
+  const { user } = useUser();
+  const userSteamId = propUserSteamId || user?.steam_id || user?.steamid;
+  
+  const [botSteamId, setBotSteamId] = useState(propBotSteamId || "");
   const [status, setStatus] = useState("unknown"); // friend|pending|not_friend|unknown
   const [serviceDown, setServiceDown] = useState(false);
   const [source, setSource] = useState(null); // live|cache|none
@@ -25,13 +32,14 @@ export default function BotInstructions({ userSteamId, botSteamId }) {
     setChecking(true);
     setMessage("");
     try {
-      const res = await fetch("http://localhost:8000/steam/check-friend-status", {
+      const res = await fetch(`${API_URL}/steam/check-friend-status`, {
         method: "GET",
         credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.detail || data?.error || "Error al comprobar estado");
       setStatus(data?.status || (data?.is_friend ? "friend" : "not_friend"));
+      if (data?.bot_steam_id) setBotSteamId(data.bot_steam_id);
       setServiceDown(Boolean(data?.service_down));
       setSource(data?.source || null);
     } catch (e) {
@@ -46,7 +54,7 @@ export default function BotInstructions({ userSteamId, botSteamId }) {
     setLoading(true);
     setMessage("");
     try {
-      const res = await fetch("http://localhost:8000/steam/send-friend-request", {
+      const res = await fetch(`${API_URL}/steam/send-friend-request`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

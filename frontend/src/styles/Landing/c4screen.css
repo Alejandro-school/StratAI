@@ -1,0 +1,167 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   C4 EXPLOSIVE SCREEN - HUD Interface Styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Main Screen Container */
+.c4-screen {
+  background: linear-gradient(180deg, #001a0d 0%, #000805 100%);
+  border: 2px solid #1a3d2a;
+  border-radius: 4px;
+  padding: 14px 18px;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  width: 260px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 
+    0 0 25px rgba(0, 255, 136, 0.35), 
+    inset 0 0 20px rgba(0, 0, 0, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanlines Overlay - Subtle CRT Effect */
+.c4-screen__scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg, 
+    rgba(0, 0, 0, 0.08) 0px, 
+    transparent 1px, 
+    transparent 2px, 
+    rgba(0, 0, 0, 0.08) 3px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Static Noise - Very Subtle */
+.c4-screen__noise {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.02;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' /%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* Screen Content Wrapper */
+.c4-screen__content {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+/* Screen Line Base */
+.c4-screen__line {
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Header Line */
+.c4-screen__line--header {
+  color: #00ff88;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.7);
+  opacity: 0.9;
+}
+
+/* Data Line */
+.c4-screen__line--data {
+  color: #00d4ff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+}
+
+/* Input Line */
+.c4-screen__line--input {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+/* Status Line */
+.c4-screen__line--status {
+  color: #00ff88;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  opacity: 0.7;
+}
+
+/* Blinking Cursor */
+.c4-screen__cursor {
+  margin-left: 2px;
+  color: #00ff88;
+  animation: cursorBlink 1s steps(1) infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Corner Indicators */
+.c4-screen__corner {
+  position: absolute;
+  font-size: 0.45rem;
+  color: #00ff88;
+  opacity: 0.4;
+  line-height: 1;
+}
+
+.c4-screen__corner--tl {
+  top: 5px;
+  left: 5px;
+}
+
+.c4-screen__corner--tr {
+  top: 5px;
+  right: 5px;
+}
+
+.c4-screen__corner--bl {
+  bottom: 5px;
+  left: 5px;
+}
+
+.c4-screen__corner--br {
+  bottom: 5px;
+  right: 5px;
+}
+
+/* LED Indicators */
+.c4-led {
+  /* Base LED styles - used via Three.js materials */
+}
+
+.c4-led--active {
+  animation: ledPulse 2s ease-in-out infinite;
+}
+
+@keyframes ledPulse {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.6; 
+  }
+}

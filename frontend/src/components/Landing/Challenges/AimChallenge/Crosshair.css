@@ -1,0 +1,136 @@
+/**
+ * Crosshair CSS - Styling for the dynamic crosshair
+ */
+
+/* Hide default cursor in game area */
+.aim-training-3d {
+  cursor: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CROSSHAIR
+   ═══════════════════════════════════════════════════════════════════════════ */
+.crosshair {
+  --line-gap: 4px;
+  --line-length: 12px;
+  --line-width: 2px;
+  --color: rgba(255, 255, 255, 0.9);
+  --color-active: #00ffff;
+  
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+}
+
+.crosshair__line {
+  position: absolute;
+  background: var(--color);
+  transition: background-color 0.1s ease;
+}
+
+.crosshair--active .crosshair__line {
+  background: var(--color-active);
+  box-shadow: 0 0 8px var(--color-active);
+}
+
+.crosshair__line--top,
+.crosshair__line--bottom {
+  left: 50%;
+  width: var(--line-width);
+  height: var(--line-length);
+  transform: translateX(-50%);
+}
+
+.crosshair__line--top {
+  bottom: calc(50% + var(--line-gap));
+}
+
+.crosshair__line--bottom {
+  top: calc(50% + var(--line-gap));
+}
+
+.crosshair__line--left,
+.crosshair__line--right {
+  top: 50%;
+  height: var(--line-width);
+  width: var(--line-length);
+  transform: translateY(-50%);
+}
+
+.crosshair__line--left {
+  right: calc(50% + var(--line-gap));
+}
+
+.crosshair__line--right {
+  left: calc(50% + var(--line-gap));
+}
+
+.crosshair__dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.1s ease;
+}
+
+.crosshair--active .crosshair__dot {
+  background: var(--color-active);
+  box-shadow: 0 0 6px var(--color-active);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HITMARKER
+   ═══════════════════════════════════════════════════════════════════════════ */
+.hitmarker {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+}
+
+.hitmarker__line {
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: #ffffff;
+  transform-origin: center;
+}
+
+.hitmarker__line--1 {
+  top: 30%;
+  left: 30%;
+  transform: rotate(45deg);
+}
+
+.hitmarker__line--2 {
+  top: 30%;
+  right: 30%;
+  transform: rotate(-45deg);
+}
+
+.hitmarker__line--3 {
+  bottom: 30%;
+  left: 30%;
+  transform: rotate(-45deg);
+}
+
+.hitmarker__line--4 {
+  bottom: 30%;
+  right: 30%;
+  transform: rotate(45deg);
+}
+
+/* Headshot hitmarker - red */
+.hitmarker--headshot .hitmarker__line {
+  background: #ff3333;
+  box-shadow: 0 0 8px #ff3333;
+}
