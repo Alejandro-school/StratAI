@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useUser } from "../context/UserContext";
+import { API_URL } from "../utils/api";
 import "../styles/Auth/botInstructions.css";
 
 const STATUS_LABEL = {
@@ -8,8 +9,6 @@ const STATUS_LABEL = {
   not_friend: "Enviar solicitud de amistad",
   unknown: "Comprobar estado",
 };
-
-const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 export default function BotInstructions({ userSteamId: propUserSteamId, botSteamId: propBotSteamId }) {
   const { user } = useUser();

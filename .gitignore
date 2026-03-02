@@ -46,11 +46,28 @@ go-service/*.exe
 # Data directories
 backend/data/
 
-# Archivos de mapas CS2 (muy grandes - usar Git LFS o descargar localmente)
-backend/data/maps/**/*.bin
-backend/data/maps/**/*.gltf
-backend/data/maps/**/*.png
+# Archivos de mapas CS2 (muy grandes)
+*.vmap
+*.gltf
+*.bin
 
+# Modelos 3D y assets grandes
+*.glb
+*.fbx
+*.obj
+*.dae
+*.blend
+
+# Carpetas de agentes/skills de Copilot (no son código del proyecto)
+.agent/
+.agents/
+
+# Assets de imágenes, videos y fuentes (no código)
+frontend/public/images/
+frontend/public/videos/
+frontend/public/sounds/
+frontend/build/
+.github/skills/**/images/
 
 *.mp4
 *.mov

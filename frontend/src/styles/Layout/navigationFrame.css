@@ -9,8 +9,8 @@
   --hud-border: rgba(255, 255, 255, 0.06);
   --hud-text: #e2e8f0;
   --hud-muted: #64748b;
-  --hud-accent: #8b5cf6;
-  --hud-accent-glow: rgba(139, 92, 246, 0.5);
+  --hud-accent: #06b6d4;
+  --hud-accent-glow: rgba(6, 182, 212, 0.5);
   --hud-success: #22c55e;
 }
 
@@ -27,16 +27,50 @@
 .hud-layout::before {
   content: '';
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(ellipse 100% 60% at 50% -10%, rgba(139, 92, 246, 0.08), transparent 50%),
-    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(139, 92, 246, 0.04), transparent),
-    radial-gradient(ellipse 80% 50% at 0% 80%, rgba(34, 211, 238, 0.03), transparent);
+  inset: 0;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(6, 182, 212, 0.24) 0%, transparent 42%),
+    radial-gradient(circle at 84% 18%, rgba(139, 92, 246, 0.2) 0%, transparent 46%),
+    radial-gradient(circle at 68% 82%, rgba(249, 115, 22, 0.16) 0%, transparent 44%),
+    radial-gradient(circle at 24% 84%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
+  animation: hudBgBreathing 11s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 0;
+}
+
+.hud-layout::after {
+  content: '';
+  position: fixed;
+  inset: -12%;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(6, 182, 212, 0.1) 0%, transparent 44%),
+    radial-gradient(circle at 52% 92%, rgba(139, 92, 246, 0.08) 0%, transparent 48%);
+  animation: hudBgFloat 16s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes hudBgBreathing {
+  0% {
+    opacity: 0.68;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.04) translate3d(-1.2%, -0.8%, 0);
+  }
+}
+
+@keyframes hudBgFloat {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate3d(0.9%, -0.9%, 0) scale(1.03);
+  }
 }
 
 /* ==================== HEADER ==================== */
@@ -104,7 +138,7 @@
   position: absolute;
   top: 6px;
   height: calc(100% - 12px);
-  background: linear-gradient(135deg, var(--hud-accent), #7c3aed);
+  background: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
   border-radius: 8px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 
@@ -271,6 +305,12 @@
   position: relative;
   z-index: 1;
   overflow-y: auto;
+  min-height: 0;
+}
+
+/* When coach dashboard is inside, disable scrolling so height: 100% works */
+.hud-content:has(.coach-dashboard) {
+  overflow: hidden;
 }
 
 /* ==================== HUD CORNERS ==================== */
@@ -325,6 +365,11 @@
 /* Hide status corner when map is visible (legend is in same position) */
 .map-dashboard ~ .hud-corners .corner-br,
 .hud-content:has(.map-dashboard) ~ .hud-corners .corner-br {
+  display: none;
+}
+
+/* Hide status/time corner on Coach to avoid overlap with chat input */
+.hud-content:has(.coach-dashboard) ~ .hud-corners .corner-br {
   display: none;
 }
 

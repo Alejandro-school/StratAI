@@ -176,10 +176,10 @@ const QuickStatsPanel = ({ games, getPlayerStats }) => {
                 <Line 
                   type="monotone" 
                   dataKey="kd" 
-                  stroke="#8b5cf6" 
+                  stroke="var(--color-secondary-500)" 
                   strokeWidth={2}
-                  dot={{ fill: '#8b5cf6', strokeWidth: 0, r: 3 }}
-                  activeDot={{ fill: '#a78bfa', r: 5 }}
+                  dot={{ fill: 'var(--color-secondary-500)', strokeWidth: 0, r: 3 }}
+                  activeDot={{ fill: 'var(--color-primary-400)', r: 5 }}
                 />
               </LineChart>
             </ResponsiveContainer>

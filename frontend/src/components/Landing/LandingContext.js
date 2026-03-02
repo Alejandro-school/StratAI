@@ -1,47 +1,135 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+/**
+ * LandingContext - Stage-based state management
+ * 
+ * Flow: HERO (with nickname) → CHAT_DEMO → ECONOMY → GRENADE → GAMESENSE → VERDICT
+ */
+import React, { createContext, useContext, useState, useCallback, useMemo, useRef, useEffect } from 'react';
 
-// Define steps constants
-export const LANDING_STEPS = {
+// Stage definitions (ordered progression)
+export const STAGES = {
   HERO: 'hero',
-  NICKNAME: 'nickname',
-  AIM: 'aim',
+  CHAT_DEMO: 'chat_demo',
   ECONOMY: 'economy',
   GRENADE: 'grenade',
   GAMESENSE: 'gamesense',
-  VERDICT: 'verdict'
+  VERDICT: 'verdict',
 };
+
+// Ordered array for navigation
+const STAGE_ORDER = [
+  STAGES.HERO,
+  STAGES.CHAT_DEMO,
+  STAGES.ECONOMY,
+  STAGES.GRENADE,
+  STAGES.GAMESENSE,
+  STAGES.VERDICT,
+];
+
+// Challenges that contribute to agent reveal (no AIM)
+const CHALLENGE_STAGES = ['economy', 'grenade', 'gamesense'];
 
 const LandingContext = createContext();
 
 export const LandingProvider = ({ children }) => {
-  const [currentStep, setCurrentStep] = useState(LANDING_STEPS.HERO);
-  const [showWarpTransition, setShowWarpTransition] = useState(false);
+  const [currentStage, setCurrentStage] = useState(STAGES.HERO);
+  const [transitionDirection, setTransitionDirection] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isEvaporating, setIsEvaporating] = useState(false); // For smoke/evaporate effect on hero text
-  const [triggerMaterialize, setTriggerMaterialize] = useState(false); // Trigger C4 materialization
+  const timeoutIdsRef = useRef([]);
   
   // User state
   const [nickname, setNickname] = useState('');
-  const [isArmed, setIsArmed] = useState(false);
+  
+  // Challenge completion tracking
+  const [completedChallenges, setCompletedChallenges] = useState({
+    economy: { completed: false, success: false },
+    grenade: { completed: false, success: false },
+    gamesense: { completed: false, success: false },
+  });
+  
+  // Challenge results
   const [results, setResults] = useState({});
   const [skipped, setSkipped] = useState(false);
 
-  const goToStep = useCallback((step, delay = 0) => {
-    if (delay > 0) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentStep(step);
-        setIsTransitioning(false);
-      }, delay);
-    } else {
-      setCurrentStep(step);
-      // If we are just switching instantly, we might not want to toggle isTransitioning to true and back 
-      // unless needed. But for consistency:
-      setIsTransitioning(false); 
-    }
+  // Agent reveal progress (0-1) - based on 3 challenges now
+  const agentRevealProgress = useMemo(() => {
+    const successes = CHALLENGE_STAGES.filter(
+      stage => completedChallenges[stage]?.success
+    ).length;
+    return successes / CHALLENGE_STAGES.length;
+  }, [completedChallenges]);
+
+  const currentStageIndex = useMemo(() => {
+    return STAGE_ORDER.indexOf(currentStage);
+  }, [currentStage]);
+
+  const registerTimeout = useCallback((callback, delay) => {
+    const id = setTimeout(callback, delay);
+    timeoutIdsRef.current.push(id);
+    return id;
   }, []);
 
-  // Save results for a specific challenge
+  useEffect(() => {
+    return () => {
+      timeoutIdsRef.current.forEach(clearTimeout);
+      timeoutIdsRef.current = [];
+    };
+  }, []);
+
+  // Transition to a specific stage
+  const transitionTo = useCallback((targetStage, options = {}) => {
+    const targetIndex = STAGE_ORDER.indexOf(targetStage);
+    if (targetIndex === -1) {
+      console.warn(`Invalid stage: ${targetStage}`);
+      return;
+    }
+
+    const currentIndex = STAGE_ORDER.indexOf(currentStage);
+    const direction = targetIndex > currentIndex ? 1 : -1;
+    
+    setTransitionDirection(direction);
+    setIsTransitioning(true);
+    
+    registerTimeout(() => {
+      setCurrentStage(targetStage);
+      registerTimeout(() => {
+        setIsTransitioning(false);
+      }, options.enterDuration || 600);
+    }, options.exitDuration || 400);
+  }, [currentStage, registerTimeout]);
+
+  const nextStage = useCallback(() => {
+    const nextIndex = currentStageIndex + 1;
+    if (nextIndex < STAGE_ORDER.length) {
+      transitionTo(STAGE_ORDER[nextIndex]);
+    }
+  }, [currentStageIndex, transitionTo]);
+
+  const prevStage = useCallback(() => {
+    const prevIndex = currentStageIndex - 1;
+    if (prevIndex >= 0) {
+      transitionTo(STAGE_ORDER[prevIndex]);
+    }
+  }, [currentStageIndex, transitionTo]);
+
+  // Complete a challenge
+  const completeChallenge = useCallback((challengeId, resultData, success = true, autoAdvance = false) => {
+    setCompletedChallenges(prev => ({
+      ...prev,
+      [challengeId]: { completed: true, success },
+    }));
+    
+    if (resultData) {
+      setResults(prev => ({
+        ...prev,
+        [challengeId]: resultData,
+      }));
+    }
+    
+    if (autoAdvance) {
+      registerTimeout(() => nextStage(), 800);
+    }
+  }, [nextStage, registerTimeout]);
+
   const saveResult = useCallback((key, data) => {
     setResults(prev => ({
       ...prev,
@@ -49,40 +137,71 @@ export const LandingProvider = ({ children }) => {
     }));
   }, []);
 
-  // Navigate to the next challenge automatically
-  const nextChallenge = useCallback(() => {
-    const steps = Object.values(LANDING_STEPS);
-    const currentIndex = steps.indexOf(currentStep);
+  // Skip a specific challenge
+  const skipChallenge = useCallback((challengeId) => {
+    setCompletedChallenges(prev => ({
+      ...prev,
+      [challengeId]: { completed: true, success: false, skipped: true },
+    }));
+    setResults(prev => ({
+      ...prev,
+      [challengeId]: { skipped: true }
+    }));
+    registerTimeout(() => nextStage(), 300);
+  }, [nextStage, registerTimeout]);
+
+  // Skip all challenges and go directly to verdict (from Chat Demo)
+  const skipAllChallenges = useCallback(() => {
+    setSkipped(true);
     
-    if (currentIndex >= 0 && currentIndex < steps.length - 1) {
-      const nextStep = steps[currentIndex + 1];
-      goToStep(nextStep);
-    }
-  }, [currentStep, goToStep]);
+    setCompletedChallenges(prev => {
+      const updated = { ...prev };
+      Object.keys(updated).forEach(key => {
+        if (!updated[key].completed) {
+          updated[key] = { completed: true, success: false, skipped: true };
+        }
+      });
+      return updated;
+    });
+
+    transitionTo(STAGES.VERDICT);
+  }, [transitionTo]);
+
+  // Start challenges flow (from Chat Demo — goes directly to economy)
+  const startChallenges = useCallback(() => {
+    transitionTo(STAGES.ECONOMY);
+  }, [transitionTo]);
 
   const value = {
-    currentStep,
-    setCurrentStep,
-    showWarpTransition,
-    setShowWarpTransition,
-    goToStep,
+    // Stage state
+    currentStage,
+    currentStageIndex,
+    transitionDirection,
     isTransitioning,
-    isEvaporating,
-    setIsEvaporating,
-    triggerMaterialize,
-    setTriggerMaterialize,
+    transitionTo,
+    nextStage,
+    prevStage,
+    
+    // Challenge state
+    completedChallenges,
+    agentRevealProgress,
+    completeChallenge,
+    skipChallenge,
+    skipAllChallenges,
+    startChallenges,
+    
     // User state
     nickname,
     setNickname,
-    isArmed,
-    setIsArmed,
     results,
     setResults,
+    saveResult,
     skipped,
     setSkipped,
-    // Actions
-    saveResult,
-    nextChallenge
+    
+    // Constants
+    STAGES,
+    STAGE_ORDER,
   };
 
   return (

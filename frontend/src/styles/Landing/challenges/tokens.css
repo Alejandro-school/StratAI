@@ -1,0 +1,83 @@
+/**
+ * Challenge Design Tokens
+ * Professional assessment aesthetic — trustworthy, precise, clean
+ */
+:root {
+  /* ── Surface Colors ─────────────────────── */
+  --ch-bg-primary: #0c1222;
+  --ch-bg-secondary: #111827;
+  --ch-bg-card: rgba(22, 32, 50, 0.85);
+  --ch-bg-card-hover: rgba(38, 52, 74, 0.7);
+  --ch-bg-elevated: rgba(35, 48, 68, 0.6);
+
+  /* ── Borders ────────────────────────────── */
+  --ch-border-subtle: rgba(148, 163, 184, 0.14);
+  --ch-border-default: rgba(148, 163, 184, 0.2);
+  --ch-border-hover: rgba(148, 163, 184, 0.35);
+  --ch-border-active: rgba(59, 130, 246, 0.6);
+
+  /* ── Accent: Cyan → Violet (matches Hero) ── */
+  --ch-accent: #06b6d4;
+  --ch-accent-light: #22d3ee;
+  --ch-accent-dim: rgba(6, 182, 212, 0.12);
+  --ch-accent-border: rgba(6, 182, 212, 0.3);
+  --ch-violet: #8b5cf6;
+  --ch-violet-light: #a78bfa;
+  --ch-violet-dim: rgba(139, 92, 246, 0.12);
+  --ch-violet-border: rgba(139, 92, 246, 0.3);
+  --ch-gradient: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+  --ch-gradient-subtle: linear-gradient(135deg, rgba(34, 211, 238, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+  --ch-gradient-border: linear-gradient(135deg, rgba(34, 211, 238, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%);
+
+  /* ── Semantic: Success ──────────────────── */
+  --ch-success: #10b981;
+  --ch-success-dim: rgba(16, 185, 129, 0.1);
+  --ch-success-border: rgba(16, 185, 129, 0.3);
+
+  /* ── Semantic: Warning/Error ────────────── */
+  --ch-error: #f59e0b;
+  --ch-error-dim: rgba(245, 158, 11, 0.1);
+  --ch-error-border: rgba(245, 158, 11, 0.3);
+
+  /* ── Semantic: Danger ───────────────────── */
+  --ch-danger: #ef4444;
+  --ch-danger-dim: rgba(239, 68, 68, 0.1);
+  --ch-danger-border: rgba(239, 68, 68, 0.3);
+
+  /* ── CT / T Side Colors ────────────────── */
+  --ch-ct: #38bdf8;
+  --ch-t: #fbbf24;
+
+  /* ── Text Hierarchy ─────────────────────── */
+  --ch-text-primary: #f1f5f9;
+  --ch-text-secondary: #b0bec5;
+  --ch-text-muted: #8899a6;
+  --ch-text-dim: #6b7f8e;
+
+  /* ── Typography ─────────────────────────── */
+  --ch-font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ch-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* ── Spacing Scale ──────────────────────── */
+  --ch-space-xs: 0.25rem;
+  --ch-space-sm: 0.5rem;
+  --ch-space-md: 1rem;
+  --ch-space-lg: 1.5rem;
+  --ch-space-xl: 2rem;
+  --ch-space-2xl: 3rem;
+
+  /* ── Border Radius ──────────────────────── */
+  --ch-radius-sm: 6px;
+  --ch-radius-md: 10px;
+  --ch-radius-lg: 14px;
+
+  /* ── Transitions ────────────────────────── */
+  --ch-transition-fast: 150ms ease;
+  --ch-transition-normal: 250ms ease;
+  --ch-transition-slow: 400ms ease;
+
+  /* ── Shadows ────────────────────────────── */
+  --ch-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ch-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --ch-shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.4);
+}

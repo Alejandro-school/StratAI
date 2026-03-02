@@ -2,8 +2,7 @@
 // Hook for fetching granular per-callout statistics
 
 import { useState, useEffect, useCallback } from 'react';
-
-const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
+import { API_URL } from '../utils/api';
 
 /**
  * Hook to fetch granular callout statistics for the interactive map

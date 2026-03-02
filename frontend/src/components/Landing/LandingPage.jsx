@@ -1,133 +1,199 @@
-// LandingPage - Main orchestrator component with Shared Canvas
-import React, { useState, useEffect, useCallback } from 'react';
-import { LandingProvider, useLanding, LANDING_STEPS } from './LandingContext';
-import Hero from './Hero/Hero';
-import NicknameStep from './Hero/NicknameStep';
-import SharedCanvas from './shared/SharedCanvas';
-import Crosshair from './Challenges/AimChallenge/Crosshair';
-import AimTrainingHUD from './Challenges/AimChallenge/AimTrainingHUD';
-import EconomyChallenge from './Challenges/EconomyChallenge/EconomyChallenge';
-import GrenadeChallenge from './Challenges/GrenadeChallenge/GrenadeChallenge';
-import GameSenseChallenge from './Challenges/GameSenseChallenge/GameSenseChallenge';
-import Verdict from './Verdict/Verdict';
-import TransitionWarp from './shared/TransitionWarp';
-import useAimTrainingStore, { TEST_STATES } from '../../hooks/useAimTrainingStore';
+/**
+ * LandingPage - Stage-driven immersive experience
+ * 
+ * Flow: HERO → CHAT_DEMO → ECONOMY → GRENADE → GAMESENSE → VERDICT
+ * 
+ * Main orchestrator with:
+ * - Finite State Machine for stage progression
+ * - Framer Motion for seamless transitions
+ * - Progressive agent materialization
+ */
+import React, { Suspense, useMemo } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
+import { AnimatePresence, motion } from 'framer-motion';
 
-// Import base styles
+// Context
+import { LandingProvider, useLanding, STAGES } from './LandingContext';
+
+// Sections
+import HeroSection from './sections/00-Hero/HeroSection';
+import ChallengeSection from './sections/02-ChallengeWrapper/ChallengeSection';
+import ChatDemoSection from './sections/03-ChatDemo/ChatDemoSection';
+import VerdictSection from './sections/99-Verdict/VerdictSection';
+
+// Challenge components (no AIM)
+import EconomyChallenge from './challenges/economy-decision/EconomyChallenge';
+import GrenadeChallenge from './challenges/grenade-lineup/GrenadeChallenge';
+import GameSenseChallenge from './challenges/game-sense/GameSenseChallenge';
+
+// Agent model
+import AgentModel from './core/agent/AgentModel';
+
+// Background Effects
+import BackgroundEffects from './core/effects/BackgroundEffects';
+
+// Styles
 import '../../styles/Landing/landing.css';
+import '../../styles/Landing/sections/layout.css';
+
+// Stage transition variants for Framer Motion
+const stageVariants = {
+  initial: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? 100 : -100,
+    scale: 0.95,
+  }),
+  animate: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  exit: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? -100 : 100,
+    scale: 0.95,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
 
 /**
- * LandingPageContent
- * 
- * Uses a SINGLE SharedCanvas that persists throughout the experience.
- * Scene content is swapped inside the Canvas, not the Canvas itself.
- * This prevents WebGL context loss during transitions.
+ * StageRenderer - Renders the current stage content
+ */
+const StageRenderer = ({ stage }) => {
+  switch (stage) {
+    case STAGES.HERO:
+      return <HeroSection />;
+    
+    case STAGES.CHAT_DEMO:
+      return <ChatDemoSection />;
+    
+    case STAGES.ECONOMY:
+      return (
+        <ChallengeSection
+          id="economy"
+          title="Gestión Económica"
+          description="Toma decisiones tácticas de compra"
+          stepNumber="01"
+        >
+          <EconomyChallenge />
+        </ChallengeSection>
+      );
+    
+    case STAGES.GRENADE:
+      return (
+        <ChallengeSection
+          id="grenade"
+          title="Lineups de Granadas"
+          description="Demuestra tu conocimiento de utilidades"
+          stepNumber="02"
+        >
+          <GrenadeChallenge />
+        </ChallengeSection>
+      );
+    
+    case STAGES.GAMESENSE:
+      return (
+        <ChallengeSection
+          id="gamesense"
+          title="Inteligencia Táctica"
+          description="Toma decisiones bajo presión"
+          stepNumber="03"
+        >
+          <GameSenseChallenge />
+        </ChallengeSection>
+      );
+    
+    case STAGES.VERDICT:
+      return <VerdictSection />;
+    
+    default:
+      return <HeroSection />;
+  }
+};
+
+/**
+ * LandingPageContent - Main content with stage-based rendering
  */
 const LandingPageContent = () => {
-  const { currentStep, showWarpTransition, setShowWarpTransition, goToStep, isTransitioning } = useLanding();
-  const { testState, resetTest } = useAimTrainingStore();
-  
-  // State to control which scene is active inside the SharedCanvas
-  const [activeScene, setActiveScene] = useState('hero'); // 'hero' | 'aim' | 'none'
+  const { 
+    currentStage, 
+    transitionDirection, 
+    completedChallenges, 
+    agentRevealProgress 
+  } = useLanding();
 
-  // Reset AIM test when entering AIM step
-  useEffect(() => {
-    if (currentStep === LANDING_STEPS.AIM) {
-      resetTest();
-    }
-  }, [currentStep, resetTest]);
-
-  // Handle transition between scenes
-  useEffect(() => {
-    if (showWarpTransition) {
-      // During warp, keep hero visible for camera animation
-      setActiveScene('hero');
-    } else if (currentStep === LANDING_STEPS.AIM) {
-      // After warp completes, switch to AIM scene
-      setActiveScene('aim');
-    } else {
-      // Default to hero scene
-      if (!isTransitioning) {
-        setActiveScene('hero');
-      }
-    }
-  }, [showWarpTransition, currentStep, isTransitioning]);
-
-  const handleWarpComplete = useCallback(() => {
-    console.log('🌀 Warp complete, transitioning to AIM');
-    setShowWarpTransition(false);
-    goToStep(LANDING_STEPS.AIM, 0);
-  }, [setShowWarpTransition, goToStep]);
-
-  // Render current step UI Overlay
-  const renderStepUI = () => {
-    switch (currentStep) {
-      case LANDING_STEPS.HERO:
-        return <Hero />;
-        
-      case LANDING_STEPS.NICKNAME:
-        return <NicknameStep />;
-      
-      case LANDING_STEPS.AIM:
-        return null; // AIM has its own HUD
-      
-      case LANDING_STEPS.ECONOMY:
-        return <EconomyChallenge />;
-      
-      case LANDING_STEPS.GRENADE:
-        return <GrenadeChallenge />;
-      
-      case LANDING_STEPS.GAMESENSE:
-        return <GameSenseChallenge />;
-      
-      case LANDING_STEPS.VERDICT:
-        return <Verdict />;
-      
-      default:
-        return null;
-    }
-  };
-
-  const isAimPlaying = currentStep === LANDING_STEPS.AIM && testState === TEST_STATES.PLAYING;
-
-  console.log('🎯 Landing State:', { currentStep, showWarpTransition, activeScene });
+  const stageContent = useMemo(() => (
+    <StageRenderer stage={currentStage} />
+  ), [currentStage]);
 
   return (
-    <div className="landing-page">
-      {/* SINGLE Persistent 3D Canvas - Never unmounts */}
-      <SharedCanvas 
-        activeScene={activeScene} 
-        isTransitioning={showWarpTransition}
-      />
-      
-      {/* AIM Challenge UI Overlays (during transition or when active) */}
-      {(currentStep === LANDING_STEPS.AIM || showWarpTransition) && (
-        <>
-          {isAimPlaying && <Crosshair isOverTarget={false} />}
-          <AimTrainingHUD />
-        </>
-      )}
+    <div className="landing-page landing-page--stage">
+      {/* Ambient Background Effects */}
+      <BackgroundEffects />
 
-      {/* UI Overlay - Hide during warp transition */}
-      <div className={`ui-orchestrator ${showWarpTransition ? 'hidden' : ''}`} style={{ opacity: showWarpTransition ? 0 : 1, transition: 'opacity 0.5s ease' }}>
-        {renderStepUI()}
+      {/* Fixed 3D Agent (right side) - Always visible */}
+      <div className="agent-canvas-container">
+        <Canvas
+          dpr={[1, 2]}
+          camera={{ position: [0, 0.5, 5], fov: 60 }}
+          gl={{ antialias: true, alpha: true }}
+        >
+          <ambientLight intensity={1.2} />
+          <directionalLight position={[5, 5, 5]} intensity={1.5} />
+          <directionalLight position={[-5, 3, -2]} intensity={0.8} color="#ffffff" />
+          <pointLight position={[0, 2, 3]} intensity={0.8} color="#00ffff" />
+          
+          <Suspense fallback={null}>
+            <AgentModel 
+              completedChallenges={completedChallenges}
+              revealProgress={agentRevealProgress}
+              position={[0, -2, 0]}
+              scale={2}
+              rotation={[0, -Math.PI * 0.15, 0]}
+            />
+          </Suspense>
+
+          <EffectComposer>
+            <Bloom 
+              luminanceThreshold={0.6} 
+              luminanceSmoothing={0.5} 
+              intensity={0.5} 
+            />
+            <Vignette offset={0.3} darkness={0.5} />
+          </EffectComposer>
+        </Canvas>
       </div>
 
-      {/* Transition Timer (no visual effects) */}
-      <TransitionWarp 
-        isActive={showWarpTransition} 
-        onComplete={handleWarpComplete}
-        duration={3500}
-      />
+      {/* Stage Content with AnimatePresence */}
+      <div className="landing-stage-container">
+        <AnimatePresence mode="wait" custom={transitionDirection}>
+          <motion.div
+            key={currentStage}
+            className="landing-stage"
+            custom={transitionDirection}
+            variants={stageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            {stageContent}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
 
 /**
- * LandingPage
- * 
- * Main entry component for the landing page.
- * Wraps content with the LandingProvider for state management.
+ * LandingPage - Entry component with provider
  */
 export const LandingPage = () => {
   return (
@@ -138,4 +204,3 @@ export const LandingPage = () => {
 };
 
 export default LandingPage;
-

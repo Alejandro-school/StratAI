@@ -1,0 +1,159 @@
+/**
+ * Background Effects - Ambient Animated Glows
+ * 
+ * Creates a dynamic, breathing background with colored glows
+ * similar to the grenade premium section
+ */
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Container
+   ════════════════════════════════════════════════════════════════════════════ */
+.landing-bg-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Base dark background */
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    rgba(15, 23, 42, 1) 0%,
+    var(--color-bg-base) 100%
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Glow Orbs
+   ════════════════════════════════════════════════════════════════════════════ */
+.landing-bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0;
+  animation: glowBreathing 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Cyan Glow (Primary Brand) */
+.landing-bg-glow--cyan {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.landing-bg-glow--cyan-dim {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
+  animation-delay: 4s;
+}
+
+/* Purple/Violet Glow (Secondary/AI) */
+.landing-bg-glow--purple {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, transparent 70%);
+  animation-delay: 2s;
+}
+
+/* Orange Glow (Accent/Energy) */
+.landing-bg-glow--orange {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.45) 0%, transparent 70%);
+  animation-delay: 3s;
+}
+
+/* Center Accent */
+.landing-bg-glow--center {
+  width: 1000px;
+  height: 1000px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(6, 182, 212, 0.15) 0%,
+    rgba(139, 92, 246, 0.1) 50%,
+    transparent 70%
+  );
+  animation: glowBreathingCenter 12s ease-in-out infinite;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Positions
+   ════════════════════════════════════════════════════════════════════════════ */
+.landing-bg-glow--top-left {
+  top: -200px;
+  left: -150px;
+}
+
+.landing-bg-glow--top-right {
+  top: -150px;
+  right: -100px;
+}
+
+.landing-bg-glow--bottom-left {
+  bottom: -150px;
+  left: -100px;
+}
+
+.landing-bg-glow--bottom-right {
+  bottom: -100px;
+  right: -150px;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Breathing Animations
+   ════════════════════════════════════════════════════════════════════════════ */
+@keyframes glowBreathing {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes glowBreathingCenter {
+  0%, 100% {
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Responsive - Reduce effects on mobile for performance
+   ════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .landing-bg-glow {
+    filter: blur(80px);
+  }
+  
+  .landing-bg-glow--cyan,
+  .landing-bg-glow--purple,
+  .landing-bg-glow--orange {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .landing-bg-glow--center {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .landing-bg-glow {
+    animation: none;
+    opacity: 0.15;
+  }
+}

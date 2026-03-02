@@ -1,0 +1,201 @@
+/**
+ * Challenge Section — Clean Assessment Wrapper
+ * Professional evaluation aesthetic
+ */
+
+.challenge-section {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.challenge-section__wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+
+.challenge-section__header {
+  padding: 1.25rem 1.5rem;
+  background: var(--ch-bg-card);
+  border: 1px solid var(--ch-border-subtle);
+  border-left: 3px solid transparent;
+  border-image: var(--ch-gradient) 1;
+  border-image-slice: 1;
+  border-radius: var(--ch-radius-md);
+  backdrop-filter: blur(8px);
+}
+
+.challenge-section__header-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.challenge-section__step-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.challenge-section__step-label {
+  font-family: var(--ch-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ch-text-muted);
+}
+
+.challenge-section__step-number {
+  font-family: var(--ch-font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--ch-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.challenge-section__step-sep {
+  color: var(--ch-text-dim);
+  margin: 0 1px;
+}
+
+/* Progress bar */
+
+.challenge-section__progress-bar {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  max-width: 120px;
+}
+
+.challenge-section__progress-segment {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--ch-border-default);
+  transition: background var(--ch-transition-normal);
+}
+
+.challenge-section__progress-segment.active {
+  background: var(--ch-gradient);
+}
+
+.challenge-section__progress-segment.completed {
+  background: var(--ch-success);
+}
+
+/* Status badge */
+
+.challenge-section__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--ch-success-dim);
+  border: 1px solid var(--ch-success-border);
+  color: var(--ch-success);
+  font-family: var(--ch-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Title & description */
+
+.challenge-section__header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.challenge-section__title {
+  font-family: var(--ch-font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ch-text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.challenge-section__description {
+  font-size: 0.9rem;
+  color: var(--ch-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Content ──────────────────────────────────────────────────────────────── */
+
+.challenge-section__content {
+  width: 100%;
+}
+
+.challenge-section__game {
+  width: 100%;
+  position: relative;
+}
+
+/* ── Next Section ─────────────────────────────────────────────────────────── */
+
+.challenge-section__next-action {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 1.25rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--ch-border-subtle);
+}
+
+.challenge-section__next-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--ch-gradient);
+  border: 1px solid transparent;
+  border-radius: var(--ch-radius-md);
+  color: white;
+  font-family: var(--ch-font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all var(--ch-transition-fast);
+}
+
+.challenge-section__next-button:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25), 0 4px 16px rgba(139, 92, 246, 0.2);
+}
+
+.challenge-section__next-button:focus-visible {
+  outline: 2px solid var(--ch-accent);
+  outline-offset: 2px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .challenge-section__header {
+    padding: 1rem;
+  }
+
+  .challenge-section__header-row {
+    flex-wrap: wrap;
+  }
+
+  .challenge-section__title {
+    font-size: 1.25rem;
+  }
+}

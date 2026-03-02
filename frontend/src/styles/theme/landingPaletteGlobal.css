@@ -1,0 +1,170 @@
+:root {
+  --color-primary-50: #ecfeff;
+  --color-primary-100: #cffafe;
+  --color-primary-200: #a5f3fc;
+  --color-primary-300: #67e8f9;
+  --color-primary-400: #22d3ee;
+  --color-primary-500: #06b6d4;
+  --color-primary-600: #0891b2;
+  --color-primary-700: #0e7490;
+  --color-primary-800: #155e75;
+  --color-primary-900: #164e63;
+  --color-primary-950: #083344;
+
+  --color-secondary-500: #8b5cf6;
+  --color-secondary-600: #7c3aed;
+  --color-secondary-glow: rgba(139, 92, 246, 0.5);
+
+  --color-bg-base: #0c1219;
+  --color-bg-surface: #10161f;
+  --color-bg-surface-2: #161e29;
+  --color-bg-overlay: rgba(12, 18, 25, 0.85);
+
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+
+  --color-text-main: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.72);
+  --color-text-muted: rgba(255, 255, 255, 0.5);
+  --color-text-disabled: rgba(255, 255, 255, 0.3);
+
+  --surface-1: rgba(16, 22, 31, 0.92);
+  --surface-2: rgba(22, 30, 41, 0.92);
+  --surface-3: rgba(255, 255, 255, 0.03);
+  --border-soft: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --accent-gradient-blue-violet: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+
+  --status-low: var(--color-primary-400);
+  --status-medium: var(--color-success);
+  --status-high: var(--color-danger);
+
+  --hud-bg: var(--color-bg-base);
+  --hud-surface: var(--surface-1);
+  --hud-border: var(--border-soft);
+  --hud-text: var(--color-text-main);
+  --hud-muted: var(--color-text-muted);
+  --hud-accent: var(--color-primary-500);
+  --hud-accent-glow: rgba(6, 182, 212, 0.45);
+  --hud-success: var(--color-success);
+}
+
+.coach-dashboard,
+.map-dashboard,
+.match-history-container,
+.match-details-container,
+.performance-container,
+.progreso-container {
+  color: var(--color-text-main);
+}
+
+.coach-dashboard :is(.dashboard-header, .placeholder-header, .section-header, .chat-interface-header),
+.match-history-container :is(.matches-header, .filters-row),
+.progreso-container :is(.section-header),
+.match-details-container :is(.section, .team-table) {
+  border-color: var(--border-soft) !important;
+}
+
+.coach-dashboard :is(.coach-briefing, .coach-chat-shell, .coach-side-column section, .chat-window.clean, .chat-input-area),
+.map-dashboard :is(.map-sidebar, .map-dropdown, .section-nav, .data-status, .map-summary, .detail-content),
+.match-history-container :is(.quick-stats-panel, .match-card-v2, .match-filters, .trend-chart, .timeline-view, .table-view-container),
+.match-details-container :is(.section, table, .team-header, .back-btn),
+.progreso-container :is(.streak-card, .goals-section, .badges-section, .evolution-section, .goal-card, .badge-card) {
+  background: var(--surface-1) !important;
+  border-color: var(--border-soft) !important;
+}
+
+.coach-dashboard :is(.welcome-text h1, .coach-briefing h2, .score-value, .blocker-title),
+.map-dashboard :is(.map-name, .summary-header h3, .side-stat .stat-value),
+.match-history-container :is(.matches-header h1, .highlight-value, .stat-value, .map-name),
+.match-details-container :is(.section h2, .team-score.winner, .player-name),
+.progreso-container :is(h1, .streak-value, .section-header h2, .goal-title) {
+  color: var(--color-text-main) !important;
+}
+
+.coach-dashboard :is(.welcome-text p, .coach-briefing p, .plan-text, .score-max),
+.map-dashboard :is(.matches-count, .summary-matches, .stat-label, .coming-soon),
+.match-history-container :is(.games-count, .highlight-label, .chart-label, .results-label, .stat-header),
+.match-details-container :is(.map-name, .match-meta, .back-btn),
+.progreso-container :is(.header-subtitle, .streak-label, .goal-count, .reset-timer) {
+  color: var(--color-text-muted) !important;
+}
+
+.coach-dashboard :is(.briefing-cta),
+.map-dashboard :is(.section-btn.active, .map-option.active, .back-link, .action-btn, .side-filter-btn.active),
+.match-history-container :is(.view-btn.active, .filter-btn.active, .clear-all-btn, .action-btn.primary),
+.match-details-container :is(.team-header, .section h2 svg),
+.progreso-container :is(.header-icon, .badges-count, .goal-xp, .section-header h2 svg) {
+  color: var(--color-primary-400) !important;
+}
+
+.coach-dashboard :is(.briefing-cta),
+.map-dashboard :is(.section-btn.active, .map-option.active, .side-filter-btn.active, .map-selector.open),
+.match-history-container :is(.view-btn.active, .filter-btn.active, .filter-pill),
+.match-details-container :is(.team-header),
+.progreso-container :is(.goal-xp, .streak-card.days, .goal-progress-fill) {
+  background: var(--accent-gradient-blue-violet) !important;
+  border-color: rgba(6, 182, 212, 0.35) !important;
+}
+
+.match-history-container :is(.streak-badge.win, .result-dot.win, .result-pill.win, .result-bar.win),
+.match-details-container :is(.result-badge.win, .team-result-badge.win),
+.progreso-container :is(.goal-card.completed, .goal-card.completed .goal-xp, .goal-card.completed .goal-progress-fill) {
+  background: rgba(16, 185, 129, 0.16) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  color: var(--color-success) !important;
+}
+
+.match-history-container :is(.streak-badge.loss, .result-dot.loss, .result-pill.loss, .result-bar.loss),
+.match-details-container :is(.result-badge.loss, .team-result-badge.loss) {
+  background: rgba(239, 68, 68, 0.16) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+  color: var(--color-danger) !important;
+}
+
+.map-dashboard .side-filter-btn.ct,
+.map-dashboard .side-icon.ct {
+  color: var(--color-primary-400) !important;
+}
+
+.map-dashboard .side-filter-btn.t,
+.map-dashboard .side-icon.t {
+  color: var(--color-secondary-500) !important;
+}
+
+.match-details-container .match-header .header-overlay {
+  background: linear-gradient(180deg, rgba(12, 18, 25, 0.62) 0%, rgba(12, 18, 25, 0.94) 100%) !important;
+}
+
+.map-dashboard .map-view {
+  background:
+    radial-gradient(ellipse 80% 60% at var(--mouse-x, 30%) var(--mouse-y, 30%), rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 80% at calc(100% - var(--mouse-x, 30%)) calc(100% - var(--mouse-y, 30%)), rgba(139, 92, 246, 0.1) 0%, transparent 45%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(6, 182, 212, 0.06) 0%, transparent 60%),
+    var(--color-bg-base) !important;
+}
+
+.heatmap-legend .legend-item.low {
+  color: var(--status-low) !important;
+}
+
+.heatmap-legend .legend-item.low .legend-dot {
+  background: var(--status-low) !important;
+}
+
+.heatmap-legend .legend-item.medium {
+  color: var(--status-medium) !important;
+}
+
+.heatmap-legend .legend-item.medium .legend-dot {
+  background: var(--status-medium) !important;
+}
+
+.heatmap-legend .legend-item.high {
+  color: var(--status-high) !important;
+}
+
+.heatmap-legend .legend-item.high .legend-dot {
+  background: var(--status-high) !important;
+}

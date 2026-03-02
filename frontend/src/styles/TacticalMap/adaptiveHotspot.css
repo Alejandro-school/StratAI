@@ -1,0 +1,372 @@
+/* frontend/src/styles/Dashboard/adaptiveHotspot.css */
+/* Modern Pill-Shaped Design for Callouts */
+
+/* ============================================
+   LAYER CONTAINER
+============================================ */
+.adaptive-hotspot-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ============================================
+   PILL HOTSPOT (Redesign)
+============================================ */
+.adaptive-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Scale variable for zoom support */
+  --scale: var(--marker-scale, 1);
+}
+
+.adaptive-hotspot:hover,
+.adaptive-hotspot.selected {
+  z-index: 50;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.adaptive-hotspot.hovered {
+  z-index: 40;
+}
+
+/* ============================================
+   COMPACT MODE (NUKE / DENSE MAPS)
+============================================ */
+.adaptive-hotspot-layer.compact .adaptive-hotspot .hotspot-core {
+  padding: 3px 7px;
+  gap: 4px;
+}
+
+.adaptive-hotspot-layer.compact .adaptive-hotspot.compact-collapsed .hotspot-core {
+  min-width: 22px;
+  justify-content: center;
+  padding: 2px 6px;
+  border-radius: 9999px;
+}
+
+.adaptive-hotspot-layer.compact .adaptive-hotspot.compact-collapsed .hotspot-label {
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.adaptive-hotspot-layer.compact .adaptive-hotspot:not(.selected):not(.hovered) .hotspot-label {
+  max-width: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adaptive-hotspot-layer.compact .adaptive-hotspot:not(.selected):not(.hovered) .mini-stat-pill {
+  display: none;
+}
+
+/* ============================================
+   CORE MARKER - PILL SHAPE
+============================================ */
+.adaptive-hotspot .hotspot-core {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.85); /* Slate-900 with transparency */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px 8px; /* Dynamic width based on content */
+  border-radius: 9999px; /* Pill shape */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.adaptive-hotspot:hover .hotspot-core,
+.adaptive-hotspot.selected .hotspot-core {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   RATING STYLES (Border & Glow)
+============================================ */
+.adaptive-hotspot.good .hotspot-core {
+  border-left: 3px solid #22c55e;
+}
+
+.adaptive-hotspot.bad .hotspot-core {
+  border-left: 3px solid #ef4444;
+}
+
+.adaptive-hotspot.neutral .hotspot-core {
+  border-left: 3px solid #f59e0b;
+}
+
+/* Selected state - Full glow */
+.adaptive-hotspot.selected.good .hotspot-core { box-shadow: 0 0 15px rgba(34, 197, 94, 0.3); border-color: #22c55e; }
+.adaptive-hotspot.selected.bad .hotspot-core { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); border-color: #ef4444; }
+.adaptive-hotspot.selected.neutral .hotspot-core { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); border-color: #f59e0b; }
+
+/* ============================================
+   TEXT LABELS
+============================================ */
+.adaptive-hotspot .hotspot-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #f8fafc; /* Slate-50 */
+  letter-spacing: 0.02em;
+  text-transform: none; /* No forced uppercase for better readability */
+}
+
+/* ============================================
+   MINI STAT PILL
+============================================ */
+.mini-stat-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.adaptive-hotspot.good .mini-stat-pill { color: #86efac; background: rgba(34, 197, 94, 0.15); }
+.adaptive-hotspot.bad .mini-stat-pill { color: #fca5a5; background: rgba(239, 68, 68, 0.15); }
+
+/* ============================================
+   TOOLTIP (MISSING STYLES FIX)
+============================================ */
+.adaptive-hotspot .hotspot-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px);
+  min-width: 170px;
+  max-width: 220px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  z-index: 60;
+}
+
+.adaptive-hotspot .hotspot-tooltip::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
+}
+
+.adaptive-hotspot:hover .hotspot-tooltip,
+.adaptive-hotspot.selected .hotspot-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tooltip-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.tooltip-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 9999px;
+}
+
+.tooltip-badge.best {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.tooltip-badge.worst {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.tooltip-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e2e8f0;
+  line-height: 1;
+}
+
+.stat-value.good {
+  color: #86efac;
+}
+
+.stat-value.bad {
+  color: #fca5a5;
+}
+
+.stat-value.neutral {
+  color: #fde68a;
+}
+
+.stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+.tooltip-insight {
+  margin-top: 8px;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.tooltip-insight.positive {
+  color: #86efac;
+}
+
+.tooltip-insight.negative {
+  color: #fca5a5;
+}
+
+/* ============================================
+   BEST / WORST BADGE MARKERS
+============================================ */
+.badge-indicator {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+.badge-indicator.best {
+  background: rgba(34, 197, 94, 0.95);
+  color: #052e16;
+}
+
+.badge-indicator.worst {
+  background: rgba(239, 68, 68, 0.95);
+  color: #fff;
+}
+
+/* ============================================
+   PULSE RING
+============================================ */
+.adaptive-hotspot .hotspot-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  animation: pillPulse 2s infinite cubic-bezier(0.66, 0, 0, 1);
+  z-index: -1;
+}
+
+.adaptive-hotspot.good .hotspot-pulse { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+.adaptive-hotspot.bad .hotspot-pulse { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+
+@keyframes pillPulse {
+  to {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+}
+
+/* ============================================
+   CONNECTOR LINES
+============================================ */
+.position-connector {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.4;
+  overflow: visible;
+  z-index: -2;
+}
+
+/* ============================================
+   RESPONSIVE SCALING
+============================================ */
+/* Scale down slightly on small screens */
+@media (max-width: 1024px) {
+  .adaptive-hotspot {
+    --scale: 0.9;
+  }
+}
+
+@media (max-width: 768px) {
+  .adaptive-hotspot {
+    --scale: 0.8;
+  }
+  
+  .adaptive-hotspot .hotspot-core {
+    padding: 3px 6px;
+  }
+  
+  .adaptive-hotspot .hotspot-label {
+    font-size: 10px;
+  }
+  
+  .mini-stat-pill {
+    padding: 0 3px;
+    font-size: 9px;
+  }
+
+  .adaptive-hotspot .hotspot-tooltip {
+    min-width: 145px;
+    max-width: 180px;
+    padding: 8px 10px;
+  }
+}

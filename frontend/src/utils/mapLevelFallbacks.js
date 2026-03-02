@@ -16,6 +16,12 @@ export const LOWER_LEVEL_CALLOUTS = {
     
     // Decon area (lower)
     'decon', 'decontamination',
+
+    // Lower B core
+    'toxic', 'dark', 'control',
+
+    // Ramp transition to lower
+    'ramp', 'ramp room',
     
     // Tunnels (lower)
     'tunnels', 'tunnel'

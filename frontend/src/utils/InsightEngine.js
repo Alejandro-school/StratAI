@@ -30,8 +30,6 @@ export const generateCalloutInsights = (stats, name) => {
     win_rate = 0,
     kd = 0,
     sample_size = 0,
-    kills = 0,
-    deaths = 0,
     weapon_stats = [],
     context_stats = {},
     ct_t_split = {},
@@ -478,10 +476,12 @@ export const getTopInsights = (allCalloutStats, limit = 6) => {
   return unique;
 };
 
-export default {
+const InsightEngine = {
   INSIGHT_TYPES,
   generateCalloutInsights,
   generateGlobalInsights,
   getAllInsights,
   getTopInsights
 };
+
+export default InsightEngine;

@@ -1,0 +1,327 @@
+/**
+ * GameSense Challenge — Clean Assessment UI
+ * Vertical layout: context bar → video → options below
+ */
+
+.gamesense-challenge {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+/* ── Intro Screen ─────────────────────────────────────────────────────────── */
+
+.gamesense-challenge__intro {
+  background: var(--ch-bg-card);
+  border: 1px solid var(--ch-border-subtle);
+  border-radius: var(--ch-radius-lg);
+  padding: 2.5rem 3rem;
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.gamesense-challenge__intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--ch-gradient-subtle);
+  border: 1px solid var(--ch-accent-border);
+  border-radius: 16px;
+  font-family: var(--ch-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  background-clip: padding-box;
+}
+
+.gamesense-challenge__intro-badge span {
+  background: var(--ch-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gamesense-challenge__intro-badge svg {
+  color: var(--ch-accent-light);
+}
+
+.gamesense-challenge__intro-title {
+  font-family: var(--ch-font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #22d3ee 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.gamesense-challenge__intro-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.gamesense-challenge__stat {
+  background: var(--ch-bg-elevated);
+  border: 1px solid var(--ch-border-default);
+  border-radius: var(--ch-radius-md);
+  padding: 1rem 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.gamesense-challenge__stat-label {
+  font-size: 0.65rem;
+  color: var(--ch-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--ch-font-mono);
+}
+
+.gamesense-challenge__stat-value {
+  font-family: var(--ch-font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: var(--ch-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gamesense-challenge__intro-desc {
+  font-size: 0.95rem;
+  color: var(--ch-text-secondary);
+  line-height: 1.7;
+  margin: 0.25rem 0 0;
+  max-width: 520px;
+}
+
+.gamesense-challenge__start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  background: var(--ch-gradient);
+  border: 1px solid transparent;
+  border-radius: var(--ch-radius-md);
+  color: white;
+  font-family: var(--ch-font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--ch-transition-fast);
+}
+
+.gamesense-challenge__start-btn:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3), 0 4px 16px rgba(139, 92, 246, 0.2);
+}
+
+/* ── Context Bar ──────────────────────────────────────────────────────────── */
+
+.gamesense-challenge__context-bar {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  background: var(--ch-bg-card);
+  border: 1px solid var(--ch-border-subtle);
+  border-radius: var(--ch-radius-md);
+}
+
+.gamesense-challenge__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ch-accent);
+  flex-shrink: 0;
+  transition: background var(--ch-transition-fast);
+}
+
+.gamesense-challenge__status-dot.critical {
+  background: var(--ch-danger);
+  animation: gs-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes gs-blink {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.gamesense-challenge__status-text {
+  font-family: var(--ch-font-mono);
+  font-size: 0.75rem;
+  color: var(--ch-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* ── Video Container ──────────────────────────────────────────────────────── */
+
+.gamesense-challenge__video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+  background: #0a0e17;
+  border-radius: var(--ch-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--ch-border-subtle);
+}
+
+.gamesense-challenge__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── Result Overlay ───────────────────────────────────────────────────────── */
+
+.gamesense-challenge__result-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.92);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.gamesense-challenge__result-card {
+  background: var(--ch-bg-secondary);
+  border-radius: var(--ch-radius-lg);
+  padding: 1.5rem 2rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.gamesense-challenge__result-card.correct {
+  border: 1px solid var(--ch-success-border);
+}
+
+.gamesense-challenge__result-card.incorrect {
+  border: 1px solid var(--ch-error-border);
+}
+
+.gamesense-challenge__result-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 0.75rem;
+  border-radius: 50%;
+}
+
+.gamesense-challenge__result-icon.correct {
+  background: var(--ch-success-dim);
+  color: var(--ch-success);
+  border: 1px solid var(--ch-success-border);
+}
+
+.gamesense-challenge__result-icon.incorrect {
+  background: var(--ch-error-dim);
+  color: var(--ch-error);
+  border: 1px solid var(--ch-error-border);
+}
+
+.gamesense-challenge__result-title {
+  font-family: var(--ch-font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.gamesense-challenge__result-card.correct .gamesense-challenge__result-title {
+  color: var(--ch-success);
+}
+
+.gamesense-challenge__result-card.incorrect .gamesense-challenge__result-title {
+  color: var(--ch-error);
+}
+
+.gamesense-challenge__result-text {
+  font-size: 0.9rem;
+  color: var(--ch-text-secondary);
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+}
+
+.gamesense-challenge__result-tip {
+  padding: 0.65rem 0.875rem;
+  background: var(--ch-success-dim);
+  border: 1px solid var(--ch-success-border);
+  border-radius: var(--ch-radius-sm);
+  font-size: 0.8rem;
+  color: var(--ch-success);
+  margin-top: var(--ch-space-md);
+  width: 100%;
+  text-align: left;
+}
+
+.gamesense-challenge__result-better {
+  padding: 0.65rem 0.875rem;
+  background: var(--ch-error-dim);
+  border: 1px solid var(--ch-error-border);
+  border-radius: var(--ch-radius-sm);
+  font-size: 0.8rem;
+  color: var(--ch-error);
+  margin-top: var(--ch-space-md);
+  width: 100%;
+  text-align: left;
+}
+
+.gamesense-challenge__result-selection {
+  font-size: 0.8rem;
+  color: var(--ch-text-dim);
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--ch-border-subtle);
+  margin-top: var(--ch-space-md);
+  width: 100%;
+}
+
+.gamesense-challenge__result-selection strong {
+  color: var(--ch-text-secondary);
+}
+
+/* ── Decision Options (below video, 2x2 grid) ────────────────────────────── */
+
+.gamesense-challenge__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .gamesense-challenge__options {
+    grid-template-columns: 1fr;
+  }
+  
+  .gamesense-challenge__intro-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .gamesense-challenge__intro {
+    padding: 1.75rem;
+    max-width: 100%;
+  }
+}

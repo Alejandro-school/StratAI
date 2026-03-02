@@ -316,11 +316,146 @@ export const calculateMarkerSize = (mapName, zoomLevel = 1, isSelected = false) 
   return { size, fontSize, showLabel, profile };
 };
 
-export default {
+const getGrenadeScore = (cluster, type) => {
+  const usageScore = (cluster.count || 0) * 12;
+
+  if (type === 'smoke') {
+    return usageScore + 20;
+  }
+
+  if (type === 'flash') {
+    return usageScore + ((cluster.avg_blinded || 0) * 30);
+  }
+
+  if (type === 'he' || type === 'molotov') {
+    return usageScore + ((cluster.avg_damage || 0) * 1.8);
+  }
+
+  return usageScore;
+};
+
+const mergeGrenadeClusters = (clusters, type) => {
+  if (!clusters.length) return null;
+
+  const totalCount = clusters.reduce((sum, entry) => sum + (entry.count || 0), 0);
+  const weightedAvgDamage = totalCount > 0
+    ? clusters.reduce((sum, entry) => sum + ((entry.avg_damage || 0) * (entry.count || 0)), 0) / totalCount
+    : 0;
+  const weightedAvgBlinded = totalCount > 0
+    ? clusters.reduce((sum, entry) => sum + ((entry.avg_blinded || 0) * (entry.count || 0)), 0) / totalCount
+    : 0;
+
+  const totalDamage = clusters.reduce((sum, entry) => sum + (entry.total_damage || 0), 0);
+  const totalBlinded = clusters.reduce((sum, entry) => sum + (entry.total_blinded || 0), 0);
+
+  const centroidX = totalCount > 0
+    ? clusters.reduce((sum, entry) => sum + ((entry.x || 0) * (entry.count || 0)), 0) / totalCount
+    : clusters.reduce((sum, entry) => sum + (entry.x || 0), 0) / clusters.length;
+  const centroidY = totalCount > 0
+    ? clusters.reduce((sum, entry) => sum + ((entry.y || 0) * (entry.count || 0)), 0) / totalCount
+    : clusters.reduce((sum, entry) => sum + (entry.y || 0), 0) / clusters.length;
+
+  const allAreas = [...new Set(clusters.flatMap((entry) => entry.areas || []))];
+  const allTrajectories = clusters.flatMap((entry) => entry.trajectories || []);
+
+  const topTrajectories = allTrajectories
+    .sort((a, b) => (b.count || 0) - (a.count || 0))
+    .slice(0, 6);
+
+  return {
+    ...clusters[0],
+    type,
+    x: Number(centroidX.toFixed(2)),
+    y: Number(centroidY.toFixed(2)),
+    count: totalCount,
+    total_damage: totalDamage,
+    total_blinded: totalBlinded,
+    avg_damage: Number(weightedAvgDamage.toFixed(1)),
+    avg_blinded: Number(weightedAvgBlinded.toFixed(2)),
+    areas: allAreas,
+    trajectories: topTrajectories,
+    subClusters: clusters,
+    isAggregate: clusters.length > 1,
+    aggregateSize: clusters.length,
+    aggregateScore: getGrenadeScore({
+      count: totalCount,
+      avg_damage: weightedAvgDamage,
+      avg_blinded: weightedAvgBlinded,
+    }, type),
+  };
+};
+
+export const processGrenadeClustersForDisplay = ({
+  clusters = [],
+  mapName,
+  grenadeType,
+  zoomLevel = 1,
+  maxVisible = 6,
+}) => {
+  if (!clusters.length) return [];
+
+  const profile = getMapProfile(mapName);
+  const baseThreshold = profile.clusterThreshold * (profile.density === 'compact' ? 1.6 : 1.35);
+  const dynamicThreshold = Math.max(1.6, baseThreshold / Math.max(1, zoomLevel));
+
+  const enriched = clusters.map((cluster) => ({
+    ...cluster,
+    aggregateScore: getGrenadeScore(cluster, grenadeType),
+  }));
+
+  const sortedByScore = [...enriched].sort((a, b) => b.aggregateScore - a.aggregateScore);
+  const used = new Set();
+  const grouped = [];
+
+  sortedByScore.forEach((cluster, index) => {
+    if (used.has(index)) return;
+
+    const group = [cluster];
+    used.add(index);
+
+    sortedByScore.forEach((candidate, candidateIndex) => {
+      if (used.has(candidateIndex) || candidateIndex === index) return;
+
+      const dist = distance(
+        { x: cluster.x || 0, y: cluster.y || 0 },
+        { x: candidate.x || 0, y: candidate.y || 0 }
+      );
+
+      if (dist <= dynamicThreshold) {
+        group.push(candidate);
+        used.add(candidateIndex);
+      }
+    });
+
+    const merged = mergeGrenadeClusters(group, grenadeType);
+    if (merged) grouped.push(merged);
+  });
+
+  const withResolvedOverlaps = resolveOverlaps(
+    grouped.map((entry) => ({ ...entry, position: { x: entry.x, y: entry.y } })),
+    Math.max(2.2, profile.clusterThreshold)
+  ).map((entry) => ({
+    ...entry,
+    x: entry.position?.x ?? entry.x,
+    y: entry.position?.y ?? entry.y,
+  }));
+
+  const zoomBonus = zoomLevel >= 2 ? 8 : zoomLevel >= 1.5 ? 4 : 0;
+  const maxAllowed = Math.max(1, maxVisible + zoomBonus);
+
+  return withResolvedOverlaps
+    .sort((a, b) => (b.aggregateScore || 0) - (a.aggregateScore || 0))
+    .slice(0, maxAllowed);
+};
+
+const adaptiveClustering = {
   MAP_DENSITY_PROFILES,
   getMapProfile,
   resolveOverlaps,
   adaptiveCluster,
   processCalloutsForDisplay,
-  calculateMarkerSize
+  calculateMarkerSize,
+  processGrenadeClustersForDisplay,
 };
+
+export default adaptiveClustering;

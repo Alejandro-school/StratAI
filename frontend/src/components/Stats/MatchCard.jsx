@@ -2,22 +2,7 @@
 // Redesigned match card - compact, professional, modern
 import React from 'react';
 import { Clock, ChevronRight, Crosshair, Target, Zap, Skull } from 'lucide-react';
-
-// Map image paths
-const getMapImage = (mapName) => {
-  const maps = {
-    'de_dust2': '/images/maps/de_dust2.png',
-    'de_mirage': '/images/maps/de_mirage.png',
-    'de_inferno': '/images/maps/de_inferno.png',
-    'de_nuke': '/images/maps/de_nuke.png',
-    'de_overpass': '/images/maps/de_overpass.png',
-    'de_train': '/images/maps/de_train.png',
-    'de_vertigo': '/images/maps/de_vertigo.png',
-    'de_anubis': '/images/maps/de_anubis.png',
-    'de_ancient': '/images/maps/de_ancient.png',
-  };
-  return maps[mapName] || maps['de_dust2'];
-};
+import { getMapImage } from '../../utils/mapConfig';
 
 // Format duration
 const formatDuration = (seconds) => {
@@ -28,10 +13,10 @@ const formatDuration = (seconds) => {
 
 // K/D color
 const getKDColor = (kd) => {
-  if (kd >= 1.5) return '#22c55e';
-  if (kd >= 1.0) return '#84cc16';
-  if (kd >= 0.8) return '#f59e0b';
-  return '#ef4444';
+  if (kd >= 1.5) return 'var(--color-success)';
+  if (kd >= 1.0) return 'var(--color-primary-400)';
+  if (kd >= 0.8) return 'var(--color-warning)';
+  return 'var(--color-danger)';
 };
 
 const MatchCard = ({ match, playerStats, onViewDetails, style }) => {

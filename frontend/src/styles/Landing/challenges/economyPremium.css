@@ -1,0 +1,211 @@
+/**
+ * Economy Challenge — Clean Assessment UI
+ */
+
+.economy-challenge {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.economy-challenge__content {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Scenario Data Bar ────────────────────────────────────────────────────── */
+
+.economy-challenge__scenario-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--ch-bg-elevated);
+  border: 1px solid var(--ch-border-subtle);
+  border-radius: var(--ch-radius-md);
+}
+
+.economy-challenge__data-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.economy-challenge__data-group--right {
+  text-align: right;
+}
+
+.economy-challenge__data-label {
+  font-family: var(--ch-font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ch-text-muted);
+}
+
+.economy-challenge__data-value {
+  font-family: var(--ch-font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ch-text-primary);
+}
+
+.economy-challenge__data-value--ct {
+  color: var(--ch-ct);
+}
+
+.economy-challenge__data-value--t {
+  color: var(--ch-t);
+}
+
+/* ── Score Display ────────────────────────────────────────────────────────── */
+
+.economy-challenge__score-display {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--ch-font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.economy-challenge__score--ct { color: var(--ch-ct); }
+.economy-challenge__score--t { color: var(--ch-t); }
+.economy-challenge__score-sep { color: var(--ch-text-dim); font-size: 1.25rem; }
+
+/* ── Money Row ────────────────────────────────────────────────────────────── */
+
+.economy-challenge__money-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+
+.economy-challenge__money-item {
+  padding: 0.875rem 1rem;
+  background: var(--ch-bg-card);
+  border: 1px solid var(--ch-border-subtle);
+  border-radius: var(--ch-radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.economy-challenge__money-label {
+  font-family: var(--ch-font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ch-text-muted);
+}
+
+.economy-challenge__money-value {
+  font-family: var(--ch-font-mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.economy-challenge__money-value--current {
+  color: var(--ch-success);
+}
+
+.economy-challenge__money-value--next {
+  color: var(--ch-accent-light);
+}
+
+/* ── Context ──────────────────────────────────────────────────────────────── */
+
+.economy-challenge__context {
+  padding: 1rem 1.25rem;
+  background: var(--ch-bg-card);
+  border: 1px solid var(--ch-border-subtle);
+  border-radius: var(--ch-radius-md);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ch-text-secondary);
+}
+
+.economy-challenge__context p {
+  margin: 0;
+}
+
+/* Inline highlight classes used inside dangerouslySetInnerHTML */
+.ch-highlight--danger {
+  color: var(--ch-danger);
+  font-weight: 600;
+}
+
+.ch-highlight--money {
+  color: var(--ch-success);
+  font-family: var(--ch-font-mono);
+  font-weight: 600;
+}
+
+.ch-highlight--warning {
+  color: var(--ch-error);
+  font-weight: 600;
+}
+
+/* Compatibility classes for HTML used in question data */
+.highlight-danger {
+  color: var(--ch-danger);
+  font-weight: 600;
+  background: none;
+  padding: 0;
+}
+
+.highlight-money {
+  color: var(--ch-success);
+  font-family: var(--ch-font-mono);
+  font-weight: 600;
+}
+
+.highlight-warning {
+  color: var(--ch-error);
+  font-weight: 600;
+}
+
+/* ── Question ─────────────────────────────────────────────────────────────── */
+
+.economy-challenge__question {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ch-text-primary);
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
+/* ── Options Grid ─────────────────────────────────────────────────────────── */
+
+.economy-challenge__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .economy-challenge__options {
+    grid-template-columns: 1fr;
+  }
+  
+  .economy-challenge__money-row {
+    grid-template-columns: 1fr;
+  }
+
+  .economy-challenge__scenario-bar {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .economy-challenge__data-group,
+  .economy-challenge__data-group--right {
+    text-align: center;
+  }
+}

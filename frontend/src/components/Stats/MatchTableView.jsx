@@ -1,11 +1,10 @@
 // frontend/src/components/Stats/MatchTableView.jsx
 // Compact table view for matches
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Eye, Play, Trophy, Skull, ChevronRight } from 'lucide-react';
+import { Eye, Trophy, Skull } from 'lucide-react';
 
 const MatchTableView = ({ games, getPlayerStats, onViewDetails }) => {
-  const navigate = useNavigate();
+
 
   // Format date nicely
   const formatDate = (dateStr) => {

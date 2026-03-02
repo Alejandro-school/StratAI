@@ -14,6 +14,7 @@ MAP_RADAR_CONFIG = {
     "de_mirage": {"origin_x": -3230, "origin_y": 1713, "scale": 5.0},
     "de_inferno": {"origin_x": -2087, "origin_y": 3870, "scale": 4.9},
     "de_nuke": {"origin_x": -3453, "origin_y": 2887, "scale": 7.0},
+    "de_nuke_lower": {"origin_x": -3453, "origin_y": 2887, "scale": 7.0},
     "de_overpass": {"origin_x": -4831, "origin_y": 1781, "scale": 5.2},
     "de_ancient": {"origin_x": -2953, "origin_y": 2164, "scale": 5.0},
     "de_anubis": {"origin_x": -2796, "origin_y": 3328, "scale": 5.22},
@@ -72,6 +73,31 @@ CALLOUT_FIXED_POSITIONS = {
         "B Site": {"x": 52, "y": 72},
         "Radio": {"x": 64, "y": 52},
         "Main": {"x": 32, "y": 60},
+    },
+
+    # ==================== DE_NUKE (Lower Level Radar) ====================
+    "de_nuke_lower": {
+        # Transitions / entries
+        "Ramp Room": {"x": 32, "y": 24},
+        "Ramp": {"x": 32, "y": 24},
+        "Vents": {"x": 46, "y": 33},
+        "Vent": {"x": 46, "y": 33},
+        "Secret": {"x": 28, "y": 66},
+        "Secret Stairs": {"x": 28, "y": 66},
+        "Main": {"x": 24, "y": 56},
+        "Radio": {"x": 38, "y": 46},
+
+        # B site core
+        "B Site": {"x": 50, "y": 52},
+        "B": {"x": 50, "y": 52},
+        "Lower": {"x": 50, "y": 52},
+        "Lower Site": {"x": 50, "y": 52},
+        "Toxic": {"x": 44, "y": 50},
+        "Decon": {"x": 60, "y": 50},
+        "Decontamination": {"x": 60, "y": 50},
+        "Dark": {"x": 56, "y": 60},
+        "Control": {"x": 52, "y": 44},
+        "Control Room": {"x": 52, "y": 44},
     },
     
     # ==================== DE_DUST2 ====================
@@ -532,15 +558,22 @@ CALLOUT_NORMALIZATION = {
     
     # ==================== DE_NUKE ====================
     "Ramp": "Ramp",
+    "RampRoom": "Ramp Room",
+    "Ramp Room": "Ramp Room",
     "Lobby": "Lobby",
     "Main": "Main",
     "Squeaky": "Squeaky",
     "Hut": "Hut",
     "Vents": "Vents",
+    "Vent": "Vents",
     "Heaven": "Heaven",
     "Hell": "Hell",
     "Control": "Control",
+    "Control Room": "Control",
+    "ControlRoom": "Control",
     "Secret": "Secret",
+    "Secret Stairs": "Secret",
+    "SecretStairs": "Secret",
     "Silo": "Silo",
     "OutsideA": "Outside",
     "Garage": "Garage",
@@ -549,6 +582,11 @@ CALLOUT_NORMALIZATION = {
     "Mini": "Mini",
     "Toxic": "Toxic",
     "Decon": "Decon",
+    "Decontamination": "Decon",
+    "B": "B Site",
+    "Lower": "B Site",
+    "Lower Site": "B Site",
+    "LowerSite": "B Site",
     
     # ==================== DE_OVERPASS ====================
     "BankA": "Bank",

@@ -1,555 +1,232 @@
-﻿:root {
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-     STRATAI - Modern Turquoise Theme
-     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+﻿/* ═══════════════════════════════════════════════════════════════════════════
+   STRATAI UNIFIED TACTICAL SYSTEM
+   Design Tokens & Global Utilities
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─────────────────────────────────────────────────────────────────────────────
+     1. Color Palette "Deep Focus"
+     ───────────────────────────────────────────────────────────────────────────── */
   
-  /* Core Background - Deep Dark */
-  --landing-bg-primary: #0a0a0f;
-  --landing-bg-secondary: #0d1117;
-  --landing-bg-tertiary: #161b22;
-  --landing-bg-overlay: rgba(10, 10, 15, 0.95);
-  --landing-bg-glass: rgba(13, 17, 23, 0.8);
+  /* Primary Brand (Cyan) */
+  --color-primary-50: #ecfeff;
+  --color-primary-100: #cffafe;
+  --color-primary-200: #a5f3fc;
+  --color-primary-300: #67e8f9;
+  --color-primary-400: #22d3ee;
+  --color-primary-500: #06b6d4; /* MAIN ACCENT */
+  --color-primary-600: #0891b2;
+  --color-primary-700: #0e7490;
+  --color-primary-800: #155e75;
+  --color-primary-900: #164e63;
+  --color-primary-950: #083344;
+
+  /* Secondary Brand (Violet/IA) */
+  --color-secondary-500: #8b5cf6;
+  --color-secondary-600: #7c3aed;
+  --color-secondary-glow: rgba(139, 92, 246, 0.5);
+
+  /* Backgrounds (Deep Void) */
+  --color-bg-base: #0c1219;       /* Main Body Background */
+  --color-bg-surface: #10161f;    /* Cards/Panels */
+  --color-bg-surface-2: #161e29;  /* Secondary Panels */
+  --color-bg-overlay: rgba(12, 18, 25, 0.85);
+
+  /* Semantic */
+  --color-success: #10b981; /* Tactical Green */
+  --color-warning: #f59e0b; /* Amber Alert */
+  --color-danger: #ef4444;  /* Critical Red */
   
-  /* Accent Colors - Turquoise/Teal Primary */
-  --landing-accent-primary: #14b8a6; /* Turquoise - Main */
-  --landing-accent-secondary: #0ea5e9; /* Sky Blue */
-  --landing-accent-tertiary: #06b6d4; /* Cyan */
-  --landing-accent-phosphor: #10b981; /* Emerald Green */
-  --landing-accent-alert: #ef4444; /* Danger Red */
-  --landing-accent-amber: #f59e0b; /* Warning Amber */
-  --landing-accent-steel: #64748b; /* Slate Steel */
+  /* Text */
+  --color-text-main: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-muted: rgba(255, 255, 255, 0.4);
+  --color-text-disabled: rgba(255, 255, 255, 0.2);
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     2. Typography "Tactical Intelligence"
+     ───────────────────────────────────────────────────────────────────────────── */
   
-  /* Text Colors - High Contrast */
-  --landing-text-primary: #ffffff;
-  --landing-text-secondary: rgba(255, 255, 255, 0.8);
-  --landing-text-muted: rgba(255, 255, 255, 0.5);
-  --landing-text-dark: #0a0a0f;
-  --landing-text-accent: var(--landing-accent-primary);
+  --font-display: 'Rajdhani', sans-serif; /* Headings, HUD Data */
+  --font-body: 'Inter', system-ui, sans-serif; /* Long text, UI */
+  --font-mono: 'JetBrains Mono', monospace; /* Code, Stats */
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3.5rem;
+  --text-hero: clamp(3rem, 6vw, 5rem);
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     3. Spacing & Layout
+     ───────────────────────────────────────────────────────────────────────────── */
   
-  /* Material Colors - Realistic Military */
-  --landing-metal-dark: #1c1c1c;
-  --landing-metal-scratched: #2a2a2a;
-  --landing-plastic-ballistic: #1a1a1a;
-  --landing-led-screen: #001a0d;
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --rounded-sm: 2px;
+  --rounded-md: 4px;
+  --rounded-lg: 8px;
+  --rounded-xl: 12px;
+  --rounded-2xl: 16px;
+  --rounded-full: 9999px;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     4. Effects (Shadows, Glows)
+     ───────────────────────────────────────────────────────────────────────────── */
   
-  /* Gradients - Modern Tech */
-  --landing-gradient-primary: linear-gradient(135deg, var(--landing-accent-primary) 0%, var(--landing-accent-amber) 100%);
-  --landing-gradient-secondary: linear-gradient(135deg, var(--landing-accent-secondary) 0%, var(--landing-accent-tertiary) 100%);
-  --landing-gradient-dark: linear-gradient(180deg, var(--landing-bg-primary) 0%, var(--landing-bg-secondary) 100%);
-  --landing-gradient-glow: radial-gradient(ellipse at center, rgba(255, 77, 0, 0.15) 0%, transparent 60%);
-  --landing-gradient-cyber: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-  --landing-gradient-screen: linear-gradient(180deg, rgba(0, 255, 136, 0.08) 0%, rgba(0, 0, 0, 0.95) 100%);
-  --landing-gradient-card: linear-gradient(135deg, rgba(26, 26, 36, 0.9) 0%, rgba(10, 10, 15, 0.95) 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
   
-  /* Typography - Premium Modern */
-  --landing-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --landing-font-display: 'Outfit', 'Inter', sans-serif;
-  --landing-font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-  --landing-font-tactical: 'Outfit', 'Inter', sans-serif;
-  
-  /* Font Sizes */
-  --landing-text-xs: 0.75rem;
-  --landing-text-sm: 0.875rem;
-  --landing-text-base: 1rem;
-  --landing-text-lg: 1.125rem;
-  --landing-text-xl: 1.25rem;
-  --landing-text-2xl: 1.5rem;
-  --landing-text-3xl: 1.875rem;
-  --landing-text-4xl: 2.25rem;
-  --landing-text-5xl: 3rem;
-  --landing-text-6xl: 3.75rem;
-  --landing-text-7xl: 4.5rem;
-  --landing-text-8xl: 6rem;
-  
-  /* Spacing */
-  --landing-space-xs: 0.25rem;
-  --landing-space-sm: 0.5rem;
-  --landing-space-md: 1rem;
-  --landing-space-lg: 1.5rem;
-  --landing-space-xl: 2rem;
-  --landing-space-2xl: 3rem;
-  --landing-space-3xl: 4rem;
-  --landing-space-4xl: 6rem;
-  
-  /* Border Radius */
-  --landing-radius-sm: 2px; /* More angular/technical */
-  --landing-radius-md: 4px;
-  --landing-radius-lg: 8px;
-  --landing-radius-xl: 12px;
-  --landing-radius-full: 9999px;
-  
-  /* Shadows - Modern Glow Effects */
-  --landing-shadow-glow: 0 0 30px rgba(255, 77, 0, 0.4), 0 0 60px rgba(255, 77, 0, 0.2);
-  --landing-shadow-glow-intense: 0 0 40px rgba(255, 77, 0, 0.6), 0 0 80px rgba(255, 77, 0, 0.3), 0 0 120px rgba(255, 77, 0, 0.15);
-  --landing-shadow-cyber: 0 0 30px rgba(0, 212, 255, 0.4), 0 0 60px rgba(0, 212, 255, 0.2);
-  --landing-shadow-alert: 0 0 25px rgba(255, 45, 85, 0.5);
-  --landing-shadow-subtle: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --landing-shadow-card: 0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --landing-shadow-screen: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 255, 136, 0.2);
-  
-  /* Transitions */
-  --landing-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --landing-transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --landing-transition-slow: 600ms cubic-bezier(0.4, 0, 0.2, 1);
-  --landing-transition-slower: 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Z-Index Scale */
-  --landing-z-background: -1;
-  --landing-z-base: 0;
-  --landing-z-content: 10;
-  --landing-z-overlay: 100;
-  --landing-z-modal: 1000;
+  --glow-primary: 0 0 20px rgba(6, 182, 212, 0.4);
+  --glow-primary-intense: 0 0 40px rgba(6, 182, 212, 0.6);
+  --glow-success: 0 0 20px rgba(16, 185, 129, 0.4);
+  --glow-danger: 0 0 20px rgba(239, 68, 68, 0.4);
+
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-blur: blur(12px);
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Base Styles
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.landing-page {
-  width: 100vw;
-  height: 100vh;
-  background: var(--landing-bg-primary);
-  color: var(--landing-text-primary);
-  font-family: var(--landing-font-primary);
-  overflow: hidden;
-  position: relative;
+/* Base Reset */
+* {
+  box-sizing: border-box;
 }
 
-/* Orchestrator Layers */
-.scene-orchestrator {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  touch-action: none;
-}
-
-.ui-orchestrator {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  pointer-events: none; /* Let events pass to 3D when not interacting with UI */
-  display: flex;
-  flex-direction: column;
-}
-
-.ui-orchestrator > * {
-  pointer-events: auto; /* Re-enable pointer events for UI children */
-}
-
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Utility Classes
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.landing-text-gradient {
-  background: var(--landing-gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.landing-glow {
-  filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.5));
-}
-
-.landing-fade-in {
-  animation: landingFadeIn var(--landing-transition-slow) forwards;
-}
-
-.landing-fade-in-up {
-  animation: landingFadeInUp var(--landing-transition-slower) forwards;
-}
-
-@keyframes landingFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes landingFadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes landingPulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-@keyframes landingGlow {
-  0%, 100% {
-    box-shadow: 0 0 30px rgba(255, 77, 0, 0.4), 0 0 60px rgba(255, 77, 0, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 50px rgba(255, 77, 0, 0.6), 0 0 100px rgba(255, 77, 0, 0.3);
-  }
-}
-
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100vh);
-  }
-}
-
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  92% { opacity: 1; }
-  93% { opacity: 0.85; }
-  94% { opacity: 1; }
-  98% { opacity: 0.9; }
-}
-
-/* Advanced Text Animations */
-@keyframes textReveal {
-  0% {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    opacity: 1;
-  }
-}
-
-@keyframes glitchText {
-  0%, 100% {
-    transform: translate(0);
-    text-shadow: none;
-  }
-  20% {
-    transform: translate(-2px, 2px);
-    text-shadow: 2px 0 var(--landing-accent-secondary), -2px 0 var(--landing-accent-primary);
-  }
-  40% {
-    transform: translate(2px, -2px);
-    text-shadow: -2px 0 var(--landing-accent-secondary), 2px 0 var(--landing-accent-primary);
-  }
-  60% {
-    transform: translate(-1px, 1px);
-    text-shadow: 1px 0 var(--landing-accent-tertiary);
-  }
-  80% {
-    transform: translate(1px, -1px);
-    text-shadow: -1px 0 var(--landing-accent-tertiary);
-  }
-}
-
-@keyframes floatSubtle {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 15px rgba(255, 77, 0, 0.6));
-  }
-  50% {
-    filter: drop-shadow(0 0 30px rgba(255, 77, 0, 0.9));
-  }
-}
-
-@keyframes dataStream {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
-}
-
-@keyframes typewriter {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes blinkCursor {
-  0%, 50% {
-    border-right-color: var(--landing-accent-primary);
-  }
-  51%, 100% {
-    border-right-color: transparent;
-  }
-}
-
-/* @keyframes staticNoise - REMOVED to prevent flickering */
-
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Modern Tactical Effects (Clean & Professional)
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.landing-page::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 999;
-  /* Dynamic gradient overlay for depth - Turquoise theme */
-  background: 
-    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(20, 184, 166, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 50% at 20% 70%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 35%);
-}
-
-/* Animated gradient backdrop */
-.landing-page::after {
-  content: '';
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  pointer-events: none;
-  z-index: 1;
-  background: 
-    radial-gradient(circle at 70% 40%, rgba(20, 184, 166, 0.05) 0%, transparent 30%),
-    radial-gradient(circle at 30% 60%, rgba(14, 165, 233, 0.04) 0%, transparent 25%);
-  animation: gradientShift 25s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% { 
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 1;
-  }
-  50% { 
-    transform: translate(-3%, -3%) rotate(3deg);
-    opacity: 0.85;
-  }
-}
-
-/* Static Noise Overlay - DISABLED to prevent flickering */
-/*
-.landing-page .noise-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 997;
-  opacity: 0.02;
-  background-image: url('data:image/svg+xml,...');
-  animation: staticNoise 0.3s infinite;
-}
-*/
-
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Tactical Button Styles
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.tactical-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 18px 40px;
-  font-family: var(--landing-font-display);
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.tactical-btn--primary {
-  background: var(--landing-gradient-primary);
-  color: var(--landing-text-dark);
-  box-shadow: var(--landing-shadow-glow);
-}
-
-.tactical-btn--primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: var(--landing-shadow-glow-intense);
-}
-
-.tactical-btn--primary:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.tactical-btn--secondary {
-  background: transparent;
-  color: var(--landing-text-primary);
-  border: 2px solid var(--landing-accent-steel);
-  backdrop-filter: blur(10px);
-}
-
-.tactical-btn--secondary:hover {
-  border-color: var(--landing-accent-secondary);
-  color: var(--landing-accent-secondary);
-  box-shadow: var(--landing-shadow-cyber);
-}
-
-.tactical-btn--ghost {
-  background: transparent;
-  color: var(--landing-text-muted);
-  border: none;
-  padding: 12px 24px;
-}
-
-.tactical-btn--ghost:hover {
-  color: var(--landing-text-primary);
-}
-
-/* Button Shine Effect */
-.tactical-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.5s ease;
-}
-
-.tactical-btn:hover::before {
-  left: 100%;
-}
-
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   Glass Card Styles
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.glass-card {
-  background: var(--landing-gradient-card);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  box-shadow: var(--landing-shadow-card);
-  position: relative;
-  overflow: hidden;
-}
-
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-}
-
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-   C4 Screen Styles
-   â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.c4-digital-screen {
-  background: linear-gradient(180deg, #001208 0%, #000a05 100%);
-  border: 3px solid #1a3d2a;
-  border-radius: 6px;
-  padding: 20px;
-  position: relative;
-  box-shadow: var(--landing-shadow-screen);
-  overflow: hidden;
-}
-
-.c4-digital-screen::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.1) 0px,
-    transparent 1px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.1) 3px
-  );
-  pointer-events: none;
-  z-index: 5;
-}
-
-.c4-screen-text {
-  color: var(--landing-accent-phosphor);
-  font-family: var(--landing-font-mono);
-  text-shadow: 0 0 15px rgba(0, 255, 136, 0.8), 0 0 30px rgba(0, 255, 136, 0.4);
-  position: relative;
-  z-index: 10;
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
+  font-family: var(--font-body);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Aim Challenge Layer - Now conditionally rendered
+   GLOBAL UTILITIES
    ═══════════════════════════════════════════════════════════════════════════ */
-.aim-challenge-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
+
+/* Typography Utils */
+.text-display { font-family: var(--font-display); }
+.text-mono { font-family: var(--font-mono); }
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-primary-400), var(--color-secondary-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-muted { color: var(--color-text-muted); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-cyan { color: var(--color-primary-500); }
+
+/* Layout Utils */
+.container-max {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
 }
 
-/* During transition animation - scene approaches from background */
-.aim-challenge-layer.animating {
-  animation: scene-approach 3.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  pointer-events: auto;
+/* Glass Panels */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--rounded-xl);
 }
 
-/* Interactive State (Active Gameplay) */
-.aim-challenge-layer.interactive {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
+.glass-panel--interact {
+  transition: all 0.3s ease;
+}
+.glass-panel--interact:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--glow-primary);
 }
 
-/* Smooth continuous growth from very small to full size */
-@keyframes scene-approach {
-  0% {
-    opacity: 0;
-    transform: scale(0.05);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Tactical Decorations */
+.scanline-overlay {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.5) 3px
+  );
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Buttons (Base styles, specific variants in shared.css) */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--rounded-lg);
+  border: 2px solid transparent;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  background: var(--color-primary-500);
+  color: white;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+.btn-base:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+  background: var(--color-primary-400);
+}
+
+.btn-base:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-900);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-600);
 }

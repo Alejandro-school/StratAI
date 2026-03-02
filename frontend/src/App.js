@@ -6,16 +6,16 @@ import { LandingPage } from "./components/Landing/LandingPage";
 import SteamLoginSuccess from "./auth/SteamLoginSuccess";
 
 // ───────────── Rutas privadas ──────────────
-import Dashboard from "./components/Dashboard/DashboardMapV2";
+import TacticalMap from "./pages/TacticalMap";
+import CoachDashboard from "./pages/CoachDashboard";
 import BotInstructions from "./auth/BotInstructions";
 import HistoryCodeForm from "./auth/HistoryCodeForm";
-import HistoryGames from "./components/Stats/HistoryGames";
-import MatchDetails from "./components/Match/MatchDetails";
+import HistoryGames from "./pages/HistoryGames";
+import MatchDetails from "./pages/MatchDetails";
 
 // ───────────── Nuevas páginas principales ──────────────
 import Performance from "./pages/Performance";
-import CoachIA from "./pages/CoachIA";
-import Progreso from "./pages/Progreso";
+import Progress from "./pages/Progress";
 
 // ───────────── Contextos & Auth ──────────────
 import { AuthProvider } from "./auth/useAuth";
@@ -29,11 +29,11 @@ import RequireAuth from "./auth/RequireAuth";
  *   de AuthProvider + UserProvider + RequireAuth.
  * 
  * ESTRUCTURA DE NAVEGACIÓN:
- * 1. Dashboard - Mapa interactivo con estadísticas
- * 2. Partidas - Historial de partidas + Match Details
- * 3. Performance - Estadísticas personales detalladas
- * 4. Coach IA - Chat inteligente + análisis de partidas
- * 5. Progreso - Misiones, logros, evolución
+ * 1. Dashboard (Coach Center) - Command Center con IA y Resumen
+ * 2. Tactical Map (Old Dashboard) - Mapa interactivo 2D
+ * 3. Matches - Match history + Match Details
+ * 4. Performance - Estadísticas personales detalladas
+ * 5. Progress - Missions, achievements, evolution
  */
 const App = () => (
   <BrowserRouter>
@@ -63,12 +63,12 @@ const App = () => (
           </AuthProvider>
         }
       >
-        {/* Navegación principal (5 secciones) */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Navegación principal */}
+        <Route path="/dashboard" element={<CoachDashboard />} />
+        <Route path="/tactical-map" element={<TacticalMap />} />
         <Route path="/history-games" element={<HistoryGames />} />
         <Route path="/performance" element={<Performance />} />
-        <Route path="/coach" element={<CoachIA />} />
-        <Route path="/progress" element={<Progreso />} />
+        <Route path="/progress" element={<Progress />} />
         
         {/* Rutas de detalle y utilidades */}
         <Route path="/match/:steamID/:matchID" element={<MatchDetails />} />

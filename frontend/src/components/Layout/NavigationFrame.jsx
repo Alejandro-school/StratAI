@@ -3,12 +3,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
-import { 
-  Home, BarChart2, Target, Brain, TrendingUp, Settings, LogOut, User
+import { API_URL } from '../../utils/api';
+import {
+  BarChart2, Target, Brain, TrendingUp, LogOut, Map
 } from 'lucide-react';
 import '../../styles/Layout/navigationFrame.css';
-
-const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 const NavigationFrame = ({ children }) => {
   const { user } = useUser();
@@ -25,11 +24,11 @@ const NavigationFrame = ({ children }) => {
 
   // 5 Secciones principales de navegación
   const navItems = [
-    { path: '/dashboard', icon: Home, label: 'Dashboard' },
-    { path: '/history-games', icon: BarChart2, label: 'Partidas' },
+    { path: '/dashboard', icon: Brain, label: 'Coach Center' }, // New Home
+    { path: '/tactical-map', icon: Map, label: 'Tactical Map' }, // Old "Dashboard" moved here
+    { path: '/history-games', icon: BarChart2, label: 'Matches' },
     { path: '/performance', icon: Target, label: 'Performance' },
-    { path: '/coach', icon: Brain, label: 'Coach IA' },
-    { path: '/progress', icon: TrendingUp, label: 'Progreso' },
+    { path: '/progress', icon: TrendingUp, label: 'Progress' },
   ];
 
   // Update indicator position when route changes
@@ -129,13 +128,6 @@ const NavigationFrame = ({ children }) => {
                   </div>
                 </div>
                 <div className="dropdown-divider" />
-                <Link to="/profile" className="dropdown-item">
-                  <User size={14} /> Perfil
-                </Link>
-                <Link to="/settings" className="dropdown-item">
-                  <Settings size={14} /> Configuración
-                </Link>
-                <div className="dropdown-divider" />
                 <button onClick={handleLogout} className="dropdown-item logout">
                   <LogOut size={14} /> Cerrar sesión
                 </button>
@@ -152,10 +144,6 @@ const NavigationFrame = ({ children }) => {
 
       {/* HUD Corners */}
       <div className="hud-corners">
-        <div className="corner corner-bl">
-          <span className="corner-label">VERSION</span>
-          <span className="corner-value">v1.0.0</span>
-        </div>
         <div className="corner corner-br">
           <div className="corner-ping">
             <span className="ping-dot"></span>

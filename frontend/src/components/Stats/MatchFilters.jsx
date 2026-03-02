@@ -5,18 +5,7 @@ import {
   Search, Filter, X, Calendar, Map, 
   ChevronDown, Check, LayoutGrid, List
 } from 'lucide-react';
-
-const MAP_CONFIGS = [
-  { id: 'de_dust2', name: 'Dust II', color: '#c4a35a' },
-  { id: 'de_mirage', name: 'Mirage', color: '#6b8e23' },
-  { id: 'de_inferno', name: 'Inferno', color: '#cd5c5c' },
-  { id: 'de_nuke', name: 'Nuke', color: '#4682b4' },
-  { id: 'de_overpass', name: 'Overpass', color: '#8fbc8f' },
-  { id: 'de_train', name: 'Train', color: '#deb887' },
-  { id: 'de_vertigo', name: 'Vertigo', color: '#87ceeb' },
-  { id: 'de_anubis', name: 'Anubis', color: '#d4af37' },
-  { id: 'de_ancient', name: 'Ancient', color: '#228b22' },
-];
+import { MAP_FILTER_OPTIONS } from '../../utils/mapConfig';
 
 const MatchFilters = ({ 
   onFilterChange, 
@@ -33,7 +22,7 @@ const MatchFilters = ({
   // Get active pills
   const activePills = [];
   if (filters.map) {
-    const mapConfig = MAP_CONFIGS.find(m => m.id === filters.map);
+    const mapConfig = MAP_FILTER_OPTIONS.find(m => m.id === filters.map);
     activePills.push({
       id: 'map',
       label: mapConfig?.name || filters.map.replace('de_', ''),
@@ -50,7 +39,7 @@ const MatchFilters = ({
     activePills.push({
       id: 'result',
       label: filters.result === 'victory' ? 'Victoria' : 'Derrota',
-      color: filters.result === 'victory' ? '#22c55e' : '#ef4444'
+      color: filters.result === 'victory' ? 'var(--color-success)' : 'var(--color-danger)'
     });
   }
 
@@ -125,7 +114,7 @@ const MatchFilters = ({
             
             {showMapDropdown && (
               <div className="filter-dropdown">
-                {MAP_CONFIGS.filter(m => availableMaps.length === 0 || availableMaps.includes(m.id)).map(map => (
+                {MAP_FILTER_OPTIONS.filter(m => availableMaps.length === 0 || availableMaps.includes(m.id)).map(map => (
                   <button
                     key={map.id}
                     className={`dropdown-option ${filters.map === map.id ? 'selected' : ''}`}

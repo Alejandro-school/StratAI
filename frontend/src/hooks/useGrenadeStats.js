@@ -2,15 +2,17 @@
 // Hook for fetching aggregate grenade statistics per map
 
 import { useState, useEffect, useCallback } from 'react';
-
-const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
+import { API_URL } from '../utils/api';
 
 /**
  * Hook to fetch aggregate grenade statistics for the grenade heatmap
  * @param {string} mapName - Map name (e.g. 'de_dust2')
+ * @param {Object} options - hook options
+ * @param {boolean} options.enabled - if false, skip fetch and expose empty defaults
  * @returns {Object} { grenadeData, summary, insights, matchesAnalyzed, loading, error, refetch }
  */
-export const useGrenadeStats = (mapName = 'de_dust2') => {
+export const useGrenadeStats = (mapName = 'de_dust2', options = {}) => {
+  const { enabled = true } = options;
   const [grenadeData, setGrenadeData] = useState({
     smoke: [],
     flash: [],
@@ -24,7 +26,7 @@ export const useGrenadeStats = (mapName = 'de_dust2') => {
   const [error, setError] = useState(null);
 
   const fetchGrenadeStats = useCallback(async () => {
-    if (!mapName) return;
+    if (!enabled || !mapName) return;
     
     setLoading(true);
     setError(null);
@@ -53,11 +55,15 @@ export const useGrenadeStats = (mapName = 'de_dust2') => {
     } finally {
       setLoading(false);
     }
-  }, [mapName]);
+  }, [enabled, mapName]);
 
   useEffect(() => {
+    if (!enabled) {
+      setLoading(false);
+      return;
+    }
     fetchGrenadeStats();
-  }, [fetchGrenadeStats]);
+  }, [enabled, fetchGrenadeStats]);
 
   // Computed values
   const totalGrenades = Object.values(summary).reduce(

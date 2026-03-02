@@ -31,6 +31,72 @@ router = APIRouter()
 # Redis logic (same as other files for now)
 redis = aioredis.from_url("redis://localhost", decode_responses=True)
 
+NUKE_Z_THRESHOLD = -500
+
+
+def resolve_radar_map_name(base_map_name: str, avg_z: float | None) -> str:
+    if base_map_name == "de_nuke" and avg_z is not None and avg_z < NUKE_Z_THRESHOLD:
+        return "de_nuke_lower"
+    return base_map_name
+
+
+def resolve_level_name(map_name: str, avg_z: float | None) -> str | None:
+    if map_name != "de_nuke" or avg_z is None:
+        return None
+    return "upper" if avg_z >= NUKE_Z_THRESHOLD else "lower"
+
+
+def infer_nuke_level_from_callout(callout: str) -> str:
+    lower_positions = CALLOUT_FIXED_POSITIONS.get("de_nuke_lower", {})
+    return "lower" if callout in lower_positions else "upper"
+
+
+def resolve_fixed_callout_position(map_name: str, callout: str, level: str | None):
+    map_key = "de_nuke_lower" if map_name == "de_nuke" and level == "lower" else map_name
+    return CALLOUT_FIXED_POSITIONS.get(map_key, {}).get(callout)
+
+
+def infer_nuke_level_from_grenade_areas(areas: list[str]) -> str:
+    if not areas:
+        return "upper"
+
+    lower_keywords = {
+        "b site", "b-site", "bsite", "b",
+        "toxic", "decon", "decontamination", "dark", "control",
+        "ramp", "ramp room", "vents", "vent", "secret",
+    }
+
+    for area in areas:
+        area_lower = (area or "").strip().lower()
+        if not area_lower:
+            continue
+        if area_lower in lower_keywords or any(keyword in area_lower for keyword in lower_keywords):
+            return "lower"
+
+    return "upper"
+
+
+def resolve_cluster_level(map_name: str, avg_z: float | None, areas: list[str]) -> str | None:
+    level = resolve_level_name(map_name, avg_z)
+    if map_name == "de_nuke" and level is None:
+        level = infer_nuke_level_from_grenade_areas(areas)
+    return level
+
+
+def resolve_radar_map_name_by_level(map_name: str, avg_z: float | None, level: str | None) -> str:
+    if map_name == "de_nuke" and level == "lower":
+        return "de_nuke_lower"
+    if map_name == "de_nuke" and level == "upper":
+        return "de_nuke"
+    return resolve_radar_map_name(map_name, avg_z)
+
+
+def normalize_grenade_area(raw_area: str, map_name: str) -> str:
+    normalized = normalize_callout(raw_area, map_name)
+    if normalized:
+        return normalized
+    return raw_area or ""
+
 # ============================================================================
 # PROCESSED DEMOS
 # ============================================================================
@@ -1086,11 +1152,21 @@ async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dic
         if stats.get("positions_x") and stats.get("positions_y"):
             avg_x = sum(stats["positions_x"]) / len(stats["positions_x"])
             avg_y = sum(stats["positions_y"]) / len(stats["positions_y"])
-            position = game_to_radar_percent(avg_x, avg_y, map_name)
-            
+
             # [NEW] Calculate avg_z from tracking positions
             if stats.get("positions_z"):
                 avg_z = sum(stats["positions_z"]) / len(stats["positions_z"])
+
+            radar_map_name = resolve_radar_map_name(map_name, avg_z)
+            position = game_to_radar_percent(avg_x, avg_y, radar_map_name)
+
+        level = resolve_level_name(map_name, avg_z)
+        if map_name == "de_nuke" and level is None:
+            level = infer_nuke_level_from_callout(callout)
+
+        fixed_position = resolve_fixed_callout_position(map_name, callout, level)
+        if fixed_position:
+            position = fixed_position
         
         # CT/T split
         ct_t_split = {
@@ -1141,6 +1217,7 @@ async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dic
             "rating": rating,
             "position": position,
             "avg_z": avg_z,  # [NEW] Z coordinate for level filtering
+            "level": level,
             "sample_size": total_duels,
             "ct_t_split": ct_t_split,
             "weapon_stats": weapon_stats,
@@ -1290,11 +1367,6 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
                 
                 # Process each cluster to add all required fields
                 for c in clusters:
-                    # Convert cluster center to radar coordinates
-                    radar = game_to_radar_percent(c["game_x"], c["game_y"], map_name)
-                    c["x"] = radar["x"] if radar else 50
-                    c["y"] = radar["y"] if radar else 50
-                    
                     # Aggregate cluster stats from raw positions
                     raw_positions = c.get("positions", [])
                     c["total_damage"] = sum(p.get("damage_dealt", 0) for p in raw_positions)
@@ -1305,8 +1377,18 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
                     # Calculate avg_z for multi-level maps
                     z_values = [p.get("end_z", 0) for p in raw_positions if p.get("end_z", 0) != 0]
                     c["avg_z"] = round(sum(z_values) / len(z_values), 1) if z_values else None
-                    
-                    c["areas"] = list(set(p.get("land_area", "") for p in raw_positions if p.get("land_area")))
+                    c["areas"] = list(set(
+                        normalize_grenade_area(p.get("land_area", ""), map_name)
+                        for p in raw_positions
+                        if p.get("land_area")
+                    ))
+                    c["level"] = resolve_cluster_level(map_name, c["avg_z"], c["areas"])
+
+                    # Convert cluster center to radar coordinates
+                    radar_map_name = resolve_radar_map_name_by_level(map_name, c["avg_z"], c["level"])
+                    radar = game_to_radar_percent(c["game_x"], c["game_y"], radar_map_name)
+                    c["x"] = radar["x"] if radar else 50
+                    c["y"] = radar["y"] if radar else 50
                     
                     # Build trajectories from raw positions
                     trajectories = []
@@ -1340,7 +1422,7 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
                         avg_end_x = sum(t.get("end_x", 0) for t in traj_group) / len(traj_group)
                         avg_end_y = sum(t.get("end_y", 0) for t in traj_group) / len(traj_group)
                         
-                        end_radar = game_to_radar_percent(avg_end_x, avg_end_y, map_name)
+                        end_radar = game_to_radar_percent(avg_end_x, avg_end_y, radar_map_name)
                         
                         trajectories.append({
                             "x1": c["x"],
@@ -1443,7 +1525,7 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
                                                 "end_y": ep.get("y", 0),
                                                 "end_z": ep.get("z", 0),  # Z coordinate for level filtering
                                                 "side": event.get("thrower_side", "unknown"),
-                                                "land_area": event.get("land_area", ""),
+                                                "land_area": normalize_grenade_area(event.get("land_area", ""), map_name),
                                                 # NEW: Extract full stats
                                                 "damage_dealt": event.get("damage_dealt", 0),
                                                 "enemies_blinded": event.get("enemies_blinded", 0),
@@ -1500,10 +1582,6 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
     for gtype, positions in grenade_positions.items():
         clusters = cluster_grenade_positions(positions)
         for c in clusters:
-            radar = game_to_radar_percent(c["game_x"], c["game_y"], map_name)
-            c["x"] = radar["x"]
-            c["y"] = radar["y"]
-            
             # Aggregate cluster stats from raw positions
             raw_positions = c.get("positions", [])
             c["total_damage"] = sum(p.get("damage_dealt", 0) for p in raw_positions)
@@ -1514,8 +1592,17 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
             # Calculate avg_z for multi-level maps (Nuke, Vertigo, Train)
             z_values = [p.get("end_z", 0) for p in raw_positions if p.get("end_z", 0) != 0]
             c["avg_z"] = round(sum(z_values) / len(z_values), 1) if z_values else None
+            c["areas"] = list(set(
+                normalize_grenade_area(p.get("land_area", ""), map_name)
+                for p in raw_positions
+                if p.get("land_area")
+            ))
+            c["level"] = resolve_cluster_level(map_name, c["avg_z"], c["areas"])
 
-            c["areas"] = list(set(p.get("land_area", "") for p in raw_positions if p.get("land_area")))
+            radar_map_name = resolve_radar_map_name_by_level(map_name, c["avg_z"], c["level"])
+            radar = game_to_radar_percent(c["game_x"], c["game_y"], radar_map_name)
+            c["x"] = radar["x"]
+            c["y"] = radar["y"]
             
             # Build trajectories from raw positions
             trajectories = []
@@ -1551,7 +1638,7 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
                 avg_end_y = sum(t.get("end_y", 0) for t in traj_group) / len(traj_group)
                 
                 # Convert to radar coordinates
-                end_radar = game_to_radar_percent(avg_end_x, avg_end_y, map_name)
+                end_radar = game_to_radar_percent(avg_end_x, avg_end_y, radar_map_name)
                 
                 trajectories.append({
                     "x1": radar["x"],

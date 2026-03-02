@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { API_URL } from "../utils/api";
 
 const UserContext = createContext(null);            // ① valor inicial null
 
@@ -7,7 +8,6 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
     const fetchUser = async () => {
       try {
         const res = await fetch(`${API_URL}/auth/steam/status`, {

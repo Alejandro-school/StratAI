@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../utils/api';
 import '../styles/Auth/codeForm.css';
-
-const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
 
 const HistoryCodeForm = () => {
   const [authCode, setAuthCode] = useState('');
