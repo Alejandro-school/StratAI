@@ -1,8 +1,5 @@
 /**
- * BackgroundEffects - Ambient animated background for landing page
- * 
- * Creates subtle breathing glow effects with cyan, purple, and orange colors
- * positioned strategically across the viewport
+ * BackgroundEffects - Ambient background with CT (teal) and T (warm earth) themed glows
  */
 import React from 'react';
 import '../../../../styles/Landing/core/backgroundEffects.css';
@@ -10,21 +7,14 @@ import '../../../../styles/Landing/core/backgroundEffects.css';
 const BackgroundEffects = () => {
   return (
     <div className="landing-bg-effects" aria-hidden="true">
-      {/* Primary Cyan Glow - Top Left */}
-      <div className="landing-bg-glow landing-bg-glow--cyan landing-bg-glow--top-left" />
+      {/* T-side warm earth glow — Top Left */}
+      <div className="landing-bg-glow landing-bg-glow--t-warm landing-bg-glow--top-left" />
       
-      {/* Purple/Violet Glow - Top Right */}
-      <div className="landing-bg-glow landing-bg-glow--purple landing-bg-glow--top-right" />
+      {/* CT-side teal glow — Top Right */}
+      <div className="landing-bg-glow landing-bg-glow--ct-teal landing-bg-glow--top-right" />
       
-      {/* Orange Glow - Bottom Left */}
-      <div className="landing-bg-glow landing-bg-glow--orange landing-bg-glow--bottom-left" />
-      
-      {/* Cyan Secondary - Bottom Right */}
-      <div className="landing-bg-glow landing-bg-glow--cyan-dim landing-bg-glow--bottom-right" />
-      
-      {/* Center Accent (subtle) */}
+      {/* Center Accent (subtle blend) */}
       <div className="landing-bg-glow landing-bg-glow--center" />
-      
     </div>
   );
 };

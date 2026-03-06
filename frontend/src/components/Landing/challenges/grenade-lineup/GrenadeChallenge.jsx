@@ -271,7 +271,7 @@ const GrenadeChallenge = () => {
                   {String.fromCharCode(65 + index)}
                 </span>
                 <div className="grenade-challenge__thumbnail">
-                  <video src={videoSrc} preload="metadata" muted />
+                  <video src={videoSrc} preload="metadata" muted playsInline />
                   <div className="grenade-challenge__thumbnail-overlay">
                     <Play size={28} />
                   </div>
@@ -374,6 +374,7 @@ const GrenadeChallenge = () => {
                   src={scenario.videos[previewOption]}
                   preload="metadata"
                   muted
+                  playsInline
                 />
                 {/* Crosshair overlay */}
                 <div 
@@ -433,6 +434,7 @@ const GrenadeChallenge = () => {
                   ref={videoRef}
                   src={scenario.videos[confirmedOption]}
                   autoPlay
+                  playsInline
                   onEnded={handleVideoEnd}
                 />
               </div>

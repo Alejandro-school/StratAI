@@ -1,0 +1,174 @@
+{
+  "nav": {
+    "services": "Servicios",
+    "howItWorks": "Cómo Funciona",
+    "demo": "Demo IA",
+    "pricing": "Precios",
+    "connectSteam": "Empezar Gratis"
+  },
+  "hero": {
+    "status": "SISTEMA ACTIVO",
+    "headline": "Domina tu Elo.",
+    "headlineGradient": "Deja de adivinar por qué pierdes.",
+    "subtitle": "Conecta Steam. Analizamos tus demos con IA especializada. Mejora visible en semanas.",
+    "badge1": "128-Tick Accuracy",
+    "badge2": "Triple AI Agent",
+    "badge3": "Zero-Latency Analysis",
+    "ctaPrimary": "Empezar Gratis",
+    "ctaSecondary": "Pon a prueba tu nivel",
+    "stat1Value": "500+",
+    "stat1Label": "Demos analizadas",
+    "stat2Value": "3",
+    "stat2Label": "Agentes IA",
+    "stat3Value": "<10s",
+    "stat3Label": "Tiempo de análisis",
+    "stat4Value": "24/7",
+    "stat4Label": "Análisis continuo",
+    "stat5Value": "100%",
+    "stat5Label": "Automático"
+  },
+  "services": {
+    "label": "SERVICIOS",
+    "title": "Todo lo que necesitas para mejorar",
+    "subtitle": "Cuatro herramientas diseñadas para acelerar tu progresión de forma medible.",
+    "coaching": {
+      "title": "Coach IA",
+      "desc": "Agentes IA especializados con los que puedes interactuar y que hacen un análisis completo de tu juego. Economía, posicionamiento y mecánicas — feedback personalizado ronda a ronda.",
+      "features": ["Agentes especializados", "Análisis ronda a ronda", "Chat interactivo", "Feedback personalizado"]
+    },
+    "interactiveMap": {
+      "title": "Mapa Interactivo",
+      "desc": "Mapa interactivo de cada mapa de CS2 que te muestra duelos, granadas lanzadas y heatmap con insights detallados. Visualiza cada jugada desde una nueva perspectiva.",
+      "features": ["Heatmaps de posiciones", "Trayectorias de granadas", "Análisis de duelos", "Insights por zona"]
+    },
+    "stats": {
+      "title": "Estadísticas Detalladas",
+      "desc": "Estadísticas detalladas de las partidas así como desglose completo de estadísticas personales. KDA, spray patterns, economía y mucho más en un dashboard completo.",
+      "features": ["Dashboard completo", "Spray patterns", "Métricas por partida", "Progresión histórica"]
+    },
+    "challenges": {
+      "title": "Retos y Ranking",
+      "desc": "Retos para mejorar y recompensas por completarlos. Compite en el ranking de jugadores y sube de nivel con desafíos mensuales personalizados.",
+      "features": ["Retos mensuales", "Sistema de recompensas", "Ranking global", "Logros desbloqueables"]
+    }
+  },
+  "howItWorks": {
+    "label": "CÓMO FUNCIONA",
+    "title": "De tu partida a tu mejora en 3 pasos",
+    "step1Title": "Conecta Steam",
+    "step1Desc": "Login con tu cuenta de Steam. Detectamos tus partidas automáticamente cada 5 minutos.",
+    "step2Title": "Análisis con IA",
+    "step2Desc": "3 agentes especializados analizan economía, posicionamiento y mecánicas de cada demo.",
+    "step3Title": "Mejora Continua",
+    "step3Desc": "Recibe coaching personalizado cada partida. Trackea tu progreso y completa retos mensuales."
+  },
+  "aiDemo": {
+    "badge": "ANÁLISIS EN VIVO",
+    "title": "Mira cómo analiza la IA en tiempo real",
+    "subtitle": "Observa esta jugada real mientras la IA detecta errores tácticos",
+    "context": "MIRAGE • 4v4 • Ronda 12 • CT Side",
+    "clickToPlay": "Haz clic para reproducir",
+    "restart": "Reiniciar"
+  },
+  "features": {
+    "label": "CARACTERÍSTICAS",
+    "title": "Diseñado para jugadores que quieren mejorar",
+    "dashboard": {
+      "title": "Dashboard Completo",
+      "desc": "Visualiza tu rendimiento con gráficos detallados, mapas de calor y métricas avanzadas por partida."
+    },
+    "monthlyChallenges": {
+      "title": "Retos Mensuales",
+      "desc": "Desafíos personalizados basados en tus áreas débiles. Cada mes, nuevos objetivos para mantenerte enfocado."
+    },
+    "rewards": {
+      "title": "Sistema de Recompensas",
+      "desc": "Desbloquea logros, sube de nivel y compite en rankings. Gamificación que te motiva a mejorar."
+    }
+  },
+  "pricing": {
+    "label": "PRECIOS",
+    "title": "Elige tu plan",
+    "subtitle": "Comienza gratis y escala cuando lo necesites.",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "popular": "Popular",
+    "free": {
+      "name": "Free",
+      "price": "0",
+      "period": "para siempre",
+      "desc": "Perfecto para probar la plataforma",
+      "cta": "Empezar Gratis",
+      "features": ["5 demos al mes", "Coach IA básico", "Mapa interactivo", "Últimas 10 partidas", "Retos mensuales", "Ranking global"]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "9.99",
+      "period": "/mes",
+      "desc": "Para jugadores comprometidos con mejorar",
+      "cta": "Comenzar Pro",
+      "features": ["Demos ilimitadas", "Todos los agentes IA", "Mapa interactivo avanzado", "Historial completo", "Retos exclusivos", "Soporte prioritario"]
+    },
+    "team": {
+      "name": "Team",
+      "price": "24.99",
+      "period": "/mes",
+      "desc": "Para equipos y clanes competitivos",
+      "cta": "Contactar",
+      "features": ["Todo en Pro", "Hasta 7 jugadores", "Análisis de equipo", "Retos personalizados", "Leaderboard privado", "Soporte dedicado"]
+    }
+  },
+  "faq": {
+    "label": "FAQ",
+    "title": "Preguntas frecuentes",
+    "items": [
+      {
+        "q": "¿Cómo funciona el Coach IA?",
+        "a": "Nuestros agentes IA especializados analizan cada aspecto de tu juego automáticamente: economía, posicionamiento y mecánicas. Recibes feedback personalizado ronda a ronda que puedes consultar de forma interactiva."
+      },
+      {
+        "q": "¿Qué juegos soporta?",
+        "a": "Actualmente StratAI soporta Counter-Strike 2 (CS2). Analizamos demos de partidas competitivas y premier con precisión de 128 ticks."
+      },
+      {
+        "q": "¿Es seguro conectar mi cuenta de Steam?",
+        "a": "Totalmente. Usamos el sistema oficial de OAuth de Steam para la autenticación. Solo accedemos a datos públicos de tu perfil y tus demos. Nunca tenemos acceso a tu contraseña ni credenciales."
+      },
+      {
+        "q": "¿Cuánto tarda el análisis de una demo?",
+        "a": "Menos de 10 segundos por partida. Nuestro servicio de parsing en Go de alto rendimiento procesa cada demo de forma automática en cuanto se detecta."
+      },
+      {
+        "q": "¿Puedo usar la plataforma gratis?",
+        "a": "Sí. El plan Free incluye 5 demos al mes, acceso al Coach IA básico, mapa interactivo, estadísticas de las últimas 10 partidas y retos mensuales — todo sin coste."
+      },
+      {
+        "q": "¿Cómo funcionan los retos?",
+        "a": "Cada mes se generan retos personalizados basados en tus áreas de mejora. Al completarlos, desbloqueas logros y subes en el ranking global. Es un sistema de gamificación para mantener tu motivación."
+      },
+      {
+        "q": "¿Qué muestra el mapa interactivo?",
+        "a": "El mapa interactivo representa cada mapa de CS2 con datos de tus partidas: posiciones de duelos ganados y perdidos, trayectorias de granadas, heatmaps de movimiento e insights tácticos por zona."
+      }
+    ]
+  },
+  "cta": {
+    "title": "¿Listo para dejar de adivinar?",
+    "subtitle": "Conecta Steam y deja que la IA haga el trabajo. Tu primera partida se analiza en menos de 10 segundos.",
+    "ctaPrimary": "Empezar Gratis",
+    "ctaSecondary": "Pon a prueba tu nivel"
+  },
+  "footer": {
+    "product": "Producto",
+    "resources": "Recursos",
+    "legal": "Legal",
+    "services": "Servicios",
+    "howItWorks": "Cómo Funciona",
+    "pricing": "Precios",
+    "docs": "Documentación",
+    "support": "Soporte",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "rights": "Todos los derechos reservados."
+  }
+}

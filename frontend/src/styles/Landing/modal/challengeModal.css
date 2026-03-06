@@ -1,0 +1,124 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHALLENGE MODAL — Fullscreen overlay for assessment flow
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.challenge-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+/* Semi-transparent backdrop */
+.challenge-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+/* Close button */
+.challenge-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--rounded-lg);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.challenge-modal__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-main);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Layout: content + agent */
+.challenge-modal__layout {
+  position: relative;
+  z-index: 1005;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Left content area */
+.challenge-modal__content {
+  flex: 1 1 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  padding-left: 80px;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.challenge-modal__stage {
+  width: 100%;
+  max-width: 720px;
+}
+
+/* Right agent model panel */
+.challenge-modal__agent {
+  flex: 0 0 40%;
+  position: relative;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, var(--color-bg-base) 15%, var(--color-bg-base) 100%);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 1400px) {
+  .challenge-modal__content {
+    flex: 1 1 65%;
+    padding-left: 60px;
+  }
+
+  .challenge-modal__agent {
+    flex: 0 0 35%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .challenge-modal__agent {
+    opacity: 0.12;
+    position: absolute;
+    inset: 0;
+    flex: none;
+    width: 100%;
+    z-index: -1;
+    background: var(--color-bg-overlay);
+  }
+
+  .challenge-modal__content {
+    flex: 1;
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 768px) {
+  .challenge-modal__content {
+    padding: var(--space-4);
+    align-items: flex-start;
+    padding-top: 72px;
+  }
+
+  .challenge-modal__close {
+    top: 16px;
+    right: 16px;
+  }
+}

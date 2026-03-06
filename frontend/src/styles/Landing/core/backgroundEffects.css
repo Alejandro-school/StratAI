@@ -28,7 +28,7 @@
 .landing-bg-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(80px);
   opacity: 0;
   animation: glowBreathing 8s ease-in-out infinite;
   will-change: transform, opacity;
@@ -36,46 +36,46 @@
 
 /* Cyan Glow (Primary Brand) */
 .landing-bg-glow--cyan {
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, transparent 70%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
   animation-delay: 0s;
 }
 
 .landing-bg-glow--cyan-dim {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
   animation-delay: 4s;
 }
 
 /* Purple/Violet Glow (Secondary/AI) */
 .landing-bg-glow--purple {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, transparent 70%);
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
   animation-delay: 2s;
 }
 
 /* Orange Glow (Accent/Energy) */
 .landing-bg-glow--orange {
-  width: 550px;
-  height: 550px;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.45) 0%, transparent 70%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, transparent 70%);
   animation-delay: 3s;
 }
 
 /* Center Accent */
 .landing-bg-glow--center {
-  width: 1000px;
-  height: 1000px;
+  width: 800px;
+  height: 800px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   background: radial-gradient(
     circle,
-    rgba(6, 182, 212, 0.15) 0%,
-    rgba(139, 92, 246, 0.1) 50%,
+    rgba(6, 182, 212, 0.1) 0%,
+    rgba(139, 92, 246, 0.08) 50%,
     transparent 70%
   );
   animation: glowBreathingCenter 12s ease-in-out infinite;

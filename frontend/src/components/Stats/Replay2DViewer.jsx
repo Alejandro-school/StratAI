@@ -1389,10 +1389,10 @@ export default function Replay2DViewer({
         }
       });
     }
-    
+
     ctx.restore();
-    
-  }, [canvasSize, dpr, currentRoundData, totalFrames, mapConfig, zoom, pan, currentRound, annotations]);
+
+  }, [canvasSize, dpr, currentRoundData, totalFrames, mapConfig, zoom, pan, annotations]);
 
   // Animation loop
   useEffect(() => {

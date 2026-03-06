@@ -10,11 +10,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MessageSquare, Bot, Sparkles, 
-  ChevronRight, Zap, Target, RotateCcw,
+  Target, RotateCcw,
   AlertTriangle, Eye
 } from 'lucide-react';
 import { useLanding } from '../../LandingContext';
-import { API_URL } from '../../../../utils/api';
+import { useLang } from '../../i18n/useLang';
 import '../../../../styles/Landing/sections/chatDemo.css';
 
 // Imported Data & Components
@@ -32,8 +32,12 @@ import {
 
 import ChatMessage from './ChatMessage';
 
-const ChatDemoSection = () => {
-  const { startChallenges } = useLanding();
+const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
+  // Safe useLanding usage - if we aren't wrapped in Provider, we don't crash
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  try { useLanding(); } catch(e) {}
+
+  useLang(); // Solo invocamos el hook sin asignar si se necesita por contexto, o lo quitamos del todo si no se usa.
   
   // Video state
   const videoRef = useRef(null);
@@ -52,7 +56,7 @@ const ChatDemoSection = () => {
   // Question/answer state
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const addedInsightIds = useRef(new Set());
   const chatContainerRef = useRef(null);
 
   // Scroll chat to bottom helper
@@ -66,6 +70,27 @@ const ChatDemoSection = () => {
   useEffect(() => {
     scrollToBottom();
   }, [displayedInsights, scrollToBottom]);
+
+  // Capture mouse wheel inside chat-messages so it scrolls the chat, not the page
+  useEffect(() => {
+    const el = chatContainerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e) => {
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 0 && e.deltaY < 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
+      // Only allow page scroll when chat is already at the very top/bottom
+      if (!atTop && !atBottom) {
+        e.preventDefault();
+        e.stopPropagation();
+        el.scrollTop += e.deltaY;
+      }
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, []);
 
   // Monitor video time for pause points
   useEffect(() => {
@@ -97,7 +122,7 @@ const ChatDemoSection = () => {
       setHighlightedPlayer(null);
       // Add final summary
       setDisplayedInsights(prev => [...prev, FINAL_SUMMARY]);
-      setHasInteracted(true);
+      
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
@@ -128,17 +153,22 @@ const ChatDemoSection = () => {
     const insight = FIRST_INSIGHTS[currentInsightIndex];
     setHighlightedPlayer(insight.player);
     
-    const insightTimer = setTimeout(() => {
-      setDisplayedInsights(prev => [...prev, insight]);
-      
-      const nextTimer = setTimeout(() => {
-        setCurrentInsightIndex(prev => prev + 1);
-      }, INSIGHT_DELAY_FIRST);
-      
-      return () => clearTimeout(nextTimer);
-    }, currentInsightIndex === 0 ? 500 : 1500);
+    const delay = currentInsightIndex === 0 ? 500 : 1500;
+    const showTimer = setTimeout(() => {
+      if (!addedInsightIds.current.has(insight.id)) {
+        addedInsightIds.current.add(insight.id);
+        setDisplayedInsights(prev => [...prev, insight]);
+      }
+    }, delay);
 
-    return () => clearTimeout(insightTimer);
+    const advanceTimer = setTimeout(() => {
+      setCurrentInsightIndex(prev => prev + 1);
+    }, delay + INSIGHT_DELAY_FIRST);
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(advanceTimer);
+    };
   }, [analysisPhase, currentInsightIndex]);
 
   // Display insights one by one during critical-insights phase
@@ -163,17 +193,22 @@ const ChatDemoSection = () => {
       setHighlightedPlayer(insight.player);
     }
     
-    const insightTimer = setTimeout(() => {
-      setDisplayedInsights(prev => [...prev, insight]);
-      
-      const nextTimer = setTimeout(() => {
-        setCriticalIndex(prev => prev + 1);
-      }, INSIGHT_DELAY_CRITICAL);
-      
-      return () => clearTimeout(nextTimer);
-    }, criticalIndex === 0 ? 500 : 1500);
+    const delay = criticalIndex === 0 ? 500 : 1500;
+    const showTimer = setTimeout(() => {
+      if (!addedInsightIds.current.has(insight.id)) {
+        addedInsightIds.current.add(insight.id);
+        setDisplayedInsights(prev => [...prev, insight]);
+      }
+    }, delay);
 
-    return () => clearTimeout(insightTimer);
+    const advanceTimer = setTimeout(() => {
+      setCriticalIndex(prev => prev + 1);
+    }, delay + INSIGHT_DELAY_CRITICAL);
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(advanceTimer);
+    };
   }, [analysisPhase, criticalIndex]);
 
   // Click to start video
@@ -187,18 +222,49 @@ const ChatDemoSection = () => {
     if (!hasStarted) {
       setHasStarted(true);
       setAnalysisPhase('playing');
-      videoRef.current.play();
+      videoRef.current.play().catch(e => console.error(e));
       setIsPlaying(true);
     } else if (analysisPhase === 'playing' || analysisPhase === 'playing-final') {
       if (isPlaying) {
         videoRef.current.pause();
         setIsPlaying(false);
       } else {
-        videoRef.current.play();
+        videoRef.current.play().catch(e => console.error(e));
         setIsPlaying(true);
       }
     }
   };
+
+  // Add auto-play logic when component becomes visible (only if isScrollPage)
+  useEffect(() => {
+    if (!isScrollPage || hasStarted) return;
+    
+    const currentContainer = chatContainerRef.current;
+    if (!currentContainer) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasStarted && videoRef.current) {
+          setHasStarted(true);
+          setAnalysisPhase('playing');
+          setIsPlaying(true);
+          videoRef.current.play().catch(e => {
+            console.log("Autoplay prevented:", e);
+            setIsPlaying(false);
+            setAnalysisPhase('initial');
+          });
+        }
+      });
+    }, { threshold: 0.5 }); // Trigger when 50% is visible
+    
+    observer.observe(currentContainer);
+    
+    return () => {
+      if (currentContainer) {
+        observer.unobserve(currentContainer);
+      }
+    };
+  }, [hasStarted, isScrollPage]);
 
   // Restart video
   const handleRestart = () => {
@@ -213,7 +279,7 @@ const ChatDemoSection = () => {
       setCriticalIndex(0);
       setDisplayedInsights([]);
       setAnsweredQuestions([]);
-      setHasInteracted(false);
+      addedInsightIds.current.clear();
     }
   };
 
@@ -237,21 +303,12 @@ const ChatDemoSection = () => {
         type: 'solution',
         text: question.response
       }]);
-      setHasInteracted(true);
+      
     }, 1000);
   };
 
   // Get remaining unanswered questions
   const remainingQuestions = USER_QUESTIONS.filter(q => !answeredQuestions.includes(q.id));
-
-  // CTA handlers
-  const handleSteamLogin = () => {
-    window.location.href = `${API_URL}/auth/steam/login`;
-  };
-
-  const handleStartChallenges = () => {
-    startChallenges();
-  };
 
   // Get current phase label
   const getPhaseLabel = () => {
@@ -264,7 +321,7 @@ const ChatDemoSection = () => {
   };
 
   return (
-    <section className="chat-demo-section">
+    <section className={`chat-demo-section ${isScrollPage ? 'chat-demo-section--scroll' : ''}`}>
       <div className="chat-demo-section__container">
         
         {/* Header */}
@@ -500,44 +557,6 @@ const ChatDemoSection = () => {
                 </div>
               </motion.div>
             )}
-          </div>
-        </motion.div>
-
-        {/* Dual CTA Section */}
-        <motion.div 
-          className="chat-demo-section__cta-grid"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: hasInteracted ? 1 : 0.5, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
-          <div className="cta-card cta-card--primary">
-            <div className="cta-card__icon">
-              <Zap size={24} />
-            </div>
-            <h3>¿Ya te convencí?</h3>
-            <p>
-              Conecta tu cuenta de Steam y desbloquea tu máximo nivel. 
-              Analizaré tus partidas reales y te daré feedback personalizado.
-            </p>
-            <button className="cta-btn cta-btn--primary" onClick={handleSteamLogin}>
-              <span>CONECTAR STEAM</span>
-              <ChevronRight size={18} />
-            </button>
-          </div>
-
-          <div className="cta-card cta-card--secondary">
-            <div className="cta-card__icon">
-              <Target size={24} />
-            </div>
-            <h3>¿Quieres ver más?</h3>
-            <p>
-              Realiza 3 pruebas tácticas rápidas para recibir un diagnóstico 
-              de tu perfil y entender exactamente cómo puedo ayudarte.
-            </p>
-            <button className="cta-btn cta-btn--secondary" onClick={handleStartChallenges}>
-              <span>HACER PRUEBAS</span>
-              <ChevronRight size={18} />
-            </button>
           </div>
         </motion.div>
 

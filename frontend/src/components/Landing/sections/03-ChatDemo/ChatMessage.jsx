@@ -23,16 +23,18 @@ const ChatMessage = ({ message, isUser, isTyping, messageType, onProgress }) => 
     setIsTypingAnimation(true);
 
     const typingInterval = setInterval(() => {
+      // Chunking text adds smoothness and reduces re-renders
       if (currentIndex < message.length) {
-        setDisplayedText(message.substring(0, currentIndex + 1));
-        currentIndex++;
-        onProgress?.();
+        currentIndex += 2;
+        setDisplayedText(message.substring(0, Math.min(currentIndex, message.length)));
+        // only call onProgress occasionally to avoid massive react re-renders
+        if (currentIndex % 10 === 0) onProgress?.();
       } else {
         setIsTypingAnimation(false);
         onProgress?.();
         clearInterval(typingInterval);
       }
-    }, 15); // 15ms per character for smooth typing
+    }, 25); // 25ms per 2 characters (approx 80 chars per second)
 
     return () => clearInterval(typingInterval);
   }, [message, isUser, isTyping, onProgress]);

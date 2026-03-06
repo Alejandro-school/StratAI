@@ -14,6 +14,12 @@
   overflow-y: auto;
 }
 
+.chat-demo-section--scroll {
+  min-height: auto;
+  overflow-y: visible;
+  padding: 0 1rem;
+}
+
 .chat-demo-section__container {
   width: 100%;
   max-width: 1300px;
@@ -61,10 +67,9 @@
    ───────────────────────────────────────────────────────────────────────────── */
 .replay-chat-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
-  min-height: 520px;
-  max-width: 1400px;
+  max-width: 1540px;
   margin: 0 auto;
 }
 
@@ -85,7 +90,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 600px;
 }
 
 .replay-header {
@@ -134,9 +138,12 @@
 .replay-video-container {
   position: relative;
   background: #0a0e17;
-  flex: 1;
-  min-height: 380px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   cursor: default;
+  display: flex;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .replay-video-container--clickable {
@@ -150,7 +157,7 @@
 .replay-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -552,6 +559,7 @@
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
