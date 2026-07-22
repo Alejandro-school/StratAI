@@ -38,14 +38,14 @@
 .landing-bg-glow--cyan {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
   animation-delay: 0s;
 }
 
 .landing-bg-glow--cyan-dim {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%);
   animation-delay: 4s;
 }
 
@@ -53,7 +53,7 @@
 .landing-bg-glow--purple {
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
   animation-delay: 2s;
 }
 
@@ -74,8 +74,8 @@
   transform: translate(-50%, -50%);
   background: radial-gradient(
     circle,
-    rgba(6, 182, 212, 0.1) 0%,
-    rgba(139, 92, 246, 0.08) 50%,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(99, 102, 241, 0.08) 50%,
     transparent 70%
   );
   animation: glowBreathingCenter 12s ease-in-out infinite;

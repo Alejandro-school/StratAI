@@ -109,14 +109,14 @@ const AdaptiveHotspot = ({
       <div className="hotspot-tooltip">
         <div className="tooltip-header">
           <span className="tooltip-name">{name}</span>
-          {isBest && <span className="tooltip-badge best">★ BEST</span>}
-          {isWorst && <span className="tooltip-badge worst">⚠ WEAK</span>}
+          {isBest && <span className="tooltip-badge best">★ MEJOR</span>}
+          {isWorst && <span className="tooltip-badge worst">DÉBIL</span>}
         </div>
         
         <div className="tooltip-stats">
           <div className="stat-item">
             <span className={`stat-value ${ratingClass}`}>{win_rate}%</span>
-            <span className="stat-label">WIN RATE</span>
+            <span className="stat-label">% VICTORIAS</span>
           </div>
           <div className="stat-item">
             <span className="stat-value">{kd}</span>
@@ -124,7 +124,7 @@ const AdaptiveHotspot = ({
           </div>
           <div className="stat-item">
             <span className="stat-value">{kills}/{deaths}</span>
-            <span className="stat-label">K/D SPLIT</span>
+            <span className="stat-label">BAJAS/MUERTES</span>
           </div>
         </div>
         
@@ -132,8 +132,8 @@ const AdaptiveHotspot = ({
         {(isBest || isWorst) && (
           <div className={`tooltip-insight ${isBest ? 'positive' : 'negative'}`}>
             {isBest 
-              ? '🎯 Your strongest position on this map'
-              : '⚠️ Consider practicing this area'
+              ? 'Tu posición más fuerte en este mapa'
+              : 'Conviene practicar esta zona'
             }
           </div>
         )}
@@ -149,7 +149,7 @@ const AdaptiveHotspot = ({
 /**
  * AdaptiveHotspotLayer - Renders all hotspots with collision detection
  */
-export const AdaptiveHotspotLayer = ({ 
+export const AdaptiveHotspotLayer = React.memo(({ 
   callouts, 
   mapName,
   selectedCallout,
@@ -189,6 +189,6 @@ export const AdaptiveHotspotLayer = ({
       ))}
     </div>
   );
-};
+});
 
 export default AdaptiveHotspot;

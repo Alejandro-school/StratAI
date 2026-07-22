@@ -1,77 +1,76 @@
 /**
- * ChatDemoSection - Interactive Replay + AI Chat Demo
- * 
- * Shows a real 2D replay with LIVE analysis:
- * - Pause at 1.3s: AI insights about Corta peek and B player positioning
- * - Pause at 6s: Critical errors analysis with player highlights  
- * - Video continues to end, then shows summary and questions
+ * ChatDemoSection - Interactive replay + AI chat demo.
  */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  MessageSquare, Bot, Sparkles, 
-  Target, RotateCcw,
-  AlertTriangle, Eye
+import {
+  MessageSquare,
+  Bot,
+  Sparkles,
+  Target,
+  RotateCcw,
+  AlertTriangle,
+  Eye
 } from 'lucide-react';
-import { useLanding } from '../../LandingContext';
 import { useLang } from '../../i18n/useLang';
 import '../../../../styles/Landing/sections/chatDemo.css';
 
-// Imported Data & Components
 import {
   FIRST_INSIGHT_MOMENT,
   CRITICAL_MOMENT,
   INSIGHT_DELAY_FIRST,
   INSIGHT_DELAY_CRITICAL,
   RESUME_DELAY,
-  FIRST_INSIGHTS,
-  CRITICAL_INSIGHTS,
-  FINAL_SUMMARY,
-  USER_QUESTIONS
+  CHAT_DEMO_SCRIPT
 } from './chatDemoData';
 
 import ChatMessage from './ChatMessage';
 
-const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
-  // Safe useLanding usage - if we aren't wrapped in Provider, we don't crash
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  try { useLanding(); } catch(e) {}
+const ChatDemoSection = ({ isScrollPage = false }) => {
+  const { lang, t } = useLang();
+  const script = useMemo(() => CHAT_DEMO_SCRIPT[lang] || CHAT_DEMO_SCRIPT.es, [lang]);
+  const labels = script.phaseLabels;
 
-  useLang(); // Solo invocamos el hook sin asignar si se necesita por contexto, o lo quitamos del todo si no se usa.
-  
-  // Video state
   const videoRef = useRef(null);
+  const chatContainerRef = useRef(null);
+  const addedInsightIds = useRef(new Set());
+
   const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [highlightedPlayer, setHighlightedPlayer] = useState(null);
-  
-  // Analysis phases
-  const [analysisPhase, setAnalysisPhase] = useState('initial'); 
-  // 'initial' | 'first-insights' | 'playing' | 'critical-insights' | 'playing-final' | 'video-ended'
-  
+  const [analysisPhase, setAnalysisPhase] = useState('initial');
   const [currentInsightIndex, setCurrentInsightIndex] = useState(0);
   const [displayedInsights, setDisplayedInsights] = useState([]);
   const [criticalIndex, setCriticalIndex] = useState(0);
-  
-  // Question/answer state
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
-  
-  const addedInsightIds = useRef(new Set());
-  const chatContainerRef = useRef(null);
 
-  // Scroll chat to bottom helper
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+
+    setHasStarted(false);
+    setIsPlaying(false);
+    setHighlightedPlayer(null);
+    setAnalysisPhase('initial');
+    setCurrentInsightIndex(0);
+    setDisplayedInsights([]);
+    setCriticalIndex(0);
+    setAnsweredQuestions([]);
+    addedInsightIds.current.clear();
+  }, [lang]);
+
   const scrollToBottom = React.useCallback(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, []);
 
-  // Scroll chat to bottom when new messages (initial render of message)
   useEffect(() => {
     scrollToBottom();
   }, [displayedInsights, scrollToBottom]);
 
-  // Capture mouse wheel inside chat-messages so it scrolls the chat, not the page
   useEffect(() => {
     const el = chatContainerRef.current;
     if (!el) return;
@@ -80,7 +79,7 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
       const { scrollTop, scrollHeight, clientHeight } = el;
       const atTop = scrollTop <= 0 && e.deltaY < 0;
       const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
-      // Only allow page scroll when chat is already at the very top/bottom
+
       if (!atTop && !atBottom) {
         e.preventDefault();
         e.stopPropagation();
@@ -92,21 +91,18 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
     return () => el.removeEventListener('wheel', handleWheel);
   }, []);
 
-  // Monitor video time for pause points
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handleTimeUpdate = () => {
-      // First pause at 1.3s
       if (video.currentTime >= FIRST_INSIGHT_MOMENT && analysisPhase === 'playing' && currentInsightIndex === 0) {
         video.pause();
         setIsPlaying(false);
         setAnalysisPhase('first-insights');
         setHighlightedPlayer('corta');
       }
-      
-      // Critical pause at 6s
+
       if (video.currentTime >= CRITICAL_MOMENT && analysisPhase === 'playing') {
         video.pause();
         setIsPlaying(false);
@@ -120,25 +116,22 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
       setIsPlaying(false);
       setAnalysisPhase('video-ended');
       setHighlightedPlayer(null);
-      // Add final summary
-      setDisplayedInsights(prev => [...prev, FINAL_SUMMARY]);
-      
+      setDisplayedInsights((prev) => [...prev, script.finalSummary]);
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('ended', handleVideoEnded);
+
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('ended', handleVideoEnded);
     };
-  }, [analysisPhase, currentInsightIndex]);
+  }, [analysisPhase, currentInsightIndex, script.finalSummary]);
 
-  // Display insights one by one during first-insights phase
   useEffect(() => {
     if (analysisPhase !== 'first-insights') return;
-    
-    if (currentInsightIndex >= FIRST_INSIGHTS.length) {
-      // All insights shown, wait and resume video
+
+    if (currentInsightIndex >= script.firstInsights.length) {
       const resumeTimer = setTimeout(() => {
         setAnalysisPhase('playing');
         setHighlightedPlayer(null);
@@ -150,33 +143,31 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
       return () => clearTimeout(resumeTimer);
     }
 
-    const insight = FIRST_INSIGHTS[currentInsightIndex];
+    const insight = script.firstInsights[currentInsightIndex];
     setHighlightedPlayer(insight.player);
-    
+
     const delay = currentInsightIndex === 0 ? 500 : 1500;
     const showTimer = setTimeout(() => {
       if (!addedInsightIds.current.has(insight.id)) {
         addedInsightIds.current.add(insight.id);
-        setDisplayedInsights(prev => [...prev, insight]);
+        setDisplayedInsights((prev) => [...prev, insight]);
       }
     }, delay);
 
     const advanceTimer = setTimeout(() => {
-      setCurrentInsightIndex(prev => prev + 1);
+      setCurrentInsightIndex((prev) => prev + 1);
     }, delay + INSIGHT_DELAY_FIRST);
 
     return () => {
       clearTimeout(showTimer);
       clearTimeout(advanceTimer);
     };
-  }, [analysisPhase, currentInsightIndex]);
+  }, [analysisPhase, currentInsightIndex, script.firstInsights]);
 
-  // Display insights one by one during critical-insights phase
   useEffect(() => {
     if (analysisPhase !== 'critical-insights') return;
-    
-    if (criticalIndex >= CRITICAL_INSIGHTS.length) {
-      // All critical insights shown, resume video to end
+
+    if (criticalIndex >= script.criticalInsights.length) {
       const resumeTimer = setTimeout(() => {
         setAnalysisPhase('playing-final');
         setHighlightedPlayer(null);
@@ -188,144 +179,147 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
       return () => clearTimeout(resumeTimer);
     }
 
-    const insight = CRITICAL_INSIGHTS[criticalIndex];
+    const insight = script.criticalInsights[criticalIndex];
     if (insight.player) {
       setHighlightedPlayer(insight.player);
     }
-    
+
     const delay = criticalIndex === 0 ? 500 : 1500;
     const showTimer = setTimeout(() => {
       if (!addedInsightIds.current.has(insight.id)) {
         addedInsightIds.current.add(insight.id);
-        setDisplayedInsights(prev => [...prev, insight]);
+        setDisplayedInsights((prev) => [...prev, insight]);
       }
     }, delay);
 
     const advanceTimer = setTimeout(() => {
-      setCriticalIndex(prev => prev + 1);
+      setCriticalIndex((prev) => prev + 1);
     }, delay + INSIGHT_DELAY_CRITICAL);
 
     return () => {
       clearTimeout(showTimer);
       clearTimeout(advanceTimer);
     };
-  }, [analysisPhase, criticalIndex]);
+  }, [analysisPhase, criticalIndex, script.criticalInsights]);
 
-  // Click to start video
   const handleVideoClick = () => {
     if (!videoRef.current) return;
-    
-    if (analysisPhase === 'first-insights' || analysisPhase === 'critical-insights') {
-      return;
-    }
-    
+    if (analysisPhase === 'first-insights' || analysisPhase === 'critical-insights') return;
+
     if (!hasStarted) {
       setHasStarted(true);
       setAnalysisPhase('playing');
-      videoRef.current.play().catch(e => console.error(e));
+      videoRef.current.play().catch((e) => console.error(e));
       setIsPlaying(true);
-    } else if (analysisPhase === 'playing' || analysisPhase === 'playing-final') {
+      return;
+    }
+
+    if (analysisPhase === 'playing' || analysisPhase === 'playing-final') {
       if (isPlaying) {
         videoRef.current.pause();
         setIsPlaying(false);
       } else {
-        videoRef.current.play().catch(e => console.error(e));
+        videoRef.current.play().catch((e) => console.error(e));
         setIsPlaying(true);
       }
     }
   };
 
-  // Add auto-play logic when component becomes visible (only if isScrollPage)
   useEffect(() => {
     if (!isScrollPage || hasStarted) return;
-    
+
     const currentContainer = chatContainerRef.current;
     if (!currentContainer) return;
-    
+
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting && !hasStarted && videoRef.current) {
           setHasStarted(true);
           setAnalysisPhase('playing');
           setIsPlaying(true);
-          videoRef.current.play().catch(e => {
-            console.log("Autoplay prevented:", e);
+          videoRef.current.play().catch((e) => {
+            console.log('Autoplay prevented:', e);
             setIsPlaying(false);
             setAnalysisPhase('initial');
           });
         }
       });
-    }, { threshold: 0.5 }); // Trigger when 50% is visible
-    
+    }, { threshold: 0.5 });
+
     observer.observe(currentContainer);
-    
+
     return () => {
-      if (currentContainer) {
-        observer.unobserve(currentContainer);
-      }
+      observer.unobserve(currentContainer);
     };
   }, [hasStarted, isScrollPage]);
 
-  // Restart video
   const handleRestart = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-      setHasStarted(true);
-      setIsPlaying(true);
-      setAnalysisPhase('playing');
-      setHighlightedPlayer(null);
-      setCurrentInsightIndex(0);
-      setCriticalIndex(0);
-      setDisplayedInsights([]);
-      setAnsweredQuestions([]);
-      addedInsightIds.current.clear();
-    }
+    if (!videoRef.current) return;
+
+    videoRef.current.currentTime = 0;
+    videoRef.current.play();
+    setHasStarted(true);
+    setIsPlaying(true);
+    setAnalysisPhase('playing');
+    setHighlightedPlayer(null);
+    setCurrentInsightIndex(0);
+    setCriticalIndex(0);
+    setDisplayedInsights([]);
+    setAnsweredQuestions([]);
+    addedInsightIds.current.clear();
   };
 
-  // Handle question click
   const handleQuestionClick = (question) => {
-    // Mark this question as answered
-    setAnsweredQuestions(prev => [...prev, question.id]);
-    
-    // Add user question to chat
-    setDisplayedInsights(prev => [...prev, { 
-      id: `user-${question.id}-${Date.now()}`, 
-      type: 'user-question',
-      text: question.question,
-      isUser: true
-    }]);
-    
-    // Show answer after delay
+    setAnsweredQuestions((prev) => [...prev, question.id]);
+    setDisplayedInsights((prev) => [
+      ...prev,
+      {
+        id: `user-${question.id}-${Date.now()}`,
+        type: 'user-question',
+        text: question.question,
+        isUser: true
+      }
+    ]);
+
     setTimeout(() => {
-      setDisplayedInsights(prev => [...prev, { 
-        id: `answer-${question.id}-${Date.now()}`, 
-        type: 'solution',
-        text: question.response
-      }]);
-      
+      setDisplayedInsights((prev) => [
+        ...prev,
+        {
+          id: `answer-${question.id}-${Date.now()}`,
+          type: 'solution',
+          text: question.response
+        }
+      ]);
     }, 1000);
   };
 
-  // Get remaining unanswered questions
-  const remainingQuestions = USER_QUESTIONS.filter(q => !answeredQuestions.includes(q.id));
+  const remainingQuestions = script.userQuestions.filter((q) => !answeredQuestions.includes(q.id));
 
-  // Get current phase label
   const getPhaseLabel = () => {
     switch (analysisPhase) {
-      case 'first-insights': return 'Análisis inicial...';
-      case 'critical-insights': return 'Error detectado';
-      case 'video-ended': return 'Ronda perdida';
-      default: return null;
+      case 'first-insights':
+        return labels.firstInsights;
+      case 'critical-insights':
+        return labels.criticalInsights;
+      case 'video-ended':
+        return labels.videoEnded;
+      default:
+        return null;
     }
   };
+
+  const renderMultiline = (text) =>
+    text.split('\n').map((line, index, lines) => (
+      <React.Fragment key={`${line}-${index}`}>
+        {line}
+        {index < lines.length - 1 && <br />}
+      </React.Fragment>
+    ));
 
   return (
     <section className={`chat-demo-section ${isScrollPage ? 'chat-demo-section--scroll' : ''}`}>
       <div className="chat-demo-section__container">
-        
-        {/* Header */}
-        <motion.div 
+        <motion.div
           className="chat-demo-section__header"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -333,46 +327,42 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
         >
           <div className="header-badge">
             <Sparkles size={14} />
-            <span>ANÁLISIS EN VIVO</span>
+            <span>{t('aiDemo.badge')}</span>
           </div>
-          <h2>Mira cómo analiza la IA</h2>
-          <p>Observa esta jugada real mientras la IA detecta errores tácticos</p>
+          <h2>{t('aiDemo.title')}</h2>
+          <p>{t('aiDemo.subtitle')}</p>
         </motion.div>
 
-        {/* Main Content: Replay + Chat Grid */}
-        <motion.div 
+        <motion.div
           className="replay-chat-grid"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          {/* Left: Video Replay */}
           <div className="replay-panel">
             <div className="replay-header">
               <div className="replay-badge">
                 <Target size={14} />
-                <span>REPLAY TÁCTICO</span>
+                <span>{t('aiDemo.replayLabel')}</span>
               </div>
               <div className="replay-context">
-                <span className="context-map">MIRAGE</span>
-                <span className="context-situation">4v4 • Ronda 12 • CT Side</span>
-                <span className="context-player">Tú eres el jugador de Corta</span>
+                <span className="context-map">{t('aiDemo.map')}</span>
+                <span className="context-situation">{t('aiDemo.situation')}</span>
+                <span className="context-player">{t('aiDemo.playerContext')}</span>
               </div>
             </div>
 
-            <div 
+            <div
               className={`replay-video-container ${!hasStarted ? 'replay-video-container--clickable' : ''} ${isPlaying ? '' : 'replay-video-container--paused'}`}
               onClick={handleVideoClick}
             >
-              {/* Click to play prompt */}
               {!hasStarted && (
                 <div className="replay-click-prompt">
-                  <span>Haz clic para reproducir</span>
+                  <span>{t('aiDemo.clickToPlay')}</span>
                 </div>
               )}
 
-              {/* Video element */}
-              <video 
+              <video
                 ref={videoRef}
                 className="replay-video"
                 src="/videos/ChatIA.mp4"
@@ -380,55 +370,53 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
                 playsInline
               />
 
-              {/* Player highlight overlays */}
               <AnimatePresence>
                 {highlightedPlayer === 'corta' && (
-                  <motion.div 
+                  <motion.div
                     className="player-highlight player-highlight--corta"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="highlight-ring"></div>
+                    <div className="highlight-ring" />
                     <div className="highlight-label">
                       <Eye size={12} />
-                      <span>TÚ</span>
+                      <span>{labels.you}</span>
                     </div>
                   </motion.div>
                 )}
                 {highlightedPlayer === 'b' && (
-                  <motion.div 
+                  <motion.div
                     className="player-highlight player-highlight--b"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="highlight-ring"></div>
+                    <div className="highlight-ring" />
                     <div className="highlight-label">
                       <Eye size={12} />
-                      <span>COMPAÑERO</span>
+                      <span>{labels.teammate}</span>
                     </div>
                   </motion.div>
                 )}
                 {highlightedPlayer === 'b-critical' && (
-                  <motion.div 
+                  <motion.div
                     className="player-highlight player-highlight--b-critical"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <div className="highlight-ring"></div>
+                    <div className="highlight-ring" />
                     <div className="highlight-label">
                       <Eye size={12} />
-                      <span>COMPAÑERO</span>
+                      <span>{labels.teammate}</span>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Analysis overlay */}
               {(analysisPhase === 'first-insights' || analysisPhase === 'critical-insights') && (
-                <motion.div 
+                <motion.div
                   className={`replay-analysis-overlay ${analysisPhase === 'critical-insights' ? 'replay-analysis-overlay--critical' : ''}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -440,88 +428,76 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
                 </motion.div>
               )}
 
-              {/* Video ended overlay */}
               {analysisPhase === 'video-ended' && (
-                <motion.div 
+                <motion.div
                   className="replay-analysis-overlay replay-analysis-overlay--ended"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   <div className="analysis-badge analysis-badge--ended">
                     <AlertTriangle size={16} />
-                    <span>RONDA PERDIDA</span>
+                    <span>{labels.roundLost}</span>
                   </div>
                 </motion.div>
               )}
 
-              {/* Pause indicator */}
               {hasStarted && !isPlaying && (analysisPhase === 'playing' || analysisPhase === 'playing-final') && (
                 <div className="replay-pause-indicator">
-                  <span>Pausado — clic para continuar</span>
+                  <span>{labels.paused}</span>
                 </div>
               )}
             </div>
 
-            {/* Video controls */}
             <div className="replay-controls">
-              <button 
-                className="control-btn"
-                onClick={handleRestart}
-                disabled={!hasStarted}
-              >
+              <button className="control-btn" onClick={handleRestart} disabled={!hasStarted}>
                 <RotateCcw size={16} />
-                <span>Reiniciar</span>
+                <span>{t('aiDemo.restart')}</span>
               </button>
               {(analysisPhase === 'first-insights' || analysisPhase === 'critical-insights') && (
-                <span className="control-hint analyzing">Analizando...</span>
+                <span className="control-hint analyzing">{labels.analyzing}</span>
               )}
               {(analysisPhase === 'playing' || analysisPhase === 'playing-final') && isPlaying && (
-                <span className="control-hint">Reproduciendo...</span>
+                <span className="control-hint">{labels.playing}</span>
               )}
               {analysisPhase === 'video-ended' && (
-                <span className="control-hint error">Ronda finalizada</span>
+                <span className="control-hint error">{labels.roundFinished}</span>
               )}
             </div>
           </div>
 
-          {/* Right: Chat Interface */}
           <div className="chat-panel">
             <div className="chat-header">
               <Bot size={18} />
-              <span>Coach IA</span>
+              <span>{labels.coach}</span>
               {analysisPhase === 'first-insights' && (
-                <span className="chat-status chat-status--analyzing">Analizando</span>
+                <span className="chat-status chat-status--analyzing">{labels.statusAnalyzing}</span>
               )}
               {analysisPhase === 'critical-insights' && (
-                <span className="chat-status chat-status--error">Error detectado</span>
+                <span className="chat-status chat-status--error">{labels.statusError}</span>
               )}
               {analysisPhase === 'video-ended' && (
-                <span className="chat-status chat-status--success">Análisis listo</span>
+                <span className="chat-status chat-status--success">{labels.statusSuccess}</span>
               )}
             </div>
 
-            {/* Chat messages with scroll */}
             <div className="chat-messages" ref={chatContainerRef}>
-              {/* Initial empty state */}
               {!hasStarted && (
                 <div className="chat-empty-state">
                   <Target size={28} />
-                  <p>Reproduce el video para ver<br/>el análisis en vivo</p>
+                  <p>{renderMultiline(labels.emptyStart)}</p>
                 </div>
               )}
 
-              {/* Playing state before first insights */}
               {hasStarted && (analysisPhase === 'playing' || analysisPhase === 'playing-final') && displayedInsights.length === 0 && (
                 <div className="chat-empty-state">
                   <Eye size={28} />
-                  <p>Analizando situación táctica...</p>
+                  <p>{labels.emptyAnalyzing}</p>
                 </div>
               )}
 
-              {/* Display all insights */}
               <AnimatePresence>
                 {displayedInsights.map((insight) => (
-                  <ChatMessage 
+                  <ChatMessage
                     key={insight.id}
                     message={insight.text}
                     isUser={insight.isUser || false}
@@ -530,17 +506,15 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
                   />
                 ))}
               </AnimatePresence>
-              
             </div>
 
-            {/* Questions section - show after video ends */}
             {analysisPhase === 'video-ended' && remainingQuestions.length > 0 && (
-              <motion.div 
+              <motion.div
                 className="chat-questions-section"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <p className="questions-prompt">Hazme una pregunta:</p>
+                <p className="questions-prompt">{labels.questionsPrompt}</p>
                 <div className="questions-list">
                   {remainingQuestions.map((q) => (
                     <motion.button
@@ -559,7 +533,6 @@ const ChatDemoSection = ({ onOpenChallenge, isScrollPage = false }) => {
             )}
           </div>
         </motion.div>
-
       </div>
     </section>
   );

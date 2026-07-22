@@ -34,7 +34,7 @@ const HistoryCodeForm = () => {
       window.location.href = '/dashboard';
     } catch (err) {
       console.error(err);
-      setError('❌ Error al obtener o guardar los share codes');
+      setError('Error al obtener o guardar los códigos compartidos');
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,7 @@ const HistoryCodeForm = () => {
 
           <div className="input-group">
             <label htmlFor="authCode">
-              <span className="label-text">Auth Code</span>
+              <span className="label-text">Código de autenticación</span>
               <span className="label-hint">Tu código de autenticación de Steam</span>
             </label>
             <input
@@ -67,7 +67,7 @@ const HistoryCodeForm = () => {
 
           <div className="input-group">
             <label htmlFor="knownCode">
-              <span className="label-text">Último Share Code</span>
+              <span className="label-text">Último código compartido</span>
               <span className="label-hint">Código de tu partida más reciente</span>
             </label>
             <input
@@ -94,7 +94,7 @@ const HistoryCodeForm = () => {
         {/* Columna Derecha - Video Tutorial */}
         <div className="video-container">
           <div className="video-header">
-            <h3>📹 Tutorial</h3>
+            <h3>Tutorial</h3>
             <p>Aprende cómo obtener tus códigos</p>
           </div>
           <video 

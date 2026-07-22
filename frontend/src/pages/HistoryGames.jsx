@@ -1,11 +1,12 @@
 // frontend/src/pages/HistoryGames.jsx
 // Redesigned Match History with Timeline View and Quick Stats Panel
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavigationFrame from '../components/Layout/NavigationFrame';
 import { useUser } from '../context/UserContext';
 import { API_URL } from '../utils/api';
+import useMatchProgress from '../hooks/useMatchProgress';
 
 // New components
 import QuickStatsPanel from '../components/Stats/QuickStatsPanel';
@@ -30,6 +31,69 @@ const HistoryGames = () => {
   
   const { user } = useUser();
   const navigate = useNavigate();
+  const hasFetchedRef = useRef(false);
+  const [refreshCooldown, setRefreshCooldown] = useState(0);
+  const { isProcessing, latestEvent, completedCount, resetCompleted } = useMatchProgress(user?.steam_id);
+
+  // Auto-fetch new matches on mount (with 5-min staleness check)
+  useEffect(() => {
+    if (!user?.steam_id || hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
+
+    const lastFetch = localStorage.getItem(`lastMatchFetch:${user.steam_id}`);
+    const staleMs = 5 * 60 * 1000;
+    if (lastFetch && Date.now() - parseInt(lastFetch, 10) < staleMs) return;
+
+    localStorage.setItem(`lastMatchFetch:${user.steam_id}`, Date.now().toString());
+    fetch(`${API_URL}/steam/fetch-new-matches`, {
+      method: 'POST',
+      credentials: 'include',
+    }).catch(() => {});
+  }, [user?.steam_id]);
+
+  // Refresh match list when SSE reports a completed match
+  useEffect(() => {
+    if (completedCount === 0) return;
+    const timer = setTimeout(async () => {
+      try {
+        const response = await axios.get(`${API_URL}/steam/get-processed-demos`, {
+          withCredentials: true,
+        });
+        setGames(response.data.matches || []);
+      } catch {}
+      resetCompleted();
+    }, 1500); // small delay to let Redis propagate
+    return () => clearTimeout(timer);
+  }, [completedCount, resetCompleted]);
+
+  // Manual refresh handler
+  const handleRefreshMatches = useCallback(async () => {
+    if (refreshCooldown > 0) return;
+    try {
+      const res = await fetch(`${API_URL}/steam/fetch-new-matches`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (data.retry_after) {
+        setRefreshCooldown(data.retry_after);
+      } else {
+        setRefreshCooldown(60);
+        localStorage.setItem(`lastMatchFetch:${user?.steam_id}`, Date.now().toString());
+      }
+    } catch {
+      setRefreshCooldown(10);
+    }
+  }, [refreshCooldown, user?.steam_id]);
+
+  // Cooldown timer
+  useEffect(() => {
+    if (refreshCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setRefreshCooldown(c => (c <= 1 ? 0 : c - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [refreshCooldown]);
 
   // Fetch ALL matches from the dedicated endpoint
   useEffect(() => {
@@ -190,10 +254,33 @@ const HistoryGames = () => {
           <div className="matches-main-content">
             {/* Header */}
             <div className="matches-header">
-              <h1>Historial de Partidas</h1>
-              <p className="subtitle">
-                {games.length} partidas analizadas
-              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <h1>Historial de Partidas</h1>
+                  <p className="subtitle">
+                    {games.length} partidas analizadas
+                  </p>
+                </div>
+                <button
+                  onClick={handleRefreshMatches}
+                  disabled={refreshCooldown > 0}
+                  className="refresh-matches-btn"
+                  title={refreshCooldown > 0 ? `Disponible en ${refreshCooldown}s` : 'Buscar nuevas partidas'}
+                >
+                  {isProcessing ? '⏳ Procesando...' : refreshCooldown > 0 ? `${refreshCooldown}s` : '🔄 Buscar partidas'}
+                </button>
+              </div>
+              {isProcessing && latestEvent && (
+                <div className="match-progress-bar">
+                  <span className="progress-stage">
+                    {latestEvent.stage === 'gc_resolving' && '🔍 Resolviendo partida...'}
+                    {latestEvent.stage === 'downloading' && '📥 Descargando demo...'}
+                    {latestEvent.stage === 'processing' && '🔧 Analizando demo...'}
+                    {latestEvent.stage === 'completed' && '✅ Completado'}
+                    {latestEvent.stage === 'error' && `❌ Error: ${latestEvent.error || 'desconocido'}`}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Filters */}

@@ -10,15 +10,15 @@ import '../../styles/TacticalMap/levelSelector.css';
 const LEVEL_CONFIG = {
   de_nuke: {
     upper: {
-      label: 'Upper',
-      sublabel: 'Roof / Outside',
+      label: 'Superior',
+      sublabel: 'Techo / Exterior',
       icon: ChevronUp,
-      color: '#22d3ee',
+      color: '#60a5fa',
       zones: ['Lobby', 'Roof', 'Outside', 'Silo', 'Mini', 'Secret', 'Garage']
     },
     lower: {
-      label: 'Lower',
-      sublabel: 'Tunnels / Ramp',
+      label: 'Inferior',
+      sublabel: 'Túneles / Rampa',
       icon: ChevronDown,
       color: '#f59e0b',
       zones: ['Ramp', 'Tunnels', 'B Site', 'Decon', 'Vent']
@@ -26,15 +26,15 @@ const LEVEL_CONFIG = {
   },
   de_vertigo: {
     upper: {
-      label: 'Upper',
-      sublabel: 'A Site / CT',
+      label: 'Superior',
+      sublabel: 'Site A / CT',
       icon: ChevronUp,
-      color: '#22d3ee',
+      color: '#60a5fa',
       zones: ['A Site', 'CT Spawn', 'Ramp', 'Elevator']
     },
     lower: {
-      label: 'Lower',
-      sublabel: 'B Site / T Spawn',
+      label: 'Inferior',
+      sublabel: 'Site B / Spawn T',
       icon: ChevronDown,
       color: '#f59e0b',
       zones: ['B Site', 'T Spawn', 'Bottom Mid', 'Tunnels']
@@ -42,15 +42,15 @@ const LEVEL_CONFIG = {
   },
   de_train: {
     upper: {
-      label: 'Upper',
-      sublabel: 'Main Level',
+      label: 'Superior',
+      sublabel: 'Nivel principal',
       icon: ChevronUp,
-      color: '#22d3ee',
+      color: '#60a5fa',
       zones: ['A Site', 'B Site', 'Ivy', 'Connector']
     },
     lower: {
-      label: 'Lower',
-      sublabel: 'Pop Dog / Under',
+      label: 'Inferior',
+      sublabel: 'Pop Dog / Debajo',
       icon: ChevronDown,
       color: '#f59e0b',
       zones: ['Pop Dog', 'Under Trains', 'Z Connector']

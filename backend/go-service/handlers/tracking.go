@@ -134,6 +134,27 @@ func getActiveWeapon(player *common.Player) string {
 	return "Knife"
 }
 
+func getPlayerWeapons(player *common.Player) []string {
+	weapons := []string{}
+	seen := make(map[string]bool)
+
+	for _, weapon := range player.Weapons() {
+		if weapon == nil {
+			continue
+		}
+
+		name := weapon.String()
+		if name == "" || seen[name] {
+			continue
+		}
+
+		seen[name] = true
+		weapons = append(weapons, name)
+	}
+
+	return weapons
+}
+
 func getTeamString(team common.Team) string {
 	if team == common.TeamCounterTerrorists {
 		return "CT"

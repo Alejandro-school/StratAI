@@ -2,8 +2,14 @@
 node_modules/
 build/
 dist/
+# Environment files (NEVER commit secrets)
 .env
 .env.local
+.env.production
+.env.staging
+**/.env
+**/.env.*
+!**/.env.example
 
 # Python (FastAPI)
 __pycache__/
@@ -34,6 +40,7 @@ Thumbs.db
 *.key
 *.crt
 steam_api_key.txt
+cookies.txt
 
 # Redis o bases de datos locales
 *.rdb
@@ -88,3 +95,6 @@ backend/go-service/IA.zip
 
 # Otros
 cookies.txt
+.browser-profile/
+.codebase-memory/
+.tmp-*.png

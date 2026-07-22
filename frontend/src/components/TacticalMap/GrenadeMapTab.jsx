@@ -38,28 +38,28 @@ const GrenadeImage = ({ type, size = 24, className = '' }) => (
 // Grenade type configuration
 const GRENADE_TYPES = {
   smoke: { 
-    label: 'Smoke', 
+    label: 'Humo', 
     labelEs: 'Humos',
     type: 'smoke',
-    color: '#22d3ee',
-    glowColor: 'rgba(34, 211, 238, 0.5)',
-    bgColor: 'rgba(34, 211, 238, 0.15)',
+    color: '#60a5fa',
+    glowColor: 'rgba(96, 165, 250, 0.5)',
+    bgColor: 'rgba(96, 165, 250, 0.15)',
     gradientStart: '#67e8f9',
     gradientEnd: '#0891b2',
     effectLabel: 'Efectividad',
     effectUnit: '%',
-    explosionColor: 'rgba(34, 211, 238, 0.82)'
+    explosionColor: 'rgba(96, 165, 250, 0.82)'
   },
   flash: { 
-    label: 'Flash', 
-    labelEs: 'Flashes',
+    label: 'Cegadora', 
+    labelEs: 'Cegadoras',
     type: 'flash',
     color: '#f59e0b',
     glowColor: 'rgba(245, 158, 11, 0.5)',
     bgColor: 'rgba(245, 158, 11, 0.15)',
     gradientStart: '#fbbf24',
     gradientEnd: '#f59e0b',
-    effectLabel: 'Cegados/Flash',
+    effectLabel: 'Rivales cegados',
     effectUnit: '',
     explosionColor: 'rgba(255, 255, 255, 0.95)'
   },
@@ -73,21 +73,21 @@ const GRENADE_TYPES = {
     gradientStart: '#f87171',
     gradientEnd: '#ef4444',
     effectLabel: 'Daño Promedio',
-    effectUnit: ' dmg',
+    effectUnit: '',
     explosionColor: 'rgba(239, 68, 68, 0.9)'
   },
   molotov: { 
     label: 'Molotov', 
     labelEs: 'Mollys',
     type: 'molotov',
-    color: '#8b5cf6',
-    glowColor: 'rgba(139, 92, 246, 0.5)',
-    bgColor: 'rgba(139, 92, 246, 0.15)',
-    gradientStart: '#a78bfa',
-    gradientEnd: '#7c3aed',
+    color: '#6366f1',
+    glowColor: 'rgba(99, 102, 241, 0.5)',
+    bgColor: 'rgba(99, 102, 241, 0.15)',
+    gradientStart: '#818cf8',
+    gradientEnd: '#4f46e5',
     effectLabel: 'Daño Promedio',
-    effectUnit: ' dmg',
-    explosionColor: 'rgba(139, 92, 246, 0.86)'
+    effectUnit: '',
+    explosionColor: 'rgba(99, 102, 241, 0.86)'
   }
 };
 
@@ -286,7 +286,7 @@ const GrenadeArsenal = ({ summary, matchesAnalyzed, visibleTypes, onToggleType }
       case 'flash': 
         return { 
           value: stats.avg_blinded?.toFixed(1) || 0, 
-          label: 'cegados/flash',
+          label: 'rivales cegados',
           unit: ''
         };
       case 'he': 
@@ -362,7 +362,7 @@ const LineupDetailPanel = ({ cluster, type, onClose }) => {
       <div className="lineup-detail-panel empty">
         <div className="empty-content">
           <Target size={40} strokeWidth={1.5} />
-          <h4>Selecciona un Lineup</h4>
+          <h4>Selecciona un lanzamiento</h4>
           <p>Haz clic en un marcador del mapa para ver estadísticas detalladas y consejos</p>
         </div>
       </div>
@@ -381,8 +381,8 @@ const LineupDetailPanel = ({ cluster, type, onClose }) => {
         };
       case 'flash':
         return {
-          primary: { value: (cluster.avg_blinded || 0).toFixed(1), label: 'Cegados/Flash', isGood: cluster.avg_blinded >= 1.5 },
-          secondary: { value: cluster.total_blinded || 0, label: 'Total Cegados' }
+          primary: { value: (cluster.avg_blinded || 0).toFixed(1), label: 'Rivales cegados', isGood: cluster.avg_blinded >= 1.5 },
+          secondary: { value: cluster.total_blinded || 0, label: 'Total cegados' }
         };
       case 'he':
       case 'molotov':
@@ -403,7 +403,7 @@ const LineupDetailPanel = ({ cluster, type, onClose }) => {
 
     // Flash success
     if (type === 'flash' && cluster.avg_blinded >= 1.5) {
-      return { type: 'success', text: `Excelente flash! ${cluster.avg_blinded.toFixed(1)} cegados en promedio.` };
+      return { type: 'success', text: `¡Excelente cegadora! ${cluster.avg_blinded.toFixed(1)} rivales cegados de media.` };
     }
     // HE/Molly with actual kills or high damage
     if ((type === 'he' || type === 'molotov') && cluster.avg_damage >= 50) {
@@ -508,7 +508,7 @@ const TopLineupsSection = ({ grenadeData, summary, onLineupHover, onLineupClick 
           effectLabel = `${(cluster.avg_blinded || 0).toFixed(1)} cegados`;
         } else if (type === 'he' || type === 'molotov') {
           score = (cluster.avg_damage || 0) * 2;
-          effectLabel = `${Math.round(cluster.avg_damage || 0)} dmg`;
+          effectLabel = `${Math.round(cluster.avg_damage || 0)} de daño`;
         }
         
         if (cluster.count >= 2) { // Only show lineups used at least twice
@@ -517,7 +517,7 @@ const TopLineupsSection = ({ grenadeData, summary, onLineupHover, onLineupClick 
             type,
             score,
             effectLabel,
-            name: cluster.lineup_name || cluster.areas?.[0] || 'Unknown'
+            name: cluster.lineup_name || cluster.areas?.[0] || 'Desconocido'
           });
         }
       });
@@ -538,7 +538,7 @@ const TopLineupsSection = ({ grenadeData, summary, onLineupHover, onLineupClick 
         <div className="lineup-category best">
           <div className="category-header">
             <Award size={16} className="category-icon" />
-            <h5>Mejores Lineups</h5>
+            <h5>Mejores lanzamientos</h5>
           </div>
           <div className="lineup-list">
             {bestLineups.map((lineup, idx) => {
@@ -739,7 +739,7 @@ const GrenadeMapTab = ({
 // GRENADE OVERLAY (for map) - Redesigned
 // ============================================
 
-export const GrenadeOverlay = ({ 
+export const GrenadeOverlay = React.memo(({ 
   mapName, 
   activeSide = 'all', 
   visibleTypes, 
@@ -814,6 +814,6 @@ export const GrenadeOverlay = ({
       })}
     </div>
   );
-};
+});
 
 export default GrenadeMapTab;

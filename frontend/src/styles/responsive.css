@@ -85,14 +85,6 @@
     overflow-x: hidden;
   }
   
-  /* Stack everything */
-  .dashboard-grid {
-    grid-template-columns: 1fr !important;
-  }
-  
-  /* Sidebar handling - often needs JS toggle on mobile */
-  /* Assuming there's a mobile nav component or we adjust the frame */
-  
   /* Map adjustments */
   .map-main {
     height: 50vh;

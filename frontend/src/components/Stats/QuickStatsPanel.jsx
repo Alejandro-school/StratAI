@@ -120,19 +120,18 @@ const QuickStatsPanel = ({ games, getPlayerStats }) => {
         <span className="games-count">{stats.totalGames} partidas</span>
       </div>
 
-      {/* Win Rate - Highlighted */}
       <div className="stat-highlight">
         <div className="highlight-icon">
           <Target size={20} />
         </div>
         <div className="highlight-content">
           <span className="highlight-value">{stats.winRate.toFixed(0)}%</span>
-          <span className="highlight-label">Win Rate</span>
+          <span className="highlight-label">% de victorias</span>
         </div>
         {stats.recentStreak >= 3 && (
           <div className={`streak-badge ${stats.streakType}`}>
             <Flame size={12} />
-            {stats.recentStreak} {stats.streakType === 'win' ? 'W' : 'L'}
+            {stats.recentStreak} {stats.streakType === 'win' ? 'V' : 'D'}
           </div>
         )}
       </div>

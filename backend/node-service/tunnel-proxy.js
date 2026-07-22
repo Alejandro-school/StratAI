@@ -12,7 +12,21 @@ const SERVICES = {
   GO_SERVICE: 'http://127.0.0.1:8080'
 };
 
-app.use(cors());
+// CORS: whitelist only known origins (tunnel URL added via TUNNEL_ORIGIN env)
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000', 'http://127.0.0.1:3000'];
+if (process.env.TUNNEL_ORIGIN) {
+  allowedOrigins.push(process.env.TUNNEL_ORIGIN.trim());
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Internal/curl
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+}));
 
 // Logging detallado para diagnóstico
 app.use((req, res, next) => {

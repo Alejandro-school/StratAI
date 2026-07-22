@@ -1,55 +1,81 @@
 {
   "nav": {
-    "services": "Services",
+    "services": "Product",
     "howItWorks": "How It Works",
     "demo": "AI Demo",
     "pricing": "Pricing",
     "connectSteam": "Start Free"
   },
   "hero": {
-    "status": "SYSTEM ACTIVE",
-    "headline": "Master your Elo.",
-    "headlineGradient": "Stop guessing why you lose.",
-    "subtitle": "Connect Steam. We analyze your demos with specialized AI. Visible improvement in weeks.",
-    "badge1": "128-Tick Accuracy",
-    "badge2": "Triple AI Agent",
-    "badge3": "Zero-Latency Analysis",
-    "ctaPrimary": "Start Free",
-    "ctaSecondary": "Test your level",
+    "status": "AI COACH FOR CS2",
+    "headline": "Turn your demos into",
+    "headlineGradient": "decisions that raise elo.",
+    "subtitle": "StratAI analyzes your CS2 matches, detects tactical mistakes, and gives you an improvement plan with replay, map, and AI coaching.",
+    "badge1": "Round-by-round mistakes",
+    "badge2": "Explained replay",
+    "badge3": "Personalized challenges",
+    "ctaPrimary": "Connect Steam Free",
+    "ctaSecondary": "Watch Tactical Demo",
     "stat1Value": "500+",
     "stat1Label": "Demos analyzed",
     "stat2Value": "3",
-    "stat2Label": "AI Agents",
+    "stat2Label": "AI agents",
     "stat3Value": "<10s",
-    "stat3Label": "Analysis time",
+    "stat3Label": "Analysis per match",
     "stat4Value": "24/7",
-    "stat4Label": "Continuous analysis",
+    "stat4Label": "Automatic tracking",
     "stat5Value": "100%",
-    "stat5Label": "Automatic"
+    "stat5Label": "Built for CS2",
+    "previewEyebrow": "AI Replay",
+    "previewTitle": "Dust2 · Round 12",
+    "previewInsight": "Aggressive peek detected: you lose cover after the lower dark death.",
+    "previewMap": "Tactical Map",
+    "previewCoach": "AI Coach",
+    "previewCoachText": "Fall back, buy time, and force utility before contact."
   },
   "services": {
-    "label": "SERVICES",
+    "label": "PRODUCT",
     "title": "Everything you need to improve",
     "subtitle": "Four tools designed to accelerate your progression measurably.",
     "coaching": {
       "title": "AI Coach",
-      "desc": "Specialized AI agents you can interact with that perform a complete analysis of your game. Economy, positioning, and mechanics — personalized round-by-round feedback.",
-      "features": ["Specialized agents", "Round-by-round analysis", "Interactive chat", "Personalized feedback"]
+      "desc": "Specialized AI agents you can interact with that perform a complete analysis of your game. Economy, positioning, and mechanics: personalized round-by-round feedback.",
+      "features": [
+        "Specialized agents",
+        "Round-by-round analysis",
+        "Interactive chat",
+        "Personalized feedback"
+      ]
     },
     "interactiveMap": {
       "title": "Interactive Map",
       "desc": "Interactive map for every CS2 map showing duels, thrown grenades, and heatmaps with detailed insights. Visualize every play from a new perspective.",
-      "features": ["Position heatmaps", "Grenade trajectories", "Duel analysis", "Zone insights"]
+      "features": [
+        "Position heatmaps",
+        "Grenade trajectories",
+        "Duel analysis",
+        "Zone insights"
+      ]
     },
     "stats": {
       "title": "Detailed Statistics",
-      "desc": "Detailed match statistics and comprehensive personal stats breakdown. KDA, spray patterns, economy, and much more in a complete dashboard.",
-      "features": ["Complete dashboard", "Spray patterns", "Per-match metrics", "Historical progression"]
+      "desc": "Detailed match statistics and a complete personal breakdown. KDA, spray patterns, economy, and progression in a dashboard built for comparison and repetition.",
+      "features": [
+        "Complete dashboard",
+        "Spray patterns",
+        "Per-match metrics",
+        "Historical progression"
+      ]
     },
     "challenges": {
       "title": "Challenges & Ranking",
       "desc": "Challenges to improve and rewards for completing them. Compete in the player ranking and level up with personalized monthly challenges.",
-      "features": ["Monthly challenges", "Rewards system", "Global ranking", "Unlockable achievements"]
+      "features": [
+        "Monthly challenges",
+        "Rewards system",
+        "Global ranking",
+        "Unlockable achievements"
+      ]
     }
   },
   "howItWorks": {
@@ -66,25 +92,12 @@
     "badge": "LIVE ANALYSIS",
     "title": "Watch the AI analyze in real time",
     "subtitle": "Observe this real play while the AI detects tactical errors",
-    "context": "MIRAGE • 4v4 • Round 12 • CT Side",
     "clickToPlay": "Click to play",
-    "restart": "Restart"
-  },
-  "features": {
-    "label": "FEATURES",
-    "title": "Designed for players who want to improve",
-    "dashboard": {
-      "title": "Complete Dashboard",
-      "desc": "Visualize your performance with detailed charts, heatmaps, and advanced per-match metrics."
-    },
-    "monthlyChallenges": {
-      "title": "Monthly Challenges",
-      "desc": "Personalized challenges based on your weak areas. Every month, new objectives to keep you focused."
-    },
-    "rewards": {
-      "title": "Rewards System",
-      "desc": "Unlock achievements, level up, and compete in rankings. Gamification that motivates you to improve."
-    }
+    "restart": "Restart",
+    "replayLabel": "TACTICAL REPLAY",
+    "map": "DUST2",
+    "situation": "4v4 · Round 12 · CT Side",
+    "playerContext": "You are the short player"
   },
   "pricing": {
     "label": "PRICING",
@@ -99,7 +112,14 @@
       "period": "forever",
       "desc": "Perfect for trying the platform",
       "cta": "Start Free",
-      "features": ["5 demos per month", "Basic AI Coach", "Interactive map", "Last 10 matches", "Monthly challenges", "Global ranking"]
+      "features": [
+        "5 demos per month",
+        "Basic AI Coach",
+        "Interactive map",
+        "Last 10 matches",
+        "Monthly challenges",
+        "Global ranking"
+      ]
     },
     "pro": {
       "name": "Pro",
@@ -107,7 +127,14 @@
       "period": "/mo",
       "desc": "For players committed to improving",
       "cta": "Start Pro",
-      "features": ["Unlimited demos", "All AI agents", "Advanced interactive map", "Full history", "Exclusive challenges", "Priority support"]
+      "features": [
+        "Unlimited demos",
+        "All AI agents",
+        "Advanced interactive map",
+        "Full history",
+        "Exclusive challenges",
+        "Priority support"
+      ]
     },
     "team": {
       "name": "Team",
@@ -115,7 +142,14 @@
       "period": "/mo",
       "desc": "For competitive teams and clans",
       "cta": "Contact Us",
-      "features": ["Everything in Pro", "Up to 7 players", "Team analysis", "Custom challenges", "Private leaderboard", "Dedicated support"]
+      "features": [
+        "Everything in Pro",
+        "Up to 7 players",
+        "Team analysis",
+        "Custom challenges",
+        "Private leaderboard",
+        "Dedicated support"
+      ]
     }
   },
   "faq": {
@@ -128,23 +162,23 @@
       },
       {
         "q": "What games does it support?",
-        "a": "Currently StratAI supports Counter-Strike 2 (CS2). We analyze competitive and premier match demos with 128-tick precision."
+        "a": "Currently StratAI supports Counter-Strike 2. We analyze competitive and premier match demos with tactical precision built around CS2."
       },
       {
         "q": "Is it safe to connect my Steam account?",
-        "a": "Absolutely. We use Steam's official OAuth system for authentication. We only access public profile data and your demos. We never have access to your password or credentials."
+        "a": "Yes. We use Steam's official authentication system. We never have access to your password or credentials."
       },
       {
         "q": "How long does demo analysis take?",
-        "a": "Less than 10 seconds per match. Our high-performance Go parsing service processes each demo automatically as soon as it's detected."
+        "a": "The platform is designed to return analysis in seconds after processing a match, with optimized parsing and coaching feedback ready to review."
       },
       {
         "q": "Can I use the platform for free?",
-        "a": "Yes. The Free plan includes 5 demos per month, basic AI Coach access, interactive map, stats for the last 10 matches, and monthly challenges — all at no cost."
+        "a": "Yes. The Free plan includes 5 demos per month, basic AI Coach access, interactive map, stats for the last 10 matches, and monthly challenges."
       },
       {
         "q": "How do challenges work?",
-        "a": "Each month, personalized challenges are generated based on your areas of improvement. Completing them unlocks achievements and moves you up in the global ranking. It's a gamification system to keep you motivated."
+        "a": "Each month, personalized challenges are generated based on your areas of improvement. Completing them unlocks achievements and moves you up in the global ranking."
       },
       {
         "q": "What does the interactive map show?",
@@ -153,16 +187,22 @@
     ]
   },
   "cta": {
+    "eyebrow": "Final step",
     "title": "Ready to stop guessing?",
-    "subtitle": "Connect Steam and let the AI do the work. Your first match is analyzed in under 10 seconds.",
+    "subtitle": "Connect Steam and get a clear analysis of your next match: what failed, why it happened, and what to train next.",
     "ctaPrimary": "Start Free",
-    "ctaSecondary": "Test your level"
+    "ctaSecondary": "View AI demo",
+    "proofEyebrow": "After your next demo",
+    "proofTitle": "Improvement plan generated",
+    "proofItem1": "Mistakes prioritized by round impact",
+    "proofItem2": "Tactical replay with key decisions",
+    "proofItem3": "Recommended training for the next match"
   },
   "footer": {
     "product": "Product",
     "resources": "Resources",
     "legal": "Legal",
-    "services": "Services",
+    "services": "Product",
     "howItWorks": "How It Works",
     "pricing": "Pricing",
     "docs": "Documentation",

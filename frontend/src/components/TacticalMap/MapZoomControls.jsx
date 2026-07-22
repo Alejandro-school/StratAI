@@ -1,223 +1,161 @@
-// frontend/src/components/Dashboard/MapZoomControls.jsx
-// Interactive Zoom Controls for Dense Map Areas
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+// frontend/src/components/TacticalMap/MapZoomControls.jsx
+// Zoom controls + zoomable container for tactical map
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { ZoomIn, ZoomOut, Maximize2, Focus } from 'lucide-react';
 import { getMapProfile } from '../../utils/adaptiveClustering';
 import '../../styles/TacticalMap/mapZoomControls.css';
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 3;
+const ZOOM_STEP = 0.25;
+
 /**
- * MapZoomControls - Zoom and focus controls for the map
- * 
- * @param {number} zoomLevel - Current zoom level (1 = 100%)
- * @param {function} onZoomChange - Callback when zoom changes
- * @param {function} onReset - Callback to reset view
- * @param {string} mapName - Current map for profile-aware behavior
- * @param {Object} focusArea - Optional { x, y } to focus on
+ * ZoomableMapContainer — wraps the map image + overlays.
+ * Handles CSS zoom transform, wheel-to-zoom, drag-to-pan,
+ * and resets via viewKey / resetSignal changes.
  */
-const MapZoomControls = ({ 
-  zoomLevel = 1, 
-  onZoomChange, 
-  onReset,
-  mapName,
-  focusArea = null,
-  onFocusArea
+export const ZoomableMapContainer = ({
+  zoomLevel = 1,
+  className = '',
+  viewKey,
+  resetSignal,
+  children,
 }) => {
-  const profile = getMapProfile(mapName);
-  const isCompact = profile.density === 'compact';
-  
-  const minZoom = 1;
-  const maxZoom = isCompact ? 2.5 : 2;
-  const zoomStep = 0.25;
-  
-  const handleZoomIn = () => {
-    const newZoom = Math.min(maxZoom, zoomLevel + zoomStep);
-    onZoomChange?.(newZoom);
-  };
-  
-  const handleZoomOut = () => {
-    const newZoom = Math.max(minZoom, zoomLevel - zoomStep);
-    onZoomChange?.(newZoom);
-  };
-  
-  const handleReset = () => {
-    onZoomChange?.(1);
-    onReset?.();
-  };
-  
-  const zoomPercentage = Math.round(zoomLevel * 100);
-  const canZoomIn = zoomLevel < maxZoom;
-  const canZoomOut = zoomLevel > minZoom;
-  
+  const containerRef = useRef(null);
+  const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const dragState = useRef({ dragging: false, startX: 0, startY: 0, origX: 0, origY: 0 });
+
+  // Reset pan on view change or explicit reset
+  useEffect(() => {
+    setTranslate({ x: 0, y: 0 });
+  }, [viewKey, resetSignal]);
+
+  // Clamp translation so the map doesn't go out of bounds
+  const clampTranslate = useCallback((tx, ty, zoom) => {
+    if (zoom <= 1) return { x: 0, y: 0 };
+    const maxPan = ((zoom - 1) / zoom) * 50; // percentage-based
+    return {
+      x: Math.max(-maxPan, Math.min(maxPan, tx)),
+      y: Math.max(-maxPan, Math.min(maxPan, ty)),
+    };
+  }, []);
+
+  // Mouse drag handlers
+  const handlePointerDown = useCallback((e) => {
+    if (zoomLevel <= 1) return;
+    // Only respond to primary button
+    if (e.button !== 0) return;
+    dragState.current = {
+      dragging: true,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: translate.x,
+      origY: translate.y,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }, [zoomLevel, translate]);
+
+  const handlePointerMove = useCallback((e) => {
+    if (!dragState.current.dragging) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const dx = ((e.clientX - dragState.current.startX) / rect.width) * 100;
+    const dy = ((e.clientY - dragState.current.startY) / rect.height) * 100;
+    const clamped = clampTranslate(
+      dragState.current.origX + dx,
+      dragState.current.origY + dy,
+      zoomLevel
+    );
+    setTranslate(clamped);
+  }, [zoomLevel, clampTranslate]);
+
+  const handlePointerUp = useCallback(() => {
+    dragState.current.dragging = false;
+  }, []);
+
+  const isZoomed = zoomLevel > 1;
+
   return (
-    <div className="map-zoom-controls">
-      {/* Zoom Level Indicator */}
-      <div className="zoom-indicator">
-        <span className="zoom-value">{zoomPercentage}%</span>
-      </div>
-      
-      {/* Zoom Buttons */}
-      <div className="zoom-buttons">
-        <button 
-          className={`zoom-btn ${!canZoomIn ? 'disabled' : ''}`}
-          onClick={handleZoomIn}
-          disabled={!canZoomIn}
-          title="Zoom In"
-        >
-          <ZoomIn size={16} />
-        </button>
-        
-        <button 
-          className={`zoom-btn ${!canZoomOut ? 'disabled' : ''}`}
-          onClick={handleZoomOut}
-          disabled={!canZoomOut}
-          title="Zoom Out"
-        >
-          <ZoomOut size={16} />
-        </button>
-        
-        <button 
-          className={`zoom-btn reset ${zoomLevel === 1 ? 'disabled' : ''}`}
-          onClick={handleReset}
-          disabled={zoomLevel === 1}
-          title="Reset View"
-        >
-          <Maximize2 size={16} />
-        </button>
-      </div>
-      
-      {/* Focus hint for compact maps */}
-      {isCompact && zoomLevel === 1 && (
-        <div className="zoom-hint">
-          <Focus size={12} />
-          <span>Zoom for details</span>
-        </div>
-      )}
+    <div
+      ref={containerRef}
+      className={`zoomable-map-container ${className} ${isZoomed ? 'zoomed' : ''}`}
+      style={{
+        transform: isZoomed
+          ? `scale(${zoomLevel}) translate(${translate.x}%, ${translate.y}%)`
+          : undefined,
+      }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+    >
+      {children}
     </div>
   );
 };
 
 /**
- * DensityZoneIndicator - Shows clickable "zoom here" hotspots
- * for areas with many overlapping markers
+ * MapZoomControls — zoom +/–/reset buttons and indicator.
+ * Sits absolutely inside .map-view.
  */
-export const DensityZoneIndicator = ({ 
-  zone, 
-  onClick 
-}) => {
-  return (
-    <button 
-      className="density-zone-indicator"
-      style={{ left: `${zone.x}%`, top: `${zone.y}%` }}
-      onClick={() => onClick?.(zone)}
-      title={`${zone.count} callouts - Click to zoom`}
-    >
-      <div className="zone-ring" />
-      <div className="zone-core">
-        <Focus size={14} />
-        <span>{zone.count}</span>
-      </div>
-    </button>
-  );
-};
-
-/**
- * ZoomableMapContainer - Wrapper that handles zoom/pan transforms
- */
-export const ZoomableMapContainer = ({ 
-  children, 
+const MapZoomControls = ({
   zoomLevel = 1,
-  viewKey,
-  resetSignal,
-  className = ''
+  mapName,
+  onZoomChange,
+  onReset,
 }) => {
-  const containerRef = useRef(null);
-  const dragStateRef = useRef({ dragging: false, pointerId: null, lastX: 0, lastY: 0 });
-  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const profile = getMapProfile(mapName);
+  const showHint = profile.density === 'compact' && zoomLevel === 1;
 
-  const clampPan = useCallback((offset, zoom) => {
-    const el = containerRef.current;
-    if (!el || zoom <= 1) {
-      return { x: 0, y: 0 };
-    }
+  const zoomIn = () => {
+    const next = Math.min(MAX_ZOOM, +(zoomLevel + ZOOM_STEP).toFixed(2));
+    onZoomChange(next);
+  };
 
-    const rect = el.getBoundingClientRect();
-    const maxX = ((zoom - 1) * rect.width) / 2;
-    const maxY = ((zoom - 1) * rect.height) / 2;
+  const zoomOut = () => {
+    const next = Math.max(MIN_ZOOM, +(zoomLevel - ZOOM_STEP).toFixed(2));
+    onZoomChange(next);
+  };
 
-    return {
-      x: Math.max(-maxX, Math.min(maxX, offset.x)),
-      y: Math.max(-maxY, Math.min(maxY, offset.y)),
-    };
-  }, []);
-
-  useEffect(() => {
-    if (zoomLevel <= 1) {
-      setPanOffset({ x: 0, y: 0 });
-      return;
-    }
-
-    setPanOffset((prev) => clampPan(prev, zoomLevel));
-  }, [zoomLevel, clampPan]);
-
-  useEffect(() => {
-    setPanOffset({ x: 0, y: 0 });
-  }, [viewKey, resetSignal]);
-
-  const handlePointerDown = useCallback((event) => {
-    if (zoomLevel <= 1) return;
-    if (event.target.closest('button, a')) return;
-
-    dragStateRef.current = {
-      dragging: true,
-      pointerId: event.pointerId,
-      lastX: event.clientX,
-      lastY: event.clientY,
-    };
-
-    event.currentTarget.setPointerCapture(event.pointerId);
-  }, [zoomLevel]);
-
-  const handlePointerMove = useCallback((event) => {
-    const state = dragStateRef.current;
-    if (!state.dragging || state.pointerId !== event.pointerId) return;
-
-    const deltaX = event.clientX - state.lastX;
-    const deltaY = event.clientY - state.lastY;
-
-    dragStateRef.current.lastX = event.clientX;
-    dragStateRef.current.lastY = event.clientY;
-
-    setPanOffset((prev) => clampPan({ x: prev.x + deltaX, y: prev.y + deltaY }, zoomLevel));
-  }, [clampPan, zoomLevel]);
-
-  const handlePointerUp = useCallback((event) => {
-    if (dragStateRef.current.pointerId === event.pointerId) {
-      dragStateRef.current = { dragging: false, pointerId: null, lastX: 0, lastY: 0 };
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-  }, []);
-
-  const transform = useMemo(() => {
-    if (zoomLevel === 1) return 'none';
-    return `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`;
-  }, [panOffset.x, panOffset.y, zoomLevel]);
-  
   return (
-    <div 
-      ref={containerRef}
-      className={`zoomable-map-container ${className} ${zoomLevel > 1 ? 'zoomed' : ''}`}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
-      style={{
-        '--zoom-level': zoomLevel,
-        transform,
-        transformOrigin: 'center center',
-        touchAction: zoomLevel > 1 ? 'none' : 'auto'
-      }}
-    >
-      {children}
+    <div className="map-zoom-controls">
+      {showHint && (
+        <div className="zoom-hint">
+          <Focus size={12} />
+          <span>Haz zoom para ver detalle</span>
+        </div>
+      )}
+
+      <div className="zoom-indicator">
+        <span className="zoom-value">{zoomLevel.toFixed(2)}×</span>
+      </div>
+
+      <div className="zoom-buttons">
+        <button
+          className={`zoom-btn ${zoomLevel >= MAX_ZOOM ? 'disabled' : ''}`}
+          onClick={zoomIn}
+          disabled={zoomLevel >= MAX_ZOOM}
+          aria-label="Acercar"
+        >
+          <ZoomIn size={16} />
+        </button>
+        <button
+          className={`zoom-btn ${zoomLevel <= MIN_ZOOM ? 'disabled' : ''}`}
+          onClick={zoomOut}
+          disabled={zoomLevel <= MIN_ZOOM}
+          aria-label="Alejar"
+        >
+          <ZoomOut size={16} />
+        </button>
+        <button
+          className="zoom-btn reset"
+          onClick={onReset}
+          aria-label="Restablecer zoom"
+        >
+          <Maximize2 size={14} />
+        </button>
+      </div>
     </div>
   );
 };

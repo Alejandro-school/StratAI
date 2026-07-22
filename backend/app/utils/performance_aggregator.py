@@ -28,6 +28,27 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
+def _extract_ct_t_score(metadata: dict[str, Any] | None) -> tuple[int, int]:
+    if not metadata:
+        return 0, 0
+
+    score_ct = _safe_int(metadata.get("score_ct"), 0)
+    score_t = _safe_int(metadata.get("score_t"), 0)
+    if score_ct + score_t > 0:
+        return score_ct, score_t
+
+    final_score = metadata.get("final_score")
+    if isinstance(final_score, str):
+        parts = final_score.split("-")
+        if len(parts) >= 2:
+            return _safe_int(parts[0].strip(), 0), _safe_int(parts[1].strip(), 0)
+
+    if isinstance(final_score, dict):
+        return _safe_int(final_score.get("ct"), 0), _safe_int(final_score.get("t"), 0)
+
+    return 0, 0
+
+
 def _read_json(file_path: Path) -> dict[str, Any] | None:
     if not file_path.exists():
         return None
@@ -49,17 +70,9 @@ def _extract_total_rounds(metadata: dict[str, Any] | None) -> int:
     if direct > 0:
         return direct
 
-    score_ct = _safe_int(metadata.get("score_ct"), 0)
-    score_t = _safe_int(metadata.get("score_t"), 0)
+    score_ct, score_t = _extract_ct_t_score(metadata)
     if score_ct + score_t > 0:
         return score_ct + score_t
-
-    final_score = metadata.get("final_score")
-    if isinstance(final_score, dict):
-        ct = _safe_int(final_score.get("ct"), 0)
-        t = _safe_int(final_score.get("t"), 0)
-        if ct + t > 0:
-            return ct + t
 
     return 30
 
@@ -217,6 +230,7 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
 
         team = str(player.get("team", ""))
         winner = str(metadata.get("winner", ""))
+        score_ct, score_t = _extract_ct_t_score(metadata)
         is_win = winner and team and winner == team
         if is_win:
             wins += 1
@@ -332,8 +346,13 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
                 "deaths": 0,
                 "adr_weighted": 0.0,
                 "rating_weighted": 0.0,
+                "ct_rating_weighted": 0.0,
+                "t_rating_weighted": 0.0,
+                "ct_adr_weighted": 0.0,
+                "t_adr_weighted": 0.0,
                 "rounds": 0,
                 "matches": 0,
+                "weapon_totals": {},
             }
 
         map_data = map_totals[map_name]
@@ -343,8 +362,31 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
         map_data["deaths"] += deaths
         map_data["adr_weighted"] += _safe_float(player.get("adr"), 0.0) * total_rounds
         map_data["rating_weighted"] += _safe_float(player.get("hltv_rating"), 0.0) * total_rounds
+        map_data["ct_rating_weighted"] += _safe_float(player.get("ct_rating"), 0.0) * total_rounds
+        map_data["t_rating_weighted"] += _safe_float(player.get("t_rating"), 0.0) * total_rounds
+        map_data["ct_adr_weighted"] += _safe_float(player.get("ct_adr"), 0.0) * total_rounds
+        map_data["t_adr_weighted"] += _safe_float(player.get("t_adr"), 0.0) * total_rounds
         map_data["rounds"] += total_rounds
         map_data["matches"] += 1
+
+        if isinstance(weapon_stats, dict):
+            for weapon, stats in weapon_stats.items():
+                if weapon not in map_data["weapon_totals"]:
+                    map_data["weapon_totals"][weapon] = {
+                        "weapon": weapon,
+                        "kills": 0,
+                        "headshots": 0,
+                        "damage": 0,
+                        "shots_fired": 0,
+                        "shots_hit": 0,
+                    }
+
+                weapon_aggregate = map_data["weapon_totals"][weapon]
+                weapon_aggregate["kills"] += _safe_int(stats.get("kills"), 0)
+                weapon_aggregate["headshots"] += _safe_int(stats.get("headshots"), 0)
+                weapon_aggregate["damage"] += _safe_int(stats.get("damage"), 0)
+                weapon_aggregate["shots_fired"] += _safe_int(stats.get("shots_fired"), 0)
+                weapon_aggregate["shots_hit"] += _safe_int(stats.get("shots_hit"), 0)
 
         history.append(
             {
@@ -352,12 +394,8 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
                 "date": date,
                 "map": map_name,
                 "result": result,
-                "team_score": _safe_int(metadata.get("score_t"), 0)
-                if team == "T"
-                else _safe_int(metadata.get("score_ct"), 0),
-                "opponent_score": _safe_int(metadata.get("score_ct"), 0)
-                if team == "T"
-                else _safe_int(metadata.get("score_t"), 0),
+                "team_score": score_t if team == "T" else score_ct,
+                "opponent_score": score_ct if team == "T" else score_t,
                 "kills": kills,
                 "deaths": deaths,
                 "assists": assists,
@@ -405,6 +443,35 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
         kd_map = (data["kills"] / data["deaths"]) if data["deaths"] > 0 else float(data["kills"])
         avg_adr_map = _weighted_average(data["adr_weighted"], float(data["rounds"]))
         avg_rating_map = _weighted_average(data["rating_weighted"], float(data["rounds"]))
+
+        top_weapons = []
+        for _, weapon_data in data["weapon_totals"].items():
+            fired = weapon_data["shots_fired"]
+            kills = weapon_data["kills"]
+            hit = weapon_data["shots_hit"]
+            headshots = weapon_data["headshots"]
+            top_weapons.append(
+                {
+                    "weapon": weapon_data["weapon"],
+                    "kills": kills,
+                    "damage": weapon_data["damage"],
+                    "accuracy": round((hit / fired * 100), 1) if fired > 0 else 0.0,
+                    "hs_pct": round((headshots / kills * 100), 1) if kills > 0 else 0.0,
+                }
+            )
+
+        top_weapons.sort(
+            key=lambda item: (item["kills"], item["damage"], item["accuracy"]),
+            reverse=True,
+        )
+
+        ct_rating_map = _weighted_average(data["ct_rating_weighted"], float(data["rounds"]))
+        t_rating_map = _weighted_average(data["t_rating_weighted"], float(data["rounds"]))
+        ct_adr_map = _weighted_average(data["ct_adr_weighted"], float(data["rounds"]))
+        t_adr_map = _weighted_average(data["t_adr_weighted"], float(data["rounds"]))
+        side_gap = ct_rating_map - t_rating_map
+        strongest_side = "CT" if side_gap > 0.03 else "T" if side_gap < -0.03 else "Balanced"
+
         maps.append(
             {
                 "map": data["map"],
@@ -415,6 +482,15 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
                 "avg_adr": round(avg_adr_map, 1),
                 "avg_rating": round(avg_rating_map, 2),
                 "matches": data["matches"],
+                "sides": {
+                    "ct_rating": round(ct_rating_map, 2),
+                    "t_rating": round(t_rating_map, 2),
+                    "ct_adr": round(ct_adr_map, 1),
+                    "t_adr": round(t_adr_map, 1),
+                    "strongest_side": strongest_side,
+                },
+                "dominant_weapon": top_weapons[0] if top_weapons else None,
+                "top_weapons": top_weapons[:3],
             }
         )
     maps.sort(key=lambda item: item["matches"], reverse=True)

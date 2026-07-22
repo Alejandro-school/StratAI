@@ -157,7 +157,7 @@ const CT_CONFIG = {
 };
 
 const T_CONFIG = {
-  modelPath: '/images/Landing/Tmodel.glb',
+  modelPath: '/images/Landing/Tmodel-v1.glb',
   idleAnimationName: 'ct_loadout_pistol01_walkup',
   fallbackAnimationNames: ['tm_professional_varf_balkanidle_balkan_idle'],
   reverseAnimation: false,
@@ -210,7 +210,7 @@ const AgentBackground = ({ scrollY }) => {
         frameloop="always"
       >
         <ambientLight intensity={0.3} />
-        <directionalLight position={[3, 4, 5]} intensity={0.4} color="#06b6d4" />
+        <directionalLight position={[3, 4, 5]} intensity={0.4} color="#3b82f6" />
         <Suspense fallback={null}>
           <HologramAgent
             modelPath={T_CONFIG.modelPath}

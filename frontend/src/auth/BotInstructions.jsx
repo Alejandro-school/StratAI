@@ -4,7 +4,7 @@ import { API_URL } from "../utils/api";
 import "../styles/Auth/botInstructions.css";
 
 const STATUS_LABEL = {
-  friend: "Ya eres amigo ✅",
+  friend: "Ya eres amigo",
   pending: "Solicitud enviada (pendiente)",
   not_friend: "Enviar solicitud de amistad",
   unknown: "Comprobar estado",
@@ -63,9 +63,9 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
       if (!res.ok) throw new Error(data?.detail || data?.error || "No se pudo enviar la solicitud");
       // UX: marcamos como pending para no spamear mientras Steam responde
       setStatus(data?.status || "pending");
-      setMessage("✅ Solicitud enviada. Acepta la invitación en Steam.");
+      setMessage("Solicitud enviada. Acepta la invitación en Steam.");
     } catch (e) {
-      setMessage(`❌ ${e.message}`);
+      setMessage(`Error: ${e.message}`);
     } finally {
       setLoading(false);
     }
@@ -81,7 +81,7 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
   async function copyBotId() {
     if (!botSteamId) return;
     await navigator.clipboard.writeText(botSteamId);
-    setMessage("📋 ID del bot copiado al portapapeles.");
+    setMessage("ID del bot copiado al portapapeles.");
     setTimeout(() => setMessage(""), 2000);
   }
 
@@ -96,7 +96,7 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
       {/* Banner de servicio */}
       {serviceDown && (
         <div className="bot-banner">
-          <span>⚠️ Steam/GC o el bot están inestables. Mostrando estado en caché.</span>
+          <span>Steam/GC o el bot están inestables. Mostrando estado en caché.</span>
           <button className="ghost-btn" onClick={checkStatus} disabled={checking}>
             {checking ? "Actualizando..." : "Reintentar"}
           </button>
@@ -144,7 +144,7 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
       {!!source && (
         <p className="source-note">
           Fuente del estado: <strong>{source}</strong>
-          {status === "friend" && " · Todo listo 🎉"}
+          {status === "friend" && " · Todo listo"}
         </p>
       )}
 

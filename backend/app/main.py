@@ -1,4 +1,5 @@
 import os
+import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -14,34 +15,46 @@ from fastapi_users.authentication.strategy.redis import RedisStrategy
 from starlette.middleware.sessions import SessionMiddleware
 import redis.asyncio as aioredis
 
+# Security config & middleware
+from .config import (
+    SESSION_SECRET_KEY, STEAM_API_KEY,
+    ALLOWED_ORIGINS, REDIS_URL,
+    SESSION_COOKIE_NAME, SESSION_MAX_AGE, SESSION_SAME_SITE,
+    SESSION_HTTPS_ONLY, CORS_ALLOW_METHODS, CORS_ALLOW_HEADERS,
+    IS_PRODUCTION,
+)
+from .middleware.security import SecurityHeadersMiddleware, RequestSizeLimitMiddleware, SessionRefreshMiddleware
+
 # Rutas
-from .routes import steam_auth, steam_service, auth_status, sharecodes, dashboard, performance
+from .routes import steam_auth, steam_service, auth_status, sharecodes, dashboard, performance, feedback
 
-STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
-print(f"STEAM_API_KEY cargada (longitud={len(STEAM_API_KEY)})")
+app = FastAPI(
+    docs_url=None if IS_PRODUCTION else "/docs",
+    redoc_url=None if IS_PRODUCTION else "/redoc",
+)
 
-app = FastAPI()
+# ── Security Middleware (applied first = runs last, wraps everything) ──
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(RequestSizeLimitMiddleware)
+app.add_middleware(SessionRefreshMiddleware, max_age=SESSION_MAX_AGE)
 
-# CORS flexible para túneles dinámicos (trycloudflare.com)
+# ── CORS ── Whitelist-based (no wildcard regex)
 app.add_middleware(
     CORSMiddleware,
-    # Permitimos cualquier origen que termine en .trycloudflare.com, localhost o IPs locales
-    allow_origin_regex=r"https?://.*\.trycloudflare\.com|https?://localhost(:[0-9]+)?|https?://127\.0\.0\.1(:[0-9]+)?",
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=CORS_ALLOW_METHODS,
+    allow_headers=CORS_ALLOW_HEADERS,
 )
-# Nota: Al unificar todo bajo el proxy (puerto 9000), el navegador lo ve como mismo origen,
-# pero mantenemos esto por si se accede a servicios individuales.
 
-# Conexión a Redis
-redis = aioredis.from_url("redis://localhost", decode_responses=True)
+# ── Conexión a Redis ──
+redis = aioredis.from_url(REDIS_URL, decode_responses=True)
 
 # Configuración del backend de autenticación (FastAPI Users)
-cookie_transport = CookieTransport(cookie_name="session", cookie_max_age=3600)
+cookie_transport = CookieTransport(cookie_name=SESSION_COOKIE_NAME, cookie_max_age=SESSION_MAX_AGE)
 
 def get_redis_strategy() -> RedisStrategy:
-    return RedisStrategy(redis, lifetime_seconds=3600)
+    return RedisStrategy(redis, lifetime_seconds=SESSION_MAX_AGE)
 
 auth_backend = AuthenticationBackend(
     name="redis",
@@ -49,14 +62,14 @@ auth_backend = AuthenticationBackend(
     get_strategy=get_redis_strategy,
 )
 
-# Añadir middleware de sesión
+# ── Session Middleware (hardened) ──
 app.add_middleware(
     SessionMiddleware,
-    secret_key=os.getenv("SESSION_SECRET_KEY", "super_secret_key"),
-    session_cookie="session",
-    max_age=30 * 24 * 60 * 60,
-    same_site="lax",
-    https_only=False,
+    secret_key=SESSION_SECRET_KEY,
+    session_cookie=SESSION_COOKIE_NAME,
+    max_age=SESSION_MAX_AGE,
+    same_site=SESSION_SAME_SITE,
+    https_only=SESSION_HTTPS_ONLY,
 )
 
 # Incluir Routers
@@ -66,6 +79,7 @@ app.include_router(auth_status.router)
 app.include_router(sharecodes.router)
 app.include_router(dashboard.router)
 app.include_router(performance.router)
+app.include_router(feedback.router)
 
 
 @app.on_event("startup")

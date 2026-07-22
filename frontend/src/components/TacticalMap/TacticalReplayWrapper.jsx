@@ -14,7 +14,7 @@ const TacticalReplayWrapper = ({ scenario, onClose, externalControl }) => {
           <PlayCircle size={20} className="text-yellow-400" />
           <div>
             <h3>Análisis Táctico: {scenario.title}</h3>
-            <span className="replay-timestamp">Round {scenario.round} • {scenario.timestamp}</span>
+            <span className="replay-timestamp">Ronda {scenario.round} • {scenario.timestamp}</span>
           </div>
         </div>
         <div className="replay-controls">

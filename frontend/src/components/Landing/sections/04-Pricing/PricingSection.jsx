@@ -13,13 +13,11 @@ const PricingSection = () => {
   return (
     <section id="pricing" className="pricing-section">
       <div className="pricing-section__inner">
-        {/* Header */}
         <div className="pricing-section__header">
           <span className="section-label">{t('pricing.label')}</span>
           <h2 className="pricing-section__title">{t('pricing.title')}</h2>
           <p className="pricing-section__subtitle">{t('pricing.subtitle')}</p>
 
-          {/* Toggle */}
           <div className="pricing-toggle">
             <span className={!yearly ? 'pricing-toggle__label--active' : ''}>
               {t('pricing.monthly')}
@@ -27,7 +25,7 @@ const PricingSection = () => {
             <button
               className={`pricing-toggle__switch ${yearly ? 'pricing-toggle__switch--on' : ''}`}
               onClick={() => setYearly((v) => !v)}
-              aria-label="Toggle billing period"
+              aria-label="Cambiar periodo de facturación"
             >
               <span className="pricing-toggle__knob" />
             </button>
@@ -37,7 +35,6 @@ const PricingSection = () => {
           </div>
         </div>
 
-        {/* Cards */}
         <div className="pricing-cards">
           {TIERS.map((tier, i) => {
             const data = t(`pricing.${tier}`, { returnObjects: true });

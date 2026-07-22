@@ -52,7 +52,7 @@ const buildPatternGreeting = (username, matches) => {
     id: nextId(),
     sender: 'ai',
     context: 'ANÁLISIS GLOBAL',
-    text: `Hola ${name}. He analizado tus ${matches.length} partidas. Tienes un win rate del ${winRate}% (${totalWins}V - ${totalLosses}D). Vamos a ver qué podemos mejorar.`
+    text: `Hola ${name}. He analizado tus ${matches.length} partidas. Tienes un porcentaje de victorias del ${winRate}% (${totalWins}V - ${totalLosses}D). Vamos a ver qué podemos mejorar.`
   });
 
   const insights = [];
@@ -60,7 +60,7 @@ const buildPatternGreeting = (username, matches) => {
   if (weakestMap && worstRatio < 0.5) {
     const mapWinRate = Math.round((weakestMap.wins / weakestMap.total) * 100);
     insights.push(
-      `Tu mapa más débil es ${weakestMap.name.toUpperCase()} con un ${mapWinRate}% de win rate (${weakestMap.wins}V-${weakestMap.losses}D en ${weakestMap.total} partidas). Deberíamos analizar qué está pasando ahí.`
+      `Tu mapa más débil es ${weakestMap.name.toUpperCase()} con un ${mapWinRate}% de victorias (${weakestMap.wins}V-${weakestMap.losses}D en ${weakestMap.total} partidas). Deberíamos analizar qué está pasando ahí.`
     );
   }
 
@@ -125,23 +125,23 @@ const buildMatchAnalysis = (match) => {
   if (isWin && wasClose) {
     analysis += 'Observaciones:\n\n';
     analysis += '• Victoria ajustada. Hubo rondas clave donde la economía pudo haber sido mejor gestionada.\n';
-    analysis += '• Revisa las rondas de eco — posiblemente puedes optimizar las decisiones de force buy.\n';
+    analysis += '• Revisa las rondas de eco — posiblemente puedes optimizar las decisiones de compra forzada.\n';
     analysis += '• Buen trabajo en las rondas decisivas, pero hay margen para cerrar mapas con más autoridad.';
   } else if (isWin && !wasClose) {
     analysis += 'Observaciones:\n\n';
     analysis += '• Victoria dominante. Tus aperturas fueron sólidas y las rotaciones rápidas.\n';
-    analysis += '• Aún así, identifiqué rondas perdidas innecesariamente por sobrepeek individual.\n';
+    analysis += '• Aún así, identifiqué rondas perdidas innecesariamente por asomarte de más en solitario.\n';
     analysis += '• Consolida estos hábitos positivos y trabaja en reducir las muertes innecesarias.';
   } else if (!isWin && wasClose) {
     analysis += 'Observaciones:\n\n';
     analysis += '• Derrota ajustada. Estuviste cerca pero las rondas de pistola y los clutch definieron el partido.\n';
     analysis += '• He detectado un patrón: en las rondas 13-16 tu equipo tendió a forzar duelos desfavorables.\n';
-    analysis += '• Recomiendo trabajar la disciplina en rondas de presión — mantener posición y no sobrepeekear.';
+    analysis += '• Recomiendo trabajar la disciplina en rondas de presión — mantener posición y no asomarse de más.';
   } else {
     analysis += 'Observaciones:\n\n';
-    analysis += '• Derrota clara. El equipo contrario controló la economía y las aperturas mid-round.\n';
+    analysis += '• Derrota clara. El equipo contrario controló la economía y las aperturas a mitad de ronda.\n';
     analysis += '• He detectado falta de utilidad coordinada en las entradas a sitio.\n';
-    analysis += '• Recomiendo enfocarse en: 1) Timing de flashes de entrada, 2) Smokes de corte, 3) Disciplina económica.';
+    analysis += '• Recomiendo enfocarse en: 1) Tiempo de flashes de entrada, 2) Humos de corte, 3) Disciplina económica.';
   }
 
   return analysis;
@@ -154,8 +154,8 @@ const buildFollowupResponse = (text) => {
     return {
       id: nextId(),
       sender: 'ai',
-      context: 'PLAN DE AIM',
-      text: 'Te propongo una rutina simple de 20 minutos: 8 min tracking, 8 min precisión inicial y 4 min transfer entre objetivos. Si quieres, te la adapto a tu horario.'
+      context: 'PLAN DE PUNTERÍA',
+      text: 'Te propongo una rutina simple de 20 minutos: 8 min de seguimiento, 8 min de precisión inicial y 4 min de cambio entre objetivos. Si quieres, te la adapto a tu horario.'
     };
   }
 
@@ -163,8 +163,8 @@ const buildFollowupResponse = (text) => {
     return {
       id: nextId(),
       sender: 'ai',
-      context: 'UTILITY FUNDAMENTAL',
-      text: 'Vamos a trabajar 2 protocolos base: flash de entrada + smoke de corte. El objetivo es repetirlos hasta que sean automáticos.'
+      context: 'UTILIDAD FUNDAMENTAL',
+      text: 'Vamos a trabajar 2 protocolos base: cegadora de entrada + humo de corte. El objetivo es repetirlos hasta que sean automáticos.'
     };
   }
 
@@ -182,7 +182,7 @@ const buildFollowupResponse = (text) => {
       id: nextId(),
       sender: 'ai',
       context: 'ECONOMÍA',
-      text: 'La clave está en sincronizar las compras con tu equipo. Evita force buys individuales y aprende a leer los loss bonus del rival para optimizar tus ecos.'
+      text: 'La clave está en sincronizar las compras con tu equipo. Evita compras forzadas individuales y aprende a leer las bonificaciones por derrota del rival para optimizar tus ecos.'
     };
   }
 
@@ -243,7 +243,7 @@ const useCoachChat = (user) => {
   const hasGreetedRef = useRef(false);
 
   const quickActions = useMemo(
-    () => ['Quiero mejorar mi aim', 'Hazme un plan de utility', 'Quiero ser más consistente'],
+    () => ['Quiero mejorar mi puntería', 'Hazme un plan de utilidad', 'Quiero ser más consistente'],
     []
   );
 

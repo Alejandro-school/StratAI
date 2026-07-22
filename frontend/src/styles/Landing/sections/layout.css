@@ -1,231 +1,130 @@
-/**
- * Layout CSS — Supports both scroll-based and stage-based (modal) layouts
- */
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SCROLL-BASED LAYOUT (main landing page)
-   ═══════════════════════════════════════════════════════════════════════════ */
 .landing-page--scroll {
-  background: var(--color-bg-base);
   min-height: 100vh;
   position: relative;
   overflow-x: clip;
+  background: var(--color-bg-base);
 }
 
-/* Scrollable content container */
 .landing-main {
   position: relative;
   z-index: 10;
 }
 
-/* ── Shared section typography ────────────────────────────────────────── */
+.landing-demo-band {
+  position: relative;
+  padding: 92px 0 72px;
+}
 
-/* Unified Header wrapper - can be applied to section__header */
+.landing-demo-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(12, 18, 25, 0), rgba(12, 18, 25, 0.82) 18%, rgba(12, 18, 25, 0.78) 82%, rgba(12, 18, 25, 0)),
+    radial-gradient(circle at 50% 0%, rgba(96, 165, 250, 0.13), transparent 48%);
+  pointer-events: none;
+}
+
 .section-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
   max-width: 800px;
   margin: 0 auto 60px;
   position: relative;
   z-index: 2;
+  text-align: center;
 }
 
 .section-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 24px;
+  padding: 8px 18px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.08);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  color: var(--color-primary-400);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--color-primary-400);
-  background: rgba(6, 182, 212, 0.08);
-  border: 1px solid rgba(6, 182, 212, 0.2);
-  padding: 8px 18px;
-  border-radius: 100px;
-  margin-bottom: 24px;
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
 }
 
 .section-title {
+  margin: 0 0 20px;
+  color: var(--color-text-main);
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 4.5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--color-text-main);
-  margin: 0 0 20px;
-  text-transform: none; /* override any previous all-caps if inherited */
+  letter-spacing: 0;
 }
 
-/* Sometimes an accent word is wrapped in span */
 .section-title span {
   background: linear-gradient(135deg, #fff, var(--color-primary-400));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .section-subtitle {
+  max-width: 540px;
+  margin: 0 auto;
+  color: var(--color-text-secondary);
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.25vw, 1.15rem);
-  line-height: 1.6;
-  color: var(--color-text-secondary);
   font-weight: 400;
-  margin: 0 auto;
-  max-width: 540px;
+  line-height: 1.6;
 }
 
-/* Legacy helpers (to override old specific styles) */
 .services-section__header,
-.hiw-section__header,
-.social-proof__header,
-.features-header {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-  margin: 0 auto 70px !important;
-  max-width: 800px;
-}
-
-.services-section__header .section-subtitle,
-.ai-demo-section__header .section-subtitle,
-.sp-beta .section-subtitle {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   STAGE-BASED LAYOUT (used inside ChallengeModal)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* Stage-based landing page (fixed viewport) */
-.landing-page--stage {
-  background: var(--color-bg-base);
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Stage container (where AnimatePresence renders) */
-.landing-stage-container {
-  position: relative;
-  width: 60%;
-  height: 100vh;
-  z-index: 10;
-  padding: 0 var(--space-6);
-  padding-left: 120px;
+.hiw-section__header {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-
-/* Individual stage wrapper */
-.landing-stage {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Base section styles (shared by all stages in modal) */
-.hero-section,
-.nickname-section,
-.challenge-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
-  position: relative;
-  width: 100%;
-  padding: 0;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto 70px;
+  text-align: center;
 }
 
-/* In scroll mode, hero is a full page section */
 .landing-page--scroll .hero-section {
-  min-height: 100vh;
+  min-height: 100svh;
   height: auto;
   max-height: none;
+  display: flex;
+  align-items: center;
   overflow: visible;
-  padding-top: 80px; /* navbar clearance */
 }
 
-/* Content containers */
-.hero-section__content,
-.nickname-section__content {
+.hero-section__content {
   width: 100%;
   max-width: 100%;
+  min-height: 100svh;
   margin: 0;
-  padding: 0;
-}
-
-/* Challenge wrapper needs full width */
-.challenge-section__wrapper {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Agent Canvas Container (used in modal) */
-.agent-canvas-container {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 40%;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 5;
-  background: linear-gradient(90deg, transparent 0%, var(--color-bg-base) 15%, var(--color-bg-base) 100%);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════════════════════════════════════════ */
-@media (max-width: 1400px) {
-  .landing-stage-container {
-    width: 65%;
-  }
-
-  .agent-canvas-container {
-    width: 35%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .agent-canvas-container {
-    opacity: 0.15;
-    width: 100%;
-    z-index: 1;
-    background: var(--color-bg-overlay);
-  }
-
-  .landing-stage-container {
-    width: 100%;
-    padding: var(--space-6);
-  }
+  padding: 80px var(--space-8);
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
-  .hero-section,
-  .nickname-section,
-  .challenge-section {
-    padding: var(--space-4);
-  }
-
-  .landing-stage-container {
-    padding: var(--space-4);
+  .landing-demo-band {
+    padding: 68px 0 54px;
   }
 
   .landing-page--scroll .hero-section {
-    padding-top: 72px;
+    min-height: auto;
+  }
+
+  .hero-section__content {
+    padding: 72px var(--space-4);
+  }
+
+  .section-header {
+    margin-bottom: 42px;
+    padding: 0 var(--space-4);
   }
 }

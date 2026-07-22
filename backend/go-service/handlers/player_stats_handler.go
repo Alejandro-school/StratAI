@@ -141,6 +141,7 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 		}
 
 		// Collect valid values for MEDIAN calculation
+		var reactionValues []float64
 		var ttdValues []float64
 		var crosshairValues []float64
 		var crosshairPeekValues []float64 // >100 u/s
@@ -149,6 +150,10 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 		const peekVelocityThreshold = 100.0 // u/s threshold for peek vs hold
 
 		for _, rt := range playerData.ReactionTimes {
+			if rt.ReactionTimeMs >= 50 && rt.ReactionTimeMs <= 2500 && !rt.SmokeInPath {
+				reactionValues = append(reactionValues, float64(rt.ReactionTimeMs))
+			}
+
 			// Time to damage filters:
 			// - Must have dealt damage (TimeToDamage > 0)
 			// - Exclude through smoke (not a real visual reaction)
@@ -175,6 +180,10 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 			}
 		}
 
+		if len(reactionValues) > 0 {
+			playerStats.AvgTimeToReaction = calculateMedian(reactionValues)
+		}
+
 		// Calculate MEDIAN for TTD
 		if len(ttdValues) > 0 {
 			playerStats.TimeToDamageAvgMS = calculateMedian(ttdValues)
@@ -198,6 +207,7 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 		// Calculate MEDIAN for Counter-Strafe Rating from accumulated values
 		if playerData.Mechanics != nil && len(playerData.Mechanics.CounterStrafeValues) > 0 {
 			playerData.Mechanics.AvgCounterStrafeRating = calculateMedian(playerData.Mechanics.CounterStrafeValues)
+			playerStats.AvgCounterStrafeRating = playerData.Mechanics.AvgCounterStrafeRating
 		}
 	}
 }

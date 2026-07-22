@@ -13,6 +13,8 @@ import logging
 import redis.asyncio as aioredis
 from typing import Any
 from fastapi import APIRouter, Request, HTTPException
+from ..config import REDIS_URL
+from ..middleware.rate_limit import get_rate_limiter
 
 # Import utils
 from ..utils.maps import normalize_callout, game_to_radar_percent, CALLOUT_FIXED_POSITIONS
@@ -24,12 +26,15 @@ from ..utils.user_aggregates import (
     load_match_history,
     EXPORTS_PATH
 )
+from ..middleware.security import is_safe_path, sanitize_match_id
 
 
 router = APIRouter()
 
 # Redis logic (same as other files for now)
-redis = aioredis.from_url("redis://localhost", decode_responses=True)
+redis = aioredis.from_url(REDIS_URL, decode_responses=True)
+
+rate_limiter = get_rate_limiter(REDIS_URL)
 
 NUKE_Z_THRESHOLD = -500
 
@@ -97,10 +102,53 @@ def normalize_grenade_area(raw_area: str, map_name: str) -> str:
         return normalized
     return raw_area or ""
 
+
+def load_match_reaction_averages(match_folder: str) -> dict[str, float]:
+    combat_path = os.path.join(match_folder, "combat.json")
+    if not os.path.exists(combat_path):
+        return {}
+
+    try:
+        with open(combat_path, "r", encoding="utf-8") as handle:
+            combat_data = json.load(handle)
+    except Exception as exc:
+        logging.warning(f"[get-match-details] No se pudo leer combat.json para reaction_time: {exc}")
+        return {}
+
+    values_by_player: dict[str, list[float]] = {}
+
+    for round_item in combat_data.get("rounds", []):
+        for duel in round_item.get("duels", []):
+            attacker = duel.get("attacker") or {}
+            context = duel.get("context") or {}
+            steam_id = attacker.get("steam_id")
+            reaction_time = attacker.get("time_to_reaction")
+
+            if not steam_id or reaction_time is None or context.get("through_smoke"):
+                continue
+
+            try:
+                numeric_reaction = float(reaction_time)
+            except (TypeError, ValueError):
+                continue
+
+            if numeric_reaction < 50 or numeric_reaction > 2500:
+                continue
+
+            player_key = str(steam_id)
+            values_by_player.setdefault(player_key, []).append(numeric_reaction)
+
+    return {
+        steam_id: round(sum(values) / len(values), 1)
+        for steam_id, values in values_by_player.items()
+        if values
+    }
+
 # ============================================================================
 # PROCESSED DEMOS
 # ============================================================================
 @router.get("/steam/get-processed-demos")
+@rate_limiter.limit(30, 60)  # 30 requests per minute per IP
 async def get_processed_demos(request: Request) -> dict[str, Any]:
     """
     Endpoint para historial de partidas - LEE DESDE data/exports/.
@@ -129,6 +177,11 @@ async def get_processed_demos(request: Request) -> dict[str, Any]:
         
         match_folder = os.path.join(exports_path, folder_name)
         if not os.path.isdir(match_folder):
+            continue
+        
+        # Path traversal protection
+        if not is_safe_path(exports_path, match_folder):
+            logging.warning(f"[get-processed-demos] Path traversal blocked: {folder_name}")
             continue
         
         try:
@@ -222,6 +275,7 @@ async def get_processed_demos(request: Request) -> dict[str, Any]:
 # MATCH DETAILS (Single match)
 # ============================================================================
 @router.get("/steam/get-match-details/{match_id}")
+@rate_limiter.limit(60, 60)  # 60 requests per minute per IP
 async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
     """
     Endpoint para obtener todos los detalles de una partida específica.
@@ -232,6 +286,13 @@ async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
     steam_id_str = str(steam_id)
+    
+    # Sanitize match_id to prevent path traversal
+    try:
+        match_id = sanitize_match_id(match_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="match_id inválido.")
+    
     logging.info(f"[get-match-details] Buscando detalles de {match_id} para {steam_id_str}")
 
     # Buscar la carpeta de la partida
@@ -247,6 +308,10 @@ async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
     match_folder = None
     for folder in possible_folders:
         if os.path.exists(folder) and os.path.isdir(folder):
+            # Verify path is safely within exports directory
+            if not is_safe_path(exports_path, folder):
+                logging.warning(f"[get-match-details] Path traversal blocked: {folder}")
+                continue
             match_folder = folder
             break
     
@@ -268,9 +333,25 @@ async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
         if os.path.exists(players_path):
             with open(players_path, 'r', encoding='utf-8') as f:
                 players_data = json.load(f)
+
+        # Ownership validation: verify the authenticated user is a player in this match
+        players = players_data.get("players", [])
+        user_in_match = any(
+            str(p.get("steam_id", "")) == steam_id_str for p in players
+        )
+        if not user_in_match:
+            logging.warning(f"[get-match-details] User {steam_id_str} not in match {match_id}")
+            raise HTTPException(status_code=403, detail="No tienes acceso a esta partida.")
+
+        reaction_averages = load_match_reaction_averages(match_folder)
         
         # Separar jugadores por equipo
         players = players_data.get("players", [])
+        for player in players:
+            player_steam_id = str(player.get("steam_id", ""))
+            if player_steam_id in reaction_averages:
+                player["avg_time_to_reaction"] = reaction_averages[player_steam_id]
+
         team_ct = [p for p in players if p.get("team") == "CT"]
         team_t = [p for p in players if p.get("team") == "T"]
         
@@ -327,13 +408,14 @@ async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
         
     except Exception as e:
         logging.error(f"[get-match-details] Error: {e}")
-        raise HTTPException(status_code=500, detail=f"Error al leer datos: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error interno al leer datos de la partida.")
 
 
 # ============================================================================
 # DASHBOARD STATS (Aggregated)
 # ============================================================================
 @router.get("/steam/get-dashboard-stats")
+@rate_limiter.limit(30, 60)  # 30 requests per minute per IP
 async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> dict[str, Any]:
     """
     Endpoint OPTIMIZADO para el dashboard.
@@ -1947,11 +2029,11 @@ async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> di
                 if round_start_tick is not None:
                     if first_a_tick:
                         time_a = (first_a_tick - round_start_tick) / 64  # Convert ticks to seconds (64 tick)
-                        side = prev_team or "t"
+                        side = round_team or "t"
                         time_to_site["A"][side.lower()].append(time_a)
                     if first_b_tick:
                         time_b = (first_b_tick - round_start_tick) / 64
-                        side = prev_team or "t"
+                        side = round_team or "t"
                         time_to_site["B"][side.lower()].append(time_b)
             
             matches_analyzed += 1

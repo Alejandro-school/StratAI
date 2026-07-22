@@ -88,7 +88,7 @@ export const formatMapName = (mapName) => {
 };
 
 export const formatWeaponName = (weaponName) => {
-  if (!weaponName) return 'Unknown';
+  if (!weaponName) return 'Desconocida';
 
   const normalized = String(weaponName).replace(/^weapon_/i, '').toLowerCase();
 
@@ -126,17 +126,102 @@ export const formatWeaponName = (weaponName) => {
     mag7: 'MAG-7',
     m249: 'M249',
     negev: 'Negev',
-    hegrenade: 'HE Grenade',
-    flashbang: 'Flashbang',
-    smokegrenade: 'Smoke',
+    hegrenade: 'Granada HE',
+    flashbang: 'Cegadora',
+    smokegrenade: 'Humo',
     molotov: 'Molotov',
-    incgrenade: 'Incendiary',
-    decoy: 'Decoy',
-    knife: 'Knife',
+    incgrenade: 'Incendiaria',
+    decoy: 'Señuelo',
+    knife: 'Cuchillo',
     taser: 'Zeus x27',
   };
 
   return displayNames[normalized] || normalized.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+export const getWeaponIconPath = (weaponName) => {
+  if (!weaponName) return null;
+
+  const normalized = String(weaponName).replace(/^weapon_/i, '').trim().toLowerCase();
+
+  const assetNames = {
+    'ak-47': 'ak47',
+    ak47: 'ak47',
+    'm4a4': 'm4a1',
+    m4a1: 'm4a1',
+    'm4a1-s': 'm4a1_silencer',
+    m4a1_silencer: 'm4a1_silencer',
+    awp: 'awp',
+    aug: 'aug',
+    famas: 'famas',
+    'galil ar': 'galilar',
+    galilar: 'galilar',
+    'ssg 08': 'ssg08',
+    ssg08: 'ssg08',
+    'sg 553': 'sg556',
+    sg553: 'sg556',
+    sg556: 'sg556',
+    scar20: 'scar20',
+    'scar-20': 'scar20',
+    g3sg1: 'g3sg1',
+    'desert eagle': 'deagle',
+    deagle: 'deagle',
+    'usp-s': 'usp_silencer',
+    usp_silencer: 'usp_silencer',
+    'glock-18': 'glock',
+    glock: 'glock',
+    p2000: 'hkp2000',
+    hkp2000: 'hkp2000',
+    p250: 'p250',
+    'five-seven': 'fiveseven',
+    fiveseven: 'fiveseven',
+    'tec-9': 'tec9',
+    tec9: 'tec9',
+    'cz75-auto': 'cz75a',
+    cz75a: 'cz75a',
+    'dual berettas': 'elite',
+    elite: 'elite',
+    'r8 revolver': 'revolver',
+    revolver: 'revolver',
+    'mac-10': 'mac10',
+    mac10: 'mac10',
+    mp9: 'mp9',
+    mp7: 'mp7',
+    'ump-45': 'ump45',
+    ump45: 'ump45',
+    'pp-bizon': 'bizon',
+    bizon: 'bizon',
+    p90: 'p90',
+    'mp5-sd': 'mp5sd',
+    mp5sd: 'mp5sd',
+    nova: 'nova',
+    xm1014: 'xm1014',
+    'sawed-off': 'sawedoff',
+    sawedoff: 'sawedoff',
+    'mag-7': 'mag7',
+    mag7: 'mag7',
+    m249: 'm249',
+    negev: 'negev',
+    knife: 'knife',
+    taser: 'taser',
+    zeus: 'taser',
+    'zeus x27': 'taser',
+    'he grenade': 'hegrenade',
+    hegrenade: 'hegrenade',
+    flashbang: 'flashbang',
+    smoke: 'smokegrenade',
+    'smoke grenade': 'smokegrenade',
+    smokegrenade: 'smokegrenade',
+    molotov: 'molotov',
+    incendiary: 'incgrenade',
+    'incendiary grenade': 'incgrenade',
+    incgrenade: 'incgrenade',
+    decoy: 'decoy',
+    'decoy grenade': 'decoy',
+  };
+
+  const assetName = assetNames[normalized];
+  return assetName ? `/images/weapons/weapon_${assetName}.png` : null;
 };
 
 export const RECHARTS_TOOLTIP_STYLE = {
@@ -167,8 +252,8 @@ export const TOOLTIP_ITEM_STYLE = {
 /* Reusable chart axis / grid constants */
 export const CHART_AXIS_TICK = { fill: '#64748b', fontSize: 11 };
 export const CHART_GRID_STROKE = 'rgba(148, 163, 184, 0.06)';
-export const CHART_CURSOR_STYLE = { stroke: 'rgba(139, 92, 246, 0.3)', strokeWidth: 1 };
-export const CHART_CURSOR_BAR = { fill: 'rgba(139, 92, 246, 0.08)' };
+export const CHART_CURSOR_STYLE = { stroke: 'rgba(99, 102, 241, 0.3)', strokeWidth: 1 };
+export const CHART_CURSOR_BAR = { fill: 'rgba(99, 102, 241, 0.08)' };
 
 /**
  * Compute a delta trend (current value vs average of last N entries).

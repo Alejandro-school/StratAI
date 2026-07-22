@@ -7,19 +7,51 @@ const express = require('express');
 const config = require('../services/config');
 const { redisClient, ensureRedis } = require('../services/redisClient');
 const { client, csgo } = require('../services/steamDownloader');
+const { internalOnly, isValidSteamId } = require('../middleware/security');
 const SteamUser = require('steam-user');
 
 const router = express.Router();
 
 let friendsReady = false;
+let friendsListTimeout = null;
+
 client.on('friendsList', () => {
   friendsReady = true;
+  if (friendsListTimeout) clearTimeout(friendsListTimeout);
   console.log('👥 friendsList cargada');
 });
-client.on('friendRelationship', () => {
-  // pequeños cambios en caliente
+
+client.on('friendRelationship', async (steamID, relationship) => {
   friendsReady = true;
+  const sid = steamID.getSteamID64();
+  // Update Redis cache in real-time when friend status changes
+  try {
+    await ensureRedis();
+    let status = 'not_friend';
+    let ttl = config.ttl.friendStatus;
+    if (relationship === SteamUser.EFriendRelationship.Friend) {
+      status = 'friend';
+    } else if (relationship === SteamUser.EFriendRelationship.RequestRecipient) {
+      status = 'pending';
+      ttl = config.ttl.friendStatusPending;
+    }
+    await Promise.all([
+      redisClient.set(`friend_status:${sid}`, status, { EX: ttl }),
+      redisClient.set(`friend_status_ts:${sid}`, new Date().toISOString(), { EX: ttl }),
+    ]);
+    console.log(`👥 friendRelationship: ${sid} → ${status}`);
+  } catch (err) {
+    console.error(`❌ Error updating friend status: ${err.message}`);
+  }
 });
+
+// Fallback: if friendsList hasn't loaded after 10s, allow checks with cache
+friendsListTimeout = setTimeout(() => {
+  if (!friendsReady) {
+    console.warn('⚠️ friendsList timeout (10s) — allowing checks with cache fallback');
+    friendsReady = true;
+  }
+}, 10000);
 
 function isBotLoggedIn() {
   return !!client.steamID;
@@ -36,14 +68,16 @@ function botHealth() {
 }
 
 // -------- HEALTH ----------
-router.get('/steam/status', async (_req, res) => {
+router.get('/steam/status', internalOnly, async (_req, res) => {
   res.json(botHealth());
 });
 
 // -------- CHECK FRIEND ----------
-router.get('/steam/check-friend', async (req, res) => {
+router.get('/steam/check-friend', internalOnly, async (req, res) => {
   const { steam_id } = req.query;
-  if (!steam_id) return res.status(400).json({ error: 'Falta el Steam ID' });
+  if (!steam_id || !isValidSteamId(steam_id)) {
+    return res.status(400).json({ error: 'Steam ID inválido (se requieren 17 dígitos)' });
+  }
 
   await ensureRedis();
 
@@ -72,10 +106,11 @@ router.get('/steam/check-friend', async (req, res) => {
   const isFriend = (relationship === SteamUser.EFriendRelationship.Friend);
   const status = isFriend ? 'friend' : (cached === 'pending' ? 'pending' : 'not_friend');
 
-  // Batch Redis writes con Promise.all
+  // Use short TTL for pending (re-checked via friendRelationship event), long for others
+  const ttl = (status === 'pending') ? config.ttl.friendStatusPending : config.ttl.friendStatus;
   await Promise.all([
-    redisClient.set(`friend_status:${steam_id}`, status, { EX: config.ttl.friendStatus }),
-    redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: config.ttl.friendStatus })
+    redisClient.set(`friend_status:${steam_id}`, status, { EX: ttl }),
+    redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: ttl })
   ]);
 
   return res.json({
@@ -97,9 +132,9 @@ async function sendFriendWithBackoff(steamId, maxAttempts = 3) {
       });
       return;
     } catch (err) {
-      // backoff simple ante rate limit/transitorios
+      // exponential backoff ante rate limit/transitorios
       if (attempt < maxAttempts) {
-        const delay = 1000 * attempt;
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 16000);
         console.warn(`♻️ addFriend reintento ${attempt}/${maxAttempts} en ${delay}ms: ${err.message}`);
         await new Promise(r => setTimeout(r, delay));
       } else {
@@ -109,9 +144,11 @@ async function sendFriendWithBackoff(steamId, maxAttempts = 3) {
   }
 }
 
-router.post('/steam/send-friend-request', async (req, res) => {
+router.post('/steam/send-friend-request', internalOnly, async (req, res) => {
   const { steam_id } = req.body || {};
-  if (!steam_id) return res.status(400).json({ error: 'Falta el Steam ID' });
+  if (!steam_id || !isValidSteamId(steam_id)) {
+    return res.status(400).json({ error: 'Steam ID inválido (se requieren 17 dígitos)' });
+  }
 
   await ensureRedis();
 
@@ -130,10 +167,10 @@ router.post('/steam/send-friend-request', async (req, res) => {
 
   try {
     await sendFriendWithBackoff(steam_id);
-    // Batch Redis writes con Promise.all
+    // Batch Redis writes — use short TTL for pending (re-checked quickly via friendRelationship event)
     await Promise.all([
-      redisClient.set(`friend_status:${steam_id}`, 'pending', { EX: config.ttl.friendStatus }),
-      redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: config.ttl.friendStatus })
+      redisClient.set(`friend_status:${steam_id}`, 'pending', { EX: config.ttl.friendStatusPending }),
+      redisClient.set(`friend_status_ts:${steam_id}`, new Date().toISOString(), { EX: config.ttl.friendStatusPending })
     ]);
     return res.json({ message: 'Solicitud de amistad enviada', status: 'pending' });
   } catch (err) {

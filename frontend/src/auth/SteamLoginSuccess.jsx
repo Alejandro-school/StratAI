@@ -45,9 +45,16 @@ export default function SteamLoginSuccess() {
           return;
         }
 
+        // Trigger on-demand match detection (fire-and-forget)
+        fetch(`${API_URL}/steam/fetch-new-matches`, {
+          method: "POST",
+          credentials: "include",
+        }).catch(() => {});
+
         navigate("/dashboard", { replace: true });
       } catch (err) {
         console.error("SteamLoginSuccess sequence failed:", err);
+        navigate("/", { replace: true });
       }
     };
 

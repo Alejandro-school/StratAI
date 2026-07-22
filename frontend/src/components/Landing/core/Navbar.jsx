@@ -6,9 +6,9 @@ import { API_URL } from '../../../utils/api';
 import '../../../styles/Landing/core/navbar.css';
 
 const NAV_LINKS = [
+  { key: 'demo', href: '#ai-demo' },
   { key: 'services', href: '#services' },
   { key: 'howItWorks', href: '#how-it-works' },
-  { key: 'demo', href: '#ai-demo' },
   { key: 'pricing', href: '#pricing' },
 ];
 
@@ -43,7 +43,7 @@ const Navbar = () => {
           <span className="navbar__logo-accent">AI</span>
         </a>
 
-        {/* Desktop Links — centered */}
+        {/* Desktop links */}
         <div className="navbar__links">
           {NAV_LINKS.map(({ key, href }) => (
             <a
@@ -62,7 +62,7 @@ const Navbar = () => {
           <button
             className="navbar__lang-toggle"
             onClick={toggleLang}
-            aria-label="Toggle language"
+            aria-label="Cambiar idioma"
           >
             {lang === 'es' ? 'EN' : 'ES'}
           </button>
@@ -73,7 +73,7 @@ const Navbar = () => {
           <button
             className="navbar__hamburger"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label="Abrir o cerrar menú"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>

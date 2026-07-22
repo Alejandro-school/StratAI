@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MapStatsSummary = ({ sideStats, matchesAnalyzed, mapName }) => {
-  const displayName = mapName?.replace('de_', '').toUpperCase() || 'MAP';
+  const displayName = mapName?.replace('de_', '').toUpperCase() || 'MAPA';
   const ct = sideStats?.CT;
   const t = sideStats?.T;
 

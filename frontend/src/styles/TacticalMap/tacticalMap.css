@@ -24,8 +24,8 @@
 .loading-spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top-color: #6366f1;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -75,11 +75,11 @@
 .map-selector:hover,
 .map-selector.open {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(139, 92, 246, 0.3);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 .map-selector svg:first-child {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .map-selector svg.rotated {
@@ -136,17 +136,17 @@
 }
 
 .map-option:hover:not(.disabled) {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(99, 102, 241, 0.1);
   color: #f1f5f9;
 }
 
 .map-option.active {
-  background: rgba(139, 92, 246, 0.15);
-  color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
 }
 
 .map-option.active svg {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .map-option.disabled {
@@ -171,13 +171,13 @@
   gap: 6px;
   font-size: 13px;
   font-weight: 600;
-  color: #8b5cf6;
+  color: #6366f1;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .back-link:hover {
-  color: #a78bfa;
+  color: #818cf8;
 }
 
 /* Map View - Container that fills available space */
@@ -192,7 +192,7 @@
   background: 
     /* Radial gradients that will move with parallax */ radial-gradient(
       ellipse 80% 60% at var(--mouse-x, 30%) var(--mouse-y, 30%),
-      rgba(139, 92, 246, 0.12) 0%,
+      rgba(99, 102, 241, 0.12) 0%,
       transparent 50%
     ),
     radial-gradient(
@@ -203,7 +203,7 @@
     ),
     radial-gradient(
       ellipse 50% 50% at 50% 50%,
-      rgba(6, 182, 212, 0.04) 0%,
+      rgba(59, 130, 246, 0.04) 0%,
       transparent 60%
     ),
     /* Base color */ #0a0c10;
@@ -244,30 +244,6 @@
   /* Hotspots positioned relative to the map-container, not map-view */
 }
 
-.zone-hotspot {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-}
-
-.hotspot-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  border: 2px solid var(--zone-color);
-  border-radius: 50%;
-  opacity: 0.3;
-  animation: ringPulse 2s ease-out infinite;
-}
-
 @keyframes ringPulse {
   0% {
     transform: translate(-50%, -50%) scale(0.8);
@@ -279,87 +255,6 @@
   }
 }
 
-.hotspot-core {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.85);
-  border: 2px solid var(--zone-color);
-  border-radius: 50%;
-  transition: all 0.25s ease;
-}
-
-.zone-hotspot.good .hotspot-core {
-  border-color: #22c55e;
-}
-.zone-hotspot.bad .hotspot-core {
-  border-color: #ef4444;
-}
-.zone-hotspot.neutral .hotspot-core {
-  border-color: #f59e0b;
-}
-
-.zone-hotspot:hover .hotspot-core,
-.zone-hotspot.selected .hotspot-core {
-  transform: scale(1.15);
-  box-shadow: 0 0 25px var(--zone-color);
-}
-
-.zone-hotspot.selected .hotspot-core {
-  background: var(--zone-color);
-}
-
-.zone-hotspot.selected .hotspot-label {
-  color: #0a0c10;
-  font-weight: 800;
-}
-
-.hotspot-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #f1f5f9;
-  letter-spacing: 0.5px;
-}
-
-.hotspot-stats {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 3px 8px;
-  background: rgba(0, 0, 0, 0.9);
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.stat-wr.good {
-  color: #22c55e;
-}
-.stat-wr.bad {
-  color: #ef4444;
-}
-.stat-wr.neutral {
-  color: #f59e0b;
-}
-
-.hotspot-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  animation: badgeBounce 1s ease infinite;
-}
-
 @keyframes badgeBounce {
   0%,
   100% {
@@ -368,16 +263,6 @@
   50% {
     transform: translateY(-2px);
   }
-}
-
-.hotspot-badge.best {
-  background: #22c55e;
-  color: #0a0c10;
-}
-
-.hotspot-badge.worst {
-  background: #ef4444;
-  color: white;
 }
 
 /* ==================== COMPACT CALLOUT HOTSPOTS ==================== */
@@ -608,8 +493,8 @@
 /* ==================== DATA STATUS ==================== */
 .data-status {
   padding: 10px 14px;
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 10px;
   text-align: center;
 }
@@ -617,7 +502,7 @@
 .data-status .loading-text {
   font-size: 12px;
   font-weight: 600;
-  color: #8b5cf6;
+  color: #6366f1;
   animation: pulse 1.5s infinite;
 }
 
@@ -1006,13 +891,13 @@
 }
 
 .action-btn:hover {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
   color: #f1f5f9;
 }
 
 .action-btn svg {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 /* ==================== RESPONSIVE ==================== */
@@ -1124,8 +1009,8 @@
 }
 
 .level-btn.active {
-  background: rgba(139, 92, 246, 0.2);
-  color: #a78bfa;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
 }
 
 .level-btn:first-child {
@@ -1157,9 +1042,9 @@
 }
 
 .control-btn.active {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: rgba(139, 92, 246, 0.3);
-  color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #6366f1;
 }
 
 .control-btn .dot {
@@ -1180,123 +1065,6 @@
 
 .control-btn .dot.red {
   background: #ef4444;
-}
-
-/* ==================== CALLOUT HOTSPOTS ==================== */
-.callout-hotspot {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
-  transition: z-index 0s;
-}
-
-.callout-hotspot:hover,
-.callout-hotspot.selected {
-  z-index: 20;
-}
-
-.callout-hotspot .hotspot-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  opacity: 0.3;
-  animation: ringPulse 2.5s ease-out infinite;
-}
-
-.callout-hotspot.good {
-  color: #22c55e;
-}
-.callout-hotspot.bad {
-  color: #ef4444;
-}
-.callout-hotspot.neutral {
-  color: #f59e0b;
-}
-
-.callout-hotspot .hotspot-core {
-  position: relative;
-  min-width: 36px;
-  height: 36px;
-  padding: 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10, 12, 16, 0.95);
-  border: 2px solid currentColor;
-  border-radius: 18px;
-  transition: all 0.2s ease;
-}
-
-.callout-hotspot:hover .hotspot-core,
-.callout-hotspot.selected .hotspot-core {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px currentColor;
-}
-
-.callout-hotspot.selected .hotspot-core {
-  background: currentColor;
-}
-
-.callout-hotspot.selected .hotspot-label {
-  color: #0a0c10;
-}
-
-.callout-hotspot .hotspot-label {
-  font-size: 10px;
-  font-weight: 800;
-  color: #f1f5f9;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-}
-
-.callout-hotspot .hotspot-stats {
-  position: absolute;
-  top: calc(100% + 2px);
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 2px 6px;
-  background: rgba(0, 0, 0, 0.95);
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.callout-hotspot.best::after {
-  content: "★";
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 14px;
-  color: #22c55e;
-  text-shadow: 0 0 8px #22c55e;
-}
-
-.callout-hotspot.worst::after {
-  content: "!";
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 900;
-  color: #fff;
-  background: #ef4444;
-  border-radius: 50%;
 }
 
 /* ==================== SIDEBAR TABS ==================== */
@@ -1332,7 +1100,7 @@
 
 .tab-btn.active {
   color: #f1f5f9;
-  background: rgba(139, 92, 246, 0.15);
+  background: rgba(99, 102, 241, 0.15);
 }
 
 .tab-btn svg {
@@ -1356,7 +1124,7 @@
 }
 
 .tab-content::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(99, 102, 241, 0.3);
   border-radius: 2px;
 }
 
@@ -1447,9 +1215,9 @@
 }
 
 .section-btn.active {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #6366f1 100%);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
 .section-btn.active svg {
@@ -1507,8 +1275,8 @@
 }
 
 .side-filter-btn.all.active {
-  background: rgba(139, 92, 246, 0.2);
-  color: #a78bfa;
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
 }
 
 /* ==================== DETAIL CONTENT - Sidebar ==================== */
@@ -1528,7 +1296,7 @@
 }
 
 .detail-content::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(99, 102, 241, 0.3);
   border-radius: 2px;
 }
 
@@ -1547,7 +1315,7 @@
 }
 
 .heatmap-placeholder svg {
-  color: #8b5cf6;
+  color: #6366f1;
   margin-bottom: 16px;
 }
 

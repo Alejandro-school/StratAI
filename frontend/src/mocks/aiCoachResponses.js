@@ -5,7 +5,7 @@
 
 export const mockAiCoachResponse = {
   id: "err_001",
-  message: "He detectado una posición vulnerable en la ronda 6. Te abriste demasiado en Medio sin esperar el humo de tu compañero. Fíjate en el replay cómo quedaste expuesto al AWP enemigo.",
+  message: "He detectado una posición vulnerable en la ronda 6. Te abriste demasiado en Medio sin esperar el humo de tu compañero. Fíjate en la repetición cómo quedaste expuesto al AWP enemigo.",
   interaction: {
     action: "PLAY_CLIP",
     // Usamos valores normalizados (0.0 a 1.0) para currentTime en vez de ticks absolutos

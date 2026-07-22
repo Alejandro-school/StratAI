@@ -65,8 +65,8 @@
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05));
+  border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 12px;
   position: relative;
 }
@@ -77,9 +77,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(139, 92, 246, 0.2);
+  background: rgba(99, 102, 241, 0.2);
   border-radius: 12px;
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .highlight-content {
@@ -272,6 +272,49 @@
   margin: 0;
 }
 
+/* Refresh button */
+.refresh-matches-btn {
+  padding: 8px 16px;
+  background: rgba(102, 126, 234, 0.15);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 8px;
+  color: #a5b4fc;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.refresh-matches-btn:hover:not(:disabled) {
+  background: rgba(102, 126, 234, 0.25);
+  border-color: rgba(102, 126, 234, 0.5);
+}
+
+.refresh-matches-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Processing progress bar */
+.match-progress-bar {
+  padding: 8px 14px;
+  background: rgba(102, 126, 234, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  border-radius: 8px;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.progress-stage {
+  font-size: 13px;
+  color: #a5b4fc;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 /* ==================== FILTERS ==================== */
 .match-filters {
   display: flex;
@@ -312,7 +355,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: rgba(139, 92, 246, 0.5);
+  border-color: rgba(99, 102, 241, 0.5);
   background: rgba(255, 255, 255, 0.06);
 }
 
@@ -352,9 +395,9 @@
 }
 
 .filter-btn.active {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.3);
-  color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #6366f1;
 }
 
 .filter-btn svg.rotated {
@@ -406,18 +449,18 @@
 }
 
 .dropdown-option:hover {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(99, 102, 241, 0.1);
   color: #f1f5f9;
 }
 
 .dropdown-option.selected {
-  background: rgba(139, 92, 246, 0.15);
-  color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
 }
 
 .dropdown-option svg {
   margin-left: auto;
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .map-color-dot {
@@ -471,8 +514,8 @@
 }
 
 .view-btn.active {
-  background: rgba(139, 92, 246, 0.2);
-  color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.2);
+  color: #6366f1;
 }
 
 /* Active Pills */
@@ -488,8 +531,8 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
@@ -574,7 +617,7 @@
 }
 
 .date-badge svg {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .date-badge .games-count {
@@ -810,7 +853,7 @@
   gap: 2px;
   font-size: 11px;
   font-weight: 600;
-  color: #8b5cf6;
+  color: #6366f1;
   opacity: 0;
   transform: translateX(-5px);
   transition: all 0.2s;
@@ -821,7 +864,7 @@
   transform: translateX(0);
 }
 
-.view-cta svg { color: #8b5cf6; }
+.view-cta svg { color: #6366f1; }
 
 /* ==================== TABLE VIEW ==================== */
 .match-table-container {
@@ -860,7 +903,7 @@
 }
 
 .match-table tbody tr:hover {
-  background: rgba(139, 92, 246, 0.05);
+  background: rgba(99, 102, 241, 0.05);
 }
 
 .match-table tbody tr:last-child {
@@ -973,20 +1016,20 @@
 }
 
 .action-btn:hover {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.3);
-  color: #8b5cf6;
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #6366f1;
 }
 
 .action-btn.primary {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.2);
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.2);
   color: #a5b4fc;
 }
 
 .action-btn.primary:hover {
-  background: rgba(139, 92, 246, 0.2);
-  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
   color: #c4b5fd;
 }
 

@@ -8,17 +8,18 @@ import { useCalloutStats } from '../hooks/useCalloutStats';
 import { useMovementStats } from '../hooks/useMovementStats';
 import { useGrenadeStats } from '../hooks/useGrenadeStats';
 import CalloutDetailPanel from '../components/TacticalMap/CalloutDetailPanel';
-import CalloutHotspot from '../components/TacticalMap/CalloutHotspot';
 import MapStatsSummary from '../components/TacticalMap/MapStatsSummary';
 import GrenadeMapTab, { GrenadeOverlay } from '../components/TacticalMap/GrenadeMapTab';
 import MovementHeatmapTab from '../components/TacticalMap/MovementHeatmapTab';
 import HeatmapCanvas from '../components/TacticalMap/HeatmapCanvas';
+import FlowLinesOverlay from '../components/TacticalMap/FlowLinesOverlay';
 import { AdaptiveHotspotLayer } from '../components/TacticalMap/AdaptiveHotspot';
 import LevelSelector from '../components/TacticalMap/LevelSelector';
 import MapZoomControls, { ZoomableMapContainer } from '../components/TacticalMap/MapZoomControls';
 import { processCalloutsForDisplay, getMapProfile } from '../utils/adaptiveClustering';
 import { filterCalloutsBySide, filterCalloutsByLevel } from '../utils/tacticalFilters';
 import { TACTICAL_MAPS } from '../utils/mapConfig';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { 
   Target, MapPin, ChevronDown,
   Check, BarChart3, Flame, Bomb, Activity
@@ -26,9 +27,9 @@ import {
 import '../styles/TacticalMap/tacticalMap.css';
 
 const MAP_SECTIONS = [
-  { id: 'hotpoints', label: 'Duels', icon: Flame },
-  { id: 'grenades', label: 'Grenades', icon: Bomb },
-  { id: 'heatmap', label: 'HeatMap', icon: Activity },
+  { id: 'hotpoints', label: 'Duelos', icon: Flame },
+  { id: 'grenades', label: 'Granadas', icon: Bomb },
+  { id: 'heatmap', label: 'Mapa de calor', icon: Activity },
 ];
 
 const MIN_DUEL_SAMPLE_BY_DENSITY = {
@@ -203,7 +204,7 @@ const TacticalMapContent = () => {
       <NavigationFrame>
         <div className="map-dashboard loading">
           <div className="loading-spinner"></div>
-          <span>Cargando mapa tÃ¡ctico...</span>
+          <span>Cargando mapa táctico...</span>
         </div>
       </NavigationFrame>
     );
@@ -268,7 +269,7 @@ const TacticalMapContent = () => {
                   className={`side-filter-btn all ${activeSide === 'all' ? 'active' : ''}`}
                   onClick={() => setActiveSide('all')}
                 >
-                  ALL
+                  TODOS
                 </button>
                 <button 
                   className={`side-filter-btn ct ${activeSide === 'ct' ? 'active' : ''}`}
@@ -312,6 +313,7 @@ const TacticalMapContent = () => {
                 className="map-image"
               />
               
+              <ErrorBoundary name="map-overlay" message="Error en la capa del mapa">
               {activeSection === 'grenades' && (
                 <GrenadeOverlay
                   mapName={currentMap}
@@ -341,33 +343,27 @@ const TacticalMapContent = () => {
                   zThreshold={currentMapInfo.zThreshold}
                 />
               )}
+
+              {activeSection === 'heatmap' && flowLines.length > 0 && (
+                <FlowLinesOverlay
+                  flowLines={flowLines}
+                  activeSide={activeSide}
+                  visible={showMovementHeatmap}
+                />
+              )}
               
             {activeSection === 'hotpoints' && (
-                 isCompactMap ? (
-                  <AdaptiveHotspotLayer
-                    callouts={processedCallouts.callouts}
-                    mapName={currentMap}
-                    selectedCallout={selectedCallout}
-                    bestCallout={bestCalloutSide}
-                    worstCallout={worstCalloutSide}
-                    onSelect={handleCalloutSelect}
-                    zoomLevel={zoomLevel}
-                  />
-                ) : (
-                  <div className="map-hotspots">
-                    {duelDisplayCallouts.map(callout => (
-                      <CalloutHotspot
-                        key={callout.name}
-                        callout={callout}
-                        isSelected={selectedCallout === callout.name}
-                        isBest={bestCalloutSide?.name === callout.name}
-                        isWorst={worstCalloutSide?.name === callout.name}
-                        onClick={handleCalloutSelect}
-                      />
-                    ))}
-                  </div>
-                )
+                <AdaptiveHotspotLayer
+                  callouts={processedCallouts.callouts}
+                  mapName={currentMap}
+                  selectedCallout={selectedCallout}
+                  bestCallout={bestCalloutSide}
+                  worstCallout={worstCalloutSide}
+                  onSelect={handleCalloutSelect}
+                  zoomLevel={zoomLevel}
+                />
               )}
+              </ErrorBoundary>
             </ZoomableMapContainer>
 
             {activeSection === 'heatmap' ? (
@@ -397,7 +393,7 @@ const TacticalMapContent = () => {
                 </div>
                 <div className="legend-item bad">
                   <div className="legend-dot"></div>
-                  <span>DÃ©bil</span>
+                  <span>Débil</span>
                 </div>
               </div>
             )}
@@ -420,7 +416,7 @@ const TacticalMapContent = () => {
               <span className="loading-text">Cargando datos...</span>
             ) : (
               <span className="matches-count">
-                {matchesAnalyzed} {matchesAnalyzed === 1 ? 'partida' : 'partidas'} â€¢ {sortedCallouts.length} callouts
+                {matchesAnalyzed} {matchesAnalyzed === 1 ? 'partida' : 'partidas'} · {sortedCallouts.length} zonas
               </span>
             )}
           </div>
@@ -432,6 +428,7 @@ const TacticalMapContent = () => {
           />
 
           <div className="detail-content">
+            <ErrorBoundary name="sidebar-content" message="Error en el panel">
             {activeSection === 'hotpoints' && (
               <CalloutDetailPanel
                 callout={selectedCalloutData}
@@ -473,12 +470,13 @@ const TacticalMapContent = () => {
                 flowLines={flowLines}
               />
             )}
+            </ErrorBoundary>
           </div>
 
           <div className="sidebar-actions">
             <Link to="/map-performance" className="action-btn">
               <BarChart3 size={16} />
-              Ver todas las estadÃ­sticas
+              Ver todas las estadísticas
             </Link>
             <Link to="/history-games" className="action-btn">
               <Target size={16} />

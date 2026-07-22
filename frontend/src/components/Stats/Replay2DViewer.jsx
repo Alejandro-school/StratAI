@@ -2,9 +2,9 @@
 // INNOVATIVE 2D Replay Viewer - Cinematic Esports Experience
 // Features: Framer Motion animations, dual team panels, glassmorphism controls
 
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, SkipBack, SkipForward, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Shield, PenTool, Skull } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Shield, Wrench, Skull, Bomb, MonitorPlay, Users } from "lucide-react";
 import useReplaySyncStore from "../../stores/useReplaySyncStore";
 import "../../styles/Stats/replay2DViewer.css";
 
@@ -13,19 +13,19 @@ import "../../styles/Stats/replay2DViewer.css";
 // ============================================================================
 
 const MAP_CONFIGS = {
-  de_dust2: { pos_x: -2476, pos_y: 3239, scale: 4.4 },
-  de_mirage: { pos_x: -3230, pos_y: 1713, scale: 5.0 },
-  de_inferno: { pos_x: -2087, pos_y: 3870, scale: 4.9 },
-  de_ancient: { pos_x: -2953, pos_y: 2164, scale: 5.0 },
-  de_anubis: { pos_x: -2796, pos_y: 3328, scale: 5.22 },
-  de_nuke: { pos_x: -3453, pos_y: 2887, scale: 7.0 },
-  de_overpass: { pos_x: -4831, pos_y: 1781, scale: 5.2 },
-  de_vertigo: { pos_x: -3168, pos_y: 1762, scale: 4.0 },
-  de_train: { pos_x: -2477, pos_y: 2392, scale: 4.7 },
+  de_dust2:   { pos_x: -2476, pos_y: 3239, scale: 4.4  },
+  de_mirage:  { pos_x: -3230, pos_y: 1713, scale: 5.0  },
+  de_inferno: { pos_x: -2087, pos_y: 3870, scale: 4.9  },
+  de_ancient: { pos_x: -2953, pos_y: 2164, scale: 5.0  },
+  de_anubis:  { pos_x: -2796, pos_y: 3328, scale: 5.22 },
+  de_nuke:    { pos_x: -3453, pos_y: 2887, scale: 7.0  },
+  de_overpass:{ pos_x: -4831, pos_y: 1781, scale: 5.2  },
+  de_vertigo: { pos_x: -3168, pos_y: 1762, scale: 4.0  },
+  de_train:   { pos_x: -2477, pos_y: 2392, scale: 4.7  },
 };
 
 const THEME = {
-  ct: { primary: "#22d3ee", glow: "rgba(34, 211, 238, 0.45)", dark: "#083344" },
+  ct: { primary: "#60a5fa", glow: "rgba(96, 165, 250, 0.45)", dark: "#083344" },
   t: { primary: "#eab308", glow: "rgba(234, 179, 8, 0.45)", dark: "#422006" },
 };
 
@@ -33,7 +33,7 @@ const WEAPON_ICON_MAP = {
   // Rifles
   'AK-47': 'weapon_ak47', 'M4A4': 'weapon_m4a1', 'M4A1-S': 'weapon_m4a1_silencer',
   'AWP': 'weapon_awp', 'AUG': 'weapon_aug', 'FAMAS': 'weapon_famas', 
-  'Galil AR': 'weapon_galilar', 'SSG 08': 'weapon_ssg08', 'SG 553': 'weapon_sg553',
+  'Galil AR': 'weapon_galilar', 'SSG 08': 'weapon_ssg08', 'SG 553': 'weapon_sg556',
   'SCAR-20': 'weapon_scar20', 'G3SG1': 'weapon_g3sg1',
   // Pistols  
   'Desert Eagle': 'weapon_deagle', 'USP-S': 'weapon_usp_silencer', 'Glock-18': 'weapon_glock',
@@ -49,16 +49,33 @@ const WEAPON_ICON_MAP = {
   'MAG-7': 'weapon_mag7', 'M249': 'weapon_m249', 'Negev': 'weapon_negev',
   // Equipment
   'Knife': 'weapon_knife', 'C4': 'weapon_c4',
+  'Zeus x27': 'weapon_taser', 'Zeus': 'weapon_taser',
   'HE Grenade': 'weapon_hegrenade', 'Flashbang': 'weapon_flashbang',
   'Smoke Grenade': 'weapon_smokegrenade', 'Molotov': 'weapon_molotov',
   'Incendiary Grenade': 'weapon_incgrenade', 'Decoy Grenade': 'weapon_decoy',
 };
 
+const PRIMARY_WEAPONS = new Set([
+  'AK-47', 'M4A4', 'M4A1-S', 'AWP', 'AUG', 'FAMAS', 'Galil AR', 'SSG 08', 'SG 553',
+  'SCAR-20', 'G3SG1', 'MAC-10', 'MP9', 'MP7', 'UMP-45', 'PP-Bizon', 'P90', 'MP5-SD',
+  'Nova', 'XM1014', 'Sawed-Off', 'MAG-7', 'M249', 'Negev',
+]);
+
+const PISTOLS = new Set([
+  'Desert Eagle', 'USP-S', 'Glock-18', 'P2000', 'P250', 'Five-SeveN', 'Tec-9',
+  'CZ75-Auto', 'Dual Berettas', 'R8 Revolver',
+]);
+
+const UTILITY_WEAPONS = new Set([
+  'HE Grenade', 'Flashbang', 'Smoke Grenade', 'Molotov', 'Incendiary Grenade', 'Decoy Grenade',
+  'C4', 'Zeus x27', 'Zeus',
+]);
+
 // ============================================================================
 // UTILITIES
 // ============================================================================
 
-function translateCoords(gameX, gameY, mapConfig, canvasSize) {
+function translateCoords(gameX, gameY, mapConfig, canvasSize = 1024) {
   const { pos_x, pos_y, scale } = mapConfig;
   const pixelX = (gameX - pos_x) / scale;
   const pixelY = (pos_y - gameY) / scale;
@@ -83,6 +100,21 @@ function getWeaponIconPath(weapon) {
   return iconName ? `/images/weapons/${iconName}.png` : null;
 }
 
+function buildInventory(player) {
+  const sourceWeapons = Array.isArray(player.weapons) && player.weapons.length > 0
+    ? player.weapons
+    : [player.weapon].filter(Boolean);
+  const weapons = Array.from(new Set(sourceWeapons.filter(Boolean)));
+  const activeWeapon = player.weapon;
+
+  return {
+    primary: weapons.find(weapon => PRIMARY_WEAPONS.has(weapon)) || null,
+    pistol: weapons.find(weapon => PISTOLS.has(weapon)) || null,
+    utility: weapons.filter(weapon => UTILITY_WEAPONS.has(weapon) && weapon !== 'C4'),
+    activeWeapon,
+  };
+}
+
 function parseTimestampToSeconds(timestamp) {
   if (!timestamp || typeof timestamp !== 'string') return null;
   const parts = timestamp.trim().split(':').map(Number);
@@ -90,6 +122,14 @@ function parseTimestampToSeconds(timestamp) {
   if (parts.length === 1) return parts[0];
   if (parts.length === 2) return parts[0] * 60 + parts[1];
   return null;
+}
+
+function formatRoundClock(seconds) {
+  if (typeof seconds !== 'number' || Number.isNaN(seconds)) return '';
+  const safeSeconds = Math.max(0, seconds);
+  const minutes = Math.floor(safeSeconds / 60);
+  const remainingSeconds = Math.floor(safeSeconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
 function getClosestFrameIndexByTick(frames, tick) {
@@ -120,17 +160,6 @@ function getClosestFrameIndexByTimeRemaining(frames, targetSeconds) {
   return bestIndex;
 }
 
-const weaponIconCache = new Map();
-function loadWeaponIcon(weapon) {
-  const iconPath = getWeaponIconPath(weapon);
-  if (!iconPath) return null;
-  if (weaponIconCache.has(iconPath)) return weaponIconCache.get(iconPath);
-  const img = new Image();
-  img.src = iconPath;
-  weaponIconCache.set(iconPath, img);
-  return img;
-}
-
 // ============================================================================
 // ANIMATED PLAYER CARD COMPONENT
 // ============================================================================
@@ -138,86 +167,183 @@ function loadWeaponIcon(weapon) {
 const PlayerCard = React.memo(({ player, team }) => {
   const isDead = !player.alive;
   const hp = player.health || 0;
-  const weaponIcon = loadWeaponIcon(player.weapon);
+  const inventory = buildInventory(player);
   const tc = team === 'CT' ? THEME.ct : THEME.t;
-
-  // Health colour
   const hpColor = hp > 60 ? '#22c55e' : hp > 25 ? '#eab308' : '#ef4444';
+  const armor = Math.max(0, Math.min(100, player.armor || 0));
+  const playerName = String(player.name || 'Jugador').trim();
+  const activeStates = [
+    player.is_defusing ? 'DEFUSING' : null,
+    player.is_reloading ? 'RELOAD' : null,
+    player.is_scoped ? 'SCOPED' : null,
+    player.is_walking ? 'SHIFT' : null,
+    player.flash_duration > 0 ? 'FLASHED' : null,
+  ].filter(Boolean);
 
   return (
     <div
       className={`rv-player ${team.toLowerCase()} ${isDead ? 'dead' : ''}`}
-      style={{ '--tc': tc.primary }}
+      style={{ '--tc': tc.primary, '--hp-color': hpColor, '--armor-pct': `${armor}%` }}
+      aria-label={`${playerName}, ${hp} de vida, $${player.money || 0}, ${armor} de kevlar`}
     >
-      {/* Row 1: avatar dot + name + hp number */}
-      <div className="rv-player-top">
-        <div className="rv-avatar" />
-        <span className="rv-name">{player.name?.substring(0, 14) || 'Player'}</span>
-        <span className="rv-hp-num" style={{ color: isDead ? '#64748b' : hpColor }}>
-          {isDead ? <Skull size={11} /> : hp}
-        </span>
+      <div className="rv-hp-badge" style={{ borderColor: isDead ? '#475569' : hpColor }}>
+        {isDead ? <Skull size={14} color="#64748b" /> : (
+          <span style={{ color: hpColor }}>{hp}</span>
+        )}
       </div>
 
-      {/* Row 2: health bar full-width */}
-      <div className="rv-hp-bar-bg">
-        <div
-          className="rv-hp-bar"
-          style={{ width: `${hp}%`, background: isDead ? '#334155' : hpColor }}
-        />
-      </div>
-
-      {/* Row 3: weapon + indicators + money */}
-      <div className="rv-player-bottom">
-        <div className="rv-weapon-row">
-          {weaponIcon && weaponIcon.complete && (
-            <img src={weaponIcon.src} alt="" className="rv-weapon-img" />
+      <div className="rv-info">
+        <div className="rv-name-row">
+          <span className="rv-name" title={playerName}>{playerName}</span>
+          {activeStates.length > 0 && (
+            <span className="rv-state-tag">{activeStates[0]}</span>
           )}
-          {player.armor > 0 && <Shield size={10} color={tc.primary} />}
-          {player.has_defuse_kit && <PenTool size={10} color="#94a3b8" />}
         </div>
-        <span className="rv-money">${player.money || 0}</span>
+        <div className="rv-meta">
+          <span className="rv-money">${(player.money || 0).toLocaleString()}</span>
+          <span className={`rv-armor-meter ${armor > 0 ? 'active' : ''}`} title={`Kevlar ${armor}`}>
+            <Shield size={11} aria-hidden="true" />
+            <span>{armor}</span>
+          </span>
+          {player.has_defuse_kit && (
+            <span className="rv-kit-badge" title="Defuse kit">
+              <Wrench size={10} aria-hidden="true" />
+              <span>KIT</span>
+            </span>
+          )}
+          {player.has_c4 && (
+            <span className="rv-c4-badge" title="C4">
+              <Bomb size={11} aria-hidden="true" />
+              <span>C4</span>
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="rv-inventory">
+        <WeaponIcon weapon={inventory.primary} active={inventory.activeWeapon === inventory.primary} type="primary" />
+        <div className="rv-inventory-secondary">
+          <WeaponIcon weapon={inventory.pistol} active={inventory.activeWeapon === inventory.pistol} type="pistol" />
+          <div className="rv-utility-row">
+              {inventory.utility.slice(0, 5).map((weapon, index) => (
+              <WeaponIcon key={`${weapon}-${index}`} weapon={weapon} active={inventory.activeWeapon === weapon} type="utility" />
+              ))}
+            {player.has_c4 && <WeaponIcon weapon="C4" active={inventory.activeWeapon === 'C4'} type="utility c4" />}
+          </div>
+        </div>
       </div>
     </div>
   );
 });
 
+const WeaponIcon = ({ weapon, active = false, type = '' }) => {
+  const iconPath = getWeaponIconPath(weapon);
+
+  if (!weapon) {
+    return <span className={`rv-weapon-placeholder ${type}`} />;
+  }
+
+  if (!iconPath) {
+    return <span className={`rv-weapon-text ${active ? 'active' : ''} ${type}`}>{weapon}</span>;
+  }
+
+  return (
+    <img
+      src={iconPath}
+      alt=""
+      className={`rv-weapon-img ${active ? 'active' : ''} ${type}`}
+      title={weapon}
+    />
+  );
+};
+
 // ============================================================================
 // KILL FEED OVERLAY COMPONENT
 // ============================================================================
 
-const KillFeedItem = ({ kill, onComplete }) => {
-  useEffect(() => {
-    const timer = setTimeout(onComplete, 5000);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
-  
+const getKillFeedKey = (kill) => [
+  kill.tick,
+  kill.killer_id || kill.killer_name,
+  kill.assister_id || kill.assister_name || kill.assister,
+  kill.victim_id || kill.victim_name,
+  kill.weapon || 'weapon'
+].join('-');
+
+const KillFeedItem = ({ kill }) => {
   const killerColor = kill.killer_team === 'CT' ? THEME.ct.primary : THEME.t.primary;
   const victimColor = kill.victim_team === 'CT' ? THEME.ct.primary : THEME.t.primary;
-  const weaponIcon = loadWeaponIcon(kill.weapon);
+  const assisterColor = kill.assister_team === 'CT' ? THEME.ct.primary : kill.assister_team === 'T' ? THEME.t.primary : killerColor;
+  const weaponIconPath = getWeaponIconPath(kill.weapon);
   
+  const rawKiller = kill.killer_name || kill.attacker_name || '';
+  const rawVictim = kill.victim_name || kill.target_name || '';
+  const rawAssister = kill.assister_name || kill.assister || '';
+  
+  const killerName = String(rawKiller).trim().length > 0 
+    ? String(rawKiller).trim()
+    : 'Jugador';
+    
+  const victimName = String(rawVictim).trim().length > 0 
+    ? String(rawVictim).trim()
+    : 'Jugador';
+  const assisterName = String(rawAssister).trim();
+  const isHeadshot = kill.headshot || kill.is_headshot;
+  const isWallbang = kill.wallbang || kill.is_wallbang || kill.penetrated_objects > 0;
+  const isNoScope = kill.noscope || kill.no_scope;
+  const modifiers = [
+    isHeadshot ? 'HS' : null,
+    kill.through_smoke ? 'SMOKE' : null,
+    isWallbang ? 'WALL' : null,
+    isNoScope ? 'NS' : null,
+    kill.attacker_blind ? 'BLIND' : null,
+  ].filter(Boolean);
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: 30, scale: 0.9 }}
-      animate={{ opacity: 1, x: 0, scale: 1 }}
-      exit={{ opacity: 0, x: -20, scale: 0.9 }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      layout="position"
       className="kill-feed-item"
+      initial={{ opacity: 0, x: 24 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 18 }}
+      transition={{
+        layout: { duration: 0.18, ease: [0.2, 0, 0, 1] },
+        opacity: { duration: 0.14 },
+        x: { duration: 0.18, ease: [0.2, 0, 0, 1] }
+      }}
+      style={{ '--killer-color': killerColor, '--assister-color': assisterColor, '--victim-color': victimColor }}
     >
-      <span className="kill-name killer" style={{ color: killerColor }}>{kill.killer_name?.substring(0, 10)}</span>
+      <span className="kill-time">{kill.display_time}</span>
+      <div className="kill-actors">
+        <span className="kill-name killer" title={killerName}>{killerName}</span>
+        {assisterName && (
+          <>
+          <span className="kill-assist-plus">+</span>
+          <span className="kill-name assister" title={assisterName}>{assisterName}</span>
+          </>
+        )}
+      </div>
       <div className="kill-weapon-container">
-        {weaponIcon && weaponIcon.complete ? (
-          <img src={weaponIcon.src} alt="" className="kill-weapon-icon" />
+        {weaponIconPath ? (
+          <img src={weaponIconPath} alt="" className="kill-weapon-icon" />
         ) : (
           <span className="kill-weapon-text">{kill.weapon || '?'}</span>
         )}
-        {kill.headshot && <span className="headshot-badge">HS</span>}
       </div>
-      <span className="kill-name victim" style={{ color: victimColor }}>{kill.victim_name?.substring(0, 10)}</span>
+      {modifiers.length > 0 && (
+        <div className="kill-modifiers">
+          {modifiers.slice(0, 2).map(modifier => (
+            <span key={modifier} className={`kill-modifier ${modifier.toLowerCase()}`}>
+              {modifier === 'HS' ? <Skull size={15} strokeWidth={2.6} /> : modifier}
+            </span>
+          ))}
+        </div>
+      )}
+      <span className="kill-name victim" title={victimName}>{victimName}</span>
     </motion.div>
   );
 };
 
-const KillFeedOverlay = ({ events, currentTick }) => {
+const KillFeedOverlay = ({ events, players, frames, playerNameLookup, currentTick }) => {
   const [visibleKills, setVisibleKills] = useState([]);
   
   useEffect(() => {
@@ -225,19 +351,41 @@ const KillFeedOverlay = ({ events, currentTick }) => {
     const recentKills = events.filter(e => 
       e.type === 'kill' && 
       currentTick - e.tick >= 0 && 
-      currentTick - e.tick < 256
-    );
+      currentTick - e.tick < 512
+    ).map(kill => {
+      const killer = players?.find(p => String(p.steam_id) === String(kill.killer_id));
+      const victim = players?.find(p => String(p.steam_id) === String(kill.victim_id));
+      const assister = players?.find(p => String(p.steam_id) === String(kill.assister_id));
+      const killFrameIndex = getClosestFrameIndexByTick(frames, kill.tick);
+      const killFrame = killFrameIndex >= 0 ? frames[killFrameIndex] : null;
+      const killerName = String(kill.killer_name || '').trim()
+        || String(killer?.name || '').trim()
+        || String(playerNameLookup?.get(String(kill.killer_id)) || '').trim();
+      const victimName = String(kill.victim_name || '').trim()
+        || String(victim?.name || '').trim()
+        || String(playerNameLookup?.get(String(kill.victim_id)) || '').trim();
+      const assisterName = String(kill.assister_name || kill.assister || '').trim()
+        || String(assister?.name || '').trim()
+        || String(playerNameLookup?.get(String(kill.assister_id)) || '').trim();
+
+      return {
+        ...kill,
+        killer_name: killerName,
+        victim_name: victimName,
+        assister_name: assisterName,
+        display_time: formatRoundClock(killFrame?.time_remaining),
+      };
+    });
     setVisibleKills(recentKills.slice(-5));
-  }, [events, currentTick]);
+  }, [events, players, frames, playerNameLookup, currentTick]);
   
   return (
     <div className="kill-feed-overlay">
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {visibleKills.map((kill, i) => (
           <KillFeedItem 
-            key={`${kill.tick}-${i}`} 
+            key={getKillFeedKey(kill)}
             kill={kill}
-            onComplete={() => {}}
           />
         ))}
       </AnimatePresence>
@@ -254,7 +402,10 @@ export default function Replay2DViewer({
   replayData: preloadedData, 
   initialRound = 1,
   externalControl = null,
-  scenarioContext = null
+  scenarioContext = null,
+  fitMode = 'focus',
+  compactTeams = false,
+  onAvailabilityChange
 }) {
   // Global Store Sync
   const { isPlaying: isAiPlaying, activeClip, annotations, updateCurrentTick } = useReplaySyncStore();
@@ -273,7 +424,7 @@ export default function Replay2DViewer({
   const prevEventsRef = useRef(new Set());
   const pendingTickRef = useRef(null);
   const pendingTimestampRef = useRef(null);
-  const screenShakeRef = useRef({ active: false, startTime: 0, intensity: 0 });
+  const pendingAiClipRef = useRef(null);
   
   // State
   const [metadata, setMetadata] = useState(null);
@@ -285,17 +436,40 @@ export default function Replay2DViewer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
-  const [canvasSize, setCanvasSize] = useState(700);
+  const [canvasDim, setCanvasDim] = useState({ w: 800, h: 800 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDraggingTimeline, setIsDraggingTimeline] = useState(false);
+  const [isTeamsPanelOpen, setIsTeamsPanelOpen] = useState(false);
+
+  useEffect(() => {
+    onAvailabilityChange?.(Boolean(metadata));
+  }, [metadata, onAvailabilityChange]);
   
   // Derived
   const mapName = metadata?.map_name;
   const mapConfig = MAP_CONFIGS[mapName] || MAP_CONFIGS.de_mirage;
   const totalFrames = currentRoundData?.frames?.length || 0;
   const sampleRateMs = metadata?.sample_rate_ms || 62.5;
+  const ctScore = useMemo(() => roundsSummary.slice(0, currentRound).filter(r => r.winner === 'CT').length, [roundsSummary, currentRound]);
+  const tScore = useMemo(() => roundsSummary.slice(0, currentRound).filter(r => r.winner === 'T').length, [roundsSummary, currentRound]);
+  const playerNameLookup = useMemo(() => {
+    const namesById = new Map();
+
+    currentRoundData?.frames?.forEach(frame => {
+      frame.players?.forEach(player => {
+        const playerId = String(player?.steam_id || '');
+        const playerName = String(player?.name || '').trim();
+
+        if (playerId && playerName && !namesById.has(playerId)) {
+          namesById.set(playerId, playerName);
+        }
+      });
+    });
+
+    return namesById;
+  }, [currentRoundData]);
 
   // ============================================================================
   // DATA LOADING
@@ -324,7 +498,7 @@ export default function Replay2DViewer({
       setLoading(true);
       try {
         const res = await fetch(`http://localhost:8000/match/${matchId}/replay/metadata`, { credentials: 'include' });
-        if (!res.ok) throw new Error('Error loading replay');
+        if (!res.ok) throw new Error('Error al cargar la repetición');
         const data = await res.json();
         setMetadata(data.metadata);
         if (data.rounds_summary) {
@@ -347,15 +521,12 @@ export default function Replay2DViewer({
   }, [matchId, preloadedData, initialRound]);
 
   const loadRoundData = useCallback(async (roundNum) => {
-    console.log('[Replay2D] loadRoundData called, round:', roundNum);
     const cached = roundCacheRef.current.get(roundNum);
     if (cached?.frames?.length) {
-      console.log('[Replay2D] Using cached data for round', roundNum, 'frames:', cached.frames.length);
       setCurrentRoundData(cached);
       return;
     }
     if (preloadedData?.rounds?.[roundNum - 1]?.frames?.length) {
-      console.log('[Replay2D] Using preloaded data for round', roundNum);
       setCurrentRoundData(preloadedData.rounds[roundNum - 1]);
       return;
     }
@@ -363,9 +534,8 @@ export default function Replay2DViewer({
     setLoadingRound(true);
     try {
       const res = await fetch(`http://localhost:8000/match/${matchId}/replay/round/${roundNum}`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Error loading round');
+      if (!res.ok) throw new Error('Error al cargar la ronda');
       const data = await res.json();
-      console.log('[Replay2D] Fetched round', roundNum, 'from API, frames:', data?.frames?.length);
       roundCacheRef.current.set(roundNum, data);
       setCurrentRoundData(data);
     } catch (err) { console.error(err); }
@@ -480,22 +650,46 @@ export default function Replay2DViewer({
   // AI CLIP LISTENER (Zustand Global State)
   // ============================================================================
   useEffect(() => {
-    if (activeClip && currentRoundData?.frames?.length > 0) {
-      // Si el startTick es pequeño (ej. 0.35), asumimos que es un tiempo normalizado (0.0 a 1.0)
-      if (activeClip.startTick <= 1) {
-        setCurrentTime(activeClip.startTick);
-        currentTimeRef.current = activeClip.startTick;
+    if (!activeClip) return;
+    pendingAiClipRef.current = activeClip;
+
+    if (typeof activeClip.round !== 'number') return;
+    const summaryIndex = roundsSummary.findIndex((round) => round.round === activeClip.round);
+    const targetRoundIndex = summaryIndex >= 0 ? summaryIndex + 1 : activeClip.round;
+
+    setCurrentRound((current) => {
+      if (current === targetRoundIndex) return current;
+      setCurrentTime(0);
+      currentTimeRef.current = 0;
+      setIsPlaying(false);
+      return targetRoundIndex;
+    });
+  }, [activeClip, roundsSummary]);
+
+  useEffect(() => {
+    const clip = pendingAiClipRef.current;
+    if (!clip || !currentRoundData?.frames?.length) return;
+
+    if (typeof clip.round === 'number') {
+      const summaryIndex = roundsSummary.findIndex((round) => round.round === clip.round);
+      const targetRoundIndex = summaryIndex >= 0 ? summaryIndex + 1 : clip.round;
+      if (targetRoundIndex !== currentRound) return;
+    }
+
+    if (clip.startTick <= 1) {
+      setCurrentTime(clip.startTick);
+      currentTimeRef.current = clip.startTick;
+      setIsPlaying(true);
+    } else {
+      const targetIndex = getClosestFrameIndexByTick(currentRoundData.frames, clip.startTick);
+      if (targetIndex >= 0) {
+        seekToFrameIndex(targetIndex, currentRoundData.frames.length);
         setIsPlaying(true);
-      } else {
-        // Find frame index closest to the AI's requested startTick if it's an absolute tick
-        const targetIndex = getClosestFrameIndexByTick(currentRoundData.frames, activeClip.startTick);
-        if (targetIndex >= 0) {
-          seekToFrameIndex(targetIndex, currentRoundData.frames.length);
-          setIsPlaying(true); // Ensure local playback starts when AI dictates
-        }
       }
     }
-  }, [activeClip, currentRoundData, seekToFrameIndex]);
+
+    pendingAiClipRef.current = null;
+  }, [activeClip, currentRound, currentRoundData, roundsSummary, seekToFrameIndex]);
 
   // Sync local isPlaying with global AI playback state (auto-pause when endTick reached)
   useEffect(() => {
@@ -515,25 +709,75 @@ export default function Replay2DViewer({
 
   const [dpr, setDpr] = useState(1);
 
-  // Canvas resize
+  // Canvas resize — fill the container width and height
   useEffect(() => {
     const updateSize = () => {
       setDpr(window.devicePixelRatio || 1);
       if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        // Subtract side panels (260px each) + gaps
-        const availableWidth = rect.width - 520 - 48;
-        // Subtract top bar (~48px) + bottom dock (~120px)
-        const availableHeight = rect.height - 170;
-        // Canvas is square — fit into whichever is smaller
-        const size = Math.min(availableWidth, availableHeight);
-        setCanvasSize(Math.max(size, 280));
+        const mapArea = containerRef.current.querySelector('.replay-map-area');
+        if (mapArea) {
+          const rect = mapArea.getBoundingClientRect();
+          setCanvasDim({ w: Math.max(rect.width, 400), h: Math.max(rect.height, 400) });
+        }
       }
     };
     updateSize();
+    // Small delay to let the layout settle after first render
+    const initialTimer = setTimeout(updateSize, 100);
     window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+    return () => {
+      clearTimeout(initialTimer);
+      window.removeEventListener('resize', updateSize);
+    };
   }, [isFullscreen]);
+
+  // Auto-fit the view to the playable area whenever the round data or canvas dims change.
+  // Scans all player positions in the round to compute the tightest bounding box,
+  // then calculates the zoom and pan that centre it inside the canvas.
+  useEffect(() => {
+    if (!currentRoundData?.frames?.length || !mapConfig || canvasDim.w < 100) return;
+
+    if (fitMode === 'contain') {
+      setZoom(1);
+      setPan({ x: 0, y: 0 });
+      return;
+    }
+
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    currentRoundData.frames.forEach(frame => {
+      frame.players?.forEach(p => {
+        // Only include valid coordinates (filter out exact 0,0 which can be dead/unspawned outliers)
+        if (p.x !== undefined && p.y !== undefined && (Math.abs(p.x) > 10 || Math.abs(p.y) > 10)) {
+          minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x);
+          minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+        }
+      });
+    });
+    if (minX === Infinity) return;
+
+    // Tight fit: minimal padding.
+    const pad = 0.05;
+    const rx = (maxX - minX) * pad;
+    const ry = (maxY - minY) * pad;
+    // Compute bounding box in 1024 virtual space coordinates
+    const tl = translateCoords(minX - rx, maxY + ry, mapConfig, 1024);
+    const br = translateCoords(maxX + rx, minY - ry, mapConfig, 1024);
+    const bw = br.x - tl.x;
+    const bh = br.y - tl.y;
+    if (bw <= 0 || bh <= 0) return;
+
+    // Determine how much of the virtual space is visible on screen
+    const baseScale = Math.min(canvasDim.w / 1024, canvasDim.h / 1024);
+    const visibleW = canvasDim.w / baseScale;
+    const visibleH = canvasDim.h / baseScale;
+
+    const rawFitZoom = Math.min(visibleW / bw, visibleH / bh);
+    const fitZoom = Math.max(1.4, rawFitZoom * 1.2);
+    const midX   = (tl.x + br.x) / 2;
+    const midY   = (tl.y + br.y) / 2;
+    setZoom(fitZoom);
+    setPan({ x: (512 - midX) * fitZoom, y: (512 - midY) * fitZoom });
+  }, [currentRoundData, mapConfig, canvasDim, fitMode]);
 
   // ============================================================================
   // INTERPOLATION
@@ -570,39 +814,37 @@ export default function Replay2DViewer({
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    const size = canvasSize; // Logic size
+    const size = 1024; // Virtual logic size is always 1024
+    const { w: cw, h: ch } = canvasDim;
     
     // Clear using physical pixels
-    ctx.clearRect(0, 0, size * dpr, size * dpr);
+    ctx.clearRect(0, 0, cw * dpr, ch * dpr);
     ctx.save();
-    
-    // Scale for High DPI
     ctx.scale(dpr, dpr);
 
-    // Apply screen shake if active
-    let shakeX = 0, shakeY = 0;
-    if (screenShakeRef.current.active) {
-      const shakeAge = performance.now() - screenShakeRef.current.startTime;
-      if (shakeAge < screenShakeRef.current.duration) {
-        const shakeFade = 1 - (shakeAge / screenShakeRef.current.duration);
-        const shakeIntensity = screenShakeRef.current.intensity * shakeFade;
-        shakeX = (Math.random() - 0.5) * shakeIntensity * 2;
-        shakeY = (Math.random() - 0.5) * shakeIntensity * 2;
-      } else {
-        screenShakeRef.current.active = false;
-      }
-    }
-    
-    ctx.translate(pan.x + size / 2 + shakeX, pan.y + size / 2 + shakeY);
-    ctx.scale(zoom, zoom);
-    ctx.translate(-size / 2, -size / 2);
-    
-    // Draw map
-    ctx.fillStyle = '#0D1117';
-    ctx.fillRect(0, 0, size, size);
-    if (mapImageRef.current) {
+    // Background filling entire screen
+    ctx.fillStyle = '#0b0e13';
+    ctx.fillRect(0, 0, cw, ch);
+
+    // Base coordinate system mapping virtual 1024 space to actual screen,
+    // centering it properly so we can utilize the full width/height.
+    const baseScale = Math.min(cw / 1024, ch / 1024);
+    const offsetX = (cw - 1024 * baseScale) / 2;
+    const offsetY = (ch - 1024 * baseScale) / 2;
+    ctx.translate(offsetX, offsetY);
+    ctx.scale(baseScale, baseScale);
+
+    const effectiveZoom = Math.max(0.01, zoom);
+    const now = performance.now();
+
+    // ── Pan/zoom transform — applies to ALL objects including the map ────────
+    ctx.translate(pan.x + 512, pan.y + 512);
+    ctx.scale(effectiveZoom, effectiveZoom);
+    ctx.translate(-512, -512);
+
+    if (mapImageRef.current?.complete) {
       ctx.globalAlpha = 0.9;
-      ctx.drawImage(mapImageRef.current, 0, 0, size, size);
+      ctx.drawImage(mapImageRef.current, 0, 0, 1024, 1024);
       ctx.globalAlpha = 1;
     }
     
@@ -631,143 +873,70 @@ export default function Replay2DViewer({
         const baseRadius = (144 / mapConfig.scale) * (size / 1024);
         
         if (effect.type === 'smoke') {
-          // =====================================================
-          // SMOKE - Gray circle with animated timer ring
-          // =====================================================
           const smokeRadius = baseRadius * 0.9;
           const timeRemaining = effect.time_remaining || 15;
-          const maxDuration = 18; // Smoke lasts ~18 seconds
+          const maxDuration = 18;
           const progress = Math.max(0, Math.min(1, timeRemaining / maxDuration));
+          const pulse = 0.95 + Math.sin(nowSeconds * 1.5) * 0.05;
           
-          // Animated rotation for the smoke cloud
-          const rotationAngle = (nowSeconds * 0.2) % (Math.PI * 2);
-
-          ctx.save();
-          ctx.translate(pos.x, pos.y);
-          ctx.rotate(rotationAngle);
-          
-          // Main smoke fill - smoother and more voluminous
-          const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, smokeRadius);
-          gradient.addColorStop(0, 'rgba(130, 135, 145, 0.9)');
-          gradient.addColorStop(0.4, 'rgba(110, 115, 125, 0.75)');
-          gradient.addColorStop(0.8, 'rgba(90, 95, 105, 0.4)');
+          const gradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, smokeRadius * pulse);
+          gradient.addColorStop(0, 'rgba(140, 145, 155, 0.75)');
+          gradient.addColorStop(0.7, 'rgba(100, 105, 115, 0.45)');
           gradient.addColorStop(1, 'rgba(80, 85, 90, 0)');
           
-          // Draw a stylized puffy cloud using overlapping circles
           ctx.beginPath();
-          ctx.arc(0, 0, smokeRadius * 0.8, 0, Math.PI * 2);
-          ctx.arc(smokeRadius * 0.3, smokeRadius * 0.2, smokeRadius * 0.6, 0, Math.PI * 2);
-          ctx.arc(-smokeRadius * 0.25, -smokeRadius * 0.3, smokeRadius * 0.7, 0, Math.PI * 2);
-          ctx.arc(-smokeRadius * 0.4, smokeRadius * 0.3, smokeRadius * 0.5, 0, Math.PI * 2);
-          ctx.arc(smokeRadius * 0.4, -smokeRadius * 0.2, smokeRadius * 0.55, 0, Math.PI * 2);
+          ctx.arc(pos.x, pos.y, smokeRadius * pulse, 0, Math.PI * 2);
           ctx.fillStyle = gradient;
           ctx.fill();
-
-          // Subtle inner swirling details
-          ctx.beginPath();
-          ctx.arc(0, 0, smokeRadius * 0.5, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-          ctx.fill();
           
-          ctx.restore();
-          
-          // Timer ring (white stroke showing remaining time) around the smoke
           if (progress > 0) {
             const startAngle = -Math.PI / 2;
             const endAngle = startAngle + (progress * Math.PI * 2);
             
-            // Background ring (dark)
             ctx.beginPath();
-            ctx.arc(pos.x, pos.y, smokeRadius + 6, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(20, 25, 30, 0.7)';
-            ctx.lineWidth = 4;
+            ctx.arc(pos.x, pos.y, smokeRadius + 4, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(20, 25, 30, 0.5)';
+            ctx.lineWidth = 2.5;
             ctx.stroke();
             
-            // Progress ring (white/cyan)
             ctx.beginPath();
-            ctx.arc(pos.x, pos.y, smokeRadius + 6, startAngle, endAngle, false); 
-            ctx.strokeStyle = 'rgba(200, 220, 255, 0.9)';
-            ctx.lineWidth = 3;
+            ctx.arc(pos.x, pos.y, smokeRadius + 4, startAngle, endAngle, false); 
+            ctx.strokeStyle = 'rgba(200, 220, 255, 0.8)';
+            ctx.lineWidth = 2;
             ctx.lineCap = 'round';
             ctx.stroke();
             ctx.lineCap = 'butt';
-            
-            // Central icon (Smoke Cloud)
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.font = '14px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.shadowColor = 'rgba(0,0,0,0.8)';
-            ctx.shadowBlur = 4;
-            ctx.fillText('☁', pos.x, pos.y + 1);
-            ctx.shadowBlur = 0;
           }
           
         } else if (effect.type === 'inferno') {
-          // =====================================================
-          // MOLOTOV/INCENDIARY - Realistic fire with particles
-          // =====================================================
           const fireRadius = baseRadius * 0.85;
           const timeRemaining = effect.time_remaining || 7;
           const maxDuration = 7;
           const age = maxDuration - timeRemaining;
           
-          // Spreading animation (grows from center in first 0.6s)
           const spreadProgress = Math.min(1, Math.max(0, age / 0.6));
-          // Easing out cubic for spread
           const spreadEased = 1 - Math.pow(1 - spreadProgress, 3);
           const currentRadius = fireRadius * spreadEased;
           
           const intensity = Math.min(1, timeRemaining / maxDuration);
+          const flicker = 0.85 + Math.sin(nowSeconds * 10) * 0.15;
           
-          // Multiple fire layers for depth
-          const flicker1 = 0.7 + Math.sin(nowSeconds * 12) * 0.3;
-          const flicker2 = 0.8 + Math.sin(nowSeconds * 8 + 1) * 0.2;
-          
-          // Outer fire glow
-          const outerGradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, currentRadius * 1.2);
-          outerGradient.addColorStop(0, `rgba(255, 120, 30, ${0.4 * intensity * flicker1})`);
-          outerGradient.addColorStop(0.6, `rgba(255, 80, 0, ${0.2 * intensity})`);
-          outerGradient.addColorStop(1, 'rgba(200, 50, 0, 0)');
+          const fireGradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, currentRadius);
+          fireGradient.addColorStop(0, `rgba(255, 200, 80, ${0.85 * intensity * flicker})`);
+          fireGradient.addColorStop(0.5, `rgba(255, 100, 20, ${0.6 * intensity})`);
+          fireGradient.addColorStop(1, `rgba(180, 40, 0, 0)`);
           
           ctx.beginPath();
-          ctx.arc(pos.x, pos.y, currentRadius * 1.2, 0, Math.PI * 2);
-          ctx.fillStyle = outerGradient;
+          ctx.arc(pos.x, pos.y, currentRadius, 0, Math.PI * 2);
+          ctx.fillStyle = fireGradient;
           ctx.fill();
           
-          // Main fire core (dynamic shape)
-          ctx.save();
-          ctx.translate(pos.x, pos.y);
-          // Rotate slightly over time
-          ctx.rotate(nowSeconds * 0.5);
-          
-          const coreGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, currentRadius * 0.8);
-          coreGradient.addColorStop(0, `rgba(255, 220, 100, ${0.9 * intensity * flicker2})`);
-          coreGradient.addColorStop(0.3, `rgba(255, 160, 40, ${0.8 * intensity * flicker1})`);
-          coreGradient.addColorStop(0.7, `rgba(255, 80, 0, ${0.5 * intensity})`);
-          coreGradient.addColorStop(1, `rgba(200, 40, 0, ${0.1 * intensity})`);
-          
+          const outerGlow = ctx.createRadialGradient(pos.x, pos.y, currentRadius * 0.7, pos.x, pos.y, currentRadius * 1.15);
+          outerGlow.addColorStop(0, 'rgba(255, 80, 0, 0)');
+          outerGlow.addColorStop(1, `rgba(255, 60, 0, ${0.15 * intensity})`);
           ctx.beginPath();
-          // Draw an irregular fire blob instead of perfect circle
-          for(let i=0; i<8; i++) {
-             const angle = (i / 8) * Math.PI * 2;
-             // Adds some spiky randomness based on time and angle
-             const spike = 1 + Math.sin(angle * 3 + nowSeconds * 5) * 0.15;
-             const r = currentRadius * 0.8 * spike;
-             if (i === 0) ctx.moveTo(r * Math.cos(angle), r * Math.sin(angle));
-             else ctx.lineTo(r * Math.cos(angle), r * Math.sin(angle));
-          }
-          ctx.closePath();
-          ctx.fillStyle = coreGradient;
-          ctx.fill();
-          ctx.restore();
-          
-          // Smooth pulsing glow instead of jittery particles
-          const glowPhase = (nowSeconds * 4) % (Math.PI * 2);
-          const pulseRadius = currentRadius * (0.6 + Math.sin(glowPhase) * 0.1);
-          ctx.beginPath();
-          ctx.arc(pos.x, pos.y, pulseRadius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 180, 50, ${0.4 * intensity})`;
+          ctx.arc(pos.x, pos.y, currentRadius * 1.15, 0, Math.PI * 2);
+          ctx.fillStyle = outerGlow;
           ctx.fill();
         }
       });
@@ -790,12 +959,13 @@ export default function Replay2DViewer({
           pts.push(translateCoords(proj.trajectory[i], proj.trajectory[i + 1], mapConfig, size));
         }
         
-        // Draw smooth trajectory using quadratic Bézier curves
+        // Draw smooth trajectory using dashed curves
         ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
-        ctx.globalAlpha = 0.5;
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = 0.45;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
+        ctx.setLineDash([4, 4]);
         ctx.beginPath();
         ctx.moveTo(pts[0].x, pts[0].y);
         if (pts.length === 2) {
@@ -810,16 +980,16 @@ export default function Replay2DViewer({
           ctx.lineTo(last.x, last.y);
         }
         ctx.stroke();
+        ctx.setLineDash([]);
         ctx.globalAlpha = 1;
         ctx.lineCap = 'butt';
         ctx.lineJoin = 'miter';
         
-        // Draw current grenade position
         const currentPos = translateCoords(proj.x, proj.y, mapConfig, size);
         ctx.beginPath();
-        ctx.arc(currentPos.x, currentPos.y, 5, 0, Math.PI * 2);
+        ctx.arc(currentPos.x, currentPos.y, 4, 0, Math.PI * 2);
         ctx.fillStyle = color;
-        ctx.globalAlpha = 0.9;
+        ctx.globalAlpha = 0.85;
         ctx.fill();
         ctx.globalAlpha = 1;
       });
@@ -828,7 +998,6 @@ export default function Replay2DViewer({
     // =========================================================================
     // CINEMATIC SHOT ANIMATION SYSTEM - Ultra-realistic visual effects
     // =========================================================================
-    const now = performance.now();
     
     // WEAPONS TO EXCLUDE (melee, utility, grenades)
     const EXCLUDED_WEAPONS = new Set([
@@ -959,19 +1128,9 @@ export default function Replay2DViewer({
             y: event.y,
             type: grenadeType,
             startTime: now,
-            duration: grenadeType === 'flashbang' ? 250 : 
-                      grenadeType === 'he' || grenadeType === 'hegrenade' ? 600 : 350
+            duration: grenadeType === 'flashbang' ? 200 : 
+                      grenadeType === 'he' || grenadeType === 'hegrenade' ? 400 : 300
           });
-          
-          // Trigger screen shake for HE grenades
-          if (grenadeType === 'he' || grenadeType === 'hegrenade') {
-            screenShakeRef.current = {
-              active: true,
-              startTime: now,
-              intensity: 6,
-              duration: 250
-            };
-          }
         }
       });
     }
@@ -986,17 +1145,12 @@ export default function Replay2DViewer({
       const explosionRadius = (144 / mapConfig.scale) * (size / 1024);
       
       if (explosion.type === 'flashbang' || explosion.type === 'flash') {
-        // Flashbang: Small intense white burst that leaves a quick star glare
-        const flashIntensity = progress < 0.1 ? 1 : Math.pow(1 - (progress - 0.1) / 0.9, 2);
-        // Expand very quickly, then lock radius
-        const expandScale = progress < 0.1 ? (progress / 0.1) : 1 + (progress * 0.2);
-        const radius = explosionRadius * 0.8 * expandScale; // A bit smaller baseline
+        const flashIntensity = Math.pow(1 - progress, 2);
+        const radius = explosionRadius * 0.6 * (1 + progress * 0.3);
         
-        // Outer glow
         const flashGradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, radius);
-        flashGradient.addColorStop(0, `rgba(255, 255, 255, ${flashIntensity * 0.95})`);
-        flashGradient.addColorStop(0.2, `rgba(255, 255, 240, ${flashIntensity * 0.8})`);
-        flashGradient.addColorStop(0.5, `rgba(255, 255, 200, ${flashIntensity * 0.4})`);
+        flashGradient.addColorStop(0, `rgba(255, 255, 255, ${flashIntensity * 0.9})`);
+        flashGradient.addColorStop(0.5, `rgba(255, 255, 220, ${flashIntensity * 0.4})`);
         flashGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         
         ctx.beginPath();
@@ -1004,85 +1158,41 @@ export default function Replay2DViewer({
         ctx.fillStyle = flashGradient;
         ctx.fill();
         
-        // Characteristic 4-point star glare for flash
-        if (progress < 0.4) {
-          const starIntensity = 1 - (progress / 0.4);
-          ctx.save();
-          ctx.translate(pos.x, pos.y);
-          ctx.rotate(Math.PI / 4 + progress * 2);
-          
-          ctx.beginPath();
-          ctx.ellipse(0, 0, radius * 1.5, radius * 0.15, 0, 0, Math.PI * 2);
-          ctx.ellipse(0, 0, radius * 0.15, radius * 1.5, 0, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${starIntensity})`;
-          ctx.fill();
-          ctx.restore();
-        }
-        
-        // Inner bright core
-        if (progress < 0.2) {
-          ctx.beginPath();
-          ctx.arc(pos.x, pos.y, radius * 0.4, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${(1 - progress / 0.2)})`;
-          ctx.fill();
-        }
-        
       } else if (explosion.type === 'he' || explosion.type === 'hegrenade') {
-        // HE Grenade: Small, punchy blast
-        // Reduce the overall radius
-        const maxRadius = explosionRadius * 0.6;
+        const maxRadius = explosionRadius * 0.5;
         
-        // Quick expanding fireball that dissipates
-        if (progress < 0.6) {
-          const coreProgress = progress / 0.6;
-          // Ease out cubic
+        if (progress < 0.7) {
+          const coreProgress = progress / 0.7;
           const scale = 1 - Math.pow(1 - coreProgress, 3);
           const coreAlpha = 1 - coreProgress;
           const currentRadius = maxRadius * scale;
           
           const fireGradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, currentRadius);
-          fireGradient.addColorStop(0, `rgba(255, 255, 180, ${coreAlpha})`);
-          fireGradient.addColorStop(0.3, `rgba(255, 120, 30, ${coreAlpha * 0.9})`);
-          fireGradient.addColorStop(0.7, `rgba(200, 40, 0, ${coreAlpha * 0.6})`);
-          fireGradient.addColorStop(1, `rgba(50, 50, 50, 0)`);
+          fireGradient.addColorStop(0, `rgba(255, 240, 160, ${coreAlpha})`);
+          fireGradient.addColorStop(0.4, `rgba(255, 100, 20, ${coreAlpha * 0.8})`);
+          fireGradient.addColorStop(1, `rgba(80, 30, 0, 0)`);
           
           ctx.beginPath();
           ctx.arc(pos.x, pos.y, currentRadius, 0, Math.PI * 2);
           ctx.fillStyle = fireGradient;
           ctx.fill();
-          
-          // Small debris / sparks
-          for (let i = 0; i < 6; i++) {
-             const angle = (i / 6) * Math.PI * 2 + (progress * 2);
-             const sparkDist = currentRadius * 1.2 * scale;
-             ctx.beginPath();
-             ctx.arc(pos.x + Math.cos(angle) * sparkDist, pos.y + Math.sin(angle) * sparkDist, 1.5, 0, Math.PI * 2);
-             ctx.fillStyle = `rgba(255, 200, 100, ${coreAlpha})`;
-             ctx.fill();
-          }
         }
         
-        // Single sharp shockwave
-        if (progress < 0.8) {
-           const shockAlpha = 1 - (progress / 0.8);
-           const shockScale = Math.pow(progress / 0.8, 0.5); // Fast out easing
-           const shockRadius = maxRadius * 1.5 * shockScale;
-           
+        if (progress < 0.6) {
+           const shockAlpha = 1 - (progress / 0.6);
+           const shockRadius = maxRadius * 1.3 * Math.pow(progress / 0.6, 0.5);
            ctx.beginPath();
            ctx.arc(pos.x, pos.y, shockRadius, 0, Math.PI * 2);
-           ctx.strokeStyle = `rgba(180, 180, 180, ${shockAlpha * 0.5})`;
-           ctx.lineWidth = 2;
+           ctx.strokeStyle = `rgba(180, 180, 180, ${shockAlpha * 0.4})`;
+           ctx.lineWidth = 1.5;
            ctx.stroke();
         }
         
       } else if (explosion.type === 'decoy') {
-        // Decoy: small puff
         const puffAlpha = 1 - progress;
-        const puffRadius = 15 + progress * 20;
-        
         ctx.beginPath();
-        ctx.arc(pos.x, pos.y, puffRadius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(150, 150, 150, ${puffAlpha * 0.5})`;
+        ctx.arc(pos.x, pos.y, 10 + progress * 12, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(150, 150, 150, ${puffAlpha * 0.4})`;
         ctx.fill();
       }
     });
@@ -1109,7 +1219,7 @@ export default function Replay2DViewer({
               killerTeam: event.killer_team,
               headshot: event.headshot,
               startTime: now,
-              duration: 800
+              duration: 600
             });
           }
         }
@@ -1134,33 +1244,27 @@ export default function Replay2DViewer({
                         (killLine.killerTeam === 'CT' ? '#5B9BD5' : '#E6B422');
       
       // Draw dashed kill line
-      ctx.setLineDash([8, 4]);
+      ctx.setLineDash([6, 4]);
       ctx.beginPath();
       ctx.moveTo(killerPos.x, killerPos.y);
       ctx.lineTo(victimPos.x, victimPos.y);
       ctx.strokeStyle = lineColor;
-      ctx.lineWidth = killLine.headshot ? 3 : 2;
-      ctx.globalAlpha = alpha * 0.8;
+      ctx.lineWidth = killLine.headshot ? 2 : 1.5;
+      ctx.globalAlpha = alpha * 0.7;
       ctx.stroke();
       ctx.setLineDash([]);
       
-      // Cross icon at victim position
+      // Small cross at victim position
+      const cs = 4;
       ctx.beginPath();
-      ctx.moveTo(victimPos.x - 5, victimPos.y - 5);
-      ctx.lineTo(victimPos.x + 5, victimPos.y + 5);
-      ctx.moveTo(victimPos.x + 5, victimPos.y - 5);
-      ctx.lineTo(victimPos.x - 5, victimPos.y + 5);
+      ctx.moveTo(victimPos.x - cs, victimPos.y - cs);
+      ctx.lineTo(victimPos.x + cs, victimPos.y + cs);
+      ctx.moveTo(victimPos.x + cs, victimPos.y - cs);
+      ctx.lineTo(victimPos.x - cs, victimPos.y + cs);
       ctx.strokeStyle = '#FF4444';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2;
       ctx.globalAlpha = alpha;
       ctx.stroke();
-      
-      // Headshot indicator
-      if (killLine.headshot) {
-        ctx.font = 'bold 10px Arial';
-        ctx.fillStyle = '#FF4444';
-        ctx.fillText('HS', victimPos.x, victimPos.y - 14);
-      }
       
       ctx.globalAlpha = 1;
     });
@@ -1174,55 +1278,46 @@ export default function Replay2DViewer({
       const bombPos = translateCoords(bomb.x, bomb.y, mapConfig, size);
       
       if (bomb.state === 'planted' || bomb.state === 'defusing') {
-        // Planted bomb - pulsing red glow
-        const pulsePhase = (now / 200) % (Math.PI * 2);
-        const pulseIntensity = 0.5 + Math.sin(pulsePhase) * 0.3;
-        const bombRadius = 18;
+        const pulsePhase = (now / 250) % (Math.PI * 2);
+        const pulseIntensity = 0.5 + Math.sin(pulsePhase) * 0.25;
+        const bombRadius = 14;
         
-        // Outer danger zone
-        const dangerGradient = ctx.createRadialGradient(bombPos.x, bombPos.y, 0, bombPos.x, bombPos.y, bombRadius * 3);
-        dangerGradient.addColorStop(0, `rgba(255, 50, 50, ${pulseIntensity * 0.4})`);
-        dangerGradient.addColorStop(0.5, `rgba(255, 0, 0, ${pulseIntensity * 0.2})`);
+        // Subtle danger zone
+        const dangerGradient = ctx.createRadialGradient(bombPos.x, bombPos.y, 0, bombPos.x, bombPos.y, bombRadius * 1.8);
+        dangerGradient.addColorStop(0, `rgba(255, 50, 50, ${pulseIntensity * 0.3})`);
         dangerGradient.addColorStop(1, 'rgba(200, 0, 0, 0)');
         
         ctx.beginPath();
-        ctx.arc(bombPos.x, bombPos.y, bombRadius * 3, 0, Math.PI * 2);
+        ctx.arc(bombPos.x, bombPos.y, bombRadius * 1.8, 0, Math.PI * 2);
         ctx.fillStyle = dangerGradient;
         ctx.fill();
         
-        // Bomb Danger Triangle
+        // Bomb dot
         ctx.beginPath();
-        ctx.moveTo(bombPos.x, bombPos.y - 12);
-        ctx.lineTo(bombPos.x + 10, bombPos.y + 6);
-        ctx.lineTo(bombPos.x - 10, bombPos.y + 6);
-        ctx.closePath();
+        ctx.arc(bombPos.x, bombPos.y, 5, 0, Math.PI * 2);
         ctx.fillStyle = '#EF4444';
         ctx.fill();
-        ctx.font = 'bold 12px Arial';
-        ctx.fillStyle = '#FFF';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('!', bombPos.x, bombPos.y + 3);
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
         
-        // Site indicator
+        // Site label
         if (bomb.site) {
-          ctx.font = 'bold 12px Arial';
+          ctx.font = 'bold 10px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
           ctx.fillStyle = '#FFFFFF';
-          ctx.fillText(bomb.site, bombPos.x, bombPos.y - 20);
+          ctx.fillText(bomb.site, bombPos.x, bombPos.y - 8);
         }
         
-        // Defusing indicator
+        // Defusing ring
         if (bomb.state === 'defusing') {
-          const defusePhase = (now / 100) % (Math.PI * 2);
+          const defusePhase = (now / 120) % (Math.PI * 2);
           ctx.beginPath();
-          ctx.arc(bombPos.x, bombPos.y, 25, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(88, 166, 255, ${0.7 + Math.sin(defusePhase) * 0.3})`;
-          ctx.lineWidth = 3;
+          ctx.arc(bombPos.x, bombPos.y, 18, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(88, 166, 255, ${0.6 + Math.sin(defusePhase) * 0.3})`;
+          ctx.lineWidth = 2;
           ctx.stroke();
-          
-          ctx.font = 'bold 10px Arial';
-          ctx.fillStyle = '#58A6FF';
-          ctx.fillText('DEFUSING', bombPos.x, bombPos.y + 30);
         }
         
       } else if (bomb.state === 'dropped') {
@@ -1252,97 +1347,119 @@ export default function Replay2DViewer({
     
     // Draw players
     if (frameData?.players) {
+      const radius = Math.max(10, Math.min(14, size / 72));
+      const fontSize = Math.max(14, Math.round(size / 68));
+      
+      // ── Dead players first (X marks) ──
       frameData.players.forEach(player => {
+        if (player.alive) return;
+        const pos = translateCoords(player.x, player.y, mapConfig, size);
+        ctx.strokeStyle = 'rgba(100, 100, 100, 0.3)';
+        ctx.lineWidth = 1.5;
+        const cs = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(pos.x - cs, pos.y - cs); ctx.lineTo(pos.x + cs, pos.y + cs);
+        ctx.moveTo(pos.x + cs, pos.y - cs); ctx.lineTo(pos.x - cs, pos.y + cs);
+        ctx.stroke();
+      });
+      
+      // ── PASS A: Draw all dots, cones, arrows (below names) ──
+      frameData.players.forEach(player => {
+        if (!player.alive) return;
         const pos = translateCoords(player.x, player.y, mapConfig, size);
         const theme = player.team === 'CT' ? THEME.ct : THEME.t;
         
-        if (!player.alive) {
-          ctx.strokeStyle = 'rgba(100, 100, 100, 0.5)';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(pos.x - 5, pos.y - 5); ctx.lineTo(pos.x + 5, pos.y + 5);
-          ctx.moveTo(pos.x + 5, pos.y - 5); ctx.lineTo(pos.x - 5, pos.y + 5);
-          ctx.stroke();
-          return;
-        }
-        
-        const radius = 9;
-        
-        // If player is blinded, draw blindness indicator
+        // Blindness indicator
         let flashVal = 0;
         if (typeof player.flash_duration === 'number' && player.flash_duration > 0) {
-            flashVal = Math.min(1, player.flash_duration / 5.0); // max duration ~ 5s
+            flashVal = Math.min(1, player.flash_duration / 5.0);
         } else if (player.is_blinded) {
-            flashVal = 0.7; // fallback
+            flashVal = 0.7;
         }
-        
         if (flashVal > 0) {
-           const blindRadius = radius + 4 + (flashVal * 4);
-           
-           // Blinding ring around player
+           const blindRadius = radius + 3 + (flashVal * 3);
            ctx.beginPath();
            ctx.arc(pos.x, pos.y, blindRadius, 0, Math.PI * 2);
-           ctx.fillStyle = `rgba(255, 255, 255, ${flashVal * 0.2})`;
-           ctx.strokeStyle = `rgba(255, 255, 200, ${flashVal * 0.9})`;
-           ctx.lineWidth = 1.5;
-           ctx.fill();
-           ctx.stroke();
-           
-           // Blind icon
-           ctx.fillStyle = `rgba(255, 255, 255, ${flashVal})`;
-           ctx.font = '10px Arial';
-           ctx.textAlign = 'center';
-           ctx.fillText('👁', pos.x, pos.y - blindRadius - 4);
-           
-           // Cross line over eye to indicate blind
-           ctx.beginPath();
-           ctx.moveTo(pos.x - 4, pos.y - blindRadius - 8);
-           ctx.lineTo(pos.x + 4, pos.y - blindRadius - 1);
-           ctx.strokeStyle = `rgba(255, 50, 50, ${flashVal})`;
+           ctx.strokeStyle = `rgba(255, 255, 200, ${flashVal * 0.7})`;
            ctx.lineWidth = 1.5;
            ctx.stroke();
         }
 
-        // Glow
-        ctx.shadowColor = theme.glow;
-        ctx.shadowBlur = 15;
-        
+        // View direction: subtle FOV cone
+        const yawRad = (-player.yaw * Math.PI) / 180;
+        const fovHalf = (25 * Math.PI) / 180;
+        const coneLen = radius + 16;
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        ctx.arc(pos.x, pos.y, coneLen, yawRad - fovHalf, yawRad + fovHalf);
+        ctx.closePath();
+        const coneGrad = ctx.createRadialGradient(pos.x, pos.y, radius, pos.x, pos.y, coneLen);
+        coneGrad.addColorStop(0, player.team === 'CT' ? 'rgba(34,211,238,0.08)' : 'rgba(234,179,8,0.08)');
+        coneGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = coneGrad;
+        ctx.fill();
+
         // Player circle
+        ctx.shadowColor = theme.glow;
+        ctx.shadowBlur = 8;
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
         ctx.fillStyle = theme.primary;
         ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.8)';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+        ctx.lineWidth = 1.2;
         ctx.stroke();
         ctx.shadowBlur = 0;
         
-        // Direction triangle
-        const yawRad = (-player.yaw * Math.PI) / 180;
-        const tipX = pos.x + Math.cos(yawRad) * (radius + 7);
-        const tipY = pos.y + Math.sin(yawRad) * (radius + 7);
-        const perpAngle = yawRad + Math.PI / 2;
-        const baseX = pos.x + Math.cos(yawRad) * (radius - 2);
-        const baseY = pos.y + Math.sin(yawRad) * (radius - 2);
-        
+        // Directional arrow (triangle on circle edge)
+        const arrowLen = radius * 0.65;
+        const arrowWidth = radius * 0.4;
+        const arrowDist = radius + 2;
+        const tipX = pos.x + Math.cos(yawRad) * (arrowDist + arrowLen);
+        const tipY = pos.y + Math.sin(yawRad) * (arrowDist + arrowLen);
+        const baseX = pos.x + Math.cos(yawRad) * arrowDist;
+        const baseY = pos.y + Math.sin(yawRad) * arrowDist;
+        const perpX = -Math.sin(yawRad) * arrowWidth;
+        const perpY = Math.cos(yawRad) * arrowWidth;
         ctx.beginPath();
         ctx.moveTo(tipX, tipY);
-        ctx.lineTo(baseX + Math.cos(perpAngle) * 5, baseY + Math.sin(perpAngle) * 5);
-        ctx.lineTo(baseX - Math.cos(perpAngle) * 5, baseY - Math.sin(perpAngle) * 5);
+        ctx.lineTo(baseX + perpX, baseY + perpY);
+        ctx.lineTo(baseX - perpX, baseY - perpY);
         ctx.closePath();
-        ctx.fillStyle = '#FFF';
+        ctx.fillStyle = theme.primary;
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+      
+      // ── PASS B: Draw ALL name labels on top (always visible) ──
+      frameData.players.forEach(player => {
+        if (!player.alive) return;
+        const pos = translateCoords(player.x, player.y, mapConfig, size);
+        const theme = player.team === 'CT' ? THEME.ct : THEME.t;
+        
+        const name = (player.name || 'Jugador').substring(0, 10);
+        ctx.font = `600 ${fontSize}px Inter, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        const textWidth = ctx.measureText(name).width;
+        const pillPadX = 6;
+        const pillPadY = 3;
+        const pillH = fontSize + pillPadY * 2;
+        const pillW = textWidth + pillPadX * 2;
+        const labelY = pos.y - radius - 6;
+        
+        // Dark pill background
+        const pillX = pos.x - pillW / 2;
+        const pillTop = labelY - pillH;
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.beginPath();
+        ctx.roundRect(pillX, pillTop, pillW, pillH, 2);
         ctx.fill();
         
-        // Draw weapon icon to the right of player
-        const weaponIcon = loadWeaponIcon(player.weapon);
-        if (weaponIcon && weaponIcon.complete && weaponIcon.naturalWidth > 0) {
-          const iconSize = 18;
-          const iconX = pos.x + radius + 6;
-          const iconY = pos.y - iconSize / 2;
-          ctx.globalAlpha = 0.9;
-          ctx.drawImage(weaponIcon, iconX, iconY, iconSize * 1.5, iconSize);
-          ctx.globalAlpha = 1;
-        }
+        // Name text
+        ctx.fillStyle = theme.primary;
+        ctx.fillText(name, pos.x, labelY - pillPadY);
       });
     }
 
@@ -1392,7 +1509,7 @@ export default function Replay2DViewer({
 
     ctx.restore();
 
-  }, [canvasSize, dpr, currentRoundData, totalFrames, mapConfig, zoom, pan, annotations]);
+  }, [canvasDim, dpr, currentRoundData, totalFrames, mapConfig, zoom, pan, annotations]);
 
   // Animation loop
   useEffect(() => {
@@ -1470,23 +1587,39 @@ export default function Replay2DViewer({
     setCurrentTime(newTime);
     currentTimeRef.current = newTime;
   };
+
+  const handleTimelineKeyDown = (event) => {
+    const step = event.shiftKey ? 0.1 : 0.02;
+    let nextTime = currentTimeRef.current;
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') nextTime -= step;
+    else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') nextTime += step;
+    else if (event.key === 'Home') nextTime = 0;
+    else if (event.key === 'End') nextTime = 1;
+    else return;
+
+    event.preventDefault();
+    const clampedTime = Math.max(0, Math.min(1, nextTime));
+    setCurrentTime(clampedTime);
+    currentTimeRef.current = clampedTime;
+  };
   
   useEffect(() => {
     if (!isDraggingTimeline) return;
     const handleMove = (e) => updateTimeFromMouse(e);
     const handleUp = () => setIsDraggingTimeline(false);
-    window.addEventListener('mousemove', handleMove);
-    window.addEventListener('mouseup', handleUp);
+    window.addEventListener('pointermove', handleMove);
+    window.addEventListener('pointerup', handleUp);
     return () => {
-      window.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('mouseup', handleUp);
+      window.removeEventListener('pointermove', handleMove);
+      window.removeEventListener('pointerup', handleUp);
     };
   }, [isDraggingTimeline]);
 
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.target.tagName === 'INPUT') return;
+      if (e.target.closest('input, select, textarea, button, [contenteditable="true"]')) return;
       switch (e.code) {
         case 'Space': e.preventDefault(); setIsPlaying(p => !p); break;
         case 'ArrowLeft': setCurrentTime(t => Math.max(0, t - 0.05)); break;
@@ -1515,19 +1648,26 @@ export default function Replay2DViewer({
   
   if (loading) {
     return (
-      <div className="replay-container replay-loading">
+      <div className="replay-container replay-loading" role="status" aria-live="polite">
         <motion.div 
           className="replay-loader"
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
         />
-        <p>Loading replay...</p>
+        <p>Cargando repetición…</p>
       </div>
     );
   }
 
   if (!metadata) {
-    return <div className="replay-container replay-empty"><p>No replay data available</p></div>;
+    return (
+      <div className="replay-container replay-empty" role="status">
+        <div className="replay-empty-icon"><MonitorPlay size={28} aria-hidden="true" /></div>
+        <strong>Replay 2D todavía no disponible</strong>
+        <p>Esta demo no incluye fotogramas reproducibles o sigue procesándose.</p>
+        <span>Puedes revisar los hallazgos y preparar tu plan mientras tanto.</span>
+      </div>
+    );
   }
 
   const maxRounds = roundsSummary.length || 0;
@@ -1536,7 +1676,6 @@ export default function Replay2DViewer({
     .sort((a, b) => String(a.steam_id).localeCompare(String(b.steam_id)));
   const tPlayers = (currentFrameData?.players?.filter(p => p.team === 'T') || [])
     .sort((a, b) => String(a.steam_id).localeCompare(String(b.steam_id)));
-  const currentRoundInfo = roundsSummary[currentRound - 1] || {};
 
   // Compute timer display
   const timeRemaining = currentFrameData?.time_remaining || 0;
@@ -1545,177 +1684,38 @@ export default function Replay2DViewer({
   const timerDisplay = `${timerMinutes}:${timerSeconds.toString().padStart(2, '0')}`;
 
   return (
-    <div className={`replay-container ${isFullscreen ? 'fullscreen' : ''}`} ref={containerRef}>
+    <div className={`replay-container ${isFullscreen ? 'fullscreen' : ''} ${compactTeams ? 'compact-teams' : ''}`} ref={containerRef}>
       {/* Loading overlay */}
       <AnimatePresence>
         {loadingRound && (
           <motion.div 
             className="replay-round-loading"
+            role="status"
+            aria-live="polite"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <div className="replay-loader-small" />
-            <span>Loading round {currentRound}...</span>
+            <span>Cargando ronda {currentRound}…</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* ═══════════════════════════════════════════════════════════
-          TOP BAR: Score / Round / Timer
+          TOP BAR: Round chips
           ═══════════════════════════════════════════════════════════ */}
       <div className="replay-top-bar">
-        <div className="top-bar-team ct-side">
-          <span className="top-bar-team-label">CT</span>
-          <span className="top-bar-alive">{ctPlayers.filter(p => p.alive).length}<span className="alive-label"> alive</span></span>
-        </div>
-        <div className="top-bar-center">
-          <span className={`top-bar-timer ${timeRemaining <= 10 ? 'danger' : ''}`}>{timerDisplay}</span>
-          <span className="top-bar-round">Round {currentRound} / {maxRounds}</span>
-          {currentRoundInfo.winner && (
-            <span className={`top-bar-winner ${currentRoundInfo.winner?.toLowerCase()}`}>
-              {currentRoundInfo.winner} win
-            </span>
-          )}
-        </div>
-        <div className="top-bar-team t-side">
-          <span className="top-bar-alive"><span className="alive-label">alive </span>{tPlayers.filter(p => p.alive).length}</span>
-          <span className="top-bar-team-label">T</span>
-        </div>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════
-          MAIN AREA: CT Panel | Canvas | T Panel
-          ═══════════════════════════════════════════════════════════ */}
-      <div className="replay-main-layout">
-        
-        {/* CT Team Panel */}
-        <div className="replay-team-panel ct">
-          <div className="team-players">
-            {ctPlayers.map((player, i) => (
-              <PlayerCard key={player.steam_id || i} player={player} team="CT" />
-            ))}
-          </div>
-        </div>
-
-        {/* Center: Canvas */}
-        <div className="replay-center">
-          {/* Tactical context (only when provided by AI) */}
-          {scenarioContext && (
-            <div className="replay-scenario-header">
-              <div className="scenario-title">
-                <div className="scenario-dot" />
-                {scenarioContext.title || "SITUACIÓN TÁCTICA"}
-              </div>
-              <p className="scenario-desc">{scenarioContext.description || "Analiza la jugada."}</p>
-            </div>
-          )}
-
-          <div className="replay-canvas-container">
-            <canvas
-              ref={canvasRef}
-              width={canvasSize * dpr}
-              height={canvasSize * dpr}
-              style={{ width: canvasSize, height: canvasSize }}
-              className="replay-canvas"
-            />
-            
-            {/* Kill Feed Overlay — top-right of canvas */}
-            <div className="replay-killfeed-overlay">
-              <KillFeedOverlay 
-                events={currentRoundData?.events}
-                currentTick={currentFrameData?.interpolatedTick || currentFrameData?.tick || 0}
-              />
-            </div>
-
-            {/* Zoom Controls */}
-            <div className="replay-zoom-controls">
-              <button onClick={() => setZoom(z => Math.min(4, z * 1.25))}><ZoomIn size={14} /></button>
-              <button onClick={() => setZoom(z => Math.max(0.5, z / 1.25))}><ZoomOut size={14} /></button>
-              <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}><RotateCcw size={14} /></button>
-            </div>
-          </div>
-        </div>
-
-        {/* T Team Panel */}
-        <div className="replay-team-panel t">
-          <div className="team-players">
-            {tPlayers.map((player, i) => (
-              <PlayerCard key={player.steam_id || i} player={player} team="T" />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════════════════════════════════════════════════════════
-          BOTTOM DOCK: Timeline + Playback Controls + Round Selector
-          ═══════════════════════════════════════════════════════════ */}
-      <div className="replay-bottom-dock">
-        {/* Timeline — full width */}
-        <div 
-          ref={timelineRef}
-          className={`replay-timeline ${isDraggingTimeline ? 'dragging' : ''}`}
-          onMouseDown={handleTimelineMouseDown}
-        >
-          <div className="timeline-track" />
-          <div className="timeline-progress" style={{ width: `${currentTime * 100}%` }} />
-          <div className="timeline-handle" style={{ left: `${currentTime * 100}%` }} />
-        </div>
-
-        {/* Playback row */}
-        <div className="dock-controls-row">
-          {/* Left: Round nav */}
-          <div className="dock-section dock-round-nav">
-            <button className="dock-btn" onClick={() => handleRoundChange(-1)} disabled={currentRound <= 1}>
-              <ChevronLeft size={16} />
-            </button>
-            <span className="dock-round-label">Ronda {currentRound}</span>
-            <button className="dock-btn" onClick={() => handleRoundChange(1)} disabled={currentRound >= maxRounds}>
-              <ChevronRight size={16} />
-            </button>
-          </div>
-
-          {/* Center: Transport */}
-          <div className="dock-section dock-transport">
-            <button className="dock-btn" onClick={() => { setCurrentTime(0); currentTimeRef.current = 0; }}>
-              <SkipBack size={14} />
-            </button>
-            <button 
-              className={`dock-play-btn ${isPlaying ? 'playing' : ''}`}
-              onClick={() => setIsPlaying(!isPlaying)}
-            >
-              {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-            </button>
-            <button className="dock-btn" onClick={() => { setCurrentTime(1); setIsPlaying(false); }}>
-              <SkipForward size={14} />
-            </button>
-          </div>
-
-          {/* Right: Speed + Fullscreen */}
-          <div className="dock-section dock-extras">
-            <select 
-              className="dock-speed"
-              value={playbackSpeed}
-              onChange={(e) => setPlaybackSpeed(parseFloat(e.target.value))}
-            >
-              <option value="0.25">0.25×</option>
-              <option value="0.5">0.5×</option>
-              <option value="1">1×</option>
-              <option value="2">2×</option>
-              <option value="4">4×</option>
-            </select>
-            <button className="dock-btn" onClick={toggleFullscreen}>
-              <Maximize2 size={14} />
-            </button>
-          </div>
-        </div>
-
-        {/* Round chips */}
+        <button type="button" className="dock-btn round-nav-btn" aria-label="Ronda anterior" onClick={() => handleRoundChange(-1)} disabled={currentRound <= 1}>
+          <ChevronLeft size={14} />
+        </button>
         <div className="dock-round-chips">
           {roundsSummary.map((round, idx) => (
             <button
               key={idx}
               className={`dock-round-chip ${currentRound === idx + 1 ? 'active' : ''} ${round.winner?.toLowerCase() || ''}`}
+              aria-label={`Ir a la ronda ${idx + 1}`}
+              aria-current={currentRound === idx + 1 ? 'true' : undefined}
               onClick={() => { 
                 if (currentRound !== idx + 1) {
                   setCurrentRound(idx + 1); 
@@ -1733,6 +1733,191 @@ export default function Replay2DViewer({
               {idx + 1}
             </button>
           ))}
+        </div>
+        <button type="button" className="dock-btn round-nav-btn" aria-label="Ronda siguiente" onClick={() => handleRoundChange(1)} disabled={currentRound >= maxRounds}>
+          <ChevronRight size={14} />
+        </button>
+        {compactTeams && (
+          <button
+            type="button"
+            className={`dock-btn team-toggle-btn ${isTeamsPanelOpen ? 'active' : ''}`}
+            aria-label={isTeamsPanelOpen ? 'Ocultar equipos' : 'Mostrar equipos'}
+            aria-expanded={isTeamsPanelOpen}
+            onClick={() => setIsTeamsPanelOpen((isOpen) => !isOpen)}
+          >
+            <Users size={14} aria-hidden="true" />
+            <span>Equipos</span>
+          </button>
+        )}
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          MAIN AREA: Map (left) | Info Panel (right)
+          ═══════════════════════════════════════════════════════════ */}
+      <div className="replay-main-layout">
+        
+        {/* LEFT: Map area */}
+        <div className="replay-map-area">
+          {/* Round info overlay */}
+          <div className="replay-round-overlay">
+            <span className="round-overlay-label">ROUND {currentRound}</span>
+            <span className={`round-overlay-timer ${timeRemaining <= 10 ? 'danger' : ''}`}>{timerDisplay}</span>
+          </div>
+
+          {/* Tactical context (only when provided by AI) */}
+          {scenarioContext && (
+            <div className="replay-scenario-header">
+              <div className="scenario-title">
+                <div className="scenario-dot" />
+                {scenarioContext.title || "SITUACIÓN TÁCTICA"}
+              </div>
+              <p className="scenario-desc">{scenarioContext.description || "Analiza la jugada."}</p>
+            </div>
+          )}
+
+          <div className="replay-canvas-container">
+            <canvas
+              ref={canvasRef}
+              width={canvasDim.w * dpr}
+              height={canvasDim.h * dpr}
+              style={{ width: canvasDim.w, height: canvasDim.h }}
+              className="replay-canvas"
+              role="img"
+              aria-label={`Replay táctico de la ronda ${currentRound}. Usa el panel de jugadores y el timeline para consultar el estado de la ronda.`}
+            />
+            
+            {/* Kill Feed Overlay — top-right of canvas */}
+            <div className="replay-killfeed-overlay">
+              <KillFeedOverlay 
+                events={currentRoundData?.events}
+                players={currentFrameData?.players}
+                frames={currentRoundData?.frames}
+                playerNameLookup={playerNameLookup}
+                currentTick={currentFrameData?.interpolatedTick || currentFrameData?.tick || 0}
+              />
+            </div>
+
+            {/* Zoom Controls */}
+            <div className="replay-zoom-controls">
+              <button type="button" aria-label="Acercar mapa" onClick={() => setZoom(z => Math.min(4, z * 1.25))}><ZoomIn size={14} aria-hidden="true" /></button>
+              <button type="button" aria-label="Alejar mapa" onClick={() => setZoom(z => Math.max(0.5, z / 1.25))}><ZoomOut size={14} aria-hidden="true" /></button>
+              <button type="button" aria-label="Restablecer vista del mapa" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}><RotateCcw size={14} aria-hidden="true" /></button>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Info panel — both teams */}
+        <div className={`replay-info-panel ${isTeamsPanelOpen ? 'open' : ''}`}>
+          {/* CT Section */}
+          <div className="team-section ct">
+            <div className="team-section-header">
+              <span className="team-header-label">TEAM A</span>
+              <span className="team-header-sub">Counter-Terrorists</span>
+              <span className="team-header-score">{ctScore}</span>
+            </div>
+            <div className="team-players">
+              {ctPlayers.map((player, i) => (
+                <PlayerCard key={player.steam_id || i} player={player} team="CT" />
+              ))}
+            </div>
+          </div>
+
+          {/* T Section */}
+          <div className="team-section t">
+            <div className="team-section-header">
+              <span className="team-header-label">TEAM B</span>
+              <span className="team-header-sub">Terrorists</span>
+              <span className="team-header-score">{tScore}</span>
+            </div>
+            <div className="team-players">
+              {tPlayers.map((player, i) => (
+                <PlayerCard key={player.steam_id || i} player={player} team="T" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          BOTTOM DOCK: Timeline + Transport Controls
+          ═══════════════════════════════════════════════════════════ */}
+      <div className="replay-bottom-dock">
+        {/* Timeline — full width */}
+        <div 
+          ref={timelineRef}
+          className={`replay-timeline ${isDraggingTimeline ? 'dragging' : ''}`}
+          onPointerDown={handleTimelineMouseDown}
+          onKeyDown={handleTimelineKeyDown}
+          role="slider"
+          tabIndex="0"
+          aria-label="Posición de la ronda"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow={Math.round(currentTime * 100)}
+          aria-valuetext={`${timerDisplay} restantes en la ronda ${currentRound}`}
+        >
+          <div className="timeline-track" />
+          <div className="timeline-progress" style={{ width: `${currentTime * 100}%` }} />
+          <div className="timeline-handle" style={{ left: `${currentTime * 100}%` }} />
+        </div>
+
+        {/* Playback row */}
+        <div className="dock-controls-row">
+          {/* Left: Play + speed */}
+          <div className="dock-section">
+            <button 
+              type="button"
+              className={`dock-play-btn ${isPlaying ? 'playing' : ''}`}
+              aria-label={isPlaying ? 'Pausar replay' : 'Reproducir replay'}
+              onClick={() => setIsPlaying(!isPlaying)}
+            >
+              {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+            </button>
+            <select 
+              className="dock-speed"
+              name="playback-speed"
+              aria-label="Velocidad de reproducción"
+              value={playbackSpeed}
+              onChange={(e) => setPlaybackSpeed(parseFloat(e.target.value))}
+            >
+              <option value="0.25">0.25×</option>
+              <option value="0.5">0.5×</option>
+              <option value="1">1×</option>
+              <option value="2">2×</option>
+              <option value="4">4×</option>
+            </select>
+          </div>
+
+          {/* Center: round navigation */}
+          <div className="dock-section dock-transport">
+            <button
+              type="button"
+              className="dock-btn"
+              onClick={() => handleRoundChange(-1)}
+              disabled={currentRound <= 1}
+              title="Ronda anterior"
+              aria-label="Ronda anterior"
+            >
+              <SkipBack size={14} />
+            </button>
+            <button
+              type="button"
+              className="dock-btn"
+              onClick={() => handleRoundChange(1)}
+              disabled={currentRound >= maxRounds}
+              title="Ronda siguiente"
+              aria-label="Ronda siguiente"
+            >
+              <SkipForward size={14} />
+            </button>
+          </div>
+
+          {/* Right: Fullscreen */}
+          <div className="dock-section">
+            <button type="button" className="dock-btn" aria-label="Ver replay a pantalla completa" onClick={toggleFullscreen}>
+              <Maximize2 size={14} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -57,7 +57,7 @@ const CalloutDetailPanel = ({ callout, onClose }) => {
       <div className="callout-detail-panel empty">
         <div className="empty-state">
           <Target size={32} opacity={0.3} />
-          <h4>Selecciona un HotPoint</h4>
+          <h4>Selecciona una zona</h4>
           <p>Haz clic en un punto del mapa para ver estadísticas detalladas</p>
         </div>
       </div>
@@ -110,7 +110,7 @@ const CalloutDetailPanel = ({ callout, onClose }) => {
       <div className="main-stats-compact">
         <div className="big-stat primary">
           <span className="big-value">{win_rate}%</span>
-          <span className="big-label">Win Rate</span>
+          <span className="big-label">% de victorias</span>
         </div>
         <div className="big-stat">
           <span className="big-value">{kd}</span>
@@ -118,11 +118,11 @@ const CalloutDetailPanel = ({ callout, onClose }) => {
         </div>
         <div className="big-stat">
           <span className="big-value kills">{kills}</span>
-          <span className="big-label">Kills</span>
+          <span className="big-label">Bajas</span>
         </div>
         <div className="big-stat">
           <span className="big-value deaths">{deaths}</span>
-          <span className="big-label">Deaths</span>
+          <span className="big-label">Muertes</span>
         </div>
       </div>
       
@@ -157,29 +157,29 @@ const CalloutDetailPanel = ({ callout, onClose }) => {
           {openingWR !== null && (
             <ContextStatItem 
               icon={Zap}
-              label="First Kills"
+              label="Primeras bajas"
               value={`${context_stats.opening_kills}/${context_stats.opening_attempts}`}
-              subValue={`${openingWR}% WR`}
+              subValue={`${openingWR}% de victorias`}
             />
           )}
           {(context_stats.trade_kills > 0 || context_stats.trade_deaths > 0) && (
             <ContextStatItem 
               icon={Users}
-              label="Trades"
+              label="Intercambios"
               value={`${context_stats.trade_kills}K / ${context_stats.trade_deaths}D`}
             />
           )}
           {context_stats.smoke_kills > 0 && (
             <ContextStatItem 
               icon={Wind}
-              label="Smoke Kills"
+              label="Bajas con humo"
               value={context_stats.smoke_kills}
             />
           )}
           {avg_time_to_damage && (
             <ContextStatItem 
               icon={Clock}
-              label="TTD"
+              label="Tiempo al daño"
               value={`${Math.round(avg_time_to_damage)}ms`}
             />
           )}
@@ -193,7 +193,7 @@ const CalloutDetailPanel = ({ callout, onClose }) => {
           {flash_death_pct > 0 && (
             <ContextStatItem 
               icon={Eye}
-              label="Flash Deaths"
+              label="Muertes tras flash"
               value={`${flash_death_pct}%`}
             />
           )}

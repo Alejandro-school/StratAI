@@ -585,10 +585,12 @@ type AI_PlayerStats struct {
 	GrenadeDamage map[string]int `json:"grenade_damage"` // "he", "molotov", "smoke", "flash"
 
 	// === AIM METRICS ===
+	AvgTimeToReaction          float64        `json:"avg_time_to_reaction,omitempty"`
 	TimeToDamageAvgMS          float64        `json:"time_to_damage_avg_ms"`
 	CrosshairPlacementAvgError float64        `json:"crosshair_placement_avg_error"`
 	CrosshairPlacementPeek     float64        `json:"crosshair_placement_peek"` // Error when peeking (>100 u/s)
 	CrosshairPlacementHold     float64        `json:"crosshair_placement_hold"` // Error when holding (≤100 u/s)
+	AvgCounterStrafeRating     float64        `json:"avg_counter_strafe_rating,omitempty"`
 	ShotsFired                 int            `json:"shots_fired"`
 	ShotsHit                   int            `json:"shots_hit"`
 	AccuracyOverall            float64        `json:"accuracy_overall"`

@@ -1,0 +1,226 @@
+.rw {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+/* ── Tier roadmap ── */
+.rw__roadmap {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 16px 0;
+  flex-shrink: 0;
+}
+
+.rw__roadmap-line {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: linear-gradient(90deg, #CD7F32, #C0C0C0, #FFD700, #B9F2FF);
+  opacity: 0.2;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.rw__tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.rw__tier-marker {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.rw__tier--unlocked .rw__tier-marker {
+  border-color: var(--t-color);
+  box-shadow: 0 0 12px var(--t-glow);
+}
+
+.rw__tier--active .rw__tier-marker {
+  border-color: var(--t-color);
+  box-shadow: 0 0 20px var(--t-glow);
+  animation: tierPulse 2.5s ease infinite;
+}
+
+.rw__tier-diamond {
+  font-size: 16px;
+  color: var(--t-color, rgba(255, 255, 255, 0.3));
+  transition: color 0.3s;
+}
+
+.rw__tier:not(.rw__tier--unlocked) .rw__tier-diamond {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.rw__tier-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.rw__tier-head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rw__tier-head svg {
+  color: var(--t-color, rgba(255, 255, 255, 0.3));
+}
+
+.rw__tier:not(.rw__tier--unlocked) .rw__tier-head svg {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.rw__tier-name {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--t-color, rgba(255, 255, 255, 0.4));
+}
+
+.rw__tier:not(.rw__tier--unlocked) .rw__tier-name {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.rw__tier-range {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+@keyframes tierPulse {
+  0%, 100% { box-shadow: 0 0 12px var(--t-glow); }
+  50%      { box-shadow: 0 0 24px var(--t-glow); }
+}
+
+/* ── Heading ── */
+.rw__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.rw__heading svg {
+  color: #f59e0b;
+}
+
+.rw__heading span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── Reward cards ── */
+.rw__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+}
+
+.rw__card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.rw__card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.rw__card--gold   { border-color: rgba(255, 215, 0, 0.2); }
+.rw__card--silver { border-color: rgba(192, 192, 192, 0.18); }
+.rw__card--bronze { border-color: rgba(205, 127, 50, 0.18); }
+
+.rw__card-rank {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.rw__card--gold .rw__card-rank   { color: #FFD700; }
+.rw__card--silver .rw__card-rank { color: #C0C0C0; }
+.rw__card--bronze .rw__card-rank { color: #CD7F32; }
+
+.rw__card-icon {
+  display: flex;
+  align-items: center;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.rw__card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rw__card-copy strong {
+  color: #f8fafc;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.rw__card-copy small {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .rw__roadmap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .rw__roadmap {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rw__cards {
+    grid-template-columns: 1fr;
+  }
+}

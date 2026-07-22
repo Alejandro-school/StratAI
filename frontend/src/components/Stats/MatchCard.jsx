@@ -22,7 +22,7 @@ const getKDColor = (kd) => {
 const MatchCard = ({ match, playerStats, onViewDetails, style }) => {
   const isVictory = match.result === 'victory';
   const mapName = match.map_name?.replace('de_', '').charAt(0).toUpperCase() + 
-                  match.map_name?.replace('de_', '').slice(1) || 'Unknown';
+                  match.map_name?.replace('de_', '').slice(1) || 'Desconocido';
   
   const kd = playerStats?.kd_ratio || 0;
   const adr = Math.round(playerStats?.adr || 0);
@@ -52,7 +52,7 @@ const MatchCard = ({ match, playerStats, onViewDetails, style }) => {
         <div className="card-header">
           <span className="map-name">{mapName}</span>
           <span className={`result-pill ${isVictory ? 'win' : 'loss'}`}>
-            {isVictory ? 'WIN' : 'LOSS'}
+            {isVictory ? 'VICTORIA' : 'DERROTA'}
           </span>
         </div>
         

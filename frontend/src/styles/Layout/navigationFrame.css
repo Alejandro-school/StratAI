@@ -9,8 +9,8 @@
   --hud-border: rgba(255, 255, 255, 0.06);
   --hud-text: #e2e8f0;
   --hud-muted: #64748b;
-  --hud-accent: #06b6d4;
-  --hud-accent-glow: rgba(6, 182, 212, 0.5);
+  --hud-accent: #3b82f6;
+  --hud-accent-glow: rgba(59, 130, 246, 0.35);
   --hud-success: #22c55e;
 }
 
@@ -29,10 +29,10 @@
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 14% 20%, rgba(6, 182, 212, 0.24) 0%, transparent 42%),
-    radial-gradient(circle at 84% 18%, rgba(139, 92, 246, 0.2) 0%, transparent 46%),
-    radial-gradient(circle at 68% 82%, rgba(249, 115, 22, 0.16) 0%, transparent 44%),
-    radial-gradient(circle at 24% 84%, rgba(6, 182, 212, 0.12) 0%, transparent 40%);
+    radial-gradient(circle at 14% 20%, rgba(59, 130, 246, 0.14) 0%, transparent 42%),
+    radial-gradient(circle at 84% 18%, rgba(99, 102, 241, 0.12) 0%, transparent 46%),
+    radial-gradient(circle at 68% 82%, rgba(249, 115, 22, 0.10) 0%, transparent 44%),
+    radial-gradient(circle at 24% 84%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
   animation: hudBgBreathing 11s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 0;
@@ -43,8 +43,8 @@
   position: fixed;
   inset: -12%;
   background:
-    radial-gradient(circle at 50% 8%, rgba(6, 182, 212, 0.1) 0%, transparent 44%),
-    radial-gradient(circle at 52% 92%, rgba(139, 92, 246, 0.08) 0%, transparent 48%);
+    radial-gradient(circle at 50% 8%, rgba(59, 130, 246, 0.07) 0%, transparent 44%),
+    radial-gradient(circle at 52% 92%, rgba(99, 102, 241, 0.05) 0%, transparent 48%);
   animation: hudBgFloat 16s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
@@ -134,16 +134,53 @@
   border: 1px solid var(--hud-border);
 }
 
+.hud-feedback-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.14) 0%, rgba(99, 102, 241, 0.16) 100%);
+  color: #f8fafc;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 24px rgba(59, 130, 246, 0.1);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.hud-feedback-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(59, 130, 246, 0.35);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(99, 102, 241, 0.24) 100%);
+  box-shadow: 0 14px 30px rgba(59, 130, 246, 0.14);
+}
+
+.hud-feedback-link.active {
+  border-color: rgba(59, 130, 246, 0.42);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.26) 0%, rgba(99, 102, 241, 0.3) 100%);
+  box-shadow: 0 16px 34px rgba(59, 130, 246, 0.16);
+}
+
+.hud-feedback-link svg {
+  flex-shrink: 0;
+}
+
 .nav-indicator {
   position: absolute;
   top: 6px;
   height: calc(100% - 12px);
-  background: linear-gradient(135deg, #22d3ee 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
   border-radius: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 
-    0 0 20px var(--hud-accent-glow),
-    0 0 40px rgba(139, 92, 246, 0.2);
+    0 0 16px var(--hud-accent-glow),
+    0 0 32px rgba(99, 102, 241, 0.12);
   z-index: 0;
 }
 
@@ -182,16 +219,24 @@
 }
 
 .hud-user {
+  display: block;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--hud-border);
+  border-radius: 100px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.hud-user-trigger {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 6px 10px 6px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--hud-border);
-  border-radius: 100px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
 }
 
 .hud-user:hover {
@@ -306,6 +351,28 @@
   z-index: 1;
   overflow-y: auto;
   min-height: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 12px;
+  z-index: 10000;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #08111f;
+  background: #8dd7ff;
+  font-weight: 800;
+  transition: top 0.16s ease;
+}
+
+.skip-link:focus-visible {
+  top: 10px;
+}
+
+.hud-layout :is(a, button, input, select, summary):focus-visible {
+  outline: 2px solid #8dd7ff;
+  outline-offset: 3px;
 }
 
 /* When coach dashboard is inside, disable scrolling so height: 100% works */
@@ -463,12 +530,40 @@
     padding: 12px;
   }
 
+  .hud-right {
+    gap: 10px;
+  }
+
+  .hud-feedback-link {
+    min-width: 40px;
+    padding: 0 11px;
+  }
+
+  .hud-feedback-link span {
+    display: none;
+  }
+
   .user-name {
     display: none;
   }
 
   .hud-corners {
     display: none;
+  }
+
+  .hud-content {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-layout *,
+  .hud-layout *::before,
+  .hud-layout *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

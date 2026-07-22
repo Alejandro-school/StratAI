@@ -2,7 +2,7 @@
  * ServicesSection — Horizontal scroll gallery driven by vertical scroll.
  * Each card uses the service image as full background with content overlay.
  */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Brain, Map, BarChart3, Trophy } from 'lucide-react';
 import { useLang } from '../../i18n/useLang';
@@ -12,14 +12,14 @@ const SERVICES = [
   {
     key: 'coaching',
     icon: Brain,
-    accent: '#a78bfa',
+    accent: '#818cf8',
     num: '01',
     image: '/images/Landing/CoachIA-.png',
   },
   {
     key: 'interactiveMap',
     icon: Map,
-    accent: '#22d3ee',
+    accent: '#60a5fa',
     num: '02',
     image: '/images/Landing/InteractiveMap.png',
   },
@@ -42,54 +42,66 @@ const SERVICES = [
 const ServicesSection = () => {
   const { t } = useLang();
   const containerRef = useRef(null);
-  const stickyRef = useRef(null);
-  const galleryRef = useRef(null);
-  const [trackDistance, setTrackDistance] = useState(0);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  useEffect(() => {
-    const measure = () => {
-      if (!galleryRef.current || !stickyRef.current) return;
-      const galleryWidth = galleryRef.current.scrollWidth;
-      const viewportWidth = stickyRef.current.clientWidth;
-      setTrackDistance(Math.max(galleryWidth - viewportWidth, 0));
-    };
+  // Continuous, slow crossfade animations with no dead zones at the start
+  const opacities = [
+    useTransform(scrollYProgress, [0, 0.3], [1, 0]),
+    useTransform(scrollYProgress, [0, 0.3, 0.35, 0.65], [0, 1, 1, 0]),
+    useTransform(scrollYProgress, [0.35, 0.65, 0.7, 1], [0, 1, 1, 0]),
+    useTransform(scrollYProgress, [0.7, 1], [0, 1]),
+  ];
 
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, []);
+  const scales = [
+    useTransform(scrollYProgress, [0, 0.3], [1, 0.95]),
+    useTransform(scrollYProgress, [0, 0.3, 0.35, 0.65], [1.05, 1, 1, 0.95]),
+    useTransform(scrollYProgress, [0.35, 0.65, 0.7, 1], [1.05, 1, 1, 0.95]),
+    useTransform(scrollYProgress, [0.7, 1], [1.05, 1]),
+  ];
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, -trackDistance]);
+  const yPositions = [
+    useTransform(scrollYProgress, [0, 0.3], [0, -40]),
+    useTransform(scrollYProgress, [0, 0.3, 0.35, 0.65], [40, 0, 0, -40]),
+    useTransform(scrollYProgress, [0.35, 0.65, 0.7, 1], [40, 0, 0, -40]),
+    useTransform(scrollYProgress, [0.7, 1], [40, 0]),
+  ];
 
   return (
     <section id="services" className="services-section">
-      {/* Intro header */}
-      <div className="services-intro">
-        <span className="section-label">{t('services.label')}</span>
-        <h2 className="services-intro__title">{t('services.title')}</h2>
-        <p className="services-intro__subtitle">{t('services.subtitle')}</p>
-      </div>
-
       {/* Horizontal scroll area */}
       <div
         ref={containerRef}
         className="services-scroll-container"
-        style={{ '--scroll-distance': `${trackDistance}px` }}
+        style={{ height: '250vh' }}
       >
-        <div ref={stickyRef} className="services-sticky-wrapper">
-          <motion.div ref={galleryRef} className="services-gallery" style={{ x }}>
-            {SERVICES.map((service) => {
+        <div className="services-sticky-wrapper">
+          {/* Intro header now inside sticky wrapper to stay visible and remove large gap */}
+          <div className="services-intro">
+            <span className="section-label">{t('services.label')}</span>
+            <h2 className="services-intro__title">{t('services.title')}</h2>
+            <p className="services-intro__subtitle">{t('services.subtitle')}</p>
+          </div>
+
+          <div className="services-gallery-window">
+          <div className="services-gallery">
+            {SERVICES.map((service, index) => {
               const Icon = service.icon;
               const features = t(`services.${service.key}.features`);
+              const opacity = opacities[index];
+              const scale = scales[index];
+              const y = yPositions[index];
+              
               return (
-                <div
+                <motion.div
                   key={service.key}
                   className="services-gallery__item"
                   style={{
+                    opacity,
+                    scale,
+                    y,
                     '--service-accent': service.accent,
                     '--service-image': `url(${service.image})`,
                   }}
@@ -118,10 +130,11 @@ const ServicesSection = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </motion.div>
+          </div>
+          </div>
         </div>
       </div>
     </section>

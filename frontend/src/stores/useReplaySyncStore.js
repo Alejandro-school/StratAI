@@ -20,6 +20,7 @@ const useReplaySyncStore = create((set) => ({
   playAiClip: (clipData) => set({
     isPlaying: true,
     activeClip: {
+      round: clipData.round,
       startTick: clipData.startTick,
       criticalTick: clipData.criticalTick,
       endTick: clipData.endTick,

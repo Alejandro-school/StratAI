@@ -51,27 +51,28 @@ type ReplayFrame struct {
 
 // ReplayPlayerState is the state of a player at a given tick
 type ReplayPlayerState struct {
-	SteamID       uint64  `json:"steam_id"`
-	Name          string  `json:"name"`
-	Team          string  `json:"team"` // "CT" or "T"
-	X             int     `json:"x"`    // Rounded to int for smaller JSON
-	Y             int     `json:"y"`    // Rounded to int for smaller JSON
-	Z             float64 `json:"z"`
-	Yaw           float32 `json:"yaw"`   // View direction (horizontal)
-	Pitch         float32 `json:"pitch"` // View direction (vertical)
-	Health        int     `json:"health"`
-	Armor         int     `json:"armor"`
-	Alive         bool    `json:"alive"`
-	Weapon        string  `json:"weapon"`
-	HasDefuseKit  bool    `json:"has_defuse_kit,omitempty"`
-	HasC4         bool    `json:"has_c4,omitempty"`
-	FlashDuration float64 `json:"flash_duration,omitempty"` // Seconds remaining of flash blindness
-	Money         int     `json:"money"`
-	IsDucking     bool    `json:"is_ducking,omitempty"`
-	IsWalking     bool    `json:"is_walking,omitempty"`
-	IsScoped      bool    `json:"is_scoped,omitempty"`
-	IsReloading   bool    `json:"is_reloading,omitempty"`
-	IsDefusing    bool    `json:"is_defusing,omitempty"`
+	SteamID       uint64   `json:"steam_id"`
+	Name          string   `json:"name"`
+	Team          string   `json:"team"` // "CT" or "T"
+	X             int      `json:"x"`    // Rounded to int for smaller JSON
+	Y             int      `json:"y"`    // Rounded to int for smaller JSON
+	Z             float64  `json:"z"`
+	Yaw           float32  `json:"yaw"`   // View direction (horizontal)
+	Pitch         float32  `json:"pitch"` // View direction (vertical)
+	Health        int      `json:"health"`
+	Armor         int      `json:"armor"`
+	Alive         bool     `json:"alive"`
+	Weapon        string   `json:"weapon"`
+	Weapons       []string `json:"weapons,omitempty"`
+	HasDefuseKit  bool     `json:"has_defuse_kit,omitempty"`
+	HasC4         bool     `json:"has_c4,omitempty"`
+	FlashDuration float64  `json:"flash_duration,omitempty"` // Seconds remaining of flash blindness
+	Money         int      `json:"money"`
+	IsDucking     bool     `json:"is_ducking,omitempty"`
+	IsWalking     bool     `json:"is_walking,omitempty"`
+	IsScoped      bool     `json:"is_scoped,omitempty"`
+	IsReloading   bool     `json:"is_reloading,omitempty"`
+	IsDefusing    bool     `json:"is_defusing,omitempty"`
 }
 
 // ReplayProjectile is a grenade in flight
@@ -123,20 +124,23 @@ type ReplayEvent struct {
 	Type string `json:"type"` // "kill", "damage", "bomb_plant", "bomb_defuse", "grenade_explode"
 
 	// For kills - includes position data for kill line visualization
-	KillerID   uint64  `json:"killer_id,omitempty"`
-	VictimID   uint64  `json:"victim_id,omitempty"`
-	KillerName string  `json:"killer_name,omitempty"`
-	VictimName string  `json:"victim_name,omitempty"`
-	KillerTeam string  `json:"killer_team,omitempty"` // "CT" or "T"
-	VictimTeam string  `json:"victim_team,omitempty"` // "CT" or "T"
-	KillerX    float64 `json:"killer_x,omitempty"`    // Position for kill line
-	KillerY    float64 `json:"killer_y,omitempty"`
-	VictimX    float64 `json:"victim_x,omitempty"`
-	VictimY    float64 `json:"victim_y,omitempty"`
-	Weapon     string  `json:"weapon,omitempty"`
-	Headshot   bool    `json:"headshot,omitempty"`
-	Wallbang   bool    `json:"wallbang,omitempty"`
-	NoScope    bool    `json:"noscope,omitempty"`
+	KillerID     uint64  `json:"killer_id,omitempty"`
+	VictimID     uint64  `json:"victim_id,omitempty"`
+	AssisterID   uint64  `json:"assister_id,omitempty"`
+	KillerName   string  `json:"killer_name,omitempty"`
+	VictimName   string  `json:"victim_name,omitempty"`
+	AssisterName string  `json:"assister_name,omitempty"`
+	KillerTeam   string  `json:"killer_team,omitempty"`   // "CT" or "T"
+	VictimTeam   string  `json:"victim_team,omitempty"`   // "CT" or "T"
+	AssisterTeam string  `json:"assister_team,omitempty"` // "CT" or "T"
+	KillerX      float64 `json:"killer_x,omitempty"`      // Position for kill line
+	KillerY      float64 `json:"killer_y,omitempty"`
+	VictimX      float64 `json:"victim_x,omitempty"`
+	VictimY      float64 `json:"victim_y,omitempty"`
+	Weapon       string  `json:"weapon,omitempty"`
+	Headshot     bool    `json:"headshot,omitempty"`
+	Wallbang     bool    `json:"wallbang,omitempty"`
+	NoScope      bool    `json:"noscope,omitempty"`
 
 	// For grenades
 	GrenadeType string  `json:"grenade_type,omitempty"`

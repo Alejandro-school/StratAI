@@ -79,14 +79,14 @@
   justify-content: center;
   min-height: 200px;
   gap: 12px;
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .movement-tab-panel .loading-spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  border-top-color: #6366f1;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -105,7 +105,7 @@
 }
 
 .movement-header .header-icon {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .movement-header h4 {
@@ -155,13 +155,13 @@
 }
 
 .layer-toggle.active {
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.3);
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
   color: #a5b4fc;
 }
 
 .layer-toggle.active svg {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 /* Intensity Control */
@@ -188,7 +188,7 @@
 
 .intensity-value {
   margin-left: auto;
-  color: #8b5cf6;
+  color: #6366f1;
   font-weight: 700;
 }
 
@@ -206,10 +206,10 @@
   -webkit-appearance: none;
   width: 16px;
   height: 16px;
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, #6366f1, #6366f1);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
   transition: transform 0.15s;
 }
 
@@ -271,7 +271,7 @@
 }
 
 .timing-metrics h5 svg {
-  color: #8b5cf6;
+  color: #6366f1;
 }
 
 .timing-grid {
@@ -363,7 +363,7 @@
 }
 
 .top-positions h5 svg {
-  color: #06b6d4;
+  color: #3b82f6;
 }
 
 .positions-list {
@@ -392,7 +392,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(139, 92, 246, 0.15);
+  background: rgba(99, 102, 241, 0.15);
   border-radius: 6px;
   font-size: 11px;
   font-weight: 800;
@@ -424,7 +424,7 @@
 
 .position-bar {
   height: 100%;
-  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  background: linear-gradient(90deg, #6366f1, #3b82f6);
   border-radius: 2px;
   transition: width 0.3s ease;
 }
@@ -432,7 +432,7 @@
 .position-percent {
   font-size: 12px;
   font-weight: 700;
-  color: #8b5cf6;
+  color: #6366f1;
   min-width: 36px;
   text-align: right;
 }

@@ -51,11 +51,11 @@ const MatchTableView = ({ games, getPlayerStats, onViewDetails }) => {
           <tr>
             <th className="col-map">Mapa</th>
             <th className="col-date">Fecha</th>
-            <th className="col-score">Score</th>
+            <th className="col-score">Marcador</th>
             <th className="col-kd">K/D</th>
             <th className="col-adr">ADR</th>
             <th className="col-hs">HS%</th>
-            <th className="col-kills">Kills</th>
+            <th className="col-kills">Bajas</th>
             <th className="col-result">Resultado</th>
             <th className="col-actions">Acciones</th>
           </tr>
@@ -108,12 +108,12 @@ const MatchTableView = ({ games, getPlayerStats, onViewDetails }) => {
                     {isVictory ? (
                       <>
                         <Trophy size={12} />
-                        <span>WIN</span>
+                        <span>VICTORIA</span>
                       </>
                     ) : (
                       <>
                         <Skull size={12} />
-                        <span>LOSS</span>
+                        <span>DERROTA</span>
                       </>
                     )}
                   </div>

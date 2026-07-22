@@ -10,13 +10,18 @@ import asyncio
 import redis.asyncio as aioredis
 from typing import Any
 from fastapi import APIRouter, Request, HTTPException, Query
+from ..config import REDIS_URL, STEAM_API_KEY
+from ..middleware.rate_limit import get_rate_limiter
 
 router = APIRouter()
 
 # Redis (usar inyección de dependencias sería mejor, pero mantenemos simple para refactor)
-redis = aioredis.from_url("redis://localhost", decode_responses=True)
+redis = aioredis.from_url(REDIS_URL, decode_responses=True)
+
+rate_limiter = get_rate_limiter(REDIS_URL)
 
 @router.get("/steam/all-sharecodes")
+@rate_limiter.limit(20, 60)  # 20 requests per minute per IP
 async def get_all_sharecodes(
     request: Request,
     auth_code: str = Query(..., alias="auth_code"),
@@ -35,7 +40,6 @@ async def get_all_sharecodes(
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
 
     # Cargar API key en tiempo de petición (evita problemas de import/orden)
-    STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
     if not STEAM_API_KEY:
         raise HTTPException(status_code=400, detail="Falta Steam API Key")
 
@@ -61,7 +65,7 @@ async def get_all_sharecodes(
     # Control
     sharecodes: list[str] = []
     max_retries = 5
-    delay_seconds = 0.2
+    delay_seconds = 0.1
     max_total_codes = 50
     original_code = current_code
     resynced = False

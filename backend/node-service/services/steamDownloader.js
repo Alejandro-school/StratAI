@@ -14,6 +14,17 @@ const { redisClient, ensureRedis } = require("./redisClient");
 const unbzip2Stream = require("unbzip2-stream");
 const axios = require("axios");
 const http = require("http");
+const { EventEmitter } = require("events");
+const { botPool } = require("./botPool");
+
+// ============================================================
+// PROGRESS EVENT EMITTER (Fase 5: SSE para onboarding)
+// ============================================================
+// Emite eventos de progreso por steamID para consumir via SSE.
+// Stages: "gc_resolving" → "downloading" → "processing" → "completed" | "error"
+// ============================================================
+const progressEmitter = new EventEmitter();
+progressEmitter.setMaxListeners(100); // Hasta 100 clientes SSE simultáneos
 
 // Credenciales del bot desde config
 const BOT_USERNAME = config.bot.username;
@@ -44,20 +55,48 @@ setInterval(() => {
   }
 }, 600000);
 
-// Cola para descargas (secuencial para evitar duplicados con Steam GC)
-const queue = new PQueue({
-  concurrency: 1,  // IMPORTANTE: 1 para evitar race conditions con Steam GC
-  interval: config.queue.interval,
-  intervalCap: config.queue.intervalCap,
-  timeout: config.queue.timeout,
+// ============================================================
+// PIPELINE DE 3 COLAS (GC → Download → Go)
+// ============================================================
+// 1. gcQueue: Resuelve sharecode → demo URL via GC (multiplexado)
+// 2. downloadQueue: Descarga + descomprime demos en paralelo
+// 3. goQueue: Procesa demos con Go service en paralelo
+//
+// Esto permite que el GC resuelva URLs mientras se descargan demos
+// anteriores, maximizando throughput.
+// ============================================================
+
+// Cola 1: GC URL resolution (multiplexada con correlación por matchId)
+const gcQueue = new PQueue({
+  concurrency: config.gcQueue.concurrency, // 3 concurrent GC requests
+  timeout: config.gcQueue.timeout,
   throwOnTimeout: false,
 });
 
-queue.on('error', (err) => {
+gcQueue.on('error', (err) => {
+  console.error('❌ Error en cola GC:', err.message);
+});
+
+gcQueue.on('active', () => {
+  console.log(`🔄 [GC Queue] Activas: ${gcQueue.pending + 1}, En espera: ${gcQueue.size}`);
+});
+
+// Cola 2: HTTP downloads (paralelas, independientes del GC)
+const downloadQueue = new PQueue({
+  concurrency: config.downloadQueue.concurrency, // 6 descargas paralelas
+  timeout: config.downloadQueue.timeout,
+  throwOnTimeout: false,
+});
+
+downloadQueue.on('error', (err) => {
   console.error('❌ Error en cola de descargas:', err.message);
 });
 
-// Cola SEPARADA para procesamiento Go (10 paralelos para batch processing)
+downloadQueue.on('active', () => {
+  console.log(`⬇️ [Download Queue] Activas: ${downloadQueue.pending + 1}, En espera: ${downloadQueue.size}`);
+});
+
+// Cola 3: Go processing (paralelo, no bloquea descargas)
 const goQueue = new PQueue({
   concurrency: config.goQueue.concurrency,  // 10 por defecto (config.js)
   timeout: config.goQueue.timeout,
@@ -72,15 +111,30 @@ goQueue.on('active', () => {
   console.log(`🔄 [GoQueue] Activas: ${goQueue.pending + 1}, En espera: ${goQueue.size}`);
 });
 
-// Inicializamos el cliente de Steam y la instancia de CSGO
-const client = new SteamUser();
-const csgo = new GlobalOffensive(client);
+// Referencia legacy para compatibilidad con exports
+const queue = gcQueue;
+
+// ============================================================
+// BOT POOL INTEGRATION (Fase 4)
+// ============================================================
+// Si BOT_ACCOUNTS está configurado, usa pool multi-bot.
+// Si no, usa las credenciales individuales (bot singleton legacy).
+// El pool se inicializa en index.js antes de iniciar sesión.
+// ============================================================
+
+// Inicializar pool (parsea config, no hace login aún)
+botPool.initialize();
+
+// Referencias al bot primario (para compatibilidad con código legacy)
+const primaryBot = botPool.getPrimaryBot();
+const client = primaryBot ? primaryBot.client : new SteamUser();
+const csgo = primaryBot ? primaryBot.csgo : new GlobalOffensive(client);
 
 // Flag para evitar duplicar listeners
 let steamListenersSetup = false;
 
 /**
- * Genera el código 2FA (Steam Guard)
+ * Genera el código 2FA (Steam Guard) — solo para bot legacy
  */
 function generarAuthCode() {
   return SteamTotp.generateAuthCode(BOT_SHARED_SECRET);
@@ -89,12 +143,18 @@ function generarAuthCode() {
 /**
  * setupSteamListeners:
  * --------------------
- * Configura los event listeners de Steam/CSGO UNA SOLA VEZ
+ * En modo pool: Los listeners ya están configurados en cada BotInstance.
+ * En modo legacy (1 bot): Configura listeners sobre el client singleton.
+ * En ambos modos, este setup es idempotente.
  */
 function setupSteamListeners() {
   if (steamListenersSetup) return;
   steamListenersSetup = true;
 
+  // Si hay pool multi-bot, los listeners ya están en cada BotInstance
+  if (botPool.bots.length > 1) return;
+
+  // Modo legacy: configurar listeners sobre el singleton
   client.on("loggedOn", () => {
     console.log("✅ Bot conectado a Steam");
     client.setPersona(SteamUser.EPersonaState.Online);
@@ -110,7 +170,6 @@ function setupSteamListeners() {
     setTimeout(() => iniciarSesionSteam(), config.retry.steamReconnect);
   });
 
-  // Eventos del Game Coordinator
   csgo.on("connectedToGC", () => {
     console.log("🎮 Conectado al GC de CS:GO");
     console.log(`🟢 Estado GC: ${csgo.haveGCSession}`);
@@ -124,148 +183,261 @@ function setupSteamListeners() {
 /**
  * iniciarSesionSteam:
  * -------------------
- * Inicia sesión en la cuenta del bot y se conecta al GC de CS:GO.
+ * En modo pool: hace loginAll() en todos los bots.
+ * En modo legacy: logea el bot singleton.
  */
-function iniciarSesionSteam() {
-  // Setup listeners una sola vez
+async function iniciarSesionSteam() {
   setupSteamListeners();
 
-  client.logOn({
-    accountName: BOT_USERNAME,
-    password: BOT_PASSWORD,
-    twoFactorCode: generarAuthCode(),
-  });
+  if (botPool.bots.length > 1) {
+    // Multi-bot: login escalonado
+    await botPool.loginAll();
+  } else {
+    // Legacy: login directo
+    client.logOn({
+      accountName: BOT_USERNAME,
+      password: BOT_PASSWORD,
+      twoFactorCode: generarAuthCode(),
+    });
+  }
+}
+
+// ============================================================
+// GC MULTIPLEXADO: Correlación de respuestas por matchId
+// ============================================================
+// Permite enviar múltiples requests al GC simultáneamente.
+// Cada respuesta se demuxa por matchId, resolviendo la Promise correcta.
+// ============================================================
+
+// Map de requests pendientes: matchId → { resolve, reject, timeout, retries }
+const pendingGCRequests = new Map();
+let gcListenerSetup = false;
+
+// ============================================================
+// FASE 3: Caché de Demo URLs en Redis
+// ============================================================
+// Key: demo_url_cache:{matchId} → JSON { demoUrl, matchDuration, matchDate, matchTime, mapName }
+// TTL: 12 horas (urls de Valve CDN expiran, conservador)
+// Evita GC requests duplicados si múltiples usuarios jugaron la misma partida.
+// ============================================================
+
+async function getCachedDemoUrl(matchId) {
+  try {
+    const cached = await redisClient.get(`demo_url_cache:${matchId}`);
+    if (cached) {
+      console.log(`⚡ [Cache HIT] matchId=${matchId} — skipping GC request`);
+      return JSON.parse(cached);
+    }
+  } catch { /* cache miss, continue to GC */ }
+  return null;
+}
+
+async function setCachedDemoUrl(matchId, data) {
+  try {
+    await redisClient.set(`demo_url_cache:${matchId}`, JSON.stringify(data), {
+      EX: config.ttl.demoUrl,
+    });
+  } catch (err) {
+    console.warn(`⚠️ [Cache] Error guardando URL para matchId=${matchId}: ${err.message}`);
+  }
+}
+
+/**
+ * setupGCListener:
+ * ----------------
+ * Configura un listener GLOBAL y PERSISTENTE para matchList events.
+ * En modo pool: se registra en TODOS los bots.
+ * Demuxa respuestas por matchId a las Promises correctas.
+ */
+function setupGCListener() {
+  if (gcListenerSetup) return;
+  gcListenerSetup = true;
+
+  const onMatchList = (matches) => {
+    if (!matches || !matches.length) return;
+
+    for (const match of matches) {
+      const matchId = match.matchid?.toString();
+      if (!matchId) continue;
+
+      const pending = pendingGCRequests.get(matchId);
+      if (!pending) continue;
+
+      // Verificar que tiene URL de demo válida
+      const hasUrl = match.roundstatsall &&
+        Array.isArray(match.roundstatsall) &&
+        match.roundstatsall.some((round) => round.map && round.map.startsWith("http"));
+
+      if (!hasUrl) {
+        // Sin URL: reintentar si quedan intentos
+        if (pending.retries < pending.maxRetries) {
+          pending.retries++;
+          console.warn(`⚠️ [GC Mux] matchId=${matchId} sin URL. Reintento ${pending.retries}/${pending.maxRetries}`);
+          setTimeout(() => sendGCRequest(pending.decoded), 1000);
+        } else {
+          clearTimeout(pending.timeoutId);
+          pendingGCRequests.delete(matchId);
+          pending.reject(new Error("No se encontró la URL de la demo (partida caducada)."));
+        }
+        continue;
+      }
+
+      // Extraer datos
+      const demoUrl = match.roundstatsall.find(
+        (round) => round.map && round.map.startsWith("http")
+      ).map;
+      const lastRound = match.roundstatsall[match.roundstatsall.length - 1];
+      const matchDuration = lastRound ? lastRound.match_duration || 0 : 0;
+      const matchTime = match.matchtime || 0;
+      const matchDate = matchTime > 0 ? new Date(matchTime * 1000).toISOString() : "";
+      const mapName = lastRound ? lastRound.reservation?.game_map_key || "" : "";
+
+      // Resolver la Promise correspondiente
+      clearTimeout(pending.timeoutId);
+      pendingGCRequests.delete(matchId);
+
+      // Decrementar activeRequests del bot que procesó la respuesta
+      if (pending.botInstance) {
+        pending.botInstance.activeRequests = Math.max(0, pending.botInstance.activeRequests - 1);
+      }
+
+      console.log(`✅ [GC Mux] matchId=${matchId} → URL resuelta (${pendingGCRequests.size} pendientes)`);
+
+      const result = {
+        demoUrl,
+        matchDuration,
+        matchDate,
+        matchTime,
+        mapName,
+        matchID: matchId,
+      };
+
+      // Guardar en caché para futuros requests (Fase 3)
+      setCachedDemoUrl(matchId, result);
+
+      pending.resolve(result);
+    }
+  };
+
+  // Registrar listener en TODOS los bots del pool
+  for (const bot of botPool.bots) {
+    bot.csgo.on("matchList", onMatchList);
+  }
+}
+
+/**
+ * sendGCRequest:
+ * Envía un request protobuf al GC usando el bot con menor carga del pool.
+ * Retorna el BotInstance utilizado (para tracking de activeRequests).
+ */
+function sendGCRequest(decoded) {
+  const bot = botPool.getAvailableBot();
+  if (!bot) {
+    console.warn(`⚠️ [GC Pool] Ningún bot disponible. Reintentando en ${config.retry.gcRetryDelay}ms...`);
+    setTimeout(() => sendGCRequest(decoded), config.retry.gcRetryDelay);
+    return null;
+  }
+
+  bot.activeRequests++;
+  bot.csgo._send(
+    Language.MatchListRequestFullGameInfo,
+    Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo,
+    {
+      matchid: decoded.matchId,
+      outcomeid: decoded.outcomeId,
+      token: decoded.token,
+    }
+  );
+
+  // Almacenar referencia al bot en el pending request para decrementar después
+  const matchId = decoded.matchId.toString();
+  const pending = pendingGCRequests.get(matchId);
+  if (pending) {
+    pending.botInstance = bot;
+  }
+
+  return bot;
 }
 
 /**
  * requestGameAsync:
  * -----------------
- * Solicita al GC la URL de la demo correspondiente a un sharecode.
+ * Solicita al GC la URL de la demo. Usa el sistema multiplexado:
+ * - Registra una Promise indexada por matchId
+ * - Envía el request al GC
+ * - El listener global resuelve la Promise cuando llega la respuesta
+ * - Soporta concurrent requests (cada uno vuelve con su matchId)
  */
 GlobalOffensive.prototype.requestGameAsync = function (
   shareCodeStr,
-  intentosMaximos = 2
+  maxRetries = 2
 ) {
-  return new Promise((resolve, reject) => {
-    // Timeout global para evitar promesas colgadas
-    const globalTimeout = setTimeout(() => {
-      cleanup();
-      reject(new Error('Timeout: sin respuesta del GC en 30s'));
-    }, 30000);
+  // Asegurar que el listener global está activo
+  setupGCListener();
 
-    const cleanup = () => {
-      clearTimeout(globalTimeout);
-      this.removeListener('matchList', onMatchList);
-    };
+  // Decodificar primero para extraer matchId (necesario para cache check)
+  let decoded;
+  try {
+    decoded = new ShareCode(shareCodeStr).decode();
+  } catch (err) {
+    return Promise.reject(new Error(`No se pudo decodificar el sharecode: ${shareCodeStr} => ${err.message}`));
+  }
 
-    let shareCodeDecoded;
-    try {
-      shareCodeDecoded = new ShareCode(shareCodeStr).decode();
-      console.log(
-        `📝 ShareCode decodificado: ${JSON.stringify(shareCodeDecoded)}`
-      );
-    } catch (err) {
-      cleanup();
-      return reject(
-        new Error(
-          `No se pudo decodificar el sharecode: ${shareCodeStr} => ${err.message}`
-        )
-      );
-    }
+  const matchId = decoded.matchId.toString();
 
-    let intentos = 0;
-    const solicitarDemo = () => {
-      if (intentos >= intentosMaximos) {
-        cleanup();
-        return reject(
-          new Error("❌ Máximo de reintentos para obtener la URL de la demo.")
-        );
-      }
-      intentos++;
+  // FASE 3: Check caché ANTES de hacer GC request
+  return getCachedDemoUrl(matchId).then((cached) => {
+    if (cached) return cached;
 
-      if (!this.haveGCSession) {
-        console.warn(`⚠️ Sin sesión GC. Reintentando en ${config.retry.gcRetryDelay / 1000}s...`);
-        return setTimeout(solicitarDemo, config.retry.gcRetryDelay);
-      }
-
-      // Enviar petición al GC
-      this._send(
-        Language.MatchListRequestFullGameInfo,
-        Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo,
-        {
-          matchid: shareCodeDecoded.matchId,
-          outcomeid: shareCodeDecoded.outcomeId,
-          token: shareCodeDecoded.token,
-        }
-      );
-
-      this.once("matchList", onMatchList);
-    };
-
-    const onMatchList = (matches) => {
-      const partidasValidas = matches.filter(
-        (match) =>
-          match.roundstatsall &&
-          Array.isArray(match.roundstatsall) &&
-          match.roundstatsall.some(
-            (round) => round.map && round.map.startsWith("http")
-          )
-      );
-
-      if (!partidasValidas.length) {
-        console.warn(
-          "⚠️ No se encontró URL válida para la demo. Reintentamos..."
-        );
-        this.removeListener("matchList", onMatchList);
-        if (intentos < intentosMaximos) {
-          setTimeout(solicitarDemo, 1000);
-        } else {
-          cleanup();
-          reject(
-            new Error("No se encontró la URL de la demo (partida caducada).")
-          );
-        }
+    return new Promise((resolve, reject) => {
+      // Si ya hay un request pendiente para este matchId, reusar
+      if (pendingGCRequests.has(matchId)) {
+        const existing = pendingGCRequests.get(matchId);
+        existing.promise.then(resolve).catch(reject);
         return;
       }
 
-      // Se toma la primera partida válida
-      const matchData = partidasValidas[0];
-      const demoUrl = matchData.roundstatsall.find(
-        (round) => round.map && round.map.startsWith("http")
-      ).map;
+      // Timeout individual (30s)
+      const timeoutId = setTimeout(() => {
+        pendingGCRequests.delete(matchId);
+        reject(new Error(`Timeout: sin respuesta del GC para matchId=${matchId} en 30s`));
+      }, 30000);
 
-      // Extraer duración de la partida
-      const lastRound =
-        matchData.roundstatsall[matchData.roundstatsall.length - 1];
-      const matchDuration = lastRound ? lastRound.match_duration || 0 : 0;
-
-      // Extraer fecha de la partida (matchtime es Unix timestamp)
-      const matchTime = matchData.matchtime || 0;
-      const matchDate =
-        matchTime > 0 ? new Date(matchTime * 1000).toISOString() : "";
-
-      // Extraer mapa si está disponible
-      const mapName = lastRound
-        ? lastRound.reservation?.game_map_key || ""
-        : "";
-
-      cleanup();
-
-      console.log(`✅ URL de la demo: ${demoUrl}`);
-      console.log(`🕒 Duración de la partida: ${matchDuration} segundos`);
-      console.log(`📅 Fecha de la partida: ${matchDate}`);
-
-      resolve({
-        demoUrl: demoUrl,
-        matchDuration: matchDuration,
-        matchDate: matchDate,
-        matchTime: matchTime,
-        mapName: mapName,
-        matchID: shareCodeDecoded.matchId,
+      // Crear Promise compartible para deduplicación
+      let resolveOuter, rejectOuter;
+      const promise = new Promise((res, rej) => {
+        resolveOuter = res;
+        rejectOuter = rej;
       });
-    };
+      promise.then(resolve).catch(reject);
 
-    solicitarDemo();
+      pendingGCRequests.set(matchId, {
+        resolve: resolveOuter,
+        reject: rejectOuter,
+        promise,
+        timeoutId,
+        retries: 0,
+        maxRetries,
+        decoded,
+      });
+
+      // Esperar GC session antes de enviar (pool-aware)
+      const availableBot = botPool.getAvailableBot();
+      if (!availableBot) {
+        console.warn(`⚠️ [GC Mux] Ningún bot con sesión GC. Esperando...`);
+        const waitGC = () => {
+          if (botPool.getAvailableBot()) {
+            sendGCRequest(decoded);
+          } else {
+            setTimeout(waitGC, config.retry.gcRetryDelay);
+          }
+        };
+        waitGC();
+        return;
+      }
+
+      sendGCRequest(decoded);
+    });
   });
 };
 
@@ -273,17 +445,59 @@ GlobalOffensive.prototype.requestGameAsync = function (
  * descargarFicheroHTTP:
  * ---------------------
  * Descarga el fichero de demo y lo guarda en filePath.
+ * Incluye retry con backoff exponencial para errores transitorios
+ * (ECONNRESET, ETIMEDOUT, ECONNREFUSED, socket hang up).
  */
 const { pipeline } = require("stream");
 
-function descargarFicheroHTTP(url, filePath) {
+const RETRYABLE_CODES = new Set(["ECONNRESET", "ETIMEDOUT", "ECONNREFUSED", "EPIPE", "EAI_AGAIN"]);
+
+function isRetryableError(err) {
+  if (RETRYABLE_CODES.has(err.code)) return true;
+  if (err.message && err.message.includes("socket hang up")) return true;
+  if (err.message && err.message.includes("aborted")) return true;
+  return false;
+}
+
+/**
+ * Check if error is a CDN URL expiration (403/410).
+ * These require re-resolving the demo URL via GC, not simple retries.
+ */
+function isCdnExpiredError(err) {
+  const msg = err.message || "";
+  return msg.includes("HTTP status: 403") || msg.includes("HTTP status: 410");
+}
+
+async function descargarFicheroHTTP(url, filePath, attempt = 0) {
+  if (fs.existsSync(filePath)) {
+    console.log(`📂 Ya existe: ${filePath}`);
+    return filePath;
+  }
+
+  const maxRetries = config.downloadQueue.maxRetries || 4;
+  const baseDelay = config.downloadQueue.retryBaseDelay || 2000;
+
+  try {
+    await _downloadOnce(url, filePath);
+    return filePath;
+  } catch (err) {
+    // Limpiar archivo parcial
+    try { fs.unlinkSync(filePath); } catch {}
+
+    if (isRetryableError(err) && attempt < maxRetries) {
+      const delay = baseDelay * Math.pow(2, attempt); // 2s, 4s, 8s, 16s
+      console.warn(`♻️ [Download] Retry ${attempt + 1}/${maxRetries} para ${path.basename(filePath)} en ${delay / 1000}s (${err.code || err.message})`);
+      await new Promise((r) => setTimeout(r, delay));
+      return descargarFicheroHTTP(url, filePath, attempt + 1);
+    }
+
+    throw err;
+  }
+}
+
+function _downloadOnce(url, filePath) {
   return new Promise((resolve, reject) => {
     console.log(`⬇️ Descargando: ${url}`);
-
-    if (fs.existsSync(filePath)) {
-      console.log(`📂 Ya existe: ${filePath}`);
-      return resolve(filePath);
-    }
 
     const esBz2 = url.endsWith(".bz2");
     const fileStream = fs.createWriteStream(filePath);
@@ -299,7 +513,6 @@ function descargarFicheroHTTP(url, filePath) {
       if (esBz2) {
         pipeline(res, unbzip2Stream(), fileStream, (err) => {
           if (err) {
-            console.error("❌ Error en la descarga/descompresión:", err);
             fs.unlink(filePath, () => {});
             return reject(err);
           }
@@ -309,7 +522,6 @@ function descargarFicheroHTTP(url, filePath) {
       } else {
         pipeline(res, fileStream, (err) => {
           if (err) {
-            console.error("❌ Error en la descarga:", err);
             fs.unlink(filePath, () => {});
             return reject(err);
           }
@@ -320,7 +532,6 @@ function descargarFicheroHTTP(url, filePath) {
     });
 
     req.on("error", (err) => {
-      console.error(`❌ Error al descargar: ${err}`);
       fileStream.close();
       fs.unlink(filePath, () => {});
       reject(err);
@@ -331,12 +542,13 @@ function descargarFicheroHTTP(url, filePath) {
 /**
  * procesarShareCode:
  * ------------------
- * Procesa un sharecode:
- * 1. Solicita la URL y datos de la demo.
- * 2. Descarga la demo.
- * 3. Guarda datos básicos en Redis.
- * 4. Notifica a Go para analizar la demo.
- * 5. Marca el sharecode como "processed".
+ * Orquesta el pipeline de 3 colas para un sharecode:
+ * 1. gcQueue: Resuelve sharecode → demo URL via GC
+ * 2. downloadQueue: Descarga + descomprime la demo
+ * 3. goQueue: Analiza la demo con el servicio Go
+ *
+ * Cada fase se encola en la cola correspondiente, permitiendo
+ * que GC resuelva el siguiente sharecode mientras se descarga el anterior.
  */
 async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
   console.log(`\n🔍 Procesando ShareCode ${sharecode} (SteamID: ${steamID})`);
@@ -346,39 +558,34 @@ async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
   const lockAcquired = await redisClient.setNX(lockKey, Date.now().toString());
   
   if (!lockAcquired) {
-    // Otro worker ya está procesando este sharecode
     console.log(`⏭️ Sharecode ${sharecode} ya está siendo procesado por otro worker`);
     return;
   }
   
-  // Establecer TTL en el lock (10 min máximo)
+  // TTL en el lock (10 min máximo para evitar locks fantasma)
   await redisClient.expire(lockKey, 600);
 
-  // Inicializar reintentos si no existe (usando Map)
+  // Inicializar reintentos
   if (!reintentosSharecode.has(sharecode)) {
     reintentosSharecode.set(sharecode, { count: 0, timestamp: Date.now() });
   }
 
-  // Esperar sesión GC con Promise en lugar de devolver setTimeout
-  if (!csgo.haveGCSession) {
-    console.warn(`⚠️ No hay sesión GC. Reintentamos en ${config.retry.gcSessionDelay / 1000}s...`);
-    await redisClient.del(lockKey); // Liberar lock antes de reintentar
+  // Esperar sesión GC (pool-aware: cualquier bot con sesión activa)
+  if (!botPool.getAvailableBot()) {
+    console.warn(`⚠️ Ningún bot con sesión GC. Reintentamos en ${config.retry.gcSessionDelay / 1000}s...`);
+    await redisClient.del(lockKey);
     await new Promise(resolve => setTimeout(resolve, config.retry.gcSessionDelay));
     return procesarShareCode(sharecode, steamID, maxReintentos);
   }
 
   try {
-    // Paso 1: Solicitar la demo
+    // ── FASE 1: Resolver demo URL via GC ──
+    progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "gc_resolving", matchID: null });
+    const activeCsgo = botPool.getPrimaryBot()?.csgo || csgo;
     const { demoUrl, matchDuration, matchDate, matchTime, mapName, matchID } =
-      await csgo.requestGameAsync(sharecode);
+      await activeCsgo.requestGameAsync(sharecode);
 
-    // Paso 2: Descargar la demo
-    const cleanedCode = sharecode.replace(/CSGO-|-/g, "");
-    const filename = `match_${cleanedCode}.dem`;
-    const filePath = path.join(DEMOS_DIR, filename);
-    await descargarFicheroHTTP(demoUrl, filePath);
-
-    // Paso 3: Guardar datos en Redis
+    // Guardar metadata en Redis inmediatamente (no depende de descarga)
     const matchData = {
       matchID: matchID,
       matchDuration: matchDuration,
@@ -388,103 +595,131 @@ async function procesarShareCode(sharecode, steamID, maxReintentos = 3) {
     await redisClient.set(`match_data:${matchID}`, JSON.stringify(matchData), {
       EX: config.ttl.matchData,
     });
+    console.log(`✅ [GC] URL resuelta para ${sharecode} → matchID=${matchID}`);
 
-    console.log(`✅ Match data guardado en Redis: match_data:${matchID}`);
+    // Liberar lock del GC y marcar sharecode como "downloading"
+    await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, "downloading");
 
-    // Paso 4: Encolar procesamiento Go (PARALELO - no espera)
-    // Esto permite que múltiples demos se procesen simultáneamente
-    goQueue.add(async () => {
+    // ── FASE 2: Encolar descarga HTTP (paralela, no bloquea GC) ──
+    const cleanedCode = sharecode.replace(/CSGO-|-/g, "");
+    const filename = `match_${cleanedCode}.dem`;
+    const filePath = path.join(DEMOS_DIR, filename);
+
+    downloadQueue.add(async () => {
       try {
-        console.log(`🔧 [Go] Iniciando procesamiento de ${filename}...`);
-        const goResponse = await axios.post(
-          `${config.services.goService}/process-demo`,
-          {
-            demo_path: filePath,
-            steam_id: steamID,
-            match_id: matchID.toString(),
-            match_date: matchDate,
-            match_duration: matchDuration,
-          },
-          { timeout: config.http.goTimeout }
-        );
+        progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "downloading", matchID });
+        await descargarFicheroHTTP(demoUrl, filePath);
+        console.log(`✅ [Download] ${filename} descargada`);
 
-        if (goResponse.data?.status === "success") {
-          console.log(`✅ [Go] Stats de ${filename} procesadas correctamente`);
-          
-          // IMPORTANTE: Registrar demo procesada en Redis para el Dashboard
-          const processedDemoData = {
-            match_id: matchID.toString(),
-            steam_id: steamID,
-            map_name: mapName || goResponse.data?.map_name || "unknown",
-            date: matchDate,
-            duration: matchDuration,
-            processed_at: new Date().toISOString()
-          };
-          
-          await redisClient.rPush(
-            `processed_demos:${steamID}`,
-            JSON.stringify(processedDemoData)
-          );
-          console.log(`📊 [Redis] Demo registrada en processed_demos:${steamID}`);
-          
-          // Invalidar caché del dashboard para que se recalcule con la nueva demo
-          await redisClient.del(`dashboard_stats:${steamID}`);
-          console.log(`🗑️ [Redis] Cache de dashboard invalidada para ${steamID}`);
-        } else {
-          console.warn(`⚠️ [Go] Respuesta inesperada para ${filename}:`, goResponse.data);
-        }
+        // ── FASE 3: Encolar procesamiento Go (paralelo) ──
+        goQueue.add(async () => {
+          try {
+            progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "processing", matchID });
+            console.log(`🔧 [Go] Procesando ${filename}...`);
+            const goResponse = await axios.post(
+              `${config.services.goService}/process-demo`,
+              {
+                demo_path: filePath,
+                steam_id: steamID,
+                match_id: matchID.toString(),
+                match_date: matchDate,
+                match_duration: matchDuration,
+              },
+              { timeout: config.http.goTimeout }
+            );
+
+            if (goResponse.data?.status === "success") {
+              console.log(`✅ [Go] Stats de ${filename} procesadas`);
+              
+              const processedDemoData = {
+                match_id: matchID.toString(),
+                steam_id: steamID,
+                map_name: mapName || goResponse.data?.map_name || "unknown",
+                date: matchDate,
+                duration: matchDuration,
+                processed_at: new Date().toISOString()
+              };
+              
+              await redisClient.rPush(
+                `processed_demos:${steamID}`,
+                JSON.stringify(processedDemoData)
+              );
+              
+              await redisClient.del(`dashboard_stats:${steamID}`);
+              console.log(`📊 [Pipeline] ${filename} completado: GC → Download → Go ✅`);
+              progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "completed", matchID });
+            } else {
+              console.warn(`⚠️ [Go] Respuesta inesperada para ${filename}:`, goResponse.data);
+            }
+          } catch (err) {
+            console.error(`❌ [Go] Error procesando ${filename}: ${err.message}`);
+            progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "error", matchID, error: err.message });
+          }
+        });
       } catch (err) {
-        console.error(`❌ [Go] Error procesando ${filename}: ${err.message}`);
+        // CDN URL expired (403/410): invalidate cache and re-enqueue for fresh GC resolution
+        if (isCdnExpiredError(err)) {
+          console.warn(`⚠️ [Download] CDN URL expired for ${filename} (${err.message}). Invalidating cache and re-enqueueing...`);
+          await redisClient.del(`demo_url_cache:${matchID}`);
+          await redisClient.del(`lock:sharecode:${sharecode}`);
+          await redisClient.del(`lock:enqueue:${sharecode}`);
+          await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, "pending");
+          enqueueShareCode(sharecode, steamID, { priority: 5, maxRetries: 2 });
+          progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "retrying_gc", matchID });
+          return;
+        }
+        console.error(`❌ [Download] Error descargando ${filename} (agotados reintentos): ${err.message}`);
+        progressEmitter.emit(`progress:${steamID}`, { sharecode, stage: "error", matchID, error: err.message });
       }
     });
 
-    // Paso 5: Marcar el sharecode como procesado
-    await redisClient.hSet(
-      `sharecode_status:${steamID}`,
-      sharecode,
-      "processed"
-    );
-    // Limpieza del Map y lock tras éxito
+    // Marcar sharecode como procesado (GC resuelto + descarga encolada)
+    await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, "processed");
     reintentosSharecode.delete(sharecode);
     await redisClient.del(lockKey);
+
   } catch (err) {
     console.error(`❌ Error al procesar el ShareCode ${sharecode}:`, err);
 
-    // Si la demo está caducada o no disponible, marcamos y no reintentamos
+    // Demo caducada: no reintentar
     if (
       err.message.includes("caducada") ||
       err.message.includes("No se encontró la URL")
     ) {
       console.log(`ℹ️ Marcando sharecode caducado: ${sharecode}`);
-      await redisClient.hSet(
-        `sharecode_status:${steamID}`,
-        sharecode,
-        "caducado"
-      );
+      await redisClient.hSet(`sharecode_status:${steamID}`, sharecode, "caducado");
       reintentosSharecode.delete(sharecode);
       await redisClient.del(lockKey);
       return;
     }
 
-    // Reintentos en caso de error (usando Map)
+    // Reintentos GC
     const retryData = reintentosSharecode.get(sharecode) || { count: 0, timestamp: Date.now() };
     retryData.count++;
     retryData.timestamp = Date.now();
     reintentosSharecode.set(sharecode, retryData);
 
     if (retryData.count < maxReintentos) {
-      console.log(
-        `♻️ Reintentando sharecode ${sharecode} (intento ${retryData.count} de ${maxReintentos})...`
-      );
-      queue.add(() => procesarShareCode(sharecode, steamID, maxReintentos));
+      console.log(`♻️ Reintentando sharecode ${sharecode} (intento ${retryData.count} de ${maxReintentos})...`);
+      await redisClient.del(lockKey);
+      enqueueShareCode(sharecode, steamID, { maxRetries: maxReintentos });
     } else {
-      console.error(
-        `❌ Sharecode ${sharecode} alcanzó el máximo de reintentos.`
-      );
+      console.error(`❌ Sharecode ${sharecode} alcanzó el máximo de reintentos.`);
       reintentosSharecode.delete(sharecode);
       await redisClient.del(lockKey);
     }
   }
+}
+
+/**
+ * enqueueShareCode:
+ * -----------------
+ * Encola un sharecode en el pipeline con prioridad opcional.
+ * priority > 0 = alta prioridad (onboarding de usuario nuevo).
+ * PQueue ejecuta primero las tareas con mayor priority.
+ */
+function enqueueShareCode(sharecode, steamID, { priority = 0, maxRetries = 3 } = {}) {
+  gcQueue.add(() => procesarShareCode(sharecode, steamID, maxRetries), { priority });
 }
 
 /**
@@ -515,7 +750,21 @@ async function monitorearShareCodes() {
     await redisSubscriber.connect();
     console.log("📡 Escuchando rpush en Redis para nuevos ShareCodes...");
 
-    await redisSubscriber.configSet("notify-keyspace-events", "KEA");
+    // Validate and configure keyspace events
+    try {
+      await redisSubscriber.configSet("notify-keyspace-events", "KEA");
+    } catch (configErr) {
+      // Some Redis configs don't allow CONFIG SET (e.g., managed Redis)
+      // Verify the setting is already correct
+      const currentConfig = await redisSubscriber.configGet("notify-keyspace-events");
+      const value = currentConfig?.["notify-keyspace-events"] || "";
+      if (!value.includes("K") || !value.includes("E")) {
+        console.error("❌ [Monitor] Redis keyspace events not configured. Run: CONFIG SET notify-keyspace-events KEA");
+        console.error("❌ [Monitor] Sharecode monitoring will NOT work without this.");
+        return;
+      }
+      console.log("✅ [Monitor] Redis keyspace events already configured:", value);
+    }
 
     await redisSubscriber.subscribe("__keyevent@0__:rpush", async (key) => {
       if (!key.startsWith("sharecodes:")) return;
@@ -524,24 +773,29 @@ async function monitorearShareCodes() {
       console.log(`🔔 [Monitor] Nuevos sharecodes detectados para: ${steamID}`);
       
       try {
-        // Obtener todos los sharecodes
+        // Obtain all sharecodes
         const sharecodes = await redisClient.lRange(`sharecodes:${steamID}`, 0, -1);
         if (!sharecodes.length) return;
         
-        // Batch: obtener status de todos los sharecodes de una vez
+        // Batch: status check for all sharecodes at once
         const statusMap = await redisClient.hGetAll(`sharecode_status:${steamID}`);
         
         let encolados = 0;
         for (const code of sharecodes) {
           const status = statusMap[code];
           if (!status || status === "pending") {
-            queue.add(() => procesarShareCode(code, steamID));
-            encolados++;
+            // Atomic dedup: only enqueue if we can set the lock
+            const lockKey = `lock:enqueue:${code}`;
+            const acquired = await redisClient.set(lockKey, "1", { NX: true, EX: 300 });
+            if (acquired) {
+              enqueueShareCode(code, steamID);
+              encolados++;
+            }
           }
         }
         
         if (encolados > 0) {
-          console.log(`✅ [Monitor] ${encolados} sharecodes encolados para ${steamID}`);
+          console.log(`✅ [Monitor] ${encolados} sharecodes encolados en gcQueue para ${steamID}`);
         }
       } catch (err) {
         console.error(`❌ [Monitor] Error procesando sharecodes de ${steamID}:`, err.message);
@@ -573,12 +827,13 @@ function getRedisSubscriber() {
 async function fetchMatchInfoBySharecode(sharecode) {
   console.log(`\n📅 Obteniendo metadata para sharecode: ${sharecode}`);
 
-  if (!csgo.haveGCSession) {
-    throw new Error('No hay sesión GC activa. Asegúrate de que el bot esté conectado.');
+  if (!botPool.getAvailableBot()) {
+    throw new Error('No hay sesión GC activa. Asegúrate de que al menos un bot esté conectado.');
   }
 
   try {
-    const result = await csgo.requestGameAsync(sharecode);
+    const primaryCsgo = botPool.getPrimaryBot()?.csgo || csgo;
+    const result = await primaryCsgo.requestGameAsync(sharecode);
     
     // Crear el fichero match_info.json (async)
     const cleanedCode = sharecode.replace(/CSGO-|-/g, '');
@@ -636,12 +891,17 @@ async function findDemosWithoutMatchInfo() {
 module.exports = {
   client,
   csgo,
-  queue,
-  goQueue,  // Nueva cola paralela para procesamiento Go (10 concurrent)
+  botPool,
+  progressEmitter,
+  queue,        // Legacy alias → gcQueue
+  gcQueue,
+  downloadQueue,
+  goQueue,
   iniciarSesionSteam,
   monitorearShareCodes,
   getRedisSubscriber,
   procesarShareCode,
+  enqueueShareCode,
   fetchMatchInfoBySharecode,
   findDemosWithoutMatchInfo,
 };

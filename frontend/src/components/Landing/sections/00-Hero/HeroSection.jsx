@@ -3,7 +3,7 @@
  */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Activity, Cpu, Zap } from 'lucide-react';
+import { ArrowUpRight, Activity, Cpu, Zap, Bot, Map, ShieldCheck } from 'lucide-react';
 import { useLang } from '../../i18n/useLang';
 import { API_URL } from '../../../../utils/api';
 import '../../../../styles/Landing/sections/hero.css';
@@ -70,11 +70,58 @@ const BADGES = [
   { icon: Zap, key: 'badge3' },
 ];
 
-const HeroSection = ({ onOpenChallenge }) => {
+const HeroPreview = ({ t }) => (
+  <motion.div className="hero-preview" variants={fadeUp}>
+    <div className="hero-preview__frame">
+      <div className="hero-preview__topbar">
+        <span>{t('hero.previewEyebrow')}</span>
+        <div className="hero-preview__status">
+          <span />
+          Live
+        </div>
+      </div>
+      <div className="hero-preview__screen">
+        <img
+          className="hero-preview__image"
+          src="/images/Landing/Replay2D.png"
+          alt="Replay táctico de StratAI con análisis de una ronda de CS2"
+        />
+        <div className="hero-preview__map-chip">
+          <Map size={15} />
+          <span>{t('hero.previewMap')}</span>
+        </div>
+      </div>
+
+      <div className="hero-preview__cards">
+        <div className="hero-preview__insight">
+          <ShieldCheck size={16} />
+          <div>
+            <strong>{t('hero.previewTitle')}</strong>
+            <span>{t('hero.previewInsight')}</span>
+          </div>
+        </div>
+
+        <div className="hero-preview__coach-card">
+          <Bot size={16} />
+          <div>
+            <strong>{t('hero.previewCoach')}</strong>
+            <span>{t('hero.previewCoachText')}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </motion.div>
+);
+
+const HeroSection = () => {
   const { t } = useLang();
 
   const handleSteamLogin = useCallback(() => {
     window.location.href = `${API_URL}/auth/steam/login`;
+  }, []);
+
+  const handleDemoScroll = useCallback(() => {
+    document.querySelector('#ai-demo')?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   return (
@@ -86,58 +133,52 @@ const HeroSection = ({ onOpenChallenge }) => {
           initial="hidden"
           animate="show"
         >
-          {/* Status pill */}
-          <motion.div className="hero__status" variants={fadeUp}>
-            <span className="hero__status-dot" />
-            <span>{t('hero.status')}</span>
-          </motion.div>
+          <div className="hero__copy">
+            <motion.div className="hero__status" variants={fadeUp}>
+              <span className="hero__status-dot" />
+              <span>{t('hero.status')}</span>
+            </motion.div>
 
-          {/* Headlines */}
-          <motion.h1 className="hero__h1" variants={fadeUp}>
-            {t('hero.headline')}
-          </motion.h1>
-          <motion.h1 className="hero__h1 hero__h1--gradient" variants={fadeUp}>
-            {t('hero.headlineGradient')}
-          </motion.h1>
+            <motion.h1 className="hero__h1" variants={fadeUp}>
+              {t('hero.headline')}
+            </motion.h1>
+            <motion.h1 className="hero__h1 hero__h1--gradient" variants={fadeUp}>
+              {t('hero.headlineGradient')}
+            </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p className="hero__sub" variants={fadeUp}>
-            {t('hero.subtitle')}
-          </motion.p>
+            <motion.p className="hero__sub" variants={fadeUp}>
+              {t('hero.subtitle')}
+            </motion.p>
 
-          {/* Badges */}
-          <motion.div className="hero__badges" variants={fadeUp}>
-            {BADGES.map((b) => (
-              <span key={b.key} className="hero__badge">
-                <b.icon size={13} strokeWidth={2.2} />
-                {t(`hero.${b.key}`)}
-              </span>
-            ))}
-          </motion.div>
+            <motion.div className="hero__badges" variants={fadeUp}>
+              {BADGES.map((b) => (
+                <span key={b.key} className="hero__badge">
+                  <b.icon size={13} strokeWidth={2.2} />
+                  {t(`hero.${b.key}`)}
+                </span>
+              ))}
+            </motion.div>
 
-          {/* Dual CTA */}
-          <motion.div className="hero__cta-wrap" variants={fadeUp}>
-            <button className="hero__cta hero__cta--primary" onClick={handleSteamLogin}>
-              <span>{t('hero.ctaPrimary')}</span>
-              <ArrowUpRight size={17} strokeWidth={2.4} />
-            </button>
-            <button className="hero__cta hero__cta--secondary" onClick={onOpenChallenge}>
-              <span>{t('hero.ctaSecondary')}</span>
-            </button>
-          </motion.div>
+            <motion.div className="hero__cta-wrap" variants={fadeUp}>
+              <button className="hero__cta hero__cta--primary" onClick={handleSteamLogin}>
+                <span>{t('hero.ctaPrimary')}</span>
+                <ArrowUpRight size={17} strokeWidth={2.4} />
+              </button>
+              <button className="hero__cta hero__cta--secondary" onClick={handleDemoScroll}>
+                <span>{t('hero.ctaSecondary')}</span>
+              </button>
+            </motion.div>
 
-          {/* Animated stats */}
-          <motion.div className="hero__stats" variants={fadeUp}>
-            <AnimatedCounter value={t('hero.stat1Value')} label={t('hero.stat1Label')} />
-            <div className="hero__stats-divider" />
-            <AnimatedCounter value={t('hero.stat2Value')} label={t('hero.stat2Label')} />
-            <div className="hero__stats-divider" />
-            <AnimatedCounter value={t('hero.stat3Value')} label={t('hero.stat3Label')} />
-            <div className="hero__stats-divider" />
-            <AnimatedCounter value={t('hero.stat4Value')} label={t('hero.stat4Label')} />
-            <div className="hero__stats-divider" />
-            <AnimatedCounter value={t('hero.stat5Value')} label={t('hero.stat5Label')} />
-          </motion.div>
+            <motion.div className="hero__stats" variants={fadeUp}>
+              <AnimatedCounter value={t('hero.stat1Value')} label={t('hero.stat1Label')} />
+              <div className="hero__stats-divider" />
+              <AnimatedCounter value={t('hero.stat2Value')} label={t('hero.stat2Label')} />
+              <div className="hero__stats-divider" />
+              <AnimatedCounter value={t('hero.stat3Value')} label={t('hero.stat3Label')} />
+            </motion.div>
+          </div>
+
+          <HeroPreview t={t} />
         </motion.div>
       </div>
     </section>

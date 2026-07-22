@@ -1,62 +1,41 @@
 // frontend/src/hooks/useCalloutStats.js
-// Hook for fetching granular per-callout statistics
+// Hook for fetching granular per-callout statistics (React Query)
 
-import { useState, useEffect, useCallback } from 'react';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { API_URL } from '../utils/api';
+
+const fetchCalloutStats = async (mapName) => {
+  const response = await fetch(
+    `${API_URL}/steam/get-callout-stats?map_name=${mapName}`,
+    { credentials: 'include' }
+  );
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+};
 
 /**
  * Hook to fetch granular callout statistics for the interactive map
  * @param {string} mapName - Map name (e.g. 'de_dust2')
- * @returns {Object} { calloutStats, heatmapData, matchesAnalyzed, loading, error, refetch }
  */
 export const useCalloutStats = (mapName = 'de_dust2') => {
-  const [calloutStats, setCalloutStats] = useState({});
-  const [heatmapData, setHeatmapData] = useState([]);
-  const [matchesAnalyzed, setMatchesAnalyzed] = useState(0);
-  const [sideStats, setSideStats] = useState({ CT: null, T: null });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['callout-stats', mapName],
+    queryFn: () => fetchCalloutStats(mapName),
+    enabled: !!mapName,
+  });
 
-  const fetchCalloutStats = useCallback(async () => {
-    if (!mapName) return;
-    
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetch(
-        `${API_URL}/steam/get-callout-stats?map_name=${mapName}`,
-        { credentials: 'include' }
-      );
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setCalloutStats(data.callouts || {});
-      setHeatmapData(data.heatmap_data || []);
-      setMatchesAnalyzed(data.matches_analyzed || 0);
-      setSideStats(data.side_stats || { CT: null, T: null });
-    } catch (err) {
-      console.error('[useCalloutStats] Error:', err);
-      setError(err.message);
-      setCalloutStats({});
-      setHeatmapData([]);
-      setSideStats({ CT: null, T: null });
-    } finally {
-      setLoading(false);
-    }
-  }, [mapName]);
+  const calloutStats = useMemo(() => data?.callouts || {}, [data]);
+  const heatmapData = data?.heatmap_data || [];
+  const matchesAnalyzed = data?.matches_analyzed || 0;
+  const sideStats = data?.side_stats || { CT: null, T: null };
 
-  useEffect(() => {
-    fetchCalloutStats();
-  }, [fetchCalloutStats]);
-
-  // Computed values
-  const sortedCallouts = Object.entries(calloutStats)
-    .map(([name, stats]) => ({ name, ...stats }))
-    .sort((a, b) => b.sample_size - a.sample_size);
+  const sortedCallouts = useMemo(() =>
+    Object.entries(calloutStats)
+      .map(([name, stats]) => ({ name, ...stats }))
+      .sort((a, b) => b.sample_size - a.sample_size),
+    [calloutStats]
+  );
 
   const bestCallout = sortedCallouts.find(c => c.rating === 'good');
   const worstCallout = sortedCallouts.find(c => c.rating === 'bad');
@@ -69,9 +48,9 @@ export const useCalloutStats = (mapName = 'de_dust2') => {
     sideStats,
     bestCallout,
     worstCallout,
-    loading,
-    error,
-    refetch: fetchCalloutStats
+    loading: isLoading,
+    error: error?.message || null,
+    refetch,
   };
 };
 

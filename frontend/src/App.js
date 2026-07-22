@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // ───────────── Rutas públicas ──────────────
 import { LandingPage } from "./components/Landing/LandingPage";
@@ -16,11 +17,23 @@ import MatchDetails from "./pages/MatchDetails";
 // ───────────── Nuevas páginas principales ──────────────
 import Performance from "./pages/Performance";
 import Progress from "./pages/Progress";
+import Feedback from "./pages/Feedback";
 
 // ───────────── Contextos & Auth ──────────────
 import { AuthProvider } from "./auth/useAuth";
 import { UserProvider } from "./context/UserContext";
 import RequireAuth from "./auth/RequireAuth";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,      // 5 min — demo data rarely changes
+      gcTime: 15 * 60 * 1000,         // 15 min garbage collection
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 /**
  * ▸ En la landing ("/"), la app se renderiza **sin** comprobar sesión
@@ -58,7 +71,9 @@ const App = () => (
         element={
           <AuthProvider>
             <UserProvider>
-              <RequireAuth />
+              <QueryClientProvider client={queryClient}>
+                <RequireAuth />
+              </QueryClientProvider>
             </UserProvider>
           </AuthProvider>
         }
@@ -69,6 +84,7 @@ const App = () => (
         <Route path="/history-games" element={<HistoryGames />} />
         <Route path="/performance" element={<Performance />} />
         <Route path="/progress" element={<Progress />} />
+        <Route path="/feedback" element={<Feedback />} />
         
         {/* Rutas de detalle y utilidades */}
         <Route path="/match/:steamID/:matchID" element={<MatchDetails />} />

@@ -8,9 +8,9 @@
 export const INSIGHT_TYPES = {
   CRITICAL: { id: 'critical', priority: 0, icon: 'AlertOctagon', color: '#dc2626' },
   WARNING: { id: 'warning', priority: 1, icon: 'AlertTriangle', color: '#ef4444' },
-  TACTICAL: { id: 'tactical', priority: 2, icon: 'Crosshair', color: '#8b5cf6' },
+  TACTICAL: { id: 'tactical', priority: 2, icon: 'Crosshair', color: '#6366f1' },
   WEAPON: { id: 'weapon', priority: 3, icon: 'Swords', color: '#f59e0b' },
-  TIMING: { id: 'timing', priority: 4, icon: 'Clock', color: '#06b6d4' },
+  TIMING: { id: 'timing', priority: 4, icon: 'Clock', color: '#3b82f6' },
   STRENGTH: { id: 'strength', priority: 5, icon: 'TrendingUp', color: '#22c55e' },
   UTILITY: { id: 'utility', priority: 6, icon: 'Zap', color: '#a855f7' },
   POSITIONING: { id: 'positioning', priority: 7, icon: 'Move', color: '#3b82f6' },
@@ -54,7 +54,7 @@ export const generateCalloutInsights = (stats, name) => {
     candidates.push({
       type: INSIGHT_TYPES.CRITICAL,
       priority: 0,
-      text: `⚠️ ${name} es un punto crítico: solo ${win_rate}% de victorias. Cambia tu enfoque o evita esta zona.`,
+      text: `${name} es un punto crítico: solo ${win_rate}% de victorias. Cambia tu enfoque o evita esta zona.`,
       category: 'critical'
     });
   }
@@ -93,7 +93,7 @@ export const generateCalloutInsights = (stats, name) => {
       candidates.push({
         type: INSIGHT_TYPES.STRENGTH,
         priority: 3,
-        text: `🎯 Ganas ${Math.round(openingWR)}% de primeros duelos en ${name}. Eres un buen entry aquí.`,
+        text: `Ganas ${Math.round(openingWR)}% de primeros duelos en ${name}. Eres un buen entry aquí.`,
         category: 'entry'
       });
     } else if (openingWR <= 30) {
@@ -252,7 +252,7 @@ export const generateCalloutInsights = (stats, name) => {
     candidates.push({
       type: INSIGHT_TYPES.STRENGTH,
       priority: 7,
-      text: `🏆 ${name} es tu zona estrella: ${win_rate}% victorias, ${kd} K/D.`,
+      text: `${name} es tu zona estrella: ${win_rate}% victorias, ${kd} K/D.`,
       category: 'strength'
     });
   } else if (win_rate >= 55 && kd >= 1.3 && sample_size >= 5) {
@@ -307,7 +307,7 @@ export const generateGlobalInsights = (allCalloutStats) => {
     if (best[1].win_rate - worst[1].win_rate > 25) {
       insights.push({
         type: INSIGHT_TYPES.TACTICAL,
-        text: `📊 Fortaleza: ${best[0]} (${best[1].win_rate}%). Debilidad: ${worst[0]} (${worst[1].win_rate}%).`,
+        text: `Fortaleza: ${best[0]} (${best[1].win_rate}%). Debilidad: ${worst[0]} (${worst[1].win_rate}%).`,
         global: true,
         category: 'overview'
       });
@@ -342,7 +342,7 @@ export const generateGlobalInsights = (allCalloutStats) => {
     if (best.kd >= 1.5) {
       insights.push({
         type: INSIGHT_TYPES.WEAPON,
-        text: `🔫 Tu mejor arma: ${best.weapon} con ${best.kd.toFixed(1)} K/D (${best.kills} kills).`,
+        text: `Tu mejor arma: ${best.weapon} con ${best.kd.toFixed(1)} K/D (${best.kills} kills).`,
         global: true,
         category: 'weapon'
       });
@@ -367,14 +367,14 @@ export const generateGlobalInsights = (allCalloutStats) => {
     if (ctKD > tKD * 1.4) {
       insights.push({
         type: INSIGHT_TYPES.TACTICAL,
-        text: `🛡️ Mejor defensivamente: ${ctKD.toFixed(1)} K/D como CT vs ${tKD.toFixed(1)} como T.`,
+        text: `Mejor defensivamente: ${ctKD.toFixed(1)} K/D como CT vs ${tKD.toFixed(1)} como T.`,
         global: true,
         category: 'side'
       });
     } else if (tKD > ctKD * 1.4) {
       insights.push({
         type: INSIGHT_TYPES.TACTICAL,
-        text: `⚔️ Mejor ofensivamente: ${tKD.toFixed(1)} K/D como T vs ${ctKD.toFixed(1)} como CT.`,
+        text: `Mejor ofensivamente: ${tKD.toFixed(1)} K/D como T vs ${ctKD.toFixed(1)} como CT.`,
         global: true,
         category: 'side'
       });
@@ -396,14 +396,14 @@ export const generateGlobalInsights = (allCalloutStats) => {
     if (openingWR >= 55) {
       insights.push({
         type: INSIGHT_TYPES.STRENGTH,
-        text: `🎯 ${Math.round(openingWR)}% en primeros duelos. Eres un buen entry fragger.`,
+        text: `${Math.round(openingWR)}% en primeros duelos. Eres un buen entry fragger.`,
         global: true,
         category: 'entry'
       });
     } else if (openingWR <= 35) {
       insights.push({
         type: INSIGHT_TYPES.WARNING,
-        text: `⚠️ Solo ${Math.round(openingWR)}% en primeros duelos. Considera un rol de soporte.`,
+        text: `Solo ${Math.round(openingWR)}% en primeros duelos. Considera un rol de soporte.`,
         global: true,
         category: 'entry'
       });
@@ -420,14 +420,14 @@ export const generateGlobalInsights = (allCalloutStats) => {
     if (stdDev <= 10 && avg >= 50) {
       insights.push({
         type: INSIGHT_TYPES.STRENGTH,
-        text: `📈 Rendimiento consistente: ${Math.round(avg)}% WR promedio con poca variación.`,
+        text: `Rendimiento consistente: ${Math.round(avg)}% WR promedio con poca variación.`,
         global: true,
         category: 'consistency'
       });
     } else if (stdDev > 20) {
       insights.push({
         type: INSIGHT_TYPES.INFO,
-        text: `📊 Rendimiento variable entre zonas. Enfócate en tus puntos débiles.`,
+        text: `Rendimiento variable entre zonas. Enfócate en tus puntos débiles.`,
         global: true,
         category: 'consistency'
       });

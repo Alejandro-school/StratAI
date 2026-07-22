@@ -2,15 +2,14 @@ from fastapi import APIRouter, Request, HTTPException, Query
 from starlette.responses import RedirectResponse
 import urllib.parse
 import requests
-import os
 import logging
 import re
-from dotenv import load_dotenv
 from typing import Any
+from ..config import REDIS_URL, STEAM_API_KEY
+from ..middleware.rate_limit import get_rate_limiter
 
 
-load_dotenv()
-STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
+rate_limiter = get_rate_limiter(REDIS_URL)
 
 
 router = APIRouter()
@@ -45,14 +44,7 @@ def get_base_url(request: Request) -> str:
     
     base_url = f"{clean_scheme}://{clean_host}"
     
-    # Print for terminal visibility (easier for user to see)
-    print(f"\n[STEAM_AUTH] DEBUG URL CONSTRUCTION:")
-    print(f"  - Raw Host Header: {request.headers.get('host')}")
-    print(f"  - Raw X-Forwarded-Host: {forwarded_host}")
-    print(f"  - Raw X-Forwarded-Proto: {forwarded_proto}")
-    print(f"  - Cleaned Scheme: {clean_scheme}")
-    print(f"  - Cleaned Host: {clean_host}")
-    print(f"  - FINAL BASE URL: {base_url}\n")
+    logging.debug(f"[STEAM_AUTH] Base URL resolved: {base_url}")
     
     return base_url
 
@@ -75,13 +67,13 @@ def get_frontend_url(request: Request) -> str:
     return "http://localhost:3000"
 
 @router.get("/auth/steam/login")
+@rate_limiter.limit(10, 60)  # 10 login attempts per minute per IP
 async def steam_login(request: Request):
     """
     Inicia el flujo de login con Steam mediante OpenID.
     Dynamically constructs callback URL based on the request host.
     """
     logging.info("--- STEAM LOGIN START ---")
-    logging.info(f"Headers: {dict(request.headers)}")
     
     base_url = get_base_url(request)
     callback_url = f"{base_url}/auth/steam/callback"
@@ -105,6 +97,7 @@ async def steam_login(request: Request):
 
 # ---------- LOGIN CALLBACK ----------
 @router.get("/auth/steam/callback")
+@rate_limiter.limit(10, 60)  # 10 callbacks per minute per IP
 async def steam_callback(
     request: Request,
     openid_mode: str = Query(alias="openid.mode"),
@@ -116,13 +109,51 @@ async def steam_callback(
     if not openid_claimed_id:
         raise HTTPException(status_code=400, detail="'openid.claimed_id' ausente")
 
-    # Guarda **solo** el número, no la URL completa
+    # ── CRITICAL: Verify the OpenID response with Steam ──
+    # Without this, anyone can fake a callback with an arbitrary steam_id.
+    verify_params = dict(request.query_params)
+    verify_params["openid.mode"] = "check_authentication"
+
+    try:
+        verify_response = requests.post(
+            STEAM_OPENID_URL,
+            data=verify_params,
+            timeout=10,
+        )
+        if "is_valid:true" not in verify_response.text:
+            logging.warning(f"OpenID verification failed: {verify_response.text[:200]}")
+            raise HTTPException(status_code=403, detail="Verificación OpenID fallida")
+    except requests.RequestException as e:
+        logging.error(f"OpenID verification request failed: {e}")
+        raise HTTPException(status_code=502, detail="Error verificando con Steam")
+
+    # Validate claimed_id format: must be a Steam community URL
+    if not openid_claimed_id.startswith("https://steamcommunity.com/openid/id/"):
+        raise HTTPException(status_code=400, detail="claimed_id format invalid")
+
+    # Extract and validate Steam ID (17-digit number)
     steam_id = openid_claimed_id.split("/")[-1]
-    if not steam_id.isdigit():
+    if not steam_id.isdigit() or len(steam_id) != 17:
         raise HTTPException(status_code=400, detail="Steam ID inválido")
 
     request.session["steam_id"] = steam_id
-    logging.info(f"🔐 Steam ID guardado en sesión: {steam_id}")
+    logging.info(f"Steam login verified: {steam_id}")
+
+    # Fetch and cache user profile in session to avoid repeated Steam API calls
+    if STEAM_API_KEY:
+        try:
+            profile_url = (
+                "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/"
+                f"?key={STEAM_API_KEY}&steamids={steam_id}"
+            )
+            profile_data = requests.get(profile_url, timeout=5).json()
+            player = profile_data["response"]["players"][0]
+            request.session["username"] = player.get("personaname", "")
+            request.session["avatar"] = player.get("avatarfull", "")
+        except Exception as e:
+            logging.warning(f"Could not cache profile on login: {e}")
+            request.session["username"] = ""
+            request.session["avatar"] = ""
 
     # Redirigir al frontend usando la URL adecuada (3000 en local, túnel en remoto)
     frontend_base = get_frontend_url(request)
@@ -139,21 +170,36 @@ async def steam_status(request: Request) -> dict[str, Any]:
     if not steam_id:
         raise HTTPException(status_code=401, detail="No autenticado")
 
-    steam_api_key = os.getenv("STEAM_API_KEY")
-    if not steam_api_key:                      # sin API-Key devolvemos lo básico
-        return {"authenticated": True, "steam_id": steam_id}
-
-    url = (
-        "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/"
-        f"?key={steam_api_key}&steamids={steam_id}"
-    )
-    try:
-        data = requests.get(url, timeout=5).json()["response"]["players"][0]
+    # Return cached profile from session if available
+    cached_username = request.session.get("username")
+    cached_avatar = request.session.get("avatar")
+    if cached_username and cached_avatar:
         return {
             "authenticated": True,
             "steam_id": steam_id,
-            "username": data.get("personaname"),
-            "avatar":   data.get("avatarfull"),
+            "username": cached_username,
+            "avatar": cached_avatar,
+        }
+
+    if not STEAM_API_KEY:
+        return {"authenticated": True, "steam_id": steam_id}
+
+    # Fetch from Steam API and cache in session for future requests
+    url = (
+        "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/"
+        f"?key={STEAM_API_KEY}&steamids={steam_id}"
+    )
+    try:
+        data = requests.get(url, timeout=5).json()["response"]["players"][0]
+        username = data.get("personaname", "")
+        avatar = data.get("avatarfull", "")
+        request.session["username"] = username
+        request.session["avatar"] = avatar
+        return {
+            "authenticated": True,
+            "steam_id": steam_id,
+            "username": username,
+            "avatar": avatar,
         }
     except Exception as e:
         logging.warning(f"Steam API error: {e}")

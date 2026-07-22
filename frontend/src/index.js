@@ -9,8 +9,8 @@ import './styles/theme/landingPaletteGlobal.css';
 const theme = createTheme({
   palette: {
     mode: 'dark',
-    primary: { main: '#06b6d4' },
-    secondary: { main: '#8b5cf6' },
+    primary: { main: '#3b82f6' },
+    secondary: { main: '#6366f1' },
     success: { main: '#10b981' },
     warning: { main: '#f59e0b' },
     error: { main: '#ef4444' },

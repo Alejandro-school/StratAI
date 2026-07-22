@@ -1,73 +1,44 @@
 // frontend/src/hooks/useGrenadeStats.js
-// Hook for fetching aggregate grenade statistics per map
+// Hook for fetching aggregate grenade statistics per map (React Query)
 
-import { useState, useEffect, useCallback } from 'react';
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { API_URL } from '../utils/api';
+
+const EMPTY_DATA = { smoke: [], flash: [], he: [], molotov: [] };
+
+const fetchGrenadeStats = async (mapName) => {
+  const response = await fetch(
+    `${API_URL}/steam/get-aggregate-grenades?map_name=${mapName}`,
+    { credentials: 'include' }
+  );
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return response.json();
+};
 
 /**
  * Hook to fetch aggregate grenade statistics for the grenade heatmap
  * @param {string} mapName - Map name (e.g. 'de_dust2')
  * @param {Object} options - hook options
- * @param {boolean} options.enabled - if false, skip fetch and expose empty defaults
- * @returns {Object} { grenadeData, summary, insights, matchesAnalyzed, loading, error, refetch }
+ * @param {boolean} options.enabled - if false, skip fetch
  */
 export const useGrenadeStats = (mapName = 'de_dust2', options = {}) => {
   const { enabled = true } = options;
-  const [grenadeData, setGrenadeData] = useState({
-    smoke: [],
-    flash: [],
-    he: [],
-    molotov: []
+
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['grenade-stats', mapName],
+    queryFn: () => fetchGrenadeStats(mapName),
+    enabled: enabled && !!mapName,
   });
-  const [summary, setSummary] = useState({});
-  const [insights, setInsights] = useState([]);
-  const [matchesAnalyzed, setMatchesAnalyzed] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  const fetchGrenadeStats = useCallback(async () => {
-    if (!enabled || !mapName) return;
-    
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetch(
-        `${API_URL}/steam/get-aggregate-grenades?map_name=${mapName}`,
-        { credentials: 'include' }
-      );
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setGrenadeData(data.by_type || { smoke: [], flash: [], he: [], molotov: [] });
-      setSummary(data.summary || {});
-      setInsights(data.insights || []);
-      setMatchesAnalyzed(data.matches_analyzed || 0);
-    } catch (err) {
-      console.error('[useGrenadeStats] Error:', err);
-      setError(err.message);
-      setGrenadeData({ smoke: [], flash: [], he: [], molotov: [] });
-      setSummary({});
-      setInsights([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [enabled, mapName]);
+  const grenadeData = data?.by_type || EMPTY_DATA;
+  const summary = useMemo(() => data?.summary || {}, [data]);
+  const insights = data?.insights || [];
+  const matchesAnalyzed = data?.matches_analyzed || 0;
 
-  useEffect(() => {
-    if (!enabled) {
-      setLoading(false);
-      return;
-    }
-    fetchGrenadeStats();
-  }, [enabled, fetchGrenadeStats]);
-
-  // Computed values
-  const totalGrenades = Object.values(summary).reduce(
-    (sum, s) => sum + (s?.thrown || 0), 0
+  const totalGrenades = useMemo(
+    () => Object.values(summary).reduce((sum, s) => sum + (s?.thrown || 0), 0),
+    [summary]
   );
 
   return {
@@ -76,9 +47,9 @@ export const useGrenadeStats = (mapName = 'de_dust2', options = {}) => {
     insights,
     matchesAnalyzed,
     totalGrenades,
-    loading,
-    error,
-    refetch: fetchGrenadeStats
+    loading: isLoading,
+    error: error?.message || null,
+    refetch,
   };
 };
 

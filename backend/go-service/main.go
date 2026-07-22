@@ -23,15 +23,16 @@ func main() {
 	router := mux.NewRouter()
 
 	// Endpoint simplificado: procesa una demo y devuelve el JSON directamente
-	router.HandleFunc("/process-demo", api.HandleProcessDemo).Methods("POST")
+	// Protected: only accessible from localhost (Node.js service)
+	router.HandleFunc("/process-demo", middlewares.WithInternalOnly(api.HandleProcessDemo)).Methods("POST")
 	router.HandleFunc("/health", api.HandleHealth).Methods("GET")
 
 	// Endpoint para obtener detalles de un match desde exports/
 	router.HandleFunc("/match-details/{matchID}", api.HandleGetMatchDetails).Methods("GET")
 
-	// Aplica el middleware de CORS.
-	handlerWithCors := middlewares.WithCors(router)
+	// Apply security headers + CORS
+	handler := middlewares.WithSecurityHeaders(middlewares.WithCors(router))
 
 	log.Println("🚀 Servicio de análisis de demos CS2 iniciado en puerto :8080")
-	http.ListenAndServe(":8080", handlerWithCors)
+	http.ListenAndServe(":8080", handler)
 }

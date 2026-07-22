@@ -1,0 +1,126 @@
+.rank-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ── Emblem ── */
+.rank-badge__emblem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid var(--tier-color, #666);
+  box-shadow: 0 0 18px var(--tier-glow, transparent), inset 0 0 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.rank-badge__emblem::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    var(--tier-color) 0%,
+    transparent 25%,
+    var(--tier-color) 50%,
+    transparent 75%,
+    var(--tier-color) 100%
+  );
+  opacity: 0.15;
+  animation: badgeSpin 8s linear infinite;
+}
+
+.rank-badge__icon {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  color: var(--tier-color);
+  line-height: 1;
+}
+
+.rank-badge__rank {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: 0.04em;
+}
+
+/* ── Info panel ── */
+.rank-badge__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rank-badge__tier-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--tier-color);
+}
+
+.rank-badge__xp-track {
+  width: 120px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.rank-badge__xp-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--tier-color);
+  box-shadow: 0 0 8px var(--tier-glow);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rank-badge__points {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.rank-badge__next {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+}
+
+/* ── Size: compact ── */
+.rank-badge--compact .rank-badge__emblem {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.rank-badge--compact .rank-badge__icon {
+  font-size: 14px;
+}
+
+.rank-badge--compact .rank-badge__rank {
+  font-size: 9px;
+}
+
+.rank-badge--compact .rank-badge__xp-track {
+  width: 80px;
+  height: 4px;
+}
+
+.rank-badge--compact .rank-badge__points {
+  font-size: 11px;
+}
+
+@keyframes badgeSpin {
+  to { transform: rotate(360deg); }
+}

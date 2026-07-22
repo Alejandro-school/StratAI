@@ -43,3 +43,23 @@ export const getMapImage = (mapName) => {
   const fallback = MAP_CATALOG.find((map) => map.id === FALLBACK_MAP_ID);
   return match?.coverImage || fallback?.coverImage || '/images/maps/de_dust2.png';
 };
+
+/**
+ * Preload all tactical map radar images so switching maps is instant.
+ * Called once on module load — radar PNGs are small (~200KB total).
+ */
+const preloadRadarImages = () => {
+  const urls = new Set();
+  MAP_CATALOG.forEach((map) => {
+    if (map.radarImage) urls.add(`/maps/${map.radarImage}`);
+    if (map.levels) {
+      Object.values(map.levels).forEach((img) => urls.add(`/maps/${img}`));
+    }
+  });
+  urls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+  });
+};
+
+preloadRadarImages();

@@ -3,15 +3,46 @@
  */
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const config = require('./services/config');
 const friendController = require('./controllers/friendController');
 const demoController = require('./controllers/demoController');
-const { iniciarSesionSteam, monitorearShareCodes, getRedisSubscriber, queue, client } = require('./services/steamDownloader');
-const { iniciarCron } = require('./services/cronJob');
+const { securityHeaders, requestSizeLimit } = require('./middleware/security');
+const { iniciarSesionSteam, monitorearShareCodes, getRedisSubscriber, gcQueue, downloadQueue, goQueue, botPool } = require('./services/steamDownloader');
 const { ensureRedis, redisClient } = require('./services/redisClient');
+const { startCronJob, stopCronJob } = require('./services/cronJob');
 
 const app = express();
-app.use(express.json());
+
+// ── Security Middleware ──
+app.use(securityHeaders);
+app.use(requestSizeLimit(1024 * 1024)); // 1 MB max body
+app.disable('x-powered-by');
+
+// ── CORS ── Whitelist approach
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+
+// Default dev origins if none configured
+if (allowedOrigins.length === 0) {
+  allowedOrigins.push('http://localhost:3000', 'http://localhost:8000', 'http://127.0.0.1:3000');
+}
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (internal service calls, curl, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+app.use(express.json({ limit: '1mb' }));
 app.use(friendController);
 app.use(demoController);
 
@@ -25,13 +56,14 @@ let server;
     console.log('✅ Conectado a Redis (cliente principal)');
     // 2) Solo ahora inicia consumidores dependientes de Redis
     monitorearShareCodes();
+    // 3) Start periodic match detection cron
+    startCronJob();
   } else {
-    console.warn('⚠️ Redis NO está READY: desactivo monitor de ShareCodes hasta reconexión.');
+    console.warn('⚠️ Redis NO está READY: desactivo monitor de ShareCodes y cron hasta reconexión.');
   }
 
-  // 3) Arranca sesión Steam y CRON (si dependen de Redis, ya hay conexión)
+  // 3) Arranca sesión Steam
   iniciarSesionSteam();
-  iniciarCron();
 
   // 4) Levanta el servidor HTTP
   server = app.listen(config.server.port, () => {
@@ -44,10 +76,13 @@ async function gracefulShutdown(signal) {
   console.log(`\n🛑 Recibido ${signal}. Cerrando servicio...`);
   
   try {
-    // 1) Esperar a que la cola se vacíe (máx 60s)
-    console.log('⏳ Esperando finalización de tareas en cola...');
+    // 0) Stop cron job
+    stopCronJob();
+    
+    // 1) Esperar a que las 3 colas se vacíen (máx 60s)
+    console.log('⏳ Esperando finalización de tareas en colas (GC + Download + Go)...');
     await Promise.race([
-      queue.onIdle(),
+      Promise.all([gcQueue.onIdle(), downloadQueue.onIdle(), goQueue.onIdle()]),
       new Promise(resolve => setTimeout(resolve, 60000))
     ]);
     
@@ -57,11 +92,9 @@ async function gracefulShutdown(signal) {
       console.log('✅ Servidor HTTP cerrado');
     }
     
-    // 3) Desconectar Steam
-    if (client.steamID) {
-      client.logOff();
-      console.log('✅ Sesión Steam cerrada');
-    }
+    // 3) Desconectar todos los bots Steam (pool-aware)
+    botPool.logoffAll();
+    console.log('✅ Sesión(es) Steam cerrada(s)');
     
     // 4) Cerrar Redis subscriber (monitor de sharecodes)
     const subscriber = getRedisSubscriber();

@@ -9,7 +9,7 @@ async def auth_status(request: Request) -> dict[str, Any]:
         return {
             "authenticated": True,
             "steam_id": request.session["steam_id"],
-            "username":  request.session["username"],
-            "avatar":    request.session["avatar"],
+            "username":  request.session.get("username", ""),
+            "avatar":    request.session.get("avatar", ""),
         }
     return {"authenticated": False}

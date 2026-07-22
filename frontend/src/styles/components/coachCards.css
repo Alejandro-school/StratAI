@@ -59,8 +59,8 @@
   gap: 8px;
   padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(139, 92, 246, 0.4);
-  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.15);
   color: #ddd6fe;
   font-size: 12px;
   font-weight: 700;
@@ -69,7 +69,7 @@
 }
 
 .coach-card-action:hover {
-  background: rgba(139, 92, 246, 0.25);
+  background: rgba(99, 102, 241, 0.25);
   color: #ffffff;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .coach-card-timeline {
-  border-left: 3px solid #8b5cf6;
+  border-left: 3px solid #6366f1;
 }
 
 .severity-badge {

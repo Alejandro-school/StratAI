@@ -6,6 +6,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
 	"time"
 
 	"cs2-demo-service/db"
@@ -13,6 +16,30 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+// matchIDRegex only allows alphanumeric, hyphens, underscores
+var matchIDRegex = regexp.MustCompile(`^[a-zA-Z0-9_\-]+$`)
+
+// sanitizeMatchID validates and sanitizes a match ID to prevent path traversal.
+func sanitizeMatchID(id string) (string, error) {
+	if !matchIDRegex.MatchString(id) {
+		return "", fmt.Errorf("invalid match ID format")
+	}
+	return id, nil
+}
+
+// isPathSafe checks that resolved path is under the base directory.
+func isPathSafe(basePath, targetPath string) bool {
+	absBase, err := filepath.Abs(basePath)
+	if err != nil {
+		return false
+	}
+	absTarget, err := filepath.Abs(targetPath)
+	if err != nil {
+		return false
+	}
+	return strings.HasPrefix(absTarget, absBase+string(filepath.Separator)) || absTarget == absBase
+}
 
 // ProcessDemoRequest represents the JSON body from Node service
 type ProcessDemoRequest struct {
@@ -42,10 +69,32 @@ func HandleProcessDemo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Validate demo_path is under allowed directory (prevent path traversal)
+	demosBaseDir := filepath.Join("..", "data", "demos")
+	if !isPathSafe(demosBaseDir, req.DemoPath) {
+		log.Printf("❌ Path traversal attempt blocked: %s", req.DemoPath)
+		http.Error(w, "Invalid demo path", http.StatusBadRequest)
+		return
+	}
+
+	// Validate file extension
+	if !strings.HasSuffix(strings.ToLower(req.DemoPath), ".dem") {
+		log.Printf("❌ Invalid file extension: %s", req.DemoPath)
+		http.Error(w, "Invalid file type: only .dem files allowed", http.StatusBadRequest)
+		return
+	}
+
 	// Use provided matchID or generate one
 	matchID := req.MatchID
 	if matchID == "" {
 		matchID = fmt.Sprintf("match_%d", len(req.DemoPath)%100000)
+	}
+
+	// Sanitize matchID
+	matchID, err := sanitizeMatchID(matchID)
+	if err != nil {
+		http.Error(w, "Invalid match_id format", http.StatusBadRequest)
+		return
 	}
 
 	log.Printf("📁 Demo path: %s", req.DemoPath)
@@ -131,6 +180,13 @@ func HandleHealth(w http.ResponseWriter, r *http.Request) {
 func HandleGetMatchDetails(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	matchID := vars["matchID"]
+
+	// Sanitize matchID to prevent injection
+	matchID, err := sanitizeMatchID(matchID)
+	if err != nil {
+		http.Error(w, "Invalid match ID format", http.StatusBadRequest)
+		return
+	}
 
 	matchData, err := db.GetMatchData(matchID)
 	if err != nil {

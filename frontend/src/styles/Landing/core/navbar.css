@@ -96,7 +96,7 @@
 }
 
 .navbar__lang-toggle:hover {
-  border-color: rgba(6, 182, 212, 0.3);
+  border-color: rgba(59, 130, 246, 0.3);
   color: var(--color-primary-400);
 }
 

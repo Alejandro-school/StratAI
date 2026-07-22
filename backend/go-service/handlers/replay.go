@@ -394,9 +394,9 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			return
 		}
 
-		var killerID, victimID uint64
-		var killerName, victimName string
-		var killerTeam, victimTeam string
+		var killerID, victimID, assisterID uint64
+		var killerName, victimName, assisterName string
+		var killerTeam, victimTeam, assisterTeam string
 		var killerX, killerY, victimX, victimY float64
 		weapon := "unknown"
 
@@ -416,27 +416,35 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			victimX = pos.X
 			victimY = pos.Y
 		}
+		if e.Assister != nil {
+			assisterID = e.Assister.SteamID64
+			assisterName = e.Assister.Name
+			assisterTeam = getTeamString(e.Assister.Team)
+		}
 		if e.Weapon != nil {
 			weapon = e.Weapon.String()
 		}
 
 		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			Tick:       ctx.Parser.GameState().IngameTick(),
-			Type:       "kill",
-			KillerID:   killerID,
-			VictimID:   victimID,
-			KillerName: killerName,
-			VictimName: victimName,
-			KillerTeam: killerTeam,
-			VictimTeam: victimTeam,
-			KillerX:    killerX,
-			KillerY:    killerY,
-			VictimX:    victimX,
-			VictimY:    victimY,
-			Weapon:     weapon,
-			Headshot:   e.IsHeadshot,
-			Wallbang:   e.PenetratedObjects > 0,
-			NoScope:    e.NoScope,
+			Tick:         ctx.Parser.GameState().IngameTick(),
+			Type:         "kill",
+			KillerID:     killerID,
+			VictimID:     victimID,
+			AssisterID:   assisterID,
+			KillerName:   killerName,
+			VictimName:   victimName,
+			AssisterName: assisterName,
+			KillerTeam:   killerTeam,
+			VictimTeam:   victimTeam,
+			AssisterTeam: assisterTeam,
+			KillerX:      killerX,
+			KillerY:      killerY,
+			VictimX:      victimX,
+			VictimY:      victimY,
+			Weapon:       weapon,
+			Headshot:     e.IsHeadshot,
+			Wallbang:     e.PenetratedObjects > 0,
+			NoScope:      e.NoScope,
 		})
 
 		// Mark the shot that killed as a hit
@@ -567,6 +575,7 @@ func (h *ReplayHandler) collectPlayerStates(gs dem.GameState) []models.ReplayPla
 			Armor:         p.Armor(),
 			Alive:         p.IsAlive(),
 			Weapon:        getActiveWeapon(p),
+			Weapons:       getPlayerWeapons(p),
 			HasDefuseKit:  p.HasDefuseKit(),
 			HasC4:         hasC4(p),
 			FlashDuration: p.FlashDurationTimeRemaining().Seconds(),

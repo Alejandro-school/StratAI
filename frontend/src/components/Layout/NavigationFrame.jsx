@@ -5,30 +5,23 @@ import { Link, useLocation } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import { API_URL } from '../../utils/api';
 import {
-  BarChart2, Target, Brain, TrendingUp, LogOut, Map
+  BarChart2, Target, Brain, TrendingUp, LogOut, Map, MessageSquare
 } from 'lucide-react';
 import '../../styles/Layout/navigationFrame.css';
 
 const NavigationFrame = ({ children }) => {
   const { user } = useUser();
   const location = useLocation();
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [showUserMenu, setShowUserMenu] = useState(false);
   const tabsRef = useRef(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
 
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // 5 Secciones principales de navegación
   const navItems = [
-    { path: '/dashboard', icon: Brain, label: 'Coach Center' }, // New Home
-    { path: '/tactical-map', icon: Map, label: 'Tactical Map' }, // Old "Dashboard" moved here
-    { path: '/history-games', icon: BarChart2, label: 'Matches' },
-    { path: '/performance', icon: Target, label: 'Performance' },
-    { path: '/progress', icon: TrendingUp, label: 'Progress' },
+    { path: '/dashboard', icon: Brain, label: 'Coach IA' },
+    { path: '/tactical-map', icon: Map, label: 'Mapa Táctico' },
+    { path: '/history-games', icon: BarChart2, label: 'Partidas' },
+    { path: '/performance', icon: Target, label: 'Rendimiento' },
+    { path: '/progress', icon: TrendingUp, label: 'Progreso' },
   ];
 
   // Update indicator position when route changes
@@ -67,6 +60,7 @@ const NavigationFrame = ({ children }) => {
 
   return (
     <div className="hud-layout">
+      <a className="skip-link" href="#main-content">Saltar al contenido</a>
       {/* Top Navigation Bar */}
       <header className="hud-header">
         {/* Logo */}
@@ -107,16 +101,34 @@ const NavigationFrame = ({ children }) => {
 
         {/* Right Side */}
         <div className="hud-right">
-          <div 
-            className="hud-user" 
-            onClick={(e) => { e.stopPropagation(); setShowUserMenu(!showUserMenu); }}
+          <Link
+            to="/feedback"
+            className={`hud-feedback-link ${location.pathname === '/feedback' ? 'active' : ''}`}
           >
-            <span className="user-name">{user?.username || 'Usuario'}</span>
-            <img 
-              src={user?.avatar || '/default-avatar.png'} 
-              alt="Avatar" 
-              className="user-avatar"
-            />
+            <MessageSquare size={15} />
+            <span>Comentarios</span>
+          </Link>
+
+          <div className="hud-user">
+            <button
+              type="button"
+              className="hud-user-trigger"
+              aria-label="Abrir menú de usuario"
+              aria-expanded={showUserMenu}
+              onClick={(event) => {
+                event.stopPropagation();
+                setShowUserMenu((current) => !current);
+              }}
+            >
+              <span className="user-name">{user?.username || 'Usuario'}</span>
+              <img
+                src={user?.avatar || '/default-avatar.png'}
+                alt=""
+                width="32"
+                height="32"
+                className="user-avatar"
+              />
+            </button>
             
             {showUserMenu && (
               <div className="user-dropdown" onClick={(e) => e.stopPropagation()}>
@@ -128,6 +140,9 @@ const NavigationFrame = ({ children }) => {
                   </div>
                 </div>
                 <div className="dropdown-divider" />
+                <Link to="/feedback" className="dropdown-item" onClick={() => setShowUserMenu(false)}>
+                  <MessageSquare size={14} /> Comentarios
+                </Link>
                 <button onClick={handleLogout} className="dropdown-item logout">
                   <LogOut size={14} /> Cerrar sesión
                 </button>
@@ -138,26 +153,9 @@ const NavigationFrame = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="hud-content">
+      <main id="main-content" className="hud-content" tabIndex="-1">
         {children}
       </main>
-
-      {/* HUD Corners */}
-      <div className="hud-corners">
-        <div className="corner corner-br">
-          <div className="corner-ping">
-            <span className="ping-dot"></span>
-            <span className="ping-value">12ms</span>
-          </div>
-          <div className="corner-status">
-            <span className="status-dot"></span>
-            <span className="status-text">ONLINE</span>
-          </div>
-          <span className="corner-time">
-            {currentTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-          </span>
-        </div>
-      </div>
     </div>
   );
 };

@@ -1,22 +1,39 @@
 import React, { useMemo, useState } from 'react';
-import { AlertTriangle, BarChart2, Flame, LayoutDashboard, Map as MapIcon, Shield } from 'lucide-react';
+import {
+  AlertTriangle,
+  Crosshair,
+  Flame,
+  LayoutDashboard,
+  Map as MapIcon,
+  Swords,
+  Target,
+  Users,
+} from 'lucide-react';
 import NavigationFrame from '../components/Layout/NavigationFrame';
 import { useUser } from '../context/UserContext';
 import { usePerformanceData } from '../hooks/usePerformanceData';
 import { computeTrend } from '../utils/performanceFormatters';
 import {
+  AimTab,
+  CombatTab,
+  CompareTab,
   MapsTab,
   OverviewTab,
-  RendimientoTab,
   UtilityTab,
+  WeaponsTab,
 } from '../components/Performance';
+import { PerformanceHero, TrainingAreaNav } from '../components/Performance/PerformanceBriefing';
+import { buildPerformanceViewModel } from '../components/Performance/performanceViewModel';
 import '../styles/pages/performance.css';
 
 const TABS = [
-  { id: 'overview',    label: 'Resumen',     icon: LayoutDashboard },
-  { id: 'rendimiento', label: 'Rendimiento', icon: BarChart2 },
-  { id: 'maps',        label: 'Mapas',       icon: MapIcon },
-  { id: 'utility',     label: 'Utilidad',    icon: Flame },
+  { id: 'overview', label: 'Resumen', icon: LayoutDashboard },
+  { id: 'combat', label: 'Combate', icon: Swords },
+  { id: 'aim', label: 'Puntería', icon: Crosshair },
+  { id: 'weapons', label: 'Arsenal', icon: Target },
+  { id: 'maps', label: 'Mapas', icon: MapIcon },
+  { id: 'utility', label: 'Utilidad', icon: Flame },
+  { id: 'compare', label: 'Comparar', icon: Users },
 ];
 
 const PerformanceSkeleton = () => (
@@ -25,7 +42,7 @@ const PerformanceSkeleton = () => (
       <div className="p-skel p-skel--title" />
       <div className="p-skel p-skel--sub" />
       <div className="p-skel-tabs p-mt-20">
-        {Array.from({ length: 4 }).map((_, i) => (
+        {Array.from({ length: 7 }).map((_, i) => (
           <div key={i} className="p-skel p-skel--tab" />
         ))}
       </div>
@@ -70,6 +87,18 @@ const Performance = () => {
     };
   }, [sections.history, sections.overview]);
 
+  const viewModel = useMemo(() => buildPerformanceViewModel({
+    overview: sections.overview,
+    sides: sections.sides,
+    aim: sections.aim,
+    combat: sections.combat,
+    utility: sections.utility,
+    weapons: sections.weapons,
+    maps: sections.maps,
+    history: sections.history,
+    trends,
+  }), [sections, trends]);
+
   if (loading) {
     return (
       <NavigationFrame>
@@ -96,30 +125,19 @@ const Performance = () => {
   return (
     <NavigationFrame>
       <div className="p-page">
-        <header className="p-header">
-          <h1 className="p-header-title">
-            <Shield className="p-header-icon" size={22} />
-            Centro de rendimiento
-          </h1>
-          <p className="p-header-sub">Análisis integral de tu desempeño como jugador</p>
+        <PerformanceHero
+          viewModel={viewModel}
+          overview={sections.overview}
+          maps={sections.maps}
+          onSelectArea={setActiveTab}
+        />
 
-          <nav className="p-tabs" role="tablist" aria-label="Secciones de rendimiento">
-            {TABS.map((tab) => (
-              <button
-                key={tab.id}
-                id={`p-tab-${tab.id}`}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-                aria-controls={`p-panel-${tab.id}`}
-                className={`p-tab ${activeTab === tab.id ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                <tab.icon size={15} />
-                <span>{tab.label}</span>
-              </button>
-            ))}
-          </nav>
-        </header>
+        <TrainingAreaNav
+          tabs={TABS}
+          activeTab={activeTab}
+          onChange={setActiveTab}
+          areas={viewModel.areas}
+        />
 
         <main
           key={activeTab}
@@ -133,14 +151,32 @@ const Performance = () => {
               overview={sections.overview}
               sides={sections.sides}
               matchHistory={sections.history}
+              maps={sections.maps}
+              aim={sections.aim}
               trends={trends}
+              viewModel={viewModel}
+              onSelectArea={setActiveTab}
             />
           )}
 
-          {activeTab === 'rendimiento' && (
-            <RendimientoTab
+          {activeTab === 'combat' && (
+            <CombatTab
+              combat={sections.combat}
+              overview={sections.overview}
+              economy={sections.economy}
+            />
+          )}
+
+          {activeTab === 'aim' && (
+            <AimTab
               aim={sections.aim}
               combat={sections.combat}
+              overview={sections.overview}
+            />
+          )}
+
+          {activeTab === 'weapons' && (
+            <WeaponsTab
               weapons={sections.weapons}
               overview={sections.overview}
             />
@@ -153,6 +189,14 @@ const Performance = () => {
               utility={sections.utility}
               combat={sections.combat}
               economy={sections.economy}
+            />
+          )}
+
+          {activeTab === 'compare' && (
+            <CompareTab
+              overview={sections.overview}
+              aim={sections.aim}
+              combat={sections.combat}
             />
           )}
         </main>
