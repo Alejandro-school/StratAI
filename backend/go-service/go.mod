@@ -5,14 +5,8 @@ go 1.23.4
 require (
 	github.com/gorilla/mux v1.8.1
 	github.com/markus-wa/demoinfocs-golang/v4 v4.4.0
+	github.com/qmuntal/gltf v0.28.0
 	github.com/redis/go-redis/v9 v9.17.0
-)
-
-require (
-	github.com/galaco/bsp v0.3.1 // indirect
-	github.com/go-gl/mathgl v1.0.0 // indirect
-	github.com/qmuntal/gltf v0.28.0 // indirect
-	golang.org/x/image v0.18.0 // indirect
 )
 
 require (

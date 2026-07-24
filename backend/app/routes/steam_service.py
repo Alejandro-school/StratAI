@@ -188,7 +188,7 @@ async def get_user_data(request: Request) -> dict[str, Any]:
     steam_id = request.session.get("steam_id")
     if not steam_id:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    steam_data = get_steam_data(steam_id)
+    steam_data = await asyncio.to_thread(get_steam_data, steam_id)
     return {"steam_id": steam_id, "avatar": steam_data.get("avatar"), "rank": steam_data.get("rank")}
 
 

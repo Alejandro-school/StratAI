@@ -70,7 +70,12 @@ backend/data/
 .agents/
 
 # Assets de imágenes, videos y fuentes (no código)
-frontend/public/images/
+frontend/public/images/*
+!frontend/public/images/Landing/
+frontend/public/images/Landing/*
+!frontend/public/images/Landing/Replay2D.png
+!frontend/public/images/Landing/CT_model.glb
+!frontend/public/images/Landing/Tmodel-v1.glb
 frontend/public/videos/
 frontend/public/sounds/
 frontend/build/
@@ -97,4 +102,5 @@ backend/go-service/IA.zip
 cookies.txt
 .browser-profile/
 .codebase-memory/
+.cache/
 .tmp-*.png

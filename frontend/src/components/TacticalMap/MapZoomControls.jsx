@@ -23,12 +23,39 @@ export const ZoomableMapContainer = ({
 }) => {
   const containerRef = useRef(null);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
-  const dragState = useRef({ dragging: false, startX: 0, startY: 0, origX: 0, origY: 0 });
+  const dragState = useRef({
+    dragging: false,
+    element: null,
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    origX: 0,
+    origY: 0,
+  });
+
+  const stopDragging = useCallback(() => {
+    const pointerId = dragState.current.pointerId;
+    const element = dragState.current.element;
+
+    if (
+      pointerId !== null
+      && element?.hasPointerCapture?.(pointerId)
+    ) {
+      element.releasePointerCapture(pointerId);
+    }
+
+    dragState.current.dragging = false;
+    dragState.current.element = null;
+    dragState.current.pointerId = null;
+  }, []);
 
   // Reset pan on view change or explicit reset
   useEffect(() => {
+    stopDragging();
     setTranslate({ x: 0, y: 0 });
-  }, [viewKey, resetSignal]);
+  }, [viewKey, resetSignal, stopDragging]);
+
+  useEffect(() => stopDragging, [stopDragging]);
 
   // Clamp translation so the map doesn't go out of bounds
   const clampTranslate = useCallback((tx, ty, zoom) => {
@@ -45,15 +72,18 @@ export const ZoomableMapContainer = ({
     if (zoomLevel <= 1) return;
     // Only respond to primary button
     if (e.button !== 0) return;
+    stopDragging();
     dragState.current = {
       dragging: true,
+      element: e.currentTarget,
+      pointerId: e.pointerId,
       startX: e.clientX,
       startY: e.clientY,
       origX: translate.x,
       origY: translate.y,
     };
     e.currentTarget.setPointerCapture(e.pointerId);
-  }, [zoomLevel, translate]);
+  }, [zoomLevel, translate, stopDragging]);
 
   const handlePointerMove = useCallback((e) => {
     if (!dragState.current.dragging) return;
@@ -70,10 +100,6 @@ export const ZoomableMapContainer = ({
     setTranslate(clamped);
   }, [zoomLevel, clampTranslate]);
 
-  const handlePointerUp = useCallback(() => {
-    dragState.current.dragging = false;
-  }, []);
-
   const isZoomed = zoomLevel > 1;
 
   return (
@@ -87,8 +113,9 @@ export const ZoomableMapContainer = ({
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
+      onPointerUp={stopDragging}
+      onPointerCancel={stopDragging}
+      onLostPointerCapture={stopDragging}
     >
       {children}
     </div>

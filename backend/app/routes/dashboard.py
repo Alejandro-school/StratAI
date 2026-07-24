@@ -7,6 +7,7 @@
 # This file now uses pre-calculated user aggregate files for O(1) lookups
 # instead of O(n) folder scanning. See utils/user_aggregates.py for details.
 
+import asyncio
 import os
 import json
 import logging
@@ -443,7 +444,7 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     # ==========================================================================
     if not force_refresh and user_has_aggregates(steam_id_str):
         logging.info(f"[dashboard-stats] Using pre-calculated aggregate for {steam_id_str}")
-        aggregate = load_user_aggregate(steam_id_str)
+        aggregate = await asyncio.to_thread(load_user_aggregate, steam_id_str)
         
         if aggregate:
             # Return in the expected format
@@ -970,7 +971,7 @@ async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dic
     # ==========================================================================
     if user_has_map_data(steam_id_str, map_name):
         logging.info(f"[callout-stats] Using pre-calculated map data for {steam_id_str}/{map_name}")
-        map_data = load_user_map_data(steam_id_str, map_name)
+        map_data = await asyncio.to_thread(load_user_map_data, steam_id_str, map_name)
         
         if map_data:
             return {
@@ -1431,7 +1432,7 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
     # ==========================================================================
     if user_has_map_data(steam_id_str, map_name):
         logging.info(f"[aggregate-grenades] Using pre-calculated map data for {steam_id_str}/{map_name}")
-        map_data = load_user_map_data(steam_id_str, map_name)
+        map_data = await asyncio.to_thread(load_user_map_data, steam_id_str, map_name)
         
         if map_data and "grenades" in map_data:
             grenades = map_data["grenades"]
@@ -1806,7 +1807,7 @@ async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> di
     # ==========================================================================
     if user_has_map_data(steam_id_str, map_name):
         logging.info(f"[movement-stats] Using pre-calculated map data for {steam_id_str}/{map_name}")
-        map_data = load_user_map_data(steam_id_str, map_name)
+        map_data = await asyncio.to_thread(load_user_map_data, steam_id_str, map_name)
         
         if map_data and "movement" in map_data:
             movement = map_data["movement"]

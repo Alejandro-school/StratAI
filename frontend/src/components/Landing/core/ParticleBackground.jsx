@@ -61,7 +61,6 @@ const HologramAgent = ({
   basePos,
   baseRot,
   scale,
-  scrollRef,
   swayPhase = 0,
 }) => {
   const groupRef = useRef();
@@ -168,20 +167,18 @@ const T_CONFIG = {
 };
 
 /* ── Wrapper ─────────────────────────────────────────────────────────── */
-const AgentBackground = ({ scrollY }) => {
-  const scrollRef = useRef(0);
-  const [isVisible, setIsVisible] = useState(true);
+const canRenderAgents = () => (
+  !window.matchMedia('(max-width: 768px)').matches
+  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+);
 
-  useEffect(() => {
-    if (scrollY !== undefined) scrollRef.current = scrollY;
-  }, [scrollY]);
+const AgentBackground = () => {
+  const [isVisible, setIsVisible] = useState(canRenderAgents);
 
-  // Disable on mobile & reduced motion
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 768px)');
     const mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const check = () => setIsVisible(!mql.matches && !mqMotion.matches);
-    check();
+    const check = () => setIsVisible(canRenderAgents());
     mql.addEventListener('change', check);
     mqMotion.addEventListener('change', check);
     return () => {
@@ -221,7 +218,6 @@ const AgentBackground = ({ scrollY }) => {
             baseRot={T_CONFIG.baseRot}
             scale={T_CONFIG.scale}
             swayPhase={T_CONFIG.swayPhase}
-            scrollRef={scrollRef}
           />
           <HologramAgent
             modelPath={CT_CONFIG.modelPath}
@@ -232,15 +228,11 @@ const AgentBackground = ({ scrollY }) => {
             baseRot={CT_CONFIG.baseRot}
             scale={CT_CONFIG.scale}
             swayPhase={CT_CONFIG.swayPhase}
-            scrollRef={scrollRef}
           />
         </Suspense>
       </Canvas>
     </div>
   );
 };
-
-useGLTF.preload('/images/Landing/CT_model.glb');
-useGLTF.preload('/images/Landing/Tmodel.glb');
 
 export default React.memo(AgentBackground);

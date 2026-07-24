@@ -19,6 +19,7 @@ const { enqueueShareCode } = require("./steamDownloader");
 const STEAM_API_URL = "https://api.steampowered.com/ICSGOPlayers_730/GetNextMatchSharingCode/v1/";
 const MAX_CODES_PER_USER = 50;
 const MAX_RETRIES = 3;
+const EMPTY_SHARECODES = new Set(["n/a", "null", "none"]);
 
 let cronTask = null;
 let isRunning = false;
@@ -89,7 +90,7 @@ async function fetchSharecodesForUser(steamId) {
       if (!data) break;
 
       const nextCode = data?.result?.nextcode?.trim();
-      if (!nextCode || ["n/a", "null", "none"].includes(nextCode.toLowerCase())) {
+      if (!nextCode || EMPTY_SHARECODES.has(nextCode.toLowerCase())) {
         break; // No more matches
       }
 
@@ -138,7 +139,7 @@ async function cronTick() {
     let totalNewCodes = 0;
     let usersWithNewCodes = 0;
 
-    for (const steamId of steamIds) {
+    for (const [index, steamId] of steamIds.entries()) {
       try {
         const newCodes = await fetchSharecodesForUser(steamId);
 
@@ -162,7 +163,7 @@ async function cronTick() {
         }
 
         // Stagger between users to avoid Steam API rate limits
-        if (steamIds.indexOf(steamId) < steamIds.length - 1) {
+        if (index < steamIds.length - 1) {
           await new Promise((r) => setTimeout(r, config.cron.userDelay));
         }
       } catch (err) {

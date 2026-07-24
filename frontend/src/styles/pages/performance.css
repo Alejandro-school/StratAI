@@ -1,5 +1,5 @@
 /* ================================================================
-   Performance Dashboard – StratAI
+   Performance Dashboard - StratAI
    Design system: clean/modern, strong typography, asymmetric grids
    ================================================================ */
 
@@ -867,7 +867,7 @@
 }
 
 /* ============================================================================
-   UTILITY CLASSES — extracted from inline styles
+   UTILITY CLASSES - extracted from inline styles
    ============================================================================ */
 
 /* Fixed-height empty states (charts) */
@@ -1771,7 +1771,7 @@
 .p-mt-14 { margin-top: 14px; }
 
 /* ============================================================================
-   ENRICHED SECTIONS – Combat / Aim / Utility
+   ENRICHED SECTIONS - Combat / Aim / Utility
    ============================================================================ */
 
 .p-grid-3-dense { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
@@ -1853,7 +1853,7 @@
 }
 
 /* ============================================================================
-   COMPARE TAB – Rank benchmark comparison
+   COMPARE TAB - Rank benchmark comparison
    ============================================================================ */
 
 .p-compare-intro {
@@ -2070,7 +2070,7 @@
 }
 
 /* ============================================================================
-   RESPONSIVE – Compare
+   RESPONSIVE - Compare
    ============================================================================ */
 
 @media (max-width: 768px) {
@@ -2097,7 +2097,7 @@
 }
 
 /* ============================================================================
-   COMPARE TAB – Mode toggle & Player search
+   COMPARE TAB - Mode toggle & Player search
    ============================================================================ */
 
 .p-compare-mode-row {

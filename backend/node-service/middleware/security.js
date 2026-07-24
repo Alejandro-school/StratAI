@@ -91,13 +91,19 @@ function internalOnly(req, res, next) {
 
     if (timestamp && signature) {
       // Reject stale requests (replay protection)
-      const age = Math.abs(Math.floor(Date.now() / 1000) - parseInt(timestamp, 10));
-      if (age <= HMAC_MAX_AGE_SECONDS) {
+      const parsedTimestamp = Number.parseInt(timestamp, 10);
+      const age = Math.abs(Math.floor(Date.now() / 1000) - parsedTimestamp);
+      if (Number.isFinite(parsedTimestamp) && age <= HMAC_MAX_AGE_SECONDS) {
         const expected = crypto
           .createHmac('sha256', SERVICE_SECRET)
           .update(timestamp)
           .digest('hex');
-        if (crypto.timingSafeEqual(Buffer.from(signature, 'hex'), Buffer.from(expected, 'hex'))) {
+        const signatureBuffer = Buffer.from(signature, 'hex');
+        const expectedBuffer = Buffer.from(expected, 'hex');
+        if (
+          signatureBuffer.length === expectedBuffer.length
+          && crypto.timingSafeEqual(signatureBuffer, expectedBuffer)
+        ) {
           return next();
         }
       }

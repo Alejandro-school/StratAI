@@ -6,6 +6,7 @@ import React, { useRef, useEffect, useState, useCallback, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, SkipBack, SkipForward, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw, Shield, Wrench, Skull, Bomb, MonitorPlay, Users } from "lucide-react";
 import useReplaySyncStore from "../../stores/useReplaySyncStore";
+import { API_URL } from "../../utils/api";
 import "../../styles/Stats/replay2DViewer.css";
 
 // ============================================================================
@@ -497,7 +498,7 @@ export default function Replay2DViewer({
     const fetchMetadata = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:8000/match/${matchId}/replay/metadata`, { credentials: 'include' });
+        const res = await fetch(`${API_URL}/match/${matchId}/replay/metadata`, { credentials: 'include' });
         if (!res.ok) throw new Error('Error al cargar la repetición');
         const data = await res.json();
         setMetadata(data.metadata);
@@ -533,7 +534,7 @@ export default function Replay2DViewer({
     
     setLoadingRound(true);
     try {
-      const res = await fetch(`http://localhost:8000/match/${matchId}/replay/round/${roundNum}`, { credentials: 'include' });
+      const res = await fetch(`${API_URL}/match/${matchId}/replay/round/${roundNum}`, { credentials: 'include' });
       if (!res.ok) throw new Error('Error al cargar la ronda');
       const data = await res.json();
       roundCacheRef.current.set(roundNum, data);

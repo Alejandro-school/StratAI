@@ -7,7 +7,6 @@ import { API_URL } from '../../utils/api';
 import {
   BarChart2, Target, Brain, TrendingUp, LogOut, Map, MessageSquare
 } from 'lucide-react';
-import '../../styles/Layout/navigationFrame.css';
 
 const NavigationFrame = ({ children }) => {
   const { user } = useUser();

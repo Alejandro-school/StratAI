@@ -1,29 +1,21 @@
 import React from 'react';
-import '@testing-library/jest-dom';
 import { fireEvent, screen, render } from '@testing-library/react';
+import { vi } from 'vitest';
 import Performance from './Performance';
 
-jest.mock('../components/Layout/NavigationFrame', () => ({ children }) => (
-  <div data-testid="navigation-frame">{children}</div>
-));
+vi.mock('../components/Layout/NavigationFrame', () => ({
+  default: ({ children }) => <div data-testid="navigation-frame">{children}</div>,
+}));
 
-jest.mock('../context/UserContext', () => ({
+vi.mock('../context/UserContext', () => ({
   useUser: () => ({ user: { steamid: '123' } }),
 }));
 
-jest.mock('../hooks/usePerformanceData', () => ({
-  usePerformanceData: jest.fn(),
+vi.mock('../hooks/usePerformanceData', () => ({
+  usePerformanceData: vi.fn(),
 }));
 
-const { usePerformanceData } = require('../hooks/usePerformanceData');
-
-beforeAll(() => {
-  global.ResizeObserver = class ResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
-});
+const { usePerformanceData } = await import('../hooks/usePerformanceData');
 
 const performancePayload = {
   overview: {
@@ -98,7 +90,7 @@ describe('Performance redesign', () => {
       loading: false,
       error: null,
       performance: performancePayload,
-      retry: jest.fn(),
+      retry: vi.fn(),
     });
 
     render(<Performance />);
@@ -120,7 +112,7 @@ describe('Performance redesign', () => {
       loading: false,
       error: 'boom',
       performance: null,
-      retry: jest.fn(),
+      retry: vi.fn(),
     });
     rerender(<Performance />);
     expect(screen.getByText('Error cargando datos')).toBeInTheDocument();

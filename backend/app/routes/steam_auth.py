@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, HTTPException, Query
 from starlette.responses import RedirectResponse
+import asyncio
 import urllib.parse
 import requests
 import logging
@@ -115,7 +116,8 @@ async def steam_callback(
     verify_params["openid.mode"] = "check_authentication"
 
     try:
-        verify_response = requests.post(
+        verify_response = await asyncio.to_thread(
+            requests.post,
             STEAM_OPENID_URL,
             data=verify_params,
             timeout=10,
@@ -146,7 +148,8 @@ async def steam_callback(
                 "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/"
                 f"?key={STEAM_API_KEY}&steamids={steam_id}"
             )
-            profile_data = requests.get(profile_url, timeout=5).json()
+            profile_response = await asyncio.to_thread(requests.get, profile_url, timeout=5)
+            profile_data = profile_response.json()
             player = profile_data["response"]["players"][0]
             request.session["username"] = player.get("personaname", "")
             request.session["avatar"] = player.get("avatarfull", "")
@@ -190,7 +193,8 @@ async def steam_status(request: Request) -> dict[str, Any]:
         f"?key={STEAM_API_KEY}&steamids={steam_id}"
     )
     try:
-        data = requests.get(url, timeout=5).json()["response"]["players"][0]
+        response = await asyncio.to_thread(requests.get, url, timeout=5)
+        data = response.json()["response"]["players"][0]
         username = data.get("personaname", "")
         avatar = data.get("avatarfull", "")
         request.session["username"] = username

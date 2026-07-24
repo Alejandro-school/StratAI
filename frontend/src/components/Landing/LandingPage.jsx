@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { LangProvider } from './i18n/useLang';
 import Navbar from './core/Navbar';
-import AgentBackground from './core/ParticleBackground';
 import BackgroundEffects from './core/effects/BackgroundEffects';
 import HeroSection from './sections/00-Hero/HeroSection';
 import ServicesSection from './sections/02-Services/ServicesSection';
@@ -13,25 +12,50 @@ import CTASection from './sections/07-CTA/CTASection';
 import '../../styles/Landing/landing.css';
 import '../../styles/Landing/sections/layout.css';
 
+const AgentBackground = lazy(() => import('./core/ParticleBackground'));
+
+const canRenderAgents = () => (
+  !window.matchMedia('(max-width: 768px)').matches
+  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+);
+
 const LandingPageContent = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const lenisRef = useRef(null);
+  const [shouldRenderAgents, setShouldRenderAgents] = useState(canRenderAgents);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateAgentVisibility = () => setShouldRenderAgents(canRenderAgents());
+
+    mobileQuery.addEventListener('change', updateAgentVisibility);
+    reducedMotionQuery.addEventListener('change', updateAgentVisibility);
+
+    return () => {
+      mobileQuery.removeEventListener('change', updateAgentVisibility);
+      reducedMotionQuery.removeEventListener('change', updateAgentVisibility);
+    };
+  }, []);
 
   useEffect(() => {
     let raf;
     let lenis;
+    let isCancelled = false;
 
     const initLenis = async () => {
       try {
-        const { default: Lenis } = await import('@studio-freight/lenis');
-        lenis = new Lenis({
+        const { default: Lenis } = await import('lenis');
+        const instance = new Lenis({
           duration: 1.2,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
         });
-        lenisRef.current = lenis;
 
-        lenis.on('scroll', ({ scroll }) => setScrollY(scroll));
+        if (isCancelled) {
+          instance.destroy();
+          return;
+        }
+
+        lenis = instance;
 
         const loop = (time) => {
           lenis.raf(time);
@@ -45,6 +69,7 @@ const LandingPageContent = () => {
 
     initLenis();
     return () => {
+      isCancelled = true;
       if (raf) cancelAnimationFrame(raf);
       lenis?.destroy();
     };
@@ -53,7 +78,11 @@ const LandingPageContent = () => {
   return (
     <div className="landing-page landing-page--scroll">
       <BackgroundEffects />
-      <AgentBackground scrollY={scrollY} />
+      {shouldRenderAgents && (
+        <Suspense fallback={null}>
+          <AgentBackground />
+        </Suspense>
+      )}
       <Navbar />
 
       <main className="landing-main">

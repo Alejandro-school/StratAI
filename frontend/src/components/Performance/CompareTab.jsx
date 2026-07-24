@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Gauge, Info, Search, Target, User, X } from 'lucide-react';
+import { API_URL } from '../../utils/api';
 import { formatDecimal, formatInteger, formatPercent } from '../../utils/performanceFormatters';
 import SectionBlock from './SectionBlock';
 import { BriefingPanel, InsightCard } from './PerformanceBriefing';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 /* ── Premier Rating tiers ───────────────────────────────────────────── */
 

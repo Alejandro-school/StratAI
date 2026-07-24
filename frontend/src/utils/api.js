@@ -1,2 +1,2 @@
-export const API_URL = process.env.REACT_APP_API_URL || (window.location.port === '3000' ? 'http://localhost:8000' : '');
-export const NODE_URL = process.env.REACT_APP_NODE_URL || (window.location.port === '3000' ? 'http://localhost:4000' : '');
+export const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8000' : '');
+export const NODE_URL = import.meta.env.VITE_NODE_URL || (import.meta.env.DEV ? 'http://localhost:4000' : '');
