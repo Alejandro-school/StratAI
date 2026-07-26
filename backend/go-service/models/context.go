@@ -4,7 +4,7 @@ import (
 	"cs2-demo-service/pkg/maps"
 
 	"github.com/golang/geo/r3"
-	dem "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs"
+	dem "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs"
 )
 
 // DemoContext mantiene el estado mínimo necesario durante el parsing
@@ -13,6 +13,7 @@ type DemoContext struct {
 
 	// Map Manager for visibility checks
 	MapManager maps.VisibilityChecker
+	MapName    string
 
 	// Output final
 	MatchData *MatchData

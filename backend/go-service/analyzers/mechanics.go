@@ -2,10 +2,11 @@ package analyzers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"math"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterMechanicsAnalyzer registra el analizador de mecánicas avanzadas
@@ -25,7 +26,7 @@ func RegisterMechanicsAnalyzer(ctx *models.DemoContext) {
 				continue
 			}
 			sid := player.SteamID64
-			vel := player.Velocity()
+			vel := playerstate.Velocity(player)
 			speed := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y + vel.Z*vel.Z)
 
 			// Mantener historial de 10 ticks

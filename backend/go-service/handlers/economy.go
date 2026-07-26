@@ -2,11 +2,12 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"fmt"
 	"sort"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterEconomyHandlers registra handlers de economía
@@ -113,7 +114,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 
 		// CRITICAL: Check if this weapon already existed at round start (dropped weapon, not purchased)
 		// If the weapon's UniqueID is in WeaponOriginalOwner, it's a dropped weapon being picked up
-		if _, existed := ctx.WeaponOriginalOwner[e.Weapon.UniqueID()]; existed {
+		if _, existed := ctx.WeaponOriginalOwner[playerstate.EquipmentID(e.Weapon)]; existed {
 			// This is a pickup of a dropped weapon, NOT a purchase
 			return
 		}
@@ -152,7 +153,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 		item := models.AI_WeaponItem{
 			Weapon:        weaponName,
 			Price:         weaponPrice,
-			EntityID:      e.Weapon.UniqueID(),
+			EntityID:      playerstate.EquipmentID(e.Weapon),
 			OriginalOwner: "purchased",
 		}
 		ctx.RoundPurchases[e.Player.SteamID64] = append(ctx.RoundPurchases[e.Player.SteamID64], item)
@@ -246,7 +247,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 
 				// Determine original owner
 				originalOwner := "purchased" // Default for newly bought weapons
-				if originalOwnerID, existed := ctx.WeaponOriginalOwner[weapon.UniqueID()]; existed {
+				if originalOwnerID, existed := ctx.WeaponOriginalOwner[playerstate.EquipmentID(weapon)]; existed {
 					if name, ok := playerNames[originalOwnerID]; ok {
 						originalOwner = name
 					}
@@ -256,7 +257,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 				finalEquipment = append(finalEquipment, models.AI_WeaponItem{
 					Weapon:        weaponName,
 					Price:         price,
-					EntityID:      weapon.UniqueID(),
+					EntityID:      playerstate.EquipmentID(weapon),
 					OriginalOwner: originalOwner,
 				})
 				if price > 0 {
@@ -339,7 +340,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 			}
 			for _, weapon := range player.Weapons() {
 				if weapon != nil {
-					ctx.WeaponOriginalOwner[weapon.UniqueID()] = player.SteamID64
+					ctx.WeaponOriginalOwner[playerstate.EquipmentID(weapon)] = player.SteamID64
 				}
 			}
 		}
@@ -478,7 +479,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 				startItems = append(startItems, models.AI_WeaponItem{
 					Weapon:        weaponName,
 					Price:         getWeaponPrice(weaponName),
-					EntityID:      weapon.UniqueID(),
+					EntityID:      playerstate.EquipmentID(weapon),
 					OriginalOwner: player.Name,
 				})
 			}
@@ -622,7 +623,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 				}
 				// Determine original owner
 				originalOwner := "purchased"
-				if originalOwnerID, existed := ctx.WeaponOriginalOwner[weapon.UniqueID()]; existed {
+				if originalOwnerID, existed := ctx.WeaponOriginalOwner[playerstate.EquipmentID(weapon)]; existed {
 					for _, p := range gs.Participants().All() {
 						if p.SteamID64 == originalOwnerID {
 							originalOwner = p.Name
@@ -633,7 +634,7 @@ func RegisterEconomyHandlers(ctx *models.DemoContext) {
 				endEquipment = append(endEquipment, models.AI_WeaponItem{
 					Weapon:        weaponName,
 					Price:         getWeaponPrice(weaponName),
-					EntityID:      weapon.UniqueID(),
+					EntityID:      playerstate.EquipmentID(weapon),
 					OriginalOwner: originalOwner,
 				})
 			}

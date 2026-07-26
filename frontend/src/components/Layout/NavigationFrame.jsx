@@ -2,14 +2,14 @@
 // Tactical HUD Navigation - Esports Control Panel Style
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { useAuth } from '../../auth/useAuth';
 import { API_URL } from '../../utils/api';
 import {
   BarChart2, Target, Brain, TrendingUp, LogOut, Map, MessageSquare
 } from 'lucide-react';
 
 const NavigationFrame = ({ children }) => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const tabsRef = useRef(null);

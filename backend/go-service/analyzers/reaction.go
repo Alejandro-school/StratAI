@@ -2,12 +2,13 @@ package analyzers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"math"
 	"sync"
 
 	"github.com/golang/geo/r3"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // Worker pool para paralelizar raycasts - límite de 6 workers (75% de 8 cores)
@@ -298,7 +299,7 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 						yawError := math.Abs(yawDiff)
 
 						// Calculate shooter velocity for peek/hold classification
-						shooterVel := result.shooter.Velocity()
+						shooterVel := playerstate.Velocity(result.shooter)
 						shooterSpeed := math.Sqrt(shooterVel.X*shooterVel.X + shooterVel.Y*shooterVel.Y)
 
 						ctx.EnemyFirstSeenTick[result.shooterID][result.enemyID] = models.FirstSeenData{

@@ -11,7 +11,7 @@ import (
 	"cs2-demo-service/pkg/geometry"
 
 	"github.com/golang/geo/r3"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
 )
 
 // VisibilityChecker defines the interface for checking visibility between two points

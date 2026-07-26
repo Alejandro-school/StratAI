@@ -3,7 +3,7 @@ package handlers
 import (
 	"cs2-demo-service/models"
 
-	events "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	events "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterChatHandlers registra handlers para mensajes de chat

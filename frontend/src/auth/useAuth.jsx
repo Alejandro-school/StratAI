@@ -6,20 +6,34 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [checking, setChecking] = useState(true);
+  const [authError, setAuthError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/auth/steam/status`, { credentials: "include" })
-      .then(r => r.json())
+    const controller = new AbortController();
+    fetch(`${API_URL}/auth/steam/status`, {
+      credentials: "include",
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Auth status failed: ${response.status}`);
+        return response.json();
+      })
       .then(data => {
-        if (data.authenticated) setUser(data);
+        setUser(data.authenticated ? data : null);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") setAuthError(error);
       })
       .finally(() => setChecking(false));
+    return () => controller.abort();
   }, []);
 
-  if (checking) return null;          // o un spinner
+  if (checking) {
+    return <div role="status" aria-live="polite">Comprobando sesión…</div>;
+  }
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, checking, authError }}>
       {children}
     </AuthContext.Provider>
   );

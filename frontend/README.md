@@ -15,12 +15,11 @@ La aplicación se abre en `http://localhost:3000`. Para ejecutar todos los servi
 
 ## Variables de entorno
 
-Copia `.env.example` a `.env` si necesitas sobrescribir las URLs locales:
+Copia `.env.example` a `.env` si necesitas sobrescribir la URL pública de FastAPI. Node y Go son servicios internos y no se exponen al navegador:
 
 | Variable | Valor local predeterminado |
 |---|---|
 | `VITE_API_URL` | `http://localhost:8000` |
-| `VITE_NODE_URL` | `http://localhost:4000` |
 
 ## Comandos
 
@@ -38,4 +37,4 @@ npm run preview # previsualizar el build
 - `src/index.jsx`: montaje de React.
 - `src/App.jsx`: rutas principales.
 
-Última revisión: 24 de julio de 2026.
+Última revisión: 25 de julio de 2026.

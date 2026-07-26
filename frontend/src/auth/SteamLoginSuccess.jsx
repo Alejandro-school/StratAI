@@ -6,50 +6,44 @@ import { API_URL } from "../utils/api";
 
 export default function SteamLoginSuccess() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { user, authError } = useAuth();
 
   useEffect(() => {
     const run = async () => {
       try {
-        const saveRes = await fetch(`${API_URL}/steam/save-steam-id`, {
-          method: "POST",
-          credentials: "include",
-        });
-        if (!saveRes.ok) throw new Error(`Save failed: ${saveRes.status}`);
+        if (authError || !user?.authenticated) {
+          throw new Error("Steam session was not established");
+        }
 
-        const statusRes = await fetch(`${API_URL}/auth/steam/status`, {
+        const pipelineRes = await fetch(`${API_URL}/steam/pipeline-status`, {
           credentials: "include",
         });
-        if (!statusRes.ok) throw new Error(`Status failed: ${statusRes.status}`);
-        const status = await statusRes.json();
-        if (status.authenticated) setUser(status);
-        else throw new Error("Not authenticated after login");
-
-        const codesRes = await fetch(`${API_URL}/steam/check-sharecodes`, {
-          credentials: "include",
-        });
-        if (!codesRes.ok) throw new Error(`Codes check failed: ${codesRes.status}`);
-        const { exists } = await codesRes.json();
-        if (!exists) {
+        if (!pipelineRes.ok) throw new Error(`Pipeline status failed: ${pipelineRes.status}`);
+        const pipeline = await pipelineRes.json();
+        if (!pipeline.configured) {
           navigate("/history-code", { replace: true });
           return;
         }
 
-        const friendRes = await fetch(`${API_URL}/steam/check-friend-status`, {
-          credentials: "include",
-        });
-        if (!friendRes.ok) throw new Error(`Friend check failed: ${friendRes.status}`);
-        const { is_friend } = await friendRes.json();
-        if (!is_friend) {
+        let friendship = null;
+        for (let attempt = 0; attempt < 6; attempt += 1) {
+          const friendRes = await fetch(`${API_URL}/steam/check-friend-status`, {
+            credentials: "include",
+          });
+          if (!friendRes.ok) throw new Error(`Friend check failed: ${friendRes.status}`);
+          friendship = await friendRes.json();
+          if (
+            friendship.is_friend
+            || (!friendship.service_down && friendship.status !== "unknown")
+          ) {
+            break;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
+        if (!friendship?.is_friend) {
           navigate("/bot-instructions", { replace: true });
           return;
         }
-
-        // Trigger on-demand match detection (fire-and-forget)
-        fetch(`${API_URL}/steam/fetch-new-matches`, {
-          method: "POST",
-          credentials: "include",
-        }).catch(() => {});
 
         navigate("/dashboard", { replace: true });
       } catch (err) {
@@ -59,7 +53,7 @@ export default function SteamLoginSuccess() {
     };
 
     run();
-  }, [navigate, setUser]);
+  }, [authError, navigate, user]);
 
   return (
     <p style={{ color: "#fff", textAlign: "center", marginTop: "2rem" }}>

@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "method": "POST",
+  "path_and_query": "/process-demo?x=1",
+  "timestamp": "1700000000",
+  "nonce": "00112233445566778899aabbccddeeff",
+  "body": "{\"a\":1}",
+  "body_sha256": "015abd7f5cc57a2dd94b7590f04ad8084273905ee33ec5cebeae62276a97f862",
+  "secret": "0123456789abcdef0123456789abcdef",
+  "signature": "fd91811aa9ba109059cd552d5cb6ab2576023f991a0e97161de508f23ec9516c"
+}

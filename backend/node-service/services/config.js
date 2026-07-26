@@ -9,7 +9,27 @@ require("dotenv").config({ path: __dirname + "/../.env" });
 // dotenv won't override vars already set by the first call
 require("dotenv").config({ path: __dirname + "/../../.env" });
 
+const crypto = require("crypto");
+const env = process.env.NODE_ENV || process.env.APP_ENV || "development";
+const sessionSecret = process.env.SESSION_SECRET_KEY || "";
+const deriveDevelopmentSecret = (purpose) => crypto
+  .createHash("sha256")
+  .update(`${sessionSecret}:${purpose}`)
+  .digest("hex");
+const allowUnsignedLocalInternal = process.env.ALLOW_UNSIGNED_LOCAL_INTERNAL === undefined
+  ? env !== "production"
+  : process.env.ALLOW_UNSIGNED_LOCAL_INTERNAL === "true";
+
 module.exports = {
+  env,
+  pipelineV2Enabled: process.env.PIPELINE_V2_ENABLED !== "false",
+  sessionSecret,
+  pipelineNamespace: process.env.PIPELINE_NAMESPACE || "stratai:v2",
+  internalServiceSecret: process.env.INTERNAL_SERVICE_SECRET
+    || (sessionSecret ? deriveDevelopmentSecret("internal-service") : ""),
+  credentialEncryptionKey: process.env.CREDENTIAL_ENCRYPTION_KEY
+    || (sessionSecret ? deriveDevelopmentSecret("credential-encryption") : ""),
+  allowUnsignedLocalInternal,
   // Credenciales del bot Steam
   bot: {
     username: process.env.BOT_USERNAME,
@@ -53,15 +73,22 @@ module.exports = {
 
   // Cola de descargas HTTP: descarga + descomprime demos (paralela, independiente del GC)
   downloadQueue: {
-    concurrency: parseInt(process.env.DOWNLOAD_CONCURRENCY || "3", 10), // 3 descargas paralelas (Valve CDN throttlea con más)
+    concurrency: parseInt(process.env.DOWNLOAD_CONCURRENCY || "1", 10),
     timeout: 300000,   // 5 min timeout (demos grandes ~300MB)
     maxRetries: 4,            // Reintentos por descarga individual
     retryBaseDelay: 2000,     // Delay base para backoff exponencial (2s, 4s, 8s, 16s)
+    minBytes: parseInt(process.env.MIN_DEMO_BYTES || "102400", 10),
+    maxBytes: parseInt(process.env.MAX_DEMO_BYTES || "1073741824", 10),
+    minFreeBytes: parseInt(process.env.MIN_FREE_DISK_BYTES || "2147483648", 10),
+    allowedHosts: (process.env.DEMO_CDN_ALLOWED_HOSTS || ".steamcontent.com,.steamstatic.com,.akamaihd.net,.valve.net")
+      .split(",")
+      .map((host) => host.trim().toLowerCase())
+      .filter(Boolean),
   },
 
   // Cola de procesamiento Go (separada para no bloquear descargas)
   goQueue: {
-    concurrency: parseInt(process.env.GO_CONCURRENCY || "10", 10), // 10 procesos Go paralelos (optimizado para 5800X3D)
+    concurrency: parseInt(process.env.GO_CONCURRENCY || "2", 10),
     timeout: 600000,   // 10 min timeout (raycasting es lento)
   },
 
@@ -73,7 +100,6 @@ module.exports = {
   // URLs de servicios
   services: {
     goService: process.env.GO_SERVICE_URL || "http://localhost:8080",
-    pythonService: process.env.PYTHON_SERVICE_URL || "http://127.0.0.1:8000",
   },
 
   // Timeouts para peticiones HTTP (en milisegundos)
@@ -93,7 +119,7 @@ module.exports = {
   // Cron job for periodic match detection
   cron: {
     interval: process.env.CRON_INTERVAL || "*/5 * * * *", // Every 5 minutes
-    userDelay: parseInt(process.env.CRON_USER_DELAY || "2000", 10), // Delay between users (ms)
     enabled: process.env.CRON_ENABLED !== "false", // Enabled by default
+    steamRequestSpacing: parseInt(process.env.STEAM_REQUEST_SPACING || "250", 10),
   },
 };

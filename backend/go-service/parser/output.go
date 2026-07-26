@@ -8,9 +8,7 @@ import (
 func BuildMatchData(ctx *models.DemoContext) *models.MatchData {
 	matchData := ctx.MatchData
 
-	// Agregar metadata del header
-	header := ctx.Parser.Header()
-	matchData.MapName = header.MapName
+	matchData.MapName = ctx.MapName
 
 	// Agregar scores finales
 	gameState := ctx.Parser.GameState()

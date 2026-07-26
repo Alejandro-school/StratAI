@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LandingPage } from "./components/Landing/LandingPage";
 
 import { AuthProvider } from "./auth/useAuth";
-import { UserProvider } from "./context/UserContext";
 import RequireAuth from "./auth/RequireAuth";
 
 const SteamLoginSuccess = lazy(() => import("./auth/SteamLoginSuccess"));
@@ -61,9 +60,7 @@ const App = () => (
           path="/steam-login-success"
           element={
             <AuthProvider>
-              <UserProvider>
-                <SteamLoginSuccess />
-              </UserProvider>
+              <SteamLoginSuccess />
             </AuthProvider>
           }
         />
@@ -72,11 +69,9 @@ const App = () => (
         <Route
           element={
             <AuthProvider>
-              <UserProvider>
-                <QueryClientProvider client={queryClient}>
-                  <RequireAuth />
-                </QueryClientProvider>
-              </UserProvider>
+              <QueryClientProvider client={queryClient}>
+                <RequireAuth />
+              </QueryClientProvider>
             </AuthProvider>
           }
         >

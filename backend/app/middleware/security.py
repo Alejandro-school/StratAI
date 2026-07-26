@@ -6,11 +6,14 @@ Security middleware for the FastAPI backend.
 """
 import os
 from typing import Any, Callable
+from urllib.parse import urlparse
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.types import ASGIApp
+
+from ..config import ALLOWED_ORIGINS, IS_PRODUCTION
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
@@ -61,11 +64,15 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 class RequestSizeLimitMiddleware(BaseHTTPMiddleware):
     """Limit request body size to prevent DoS via large payloads."""
 
-    MAX_BODY_SIZE = 10 * 1024 * 1024  # 10 MB
+    MAX_BODY_SIZE = 1024 * 1024
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Any]) -> Response:
         content_length = request.headers.get("content-length")
-        if content_length and int(content_length) > self.MAX_BODY_SIZE:
+        try:
+            parsed_content_length = int(content_length) if content_length else 0
+        except ValueError:
+            parsed_content_length = self.MAX_BODY_SIZE + 1
+        if parsed_content_length > self.MAX_BODY_SIZE:
             return Response(
                 content='{"detail": "Request body too large"}',
                 status_code=413,
@@ -88,6 +95,34 @@ class SessionRefreshMiddleware(BaseHTTPMiddleware):
             # Touching any session key forces SessionMiddleware to re-set the cookie
             request.session["_refreshed"] = True
         return response
+
+
+class CSRFMiddleware(BaseHTTPMiddleware):
+    """Reject cross-origin cookie-authenticated state changes."""
+
+    SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
+
+    async def dispatch(self, request: Request, call_next: Callable[[Request], Any]) -> Response:
+        if request.method in self.SAFE_METHODS:
+            return await call_next(request)
+
+        origin = request.headers.get("origin")
+        if not origin:
+            referer = request.headers.get("referer")
+            if referer:
+                parsed = urlparse(referer)
+                origin = f"{parsed.scheme}://{parsed.netloc}"
+
+        if not origin and not IS_PRODUCTION:
+            return await call_next(request)
+
+        if origin not in ALLOWED_ORIGINS:
+            return Response(
+                content='{"detail":"Origen no permitido"}',
+                status_code=403,
+                media_type="application/json",
+            )
+        return await call_next(request)
 
 
 # =============================================================================

@@ -9,8 +9,8 @@ import (
 	"cs2-demo-service/models"
 	"cs2-demo-service/pkg/maps"
 
-	dem "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	dem "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/msg"
 )
 
 // ParseDemoResult contains the parsing results including replay data
@@ -42,12 +42,6 @@ func ParseDemoWithReplay(demoPath string) (*ParseDemoResult, error) {
 	p := dem.NewParser(f)
 	defer p.Close()
 
-	// Parse header to get map name
-	_, err = p.ParseHeader()
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse header: %w", err)
-	}
-
 	// Crear contexto
 	ctx := models.NewDemoContext(p)
 
@@ -57,13 +51,21 @@ func ParseDemoWithReplay(demoPath string) (*ParseDemoResult, error) {
 	// For now, hardcoded relative path
 	mapManager := maps.NewMapManager("../data/maps")
 
-	// Attempt to load the map
-	mapName := p.Header().MapName
-	if mapName != "" {
-		_ = mapManager.LoadMap(mapName)
-	} else {
-		fmt.Println("Map name not found in header. Waiting for RoundStart event.")
+	loadMap := func(mapName string) {
+		if mapName == "" {
+			return
+		}
+		ctx.MapName = mapName
+		if !mapManager.IsLoaded() {
+			_ = mapManager.LoadMap(mapName)
+		}
 	}
+	p.RegisterNetMessageHandler(func(header *msg.CDemoFileHeader) {
+		loadMap(header.GetMapName())
+	})
+	p.RegisterNetMessageHandler(func(serverInfo *msg.CSVCMsg_ServerInfo) {
+		loadMap(serverInfo.GetMapName())
+	})
 
 	ctx.MapManager = mapManager
 
@@ -90,16 +92,6 @@ func ParseDemoWithReplay(demoPath string) (*ParseDemoResult, error) {
 	// TODO: Reaction time analyzer deshabilitado - IsSpottedBy() no es confiable
 	analyzers.RegisterReactionAnalyzer(ctx)
 	analyzers.RegisterCrosshairAnalyzer(ctx)
-
-	// Ensure map is loaded (sometimes header map name is empty in CS2)
-	p.RegisterEventHandler(func(e events.RoundStart) {
-		if mapManager.IsLoaded() {
-			return
-		}
-		if p.Header().MapName != "" {
-			_ = mapManager.LoadMap(p.Header().MapName)
-		}
-	})
 
 	// Parsear hasta el final
 	err = p.ParseToEnd()

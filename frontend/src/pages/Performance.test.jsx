@@ -7,8 +7,8 @@ vi.mock('../components/Layout/NavigationFrame', () => ({
   default: ({ children }) => <div data-testid="navigation-frame">{children}</div>,
 }));
 
-vi.mock('../context/UserContext', () => ({
-  useUser: () => ({ user: { steamid: '123' } }),
+vi.mock('../auth/useAuth', () => ({
+  useAuth: () => ({ user: { steamid: '123' } }),
 }));
 
 vi.mock('../hooks/usePerformanceData', () => ({

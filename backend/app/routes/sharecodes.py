@@ -1,212 +1,172 @@
-
-# backend/app/routes/sharecodes.py
-# --------------------------------
-# Rutas de FastAPI para gestionar sharecodes en CS:GO/CS2.
-
-import os
+import json
 import logging
+import re
+import uuid
+from typing import Any, AsyncIterator
+
 import httpx
-import asyncio
 import redis.asyncio as aioredis
-from typing import Any
-from fastapi import APIRouter, Request, HTTPException, Query
-from ..config import REDIS_URL, STEAM_API_KEY
-from ..middleware.rate_limit import get_rate_limiter
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from pydantic import BaseModel, Field, field_validator
+from starlette.responses import StreamingResponse
+
+from ..auth.dependencies import SteamUser, require_steam_user
+from ..config import NODE_SERVICE_URL, PIPELINE_NAMESPACE, REDIS_URL
+from ..security.credentials import encrypt_credential
+from ..security.service_auth import build_service_headers
 
 router = APIRouter()
-
-# Redis (usar inyección de dependencias sería mejor, pero mantenemos simple para refactor)
 redis = aioredis.from_url(REDIS_URL, decode_responses=True)
+SHARECODE_PATTERN = re.compile(
+    r"^CSGO-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}$"
+)
 
-rate_limiter = get_rate_limiter(REDIS_URL)
 
-@router.get("/steam/all-sharecodes")
-@rate_limiter.limit(20, 60)  # 20 requests per minute per IP
-async def get_all_sharecodes(
-    request: Request,
-    auth_code: str = Query(..., alias="auth_code"),
-    last_code: str | None = Query(None, alias="last_code"),
-    known_code: str | None = Query(None, alias="known_code"),
-) -> dict[str, Any]:
-    """
-    Obtiene sharecodes siguientes usando la API oficial de Steam.
-    Reglas:
-      - last_code/known_code es OBLIGATORIO si no hay uno previo en Redis.
-      - Si ya hay uno guardado en Redis, puede omitirse en la query.
-      - Un único fallback 'N/A' si Steam responde 412 para resincronizar.
-    """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
+class OnboardingRequest(BaseModel):
+    auth_code: str = Field(min_length=6, max_length=128)
+    known_code: str = Field(min_length=1, max_length=128)
 
-    # Cargar API key en tiempo de petición (evita problemas de import/orden)
-    if not STEAM_API_KEY:
-        raise HTTPException(status_code=400, detail="Falta Steam API Key")
+    @field_validator("auth_code", "known_code")
+    @classmethod
+    def strip_value(cls, value: str) -> str:
+        return value.strip()
 
-    # Normaliza (sin cambiar mayúsculas/minúsculas)
-    auth_code = auth_code.strip()
+    @field_validator("known_code")
+    @classmethod
+    def validate_known_code(cls, value: str) -> str:
+        if value != "N/A" and not SHARECODE_PATTERN.fullmatch(value):
+            raise ValueError("Formato de sharecode inválido")
+        return value
 
-    # 1) Usa param de query si viene
-    provided_code = (last_code or known_code)
-    if provided_code:
-        current_code = provided_code.strip()
-    else:
-        # 2) Si no viene, usa el último guardado en Redis
-        saved_code = await redis.get(f"{steam_id}:knownCode")
-        if saved_code:
-            current_code = saved_code.strip()
-        else:
-            # 3) No hay en query ni en Redis -> obligatorio
-            raise HTTPException(
-                status_code=400,
-                detail="Falta last_code/known_code y no hay valor previo en Redis. Indica tu último share code."
-            )
 
-    # Control
-    sharecodes: list[str] = []
-    max_retries = 5
-    delay_seconds = 0.1
-    max_total_codes = 50
-    original_code = current_code
-    resynced = False
-    
-    # data: dict[str, Any] = {} # declared but initialized inside loop logic typically or implicitly
+def _json_bytes(payload: dict[str, Any]) -> bytes:
+    return json.dumps(payload, separators=(",", ":"), sort_keys=True).encode()
 
-    logging.info(f"[all-sharecodes] Usuario={steam_id} | code_inicial='{current_code}'")
 
+async def _node_post(path: str, payload: dict[str, Any]) -> dict[str, Any]:
+    body = _json_bytes(payload)
+    headers = {
+        **build_service_headers("POST", path, body),
+        "Content-Type": "application/json",
+    }
     try:
-        async with httpx.AsyncClient() as client:
-            while True:
-                success = False
-                data = {}
-                for attempt in range(max_retries):
-                    # params en cada intento (respeta current_code actualizado)
-                    params: dict[str, str] = {
-                        "key": STEAM_API_KEY,
-                        "steamid": steam_id,
-                        "steamidkey": auth_code,
-                        "knowncode": current_code,
-                    }
-
-                    resp = await client.get(
-                        "https://api.steampowered.com/ICSGOPlayers_730/GetNextMatchSharingCode/v1/",
-                        params=params
-                    )
-
-                    logging.info(f"[all-sharecodes] HTTP {resp.status_code} con knowncode='{current_code}'")
-
-                    # 412 -> code inválido/caducado: probar una sola vez con 'N/A'
-                    if resp.status_code == 412:
-                        logging.warning(
-                            f"[all-sharecodes] 412 con knowncode='{current_code}'. "
-                            f"Body: {resp.text[:300]}"
-                        )
-                        if not resynced and current_code != "N/A":
-                            current_code = "N/A"
-                            resynced = True
-                            continue
-                        raise HTTPException(
-                            status_code=400,
-                            detail=(
-                                "Auth/ShareCode inválido: verifica que el AUTH CODE corresponde "
-                                "a este SteamID y vuelve a generarlo en Steam Soporte. "
-                                "Si el problema persiste, copia el último share code exacto desde Steam."
-                            )
-                        )
-
-                    # 429 -> backoff incremental
-                    if resp.status_code == 429:
-                        wait = delay_seconds * (attempt + 1)
-                        logging.warning(f"[all-sharecodes] 429 (rate limit). Reintentando en {wait:.2f}s…")
-                        await asyncio.sleep(wait)
-                        continue
-
-                    resp.raise_for_status()
-                    data = resp.json()
-                    success = True
-                    break
-
-                if not success:
-                    raise HTTPException(
-                        status_code=429,
-                        detail="Límite de reintentos alcanzado. Intente en unos minutos."
-                    )
-
-                next_code = data.get("result", {}).get("nextcode", "").strip()
-
-                # Fin si vacío/nulo/N/A
-                if not next_code or next_code.lower() in ("n/a", "null", "none"):
-                    logging.info(f"[all-sharecodes] FIN | Usuario={steam_id} | motivo=respuesta vacía/nula")
-                    break
-
-                # Añadir y avanzar
-                sharecodes.append(next_code)
-                current_code = next_code
-
-                # Límite de seguridad
-                if len(sharecodes) >= max_total_codes:
-                    logging.info(f"[all-sharecodes] LÍMITE | Usuario={steam_id} | códigos={max_total_codes}")
-                    break
-
-                await asyncio.sleep(delay_seconds)
-
-        # Actualiza Redis con el último estado
-        if sharecodes:
-            await redis.set(f"{steam_id}:authCode", auth_code)
-            await redis.set(f"{steam_id}:knownCode", sharecodes[-1])
-            logging.info(f"[all-sharecodes] REDIS UPDATE | Usuario={steam_id} | nuevo_knownCode={sharecodes[-1]}")
-        else:
-            await redis.set(f"{steam_id}:knownCode", original_code)
-            logging.info(f"[all-sharecodes] REDIS PRESERVE | Usuario={steam_id} | knownCode={original_code}")
-
-        return {
-            "sharecodes": sharecodes,
-            "has_more": len(sharecodes) == max_total_codes
-        }
-
-    except httpx.HTTPError as e:
-        logging.error(f"[all-sharecodes] ERROR HTTP | Usuario={steam_id} | {str(e)}")
-        raise HTTPException(
-            status_code=502,
-            detail="Error de comunicación con los servidores de Steam. Intente nuevamente."
-        )
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.post(
+                f"{NODE_SERVICE_URL}{path}",
+                content=body,
+                headers=headers,
+            )
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        detail = "El pipeline rechazó la solicitud"
+        try:
+            detail = exc.response.json().get("error", detail)
+        except ValueError:
+            pass
+        raise HTTPException(status_code=exc.response.status_code, detail=detail) from exc
+    except (httpx.RequestError, ValueError) as exc:
+        logging.error("Node pipeline unavailable: %s", type(exc).__name__)
+        raise HTTPException(status_code=503, detail="Pipeline no disponible") from exc
 
 
-@router.post("/steam/save-sharecodes")
-async def save_sharecodes(request: Request) -> dict[str, str]:
-    """
-    Recibe sharecodes, auth_code y known_code, y los almacena en Redis.
-    El bot Node.js se activa automáticamente al detectar el rpush.
-    """
-    data = await request.json()
-    sharecodes = data.get("sharecodes", [])
-    auth_code = data.get("auth_code")
-    known_code = data.get("known_code")
-
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    if not sharecodes:
-        raise HTTPException(status_code=400, detail="No se proporcionaron sharecodes.")
-    if not auth_code or not known_code:
-        raise HTTPException(status_code=400, detail="Faltan auth_code o known_code.")
-
-    # Actualiza lista de sharecodes del usuario
-    await redis.delete(f"sharecodes:{steam_id}")
-    await redis.rpush(f"sharecodes:{steam_id}", *sharecodes)  # type: ignore
-
-    # Guarda auth_code y known_code
-    await redis.set(f"{steam_id}:authCode", auth_code)
-    await redis.set(f"{steam_id}:knownCode", known_code)
-
-    logging.info(f"[save-sharecodes] Almacenados {len(sharecodes)} sharecodes en Redis para {steam_id}")
-    return {"message": "✅ ShareCodes guardados. El bot se activará automáticamente."}
+@router.post("/steam/onboarding", status_code=status.HTTP_202_ACCEPTED)
+async def onboarding(
+    payload: OnboardingRequest,
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
+    credentials_key = f"{PIPELINE_NAMESPACE}:user:{user.steam_id}:credentials"
+    credential_version = uuid.uuid4().hex
+    await redis.hset(
+        credentials_key,
+        mapping={
+            "auth_code": encrypt_credential(payload.auth_code),
+            "known_code": payload.known_code,
+            "status": "pending_validation",
+            "version": credential_version,
+            "discovery_error_code": "",
+        },
+    )
+    await redis.sadd(f"{PIPELINE_NAMESPACE}:users", user.steam_id)
+    return await _node_post(
+        "/internal/v2/discovery",
+        {
+            "steam_id": user.steam_id,
+            "priority": 1,
+            "credential_version": credential_version,
+        },
+    )
 
 
-@router.get("/steam/check-sharecodes")
-async def check_sharecodes(request: Request) -> dict[str, Any]:
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    existing_sharecodes: list[str] = await redis.lrange(f"sharecodes:{steam_id}", 0, -1)  # type: ignore
-    return {"exists": bool(existing_sharecodes), "sharecodes": existing_sharecodes}  # type: ignore
+@router.post("/steam/discovery", status_code=status.HTTP_202_ACCEPTED)
+async def discovery(user: SteamUser = Depends(require_steam_user)) -> dict[str, Any]:
+    credential_version = await redis.hget(
+        f"{PIPELINE_NAMESPACE}:user:{user.steam_id}:credentials",
+        "version",
+    )
+    return await _node_post(
+        "/internal/v2/discovery",
+        {
+            "steam_id": user.steam_id,
+            "priority": 1,
+            "credential_version": credential_version,
+        },
+    )
+
+
+@router.get("/steam/pipeline-status")
+async def pipeline_status(user: SteamUser = Depends(require_steam_user)) -> dict[str, Any]:
+    path = f"/internal/v2/pipeline-status/{user.steam_id}"
+    headers = build_service_headers("GET", path)
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            response = await client.get(f"{NODE_SERVICE_URL}{path}", headers=headers)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(status_code=exc.response.status_code, detail="Estado no disponible") from exc
+    except (httpx.RequestError, ValueError) as exc:
+        raise HTTPException(status_code=503, detail="Pipeline no disponible") from exc
+
+
+@router.get("/steam/download-progress")
+async def download_progress(
+    request: Request,
+    user: SteamUser = Depends(require_steam_user),
+) -> StreamingResponse:
+    path = f"/internal/v2/events/{user.steam_id}"
+    headers = build_service_headers("GET", path)
+    last_event_id = request.headers.get("last-event-id")
+    if last_event_id:
+        headers["Last-Event-ID"] = last_event_id
+
+    async def event_stream() -> AsyncIterator[bytes]:
+        try:
+            async with httpx.AsyncClient(timeout=None) as client:
+                async with client.stream(
+                    "GET",
+                    f"{NODE_SERVICE_URL}{path}",
+                    headers=headers,
+                ) as response:
+                    response.raise_for_status()
+                    async for chunk in response.aiter_bytes():
+                        yield chunk
+        except httpx.HTTPError as exc:
+            logging.error("Progress stream failed: %s", type(exc).__name__)
+            payload = json.dumps(
+                {
+                    "stage": "failed",
+                    "error_code": "progress_stream_unavailable",
+                }
+            )
+            yield f"event: pipeline\ndata: {payload}\n\n".encode()
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )

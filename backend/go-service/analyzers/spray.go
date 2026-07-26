@@ -2,9 +2,10 @@ package analyzers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"math"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterSprayAnalyzer registra el analizador de sprays
@@ -40,7 +41,7 @@ func RegisterSprayAnalyzer(ctx *models.DemoContext) {
 
 		} else {
 			// Iniciar nuevo spray (aunque sea de 1 disparo)
-			vel := e.Shooter.Velocity()
+			vel := playerstate.Velocity(e.Shooter)
 			speed := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y + vel.Z*vel.Z)
 
 			ctx.CurrentSpray[sid] = &models.SprayData{

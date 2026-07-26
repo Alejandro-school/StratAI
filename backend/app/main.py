@@ -1,4 +1,3 @@
-import os
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
@@ -8,25 +7,32 @@ env_path = Path(__file__).resolve().parents[1] / ".env"
 load_dotenv(dotenv_path=env_path)
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi_users import FastAPIUsers
-from fastapi_users.authentication import CookieTransport, AuthenticationBackend
-from fastapi_users.authentication.strategy.redis import RedisStrategy
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 import redis.asyncio as aioredis
 
 # Security config & middleware
 from .config import (
-    SESSION_SECRET_KEY, STEAM_API_KEY,
+    SESSION_SECRET_KEY,
     ALLOWED_ORIGINS, REDIS_URL,
     SESSION_COOKIE_NAME, SESSION_MAX_AGE, SESSION_SAME_SITE,
     SESSION_HTTPS_ONLY, CORS_ALLOW_METHODS, CORS_ALLOW_HEADERS,
-    IS_PRODUCTION,
+    IS_PRODUCTION, TRUSTED_HOSTS,
 )
-from .middleware.security import SecurityHeadersMiddleware, RequestSizeLimitMiddleware, SessionRefreshMiddleware
+from .middleware.security import (
+    CSRFMiddleware,
+    RequestSizeLimitMiddleware,
+    SecurityHeadersMiddleware,
+    SessionRefreshMiddleware,
+)
+from .logging_config import configure_logging
+
+configure_logging()
 
 # Rutas
-from .routes import steam_auth, steam_service, auth_status, sharecodes, dashboard, performance, feedback
+from .routes import steam_auth, steam_service, sharecodes, dashboard, performance, feedback, replay_annotations
 
 app = FastAPI(
     docs_url=None if IS_PRODUCTION else "/docs",
@@ -37,6 +43,8 @@ app = FastAPI(
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RequestSizeLimitMiddleware)
 app.add_middleware(SessionRefreshMiddleware, max_age=SESSION_MAX_AGE)
+app.add_middleware(CSRFMiddleware)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=TRUSTED_HOSTS)
 
 # ── CORS ── Whitelist-based (no wildcard regex)
 app.add_middleware(
@@ -51,17 +59,6 @@ app.add_middleware(
 redis = aioredis.from_url(REDIS_URL, decode_responses=True)
 
 # Configuración del backend de autenticación (FastAPI Users)
-cookie_transport = CookieTransport(cookie_name=SESSION_COOKIE_NAME, cookie_max_age=SESSION_MAX_AGE)
-
-def get_redis_strategy() -> RedisStrategy:
-    return RedisStrategy(redis, lifetime_seconds=SESSION_MAX_AGE)
-
-auth_backend = AuthenticationBackend(
-    name="redis",
-    transport=cookie_transport,
-    get_strategy=get_redis_strategy,
-)
-
 # ── Session Middleware (hardened) ──
 app.add_middleware(
     SessionMiddleware,
@@ -75,24 +72,33 @@ app.add_middleware(
 # Incluir Routers
 app.include_router(steam_auth.router)      # <--- Asegúrate de que exista
 app.include_router(steam_service.router)
-app.include_router(auth_status.router)
 app.include_router(sharecodes.router)
 app.include_router(dashboard.router)
 app.include_router(performance.router)
 app.include_router(feedback.router)
+app.include_router(replay_annotations.router)
 
 
 @app.on_event("startup")
 async def startup():
     await redis.ping()
-    print("Conectado a Redis")
+    logging.info("Conectado a Redis")
 
 @app.get("/ping")
 def ping():
     return {"message": "pong"}
 
-@app.on_event("startup")
-async def startup_event():
-    for route in app.routes:
-        print(f"Endpoint registrado: {route.path}")
+
+@app.get("/ready")
+async def ready():
+    try:
+        await redis.ping()
+    except Exception:
+        return JSONResponse({"status": "not_ready"}, status_code=503)
+    return {"status": "ready"}
+
+
+@app.on_event("shutdown")
+async def shutdown() -> None:
+    await redis.aclose()
 

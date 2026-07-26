@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -18,8 +17,16 @@ var (
 	Ctx = context.Background()
 )
 
+func matchDataKey(matchID string) string {
+	namespace := os.Getenv("PIPELINE_NAMESPACE")
+	if namespace == "" {
+		namespace = "stratai:v2"
+	}
+	return fmt.Sprintf("%s:match-data:%s", namespace, matchID)
+}
+
 // initRedis inicializa la conexión a Redis
-func InitRedis() {
+func InitRedis() error {
 	redisAddr := os.Getenv("REDIS_ADDR")
 	if redisAddr == "" {
 		redisAddr = "localhost:6379"
@@ -30,9 +37,9 @@ func InitRedis() {
 	})
 	_, err := Rdb.Ping(Ctx).Result()
 	if err != nil {
-		log.Fatalf("No se pudo conectar a Redis: %v", err)
+		return fmt.Errorf("could not connect to Redis: %w", err)
 	}
-	log.Println("Conectado a Redis en", redisAddr)
+	return nil
 }
 
 // SaveMatchData guarda los datos del match en Redis
@@ -46,7 +53,7 @@ func SaveMatchData(matchID string, matchData *models.MatchData) error {
 		return fmt.Errorf("failed to marshal match data: %w", err)
 	}
 
-	key := fmt.Sprintf("match_data:%s", matchID)
+	key := matchDataKey(matchID)
 	// Guardar con expiración de 30 días (o lo que sea apropiado)
 	err = Rdb.Set(Ctx, key, data, 30*24*time.Hour).Err()
 	if err != nil {
@@ -62,7 +69,7 @@ func GetMatchData(matchID string) (*models.MatchData, error) {
 		return nil, fmt.Errorf("redis client not initialized")
 	}
 
-	key := fmt.Sprintf("match_data:%s", matchID)
+	key := matchDataKey(matchID)
 	data, err := Rdb.Get(Ctx, key).Result()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get match data from redis: %w", err)

@@ -13,11 +13,12 @@ type ReplayData struct {
 
 // ReplayMetadata contains map info for coordinate translation
 type ReplayMetadata struct {
-	MatchID    string    `json:"match_id"`
-	MapName    string    `json:"map_name"`
-	TickRate   float64   `json:"tick_rate"`
-	SampleRate int       `json:"sample_rate_ms"` // Milliseconds between frames
-	MapConfig  MapConfig `json:"map_config"`
+	SchemaVersion int       `json:"schema_version"`
+	MatchID       string    `json:"match_id"`
+	MapName       string    `json:"map_name"`
+	TickRate      float64   `json:"tick_rate"`
+	SampleRate    int       `json:"sample_rate_ms"` // Milliseconds between frames
+	MapConfig     MapConfig `json:"map_config"`
 }
 
 // MapConfig contains the coordinate transformation values
@@ -65,6 +66,7 @@ type ReplayPlayerState struct {
 	Weapon        string   `json:"weapon"`
 	Weapons       []string `json:"weapons,omitempty"`
 	HasDefuseKit  bool     `json:"has_defuse_kit,omitempty"`
+	HasHelmet     bool     `json:"has_helmet,omitempty"`
 	HasC4         bool     `json:"has_c4,omitempty"`
 	FlashDuration float64  `json:"flash_duration,omitempty"` // Seconds remaining of flash blindness
 	Money         int      `json:"money"`
@@ -78,7 +80,7 @@ type ReplayPlayerState struct {
 // ReplayProjectile is a grenade in flight
 type ReplayProjectile struct {
 	ID         int64     `json:"id"`
-	Type       string    `json:"type"` // "smoke", "flashbang", "he", "molotov", "decoy"
+	Type       string    `json:"type"` // "smoke", "flashbang", "he", "molotov", "incendiary", "decoy"
 	ThrowerID  uint64    `json:"thrower_id"`
 	X          float64   `json:"x"`
 	Y          float64   `json:"y"`
@@ -93,11 +95,13 @@ type ReplayActiveEffect struct {
 	Y             float64   `json:"y"`
 	Radius        float64   `json:"radius,omitempty"`         // For smoke circles
 	TimeRemaining float64   `json:"time_remaining,omitempty"` // Seconds until expiry
+	StartTick     int       `json:"start_tick,omitempty"`     // Stable origin for deterministic playback
 	Hull          []float64 `json:"hull,omitempty"`           // For inferno polygons [x1,y1,x2,y2,...]
 }
 
 // ReplayShot represents a weapon fire event for visualization
 type ReplayShot struct {
+	Tick      int     `json:"tick,omitempty"`
 	ShooterID uint64  `json:"shooter_id"`
 	FromX     float64 `json:"from_x"`
 	FromY     float64 `json:"from_y"`
@@ -120,8 +124,9 @@ type ReplayBombState struct {
 
 // ReplayEvent is a discrete event for timeline markers
 type ReplayEvent struct {
+	ID   string `json:"id,omitempty"`
 	Tick int    `json:"tick"`
-	Type string `json:"type"` // "kill", "damage", "bomb_plant", "bomb_defuse", "grenade_explode"
+	Type string `json:"type"` // "kill", "bomb_plant", "bomb_defuse", "utility_detonate"
 
 	// For kills - includes position data for kill line visualization
 	KillerID     uint64  `json:"killer_id,omitempty"`
@@ -143,9 +148,15 @@ type ReplayEvent struct {
 	NoScope      bool    `json:"noscope,omitempty"`
 
 	// For grenades
-	GrenadeType string  `json:"grenade_type,omitempty"`
-	X           float64 `json:"x,omitempty"`
-	Y           float64 `json:"y,omitempty"`
+	GrenadeType       string   `json:"grenade_type,omitempty"`
+	UtilityType       string   `json:"utility_type,omitempty"`
+	X                 float64  `json:"x,omitempty"`
+	Y                 float64  `json:"y,omitempty"`
+	Z                 float64  `json:"z,omitempty"`
+	ActorID           uint64   `json:"actor_id,omitempty"`
+	AffectedPlayerIDs []uint64 `json:"affected_player_ids,omitempty"`
+	Damage            int      `json:"damage,omitempty"`
+	DurationMS        int      `json:"duration_ms,omitempty"`
 
 	// For bomb events
 	Site     string `json:"site,omitempty"`

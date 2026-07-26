@@ -10,12 +10,13 @@
  */
 
 const crypto = require('crypto');
+const config = require('../services/config');
+const { ensureRedis, redisClient } = require('../services/redisClient');
 
 const STEAM_ID_REGEX = /^\d{17}$/;
 
-// Shared secret for HMAC verification (must match Python SESSION_SECRET_KEY)
-const SERVICE_SECRET = process.env.SESSION_SECRET_KEY || '';
 const HMAC_MAX_AGE_SECONDS = 30; // Reject requests older than 30 seconds
+const SIGNATURE_VERSION = 'v1';
 
 /**
  * Validates a Steam ID format (17-digit number).
@@ -73,44 +74,80 @@ function requestSizeLimit(maxBytes = 1024 * 1024) {
  * 1. Localhost (internal service calls) — always allowed
  * 2. HMAC-signed requests from FastAPI — verified via shared secret
  */
-function internalOnly(req, res, next) {
+function isLocalRequest(req) {
   const ip = req.ip || req.connection?.remoteAddress || '';
-  const isLocal = (
+  return (
     ip === '127.0.0.1' ||
     ip === '::1' ||
     ip === '::ffff:127.0.0.1' ||
     ip === 'localhost'
   );
+}
 
-  if (isLocal) return next();
+function canonicalServiceRequest(req) {
+  const version = req.headers['x-service-version'];
+  const timestamp = req.headers['x-service-timestamp'];
+  const nonce = req.headers['x-service-nonce'];
+  const body = req.rawBody || Buffer.alloc(0);
+  const bodyHash = crypto.createHash('sha256').update(body).digest('hex');
+  return [
+    version,
+    req.method.toUpperCase(),
+    req.originalUrl,
+    timestamp,
+    nonce,
+    bodyHash,
+  ].join('\n');
+}
 
-  // Check HMAC signature for non-localhost (e.g., Docker, proxy scenarios)
-  if (SERVICE_SECRET) {
-    const timestamp = req.headers['x-service-timestamp'];
-    const signature = req.headers['x-service-signature'];
-
-    if (timestamp && signature) {
-      // Reject stale requests (replay protection)
-      const parsedTimestamp = Number.parseInt(timestamp, 10);
-      const age = Math.abs(Math.floor(Date.now() / 1000) - parsedTimestamp);
-      if (Number.isFinite(parsedTimestamp) && age <= HMAC_MAX_AGE_SECONDS) {
-        const expected = crypto
-          .createHmac('sha256', SERVICE_SECRET)
-          .update(timestamp)
-          .digest('hex');
-        const signatureBuffer = Buffer.from(signature, 'hex');
-        const expectedBuffer = Buffer.from(expected, 'hex');
-        if (
-          signatureBuffer.length === expectedBuffer.length
-          && crypto.timingSafeEqual(signatureBuffer, expectedBuffer)
-        ) {
-          return next();
-        }
-      }
-    }
+async function internalOnly(req, res, next) {
+  if (config.allowUnsignedLocalInternal && isLocalRequest(req)) {
+    return next();
   }
 
-  return res.status(403).json({ error: 'Access denied: internal endpoint only' });
+  const version = req.headers['x-service-version'];
+  const timestamp = req.headers['x-service-timestamp'];
+  const nonce = req.headers['x-service-nonce'];
+  const signature = req.headers['x-service-signature'];
+  if (
+    version !== SIGNATURE_VERSION
+    || typeof timestamp !== 'string'
+    || typeof nonce !== 'string'
+    || typeof signature !== 'string'
+    || !/^[a-f0-9]{64}$/.test(signature)
+    || !/^[a-f0-9]{32}$/.test(nonce)
+  ) {
+    return res.status(403).json({ error: 'Invalid service signature' });
+  }
+
+  const parsedTimestamp = Number.parseInt(timestamp, 10);
+  const age = Math.abs(Math.floor(Date.now() / 1000) - parsedTimestamp);
+  if (!Number.isFinite(parsedTimestamp) || age > HMAC_MAX_AGE_SECONDS) {
+    return res.status(403).json({ error: 'Expired service signature' });
+  }
+
+  const expected = crypto
+    .createHmac('sha256', config.internalServiceSecret)
+    .update(canonicalServiceRequest(req))
+    .digest('hex');
+  const signatureBuffer = Buffer.from(signature, 'hex');
+  const expectedBuffer = Buffer.from(expected, 'hex');
+  if (!crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
+    return res.status(403).json({ error: 'Invalid service signature' });
+  }
+
+  try {
+    await ensureRedis();
+    const nonceKey = `${config.pipelineNamespace}:service-nonce:${nonce}`;
+    const acquired = await redisClient.set(nonceKey, '1', { NX: true, EX: 60 });
+    if (!acquired) {
+      return res.status(409).json({ error: 'Replayed service request' });
+    }
+  } catch (error) {
+    return res.status(503).json({ error: 'Service authentication unavailable' });
+  }
+
+  return next();
 }
 
 module.exports = {
@@ -118,4 +155,5 @@ module.exports = {
   securityHeaders,
   requestSizeLimit,
   internalOnly,
+  canonicalServiceRequest,
 };

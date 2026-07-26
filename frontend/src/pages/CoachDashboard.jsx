@@ -11,7 +11,7 @@ import {
   isMatchWin
 } from '../components/CoachDashboard/matchPresentation';
 import NavigationFrame from '../components/Layout/NavigationFrame';
-import { useUser } from '../context/UserContext';
+import { useAuth } from '../auth/useAuth';
 import useCoachChat from '../hooks/useCoachChat';
 import useMatchAnalysisSession from '../hooks/useMatchAnalysisSession';
 import useReplaySyncStore from '../stores/useReplaySyncStore';
@@ -118,7 +118,7 @@ const AnalysisMode = ({
 };
 
 const CoachDashboard = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const replay = useReplaySyncStore();
   const chatEndRef = useRef(null);
   const [allMatches, setAllMatches] = useState([]);

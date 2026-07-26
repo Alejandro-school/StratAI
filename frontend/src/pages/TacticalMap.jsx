@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavigationFrame from '../components/Layout/NavigationFrame';
-import { useUser } from '../context/UserContext';
+import { useAuth } from '../auth/useAuth';
 import { TacticalMapProvider, useTacticalMapState } from '../context/TacticalMapContext';
 import { useTacticalMapData } from '../hooks/useTacticalMapData';
 import { useCalloutStats } from '../hooks/useCalloutStats';
@@ -45,7 +45,7 @@ const MAX_DUEL_MARKERS_BY_DENSITY = {
 };
 
 const TacticalMapContent = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const { dashboardData, loading: dashLoading } = useTacticalMapData(user);
   const {
     state: {

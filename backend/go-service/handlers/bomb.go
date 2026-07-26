@@ -3,7 +3,7 @@ package handlers
 import (
 	"cs2-demo-service/models"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterBombHandlers registra handlers de bomba

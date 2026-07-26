@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"math"
+	"sort"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 const (
@@ -81,6 +83,7 @@ func RegisterTrackingHandler(ctx *models.DemoContext) {
 			}
 
 			// Create event
+			velocity := playerstate.Velocity(player)
 			event := models.AI_TrackingEvent{
 				Tick:          currentTick,
 				PlayerSteamID: player.SteamID64,
@@ -93,7 +96,7 @@ func RegisterTrackingHandler(ctx *models.DemoContext) {
 				AreaName:           areaName,
 				ViewAngleYaw:       player.ViewDirectionX(), // Yaw = horizontal rotation
 				ViewAnglePitch:     player.ViewDirectionY(), // Pitch = vertical rotation
-				VelocityLen:        math.Sqrt(player.Velocity().X*player.Velocity().X + player.Velocity().Y*player.Velocity().Y),
+				VelocityLen:        math.Sqrt(velocity.X*velocity.X + velocity.Y*velocity.Y),
 				IsWalking:          player.IsWalking(),
 				IsDucking:          player.IsDucking(),
 				ActiveWeapon:       getActiveWeapon(player),
@@ -135,23 +138,98 @@ func getActiveWeapon(player *common.Player) string {
 }
 
 func getPlayerWeapons(player *common.Player) []string {
-	weapons := []string{}
-	seen := make(map[string]bool)
-
+	entries := make([]playerWeaponEntry, 0, len(player.Weapons()))
 	for _, weapon := range player.Weapons() {
 		if weapon == nil {
 			continue
 		}
 
 		name := weapon.String()
-		if name == "" || seen[name] {
+		if name == "" {
 			continue
 		}
 
-		seen[name] = true
-		weapons = append(weapons, name)
+		entries = append(entries, playerWeaponEntry{
+			name:     name,
+			priority: weaponPriority(weapon),
+			count:    weaponInventoryCount(weapon),
+		})
 	}
 
+	return flattenPlayerWeapons(entries)
+}
+
+type playerWeaponEntry struct {
+	name     string
+	priority int
+	count    int
+}
+
+func weaponPriority(weapon *common.Equipment) int {
+	switch weapon.Class() {
+	case common.EqClassRifle, common.EqClassSMG, common.EqClassHeavy:
+		return 0
+	case common.EqClassPistols:
+		return 1
+	case common.EqClassGrenade:
+		return 2
+	default:
+		if weapon.Type == common.EqKnife {
+			return 4
+		}
+		return 3
+	}
+}
+
+func weaponInventoryCount(weapon *common.Equipment) int {
+	if weapon.Class() != common.EqClassGrenade {
+		return 1
+	}
+
+	count := weapon.AmmoInMagazine() + weapon.AmmoReserve()
+	if count < 1 {
+		return 1
+	}
+	return count
+}
+
+func flattenPlayerWeapons(entries []playerWeaponEntry) []string {
+	counts := make(map[string]int, len(entries))
+	priorities := make(map[string]int, len(entries))
+	for _, entry := range entries {
+		if entry.name == "" {
+			continue
+		}
+		if entry.count < 1 {
+			entry.count = 1
+		}
+		if entry.count > counts[entry.name] {
+			counts[entry.name] = entry.count
+		}
+		if previous, ok := priorities[entry.name]; !ok || entry.priority < previous {
+			priorities[entry.name] = entry.priority
+		}
+	}
+
+	names := make([]string, 0, len(counts))
+	for name := range counts {
+		names = append(names, name)
+	}
+	sort.Slice(names, func(left, right int) bool {
+		leftPriority := priorities[names[left]]
+		rightPriority := priorities[names[right]]
+		if leftPriority != rightPriority {
+			return leftPriority < rightPriority
+		}
+		return names[left] < names[right]
+	})
+
+	weapons := make([]string, 0, len(entries))
+	for _, name := range names {
+		for count := 0; count < counts[name]; count++ {
+			weapons = append(weapons, name)
+		}
+	}
 	return weapons
 }
 

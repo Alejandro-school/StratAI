@@ -26,6 +26,19 @@ jobs:
 
   node:
     runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7.4-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      REDIS_URL: redis://127.0.0.1:6379
+      REDIS_INTEGRATION: "true"
     defaults:
       run:
         working-directory: backend/node-service
@@ -41,6 +54,11 @@ jobs:
 
   python:
     runs-on: ubuntu-latest
+    env:
+      SESSION_SECRET_KEY: test-session-secret-32-characters-long
+      STEAM_API_KEY: test-steam-api-key
+      INTERNAL_SERVICE_SECRET: test-internal-secret-32-characters-long
+      CREDENTIAL_ENCRYPTION_KEY: test-credential-secret-32-characters-long
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

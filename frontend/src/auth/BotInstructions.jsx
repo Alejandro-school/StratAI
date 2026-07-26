@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useUser } from "../context/UserContext";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./useAuth";
 import { API_URL } from "../utils/api";
 import "../styles/Auth/botInstructions.css";
 
@@ -8,10 +9,12 @@ const STATUS_LABEL = {
   pending: "Solicitud enviada (pendiente)",
   not_friend: "Enviar solicitud de amistad",
   unknown: "Comprobar estado",
+  blocked: "Bloqueado en Steam",
 };
 
 export default function BotInstructions({ userSteamId: propUserSteamId, botSteamId: propBotSteamId }) {
-  const { user } = useUser();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const userSteamId = propUserSteamId || user?.steam_id || user?.steamid;
   
   const [botSteamId, setBotSteamId] = useState(propBotSteamId || "");
@@ -23,13 +26,15 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
   const [message, setMessage] = useState("");
 
   const canSend = useMemo(
-    () => status === "not_friend" || status === "unknown",
-    [status]
+    () => !serviceDown && (status === "not_friend" || status === "unknown"),
+    [serviceDown, status]
   );
 
-  async function checkStatus() {
-    setChecking(true);
-    setMessage("");
+  const checkStatus = useCallback(async (silent = false) => {
+    if (!silent) {
+      setChecking(true);
+      setMessage("");
+    }
     try {
       const res = await fetch(`${API_URL}/steam/check-friend-status`, {
         method: "GET",
@@ -41,12 +46,15 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
       if (data?.bot_steam_id) setBotSteamId(data.bot_steam_id);
       setServiceDown(Boolean(data?.service_down));
       setSource(data?.source || null);
+      if (data?.is_friend || data?.status === "friend") {
+        navigate("/dashboard", { replace: true });
+      }
     } catch (e) {
-      setMessage(e.message);
+      if (!silent) setMessage(e.message);
     } finally {
-      setChecking(false);
+      if (!silent) setChecking(false);
     }
-  }
+  }, [navigate]);
 
   async function handleSendFriendRequest() {
     if (!canSend || !userSteamId) return;
@@ -56,14 +64,17 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
       const res = await fetch(`${API_URL}/steam/send-friend-request`, {
         method: "POST",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ steam_id: userSteamId }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.detail || data?.error || "No se pudo enviar la solicitud");
       // UX: marcamos como pending para no spamear mientras Steam responde
       setStatus(data?.status || "pending");
-      setMessage("Solicitud enviada. Acepta la invitación en Steam.");
+      if (data?.bot_steam_id) setBotSteamId(data.bot_steam_id);
+      if (data?.status === "friend") {
+        navigate("/dashboard", { replace: true });
+        return;
+      }
+      setMessage(data?.message || "Solicitud enviada. Acepta la invitación en Steam.");
     } catch (e) {
       setMessage(`Error: ${e.message}`);
     } finally {
@@ -86,10 +97,10 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
   }
 
   useEffect(() => {
-    // comprobación inicial silenciosa
-    checkStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    checkStatus(true);
+    const interval = window.setInterval(() => checkStatus(true), 5000);
+    return () => window.clearInterval(interval);
+  }, [checkStatus]);
 
   return (
     <div className="bot-card">
@@ -97,7 +108,7 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
       {serviceDown && (
         <div className="bot-banner">
           <span>Steam/GC o el bot están inestables. Mostrando estado en caché.</span>
-          <button className="ghost-btn" onClick={checkStatus} disabled={checking}>
+          <button className="ghost-btn" onClick={() => checkStatus()} disabled={checking}>
             {checking ? "Actualizando..." : "Reintentar"}
           </button>
         </div>
@@ -130,7 +141,7 @@ export default function BotInstructions({ userSteamId: propUserSteamId, botSteam
           Abrir en Steam
         </button>
 
-        <button className="ghost-btn" onClick={checkStatus} disabled={checking}>
+        <button className="ghost-btn" onClick={() => checkStatus()} disabled={checking}>
           {checking ? "Comprobando..." : "Comprobar estado"}
         </button>
       </div>

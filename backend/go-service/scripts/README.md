@@ -1,58 +1,41 @@
-# Scripts de Reprocesamiento de Demos
+# Scripts de reprocesamiento de demos
 
-## 🚀 Script Principal: `reprocess_parallel.py`
+## Script recomendado: `reprocess_parallel.py`
 
-Reprocesa TODAS las demos con concurrencia (6 workers paralelos).
-**Tiempo estimado para 34 demos: ~5-6 minutos** (vs 34 min secuencial).
+Reprocesa cada archivo `backend/data/demos/match_*.dem` mediante el servicio Go.
+Mantiene el mismo `match_id`, conserva `date` y `duration_seconds` de los metadatos existentes y verifica que Go genere los exports fundamentales.
+
+Al finalizar, reconstruye los agregados de los jugadores afectados en `backend/data/users/`, para que el dashboard utilice los datos nuevos. No descarga demos ni modifica la lista `processed_demos` de Redis.
 
 ### Requisitos
 
-1. **Servicio Go en ejecución**
+1. El entorno Python del backend con las dependencias de `backend/requirements.txt`.
+2. El servicio Go iniciado desde su propio directorio, para que las rutas de demos se validen correctamente:
 
-   ```bash
+   ```powershell
    cd backend/go-service
    go run main.go
    ```
 
-2. **Instalar dependencias Python**
-   ```bash
-   pip install requests colorama
-   ```
-
 ### Uso
 
-Desde la carpeta `backend`:
+Desde `backend`:
 
-```bash
+```powershell
 .\venv\Scripts\python.exe go-service/scripts/reprocess_parallel.py
 ```
 
-### ⚠️ Importante
+Por defecto utiliza dos workers, un límite seguro porque cada parseo ya usa varios hilos internos. Opciones útiles:
 
-- **Los matchIDs se mantienen** - Las demos NO pierden asociación con el usuario
-- El script lee la metadata existente y preserva la fecha original
-- Puedes interrumpir con `Ctrl+C` en cualquier momento
+```powershell
+# Ver qué demos se procesarían sin cambiar datos
+.\venv\Scripts\python.exe go-service/scripts/reprocess_parallel.py --dry-run
 
----
+# Ajustar concurrencia y timeout por demo
+.\venv\Scripts\python.exe go-service/scripts/reprocess_parallel.py --workers 3 --timeout 900
 
-## Scripts Disponibles
-
-| Script                   | Descripción                                |
-| ------------------------ | ------------------------------------------ |
-| `reprocess_parallel.py`  | ✅ **USAR ESTE** - Reprocesa con 6 workers |
-| `reprocess_all_demos.py` | Versión secuencial (más lenta)             |
-
----
-
-## Flujo de Datos
-
-```
-demos/*.dem → Go Service → exports/match_XXX/*.json
-                              ↓
-                         Redis (processed_demos:{steamID})
-                              ↓
-                         Frontend (lista de demos del usuario)
+# Solo reprocesar exports; no regenerar agregados de usuario
+.\venv\Scripts\python.exe go-service/scripts/reprocess_parallel.py --skip-aggregate-rebuild
 ```
 
-El script mantiene los `match_id` originales para que Redis siga asociando
-las demos al usuario correcto.
+Si alguna demo falla, las demás continúan. El proceso devuelve código distinto de cero al terminar con errores.

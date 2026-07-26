@@ -1,61 +1,21 @@
 package middlewares
 
 import (
+	"bytes"
+	"context"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
+	"time"
+
+	"cs2-demo-service/db"
 )
-
-// getAllowedOrigins returns the list of allowed CORS origins from env or defaults.
-func getAllowedOrigins() []string {
-	raw := os.Getenv("ALLOWED_ORIGINS")
-	if raw != "" {
-		origins := strings.Split(raw, ",")
-		for i := range origins {
-			origins[i] = strings.TrimSpace(origins[i])
-		}
-		return origins
-	}
-	return []string{
-		"http://localhost:3000",
-		"http://localhost:8000",
-		"http://127.0.0.1:3000",
-	}
-}
-
-// isOriginAllowed checks if the request origin is in the allowed list.
-func isOriginAllowed(origin string, allowed []string) bool {
-	for _, a := range allowed {
-		if a == origin {
-			return true
-		}
-	}
-	return false
-}
-
-// WithCors applies CORS headers using a whitelist approach.
-func WithCors(next http.Handler) http.Handler {
-	allowedOrigins := getAllowedOrigins()
-
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		origin := r.Header.Get("Origin")
-
-		if origin != "" && isOriginAllowed(origin, allowedOrigins) {
-			w.Header().Set("Access-Control-Allow-Origin", origin)
-		}
-
-		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
-
-		next.ServeHTTP(w, r)
-	})
-}
 
 // WithSecurityHeaders adds OWASP-recommended security headers.
 func WithSecurityHeaders(next http.Handler) http.Handler {
@@ -71,19 +31,124 @@ func WithSecurityHeaders(next http.Handler) http.Handler {
 	})
 }
 
-// WithInternalOnly restricts access to localhost (inter-service communication only).
+const (
+	signatureVersion = "v1"
+	maxSignatureAge  = 30 * time.Second
+	maxInternalBody  = 1024 * 1024
+)
+
+func isLocalRequest(r *http.Request) bool {
+	remoteAddr := r.RemoteAddr
+	if idx := strings.LastIndex(remoteAddr, ":"); idx >= 0 {
+		remoteAddr = remoteAddr[:idx]
+	}
+	remoteAddr = strings.Trim(remoteAddr, "[]")
+	return remoteAddr == "127.0.0.1" || remoteAddr == "::1" || remoteAddr == "localhost"
+}
+
+func canonicalServiceRequest(r *http.Request, body []byte) string {
+	bodyHash := sha256.Sum256(body)
+	return strings.Join([]string{
+		r.Header.Get("X-Service-Version"),
+		strings.ToUpper(r.Method),
+		r.URL.RequestURI(),
+		r.Header.Get("X-Service-Timestamp"),
+		r.Header.Get("X-Service-Nonce"),
+		hex.EncodeToString(bodyHash[:]),
+	}, "\n")
+}
+
+func internalServiceSecret() string {
+	if secret := os.Getenv("INTERNAL_SERVICE_SECRET"); secret != "" {
+		return secret
+	}
+	if os.Getenv("APP_ENV") == "production" {
+		return ""
+	}
+	sessionSecret := os.Getenv("SESSION_SECRET_KEY")
+	if sessionSecret == "" {
+		return ""
+	}
+	derived := sha256.Sum256([]byte(sessionSecret + ":internal-service"))
+	return hex.EncodeToString(derived[:])
+}
+
+// WithInternalOnly authenticates service requests with a body-bound HMAC.
 func WithInternalOnly(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		remoteAddr := r.RemoteAddr
-		// Extract IP from host:port
-		if idx := strings.LastIndex(remoteAddr, ":"); idx >= 0 {
-			remoteAddr = remoteAddr[:idx]
+		if os.Getenv("APP_ENV") != "production" &&
+			os.Getenv("ALLOW_UNSIGNED_LOCAL_INTERNAL") == "true" &&
+			isLocalRequest(r) {
+			next.ServeHTTP(w, r)
+			return
 		}
-		// Strip brackets from IPv6
-		remoteAddr = strings.Trim(remoteAddr, "[]")
 
-		if remoteAddr != "127.0.0.1" && remoteAddr != "::1" && remoteAddr != "localhost" {
-			http.Error(w, "Forbidden: internal endpoint only", http.StatusForbidden)
+		version := r.Header.Get("X-Service-Version")
+		timestampValue := r.Header.Get("X-Service-Timestamp")
+		nonce := r.Header.Get("X-Service-Nonce")
+		signature := r.Header.Get("X-Service-Signature")
+		if version != signatureVersion || len(nonce) != 32 || len(signature) != 64 {
+			http.Error(w, "invalid service signature", http.StatusForbidden)
+			return
+		}
+
+		timestamp, err := strconv.ParseInt(timestampValue, 10, 64)
+		if err != nil || time.Since(time.Unix(timestamp, 0)).Abs() > maxSignatureAge {
+			http.Error(w, "expired service signature", http.StatusForbidden)
+			return
+		}
+		if _, err := hex.DecodeString(nonce); err != nil {
+			http.Error(w, "invalid service signature", http.StatusForbidden)
+			return
+		}
+		providedSignature, err := hex.DecodeString(signature)
+		if err != nil {
+			http.Error(w, "invalid service signature", http.StatusForbidden)
+			return
+		}
+
+		r.Body = http.MaxBytesReader(w, r.Body, maxInternalBody)
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, "request body too large", http.StatusRequestEntityTooLarge)
+			return
+		}
+		r.Body = io.NopCloser(bytes.NewReader(body))
+
+		secret := internalServiceSecret()
+		if len(secret) < 32 {
+			http.Error(w, "service authentication unavailable", http.StatusServiceUnavailable)
+			return
+		}
+		mac := hmac.New(sha256.New, []byte(secret))
+		_, _ = mac.Write([]byte(canonicalServiceRequest(r, body)))
+		if !hmac.Equal(providedSignature, mac.Sum(nil)) {
+			http.Error(w, "invalid service signature", http.StatusForbidden)
+			return
+		}
+
+		if db.Rdb == nil {
+			http.Error(w, "service authentication unavailable", http.StatusServiceUnavailable)
+			return
+		}
+		namespace := os.Getenv("PIPELINE_NAMESPACE")
+		if namespace == "" {
+			namespace = "stratai:v2"
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
+		defer cancel()
+		acquired, err := db.Rdb.SetNX(
+			ctx,
+			fmt.Sprintf("%s:service-nonce:%s", namespace, nonce),
+			"1",
+			time.Minute,
+		).Result()
+		if err != nil {
+			http.Error(w, "service authentication unavailable", http.StatusServiceUnavailable)
+			return
+		}
+		if !acquired {
+			http.Error(w, "replayed service request", http.StatusConflict)
 			return
 		}
 

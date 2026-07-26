@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"math"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
 )
 
 // --- Helper Functions to reduce code duplication ---
@@ -35,7 +36,7 @@ func calculatePlayerVelocity(ctx *models.DemoContext, player *common.Player) flo
 	}
 
 	// Primary: Use entity velocity directly
-	vel := player.Velocity()
+	vel := playerstate.Velocity(player)
 	velocity := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y)
 	if velocity > 0 {
 		return velocity
@@ -121,7 +122,7 @@ func getPlayerVelocityVector(player *common.Player) (float64, float64, float64) 
 	if player == nil {
 		return 0, 0, 0
 	}
-	vel := player.Velocity()
+	vel := playerstate.Velocity(player)
 	return vel.X, vel.Y, vel.Z
 }
 

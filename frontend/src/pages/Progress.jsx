@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import NavigationFrame from '../components/Layout/NavigationFrame';
-import { useUser } from '../context/UserContext';
+import { useAuth } from '../auth/useAuth';
 import { Target, Trophy } from 'lucide-react';
 import { leaderboardSeed, missionSeed, rewardSeed } from '../mocks/progressData';
 import ProgressHeader from '../components/Progress/ProgressHeader';
@@ -32,7 +32,7 @@ const tabContentVariants = {
 };
 
 const Progress = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('missions');
   const [monthReset, setMonthReset] = useState(() => getTimeUntilMonthReset());
   const [refreshCountdown, setRefreshCountdown] = useState(60);

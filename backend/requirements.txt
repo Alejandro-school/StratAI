@@ -5,6 +5,7 @@ httpx
 python-dotenv
 redis
 itsdangerous
-fastapi-users[redis]
 pydantic
 aiosqlite
+cryptography
+prometheus-client

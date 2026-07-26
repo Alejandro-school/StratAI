@@ -1,22 +1,22 @@
 const MAP_CATALOG = [
-  { id: 'de_dust2', name: 'Dust II', radarImage: 'de_dust2_radar_psd.png', coverImage: '/images/maps/de_dust2.png', color: 'var(--color-primary-400)', availableInTacticalMap: true },
-  { id: 'de_mirage', name: 'Mirage', radarImage: 'de_mirage_radar_psd.png', coverImage: '/images/maps/de_mirage.png', color: 'var(--color-primary-500)', availableInTacticalMap: true },
-  { id: 'de_inferno', name: 'Inferno', radarImage: 'de_inferno_radar_psd.png', coverImage: '/images/maps/de_inferno.png', color: 'var(--color-secondary-500)', availableInTacticalMap: true },
+  { id: 'de_dust2', name: 'Dust II', radarImage: 'de_dust2_radar_psd.webp', coverImage: '/images/maps/de_dust2.png', color: 'var(--color-primary-400)', availableInTacticalMap: true },
+  { id: 'de_mirage', name: 'Mirage', radarImage: 'de_mirage_radar_psd.webp', coverImage: '/images/maps/de_mirage.png', color: 'var(--color-primary-500)', availableInTacticalMap: true },
+  { id: 'de_inferno', name: 'Inferno', radarImage: 'de_inferno_radar_psd.webp', coverImage: '/images/maps/de_inferno.png', color: 'var(--color-secondary-500)', availableInTacticalMap: true },
   {
     id: 'de_nuke',
     name: 'Nuke',
-    radarImage: 'de_nuke_radar_psd.png',
+    radarImage: 'de_nuke_radar_psd.webp',
     coverImage: '/images/maps/de_nuke.png',
     color: 'var(--color-primary-700)',
     availableInTacticalMap: true,
-    levels: { upper: 'de_nuke_radar_psd.png', lower: 'de_nuke_lower_radar_psd.png' },
+    levels: { upper: 'de_nuke_radar_psd.webp', lower: 'de_nuke_lower_radar_psd.webp' },
     zThreshold: -500,
   },
-  { id: 'de_overpass', name: 'Overpass', radarImage: 'de_overpass_radar_psd.png', coverImage: '/images/maps/de_overpass.png', color: 'var(--color-primary-300)', availableInTacticalMap: true },
-  { id: 'de_train', name: 'Train', radarImage: 'de_train_radar_psd.png', coverImage: '/images/maps/de_train.png', color: 'var(--color-secondary-600)', availableInTacticalMap: true },
-  { id: 'de_vertigo', name: 'Vertigo', radarImage: 'de_vertigo_radar_psd.png', coverImage: '/images/maps/de_vertigo.png', color: 'var(--color-primary-200)', availableInTacticalMap: false },
-  { id: 'de_anubis', name: 'Anubis', radarImage: 'de_anubis_radar_psd.png', coverImage: '/images/maps/de_anubis.png', color: 'var(--color-primary-600)', availableInTacticalMap: false },
-  { id: 'de_ancient', name: 'Ancient', radarImage: 'de_ancient_radar_psd.png', coverImage: '/images/maps/de_ancient.png', color: 'var(--color-primary-800)', availableInTacticalMap: true },
+  { id: 'de_overpass', name: 'Overpass', radarImage: 'de_overpass_radar_psd.webp', coverImage: '/images/maps/de_overpass.png', color: 'var(--color-primary-300)', availableInTacticalMap: true },
+  { id: 'de_train', name: 'Train', radarImage: 'de_train_radar_psd.webp', coverImage: '/images/maps/de_train.png', color: 'var(--color-secondary-600)', availableInTacticalMap: true, levels: { upper: 'de_train_radar_psd.webp', lower: 'de_train_lower_radar_psd.webp' } },
+  { id: 'de_vertigo', name: 'Vertigo', radarImage: 'de_vertigo_radar_psd.webp', coverImage: '/images/maps/de_vertigo.png', color: 'var(--color-primary-200)', availableInTacticalMap: false, levels: { upper: 'de_vertigo_radar_psd.webp', lower: 'de_vertigo_lower_radar_psd.webp' } },
+  { id: 'de_anubis', name: 'Anubis', radarImage: 'de_anubis_radar_psd.webp', coverImage: '/images/maps/de_anubis.png', color: 'var(--color-primary-600)', availableInTacticalMap: false },
+  { id: 'de_ancient', name: 'Ancient', radarImage: 'de_ancient_radar_psd.webp', coverImage: '/images/maps/de_ancient.png', color: 'var(--color-primary-800)', availableInTacticalMap: true },
 ];
 
 const FALLBACK_MAP_ID = 'de_dust2';
@@ -43,23 +43,3 @@ export const getMapImage = (mapName) => {
   const fallback = MAP_CATALOG.find((map) => map.id === FALLBACK_MAP_ID);
   return match?.coverImage || fallback?.coverImage || '/images/maps/de_dust2.png';
 };
-
-/**
- * Preload all tactical map radar images so switching maps is instant.
- * Called once on module load — radar PNGs are small (~200KB total).
- */
-const preloadRadarImages = () => {
-  const urls = new Set();
-  MAP_CATALOG.forEach((map) => {
-    if (map.radarImage) urls.add(`/maps/${map.radarImage}`);
-    if (map.levels) {
-      Object.values(map.levels).forEach((img) => urls.add(`/maps/${img}`));
-    }
-  });
-  urls.forEach((url) => {
-    const img = new Image();
-    img.src = url;
-  });
-};
-
-preloadRadarImages();

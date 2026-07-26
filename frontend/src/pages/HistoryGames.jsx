@@ -4,7 +4,7 @@ import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavigationFrame from '../components/Layout/NavigationFrame';
-import { useUser } from '../context/UserContext';
+import { useAuth } from '../auth/useAuth';
 import { API_URL } from '../utils/api';
 import useMatchProgress from '../hooks/useMatchProgress';
 
@@ -16,6 +16,27 @@ import MatchTableView from '../components/Stats/MatchTableView';
 
 // Styles
 import '../styles/Stats/matchHistory.css';
+
+const PIPELINE_ERROR_MESSAGES = {
+  demo_url_unavailable: 'Steam ya no ofrece esta demo. Las partidas nuevas se procesarán automáticamente.',
+  cdn_url_expired: 'El enlace de descarga ha caducado; se solicitará uno nuevo automáticamente.',
+  steam_credentials_invalid: 'Steam ha rechazado los códigos del historial. Vuelve a configurarlos.',
+};
+
+function getPipelineMessage(event) {
+  if (!event) return '';
+  if (event.stage === 'discovery') return 'Buscando partidas nuevas...';
+  if (event.stage === 'queued') return 'Partida en cola...';
+  if (event.stage === 'resolving') return 'Preparando la descarga...';
+  if (event.stage === 'downloading') return 'Descargando demo...';
+  if (event.stage === 'analyzing') return 'Analizando demo...';
+  if (event.stage === 'retry_wait') return 'Steam no ha respondido; reintentando automáticamente...';
+  if (event.stage === 'failed') {
+    return PIPELINE_ERROR_MESSAGES[event.error_code]
+      || `No se pudo procesar la partida (${event.error_code || 'error desconocido'}).`;
+  }
+  return '';
+}
 
 const HistoryGames = () => {
   const [games, setGames] = useState([]);
@@ -29,7 +50,7 @@ const HistoryGames = () => {
     search: ''
   });
   
-  const { user } = useUser();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const hasFetchedRef = useRef(false);
   const [refreshCooldown, setRefreshCooldown] = useState(0);
@@ -45,7 +66,7 @@ const HistoryGames = () => {
     if (lastFetch && Date.now() - parseInt(lastFetch, 10) < staleMs) return;
 
     localStorage.setItem(`lastMatchFetch:${user.steam_id}`, Date.now().toString());
-    fetch(`${API_URL}/steam/fetch-new-matches`, {
+    fetch(`${API_URL}/steam/discovery`, {
       method: 'POST',
       credentials: 'include',
     }).catch(() => {});
@@ -70,17 +91,13 @@ const HistoryGames = () => {
   const handleRefreshMatches = useCallback(async () => {
     if (refreshCooldown > 0) return;
     try {
-      const res = await fetch(`${API_URL}/steam/fetch-new-matches`, {
+      const res = await fetch(`${API_URL}/steam/discovery`, {
         method: 'POST',
         credentials: 'include',
       });
-      const data = await res.json();
-      if (data.retry_after) {
-        setRefreshCooldown(data.retry_after);
-      } else {
-        setRefreshCooldown(60);
-        localStorage.setItem(`lastMatchFetch:${user?.steam_id}`, Date.now().toString());
-      }
+      if (!res.ok) throw new Error(`Discovery failed: ${res.status}`);
+      setRefreshCooldown(60);
+      localStorage.setItem(`lastMatchFetch:${user?.steam_id}`, Date.now().toString());
     } catch {
       setRefreshCooldown(10);
     }
@@ -270,14 +287,10 @@ const HistoryGames = () => {
                   {isProcessing ? '⏳ Procesando...' : refreshCooldown > 0 ? `${refreshCooldown}s` : '🔄 Buscar partidas'}
                 </button>
               </div>
-              {isProcessing && latestEvent && (
+              {latestEvent && (isProcessing || latestEvent.stage === 'failed') && (
                 <div className="match-progress-bar">
                   <span className="progress-stage">
-                    {latestEvent.stage === 'gc_resolving' && '🔍 Resolviendo partida...'}
-                    {latestEvent.stage === 'downloading' && '📥 Descargando demo...'}
-                    {latestEvent.stage === 'processing' && '🔧 Analizando demo...'}
-                    {latestEvent.stage === 'completed' && '✅ Completado'}
-                    {latestEvent.stage === 'error' && `❌ Error: ${latestEvent.error || 'desconocido'}`}
+                    {getPipelineMessage(latestEvent)}
                   </span>
                 </div>
               )}

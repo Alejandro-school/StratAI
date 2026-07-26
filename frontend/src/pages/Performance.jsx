@@ -10,7 +10,7 @@ import {
   Users,
 } from 'lucide-react';
 import NavigationFrame from '../components/Layout/NavigationFrame';
-import { useUser } from '../context/UserContext';
+import { useAuth } from '../auth/useAuth';
 import { usePerformanceData } from '../hooks/usePerformanceData';
 import { computeTrend } from '../utils/performanceFormatters';
 import {
@@ -60,7 +60,7 @@ const PerformanceSkeleton = () => (
 );
 
 const Performance = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const { performance, loading, error, retry } = usePerformanceData(user);
   const [activeTab, setActiveTab] = useState('overview');
 

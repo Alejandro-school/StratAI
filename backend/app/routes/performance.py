@@ -7,8 +7,9 @@ import json
 import logging
 from pathlib import Path
 
-from fastapi import APIRouter, Request, Query
+from fastapi import APIRouter, Depends, Query
 
+from ..auth.dependencies import SteamUser, require_steam_user
 from ..utils.performance_aggregator import build_performance_overview
 
 router = APIRouter()
@@ -56,19 +57,24 @@ def _build_player_index() -> list[dict]:
     return sorted(seen.values(), key=lambda p: p["matches"], reverse=True)
 
 @router.get("/steam/performance-overview")
-async def get_performance_overview(request: Request, force_refresh: bool = False):
+async def get_performance_overview(
+    force_refresh: bool = False,
+    user: SteamUser = Depends(require_steam_user),
+):
     """Devuelve el perfil completo y agregado de rendimiento del jugador."""
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        steam_id = "76561198088279615"
-
-    return build_performance_overview(str(steam_id))
+    return build_performance_overview(user.steam_id)
 
 
 @router.get("/steam/performance-stats")
-async def get_performance_stats(request: Request, force_refresh: bool = False):
+async def get_performance_stats(
+    force_refresh: bool = False,
+    user: SteamUser = Depends(require_steam_user),
+):
     """Compat endpoint: conserva la ruta histórica con un payload resumido."""
-    full_payload = await get_performance_overview(request=request, force_refresh=force_refresh)
+    full_payload = await get_performance_overview(
+        force_refresh=force_refresh,
+        user=user,
+    )
 
     overview = full_payload.get("overview", {})
     aim = full_payload.get("aim", {})
@@ -96,7 +102,10 @@ async def get_performance_stats(request: Request, force_refresh: bool = False):
 
 
 @router.get("/steam/player-search")
-async def player_search(q: str = Query("", min_length=0, max_length=100)):
+async def player_search(
+    q: str = Query("", min_length=0, max_length=100),
+    _user: SteamUser = Depends(require_steam_user),
+):
     """Search players by name across all match exports."""
     index = _build_player_index()
 
@@ -109,7 +118,10 @@ async def player_search(q: str = Query("", min_length=0, max_length=100)):
 
 
 @router.get("/steam/player-stats/{steam_id}")
-async def get_player_stats(steam_id: str):
+async def get_player_stats(
+    steam_id: str,
+    _user: SteamUser = Depends(require_steam_user),
+):
     """Return the performance overview for any player by steam_id."""
     import re
     if not re.match(r"^7656\d{13}$", steam_id):

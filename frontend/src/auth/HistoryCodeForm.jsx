@@ -1,40 +1,79 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../utils/api';
 import '../styles/Auth/codeForm.css';
 
 const HistoryCodeForm = () => {
+  const navigate = useNavigate();
   const [authCode, setAuthCode] = useState('');
   const [knownCode, setKnownCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleGetAndSaveShareCodes = async () => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(`${API_URL}/steam/all-sharecodes`, {
-        params: { auth_code: authCode, last_code: knownCode },
-        withCredentials: true,
+  const waitForValidation = async () => {
+    for (let attempt = 0; attempt < 90; attempt += 1) {
+      const response = await fetch(`${API_URL}/steam/pipeline-status`, {
+        credentials: 'include',
       });
-  
-      const shareCodes = Array.isArray(data?.sharecodes) ? data.sharecodes : [];
-      const finalKnown = shareCodes.length ? shareCodes[shareCodes.length - 1] : knownCode;
-  
-      await axios.post(
-        `${API_URL}/steam/save-sharecodes`,
-        {
-          sharecodes: shareCodes,
-          auth_code: authCode,
-          known_code: finalKnown,
-        },
-        { withCredentials: true }
-      );
-  
-      setError('');
-      window.location.href = '/dashboard';
+      if (response.ok) {
+        const status = await response.json();
+        if (status.credential_status === 'configured') return;
+        if (status.credential_status === 'needs_credentials') {
+          throw new Error(
+            'Steam ha rechazado los códigos. Genera un código de autenticación nuevo y comprueba la última partida compartida.',
+          );
+        }
+        if (status.credential_status === 'discovery_failed') {
+          const reason = status.discovery_error_code || 'pipeline_error';
+          throw new Error(
+            `No se pudo consultar Steam (${reason}). El trabajo agotó sus reintentos; vuelve a intentarlo.`,
+          );
+        }
+        const terminalDiscovery = status.jobs?.find(
+          (job) => job.stage === 'failed' && job.error_code === 'steam_credentials_invalid',
+        );
+        if (terminalDiscovery) {
+          throw new Error('Las credenciales de historial ya no son válidas.');
+        }
+      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+    throw new Error(
+      'La validación está tardando más de lo normal. El trabajo sigue guardado; puedes volver a intentarlo desde esta pantalla.',
+    );
+  };
+
+  const handleGetAndSaveShareCodes = async () => {
+    if (!authCode.trim() || !knownCode.trim()) {
+      setError('Introduce ambos códigos para continuar.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch(`${API_URL}/steam/onboarding`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          auth_code: authCode.trim(),
+          known_code: knownCode.trim(),
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const detail = Array.isArray(data.detail)
+          ? data.detail.map((item) => item.msg).join('. ')
+          : data.detail || data.error;
+        throw new Error(detail || 'No se pudo iniciar el descubrimiento.');
+      }
+      await waitForValidation();
+      navigate('/bot-instructions', {
+        replace: true,
+        state: { discoveryJobId: data.discovery_job_id },
+      });
     } catch (err) {
-      console.error(err);
-      setError('Error al obtener o guardar los códigos compartidos');
+      setError(err.message || 'No se pudo guardar la configuración.');
     } finally {
       setLoading(false);
     }
@@ -57,11 +96,12 @@ const HistoryCodeForm = () => {
             </label>
             <input
               id="authCode"
-              type="text"
+              type="password"
               value={authCode}
               onChange={(e) => setAuthCode(e.target.value)}
               placeholder="Ej: 8TRL-ZC9DA-VHYU"
               className="form-input"
+              autoComplete="new-password"
             />
           </div>
 
@@ -77,13 +117,14 @@ const HistoryCodeForm = () => {
               onChange={(e) => setKnownCode(e.target.value)}
               placeholder="Ej: CSGO-XXXX-XXXX-XXXX"
               className="form-input"
+              autoComplete="off"
             />
           </div>
 
           <button 
             className="submit-btn" 
             onClick={handleGetAndSaveShareCodes} 
-            disabled={loading}
+            disabled={loading || !authCode.trim() || !knownCode.trim()}
           >
             {loading ? 'Procesando...' : 'Guardar y Continuar'}
           </button>

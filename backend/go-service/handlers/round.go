@@ -4,8 +4,8 @@ import (
 	"cs2-demo-service/models"
 	"fmt"
 
-	common "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	common "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterRoundHandlers registra handlers para eventos de ronda

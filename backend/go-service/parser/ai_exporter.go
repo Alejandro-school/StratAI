@@ -39,12 +39,9 @@ func ExportAIModels(ctx *models.DemoContext, matchID string, outputDir string, m
 		return fmt.Errorf("failed to create match directory: %w", err)
 	}
 
-	// Get header info for duration and tick rate
-	header := ctx.Parser.Header()
 	tickRate := ctx.Parser.TickRate()
 
-	// Calculate duration in seconds from PlaybackTime (time.Duration)
-	durationSeconds := header.PlaybackTime.Seconds()
+	durationSeconds := ctx.Parser.CurrentTime().Seconds()
 
 	// Use date from parameter if provided
 	dateStr := ""

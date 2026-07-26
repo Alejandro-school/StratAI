@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"math"
 
-	"github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterPlayerHandlers registra handlers para snapshots de jugadores
@@ -43,7 +44,7 @@ func RegisterPlayerHandlers(ctx *models.DemoContext) {
 			}
 
 			// Calcular velocidad desde Velocity() nativo
-			vel := player.Velocity()
+			vel := playerstate.Velocity(player)
 			speed := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y + vel.Z*vel.Z)
 
 			// Calcular distancia recorrida

@@ -2,11 +2,12 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/playerstate"
 	"fmt"
 	"log"
 
-	common "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/common"
-	events "github.com/markus-wa/demoinfocs-golang/v4/pkg/demoinfocs/events"
+	common "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
+	events "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 const (
@@ -405,7 +406,7 @@ func captureGameState(ctx *models.DemoContext, tick int) {
 		}
 
 		pos := player.Position()
-		vel := player.Velocity()
+		vel := playerstate.Velocity(player)
 		viewX := player.ViewDirectionX()
 		viewY := player.ViewDirectionY()
 

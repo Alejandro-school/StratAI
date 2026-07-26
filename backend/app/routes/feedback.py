@@ -6,8 +6,10 @@ import time
 import aiosqlite
 from datetime import datetime, timezone
 from typing import Any
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
+
+from ..auth.dependencies import SteamUser, require_steam_user
 
 router = APIRouter()
 
@@ -55,10 +57,11 @@ async def _ensure_db():
 
 
 @router.post("/feedback")
-async def submit_feedback(request: Request, body: FeedbackInput) -> dict[str, Any]:
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="No autenticado.")
+async def submit_feedback(
+    body: FeedbackInput,
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
+    steam_id = user.steam_id
 
     if body.category not in VALID_CATEGORIES:
         raise HTTPException(
@@ -87,13 +90,12 @@ async def submit_feedback(request: Request, body: FeedbackInput) -> dict[str, An
             )
 
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        username = request.session.get("username", "")
         await db.execute(
             """
             INSERT INTO feedback (steam_id, username, category, message, created_at)
             VALUES (?, ?, ?, ?, ?)
             """,
-            (steam_id, username, body.category, body.message, now),
+            (steam_id, user.username, body.category, body.message, now),
         )
         await db.commit()
 
@@ -101,10 +103,10 @@ async def submit_feedback(request: Request, body: FeedbackInput) -> dict[str, An
 
 
 @router.get("/feedback")
-async def get_feedback(request: Request) -> dict[str, Any]:
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="No autenticado.")
+async def get_feedback(
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
+    steam_id = user.steam_id
 
     await _ensure_db()
 

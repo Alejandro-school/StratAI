@@ -13,16 +13,15 @@ import json
 import logging
 import redis.asyncio as aioredis
 from typing import Any
-from fastapi import APIRouter, Request, HTTPException
-from ..config import REDIS_URL
+from fastapi import APIRouter, Depends, Request, HTTPException
+from ..auth.dependencies import SteamUser, require_steam_user
+from ..config import PIPELINE_NAMESPACE, REDIS_URL
 from ..middleware.rate_limit import get_rate_limiter
 
 # Import utils
 from ..utils.maps import normalize_callout, game_to_radar_percent, CALLOUT_FIXED_POSITIONS
 from ..utils.user_aggregates import (
-    load_user_aggregate,
     load_user_map_data,
-    user_has_aggregates,
     user_has_map_data,
     load_match_history,
     EXPORTS_PATH
@@ -148,127 +147,92 @@ def load_match_reaction_averages(match_folder: str) -> dict[str, float]:
 # ============================================================================
 # PROCESSED DEMOS
 # ============================================================================
+def _load_indexed_match(match_folder: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    with open(os.path.join(match_folder, "players_summary.json"), encoding="utf-8") as handle:
+        players_data = json.load(handle).get("players", [])
+    with open(os.path.join(match_folder, "metadata.json"), encoding="utf-8") as handle:
+        metadata = json.load(handle)
+    return players_data, metadata
+
+
 @router.get("/steam/get-processed-demos")
 @rate_limiter.limit(30, 60)  # 30 requests per minute per IP
-async def get_processed_demos(request: Request) -> dict[str, Any]:
-    """
-    Endpoint para historial de partidas - LEE DESDE data/exports/.
-    
-    Escanea la carpeta exports para encontrar TODAS las partidas
-    donde el usuario ha jugado.
-    """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-
-    steam_id_str = str(steam_id)
-    logging.info(f"[get-processed-demos] Buscando partidas para {steam_id_str}")
-
-    # Escanear directamente data/exports/
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
-    demos = []
-    
-    if not os.path.exists(exports_path):
-        logging.warning(f"[get-processed-demos] exports path does not exist: {exports_path}")
+async def get_processed_demos(
+    request: Request,
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
+    steam_id = user.steam_id
+    match_ids = await redis.zrevrange(
+        f"{PIPELINE_NAMESPACE}:user:{steam_id}:processed",
+        0,
+        199,
+    )
+    if not match_ids:
         return {"matches": []}
-    
-    for folder_name in os.listdir(exports_path):
-        if not folder_name.startswith("match_"):
-            continue
-        
+
+    raw_index = await redis.hmget(f"{PIPELINE_NAMESPACE}:matches", match_ids)
+    indexed_metadata = {
+        match_id: json.loads(raw)
+        for match_id, raw in zip(match_ids, raw_index)
+        if raw
+    }
+    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
+    demos: list[dict[str, Any]] = []
+
+    for match_id in match_ids:
+        folder_name = f"match_{match_id}"
         match_folder = os.path.join(exports_path, folder_name)
-        if not os.path.isdir(match_folder):
-            continue
-        
-        # Path traversal protection
         if not is_safe_path(exports_path, match_folder):
-            logging.warning(f"[get-processed-demos] Path traversal blocked: {folder_name}")
             continue
-        
         try:
-            # 1. Verificar que el usuario está en esta partida
-            players_path = os.path.join(match_folder, "players_summary.json")
-            if not os.path.exists(players_path):
-                continue
-            
-            with open(players_path, 'r', encoding='utf-8') as f:
-                players_json = json.load(f)
-                players_data = players_json.get("players", [])
-            
-            # Buscar al usuario
-            user_player = None
-            for p in players_data:
-                if str(p.get("steam_id", "")) == steam_id_str:
-                    user_player = p
-                    break
-            
-            if not user_player:
-                continue  # Usuario no está en esta partida
-            
-            # 2. Cargar metadata.json
-            metadata_path = os.path.join(match_folder, "metadata.json")
-            if not os.path.exists(metadata_path):
-                continue
-            
-            with open(metadata_path, 'r', encoding='utf-8') as f:
-                metadata = json.load(f)
-            
-            # 3. Determinar resultado para el usuario
-            # El score en metadata es siempre CT-T (primer número CT, segundo T)
-            final_score = metadata.get("final_score", "0-0")
-            scores = final_score.split("-") if "-" in final_score else ["0", "0"]
-            ct_score = int(scores[0].strip()) if scores[0].strip().isdigit() else 0
-            t_score = int(scores[1].strip()) if len(scores) > 1 and scores[1].strip().isdigit() else 0
-            
-            # El campo winner indica qué equipo ganó (CT o T)
-            winner = metadata.get("winner", "")
-            user_team = user_player.get("team", "")
-            
-            # Victoria si el equipo del usuario es el ganador
-            is_victory = user_team == winner
-            result = "victory" if is_victory else "defeat"
-            
-            # Determinar team_score y opponent_score desde la perspectiva del usuario
-            if user_team == "CT":
-                team_score = ct_score
-                opponent_score = t_score
-            else:
-                team_score = t_score
-                opponent_score = ct_score
-            
-            # 4. Construir objeto para el historial
-            demo_data = {
-                "match_id": metadata.get("match_id", folder_name),
-                "map_name": metadata.get("map_name", "unknown"),
-                "match_date": metadata.get("date", ""),
-                "match_duration": metadata.get("duration_seconds", 0),
-                "result": result,
+            players_data, metadata = await asyncio.to_thread(_load_indexed_match, match_folder)
+        except (FileNotFoundError, OSError, ValueError) as exc:
+            logging.warning("Indexed match %s is not readable: %s", match_id, type(exc).__name__)
+            continue
+
+        user_player = next(
+            (player for player in players_data if str(player.get("steam_id", "")) == steam_id),
+            None,
+        )
+        if not user_player:
+            continue
+
+        scores = str(metadata.get("final_score", "0-0")).split("-", 1)
+        ct_score = int(scores[0].strip()) if scores[0].strip().isdigit() else 0
+        t_score = int(scores[1].strip()) if len(scores) > 1 and scores[1].strip().isdigit() else 0
+        user_team = user_player.get("team", "")
+        team_score, opponent_score = (
+            (ct_score, t_score) if user_team == "CT" else (t_score, ct_score)
+        )
+        index_item = indexed_metadata.get(match_id, {})
+        demos.append(
+            {
+                "match_id": match_id,
+                "map_name": metadata.get("map_name", index_item.get("map_name", "unknown")),
+                "match_date": metadata.get("date", index_item.get("date", "")),
+                "match_duration": metadata.get(
+                    "duration_seconds", index_item.get("duration", 0)
+                ),
+                "result": "victory" if user_team == metadata.get("winner", "") else "defeat",
                 "team_score": team_score,
                 "opponent_score": opponent_score,
                 "total_rounds": metadata.get("total_rounds", 0),
                 "user_team": user_team,
-                "players": [{
-                    "steam_id": user_player.get("steam_id"),
-                    "name": user_player.get("name", ""),
-                    "kills": user_player.get("kills", 0),
-                    "deaths": user_player.get("deaths", 0),
-                    "assists": user_player.get("assists", 0),
-                    "kd_ratio": user_player.get("kd_ratio", 0),
-                    "adr": user_player.get("adr", 0),
-                    "hs_percentage": user_player.get("hs_percentage", 0),
-                    "hltv_rating": user_player.get("hltv_rating", 0)
-                }]
+                "players": [
+                    {
+                        "steam_id": user_player.get("steam_id"),
+                        "name": user_player.get("name", ""),
+                        "kills": user_player.get("kills", 0),
+                        "deaths": user_player.get("deaths", 0),
+                        "assists": user_player.get("assists", 0),
+                        "kd_ratio": user_player.get("kd_ratio", 0),
+                        "adr": user_player.get("adr", 0),
+                        "hs_percentage": user_player.get("hs_percentage", 0),
+                        "hltv_rating": user_player.get("hltv_rating", 0),
+                    }
+                ],
             }
-            demos.append(demo_data)
-            
-        except Exception as e:
-            logging.error(f"[get_processed_demos] Error processing {folder_name}: {e}")
-            continue
-    
-    # Ordenar por fecha (más reciente primero)
-    demos.sort(key=lambda x: x.get("match_date", ""), reverse=True)
-    
-    logging.info(f"[get-processed-demos] Encontradas {len(demos)} partidas para {steam_id_str}")
+        )
     return {"matches": demos}
 
 
@@ -277,16 +241,16 @@ async def get_processed_demos(request: Request) -> dict[str, Any]:
 # ============================================================================
 @router.get("/steam/get-match-details/{match_id}")
 @rate_limiter.limit(60, 60)  # 60 requests per minute per IP
-async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
+async def get_match_details(
+    request: Request,
+    match_id: str,
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
     """
     Endpoint para obtener todos los detalles de una partida específica.
     Combina metadata.json y players_summary.json.
     """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-
-    steam_id_str = str(steam_id)
+    steam_id_str = user.steam_id
     
     # Sanitize match_id to prevent path traversal
     try:
@@ -407,6 +371,8 @@ async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
             "current_user_steam_id": steam_id_str
         }
         
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"[get-match-details] Error: {e}")
         raise HTTPException(status_code=500, detail="Error interno al leer datos de la partida.")
@@ -417,7 +383,11 @@ async def get_match_details(request: Request, match_id: str) -> dict[str, Any]:
 # ============================================================================
 @router.get("/steam/get-dashboard-stats")
 @rate_limiter.limit(30, 60)  # 30 requests per minute per IP
-async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> dict[str, Any]:
+async def get_dashboard_stats(
+    request: Request,
+    force_refresh: bool = False,
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
     """
     Endpoint OPTIMIZADO para el dashboard.
     
@@ -433,37 +403,11 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     
     Resultado: Carga 10-20x más rápida que get-processed-demos
     """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    
-    steam_id_str = str(steam_id)
-    
-    # ==========================================================================
-    # FAST PATH: Try to load from pre-calculated aggregate file (O(1))
-    # ==========================================================================
-    if not force_refresh and user_has_aggregates(steam_id_str):
-        logging.info(f"[dashboard-stats] Using pre-calculated aggregate for {steam_id_str}")
-        aggregate = await asyncio.to_thread(load_user_aggregate, steam_id_str)
-        
-        if aggregate:
-            # Return in the expected format
-            return {
-                "steam_id": steam_id_str,
-                "stats": aggregate.get("stats", {}),
-                "aim_stats": aggregate.get("aim_stats", {}),
-                "recent_matches": aggregate.get("recent_matches", []),
-                "weapon_stats": aggregate.get("weapon_stats", []),
-                "map_stats": aggregate.get("map_stats", [])
-            }
-    
-    # ==========================================================================
-    # FALLBACK: Legacy folder scanning (O(n)) - only if aggregates don't exist
-    # ==========================================================================
-    logging.info(f"[dashboard-stats] Fallback to folder scanning for {steam_id_str}")
+    steam_id = user.steam_id
+    steam_id_str = user.steam_id
     
     # 1. Verificar caché (se invalida automáticamente al procesar demos)
-    cache_key = f"dashboard_stats:{steam_id}"
+    cache_key = f"{PIPELINE_NAMESPACE}:dashboard-stats:{steam_id}"
     
     # [DEBUG] Force refresh checking for now to ensure user sees fixed data
     if not force_refresh:
@@ -479,7 +423,12 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     logging.info(f"[dashboard-stats] Cache MISS para {steam_id} - calculando...")
     
     # 2. Obtener lista de match_ids procesadas desde Redis
-    processed_demos_raw: list[str] = await redis.lrange(f"processed_demos:{steam_id}", 0, -1)  # type: ignore
+    match_ids = await redis.zrevrange(
+        f"{PIPELINE_NAMESPACE}:user:{steam_id}:processed",
+        0,
+        499,
+    )
+    processed_demos_raw = [json.dumps({"match_id": match_id}) for match_id in match_ids]
     
     # 3. Cargar datos OPTIMIZADOS desde data/exports/ o Redis
     exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
@@ -496,36 +445,6 @@ async def get_dashboard_stats(request: Request, force_refresh: bool = False) -> 
     agg_shots_fired = 0
     agg_shots_hit = 0
 
-    # FALLBACK: Si Redis está vacío, escanear carpeta exports para encontrar partidas del usuario
-    if not processed_demos_raw:
-        logging.info(f"[dashboard-stats] Redis vacío para {steam_id} - escaneando exports/...")
-        
-        if os.path.exists(exports_path):
-            for folder_name in os.listdir(exports_path):
-                if not folder_name.startswith("match_"):
-                    continue
-                
-                match_folder = os.path.join(exports_path, folder_name)
-                players_summary_path = os.path.join(match_folder, "players_summary.json")
-                
-                if os.path.exists(players_summary_path):
-                    try:
-                        with open(players_summary_path, 'r', encoding='utf-8') as f:
-                            players_data = json.load(f)
-                        
-                        # Buscar si el usuario está en esta partida
-                        for p in players_data.get("players", []):
-                            if str(p.get("steam_id", "")) == str(steam_id):
-                                # Usuario encontrado en esta partida
-                                # FIX: Only replace first occurrence to handle match_match_ cases
-                                match_id = folder_name.replace("match_", "", 1)
-                                processed_demos_raw.append(json.dumps({"match_id": match_id}))
-                                break
-                    except Exception as e:
-                        logging.warning(f"Error leyendo {players_summary_path}: {e}")
-        
-        logging.info(f"[dashboard-stats] Encontradas {len(processed_demos_raw)} partidas en exports para {steam_id}")
-    
     if not processed_demos_raw:
         empty_response = {
             "steam_id": steam_id,
@@ -818,15 +737,15 @@ ZONE_MAPPING = {
 }
 
 @router.get("/steam/get-map-zone-stats")
-async def get_map_zone_stats(request: Request, map_name: str = "de_dust2") -> dict[str, Any]:
+async def get_map_zone_stats(
+    request: Request,
+    map_name: str = "de_dust2",
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
     """
     Endpoint for map zone statistics with side split (T/CT).
     """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    
-    steam_id_str = str(steam_id)
+    steam_id_str = user.steam_id
     logging.info(f"[map-zone-stats] Request for sid={steam_id_str}, map={map_name}")
     
     zone_ids = ["site-a", "site-b", "mid", "long-a", "b-tunnels", "catwalk", "t-spawn", "ct-spawn"]
@@ -951,7 +870,11 @@ async def get_map_zone_stats(request: Request, map_name: str = "de_dust2") -> di
 # ============================================================================
 
 @router.get("/steam/get-callout-stats")
-async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dict[str, Any]:
+async def get_callout_stats(
+    request: Request,
+    map_name: str = "de_dust2",
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
     """
     Granular per-callout statistics with full data: K/D, win rates, weapons, context, etc.
     
@@ -959,11 +882,7 @@ async def get_callout_stats(request: Request, map_name: str = "de_dust2") -> dic
     - Now reads from pre-calculated data/users/{steam_id}/maps/{map_name}.json
     - O(1) file lookup instead of O(n) folder scanning
     """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    
-    steam_id_str = str(steam_id)
+    steam_id_str = user.steam_id
     logging.info(f"[callout-stats] Request for sid={steam_id_str}, map={map_name}")
     
     # ==========================================================================
@@ -1412,7 +1331,11 @@ def cluster_grenade_positions(positions: list, cluster_radius: float = 150.0) ->
     return all_clusters
 
 @router.get("/steam/get-aggregate-grenades")
-async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -> dict[str, Any]:
+async def get_aggregate_grenades(
+    request: Request,
+    map_name: str = "de_dust2",
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
     """
     Aggregate grenade statistics across all matches for a map.
     
@@ -1420,11 +1343,7 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
     - Now reads from pre-calculated data/users/{steam_id}/maps/{map_name}.json
     - O(1) file lookup instead of O(n) folder scanning
     """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    
-    steam_id_str = str(steam_id)
+    steam_id_str = user.steam_id
     logging.info(f"[aggregate-grenades] Request for sid={steam_id_str}, map={map_name}")
     
     # ==========================================================================
@@ -1780,7 +1699,11 @@ async def get_aggregate_grenades(request: Request, map_name: str = "de_dust2") -
 # ============================================================================
 
 @router.get("/steam/get-movement-stats")
-async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> dict[str, Any]:
+async def get_movement_stats(
+    request: Request,
+    map_name: str = "de_dust2",
+    user: SteamUser = Depends(require_steam_user),
+) -> dict[str, Any]:
     """
     Movement analysis for the Hybrid Flow + Heatmap visualization.
     
@@ -1794,12 +1717,8 @@ async def get_movement_stats(request: Request, map_name: str = "de_dust2") -> di
     - Flow lines: Common routes between map areas
     - Metrics: Time-to-site, position frequency, etc.
     """
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
-        raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    
-    steam_id_str = str(steam_id)
-    steam_id_int = int(steam_id)
+    steam_id_str = user.steam_id
+    steam_id_int = int(user.steam_id)
     logging.info(f"[movement-stats] Request for sid={steam_id_str}, map={map_name}")
     
     # ==========================================================================

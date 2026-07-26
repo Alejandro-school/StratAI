@@ -19,6 +19,7 @@ const GlobalOffensive = require("globaloffensive");
 const SteamTotp = require("steam-totp");
 const config = require("./config");
 const { redisClient, ensureRedis } = require("./redisClient");
+const { getFriendStatus } = require("./friendship");
 
 class BotInstance {
   constructor(username, password, sharedSecret, id) {
@@ -37,6 +38,7 @@ class BotInstance {
   _setupListeners() {
     this.client.on("loggedOn", () => {
       console.log(`✅ [Bot ${this.id}] ${this.username} conectado a Steam`);
+      this.friendsListReady = false;
       this.client.setPersona(SteamUser.EPersonaState.Online);
       this.client.gamesPlayed(730);
     });
@@ -44,11 +46,13 @@ class BotInstance {
     this.client.on("error", (err) => {
       console.error(`❌ [Bot ${this.id}] Error: ${err.message}`);
       this.ready = false;
+      this.friendsListReady = false;
     });
 
     this.client.on("disconnected", (eresult, msg) => {
       console.error(`❌ [Bot ${this.id}] Desconectado: ${msg}. Reconectando en ${config.retry.steamReconnect / 1000}s...`);
       this.ready = false;
+      this.friendsListReady = false;
       setTimeout(() => this.login(), config.retry.steamReconnect);
     });
 
@@ -77,17 +81,13 @@ class BotInstance {
 
       try {
         await ensureRedis();
-        let status = "not_friend";
-        let ttl = config.ttl.friendStatus;
-        if (relationship === SteamUser.EFriendRelationship.Friend) {
-          status = "friend";
-        } else if (relationship === SteamUser.EFriendRelationship.RequestRecipient) {
-          status = "pending";
-          ttl = config.ttl.friendStatusPending;
-        }
+        const status = getFriendStatus(relationship);
+        const ttl = status === "pending"
+          ? config.ttl.friendStatusPending
+          : config.ttl.friendStatus;
         await Promise.all([
-          redisClient.set(`friend_status:${sid}`, status, { EX: ttl }),
-          redisClient.set(`friend_status_ts:${sid}`, new Date().toISOString(), { EX: ttl }),
+          redisClient.set(`${config.pipelineNamespace}:friend-status:${sid}`, status, { EX: ttl }),
+          redisClient.set(`${config.pipelineNamespace}:friend-status-ts:${sid}`, new Date().toISOString(), { EX: ttl }),
         ]);
         console.log(`✅ [Bot ${this.id}] Redis friend_status:${sid} → ${status}`);
       } catch (err) {
