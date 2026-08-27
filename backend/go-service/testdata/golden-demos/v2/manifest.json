@@ -1,0 +1,1530 @@
+{
+  "schema_id": "stratai.golden_demo_corpus@2",
+  "corpus_id": "golden-demos-v2",
+  "version": 2,
+  "training_allowed": false,
+  "candidate_count": 71,
+  "selected_count": 40,
+  "candidate_pool_sha256": "2b97f133cf428dba2d94dcd0256ca29ddfb12ebcd931b297e41926a7f08cc175",
+  "selection_sha256": "e46cf35869d5f335d483f67d7ec7dba7208f2f22d96dc6a6fe24486b2a9152e1",
+  "contracts": {
+    "parser_schema_version": "v16",
+    "export_format_version": "3.8.0",
+    "canonical_validator_version": "stratai.canonical_validator@2",
+    "golden_demo_validator_version": "stratai.golden_demo_corpus_validator@2",
+    "semantic_runner_version": "stratai.golden_demo_semantic_runner@1"
+  },
+  "selection_algorithm": {
+    "algorithm_id": "fixed_map_quota_sha256_ascending@1",
+    "candidate_rule": "regular_non_symlink_dot_dem_with_pbdems2_header",
+    "dedupe_key": "sha256",
+    "order_key": "sha256_ascending_within_map",
+    "map_order": [
+      "de_mirage",
+      "de_dust2",
+      "de_nuke",
+      "de_ancient",
+      "de_anubis",
+      "de_inferno",
+      "de_cache",
+      "de_vertigo"
+    ],
+    "map_quotas": {
+      "de_mirage": 15,
+      "de_dust2": 6,
+      "de_nuke": 4,
+      "de_ancient": 4,
+      "de_anubis": 4,
+      "de_inferno": 4,
+      "de_cache": 2,
+      "de_vertigo": 1
+    }
+  },
+  "gate_1": {
+    "status": "not_proven",
+    "evidence": "partial_semantic_evidence_insufficient",
+    "semantic_reprocessing_required": true
+  },
+  "semantic_validation": {
+    "status": "partial",
+    "evaluated_count": 13,
+    "passed_count": 8,
+    "quarantined_count": 5,
+    "cases": [
+      {
+        "source_alias": "demo-1ccba02276110cbe79bc",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-47f2f9386fffc7dbf734",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-4ca7288a95b457eb46b1",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-738809a898fe865a630e",
+        "status": "quarantined",
+        "checks": [
+          "source_identity"
+        ],
+        "failure_domain": "roster_identity",
+        "reason": "unreconciled_playing_participant",
+        "notes": [],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-7dcdba41c8acbda42410",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-8285776487b08bd1fdd8",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-8fa28599e56e679b2d75",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-960613e832b5fdc08efb",
+        "status": "quarantined",
+        "checks": [
+          "source_identity"
+        ],
+        "failure_domain": "objective_round_reconciliation",
+        "reason": "incomplete_final_round",
+        "notes": [
+          "objective_round_mismatch_detected"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-a66f8d53e771dbfb2035",
+        "status": "quarantined",
+        "checks": [
+          "source_identity"
+        ],
+        "failure_domain": "roster_identity",
+        "reason": "unreconciled_playing_participant",
+        "notes": [],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-a7de2c870fb80029088a",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-b4e099394a60759dd235",
+        "status": "quarantined",
+        "checks": [
+          "source_identity"
+        ],
+        "failure_domain": "objective_round_reconciliation",
+        "reason": "objective_quality_gate_rejected",
+        "notes": [],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-cf7b04e8324911c1efc6",
+        "status": "quarantined",
+        "checks": [
+          "source_identity"
+        ],
+        "failure_domain": "objective_round_reconciliation",
+        "reason": "objective_quality_gate_rejected",
+        "notes": [],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      },
+      {
+        "source_alias": "demo-002749caeea753703c16",
+        "status": "passed",
+        "checks": [
+          "canonical_export",
+          "canonical_validator",
+          "gomaxprocs_1_4_tree_hash_equality",
+          "source_identity"
+        ],
+        "failure_domain": null,
+        "reason": null,
+        "notes": [
+          "decision_family_peek_hold_or_reposition_observed",
+          "decision_family_spacing_or_trade_connection_observed",
+          "map_geometry_loaded"
+        ],
+        "runner_version": "stratai.golden_demo_semantic_runner@1"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_alias": "demo-1ccba02276110cbe79bc",
+      "sha256": "1ccba02276110cbe79bcb548053834fe04bdbc78afa0bb32495be36b0083bf4a",
+      "bytes": 245371082,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-47f2f9386fffc7dbf734",
+      "sha256": "47f2f9386fffc7dbf7343d02f1184006d750ed7c42a5b38df0cc0ca55068b62b",
+      "bytes": 247845975,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-4ca7288a95b457eb46b1",
+      "sha256": "4ca7288a95b457eb46b10577b6792b5b35713e3b00fd6cc8f8abd490c8c3aa69",
+      "bytes": 177631895,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 3,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-738809a898fe865a630e",
+      "sha256": "738809a898fe865a630e0d19cc0cee7677f4d11d30df593438d37b8b4da81006",
+      "bytes": 281755315,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 4,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-7dcdba41c8acbda42410",
+      "sha256": "7dcdba41c8acbda4241005fbd83f147264de5ed6a25354fd14a61eacdcc37bda",
+      "bytes": 287529336,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 5,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-8285776487b08bd1fdd8",
+      "sha256": "8285776487b08bd1fdd8bcf3cf3fc5b83a70fc0add7750551697810b0a69a1e5",
+      "bytes": 244468854,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 6,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-8fa28599e56e679b2d75",
+      "sha256": "8fa28599e56e679b2d75cf7fc34d18b96a43bee9a0936465d38591d0932f1b60",
+      "bytes": 175080768,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 7,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-960613e832b5fdc08efb",
+      "sha256": "960613e832b5fdc08efb2886e22a527c6944fd3189aab554db3d0d5d16f9e309",
+      "bytes": 66981085,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 8,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-a66f8d53e771dbfb2035",
+      "sha256": "a66f8d53e771dbfb2035057cf02f874f69ba99da3e2c29fc268ae322bcb82751",
+      "bytes": 259840149,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 9,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-a7de2c870fb80029088a",
+      "sha256": "a7de2c870fb80029088a0bd8c137ca6a66669e03d5d7b40ae77cd815b3407964",
+      "bytes": 301764019,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 10,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-b4e099394a60759dd235",
+      "sha256": "b4e099394a60759dd2352827b9015365495a636e0863d8d7b71137a26ba919ec",
+      "bytes": 313505871,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 11,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-cf7b04e8324911c1efc6",
+      "sha256": "cf7b04e8324911c1efc68fc72e114a3e9f201e7e231063e9ae51336acbb5d486",
+      "bytes": 121298123,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 12,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-d3be0323637489d2f4c4",
+      "sha256": "d3be0323637489d2f4c4abe6b69bf31a36275e638ca41830114845873ddfb412",
+      "bytes": 155759362,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 13,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-e0e75f11cd4172a1b212",
+      "sha256": "e0e75f11cd4172a1b212167a036303e09fb52806f1a62d39da5163f4dd8b3563",
+      "bytes": 297975119,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 14,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-f9010ac0d354be2ba556",
+      "sha256": "f9010ac0d354be2ba5565c1394f8dcc941b6df12645a393151182460bf55944a",
+      "bytes": 352370958,
+      "map": "de_mirage",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 15,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-0019d0aecca6b1affd62",
+      "sha256": "0019d0aecca6b1affd628f6f24727fdcfc2422e74f3ed257ad4d4af3105ae0cb",
+      "bytes": 209823414,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-002749caeea753703c16",
+      "sha256": "002749caeea753703c16a162e288a20f10e599cdfd3309bcc41ff17fd15f4f7e",
+      "bytes": 142862346,
+      "map": "de_dust2",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-02683149fc0b36714bdd",
+      "sha256": "02683149fc0b36714bdd3123d0de3ba6c4371fa9dbd1de2ab522ff1f96e217bd",
+      "bytes": 258587592,
+      "map": "de_dust2",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 3,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-1062db55790e073de571",
+      "sha256": "1062db55790e073de57100f9c84ef75324c1826fdcc9be7f45f25ec324792ebf",
+      "bytes": 336276760,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 4,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-126b745751d713625864",
+      "sha256": "126b745751d713625864b9657d9e2856164a1bd301ef91dadd4b0846fe4fbdd1",
+      "bytes": 124139071,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 5,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-18ea2c36b59032dddbba",
+      "sha256": "18ea2c36b59032dddbbae85eef395ca64cafec31fb6a0ec7fa126ccfe62d1422",
+      "bytes": 226336259,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 6,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-3232850bdd1a7b7470ca",
+      "sha256": "3232850bdd1a7b7470ca67cb28ba7d3874f362609ced2854053bbb76ab59f5bb",
+      "bytes": 252862606,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 7,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-5549e75eb64cf0d2a6e7",
+      "sha256": "5549e75eb64cf0d2a6e7263ca30285634377f2447a9f93fc7471c43ba300b98a",
+      "bytes": 214114402,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 8,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-66b5eb3ed610a685c6c2",
+      "sha256": "66b5eb3ed610a685c6c2c3ca6470e5addf7c35e3660ab670e3519137c59becc8",
+      "bytes": 220807995,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 9,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-6dc6402c0fd10bb9846c",
+      "sha256": "6dc6402c0fd10bb9846ca0cda94a7783cd03566b189e6412565f527be40eaf6a",
+      "bytes": 261699833,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 10,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-6fe6b2944ba2dbca7654",
+      "sha256": "6fe6b2944ba2dbca765416da8373beac925c62472f9a2e9a4ca85bcb626398e2",
+      "bytes": 317096822,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 11,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-86f5dfb054e28e368fcc",
+      "sha256": "86f5dfb054e28e368fcc42466fd2e67e1f89f91e05dcc5831b077a5e686d0f93",
+      "bytes": 366263309,
+      "map": "de_dust2",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 12,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-8752e9baad3f72796bf3",
+      "sha256": "8752e9baad3f72796bf34110ed41ed189708894150a70d0b4a4eda384d61c488",
+      "bytes": 314539083,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 13,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-9273e1d7e4687ee40146",
+      "sha256": "9273e1d7e4687ee40146ed014ab5495e32ad0c9c8765d3ab4f2ab0d785c6aa96",
+      "bytes": 270058282,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 14,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-cfbfb05c1c25b50e1d89",
+      "sha256": "cfbfb05c1c25b50e1d89a638ddc25cd1ffb53c5147699390c136aeee6a96fd12",
+      "bytes": 270527801,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 15,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-d7ca5c23dcfeec89baa7",
+      "sha256": "d7ca5c23dcfeec89baa76a531c6047befab4e13a2f964fdd33b9678f5241a74a",
+      "bytes": 3643461,
+      "map": "de_dust2",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 16,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-e2e9d80abee85f659ebd",
+      "sha256": "e2e9d80abee85f659ebd718182684f3ea6f2b505f9738ffb0a63cf3dd20fc71b",
+      "bytes": 243505937,
+      "map": "de_dust2",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 17,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-19e9f06f0a71cdb570e1",
+      "sha256": "19e9f06f0a71cdb570e1e538e713e4a3b7a1979d250646c0a2398282821008d5",
+      "bytes": 192774973,
+      "map": "de_nuke",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-542f5dad0f28d40180a6",
+      "sha256": "542f5dad0f28d40180a68dbc7cb33d39e90a1d253402b69752ee07dd6b8e0d3e",
+      "bytes": 197875068,
+      "map": "de_nuke",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-5537d4ec3396e3692e9d",
+      "sha256": "5537d4ec3396e3692e9d2273f8c95844d2ec2f18791d1fc400debe654d435972",
+      "bytes": 239416441,
+      "map": "de_nuke",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 3,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-5b0d58e8cd4d186ab7d7",
+      "sha256": "5b0d58e8cd4d186ab7d765895c850d447560572c5f457fdb207f3cfa4c7d257a",
+      "bytes": 235406586,
+      "map": "de_nuke",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 4,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-86058469da7bbf625e34",
+      "sha256": "86058469da7bbf625e341a4391b743d341019c0e23e43ad0d60de0dfb1c29eaa",
+      "bytes": 238199444,
+      "map": "de_nuke",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 5,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-ad4bd504da954af8ccf1",
+      "sha256": "ad4bd504da954af8ccf19d57a3a317aacf2552da5491cb72d2811582ee38cb5f",
+      "bytes": 591613090,
+      "map": "de_nuke",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 6,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-c3d66246b25159eef51f",
+      "sha256": "c3d66246b25159eef51f414eac609b7290431536fd685081f6e0af232277a9d9",
+      "bytes": 269183345,
+      "map": "de_nuke",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 7,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-c952871845ed229df7a9",
+      "sha256": "c952871845ed229df7a917a05704e60bf5e5dac82e6f96bf546c5127021a20f9",
+      "bytes": 288095722,
+      "map": "de_nuke",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 8,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-df348e5b901e0385e17c",
+      "sha256": "df348e5b901e0385e17c84b879379a9df092bb04eecba2e9e772b825299c50e4",
+      "bytes": 235748729,
+      "map": "de_nuke",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 9,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-e659471388d8ece16ffe",
+      "sha256": "e659471388d8ece16ffe0169afe1f7de99442dfaca547ded3cd717ff5cb3c5f0",
+      "bytes": 265502807,
+      "map": "de_nuke",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 10,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-0737aa4e92f7ffd0b579",
+      "sha256": "0737aa4e92f7ffd0b5794493a9460632d2528227837f66a250786882bbc0600d",
+      "bytes": 230829679,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-302650685fd6dd0dca7e",
+      "sha256": "302650685fd6dd0dca7eb81ec4419646a5af147fdbf7d4aa164d8cd2430732f6",
+      "bytes": 247008519,
+      "map": "de_ancient",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-59882ef868a5b029277c",
+      "sha256": "59882ef868a5b029277cddf3c0cbd4869fc595b822dd86141a363207b65997f9",
+      "bytes": 252608711,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 3,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-7413a5bab0e340dbe930",
+      "sha256": "7413a5bab0e340dbe93030972e47a18d5fdcea1fc74016f06d70cda8886b4c5b",
+      "bytes": 200133305,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 4,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-8a564b42a3af4d17378b",
+      "sha256": "8a564b42a3af4d17378bf39df2ea526abe3cb795e74647aed8b9e25aa96bf756",
+      "bytes": 335239139,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 5,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-8a6746c0fa5edf611385",
+      "sha256": "8a6746c0fa5edf6113854d6380e26386a31b601f16bd1c24f605fd45c8a9e954",
+      "bytes": 141946169,
+      "map": "de_ancient",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 6,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-9698c092e69da600d07c",
+      "sha256": "9698c092e69da600d07ca22f8f0d1e3739aafd910cce772a57f25fbf7c468d14",
+      "bytes": 408732629,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 7,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-a303a15c03b446ecf4a7",
+      "sha256": "a303a15c03b446ecf4a78a13b071933025d02f4015576843796f6d439854bc6a",
+      "bytes": 229700441,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 8,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-c92c67dc496ae37e120d",
+      "sha256": "c92c67dc496ae37e120d2d0bba6bba9545d00f1a3280dd25503343d1df1f24d0",
+      "bytes": 452504838,
+      "map": "de_ancient",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 9,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-09c2f99251b6f98c9b9a",
+      "sha256": "09c2f99251b6f98c9b9ae7ca65dfec7831b14a972deef30e10c57731da148d91",
+      "bytes": 204550301,
+      "map": "de_anubis",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-160eeb0b8cc36db70244",
+      "sha256": "160eeb0b8cc36db70244c486e9e02638d5d79247d918f06f2ec278c5c3e9ac02",
+      "bytes": 287191360,
+      "map": "de_anubis",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-4b0eb98d20bea15cb25b",
+      "sha256": "4b0eb98d20bea15cb25b5569ccdba7bfb1312a28652170d483acfdc54bef5dd1",
+      "bytes": 348142157,
+      "map": "de_anubis",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 3,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-876a897caa126e626ec1",
+      "sha256": "876a897caa126e626ec159a3c51b53f6a58a3dfc65fb29fb0645571fc4aac8f9",
+      "bytes": 344122557,
+      "map": "de_anubis",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 4,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-8ac115cec8387aa16666",
+      "sha256": "8ac115cec8387aa16666dfc0c3adb76663bf3b23e043e406cbc1881c05027882",
+      "bytes": 311888416,
+      "map": "de_anubis",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 5,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-a55c4b17a0fad8c25491",
+      "sha256": "a55c4b17a0fad8c254910e0a688f7c408e1c5893a1b5580816d7b7cc61c2c483",
+      "bytes": 204096964,
+      "map": "de_anubis",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 6,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-ab606d4886099297bbb0",
+      "sha256": "ab606d4886099297bbb0d1f0b928b157adb3f48fb96b5e506ed64bcbd05c39ce",
+      "bytes": 363609881,
+      "map": "de_anubis",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 7,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-ad3c7c80773f8fa422c1",
+      "sha256": "ad3c7c80773f8fa422c1786864e4b2f9f29dcab8ea08d4462843b3c2073515fa",
+      "bytes": 275872827,
+      "map": "de_anubis",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 8,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-eb41048511deabfbf70a",
+      "sha256": "eb41048511deabfbf70a2005cd1525f2d0a7280d1db3a2f4098e6d15775bfe4c",
+      "bytes": 306552343,
+      "map": "de_anubis",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 9,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-322c01b601860dfadbca",
+      "sha256": "322c01b601860dfadbca7d52c59f63dcf2e727a3dc5eeb460489c28b5f9461a1",
+      "bytes": 210665545,
+      "map": "de_inferno",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-381f2b09ce664ac25940",
+      "sha256": "381f2b09ce664ac25940ffd4a82b67c4239e785cfeb78e26d3017f12f3a1f0b5",
+      "bytes": 293774642,
+      "map": "de_inferno",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-a62c0a2c4331e44f978e",
+      "sha256": "a62c0a2c4331e44f978ed27e2b184f90328d03fc73f2a3abadc4a084def122ed",
+      "bytes": 613748788,
+      "map": "de_inferno",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 3,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-aee29a9bf65e270bad81",
+      "sha256": "aee29a9bf65e270bad814443f8278cbd764e5166abf08a1e6a991df6f2f6ab6d",
+      "bytes": 342130703,
+      "map": "de_inferno",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 4,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-b5abb95502edb4296c3d",
+      "sha256": "b5abb95502edb4296c3da41c67c361381f0b7838b9a738fa7175c27bb3d68938",
+      "bytes": 239831763,
+      "map": "de_inferno",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 5,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-cbb8046bf526916c81a5",
+      "sha256": "cbb8046bf526916c81a5119e4d7938aa435736461e4965156e4147bf3dbb8a12",
+      "bytes": 293877735,
+      "map": "de_inferno",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 6,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-d127e93a2e08052b4c17",
+      "sha256": "d127e93a2e08052b4c1729cb66dc37ca382bd73190f41304914bbdc146e761e5",
+      "bytes": 243628650,
+      "map": "de_inferno",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 7,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-e2a0bf2e958678e52536",
+      "sha256": "e2a0bf2e958678e525360532d9112bcfc4266b78b4aab78b9a525542b4f5d816",
+      "bytes": 530263258,
+      "map": "de_inferno",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": false,
+        "rank_within_map": 8,
+        "reason": "outside_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-e5710c75deebde58e791",
+      "sha256": "e5710c75deebde58e791572741774ad09c119b25bd18949d215faaf5c1446744",
+      "bytes": 232613705,
+      "map": "de_cache",
+      "source_pool": "stratai_runtime",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "checksum_linked_legacy_bundle"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-edc1c4ea9e4f6f895833",
+      "sha256": "edc1c4ea9e4f6f895833de7b2ae8b017cd3fbe54f251fabf0cbd3e51b6dfddc0",
+      "bytes": 373033522,
+      "map": "de_cache",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "persisted_sidecar_verified",
+        "ownership_evidence": "faceit_download_owner@1",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 2,
+        "reason": "selected_within_map_quota"
+      }
+    },
+    {
+      "source_alias": "demo-fcebf8f36a6eae85a474",
+      "sha256": "fcebf8f36a6eae85a4740e5163a3878ad728c0c6af3962d84b24055c90ba9ba3",
+      "bytes": 191254440,
+      "map": "de_vertigo",
+      "source_pool": "faceit_offline",
+      "provenance": {
+        "inventory_method": "sha256_file_audit@1",
+        "checksum_evidence": "audit_recomputed",
+        "ownership_evidence": "unrecorded",
+        "bundle_linkage": "none"
+      },
+      "selection": {
+        "selected": true,
+        "rank_within_map": 1,
+        "reason": "selected_within_map_quota"
+      }
+    }
+  ]
+}

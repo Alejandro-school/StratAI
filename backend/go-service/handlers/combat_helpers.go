@@ -2,75 +2,114 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/objective"
 	"cs2-demo-service/pkg/playerstate"
 	"math"
 
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
 )
 
+type playerVelocityObservation struct {
+	Horizontal       *float64
+	X                *float64
+	Y                *float64
+	Z                *float64
+	Available        bool
+	Source           string
+	Observation      string
+	MeasurementTicks *int
+	ObservedTick     *int
+}
+
+type ObjectiveClockPhase string
+
+const (
+	ObjectiveClockPreplant ObjectiveClockPhase = "preplant"
+	ObjectiveClockPlanting ObjectiveClockPhase = "planting"
+	ObjectiveClockPlanted  ObjectiveClockPhase = "planted"
+	ObjectiveClockDefusing ObjectiveClockPhase = "defusing"
+	ObjectiveClockResolved ObjectiveClockPhase = "resolved"
+)
+
+// ObjectiveClockSnapshot keeps the round and bomb clocks separate while also
+// exposing the phase-relevant value used by the existing combat contract.
+type ObjectiveClockSnapshot struct {
+	Phase               ObjectiveClockPhase
+	PhaseTimeRemaining  float64
+	RoundClockRemaining *float64
+	BombTimeRemaining   *float64
+}
+
 // --- Helper Functions to reduce code duplication ---
 
-// getTickRate returns the demo tick rate with fallback to 128
+// getTickRate returns the demo tick rate with a CS2 demo fallback.
 func getTickRate(ctx *models.DemoContext) float64 {
 	if rate := ctx.Parser.TickRate(); rate > 0 {
 		return rate
 	}
-	return 128.0
+	return 64.0
 }
 
 // ticksToMs converts tick delta to milliseconds using the demo's tick rate
 func ticksToMs(ctx *models.DemoContext, deltaTicks int) float64 {
 	tickRate := getTickRate(ctx)
-	if deltaTicks == 0 {
-		// Minimum 1 tick interval for "instant" events
-		return 1000.0 / tickRate
-	}
 	return float64(deltaTicks) * (1000.0 / tickRate)
 }
 
-// calculatePlayerVelocity calculates 2D velocity with fallback logic
-// Returns velocity in units/second
-func calculatePlayerVelocity(ctx *models.DemoContext, player *common.Player) float64 {
+func isBombPlantedNow(ctx *models.DemoContext) bool {
+	return ensureObjectiveTracker(ctx).Snapshot().IsPlantedNow
+}
+
+func observePlayerVelocity(ctx *models.DemoContext, player *common.Player) playerVelocityObservation {
 	if player == nil {
-		return 0
-	}
-
-	// Primary: Use entity velocity directly
-	vel := playerstate.Velocity(player)
-	velocity := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y)
-	if velocity > 0 {
-		return velocity
-	}
-
-	steamID := player.SteamID64
-
-	// Fallback 1: Calculate from 1-tick position difference
-	if prevPos, ok := ctx.PreviousPlayerPosition[steamID]; ok {
-		currPos := player.Position()
-		dist := math.Sqrt(math.Pow(float64(currPos.X-prevPos.X), 2) + math.Pow(float64(currPos.Y-prevPos.Y), 2))
-		tickRate := getTickRate(ctx)
-		velocity = dist * tickRate
-		if velocity > 0 {
-			return velocity
+		return playerVelocityObservation{
+			Source:      string(playerstate.VelocitySourceNotApplicable),
+			Observation: models.VelocityObservationUnavailable,
 		}
 	}
 
-	// Fallback 2: Calculate from sampled interval
-	if lastPos, ok := ctx.LastPositions[steamID]; ok {
-		currPos := player.Position()
-		dist := math.Sqrt(math.Pow(float64(currPos.X-lastPos.X), 2) + math.Pow(float64(currPos.Y-lastPos.Y), 2))
-
-		deltaTicks := ctx.Parser.GameState().IngameTick() - ctx.LastTick
-		if deltaTicks > 0 {
-			tickRate := getTickRate(ctx)
-			timeSeconds := float64(deltaTicks) / tickRate
-			if timeSeconds > 0 {
-				velocity = dist / timeSeconds
-			}
-		}
+	motion := ctx.PlayerMotion.ObservePlayer(
+		player,
+		ctx.ActualRoundNumber,
+		ctx.Parser.GameState().IngameTick(),
+		getTickRate(ctx),
+	)
+	if motion.Available {
+		return velocityObservationFromEstimate(motion, models.VelocityObservationCurrentTick)
 	}
+	if player.IsAlive() {
+		return velocityObservationFromEstimate(motion, models.VelocityObservationUnavailable)
+	}
+	lastAliveMotion, ok := ctx.PlayerMotion.LastAlive(player.SteamID64, ctx.ActualRoundNumber)
+	if !ok {
+		return velocityObservationFromEstimate(motion, models.VelocityObservationUnavailable)
+	}
+	return velocityObservationFromEstimate(lastAliveMotion, models.VelocityObservationLastAlive)
+}
 
-	return velocity
+func velocityObservationFromEstimate(
+	estimate playerstate.MotionEstimate,
+	observationKind string,
+) playerVelocityObservation {
+	observation := playerVelocityObservation{
+		Available:   estimate.Available,
+		Source:      string(estimate.Source),
+		Observation: observationKind,
+	}
+	if !estimate.Available {
+		observation.Observation = models.VelocityObservationUnavailable
+		return observation
+	}
+	horizontal := estimate.HorizontalSpeed()
+	x, y, z := estimate.Vector.X, estimate.Vector.Y, estimate.Vector.Z
+	measurementTicks, observedTick := estimate.IntervalTicks, estimate.ObservedTick
+	observation.Horizontal = &horizontal
+	observation.X = &x
+	observation.Y = &y
+	observation.Z = &z
+	observation.MeasurementTicks = &measurementTicks
+	observation.ObservedTick = &observedTick
+	return observation
 }
 
 // getPlayerTeamString returns "CT" or "T" based on player team
@@ -113,17 +152,6 @@ func getZoomLevelPtr(weapon string, zoomLevel int) *int {
 		return &zoomLevel
 	}
 	return nil
-}
-
-// --- NEW ENRICHMENT HELPERS ---
-
-// getPlayerVelocityVector returns the 3D velocity components
-func getPlayerVelocityVector(player *common.Player) (float64, float64, float64) {
-	if player == nil {
-		return 0, 0, 0
-	}
-	vel := playerstate.Velocity(player)
-	return vel.X, vel.Y, vel.Z
 }
 
 // isPlayerAirborne checks if player is in the air (jumping/falling)
@@ -199,43 +227,96 @@ func hasDefuser(player *common.Player) bool {
 // - If bomb planted: time until explosion (40s max)
 // - If bomb not planted: time remaining in round (115s max standard)
 func calculateRoundTimeRemaining(ctx *models.DemoContext) float64 {
+	return CaptureObjectiveClockSnapshot(ctx).PhaseTimeRemaining
+}
+
+// CaptureObjectiveClockSnapshot returns causal timer values for the current
+// parser tick. BombTimeRemaining is nil outside an active post-plant.
+func CaptureObjectiveClockSnapshot(ctx *models.DemoContext) ObjectiveClockSnapshot {
 	gs := ctx.Parser.GameState()
 	if gs == nil {
-		return 0
+		return ObjectiveClockSnapshot{Phase: ObjectiveClockPreplant}
 	}
 
 	tickRate := getTickRate(ctx)
 	currentTick := gs.IngameTick()
 
-	// CS2 standard round time: 115 seconds (1:55)
-	const roundDuration = 115.0
-	// C4 timer: 40 seconds
-	const bombTimer = 40.0
+	roundDuration := 115.0
+	bombTimer := 40.0
+	if rules := gs.Rules(); rules != nil {
+		if duration, err := rules.RoundTime(); err == nil && duration > 0 {
+			roundDuration = duration.Seconds()
+		}
+		if duration, err := rules.BombTime(); err == nil && duration > 0 {
+			bombTimer = duration.Seconds()
+		}
+	}
 
-	// If bomb is planted, use bomb timer
-	if ctx.BombPlanted && ctx.BombTick > 0 {
-		bombTicksElapsed := currentTick - ctx.BombTick
+	objectiveState := ensureObjectiveTracker(ctx).Snapshot()
+	return buildObjectiveClockSnapshot(
+		objectiveState,
+		currentTick,
+		ctx.FreezeTimeEndTick,
+		tickRate,
+		roundDuration,
+		bombTimer,
+	)
+}
+
+func buildObjectiveClockSnapshot(
+	objectiveState objective.Snapshot,
+	currentTick, freezeTimeEndTick int,
+	tickRate, roundDuration, bombTimer float64,
+) ObjectiveClockSnapshot {
+	if tickRate <= 0 {
+		tickRate = 64
+	}
+	roundTimeRemaining := roundDuration
+	if freezeTimeEndTick > 0 {
+		roundTicksElapsed := max(0, currentTick-freezeTimeEndTick)
+		roundTimeRemaining = roundDuration - float64(roundTicksElapsed)/tickRate
+	}
+	roundTimeRemaining = roundedNonNegativeClock(roundTimeRemaining)
+
+	if objectiveState.Phase == objective.PhaseResolved {
+		return ObjectiveClockSnapshot{
+			Phase:              ObjectiveClockResolved,
+			PhaseTimeRemaining: 0,
+		}
+	}
+	clockPhase := ObjectiveClockPreplant
+	switch objectiveState.State {
+	case objective.StatePlanting:
+		clockPhase = ObjectiveClockPlanting
+	case objective.StatePlanted:
+		clockPhase = ObjectiveClockPlanted
+	case objective.StateDefusing:
+		clockPhase = ObjectiveClockDefusing
+	}
+
+	if objectiveState.IsPlantedNow && objectiveState.PlantTick > 0 {
+		bombTicksElapsed := max(0, currentTick-objectiveState.PlantTick)
 		bombTimeElapsed := float64(bombTicksElapsed) / tickRate
-		bombTimeRemaining := bombTimer - bombTimeElapsed
-		if bombTimeRemaining < 0 {
-			bombTimeRemaining = 0
+		bombTimeRemaining := roundedNonNegativeClock(bombTimer - bombTimeElapsed)
+		return ObjectiveClockSnapshot{
+			Phase:              clockPhase,
+			PhaseTimeRemaining: bombTimeRemaining,
+			BombTimeRemaining:  &bombTimeRemaining,
 		}
-		return math.Round(bombTimeRemaining*100) / 100 // Round to 2 decimals
 	}
 
-	// Calculate round time remaining based on freeze time end
-	if ctx.FreezeTimeEndTick > 0 {
-		roundTicksElapsed := currentTick - ctx.FreezeTimeEndTick
-		roundTimeElapsed := float64(roundTicksElapsed) / tickRate
-		roundTimeRemaining := roundDuration - roundTimeElapsed
-		if roundTimeRemaining < 0 {
-			roundTimeRemaining = 0
-		}
-		return math.Round(roundTimeRemaining*100) / 100 // Round to 2 decimals
+	return ObjectiveClockSnapshot{
+		Phase:               clockPhase,
+		PhaseTimeRemaining:  roundTimeRemaining,
+		RoundClockRemaining: &roundTimeRemaining,
 	}
+}
 
-	// Fallback if freeze time end not tracked yet
-	return roundDuration
+func roundedNonNegativeClock(seconds float64) float64 {
+	if seconds < 0 {
+		seconds = 0
+	}
+	return math.Round(seconds*100) / 100
 }
 
 // getCounterStrafeRating retrieves the counter-strafe quality score

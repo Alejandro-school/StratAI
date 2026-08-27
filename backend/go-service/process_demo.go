@@ -40,7 +40,7 @@ func main() {
 
 	// For local testing, date would normally come from Steam GC via Node service
 	// Pass empty string since we don't have GC access here
-	err = parser.ExportAIModels(ctx, matchID, outputDir)
+	err = parser.ExportMatchBundle(ctx, matchID, outputDir)
 	if err != nil {
 		log.Fatalf("Error exporting AI models: %v", err)
 	}

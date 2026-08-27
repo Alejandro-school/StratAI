@@ -72,6 +72,7 @@ export const ZoomableMapContainer = ({
     if (zoomLevel <= 1) return;
     // Only respond to primary button
     if (e.button !== 0) return;
+    if (e.target.closest('button, a, input')) return;
     stopDragging();
     dragState.current = {
       dragging: true,
@@ -102,6 +103,32 @@ export const ZoomableMapContainer = ({
 
   const isZoomed = zoomLevel > 1;
 
+  const handleKeyDown = useCallback((event) => {
+    if (!isZoomed) return;
+
+    const offsets = {
+      ArrowLeft: { x: 4, y: 0 },
+      ArrowRight: { x: -4, y: 0 },
+      ArrowUp: { x: 0, y: 4 },
+      ArrowDown: { x: 0, y: -4 },
+    };
+    const offset = offsets[event.key];
+
+    if (event.key === 'Home') {
+      event.preventDefault();
+      setTranslate({ x: 0, y: 0 });
+      return;
+    }
+
+    if (!offset) return;
+    event.preventDefault();
+    setTranslate((current) => clampTranslate(
+      current.x + offset.x,
+      current.y + offset.y,
+      zoomLevel
+    ));
+  }, [clampTranslate, isZoomed, zoomLevel]);
+
   return (
     <div
       ref={containerRef}
@@ -116,6 +143,14 @@ export const ZoomableMapContainer = ({
       onPointerUp={stopDragging}
       onPointerCancel={stopDragging}
       onLostPointerCapture={stopDragging}
+      onKeyDown={handleKeyDown}
+      role="region"
+      aria-label={
+        isZoomed
+          ? 'Radar ampliado. Arrastra o usa las flechas para desplazarte; Inicio centra el mapa.'
+          : 'Radar táctico interactivo'
+      }
+      tabIndex={0}
     >
       {children}
     </div>
@@ -149,7 +184,7 @@ const MapZoomControls = ({
     <div className="map-zoom-controls">
       {showHint && (
         <div className="zoom-hint">
-          <Focus size={12} />
+          <Focus size={12} aria-hidden="true" />
           <span>Haz zoom para ver detalle</span>
         </div>
       )}
@@ -160,27 +195,30 @@ const MapZoomControls = ({
 
       <div className="zoom-buttons">
         <button
+          type="button"
           className={`zoom-btn ${zoomLevel >= MAX_ZOOM ? 'disabled' : ''}`}
           onClick={zoomIn}
           disabled={zoomLevel >= MAX_ZOOM}
           aria-label="Acercar"
         >
-          <ZoomIn size={16} />
+          <ZoomIn size={16} aria-hidden="true" />
         </button>
         <button
+          type="button"
           className={`zoom-btn ${zoomLevel <= MIN_ZOOM ? 'disabled' : ''}`}
           onClick={zoomOut}
           disabled={zoomLevel <= MIN_ZOOM}
           aria-label="Alejar"
         >
-          <ZoomOut size={16} />
+          <ZoomOut size={16} aria-hidden="true" />
         </button>
         <button
+          type="button"
           className="zoom-btn reset"
           onClick={onReset}
           aria-label="Restablecer zoom"
         >
-          <Maximize2 size={14} />
+          <Maximize2 size={14} aria-hidden="true" />
         </button>
       </div>
     </div>

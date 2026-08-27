@@ -12,12 +12,16 @@ import (
 func RegisterRoundHandlers(ctx *models.DemoContext) {
 	// Round start
 	ctx.Parser.RegisterEventHandler(func(e events.RoundStart) {
-		// ctx.CurrentRound is managed by timeline handlers now (based on GameState)
-		// ctx.CurrentRound++
+		gs := ctx.Parser.GameState()
+		if gs.IsWarmupPeriod() {
+			return
+		}
+		roundNumber := gs.TotalRoundsPlayed() + 1
+
 		ctx.InRound = true
-		ctx.BombPlanted = false
-		ctx.BombSite = ""
-		ctx.BombTick = 0
+		ensureObjectiveTracker(ctx).BeginRound(roundNumber, gs.IngameTick())
+		ctx.LastActiveWeapon = make(map[uint64]models.ActiveWeaponObservation, 16)
+		ctx.PlayerMotion.Reset()
 
 		// Clear completed grenade trajectories from previous round
 		ctx.CompletedGrenadeTrajectories = make(map[int]*models.GrenadeTrajectoryEvent)
@@ -33,21 +37,21 @@ func RegisterRoundHandlers(ctx *models.DemoContext) {
 		// FIX Bug 3: Clear HP tracking for new round
 		ctx.LastKnownHealth = make(map[uint64]int)
 
-		roundData := models.RoundData{
-			Round:   ctx.CurrentRound,
-			Winner:  "",
-			Reason:  "",
-			CTScore: 0,
-			TScore:  0,
-		}
-
-		ctx.MatchData.Rounds = append(ctx.MatchData.Rounds, roundData)
+		ensureMatchRound(ctx.MatchData, roundNumber)
 	})
 
 	// Freeze time end
 	ctx.Parser.RegisterEventHandler(func(e events.RoundFreezetimeEnd) {
 		// Marcar inicio de ronda activa
+		gs := ctx.Parser.GameState()
+		if !objectiveRoundActive(ctx) {
+			return
+		}
 		ctx.InRound = true
+		roundNumber := currentObjectiveRound(ctx)
+		ensureObjectiveTracker(ctx).NativeSnapshot(
+			nativeObjectiveObservation(ctx, roundNumber, gs.IngameTick()),
+		)
 
 		// FIX: Capture all players' active weapons BEFORE combat starts
 		// This ensures victims who don't deal damage have their weapon tracked
@@ -59,49 +63,82 @@ func RegisterRoundHandlers(ctx *models.DemoContext) {
 			if sid == 0 {
 				continue
 			}
-			if activeWeapon := player.ActiveWeapon(); activeWeapon != nil {
-				ctx.LastActiveWeapon[sid] = activeWeapon.String()
-			}
+			cacheActiveWeapon(ctx, player, ctx.Parser.GameState().IngameTick())
 		}
 	})
 
 	// Round end
 	ctx.Parser.RegisterEventHandler(func(e events.RoundEnd) {
-		ctx.InRound = false
-
-		if len(ctx.MatchData.Rounds) > 0 {
-			lastRound := &ctx.MatchData.Rounds[len(ctx.MatchData.Rounds)-1]
-
-			// Winner usando enum nativo
-			switch e.Winner {
-			case common.TeamTerrorists:
-				lastRound.Winner = "T"
-			case common.TeamCounterTerrorists:
-				lastRound.Winner = "CT"
-			}
-
-			// Reason usando enum nativo
-			lastRound.Reason = fmt.Sprintf("%v", e.Reason)
-
-			// Scores actuales
-			gs := ctx.Parser.GameState()
-			lastRound.CTScore = gs.TeamCounterTerrorists().Score()
-			lastRound.TScore = gs.TeamTerrorists().Score()
-
-			// Bomba plantada en esta ronda
-			if ctx.BombPlanted {
-				lastRound.BombPlanted = true
-				lastRound.BombSite = ctx.BombSite
-				lastRound.BombTick = ctx.BombTick
-			}
+		gs := ctx.Parser.GameState()
+		roundNumber := gs.TotalRoundsPlayed()
+		tracker := ensureObjectiveTracker(ctx)
+		tracker.EndRound(roundNumber, gs.IngameTick())
+		objectiveSummary, ok := tracker.RoundSummary(roundNumber)
+		if !ok {
+			objectiveSummary.Round = roundNumber
 		}
+		applyMatchRoundResult(
+			ctx.MatchData,
+			roundNumber,
+			roundWinnerLabel(e.Winner),
+			fmt.Sprintf("%v", e.Reason),
+			gs.TeamCounterTerrorists().Score(),
+			gs.TeamTerrorists().Score(),
+			objectiveSummary.WasPlanted,
+			objectiveSummary.Site,
+			objectiveSummary.PlantTick,
+		)
 
 		// NEW: Consolidate raw combat events into duels
 		ConsolidateDuels(ctx)
-
-		// Capturar supervivientes y su equipo al final de la ronda
-		captureSurvivors(ctx)
 	})
+}
+
+func ensureMatchRound(match *models.MatchData, roundNumber int) {
+	for _, round := range match.Rounds {
+		if round.Round == roundNumber {
+			return
+		}
+	}
+	match.Rounds = append(match.Rounds, models.RoundData{Round: roundNumber})
+}
+
+func roundWinnerLabel(winner common.Team) string {
+	switch winner {
+	case common.TeamTerrorists:
+		return "T"
+	case common.TeamCounterTerrorists:
+		return "CT"
+	default:
+		return ""
+	}
+}
+
+func applyMatchRoundResult(
+	match *models.MatchData,
+	roundNumber int,
+	winner, reason string,
+	ctScore, tScore int,
+	bombPlanted bool,
+	bombSite string,
+	bombTick int,
+) {
+	for index := range match.Rounds {
+		if match.Rounds[index].Round != roundNumber {
+			continue
+		}
+		round := &match.Rounds[index]
+		round.Winner = winner
+		round.Reason = reason
+		round.CTScore = ctScore
+		round.TScore = tScore
+		if bombPlanted {
+			round.BombPlanted = true
+			round.BombSite = bombSite
+			round.BombTick = bombTick
+		}
+		return
+	}
 }
 
 // captureSurvivors captura el estado de todos los jugadores al final de la ronda

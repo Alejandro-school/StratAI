@@ -17,6 +17,7 @@ from ..security.service_auth import build_service_headers
 
 router = APIRouter()
 redis = aioredis.from_url(REDIS_URL, decode_responses=True)
+TEMPORARY_INTERFACE_MODE = True
 SHARECODE_PATTERN = re.compile(
     r"^CSGO-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}-[A-Za-z0-9]{5}$"
 )
@@ -116,6 +117,23 @@ async def discovery(user: SteamUser = Depends(require_steam_user)) -> dict[str, 
 
 @router.get("/steam/pipeline-status")
 async def pipeline_status(user: SteamUser = Depends(require_steam_user)) -> dict[str, Any]:
+    if TEMPORARY_INTERFACE_MODE:
+        credentials_key = f"{PIPELINE_NAMESPACE}:user:{user.steam_id}:credentials"
+        auth_code, known_code = await redis.hmget(
+            credentials_key,
+            "auth_code",
+            "known_code",
+        )
+        is_configured = bool(auth_code and known_code)
+        return {
+            "configured": is_configured,
+            "credential_status": "configured" if is_configured else "missing",
+            "discovery_error_code": None,
+            "counts": {},
+            "jobs": [],
+            "temporary_interface_mode": True,
+        }
+
     path = f"/internal/v2/pipeline-status/{user.steam_id}"
     headers = build_service_headers("GET", path)
     try:

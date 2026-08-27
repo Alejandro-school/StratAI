@@ -8,6 +8,8 @@ import (
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
+const sprayMovingThresholdUPS = 50.0
+
 // RegisterSprayAnalyzer registra el analizador de sprays
 func RegisterSprayAnalyzer(ctx *models.DemoContext) {
 	parser := ctx.Parser
@@ -36,26 +38,34 @@ func RegisterSprayAnalyzer(ctx *models.DemoContext) {
 			spray.ShotCount++
 
 			// Actualizar pitch/yaw acumulado
-			spray.PitchSum += float32(math.Abs(float64(e.Shooter.ViewDirectionX())))
-			spray.YawSum += float32(math.Abs(float64(e.Shooter.ViewDirectionY())))
+			yaw, pitch := playerstate.ViewAngles(e.Shooter)
+			spray.PitchSum += float32(math.Abs(float64(pitch)))
+			spray.YawSum += float32(math.Abs(float64(yaw)))
 
 		} else {
 			// Iniciar nuevo spray (aunque sea de 1 disparo)
-			vel := playerstate.Velocity(e.Shooter)
-			speed := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y + vel.Z*vel.Z)
+			motion := ctx.PlayerMotion.ObservePlayer(
+				e.Shooter,
+				ctx.ActualRoundNumber,
+				currentTick,
+				ctx.Parser.TickRate(),
+			)
+			wasMoving, movementAvailable := classifySprayMovement(motion)
 
+			yaw, pitch := playerstate.ViewAngles(e.Shooter)
 			ctx.CurrentSpray[sid] = &models.SprayData{
-				StartTick:   currentTick,
-				ShotCount:   1,
-				Hits:        0,
-				Headshots:   0,
-				StartPitch:  e.Shooter.ViewDirectionX(),
-				StartYaw:    e.Shooter.ViewDirectionY(),
-				PitchSum:    float32(math.Abs(float64(e.Shooter.ViewDirectionX()))),
-				YawSum:      float32(math.Abs(float64(e.Shooter.ViewDirectionY()))),
-				WasMoving:   speed > 50,
-				WasCrouched: e.Shooter.IsDucking(),
-				Weapon:      e.Weapon.String(),
+				StartTick:         currentTick,
+				ShotCount:         1,
+				Hits:              0,
+				Headshots:         0,
+				StartPitch:        pitch,
+				StartYaw:          yaw,
+				PitchSum:          float32(math.Abs(float64(pitch))),
+				YawSum:            float32(math.Abs(float64(yaw))),
+				WasMoving:         wasMoving,
+				MovementAvailable: movementAvailable,
+				WasCrouched:       e.Shooter.IsDucking(),
+				Weapon:            e.Weapon.String(),
 			}
 		}
 
@@ -126,20 +136,28 @@ func finalizeSpray(ctx *models.DemoContext, sid uint64, spray *models.SprayData)
 
 	// Guardar análisis de spray
 	sprayAnalysis := models.SprayAnalysis{
-		Round:       ctx.CurrentRound,
-		StartTick:   spray.StartTick,
-		EndTick:     ctx.Parser.GameState().IngameTick(),
-		ShotCount:   spray.ShotCount,
-		Hits:        spray.Hits,
-		Headshots:   spray.Headshots,
-		Weapon:      spray.Weapon,
-		HitRate:     hitRate,
-		Quality:     quality,
-		WasMoving:   spray.WasMoving,
-		WasCrouched: spray.WasCrouched,
+		Round:             ctx.CurrentRound,
+		StartTick:         spray.StartTick,
+		EndTick:           ctx.Parser.GameState().IngameTick(),
+		ShotCount:         spray.ShotCount,
+		Hits:              spray.Hits,
+		Headshots:         spray.Headshots,
+		Weapon:            spray.Weapon,
+		HitRate:           hitRate,
+		Quality:           quality,
+		WasMoving:         spray.WasMoving,
+		MovementAvailable: spray.MovementAvailable,
+		WasCrouched:       spray.WasCrouched,
 	}
 
 	playerData.Sprays = append(playerData.Sprays, sprayAnalysis)
+}
+
+func classifySprayMovement(motion playerstate.MotionEstimate) (bool, bool) {
+	if !motion.Available {
+		return false, false
+	}
+	return motion.HorizontalSpeed() > sprayMovingThresholdUPS, true
 }
 
 // classifySprayQuality clasifica la calidad del control de spray

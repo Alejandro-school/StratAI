@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { AlertTriangle, Check, ClipboardPlus, Clock3, MonitorPlay, PlayCircle } from 'lucide-react';
-import Replay2DViewer from '../Stats/Replay2DViewer';
+
+const Replay2DViewer = lazy(() => import('../../features/replay2d/components/Replay2DViewerV2'));
 
 const AnalysisReplayStage = ({
   match,
@@ -43,12 +44,14 @@ const AnalysisReplayStage = ({
 
       <div className="analysis-replay-frame">
         {matchId ? (
-          <Replay2DViewer
-            matchId={matchId}
-            initialRound={1}
-            fitMode="contain"
-            onAvailabilityChange={setIsReplayAvailable}
-          />
+          <Suspense fallback={<div className="analysis-replay-empty" role="status">Cargando replay…</div>}>
+            <Replay2DViewer
+              matchId={matchId}
+              initialRound={1}
+              fitMode="contain"
+              onAvailabilityChange={setIsReplayAvailable}
+            />
+          </Suspense>
         ) : (
           <div className="analysis-replay-empty">
             <MonitorPlay size={34} />

@@ -12,23 +12,127 @@
 #       ├── de_mirage.json
 #       └── ...
 
-import os
+import hashlib
 import json
 import logging
+import os
+import tempfile
 from datetime import datetime
-from typing import Any, Optional
 from pathlib import Path
+from typing import Any, Optional
+
+from ..matches.canonical_repository import iter_canonical_matches
+from ..matches.match_web_projection import (
+    project_match_metadata,
+    project_player_summary,
+)
 
 # Base path for user data (relative to this file's location)
 BASE_DATA_PATH = Path(__file__).parent.parent.parent / "data"
 USERS_PATH = BASE_DATA_PATH / "users"
 EXPORTS_PATH = BASE_DATA_PATH / "exports"
+USER_MAP_SCHEMA_VERSION = 3
 
 # Competitive CS2 maps
 COMPETITIVE_MAPS = [
     "de_dust2", "de_mirage", "de_inferno", "de_nuke",
     "de_overpass", "de_anubis", "de_ancient", "de_vertigo"
 ]
+
+
+def _write_json_atomic(path: Path, data: Any) -> None:
+    """Write JSON through a temporary file on the destination filesystem."""
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    temporary_path = Path(temporary_name)
+
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as file:
+            descriptor = -1
+            json.dump(data, file, indent=2, ensure_ascii=False)
+            file.flush()
+            os.fsync(file.fileno())
+        os.replace(temporary_path, path)
+    except Exception:
+        if descriptor >= 0:
+            os.close(descriptor)
+        temporary_path.unlink(missing_ok=True)
+        raise
+
+
+def build_user_map_source_signature(steam_id: str, map_name: str) -> dict:
+    """Describe the exports that contribute to one user's map aggregate."""
+    match_ids = []
+    latest_source_mtime_ns = 0
+    steam_id_str = str(steam_id)
+
+    for match_export in iter_canonical_matches(EXPORTS_PATH):
+        metadata = project_match_metadata(match_export)
+        players_summary = project_player_summary(match_export)
+        if str(metadata.get("map_name", "")) != str(map_name):
+            continue
+
+        players = players_summary.get("players", [])
+        if not any(
+            isinstance(player, dict)
+            and str(player.get("steam_id", "")) == steam_id_str
+            for player in players
+        ):
+            continue
+
+        summary_match_id = players_summary.get("match_id")
+        match_id = metadata.get("match_id") or summary_match_id
+        match_ids.append(str(match_id or match_export.match_id))
+        latest_source_mtime_ns = max(
+            latest_source_mtime_ns,
+            match_export.manifest_mtime_ns(),
+        )
+
+    sorted_match_ids = sorted(match_ids)
+    match_ids_sha256 = hashlib.sha256(
+        "\n".join(sorted_match_ids).encode("utf-8")
+    ).hexdigest()
+    return {
+        "match_count": len(sorted_match_ids),
+        "latest_source_mtime_ns": latest_source_mtime_ns,
+        "match_ids_sha256": match_ids_sha256,
+    }
+
+
+def attach_user_map_source_snapshot(
+    steam_id: str,
+    map_name: str,
+    data: dict,
+) -> dict:
+    """Return map data carrying the current source freshness contract."""
+    return {
+        **data,
+        "schema_version": USER_MAP_SCHEMA_VERSION,
+        "source_snapshot": build_user_map_source_signature(steam_id, map_name),
+    }
+
+
+def is_user_map_data_fresh(
+    steam_id: str,
+    map_name: str,
+    data: Optional[dict] = None,
+) -> bool:
+    """Check whether saved map data still represents the current exports."""
+    stored_data = data if data is not None else load_user_map_data(
+        steam_id,
+        map_name,
+    )
+    if not isinstance(stored_data, dict):
+        return False
+    if stored_data.get("schema_version") != USER_MAP_SCHEMA_VERSION:
+        return False
+
+    return stored_data.get("source_snapshot") == (
+        build_user_map_source_signature(steam_id, map_name)
+    )
 
 
 # =============================================================================
@@ -107,14 +211,14 @@ def save_user_aggregate(steam_id: str, data: dict) -> bool:
     """
     ensure_user_directory(steam_id)
     path = get_user_aggregate_path(steam_id)
-    
-    # Add metadata
-    data["last_updated"] = datetime.now().isoformat()
-    data["steam_id"] = str(steam_id)
-    
+    payload = {
+        **data,
+        "last_updated": datetime.now().isoformat(),
+        "steam_id": str(steam_id),
+    }
+
     try:
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+        _write_json_atomic(path, payload)
         return True
     except Exception as e:
         logging.error(f"[user_aggregates] Error saving aggregate for {steam_id}: {e}")
@@ -155,15 +259,19 @@ def save_user_map_data(steam_id: str, map_name: str, data: dict) -> bool:
     """
     ensure_user_directory(steam_id)
     path = get_user_map_path(steam_id, map_name)
-    
-    # Add metadata
-    data["last_updated"] = datetime.now().isoformat()
-    data["steam_id"] = str(steam_id)
-    data["map_name"] = map_name
-    
+
     try:
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+        payload = attach_user_map_source_snapshot(
+            steam_id,
+            map_name,
+            {
+                **data,
+                "last_updated": datetime.now().isoformat(),
+                "steam_id": str(steam_id),
+                "map_name": map_name,
+            },
+        )
+        _write_json_atomic(path, payload)
         return True
     except Exception as e:
         logging.error(f"[user_aggregates] Error saving map data for {steam_id}/{map_name}: {e}")
@@ -218,14 +326,15 @@ def add_match_to_history(steam_id: str, match_info: dict) -> bool:
     # Sort by date (newest first)
     matches.sort(key=lambda x: x.get("date", ""), reverse=True)
     
+    payload = {
+        "steam_id": str(steam_id),
+        "last_updated": datetime.now().isoformat(),
+        "total_matches": len(matches),
+        "matches": matches,
+    }
+
     try:
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump({
-                "steam_id": str(steam_id),
-                "last_updated": datetime.now().isoformat(),
-                "total_matches": len(matches),
-                "matches": matches
-            }, f, indent=2, ensure_ascii=False)
+        _write_json_atomic(path, payload)
         return True
     except Exception as e:
         logging.error(f"[user_aggregates] Error saving match history for {steam_id}: {e}")
@@ -279,6 +388,7 @@ def create_empty_map_aggregate(map_name: str) -> dict:
     This structure contains all data needed for Dashboard visualizations.
     """
     return {
+        "schema_version": USER_MAP_SCHEMA_VERSION,
         "steam_id": "",
         "map_name": map_name,
         "last_updated": "",

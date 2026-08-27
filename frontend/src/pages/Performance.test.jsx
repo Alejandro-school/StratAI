@@ -1,120 +1,225 @@
 import React from 'react';
-import { fireEvent, screen, render } from '@testing-library/react';
-import { vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { afterEach, beforeEach, vi } from 'vitest';
 import Performance from './Performance';
 
 vi.mock('../components/Layout/NavigationFrame', () => ({
   default: ({ children }) => <div data-testid="navigation-frame">{children}</div>,
 }));
 
-vi.mock('../auth/useAuth', () => ({
-  useAuth: () => ({ user: { steamid: '123' } }),
+vi.mock('../features/performance/scene/PerformanceScene', () => ({
+  default: () => <div data-testid="performance-scene" />,
 }));
 
-vi.mock('../hooks/usePerformanceData', () => ({
-  usePerformanceData: vi.fn(),
-}));
-
-const { usePerformanceData } = await import('../hooks/usePerformanceData');
-
-const performancePayload = {
+const createPayload = (name = 'Kerchak', steamId = '76561198116485358') => ({
+  steam_id: steamId,
+  player: { steam_id: steamId, name },
+  filters: { available_matches: 18, limit: 60, map_name: null },
   overview: {
-    total_matches: 12,
-    wins: 7,
-    losses: 5,
-    win_rate: 58.3,
-    kills: 240,
-    deaths: 190,
-    assists: 54,
-    total_damage: 9600,
-    kd_ratio: 1.26,
-    adr: 83.2,
-    hs_pct: 46,
-    kast: 72,
-    hltv_rating: 1.12,
-    impact_rating: 1.2,
+    total_matches: 18,
+    wins: 10,
+    losses: 8,
+    win_rate: 55.6,
+    kills: 406,
+    deaths: 246,
+    assists: 88,
+    headshots: 180,
+    total_damage: 48798,
+    kd_ratio: 1.65,
+    adr: 135.9,
+    hs_pct: 44.3,
+    kast: 78.3,
+    hltv_rating: 1.7,
+    impact_rating: 2.1,
   },
-  sides: { ct_rating: 1.16, t_rating: 1.05, ct_adr: 86, t_adr: 80 },
+  sides: { ct_rating: 1.81, t_rating: 1.58, ct_adr: 141.2, t_adr: 128.4 },
   aim: {
-    accuracy_overall: 28,
-    time_to_damage_avg_ms: 440,
-    crosshair_placement_avg_error: 6.2,
-    crosshair_placement_peek: 7,
-    crosshair_placement_hold: 5.8,
-    shots_fired: 1000,
-    shots_hit: 280,
-    body_part_hits: { head: 110, chest: 90, stomach: 40, left_arm: 10, right_arm: 10, left_leg: 8, right_leg: 12 },
+    accuracy_overall: 34.1,
+    reaction_time_avg_ms: 412,
+    time_to_damage_avg_ms: 521,
+    crosshair_placement_avg_error: 8.4,
+    shots_fired: 1190,
+    shots_hit: 406,
+    body_part_hits: { head: 180, chest: 150, stomach: 30, left_arm: 15, right_arm: 15, left_leg: 8, right_leg: 8 },
   },
   combat: {
-    opening_duels_attempted: 40,
-    opening_duels_won: 23,
-    opening_duels_lost: 17,
-    opening_success_rate: 57.5,
-    trade_kills: 30,
-    traded_deaths: 22,
-    flash_assists: 8,
-    clutches: { '1v1': 3, '1v2': 1, '1v3': 0, '1v4': 0, '1v5': 0 },
-    multikills: { '2k': 16, '3k': 4, '4k': 1, ace: 0 },
+    opening_duels_attempted: 93,
+    opening_duels_won: 54,
+    opening_duels_lost: 39,
+    opening_success_rate: 58.1,
+    trade_kills: 62,
+    traded_deaths: 41,
+    flash_assists: 24,
+    clutches: { '1v1': 8, '1v2': 3, '1v3': 1, '1v4': 0, '1v5': 0 },
+    multikills: { '2k': 48, '3k': 15, '4k': 4, ace: 1 },
+  },
+  duels: {
+    total: 210,
+    kills_won: 118,
+    kills_lost: 82,
+    win_rate: 59,
+    encounters: [{
+      name: 'Rival Uno',
+      wins: 7,
+      losses: 5,
+      user_weapon: 'AK-47',
+      rival_weapon: 'M4A1-S',
+      user_shots: 42,
+      rival_shots: 39,
+      user_accuracy: 35,
+      rival_accuracy: 31,
+      user_first_damage_ms: 420,
+      rival_first_damage_ms: 470,
+      area: 'Middle',
+      openings: 2,
+      through_smoke: 1,
+      wallbangs: 0,
+      trades: 1,
+      user_blind: 0,
+    }],
+  },
+  mechanics: {
+    engagements: 210,
+    reaction_time_avg_ms: 412,
+    time_to_first_damage_avg_ms: 521,
+    crosshair_error_avg: 8.4,
+    accuracy: 35,
+    shots: 600,
+    hits: 210,
+    stationary_pct: 76,
+    moving_pct: 24,
+    ducking_pct: 13,
+    blind_pct: 5,
+    through_smoke_pct: 7,
+    wallbang_pct: 2,
+    hold_pct: 62,
+    peek_pct: 38,
   },
   utility: {
-    grenades_thrown_total: 180,
-    flashes_thrown: 60,
-    enemies_flashed_total: 82,
-    flash_duration_total: 120,
-    enemies_flashed_per_flash: 1.36,
-    blind_time_per_flash: 2,
-    he_thrown: 30,
-    he_damage_per_nade: 19,
-    molotovs_thrown: 24,
-    molotov_damage_per_nade: 11,
-    smokes_thrown: 42,
-    utility_damage: 920,
-    grenade_damage: { he: 570, molotov: 264, flash: 0, smoke: 0 },
+    grenades_thrown_total: 260,
+    flashes_thrown: 92,
+    enemies_flashed_total: 126,
+    enemies_flashed_per_flash: 1.37,
+    blind_time_per_flash: 2.8,
+    he_thrown: 61,
+    he_damage_per_nade: 24.2,
+    molotovs_thrown: 47,
+    molotov_damage_per_nade: 18.1,
+    smokes_thrown: 60,
+    utility_damage: 2630,
+    grenade_damage: { he: 1476, molotov: 851, flash: 0, smoke: 0 },
   },
   weapons: [
-    { weapon: 'ak47', kills: 90, damage: 3400, accuracy: 31, hs_pct: 55 },
-    { weapon: 'm4a1', kills: 60, damage: 2400, accuracy: 29, hs_pct: 41 },
+    { weapon: 'AK-47', kills: 180, headshots: 95, damage: 18500, shots_fired: 590, shots_hit: 185, accuracy: 31.4, hs_pct: 52.8 },
+    { weapon: 'M4A1-S', kills: 110, headshots: 44, damage: 12100, shots_fired: 360, shots_hit: 126, accuracy: 35, hs_pct: 40 },
+    { weapon: 'AWP', kills: 55, headshots: 4, damage: 6800, shots_fired: 120, shots_hit: 58, accuracy: 48.3, hs_pct: 7.3 },
   ],
   maps: [
-    { map: 'de_mirage', wins: 4, losses: 1, win_rate: 80, avg_kd: 1.4, avg_adr: 90, avg_rating: 1.26, matches: 5, sides: { ct_rating: 1.3, t_rating: 1.1, ct_adr: 92, t_adr: 84, strongest_side: 'CT' }, top_weapons: [] },
+    { map: 'de_mirage', matches: 6, wins: 4, losses: 2, win_rate: 66.7, avg_kd: 1.4, avg_adr: 132, avg_kast: 78, avg_rating: 1.62, avg_impact: 1.9, sides: { ct_rating: 1.7, t_rating: 1.54, ct_adr: 137, t_adr: 126 } },
+    { map: 'de_ancient', matches: 4, wins: 2, losses: 2, win_rate: 50, avg_kd: 1.2, avg_adr: 118, avg_kast: 74, avg_rating: 1.31, avg_impact: 1.5, sides: { ct_rating: 1.4, t_rating: 1.22, ct_adr: 124, t_adr: 112 } },
+    { map: 'de_cache', matches: 3, wins: 2, losses: 1, win_rate: 66.7, avg_kd: 1.1, avg_adr: 106, avg_kast: 71, avg_rating: 1.18, avg_impact: 1.3, sides: { ct_rating: 1.22, t_rating: 1.14, ct_adr: 111, t_adr: 101 } },
   ],
   match_history: [
-    { match_id: 'm1', map: 'de_mirage', result: 'W', final_score: '13-9', kills: 22, deaths: 14, assists: 4, kd_ratio: 1.57, adr: 96, hltv_rating: 1.33, hs_percentage: 50, accuracy_overall: 30, date: '2026-01-01' },
+    { match_id: '1', result: 'W', hltv_rating: 1.8, kills: 29, map: 'de_mirage' },
+    { match_id: '2', result: 'L', hltv_rating: 1.5, kills: 21, map: 'de_cache' },
+    { match_id: '3', result: 'W', hltv_rating: 1.72, kills: 27, map: 'de_ancient' },
+    { match_id: '4', result: 'W', hltv_rating: 1.61, kills: 25, map: 'de_mirage' },
   ],
-  economy: { rounds_survived: 140, total_rounds: 260, survival_rate: 53.8 },
+  economy: {
+    total_rounds: 359,
+    rounds: 359,
+    survived_rounds: 116,
+    survival_rate: 32.3,
+    total_spent: 984950,
+    avg_spent_per_round: 2743.6,
+    avg_equipment_value: 4201.1,
+    avg_money_after_round: 5216.3,
+    saved_equipment_value: 597950,
+    save_conversion_rate: 65.1,
+    team_money_gini: 0.096,
+    buy_types: [
+      { type: 'full_buy', rounds: 217, share: 60.4, win_rate: 57.1 },
+      { type: 'partial_buy', rounds: 6, share: 1.7, win_rate: 66.7 },
+      { type: 'eco', rounds: 89, share: 24.8, win_rate: 31.5 },
+      { type: 'force_buy', rounds: 47, share: 13.1, win_rate: 48.9 },
+    ],
+  },
+  sources: { summary_matches: 18, combat_matches: 18, economy_matches: 18 },
+});
+
+const renderPerformance = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <Performance />
+    </QueryClientProvider>,
+  );
 };
 
-describe('Performance redesign', () => {
-  it('renders the command center and switches to specialized briefings', () => {
-    usePerformanceData.mockReturnValue({
-      loading: false,
-      error: null,
-      performance: performancePayload,
-      retry: vi.fn(),
+describe('Performance', () => {
+  beforeEach(() => {
+    globalThis.fetch = vi.fn(async (input) => {
+      const url = new URL(String(input));
+      if (url.pathname.endsWith('/steam/player-search')) {
+        return {
+          ok: true,
+          json: async () => ({
+            players: [{ steam_id: '76561198065602953', name: 'Rival Uno', matches: 12 }],
+          }),
+        };
+      }
+      if (url.pathname.includes('/steam/player-stats/')) {
+        return { ok: true, json: async () => createPayload('Rival Uno', '76561198065602953') };
+      }
+      return { ok: true, json: async () => createPayload() };
     });
-
-    render(<Performance />);
-
-    expect(screen.getByText('Performance Command Center')).toBeInTheDocument();
-    expect(screen.getByText('Lectura priorizada')).toBeInTheDocument();
-    expect(screen.getByText('13-9')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('tab', { name: /Combate/i }));
-    expect(screen.getByText('Iniciativa, trades y cierre de ronda')).toBeInTheDocument();
   });
 
-  it('renders loading and error states', () => {
-    usePerformanceData.mockReturnValue({ loading: true });
-    const { rerender } = render(<Performance />);
-    expect(document.querySelector('.p-skeleton-view')).toBeInTheDocument();
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
-    usePerformanceData.mockReturnValue({
-      loading: false,
-      error: 'boom',
-      performance: null,
-      retry: vi.fn(),
-    });
-    rerender(<Performance />);
-    expect(screen.getByText('Error cargando datos')).toBeInTheDocument();
+  it('renders real performance data, map filters and player comparison', async () => {
+    renderPerformance();
+
+    expect(screen.getByTestId('navigation-frame')).toBeInTheDocument();
+    expect(await screen.findByText('Tu nivel, mapa a mapa', { selector: 'h1' })).toBeInTheDocument();
+    expect(screen.getAllByText('Todos los mapas', { selector: 'h2' }).length).toBeGreaterThan(0);
+    expect(screen.getByRole('tab', { name: /Utilidad táctica/i })).toBeInTheDocument();
+    expect(screen.getByText(/18 partidas · datos reales/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('tab', { name: /Mirage/i }));
+    expect((await screen.findAllByText('Mirage', { selector: 'h2' })).length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole('button', { name: 'Todos los mapas' }));
+    expect(screen.getAllByText('Todos los mapas', { selector: 'h2' }).length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole('tab', { name: /Cache/i }));
+    expect((await screen.findAllByText('Cache', { selector: 'h2' })).length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole('tab', { name: /Utilidad/i }));
+    expect(await screen.findByTitle('Flashbang')).toHaveAttribute(
+      'src',
+      '/images/cs2/equipment/flashbang.svg',
+    );
+    expect(await screen.findByTitle('Smoke Grenade')).toHaveAttribute(
+      'src',
+      '/images/cs2/equipment/smokegrenade.svg',
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /Comparar jugador/i }));
+    expect(await screen.findByRole('dialog', { name: /Elige una referencia real/i })).toBeInTheDocument();
+    fireEvent.click(await screen.findByRole('button', { name: /Rival Uno/i }));
+    expect((await screen.findAllByText('Tú vs Rival Uno')).length).toBeGreaterThan(0);
+    expect(await screen.findByRole('heading', { name: 'Atributos competitivos' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Puntería' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Utilidad' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Mapas' })).toBeInTheDocument();
+    expect(screen.getAllByText('Tiempo hasta daño').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('AK-47').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Volver a mi rendimiento' }));
+    expect(screen.getByText('Tu nivel, mapa a mapa', { selector: 'h1' })).toBeInTheDocument();
   });
 });

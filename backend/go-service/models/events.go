@@ -168,15 +168,20 @@ type DefuseKitPickup struct {
 
 // MovementLog guarda la posición, velocidad y estado del jugador en un tick
 type MovementLog struct {
-	Round     int     `json:"round"`
-	Tick      int     `json:"tick"`
-	X         float64 `json:"x"`
-	Y         float64 `json:"y"`
-	Z         float64 `json:"z"`
-	Speed     float64 `json:"speed"`
-	IsDucking bool    `json:"is_ducking"`
-	Pitch     float32 `json:"pitch"`
-	Yaw       float32 `json:"yaw"`
+	Round                    int      `json:"round"`
+	Tick                     int      `json:"tick"`
+	X                        float64  `json:"x"`
+	Y                        float64  `json:"y"`
+	Z                        float64  `json:"z"`
+	Speed                    *float64 `json:"speed"`
+	VelocityAvailable        bool     `json:"velocity_available"`
+	VelocitySource           string   `json:"velocity_source"`
+	VelocityObservation      string   `json:"velocity_observation"`
+	VelocityMeasurementTicks *int     `json:"velocity_measurement_window_ticks"`
+	VelocityObservedTick     *int     `json:"velocity_observed_tick"`
+	IsDucking                bool     `json:"is_ducking"`
+	Pitch                    float32  `json:"pitch"`
+	Yaw                      float32  `json:"yaw"`
 }
 
 // RoundEconomyStats representa la economía de un equipo en una ronda
@@ -256,16 +261,17 @@ type ReactionTimeEvent struct {
 	ReactionTimeMs int    `json:"reaction_time_ms"` // Time to Shoot
 
 	// Metadata para analítica avanzada
-	CrosshairPlacementError float64 `json:"crosshair_placement_error"` // Error at First Visible Frame
-	PitchError              float64 `json:"pitch_error"`               // Pitch Error at First Visible Frame
-	YawError                float64 `json:"yaw_error"`                 // Yaw Error at First Visible Frame
-	TimeToDamage            float64 `json:"time_to_damage"`            // Time to First Damage (ms)
-	WasFlashed              bool    `json:"was_flashed"`               // Si tenía flash residual
-	FlashDuration           float32 `json:"flash_duration"`            // Duración del flash en segundos
-	SmokeInPath             bool    `json:"smoke_in_path"`             // Si había humo en la línea de visión
-	Distance                float64 `json:"distance"`                  // Distancia al enemigo en unidades
-	PenetratedObjects       int     `json:"penetrated_objects"`        // Objetos penetrados en la kill (0 = visión clara)
-	ShooterVelocity         float64 `json:"shooter_velocity"`          // Velocity at first sight (u/s) for peek/hold classification
+	CrosshairPlacementError  float64 `json:"crosshair_placement_error"` // Error at First Visible Frame
+	PitchError               float64 `json:"pitch_error"`               // Pitch Error at First Visible Frame
+	YawError                 float64 `json:"yaw_error"`                 // Yaw Error at First Visible Frame
+	TimeToDamage             float64 `json:"time_to_damage"`            // Time to First Damage (ms)
+	WasFlashed               bool    `json:"was_flashed"`               // Si tenía flash residual
+	FlashDuration            float32 `json:"flash_duration"`            // Duración del flash en segundos
+	SmokeInPath              bool    `json:"smoke_in_path"`             // Si había humo en la línea de visión
+	Distance                 float64 `json:"distance"`                  // Distancia al enemigo en unidades
+	PenetratedObjects        int     `json:"penetrated_objects"`        // Objetos penetrados en la kill (0 = visión clara)
+	ShooterVelocity          float64 `json:"shooter_velocity"`          // Velocity at first sight (u/s) for peek/hold classification
+	ShooterVelocityAvailable bool    `json:"shooter_velocity_available"`
 }
 
 // CrosshairStats estadísticas de crosshair placement
@@ -277,32 +283,34 @@ type CrosshairStats struct {
 
 // SprayData tracking de spray en progreso (usado internamente, no exportado)
 type SprayData struct {
-	StartTick   int
-	ShotCount   int
-	Hits        int
-	Headshots   int
-	StartPitch  float32
-	StartYaw    float32
-	PitchSum    float32
-	YawSum      float32
-	WasMoving   bool
-	WasCrouched bool
-	Weapon      string
+	StartTick         int
+	ShotCount         int
+	Hits              int
+	Headshots         int
+	StartPitch        float32
+	StartYaw          float32
+	PitchSum          float32
+	YawSum            float32
+	WasMoving         bool
+	MovementAvailable bool
+	WasCrouched       bool
+	Weapon            string
 }
 
 // SprayAnalysis almacena análisis de un spray
 type SprayAnalysis struct {
-	Round       int     `json:"round"`
-	StartTick   int     `json:"start_tick"`
-	EndTick     int     `json:"end_tick"`
-	ShotCount   int     `json:"shot_count"`
-	Hits        int     `json:"hits"`
-	Headshots   int     `json:"headshots"`
-	Weapon      string  `json:"weapon"`
-	HitRate     float64 `json:"hit_rate"`
-	Quality     string  `json:"quality"` // excellent, good, fair, poor
-	WasMoving   bool    `json:"was_moving"`
-	WasCrouched bool    `json:"was_crouched"`
+	Round             int     `json:"round"`
+	StartTick         int     `json:"start_tick"`
+	EndTick           int     `json:"end_tick"`
+	ShotCount         int     `json:"shot_count"`
+	Hits              int     `json:"hits"`
+	Headshots         int     `json:"headshots"`
+	Weapon            string  `json:"weapon"`
+	HitRate           float64 `json:"hit_rate"`
+	Quality           string  `json:"quality"` // excellent, good, fair, poor
+	WasMoving         bool    `json:"was_moving"`
+	MovementAvailable bool    `json:"movement_available"`
+	WasCrouched       bool    `json:"was_crouched"`
 }
 
 // MatchData es el output final completo

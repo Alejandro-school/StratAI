@@ -50,14 +50,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   background: transparent;
   border: none;
   border-radius: 6px;
   color: #94a3b8;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .zoom-btn:hover:not(.disabled) {
@@ -74,6 +77,11 @@
   cursor: not-allowed;
 }
 
+.zoom-btn:focus-visible {
+  outline: 2px solid #42cee7;
+  outline-offset: 2px;
+}
+
 .zoom-btn.reset {
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   margin-left: 2px;
@@ -88,35 +96,12 @@
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(66, 206, 231, 0.12);
+  border: 1px solid rgba(66, 206, 231, 0.28);
   border-radius: 6px;
   font-size: 10px;
   font-weight: 600;
-  color: #818cf8;
-  animation: hintPulse 2s ease infinite;
-}
-
-@keyframes hintPulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.zoom-hint svg {
-  animation: focusSpin 4s linear infinite;
-}
-
-@keyframes focusSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: #42cee7;
 }
 
 /* ============================================
@@ -142,7 +127,7 @@
   height: 60px;
   border: 2px dashed rgba(99, 102, 241, 0.5);
   border-radius: 50%;
-  animation: zoneRingPulse 2s ease infinite;
+  opacity: 0.65;
 }
 
 @keyframes zoneRingPulse {
@@ -167,7 +152,10 @@
   border: 1px solid rgba(99, 102, 241, 0.4);
   border-radius: 20px;
   backdrop-filter: blur(8px);
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .density-zone-indicator:hover .zone-core {
@@ -212,11 +200,6 @@
   cursor: grabbing;
 }
 
-/* Smooth scaling for child elements */
-.zoomable-map-container > * {
-  transition: transform 0.3s ease;
-}
-
 /* ============================================
    RESPONSIVE
 ============================================ */
@@ -227,11 +210,20 @@
   }
   
   .zoom-btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
   
   .zoom-hint {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoomable-map-container,
+  .zoomable-map-container > *,
+  .density-zone-indicator .zone-ring {
+    animation: none;
+    transition-duration: 0.01ms;
   }
 }

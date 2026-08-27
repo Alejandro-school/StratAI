@@ -17,6 +17,14 @@ var (
 	Ctx = context.Background()
 )
 
+// MatchDataSnapshot is the exact Redis state needed to compensate a failed
+// cross-store publication. TTL is preserved when the key existed.
+type MatchDataSnapshot struct {
+	Exists bool
+	Value  string
+	TTL    time.Duration
+}
+
 func matchDataKey(matchID string) string {
 	namespace := os.Getenv("PIPELINE_NAMESPACE")
 	if namespace == "" {
@@ -44,6 +52,11 @@ func InitRedis() error {
 
 // SaveMatchData guarda los datos del match en Redis
 func SaveMatchData(matchID string, matchData *models.MatchData) error {
+	return SaveMatchDataContext(Ctx, matchID, matchData)
+}
+
+// SaveMatchDataContext stores match data with the caller's bounded context.
+func SaveMatchDataContext(ctx context.Context, matchID string, matchData *models.MatchData) error {
 	if Rdb == nil {
 		return fmt.Errorf("redis client not initialized")
 	}
@@ -55,11 +68,57 @@ func SaveMatchData(matchID string, matchData *models.MatchData) error {
 
 	key := matchDataKey(matchID)
 	// Guardar con expiración de 30 días (o lo que sea apropiado)
-	err = Rdb.Set(Ctx, key, data, 30*24*time.Hour).Err()
+	err = Rdb.Set(ctx, key, data, 30*24*time.Hour).Err()
 	if err != nil {
 		return fmt.Errorf("failed to save match data to redis: %w", err)
 	}
 
+	return nil
+}
+
+// SnapshotMatchData captures the previous value before the filesystem commit.
+func SnapshotMatchData(ctx context.Context, matchID string) (MatchDataSnapshot, error) {
+	if Rdb == nil {
+		return MatchDataSnapshot{}, fmt.Errorf("redis client not initialized")
+	}
+	key := matchDataKey(matchID)
+	value, err := Rdb.Get(ctx, key).Result()
+	if err == redis.Nil {
+		return MatchDataSnapshot{Exists: false}, nil
+	}
+	if err != nil {
+		return MatchDataSnapshot{}, fmt.Errorf("snapshot match data: %w", err)
+	}
+	ttl, err := Rdb.PTTL(ctx, key).Result()
+	if err != nil {
+		return MatchDataSnapshot{}, fmt.Errorf("snapshot match data TTL: %w", err)
+	}
+	return MatchDataSnapshot{Exists: true, Value: value, TTL: ttl}, nil
+}
+
+// RestoreMatchData compensates a failed publication without inventing a prior
+// value. A non-expiring key keeps that property; an expired TTL is restored
+// with the service's normal retention rather than published indefinitely.
+func RestoreMatchData(ctx context.Context, matchID string, snapshot MatchDataSnapshot) error {
+	if Rdb == nil {
+		return fmt.Errorf("redis client not initialized")
+	}
+	key := matchDataKey(matchID)
+	if !snapshot.Exists {
+		if err := Rdb.Del(ctx, key).Err(); err != nil {
+			return fmt.Errorf("remove compensated match data: %w", err)
+		}
+		return nil
+	}
+	ttl := snapshot.TTL
+	if ttl == -1 {
+		ttl = 0
+	} else if ttl <= 0 {
+		ttl = 30 * 24 * time.Hour
+	}
+	if err := Rdb.Set(ctx, key, snapshot.Value, ttl).Err(); err != nil {
+		return fmt.Errorf("restore compensated match data: %w", err)
+	}
 	return nil
 }
 

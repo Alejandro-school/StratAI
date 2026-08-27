@@ -1,7 +1,11 @@
 package models
 
 import (
+	"cs2-demo-service/pkg/combat"
 	"cs2-demo-service/pkg/maps"
+	"cs2-demo-service/pkg/objective"
+	"cs2-demo-service/pkg/playerstate"
+	"cs2-demo-service/pkg/utility"
 
 	"github.com/golang/geo/r3"
 	dem "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs"
@@ -37,10 +41,14 @@ type DemoContext struct {
 	CTRoundsWon int
 	TRoundsWon  int
 
-	// Bomb tracking
-	BombPlanted bool
-	BombSite    string
-	BombTick    int
+	// Single source of truth for the C4 lifecycle and objective ledger.
+	Objectives *objective.Tracker
+
+	// Single source of truth for utility throws, effects, attribution and damage.
+	Utilities *utility.Tracker
+
+	// Single source of truth for combat callbacks and causal correlations.
+	Combat *combat.Tracker
 
 	// Buy tracking (NEW)
 	FreezeTimeEnded   bool
@@ -59,10 +67,18 @@ type DemoContext struct {
 	LastCombatFireTick map[uint64]int
 
 	// Reaction time tracking
-	EnemyFirstSeenTick map[uint64]map[uint64]FirstSeenData
-	FirstDamageTick    map[uint64]map[uint64]int // Attacker -> Victim -> Tick of first damage
-	LastVisibleEnemies map[uint64]map[uint64]bool
-	ActiveSmokes       []r3.Vector // Posiciones de humos activos
+	EnemyFirstSeenTick               map[uint64]map[uint64]FirstSeenData
+	FirstDamageTick                  map[uint64]map[uint64]int // Attacker -> Victim -> Tick of first damage
+	LastVisibleEnemies               map[uint64]map[uint64]bool
+	ActiveSmokes                     map[int64]r3.Vector
+	VisibilitySampledTicks           int
+	VisibilitySkippedTicks           int
+	VisibilityRaycasts               int
+	VisibilityRefinementRaycasts     int
+	NativeEyePositions               int
+	FallbackEyePositions             int
+	MapLoadError                     string
+	ObjectiveNativeRoleDisagreements int
 
 	// Mechanics tracking per shot
 	LastShotMechanics map[uint64]*ShotMechanics
@@ -85,7 +101,7 @@ type DemoContext struct {
 	AI_CombatDuels             []AI_CombatDuel
 	PendingCombatEvents        []AI_CombatDuel // Buffer for non-fatal events
 	AI_EconomyRounds           []AI_EconomyRound
-	AI_GrenadeEvents           []AI_GrenadeEvent
+	AI_GrenadeEvents           []AI_GrenadeEvent // Derived compatibility projection of Utilities.
 
 	// Economy Drop Tracking
 	PendingDrops        []AI_EconomyDrop    // Drops waiting to be matched with pickups
@@ -100,24 +116,21 @@ type DemoContext struct {
 	WeaponOriginalOwner map[int64]uint64 // Weapon UniqueID -> Original Owner SteamID at round start
 
 	// NEW: Consolidated Duel System
-	AI_Duels          []AI_Duel        // Final consolidated duels
-	AI_PlayersSummary []AI_PlayerStats // Comprehensive player stats
-	RawCombatEvents   []RawCombatEvent // Buffer for raw events to consolidate at round end
-
-	// Grenade Damage Tracking
-	ActiveInfernos map[int]int    // InfernoID -> Index in AI_GrenadeEvents
-	PendingHEs     map[uint64]int // ThrowerSteamID -> Index in AI_GrenadeEvents (for immediate damage attribution)
-
-	// Flashbang dedupe (CS2 can emit duplicate FlashExplode callbacks)
-	ProcessedFlashExplodes map[string]struct{} // key: round|tick_explode|thrower_steam_id
+	AI_Duels               []AI_Duel        // Final consolidated duels
+	AI_PlayersSummary      []AI_PlayerStats // Comprehensive player stats
+	RawCombatEvents        []RawCombatEvent // Buffer for raw events to consolidate at round end
+	AI_CombatEvents        []RawCombatEvent // Persistent atomic combat events for canonical export
+	PendingBulletDamage    []BulletDamageSnapshot
+	BulletDamageEvents     int
+	BulletDamageCorrelated int
 
 	// PHASE 1: Weapon state tracking per player (for combat integration)
 	LastWeaponState     map[uint64]*WeaponStateSnapshot // Current tick weapon state
 	PreviousWeaponState map[uint64]*WeaponStateSnapshot // Previous tick weapon state (true BEFORE state)
 	SprayStartState     map[uint64]*WeaponStateSnapshot // State at the start of the current firing sequence
 
-	// Velocity tracking (Manual calculation fallback)
-	PreviousPlayerPosition map[uint64]r3.Vector
+	// Shared causal motion estimates, keyed by player, round, and tick.
+	PlayerMotion playerstate.MotionTracker
 
 	// Damage tracking for AI Duels
 	RoundDamage map[uint64]map[uint64]int // AttackerID -> VictimID -> TotalDamage
@@ -129,22 +142,39 @@ type DemoContext struct {
 	// This allows showing victim's actual HP before they took damage
 	LastKnownHealth map[uint64]int // SteamID -> HP before current damage
 
-	// FIX: Track active weapon name per player each tick (for victim weapon in kills)
-	LastActiveWeapon map[uint64]string // SteamID -> Active weapon name (updated each tick)
+	// Last directly observed active weapon, retained separately from current state.
+	LastActiveWeapon map[uint64]ActiveWeaponObservation
 
 	// 2D Replay Data (for frontend visualization)
-	ReplayData *ReplayData
+	ReplayData     *ReplayData
+	ParseCompleted bool
+	ParserWarnings []string
 }
 
 // FirstSeenData stores metadata when an enemy is first seen
 type FirstSeenData struct {
-	Tick                    int
-	LastSeenTick            int // Último tick donde fue visible (para jiggle peek grace period)
-	CrosshairPlacementError float64
-	PitchError              float64
-	YawError                float64
-	ShooterVelocity         float64 // Velocity at first sight (u/s) for peek/hold classification
+	Tick                     int
+	LastSeenTick             int // Último tick donde fue visible (para jiggle peek grace period)
+	FirstShotTick            int
+	FirstDamageTick          int
+	CrosshairPlacementError  float64
+	PitchError               float64
+	YawError                 float64
+	ShooterVelocity          float64 // Velocity at first sight (u/s) for peek/hold classification
+	ShooterVelocityAvailable bool
 }
+
+type ActiveWeaponObservation struct {
+	Weapon      string
+	Tick        int
+	RoundNumber int
+}
+
+const (
+	ActiveWeaponStatusObserved      = "observed"
+	ActiveWeaponStatusUnavailable   = "unavailable"
+	ActiveWeaponStatusNotApplicable = "not_applicable"
+)
 
 // NewDemoContext crea un nuevo contexto inicializado
 func NewDemoContext(p dem.Parser) *DemoContext {
@@ -163,6 +193,9 @@ func NewDemoContext(p dem.Parser) *DemoContext {
 			Molotovs:    []MolotovEvent{},
 			BombEvents:  []BombEvent{},
 		},
+		Objectives:                   objective.NewTracker(),
+		Utilities:                    utility.NewTracker(),
+		Combat:                       combat.NewTracker(),
 		Timeline:                     []TimelineEvent{},
 		CurrentRoundEvents:           []TimelineEvent{},
 		RoundTimelines:               []RoundTimeline{},
@@ -173,6 +206,7 @@ func NewDemoContext(p dem.Parser) *DemoContext {
 		PendingCombatEvents:          []AI_CombatDuel{},
 		AI_EconomyRounds:             []AI_EconomyRound{},
 		AI_GrenadeEvents:             []AI_GrenadeEvent{},
+		ParserWarnings:               []string{},
 		PendingDrops:                 []AI_EconomyDrop{},
 		RoundDrops:                   []AI_EconomyDrop{},
 		RoundPickups:                 []AI_EconomyPickup{},
@@ -184,7 +218,9 @@ func NewDemoContext(p dem.Parser) *DemoContext {
 		AI_Duels:                     []AI_Duel{},
 		AI_PlayersSummary:            []AI_PlayerStats{},
 		RawCombatEvents:              []RawCombatEvent{},
-		TConsecutiveLosses:           0,
+		AI_CombatEvents:              []RawCombatEvent{},
+		CTConsecutiveLosses:          1,
+		TConsecutiveLosses:           1,
 		CTRoundsWon:                  0,
 		TRoundsWon:                   0,
 		PlayerMoneyBefore:            make(map[uint64]int),
@@ -198,25 +234,21 @@ func NewDemoContext(p dem.Parser) *DemoContext {
 		EnemyFirstSeenTick:           make(map[uint64]map[uint64]FirstSeenData, 16),
 		FirstDamageTick:              make(map[uint64]map[uint64]int, 16),
 		LastVisibleEnemies:           make(map[uint64]map[uint64]bool, 16),
-		ActiveSmokes:                 []r3.Vector{},
+		ActiveSmokes:                 make(map[int64]r3.Vector, 8),
 		LastShotMechanics:            make(map[uint64]*ShotMechanics, 16),
 		CrosshairStats:               make(map[uint64]*CrosshairStats, 16),
 		ActiveGrenadeTrajectories:    make(map[int]*GrenadeTrajectoryEvent, 32),
 		CompletedGrenadeTrajectories: make(map[int]*GrenadeTrajectoryEvent, 32),
 		GrenadeBounces:               make(map[int]int, 32),
 		RoundPurchases:               make(map[uint64][]AI_WeaponItem),
-		ActiveInfernos:               make(map[int]int),
-		PendingHEs:                   make(map[uint64]int),
-		ProcessedFlashExplodes:       make(map[string]struct{}),
-
 		// PHASE 1: Weapon state tracking
-		LastWeaponState:        make(map[uint64]*WeaponStateSnapshot),
-		PreviousWeaponState:    make(map[uint64]*WeaponStateSnapshot),
-		SprayStartState:        make(map[uint64]*WeaponStateSnapshot),
-		PreviousPlayerPosition: make(map[uint64]r3.Vector),
-		RoundDamage:            make(map[uint64]map[uint64]int),
-		LastKnownHealth:        make(map[uint64]int),
-		LastActiveWeapon:       make(map[uint64]string),
+		LastWeaponState:     make(map[uint64]*WeaponStateSnapshot),
+		PreviousWeaponState: make(map[uint64]*WeaponStateSnapshot),
+		SprayStartState:     make(map[uint64]*WeaponStateSnapshot),
+		RoundDamage:         make(map[uint64]map[uint64]int),
+		LastKnownHealth:     make(map[uint64]int),
+		LastActiveWeapon:    make(map[uint64]ActiveWeaponObservation),
+		PendingBulletDamage: make([]BulletDamageSnapshot, 0, 8),
 	}
 }
 

@@ -3,7 +3,6 @@ import { formatClock } from "../domain/replayModel";
 
 export function ReplayHeader({
   roundIndex,
-  actualRound,
   rounds,
   frame,
   ctScore,
@@ -20,7 +19,7 @@ export function ReplayHeader({
           <ChevronLeft size={16} />
         </button>
         <span className="r2-kicker">Ronda</span>
-        <strong>{actualRound}</strong>
+        <strong>{roundIndex}</strong>
         <span className="r2-round-total">/ {rounds.length}</span>
         <button type="button" aria-label="Ronda siguiente" onClick={() => onRoundChange(roundIndex + 1)} disabled={roundIndex >= rounds.length}>
           <ChevronRight size={16} />

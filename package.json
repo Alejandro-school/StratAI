@@ -2,7 +2,8 @@
   "name": "stratai",
   "private": true,
   "scripts": {
-    "start:all": "concurrently \"npm run backend\" \"npm run node-service\" \"npm run go-service\" \"npm run frontend\"",
+    "start:all": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "start:all:with-demos": "concurrently \"npm run backend\" \"npm run node-service\" \"npm run go-service\" \"npm run frontend\"",
     "backend": ".\\backend\\venv\\Scripts\\python.exe -m uvicorn backend.app.main:app --reload",
     "node-service": "node backend/node-service/index.js",
     "go-service": "cd backend/go-service && go run main.go",
@@ -14,9 +15,7 @@
     "test:python": ".\\backend\\venv\\Scripts\\python.exe -m pytest backend/tests",
     "lint:python": ".\\backend\\venv\\Scripts\\python.exe -m ruff check backend/app backend/tests --select E9,F63,F7,F82",
     "test:all": "npm run test:frontend && npm run test:node && npm run test:go && npm run test:python",
-    "check:all": "npm run lint:python && npm run test:all && npm run build:frontend",
-    "browser:login": "node scripts/browser-session.cjs login",
-    "browser:inspect": "node scripts/browser-session.cjs inspect"
+    "check:all": "npm run lint:python && npm run test:all && npm run build:frontend"
   },
   "dependencies": {
     "dotenv": "^17.2.3"

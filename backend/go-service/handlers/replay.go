@@ -1,10 +1,17 @@
 package handlers
 
 import (
-	"cs2-demo-service/models"
-	"cs2-demo-service/pkg/playerstate"
+	"cmp"
 	"fmt"
 	"math"
+	"slices"
+	"strconv"
+
+	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/combat"
+	"cs2-demo-service/pkg/objective"
+	"cs2-demo-service/pkg/playerstate"
+	"cs2-demo-service/pkg/utility"
 
 	dem "github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs"
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
@@ -41,12 +48,6 @@ type ReplayHandler struct {
 	activeSmokes   map[int64]*models.ReplayActiveEffect
 	activeInfernos map[int64]*models.ReplayActiveEffect
 
-	// Recent shots for visualization (cleared after N ticks)
-	recentShots []shotWithTick
-
-	// Bomb state
-	bombState *models.ReplayBombState
-
 	// Stable player equipment within the current round.
 	playerEquipment map[uint64]replayPlayerEquipment
 
@@ -57,14 +58,11 @@ type ReplayHandler struct {
 	lastSampleTick int
 
 	// Round phase tracking
-	roundPhase        string // "freezetime", "playing", "postround", "none"
-	freezeTimeEndTick int    // Tick when freeze time ends
-	roundEndTick      int    // Tick when RoundEnd event fired
-}
-
-type shotWithTick struct {
-	shot models.ReplayShot
-	tick int
+	roundPhase         string // "freezetime", "playing", "postround", "none"
+	freezeTimeEndTick  int    // Tick when freeze time ends
+	roundEndTick       int    // Tick when RoundEnd event fired
+	eventSequence      uint64
+	projectileSequence int64
 }
 
 type replayPlayerEquipment struct {
@@ -82,7 +80,6 @@ func NewReplayHandler(ctx *models.DemoContext) *ReplayHandler {
 		activeProjectiles: make(map[int64]*models.ReplayProjectile),
 		activeSmokes:      make(map[int64]*models.ReplayActiveEffect),
 		activeInfernos:    make(map[int64]*models.ReplayActiveEffect),
-		recentShots:       []shotWithTick{},
 		playerEquipment:   make(map[uint64]replayPlayerEquipment),
 		Rounds:            []models.ReplayRound{},
 		roundPhase:        "none",
@@ -99,9 +96,17 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 
 	// Round Start - just create the round, don't start sampling yet
 	ctx.Parser.RegisterEventHandler(func(e events.RoundStart) {
+		gameState := ctx.Parser.GameState()
+		if gameState.IsWarmupPeriod() {
+			return
+		}
+		// TotalRoundsPlayed is owned by the parser and is already settled for this
+		// event. Do not depend on another handler updating shared context first.
+		roundNumber := replayRoundNumber(gameState.TotalRoundsPlayed())
+		ensureObjectiveTracker(ctx).BeginRound(roundNumber, gameState.IngameTick())
 		handler.currentRound = &models.ReplayRoundData{
-			Round:     ctx.ActualRoundNumber + 1, // 1-based round numbering
-			StartTick: ctx.Parser.GameState().IngameTick(),
+			Round:     roundNumber,
+			StartTick: gameState.IngameTick(),
 			Frames:    []models.ReplayFrame{},
 			Events:    []models.ReplayEvent{},
 		}
@@ -110,23 +115,27 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		handler.activeSmokes = make(map[int64]*models.ReplayActiveEffect)
 		handler.activeInfernos = make(map[int64]*models.ReplayActiveEffect)
 		handler.activeProjectiles = make(map[int64]*models.ReplayProjectile)
-		handler.recentShots = []shotWithTick{}
 		handler.resetPlayerEquipment()
-
-		// Initialize bomb state
-		handler.bombState = &models.ReplayBombState{State: "carried"}
 
 		// We're now in freeze time
 		handler.roundPhase = "freezetime"
 	})
 
-	// Freeze Time End - start sampling from the last 2 seconds of freeze time
+	// Freeze Time End - gameplay starts here. Keeping RoundStart as the replay
+	// boundary makes every round open on idle buy time even though we do not
+	// sample that phase.
 	ctx.Parser.RegisterEventHandler(func(e events.RoundFreezetimeEnd) {
 		if handler.currentRound == nil {
 			return
 		}
 		handler.freezeTimeEndTick = ctx.Parser.GameState().IngameTick()
+		handler.currentRound.StartTick = handler.freezeTimeEndTick
 		handler.roundPhase = "playing"
+		ensureObjectiveTracker(ctx).NativeSnapshot(nativeObjectiveObservation(
+			ctx,
+			handler.currentRound.Round,
+			handler.freezeTimeEndTick,
+		))
 	})
 
 	// Round End - mark end but continue sampling for post-round period
@@ -135,7 +144,6 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			return
 		}
 
-		handler.currentRound.EndTick = ctx.Parser.GameState().IngameTick()
 		handler.roundEndTick = ctx.Parser.GameState().IngameTick()
 
 		switch e.Winner {
@@ -155,18 +163,10 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			return
 		}
 
-		// Save the round with all frames (including post-round)
-		handler.Rounds = append(handler.Rounds, models.ReplayRound{
-			Round:     handler.currentRound.Round,
-			StartTick: handler.currentRound.StartTick,
-			EndTick:   handler.currentRound.EndTick,
-			Winner:    handler.currentRound.Winner,
-			Frames:    handler.currentRound.Frames,
-			Events:    handler.currentRound.Events,
-		})
-
-		handler.currentRound = nil
-		handler.roundPhase = "none"
+		// RoundEnd only declares the winner. Kills and other state changes may
+		// still happen during post-round, so the replay boundary is the official
+		// end emitted by the demo parser.
+		handler.finishCurrentRound(ctx.Parser.GameState().IngameTick())
 	})
 
 	// ========================================
@@ -213,6 +213,8 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		}
 		handler.lastSampleTick = currentTick
 
+		bombState := handler.snapshotBombState(gameState, currentTick)
+
 		// Build frame
 		frame := models.ReplayFrame{
 			Tick:          currentTick,
@@ -220,49 +222,10 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			Players:       handler.collectPlayerStates(gameState),
 			Projectiles:   handler.collectProjectiles(),
 			ActiveEffects: handler.collectActiveEffects(gameState),
-			Bomb:          handler.bombState,
+			Bomb:          bombState,
 		}
-
-		// Add recent shots and clean old ones
-		frame.Shots = handler.collectRecentShots(currentTick)
 
 		handler.currentRound.Frames = append(handler.currentRound.Frames, frame)
-	})
-
-	// ========================================
-	// WEAPON FIRE (Shots visualization)
-	// ========================================
-
-	ctx.Parser.RegisterEventHandler(func(e events.WeaponFire) {
-		if handler.currentRound == nil || e.Shooter == nil {
-			return
-		}
-
-		shooter := e.Shooter
-		pos := shooter.Position()
-
-		// Calculate shot endpoint using view direction
-		yaw := float64(shooter.ViewDirectionX()) * math.Pi / 180.0
-		pitch := float64(shooter.ViewDirectionY()) * math.Pi / 180.0
-
-		// Project line ~1500 units in view direction
-		distance := 1500.0
-		toX := pos.X + math.Cos(yaw)*math.Cos(pitch)*distance
-		toY := pos.Y + math.Sin(yaw)*math.Cos(pitch)*distance
-
-		shot := models.ReplayShot{
-			ShooterID: shooter.SteamID64,
-			FromX:     pos.X,
-			FromY:     pos.Y,
-			ToX:       toX,
-			ToY:       toY,
-			Weapon:    e.Weapon.String(),
-		}
-
-		handler.recentShots = append(handler.recentShots, shotWithTick{
-			shot: shot,
-			tick: ctx.Parser.GameState().IngameTick(),
-		})
 	})
 
 	// ========================================
@@ -291,7 +254,7 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		}
 
 		handler.activeProjectiles[proj.UniqueID()] = &models.ReplayProjectile{
-			ID:         proj.UniqueID(),
+			ID:         handler.nextReplayProjectileID(),
 			Type:       normalizeGrenadeType(grenadeType),
 			ThrowerID:  throwerID,
 			X:          proj.Position().X,
@@ -319,31 +282,11 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 
 		tick := ctx.Parser.GameState().IngameTick()
 		handler.activeSmokes[playerstate.EquipmentID(e.Grenade)] = &models.ReplayActiveEffect{
-			Type:          "smoke",
-			X:             e.Position.X,
-			Y:             e.Position.Y,
-			Radius:        SmokeRadius,
-			TimeRemaining: 18.0, // Smoke lasts ~18 seconds
-			StartTick:     tick,
+			Type: "smoke", X: e.Position.X, Y: e.Position.Y,
+			Radius: SmokeRadius, StartTick: tick,
+			TimeRemainingStatus: string(utility.AvailabilityUnavailable),
+			TimeRemainingSource: utility.SourceUnavailable,
 		}
-
-		var throwerID uint64
-		if e.Thrower != nil {
-			throwerID = e.Thrower.SteamID64
-		}
-		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			ID:          replayEventID(handler.currentRound.Round, tick, "smoke", throwerID),
-			Tick:        tick,
-			Type:        "utility_detonate",
-			GrenadeType: "smoke",
-			UtilityType: "smoke",
-			X:           e.Position.X,
-			Y:           e.Position.Y,
-			Z:           e.Position.Z,
-			PlayerID:    throwerID,
-			ActorID:     throwerID,
-			DurationMS:  18000,
-		})
 	})
 
 	ctx.Parser.RegisterEventHandler(func(e events.SmokeExpired) {
@@ -372,291 +315,371 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		}
 
 		// Calculate center
-		var centerX, centerY, centerZ float64
+		var centerX, centerY float64
 		for _, p := range hull {
 			centerX += p.X
 			centerY += p.Y
 		}
 		fires := inferno.Fires().List()
+		firePoints := make([]float64, 0, len(fires)*2)
 		for _, fire := range fires {
-			centerZ += fire.Z
+			firePoints = append(firePoints, fire.X, fire.Y)
 		}
 		if len(hull) > 0 {
 			centerX /= float64(len(hull))
 			centerY /= float64(len(hull))
 		}
-		if len(fires) > 0 {
-			centerZ /= float64(len(fires))
-		}
 
 		tick := ctx.Parser.GameState().IngameTick()
-		handler.activeInfernos[int64(inferno.UniqueID())] = &models.ReplayActiveEffect{
-			Type:          "inferno",
-			X:             centerX,
-			Y:             centerY,
-			TimeRemaining: 7.0, // Molotov lasts ~7 seconds
-			StartTick:     tick,
-			Hull:          hullFlat,
+		infernoKey, _ := replayInfernoKey(inferno)
+		handler.activeInfernos[infernoKey] = &models.ReplayActiveEffect{
+			Type: "inferno", X: centerX, Y: centerY, StartTick: tick,
+			TimeRemainingStatus: string(utility.AvailabilityUnavailable),
+			TimeRemainingSource: utility.SourceUnavailable,
+			Hull:                hullFlat, Points: firePoints,
 		}
-
-		var throwerID uint64
-		if inferno.Thrower() != nil {
-			throwerID = inferno.Thrower().SteamID64
-		}
-		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			ID:          replayEventID(handler.currentRound.Round, tick, "inferno", throwerID),
-			Tick:        tick,
-			Type:        "utility_detonate",
-			GrenadeType: "inferno",
-			UtilityType: "inferno",
-			X:           centerX,
-			Y:           centerY,
-			Z:           centerZ,
-			PlayerID:    throwerID,
-			ActorID:     throwerID,
-			DurationMS:  7000,
-		})
 	})
 
 	ctx.Parser.RegisterEventHandler(func(e events.InfernoExpired) {
-		delete(handler.activeInfernos, int64(e.Inferno.UniqueID()))
-	})
-
-	// ========================================
-	// FLASH EXPLODE (for player blind effect)
-	// ========================================
-
-	ctx.Parser.RegisterEventHandler(func(e events.FlashExplode) {
-		if handler.currentRound == nil {
-			return
+		if infernoKey, ok := replayInfernoKey(e.Inferno); ok {
+			delete(handler.activeInfernos, infernoKey)
 		}
-
-		// Add event for timeline
-		var throwerID uint64
-		if e.Thrower != nil {
-			throwerID = e.Thrower.SteamID64
-		}
-
-		affectedPlayerIDs := make([]uint64, 0, 5)
-		for _, player := range ctx.Parser.GameState().Participants().Playing() {
-			if player != nil && player.FlashDurationTimeRemaining().Seconds() > 0 {
-				affectedPlayerIDs = append(affectedPlayerIDs, player.SteamID64)
-			}
-		}
-
-		tick := ctx.Parser.GameState().IngameTick()
-		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			ID:                replayEventID(handler.currentRound.Round, tick, "flashbang", throwerID),
-			Tick:              tick,
-			Type:              "utility_detonate",
-			GrenadeType:       "flashbang",
-			UtilityType:       "flashbang",
-			X:                 e.Position.X,
-			Y:                 e.Position.Y,
-			Z:                 e.Position.Z,
-			PlayerID:          throwerID,
-			ActorID:           throwerID,
-			AffectedPlayerIDs: affectedPlayerIDs,
-			DurationMS:        450,
-		})
 	})
 
 	ctx.Parser.RegisterEventHandler(func(e events.HeExplode) {
 		if handler.currentRound == nil {
 			return
 		}
-		var throwerID uint64
-		if e.Thrower != nil {
-			throwerID = e.Thrower.SteamID64
-		}
-		tick := ctx.Parser.GameState().IngameTick()
-		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			ID:          replayEventID(handler.currentRound.Round, tick, "he", throwerID),
-			Tick:        tick,
-			Type:        "utility_detonate",
-			GrenadeType: "he",
-			UtilityType: "he",
-			X:           e.Position.X,
-			Y:           e.Position.Y,
-			Z:           e.Position.Z,
-			PlayerID:    throwerID,
-			ActorID:     throwerID,
-			DurationMS:  600,
-		})
-	})
-
-	// ========================================
-	// KILLS
-	// ========================================
-
-	ctx.Parser.RegisterEventHandler(func(e events.Kill) {
-		if handler.currentRound == nil {
-			return
-		}
-
-		var killerID, victimID, assisterID uint64
-		var killerName, victimName, assisterName string
-		var killerTeam, victimTeam, assisterTeam string
-		var killerX, killerY, victimX, victimY float64
-		weapon := "unknown"
-
-		if e.Killer != nil {
-			killerID = e.Killer.SteamID64
-			killerName = e.Killer.Name
-			killerTeam = getTeamString(e.Killer.Team)
-			pos := e.Killer.Position()
-			killerX = pos.X
-			killerY = pos.Y
-		}
-		if e.Victim != nil {
-			victimID = e.Victim.SteamID64
-			victimName = e.Victim.Name
-			victimTeam = getTeamString(e.Victim.Team)
-			pos := e.Victim.Position()
-			victimX = pos.X
-			victimY = pos.Y
-		}
-		if e.Assister != nil {
-			assisterID = e.Assister.SteamID64
-			assisterName = e.Assister.Name
-			assisterTeam = getTeamString(e.Assister.Team)
-		}
-		if e.Weapon != nil {
-			weapon = e.Weapon.String()
-		}
-
-		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			ID:           replayEventID(handler.currentRound.Round, ctx.Parser.GameState().IngameTick(), "kill", killerID),
-			Tick:         ctx.Parser.GameState().IngameTick(),
-			Type:         "kill",
-			KillerID:     killerID,
-			VictimID:     victimID,
-			AssisterID:   assisterID,
-			KillerName:   killerName,
-			VictimName:   victimName,
-			AssisterName: assisterName,
-			KillerTeam:   killerTeam,
-			VictimTeam:   victimTeam,
-			AssisterTeam: assisterTeam,
-			KillerX:      killerX,
-			KillerY:      killerY,
-			VictimX:      victimX,
-			VictimY:      victimY,
-			Weapon:       weapon,
-			Headshot:     e.IsHeadshot,
-			Wallbang:     e.PenetratedObjects > 0,
-			NoScope:      e.NoScope,
-		})
-
-		// Mark the shot that killed as a hit
-		for i := len(handler.recentShots) - 1; i >= 0; i-- {
-			if handler.recentShots[i].shot.ShooterID == killerID {
-				handler.recentShots[i].shot.Hit = true
-				break
-			}
-		}
-	})
-
-	// ========================================
-	// BOMB EVENTS
-	// ========================================
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombDropped) {
-		if handler.bombState != nil && e.Player != nil {
-			handler.bombState.State = "dropped"
-			handler.bombState.X = e.Player.Position().X
-			handler.bombState.Y = e.Player.Position().Y
-			handler.bombState.CarrierID = 0
-		}
-	})
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombPickup) {
-		if handler.bombState != nil && e.Player != nil {
-			handler.bombState.State = "carried"
-			handler.bombState.CarrierID = e.Player.SteamID64
-		}
-	})
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombPlanted) {
-		if handler.bombState == nil || handler.currentRound == nil {
-			return
-		}
-
-		handler.bombState.State = "planted"
-		handler.bombState.PlantTick = ctx.Parser.GameState().IngameTick()
-		handler.bombState.Site = string(e.Site)
-
-		if e.Player != nil {
-			handler.bombState.X = e.Player.Position().X
-			handler.bombState.Y = e.Player.Position().Y
-
-			handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-				ID:       replayEventID(handler.currentRound.Round, ctx.Parser.GameState().IngameTick(), "bomb-plant", e.Player.SteamID64),
-				Tick:     ctx.Parser.GameState().IngameTick(),
-				Type:     "bomb_plant",
-				Site:     string(e.Site),
-				PlayerID: e.Player.SteamID64,
-				X:        e.Player.Position().X,
-				Y:        e.Player.Position().Y,
-			})
-		}
-	})
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombDefuseStart) {
-		if handler.bombState != nil && e.Player != nil {
-			handler.bombState.State = "defusing"
-			handler.bombState.DefuserID = e.Player.SteamID64
-		}
-	})
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombDefuseAborted) {
-		if handler.bombState != nil {
-			handler.bombState.State = "planted"
-			handler.bombState.DefuserID = 0
-		}
-	})
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombDefused) {
-		if handler.bombState == nil || handler.currentRound == nil {
-			return
-		}
-
-		handler.bombState.State = "defused"
-
-		if e.Player != nil {
-			handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-				ID:       replayEventID(handler.currentRound.Round, ctx.Parser.GameState().IngameTick(), "bomb-defuse", e.Player.SteamID64),
-				Tick:     ctx.Parser.GameState().IngameTick(),
-				Type:     "bomb_defuse",
-				Site:     handler.bombState.Site,
-				PlayerID: e.Player.SteamID64,
-			})
-		}
-	})
-
-	ctx.Parser.RegisterEventHandler(func(e events.BombExplode) {
-		if handler.bombState == nil || handler.currentRound == nil {
-			return
-		}
-
-		handler.bombState.State = "exploded"
-
-		handler.currentRound.Events = append(handler.currentRound.Events, models.ReplayEvent{
-			ID:         replayEventID(handler.currentRound.Round, ctx.Parser.GameState().IngameTick(), "bomb-explode", 0),
-			Tick:       ctx.Parser.GameState().IngameTick(),
-			Type:       "bomb_explode",
-			Site:       handler.bombState.Site,
-			X:          handler.bombState.X,
-			Y:          handler.bombState.Y,
-			DurationMS: 1200,
-		})
+		handler.removeDetonatedProjectile("he", e.Position.X, e.Position.Y)
 	})
 
 	return handler
 }
 
-func replayEventID(round, tick int, eventType string, actorID uint64) string {
-	return fmt.Sprintf("r%d-t%d-%s-%d", round, tick, eventType, actorID)
+func (h *ReplayHandler) replayEventID(round, tick int, eventType string, actorID uint64) string {
+	h.eventSequence++
+	return fmt.Sprintf("r%d-t%d-%s-%d-%d", round, tick, eventType, actorID, h.eventSequence)
+}
+
+func (h *ReplayHandler) nextReplayProjectileID() int64 {
+	h.projectileSequence++
+	return h.projectileSequence
+}
+
+// Finalize persists a valid last round when a truncated or older demo omits
+// RoundEndOfficial. ParseToEnd must call it exactly once.
+func (h *ReplayHandler) Finalize() {
+	if h.currentRound != nil {
+		endTick := h.roundEndTick
+		if count := len(h.currentRound.Frames); count > 0 && h.currentRound.Frames[count-1].Tick > endTick {
+			endTick = h.currentRound.Frames[count-1].Tick
+		}
+		if endTick >= h.currentRound.StartTick {
+			h.finishCurrentRound(endTick)
+		}
+	}
+	h.reprojectFinalCombat()
+}
+
+func (h *ReplayHandler) reprojectFinalCombat() {
+	if h.ctx == nil || h.ctx.Combat == nil {
+		return
+	}
+	ledger := h.ctx.Combat.Snapshot()
+	for index := range h.Rounds {
+		round := &h.Rounds[index]
+		round.Events = projectReplayCombatMarkers(round.Events, ledger, round.Round)
+		round.CombatShots = projectReplayCombatShots(ledger, round.Round)
+		round.Frames = projectReplayCombatFrames(round.Frames, ledger, round.Round)
+	}
+}
+
+func (h *ReplayHandler) finishCurrentRound(endTick int) {
+	if h.currentRound == nil {
+		return
+	}
+	h.currentRound.EndTick = endTick
+	var combatEvents []combat.Event
+	if h.ctx != nil && h.ctx.Combat != nil {
+		combatEvents = h.ctx.Combat.Snapshot()
+	}
+	h.currentRound.Events = projectReplayCombatMarkers(
+		h.currentRound.Events,
+		combatEvents,
+		h.currentRound.Round,
+	)
+	h.currentRound.Frames = projectReplayCombatFrames(
+		h.currentRound.Frames,
+		combatEvents,
+		h.currentRound.Round,
+	)
+	var objectiveEvents []objective.Event
+	if h.ctx != nil && h.ctx.Objectives != nil {
+		objectiveEvents = h.ctx.Objectives.Events()
+	}
+	h.currentRound.Events = projectReplayObjectiveMarkers(
+		h.currentRound.Events,
+		objectiveEvents,
+		h.currentRound.Round,
+	)
+	var utilityThrows []utility.Throw
+	if h.ctx != nil && h.ctx.Utilities != nil {
+		utilityThrows = h.ctx.Utilities.Snapshot()
+	}
+	h.currentRound.Events = projectReplayUtilityMarkers(
+		h.currentRound.Events,
+		utilityThrows,
+		h.currentRound.Round,
+	)
+	tickRate := 0.0
+	if h.ctx != nil && h.ctx.Parser != nil {
+		tickRate = h.ctx.Parser.TickRate()
+	}
+	h.currentRound.Frames = projectReplayUtilityFrames(
+		h.currentRound.Frames,
+		utilityThrows,
+		h.currentRound.Round,
+		tickRate,
+	)
+	h.Rounds = append(h.Rounds, models.ReplayRound{
+		Round:       h.currentRound.Round,
+		StartTick:   h.currentRound.StartTick,
+		EndTick:     h.currentRound.EndTick,
+		Winner:      h.currentRound.Winner,
+		Frames:      h.currentRound.Frames,
+		Events:      h.currentRound.Events,
+		CombatShots: projectReplayCombatShots(combatEvents, h.currentRound.Round),
+	})
+	h.currentRound = nil
+	h.roundPhase = "none"
+}
+
+func projectReplayObjectiveMarkers(
+	events []models.ReplayEvent,
+	objectiveEvents []objective.Event,
+	round int,
+) []models.ReplayEvent {
+	projected := make([]models.ReplayEvent, 0, len(events)+3)
+	for _, event := range events {
+		if isReplayObjectiveMarker(event.Type) {
+			continue
+		}
+		projected = append(projected, event)
+	}
+	for _, event := range objectiveEvents {
+		if event.Round != round {
+			continue
+		}
+		marker, ok := replayObjectiveMarker(event)
+		if ok {
+			projected = append(projected, marker)
+		}
+	}
+	slices.SortFunc(projected, compareReplayEvents)
+	return projected
+}
+
+func projectReplayUtilityMarkers(
+	events []models.ReplayEvent,
+	throws []utility.Throw,
+	round int,
+) []models.ReplayEvent {
+	projected := make([]models.ReplayEvent, 0, len(events)+len(throws))
+	for _, event := range events {
+		if event.Type != "utility_detonate" {
+			projected = append(projected, event)
+		}
+	}
+	for _, entry := range throws {
+		if entry.Round != round {
+			continue
+		}
+		moment, ok := utilityEffectMoment(entry.Lifecycle)
+		if !ok {
+			continue
+		}
+		marker := models.ReplayEvent{
+			ID: "utility:" + entry.ID, Tick: moment.Tick, Type: "utility_detonate",
+			GrenadeType: string(entry.Type), UtilityType: string(entry.Type),
+			PlayerID: entry.Actor.ID, ActorID: entry.Actor.ID,
+			PositionStatus: string(moment.PositionStatus), PositionSource: utility.SourceUnavailable,
+			CorrelationStatus: string(entry.Lifecycle.Correlation.Status),
+			CorrelationSource: entry.Lifecycle.Correlation.Source,
+			SourceThrowID:     entry.ID,
+		}
+		if moment.PositionStatus == utility.AvailabilityObserved {
+			marker.X, marker.Y, marker.Z = moment.Position.X, moment.Position.Y, moment.Position.Z
+			marker.PositionSource = moment.Source
+		}
+		marker.AffectedPlayerIDs = replayAffectedPlayerIDs(entry.Flashes)
+		for _, effect := range entry.Damage {
+			marker.Damage += max(0, effect.HealthDamage)
+		}
+		marker.DurationMS, marker.DurationStatus, marker.DurationSource = replayUtilityDuration(entry)
+		projected = append(projected, marker)
+	}
+	slices.SortFunc(projected, compareReplayEvents)
+	return projected
+}
+
+func replayAffectedPlayerIDs(effects []utility.FlashEffect) []string {
+	seen := make(map[uint64]struct{}, len(effects))
+	for _, effect := range effects {
+		if effect.Victim.Status == utility.AvailabilityObserved && effect.Victim.ID != 0 {
+			seen[effect.Victim.ID] = struct{}{}
+		}
+	}
+	ids := make([]uint64, 0, len(seen))
+	for steamID := range seen {
+		ids = append(ids, steamID)
+	}
+	slices.Sort(ids)
+	result := make([]string, 0, len(ids))
+	for _, steamID := range ids {
+		result = append(result, strconv.FormatUint(steamID, 10))
+	}
+	return result
+}
+
+func replayUtilityDuration(entry utility.Throw) (int, string, string) {
+	if entry.Lifecycle.Duration.Status == utility.AvailabilityObserved {
+		return int(math.Round(entry.Lifecycle.Duration.Value * 1000)),
+			string(utility.AvailabilityObserved), entry.Lifecycle.Duration.Source
+	}
+	maximum := 0.0
+	source := utility.SourceUnavailable
+	for _, effect := range entry.Flashes {
+		if effect.Duration.Status == utility.AvailabilityObserved && effect.Duration.Value >= maximum {
+			maximum, source = effect.Duration.Value, effect.Duration.Source
+		}
+	}
+	if source != utility.SourceUnavailable {
+		return int(math.Round(maximum * 1000)), string(utility.AvailabilityObserved), source
+	}
+	return 0, string(utility.AvailabilityUnavailable), utility.SourceUnavailable
+}
+
+func projectReplayUtilityFrames(
+	frames []models.ReplayFrame,
+	throws []utility.Throw,
+	round int,
+	tickRate float64,
+) []models.ReplayFrame {
+	for frameIndex := range frames {
+		frame := &frames[frameIndex]
+		for effectIndex := range frame.ActiveEffects {
+			effect := &frame.ActiveEffects[effectIndex]
+			entry, found := replayEffectThrow(*effect, throws, round)
+			if !found || tickRate <= 0 || entry.Lifecycle.Expiration.Status != utility.AvailabilityObserved {
+				effect.TimeRemaining = 0
+				effect.TimeRemainingStatus = string(utility.AvailabilityUnavailable)
+				effect.TimeRemainingSource = utility.SourceUnavailable
+				continue
+			}
+			remainingTicks := max(0, entry.Lifecycle.Expiration.Tick-frame.Tick)
+			effect.TimeRemaining = float64(remainingTicks) / tickRate
+			effect.TimeRemainingStatus = string(utility.AvailabilityObserved)
+			effect.TimeRemainingSource = utility.SourceCallbackTicks
+		}
+	}
+	return frames
+}
+
+func replayEffectThrow(
+	effect models.ReplayActiveEffect,
+	throws []utility.Throw,
+	round int,
+) (utility.Throw, bool) {
+	best := utility.Throw{}
+	found := false
+	bestDistance := math.Inf(1)
+	for _, entry := range throws {
+		if entry.Round != round || entry.Lifecycle.EffectStart.Status != utility.AvailabilityObserved ||
+			entry.Lifecycle.EffectStart.Tick != effect.StartTick || !replayEffectTypeMatches(effect.Type, entry.Type) {
+			continue
+		}
+		distance := math.Inf(1)
+		if entry.Lifecycle.EffectStart.PositionStatus == utility.AvailabilityObserved {
+			distance = math.Hypot(
+				entry.Lifecycle.EffectStart.Position.X-effect.X,
+				entry.Lifecycle.EffectStart.Position.Y-effect.Y,
+			)
+		}
+		if !found || distance < bestDistance ||
+			(distance == bestDistance && entry.Sequence < best.Sequence) {
+			best, bestDistance, found = entry, distance, true
+		}
+	}
+	return best, found
+}
+
+func replayEffectTypeMatches(effectType string, utilityType utility.Type) bool {
+	switch effectType {
+	case "smoke":
+		return utilityType == utility.TypeSmoke
+	case "inferno":
+		return utilityType == utility.TypeMolotov || utilityType == utility.TypeIncendiary ||
+			utilityType == utility.TypeUnknown
+	default:
+		return false
+	}
+}
+
+func replayInfernoKey(inferno *common.Inferno) (int64, bool) {
+	if inferno == nil {
+		return 0, false
+	}
+	return int64(inferno.UniqueID()), true
+}
+
+func replayObjectiveMarker(event objective.Event) (models.ReplayEvent, bool) {
+	eventType := ""
+	durationMS := 0
+	switch event.Type {
+	case objective.EventPlant:
+		eventType = "bomb_plant"
+	case objective.EventDefuse:
+		eventType = "bomb_defuse"
+	case objective.EventExplode:
+		eventType = "bomb_explode"
+		durationMS = 1200
+	default:
+		return models.ReplayEvent{}, false
+	}
+
+	marker := models.ReplayEvent{
+		ID:         event.ID,
+		Tick:       event.Tick,
+		Type:       eventType,
+		Site:       event.Site,
+		PlayerID:   event.Actor.SteamID,
+		DurationMS: durationMS,
+	}
+	if event.Position.Available() {
+		marker.X = event.Position.X
+		marker.Y = event.Position.Y
+		marker.Z = event.Position.Z
+	}
+	return marker, true
+}
+
+func isReplayObjectiveMarker(eventType string) bool {
+	switch eventType {
+	case "bomb_plant", "bomb_defuse", "bomb_explode":
+		return true
+	default:
+		return false
+	}
+}
+
+func compareReplayEvents(left, right models.ReplayEvent) int {
+	if order := cmp.Compare(left.Tick, right.Tick); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.Type, right.Type); order != 0 {
+		return order
+	}
+	return cmp.Compare(left.ID, right.ID)
 }
 
 // ========================================
@@ -665,8 +688,11 @@ func replayEventID(round, tick int, eventType string, actorID uint64) string {
 
 func (h *ReplayHandler) collectPlayerStates(gs dem.GameState) []models.ReplayPlayerState {
 	players := []models.ReplayPlayerState{}
+	objectiveState := ensureObjectiveTracker(h.ctx).Snapshot()
+	participants := append([]*common.Player(nil), gs.Participants().Playing()...)
+	slices.SortFunc(participants, compareReplayParticipants)
 
-	for _, p := range gs.Participants().Playing() {
+	for _, p := range participants {
 		if p == nil {
 			continue
 		}
@@ -688,7 +714,7 @@ func (h *ReplayHandler) collectPlayerStates(gs dem.GameState) []models.ReplayPla
 			Weapons:       equipment.weapons,
 			HasDefuseKit:  equipment.hasDefuseKit,
 			HasHelmet:     equipment.hasHelmet,
-			HasC4:         equipment.hasC4,
+			HasC4:         replayPlayerHasC4(p.SteamID64, p.IsAlive(), objectiveState),
 			FlashDuration: p.FlashDurationTimeRemaining().Seconds(),
 			Money:         p.Money(),
 			IsDucking:     p.IsDucking(),
@@ -701,6 +727,28 @@ func (h *ReplayHandler) collectPlayerStates(gs dem.GameState) []models.ReplayPla
 	}
 
 	return players
+}
+
+func compareReplayParticipants(left, right *common.Player) int {
+	if left == nil {
+		if right == nil {
+			return 0
+		}
+		return 1
+	}
+	if right == nil {
+		return -1
+	}
+	if order := cmp.Compare(left.SteamID64, right.SteamID64); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.UserID, right.UserID); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.EntityID, right.EntityID); order != 0 {
+		return order
+	}
+	return cmp.Compare(left.Name, right.Name)
 }
 
 func (h *ReplayHandler) resolvePlayerEquipment(player *common.Player) replayPlayerEquipment {
@@ -742,26 +790,82 @@ func mergePlayerEquipment(
 		if activeWeapon != "" {
 			cached.activeWeapon = activeWeapon
 		}
-		cached.hasDefuseKit = hasDefuseKit
 		cached.hasHelmet = hasHelmet
-		cached.hasC4 = hasC4
 	}
+	cached.hasDefuseKit = alive && hasDefuseKit
+	cached.hasC4 = alive && hasC4
 
 	if len(cached.weapons) == 0 && len(weapons) > 0 {
 		cached.weapons = append([]string(nil), weapons...)
-	}
-	if cached.activeWeapon == "" {
-		if activeWeapon != "" {
-			cached.activeWeapon = activeWeapon
-		} else {
-			cached.activeWeapon = "Knife"
-		}
 	}
 	return cached
 }
 
 func (h *ReplayHandler) resetPlayerEquipment() {
 	h.playerEquipment = make(map[uint64]replayPlayerEquipment)
+}
+
+func (h *ReplayHandler) snapshotBombState(gs dem.GameState, tick int) *models.ReplayBombState {
+	if h.currentRound == nil || gs == nil {
+		return nil
+	}
+	tracker := ensureObjectiveTracker(h.ctx)
+	snapshot := tracker.NativeSnapshot(nativeObjectiveObservation(
+		h.ctx,
+		h.currentRound.Round,
+		tick,
+	))
+	return replayBombState(snapshot)
+}
+
+func replayBombState(snapshot objective.Snapshot) *models.ReplayBombState {
+	return &models.ReplayBombState{
+		State:               snapshot.State,
+		ObjectivePhase:      snapshot.Phase,
+		IsPlantedNow:        snapshot.IsPlantedNow,
+		WasPlantedThisRound: snapshot.WasPlantedThisRound,
+		X:                   snapshot.Position.X,
+		Y:                   snapshot.Position.Y,
+		CarrierID:           replayPlayerIDPointer(snapshot.Carrier.SteamID),
+		Site:                snapshot.Site,
+		PlantTick:           snapshot.PlantTick,
+		DefuserID:           replayPlayerIDPointer(snapshot.Defuser.SteamID),
+		PositionStatus:      snapshot.Position.Status,
+		PositionSource:      snapshot.Position.Source,
+	}
+}
+
+func replayPlayerIDPointer(steamID uint64) *uint64 {
+	if steamID == 0 {
+		return nil
+	}
+	return &steamID
+}
+
+func replayPlayerHasC4(steamID uint64, alive bool, snapshot objective.Snapshot) bool {
+	return alive && steamID != 0 && snapshot.Carrier.SteamID == steamID
+}
+
+func (h *ReplayHandler) removeDetonatedProjectile(grenadeType string, x, y float64) {
+	var closestID int64
+	closestDistance := math.Inf(1)
+	closestSequence := int64(0)
+	found := false
+	for id, projectile := range h.activeProjectiles {
+		if projectile == nil || projectile.Type != grenadeType {
+			continue
+		}
+		distance := math.Hypot(projectile.X-x, projectile.Y-y)
+		if distance < closestDistance || (distance == closestDistance && (!found || projectile.ID < closestSequence)) {
+			closestID = id
+			closestDistance = distance
+			closestSequence = projectile.ID
+			found = true
+		}
+	}
+	if found && closestDistance <= 256 {
+		delete(h.activeProjectiles, closestID)
+	}
 }
 
 func (h *ReplayHandler) collectProjectiles() []models.ReplayProjectile {
@@ -788,66 +892,93 @@ func (h *ReplayHandler) collectProjectiles() []models.ReplayProjectile {
 	for _, proj := range h.activeProjectiles {
 		projectiles = append(projectiles, *proj)
 	}
+	sortReplayProjectiles(projectiles)
 
 	return projectiles
 }
 
+func sortReplayProjectiles(projectiles []models.ReplayProjectile) {
+	slices.SortFunc(projectiles, func(left, right models.ReplayProjectile) int {
+		return cmp.Compare(left.ID, right.ID)
+	})
+}
+
 func (h *ReplayHandler) collectActiveEffects(gs dem.GameState) []models.ReplayActiveEffect {
 	effects := []models.ReplayActiveEffect{}
-	currentTick := gs.IngameTick()
-	tickRate := h.ctx.Parser.TickRate()
-	if tickRate <= 0 {
-		tickRate = 64
-	}
 
 	// Collect smokes
 	for _, smoke := range h.activeSmokes {
 		snapshot := *smoke
-		snapshot.TimeRemaining = math.Max(0, 18-float64(currentTick-smoke.StartTick)/tickRate)
+		snapshot.TimeRemaining = 0
+		snapshot.TimeRemainingStatus = string(utility.AvailabilityUnavailable)
+		snapshot.TimeRemainingSource = utility.SourceUnavailable
 		effects = append(effects, snapshot)
 	}
 
 	// Update inferno hulls from game state
 	for _, inferno := range gs.Infernos() {
-		if active, ok := h.activeInfernos[int64(inferno.UniqueID())]; ok {
+		infernoKey, valid := replayInfernoKey(inferno)
+		if !valid {
+			continue
+		}
+		if active, ok := h.activeInfernos[infernoKey]; ok {
 			hull := inferno.Fires().ConvexHull2D()
 			hullFlat := make([]float64, 0, len(hull)*2)
 			for _, p := range hull {
 				hullFlat = append(hullFlat, p.X, p.Y)
 			}
 			active.Hull = hullFlat
+			fires := inferno.Fires().List()
+			firePoints := make([]float64, 0, len(fires)*2)
+			for _, fire := range fires {
+				firePoints = append(firePoints, fire.X, fire.Y)
+			}
+			active.Points = firePoints
 		}
 	}
 
 	// Collect infernos
 	for _, inferno := range h.activeInfernos {
 		snapshot := *inferno
-		snapshot.TimeRemaining = math.Max(0, 7-float64(currentTick-inferno.StartTick)/tickRate)
+		snapshot.TimeRemaining = 0
+		snapshot.TimeRemainingStatus = string(utility.AvailabilityUnavailable)
+		snapshot.TimeRemainingSource = utility.SourceUnavailable
 		effects = append(effects, snapshot)
 	}
+	slices.SortFunc(effects, compareReplayActiveEffects)
 
 	return effects
 }
 
-func (h *ReplayHandler) collectRecentShots(currentTick int) []models.ReplayShot {
-	// Clean old shots
-	validShots := []shotWithTick{}
-	for _, s := range h.recentShots {
-		if currentTick-s.tick <= ShotVisibilityTicks {
-			validShots = append(validShots, s)
-		}
+func compareReplayActiveEffects(left, right models.ReplayActiveEffect) int {
+	if order := cmp.Compare(left.Type, right.Type); order != 0 {
+		return order
 	}
-	h.recentShots = validShots
-
-	// Collect for frame
-	shots := []models.ReplayShot{}
-	for _, s := range h.recentShots {
-		shot := s.shot
-		shot.Tick = s.tick
-		shots = append(shots, shot)
+	if order := cmp.Compare(left.X, right.X); order != 0 {
+		return order
 	}
-
-	return shots
+	if order := cmp.Compare(left.Y, right.Y); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.Radius, right.Radius); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.TimeRemaining, right.TimeRemaining); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.TimeRemainingStatus, right.TimeRemainingStatus); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.TimeRemainingSource, right.TimeRemainingSource); order != 0 {
+		return order
+	}
+	if order := cmp.Compare(left.StartTick, right.StartTick); order != 0 {
+		return order
+	}
+	if order := slices.Compare(left.Hull, right.Hull); order != 0 {
+		return order
+	}
+	return slices.Compare(left.Points, right.Points)
 }
 
 // GetReplayData builds the final replay data structure
@@ -857,7 +988,7 @@ func (h *ReplayHandler) GetReplayData(matchID string) models.ReplayData {
 
 	return models.ReplayData{
 		Metadata: models.ReplayMetadata{
-			SchemaVersion: 2,
+			SchemaVersion: 5,
 			MatchID:       matchID,
 			MapName:       mapName,
 			TickRate:      tickRate,
@@ -866,6 +997,13 @@ func (h *ReplayHandler) GetReplayData(matchID string) models.ReplayData {
 		},
 		Rounds: h.Rounds,
 	}
+}
+
+func replayRoundNumber(totalRoundsPlayed int) int {
+	if totalRoundsPlayed < 0 {
+		return 1
+	}
+	return totalRoundsPlayed + 1
 }
 
 func normalizeGrenadeType(t string) string {

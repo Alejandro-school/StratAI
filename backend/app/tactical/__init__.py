@@ -1,0 +1,1 @@
+"""Tactical-map domain logic."""

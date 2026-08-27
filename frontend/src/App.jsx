@@ -1,18 +1,18 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import { LandingPage } from "./components/Landing/LandingPage";
 
 import { AuthProvider } from "./auth/useAuth";
-import RequireAuth from "./auth/RequireAuth";
 
+const LandingPage = lazy(() => import('./components/Landing/LandingPage').then((module) => ({
+  default: module.LandingPage,
+})));
+const ProtectedAppLayout = lazy(() => import('./components/Layout/ProtectedAppLayout'));
 const SteamLoginSuccess = lazy(() => import("./auth/SteamLoginSuccess"));
 const TacticalMap = lazy(() => import("./pages/TacticalMap"));
 const CoachDashboard = lazy(() => import("./pages/CoachDashboard"));
 const BotInstructions = lazy(() => import("./auth/BotInstructions"));
 const HistoryCodeForm = lazy(() => import("./auth/HistoryCodeForm"));
-const HistoryGames = lazy(() => import("./pages/HistoryGames"));
+const MatchHistoryPage = lazy(() => import("./pages/MatchHistoryPage"));
 const MatchDetails = lazy(() => import("./pages/MatchDetails"));
 const Performance = lazy(() => import("./pages/Performance"));
 const Progress = lazy(() => import("./pages/Progress"));
@@ -23,17 +23,6 @@ const RouteFallback = () => (
     Cargando…
   </div>
 );
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,      // 5 min — demo data rarely changes
-      gcTime: 15 * 60 * 1000,         // 15 min garbage collection
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
 
 /**
  * ▸ En la landing ("/"), la app se renderiza **sin** comprobar sesión
@@ -67,18 +56,12 @@ const App = () => (
 
         {/* -------------- PRIVADAS -------------- */}
         <Route
-          element={
-            <AuthProvider>
-              <QueryClientProvider client={queryClient}>
-                <RequireAuth />
-              </QueryClientProvider>
-            </AuthProvider>
-          }
+          element={<ProtectedAppLayout />}
         >
           {/* Navegación principal */}
           <Route path="/dashboard" element={<CoachDashboard />} />
           <Route path="/tactical-map" element={<TacticalMap />} />
-          <Route path="/history-games" element={<HistoryGames />} />
+          <Route path="/history-games" element={<MatchHistoryPage />} />
           <Route path="/performance" element={<Performance />} />
           <Route path="/progress" element={<Progress />} />
           <Route path="/feedback" element={<Feedback />} />

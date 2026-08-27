@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"cs2-demo-service/pkg/objective"
 	"reflect"
 	"testing"
 )
@@ -18,6 +19,84 @@ func TestFlattenPlayerWeaponsPreservesCountsAndOrder(t *testing.T) {
 	expected := []string{"MP7", "Five-SeveN", "Flashbang", "Flashbang", "Smoke Grenade", "Knife"}
 	if !reflect.DeepEqual(actual, expected) {
 		t.Fatalf("unexpected inventory: got %v, want %v", actual, expected)
+	}
+}
+
+func TestReconcileObjectiveRoleRejectsStickyNativePlantingFlag(t *testing.T) {
+	hasC4, isPlanting, isDefusing, disagreement := reconcileObjectiveRole(
+		42,
+		true,
+		false,
+		true,
+		false,
+		objective.Snapshot{Phase: objective.PhasePreplant, Carrier: objective.Actor{SteamID: 7}},
+	)
+	if hasC4 || isPlanting || isDefusing || !disagreement {
+		t.Fatalf("sticky native planting flag was not reconciled: c4=%t planting=%t defusing=%t disagreement=%t", hasC4, isPlanting, isDefusing, disagreement)
+	}
+}
+
+func TestReconcileObjectiveRoleUsesLedgerPlantingActor(t *testing.T) {
+	hasC4, isPlanting, isDefusing, disagreement := reconcileObjectiveRole(
+		42,
+		true,
+		false,
+		false,
+		false,
+		objective.Snapshot{
+			Phase:          objective.PhasePlanting,
+			Carrier:        objective.Actor{SteamID: 42},
+			PlantingPlayer: objective.Actor{SteamID: 42},
+		},
+	)
+	if !hasC4 || !isPlanting || isDefusing || !disagreement {
+		t.Fatalf("ledger planting actor was not projected: c4=%t planting=%t defusing=%t disagreement=%t", hasC4, isPlanting, isDefusing, disagreement)
+	}
+}
+
+func TestReconcileObjectiveRoleRejectsAnonymousAndDeadCarriers(t *testing.T) {
+	for _, test := range []struct {
+		name      string
+		playerID  uint64
+		alive     bool
+		carrierID uint64
+	}{
+		{name: "anonymous", playerID: 0, alive: true, carrierID: 0},
+		{name: "dead", playerID: 42, alive: false, carrierID: 42},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			hasC4, isPlanting, isDefusing, disagreement := reconcileObjectiveRole(
+				test.playerID,
+				test.alive,
+				true,
+				false,
+				false,
+				objective.Snapshot{
+					Phase:   objective.PhasePreplant,
+					Carrier: objective.Actor{SteamID: test.carrierID},
+				},
+			)
+			if hasC4 || isPlanting || isDefusing || !disagreement {
+				t.Fatalf("invalid player retained an objective role: c4=%t planting=%t defusing=%t disagreement=%t", hasC4, isPlanting, isDefusing, disagreement)
+			}
+		})
+	}
+}
+
+func TestReconcileObjectiveRoleRejectsStickyInventoryAfterDrop(t *testing.T) {
+	hasC4, isPlanting, isDefusing, disagreement := reconcileObjectiveRole(
+		42,
+		true,
+		true,
+		false,
+		false,
+		objective.Snapshot{
+			State: objective.StateDropped,
+			Phase: objective.PhasePreplant,
+		},
+	)
+	if hasC4 || isPlanting || isDefusing || !disagreement {
+		t.Fatalf("dropped C4 remained in a player inventory: c4=%t planting=%t defusing=%t disagreement=%t", hasC4, isPlanting, isDefusing, disagreement)
 	}
 }
 
@@ -82,6 +161,34 @@ func TestMergePlayerEquipmentKeepsLastLoadoutAfterDeath(t *testing.T) {
 	actual := mergePlayerEquipment(cached, false, nil, "", false, false, false)
 	if !reflect.DeepEqual(actual, cached) {
 		t.Fatalf("death changed cached equipment: got %+v, want %+v", actual, cached)
+	}
+}
+
+func TestMergePlayerEquipmentDoesNotInventActiveWeapon(t *testing.T) {
+	aliveWithoutObservation := mergePlayerEquipment(
+		replayPlayerEquipment{},
+		true,
+		[]string{"Knife"},
+		"",
+		false,
+		false,
+		false,
+	)
+	if aliveWithoutObservation.activeWeapon != "" {
+		t.Fatalf("invented active weapon without an observation: %+v", aliveWithoutObservation)
+	}
+
+	deadWithParserFallback := mergePlayerEquipment(
+		replayPlayerEquipment{},
+		false,
+		nil,
+		"Knife",
+		false,
+		false,
+		false,
+	)
+	if deadWithParserFallback.activeWeapon != "" {
+		t.Fatalf("accepted dead-player parser fallback as an observation: %+v", deadWithParserFallback)
 	}
 }
 

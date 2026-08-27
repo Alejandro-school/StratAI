@@ -1,0 +1,72 @@
+STRATAI - MODO TEMPORAL DE INTERFAZ
+===================================
+
+Fecha del cambio: 28 de julio de 2026
+
+Motivo
+------
+Trabajar en la interfaz y acceder al Dashboard sin iniciar el bot de Steam,
+sin descargar demos y sin ejecutar el servicio de procesamiento Go.
+
+Cambio aplicado
+---------------
+Archivo: package.json
+
+El comando habitual:
+
+    npm run start:all
+
+inicia temporalmente solo:
+
+    - Backend web (FastAPI)
+    - Frontend
+
+No inicia:
+
+    - Node service / bot de Steam
+    - Pipeline de descarga de demos
+    - Go service / procesamiento de demos
+
+Archivos: backend/app/routes/sharecodes.py y
+frontend/src/auth/SteamLoginSuccess.jsx
+
+La ruta /steam/pipeline-status funciona temporalmente sin Node:
+
+    - Consulta en Redis las credenciales del usuario autenticado.
+    - Comprueba que existan auth_code y known_code (share code).
+    - No valida, descarga ni procesa ninguna demo.
+    - Si ambos valores existen, marca la configuración como disponible.
+    - El frontend omite la comprobación del bot y entra al Dashboard.
+
+El comportamiento está delimitado en el backend por:
+
+    TEMPORARY_INTERFACE_MODE = True
+
+El proxy original de pipeline-status hacia Node permanece intacto y se ejecutará
+de nuevo al desactivar el modo temporal.
+
+Conservación del flujo original
+-------------------------------
+El comando completo original no se ha eliminado. Está disponible temporalmente
+como:
+
+    npm run start:all:with-demos
+
+Restauración pendiente
+----------------------
+Cuando se solicite restaurar el funcionamiento principal:
+
+1. Restaurar "start:all" para que ejecute backend, node-service, go-service
+   y frontend.
+2. Eliminar el script temporal "start:all:with-demos" si ya no es necesario.
+3. Cambiar TEMPORARY_INTERFACE_MODE a False o retirar el bloque temporal de
+   backend/app/routes/sharecodes.py.
+4. Retirar la navegación temporal de SteamLoginSuccess.jsx.
+5. Verificar que pipeline-status vuelve a consultar Node.
+6. Verificar que el bot, el pipeline de demos y Go vuelven a iniciarse.
+7. Eliminar este archivo después de completar y verificar la restauración.
+
+IMPORTANTE
+----------
+Este modo es temporal. No eliminar ni reestructurar el flujo de descargas o
+procesamiento durante los trabajos de interfaz.

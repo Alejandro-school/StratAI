@@ -38,6 +38,47 @@ const drawDeadPlayers = (context, players, config, viewport, showDeaths) => {
   }
 };
 
+const drawDirectionalMarker = (context, position, yaw, team, number, selected) => {
+  const isCounterTerrorist = team.solid === TEAM_COLORS.CT.solid;
+  const playerFill = isCounterTerrorist ? "#d9f1ff" : "#ffedbd";
+
+  // Direction is a small pointer attached to the player disc, not the marker's
+  // main silhouette.
+  context.save();
+  context.translate(position.x, position.y);
+  context.rotate(yaw);
+  context.beginPath();
+  context.moveTo(14.5, 0);
+  context.lineTo(7, -3.5);
+  context.lineTo(7, 3.5);
+  context.closePath();
+  context.fillStyle = playerFill;
+  context.shadowColor = "rgba(0,0,0,.78)";
+  context.shadowBlur = selected ? 6 : 3;
+  context.shadowOffsetY = 1;
+  context.fill();
+  context.shadowColor = "transparent";
+  context.strokeStyle = selected ? "#ffffff" : "rgba(225,235,242,.92)";
+  context.lineWidth = selected ? 1.6 : 1.1;
+  context.lineJoin = "round";
+  context.stroke();
+  context.restore();
+
+  context.beginPath();
+  context.arc(position.x, position.y, 9.25, 0, TAU);
+  context.fillStyle = playerFill;
+  context.fill();
+  context.strokeStyle = selected ? "#ffffff" : team.solid;
+  context.lineWidth = selected ? 2.2 : 1.5;
+  context.stroke();
+  context.fillStyle = "#08121c";
+  context.font = "850 9px system-ui";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  context.fillText(String(number || ""), position.x, position.y + 0.25);
+  context.textBaseline = "alphabetic";
+};
+
 export const drawPlayers = (context, frame, config, viewport, options) => {
   const hitTargets = [];
   const players = frame?.players || [];
@@ -66,34 +107,11 @@ export const drawPlayers = (context, frame, config, viewport, options) => {
       context.fillStyle = team.soft;
       context.fill();
     }
-    if (selected) {
-      context.beginPath();
-      context.arc(position.x, position.y, 17, 0, TAU);
-      context.strokeStyle = "#fff";
-      context.lineWidth = 2;
-      context.stroke();
-    }
-    context.beginPath();
-    context.arc(position.x, position.y, 10, 0, TAU);
-    context.fillStyle = team.solid;
-    context.fill();
-    context.strokeStyle = "rgba(4,9,16,.9)";
-    context.lineWidth = 2;
-    context.stroke();
-    context.fillStyle = "#071019";
-    context.font = "800 9px system-ui";
-    context.textAlign = "center";
-    context.fillText(String(teamNumber.get(playerId) || ""), position.x, position.y + 3);
     const yaw = (-player.yaw * Math.PI) / 180;
-    context.beginPath();
-    context.moveTo(position.x + Math.cos(yaw) * 8, position.y + Math.sin(yaw) * 8);
-    context.lineTo(position.x + Math.cos(yaw - 0.35) * 15, position.y + Math.sin(yaw - 0.35) * 15);
-    context.lineTo(position.x + Math.cos(yaw + 0.35) * 15, position.y + Math.sin(yaw + 0.35) * 15);
-    context.fillStyle = team.solid;
-    context.fill();
+    drawDirectionalMarker(context, position, yaw, team, teamNumber.get(playerId), selected);
     if (player.flash_duration > 0) {
       context.beginPath();
-      context.arc(position.x, position.y, 14, 0, TAU);
+      context.arc(position.x, position.y, 17, 0, TAU);
       context.strokeStyle = `rgba(255,255,218,${Math.min(1, player.flash_duration / 3)})`;
       context.stroke();
     }

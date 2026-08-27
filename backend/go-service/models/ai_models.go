@@ -29,6 +29,8 @@ type AI_EconomyRound struct {
 }
 
 type AI_EconomyTeam struct {
+	TeamID          int     `json:"team_id"` // Demo team/side entity ID (normally 2=T, 3=CT), not a stable roster ID
+	ClanName        string  `json:"clan_name,omitempty"`
 	TotalMoney      int     `json:"total_money"`
 	LossBonus       int     `json:"loss_bonus"`
 	AverageMoney    int     `json:"average_money"`
@@ -38,33 +40,48 @@ type AI_EconomyTeam struct {
 }
 
 type AI_EconomyPlayer struct {
-	SteamID             uint64          `json:"steam_id"`
-	Name                string          `json:"name"`
-	Team                string          `json:"team"`
-	SpawnArea           string          `json:"spawn_area"`
-	InitialMoney        int             `json:"initial_money"`
-	NextRoundMinMoney   int             `json:"next_round_min_money"`
-	StartRoundItems     []AI_WeaponItem `json:"start_round_items"` // Items at round start with EntityID
-	EquipmentValueStart int             `json:"equipment_value_start"`
-	SpentInBuy          int             `json:"spent_in_buy"`
-	Purchases           []AI_WeaponItem `json:"purchases"`             // Purchased items with EntityID
-	FinalEquipment      []AI_WeaponItem `json:"final_equipment"`       // Items at end of freeze time with EntityID
-	FinalEquipmentValue int             `json:"final_equipment_value"` // Total value at freeze time end
-	FinalMoney          int             `json:"final_money"`
-	EquipmentValueEnd   int             `json:"equipment_value_end"` // Equipment value at round end
-	EndEquipment        []AI_WeaponItem `json:"end_equipment"`       // Items at round end with EntityID
-	Outcome             string          `json:"outcome"`
-	WinReason           string          `json:"win_reason"`
-	Survived            bool            `json:"survived"`
-	Refunds             []string        `json:"refunds,omitempty"` // Items refunded
+	SteamID                       uint64          `json:"steam_id,string"`
+	Name                          string          `json:"name"`
+	Team                          string          `json:"team"`
+	SpawnArea                     string          `json:"spawn_area"`
+	InitialMoney                  int             `json:"initial_money"`
+	MoneyAfterBuy                 int             `json:"money_after_buy"`
+	MoneyAfterBuyCalculated       int             `json:"money_after_buy_calculated"`
+	MoneyAfterBuyObserved         bool            `json:"money_after_buy_observed"`
+	NextRoundMinMoney             int             `json:"next_round_min_money"` // Deprecated legacy field; never used by the canonical projection.
+	StartRoundItems               []AI_WeaponItem `json:"start_round_items"`    // Items at round start with EntityID
+	EquipmentValueStart           int             `json:"equipment_value_start"`
+	EquipmentValueStartCalculated int             `json:"equipment_value_start_calculated"`
+	SpentInBuy                    int             `json:"spent_in_buy"`
+	Purchases                     []AI_WeaponItem `json:"purchases"` // Purchase events observed with EntityID; may not cover armor or refunds
+	PurchasesObservedValue        int             `json:"purchases_observed_value"`
+	PurchasesVsSpentDelta         int             `json:"purchases_vs_spent_delta"` // spent_in_buy - purchases_observed_value
+	FinalEquipment                []AI_WeaponItem `json:"final_equipment"`          // Items at end of freeze time with EntityID
+	FinalEquipmentValue           int             `json:"final_equipment_value"`    // Total value at freeze time end
+	FinalEquipmentValueCalculated int             `json:"final_equipment_value_calculated"`
+	FinalMoney                    int             `json:"final_money"` // Legacy alias of money_at_round_end
+	MoneyAtRoundEnd               int             `json:"money_at_round_end"`
+	EquipmentValueEnd             int             `json:"equipment_value_end"` // Legacy alias of equipment_value_end_calculated
+	EquipmentValueEndNative       int             `json:"equipment_value_end_native"`
+	EquipmentValueEndCalculated   int             `json:"equipment_value_end_calculated"`
+	EndEquipment                  []AI_WeaponItem `json:"end_equipment"` // Physical inventory observed at RoundEnd
+	Outcome                       string          `json:"outcome"`
+	WinReason                     string          `json:"win_reason"`
+	Survived                      bool            `json:"survived"`
+	Refunds                       []string        `json:"refunds,omitempty"` // Items refunded
 }
 
 // AI_WeaponItem represents a weapon/item with tracking info
 type AI_WeaponItem struct {
-	Weapon        string `json:"weapon"`
-	Price         int    `json:"price"`
-	EntityID      int64  `json:"entity_id"`      // Unique weapon identifier
-	OriginalOwner string `json:"original_owner"` // Player who owned it at round start (or "purchased" if new)
+	Weapon              string `json:"weapon"`
+	Price               int    `json:"price"`
+	PriceStatus         string `json:"price_status"`
+	PriceTableVersion   string `json:"price_table_version"`
+	EntityID            int64  `json:"entity_id,string"`
+	OriginalOwner       string `json:"original_owner,omitempty"`
+	OriginalOwnerID     uint64 `json:"original_owner_steam_id,omitempty,string"`
+	OriginalOwnerStatus string `json:"original_owner_status"`
+	ObservationStatus   string `json:"observation_status"`
 }
 
 // AI_Item is kept for backward compatibility but prefer AI_WeaponItem
@@ -82,36 +99,45 @@ type AI_EconomyRoundEvents struct {
 
 // AI_EconomyDrop represents a weapon drop event
 type AI_EconomyDrop struct {
-	Tick          int    `json:"tick"`
-	Dropper       string `json:"dropper"`
-	DropperID     uint64 `json:"dropper_steam_id"`
-	DropperMoney  int    `json:"dropper_money"`
-	Weapon        string `json:"weapon"`
-	WeaponValue   int    `json:"weapon_value"`
-	Receiver      string `json:"receiver,omitempty"` // If picked up by teammate
-	ReceiverID    uint64 `json:"receiver_steam_id,omitempty"`
-	ReceiverMoney int    `json:"receiver_money,omitempty"`
-	PickedUp      bool   `json:"picked_up"` // Was the weapon picked up
+	Tick              int    `json:"tick"`
+	Dropper           string `json:"dropper"`
+	DropperID         uint64 `json:"dropper_steam_id,string"`
+	DropperMoney      int    `json:"dropper_money"`
+	Weapon            string `json:"weapon"`
+	WeaponValue       int    `json:"weapon_value"`
+	PriceStatus       string `json:"price_status"`
+	PriceTableVersion string `json:"price_table_version"`
+	EntityID          int64  `json:"entity_id,omitempty,string"`
+	Receiver          string `json:"receiver,omitempty"` // If picked up by teammate
+	ReceiverID        uint64 `json:"receiver_steam_id,omitempty,string"`
+	ReceiverMoney     int    `json:"receiver_money,omitempty"`
+	PickedUp          bool   `json:"picked_up"` // Was the weapon picked up
 }
 
 // AI_EconomyPickup represents picking up a weapon (not from purchase)
 type AI_EconomyPickup struct {
-	Tick        int    `json:"tick"`
-	Player      string `json:"player"`
-	PlayerID    uint64 `json:"player_steam_id"`
-	Weapon      string `json:"weapon"`
-	WeaponValue int    `json:"weapon_value"`
-	FromDrop    bool   `json:"from_drop"`             // Was from a teammate drop
-	FromPlayer  string `json:"from_player,omitempty"` // If from drop, who dropped it
+	Tick              int    `json:"tick"`
+	Player            string `json:"player"`
+	PlayerID          uint64 `json:"player_steam_id,string"`
+	Weapon            string `json:"weapon"`
+	WeaponValue       int    `json:"weapon_value"`
+	PriceStatus       string `json:"price_status"`
+	PriceTableVersion string `json:"price_table_version"`
+	EntityID          int64  `json:"entity_id,omitempty,string"`
+	FromDrop          bool   `json:"from_drop"`             // Was from a teammate drop
+	FromPlayer        string `json:"from_player,omitempty"` // If from drop, who dropped it
+	FromPlayerID      uint64 `json:"from_player_steam_id,omitempty,string"`
 }
 
 // AI_EconomyRefund represents an item refund (CS2 only)
 type AI_EconomyRefund struct {
-	Tick        int    `json:"tick"`
-	Player      string `json:"player"`
-	PlayerID    uint64 `json:"player_steam_id"`
-	Weapon      string `json:"weapon"`
-	RefundValue int    `json:"refund_value"`
+	Tick              int    `json:"tick"`
+	Player            string `json:"player"`
+	PlayerID          uint64 `json:"player_steam_id,string"`
+	Weapon            string `json:"weapon"`
+	RefundValue       int    `json:"refund_value"`
+	PriceStatus       string `json:"price_status"`
+	PriceTableVersion string `json:"price_table_version"`
 }
 
 // AI_CombatDuel represents a combat engagement (kill or damage exchange)
@@ -127,7 +153,7 @@ type AI_CombatDuel struct {
 }
 
 type AI_CombatParticipant struct {
-	SteamID        uint64 `json:"steam_id"`
+	SteamID        uint64 `json:"steam_id,string"`
 	Name           string `json:"name"`
 	Team           string `json:"team"`
 	MapArea        string `json:"map_area,omitempty"` // [NEW] Area where player is located
@@ -189,7 +215,7 @@ type AI_CombatDuelContext struct {
 	AliveT            int     `json:"alive_t"`            // Alive Ts at time of kill
 	IsOpeningKill     bool    `json:"is_opening_kill"`    // First kill of the round
 	Assister          string  `json:"assister,omitempty"` // Player who assisted
-	AssisterSteamID   uint64  `json:"assister_steam_id,omitempty"`
+	AssisterSteamID   uint64  `json:"assister_steam_id,omitempty,string"`
 
 	// [NEW] Temporal context
 	RoundTimeRemaining float64 `json:"round_time_remaining,omitempty"` // Seconds left in round
@@ -237,19 +263,22 @@ type AI_Duel struct {
 // AI_DuelParticipant represents aggregated data for a duel participant
 type AI_DuelParticipant struct {
 	// Identity
-	SteamID  uint64     `json:"steam_id"`
+	SteamID  uint64     `json:"steam_id,string"`
 	Name     string     `json:"name"`
 	Team     string     `json:"team"`
 	MapArea  string     `json:"map_area,omitempty"`
 	Position *AI_Vector `json:"position,omitempty"` // [NEW] Exact coordinate for level filtering
 
 	// Weapon & Combat Stats
-	Weapon           string `json:"weapon"`
-	TotalDamageDealt int    `json:"total_damage_dealt"`
-	DamageReceived   int    `json:"damage_received,omitempty"` // For grenade victims
-	Hits             int    `json:"hits"`
-	Headshots        int    `json:"headshots,omitempty"`
-	ShotsFired       int    `json:"shots_fired,omitempty"`
+	Weapon                   string  `json:"weapon"`
+	ActiveWeapon             *string `json:"active_weapon"`
+	ActiveWeaponObservation  string  `json:"active_weapon_observation"`
+	ActiveWeaponObservedTick *int    `json:"active_weapon_observed_tick"`
+	TotalDamageDealt         int     `json:"total_damage_dealt"`
+	DamageReceived           int     `json:"damage_received,omitempty"` // For grenade victims
+	Hits                     int     `json:"hits"`
+	Headshots                int     `json:"headshots,omitempty"`
+	ShotsFired               int     `json:"shots_fired,omitempty"`
 
 	// Health & Armor State
 	HealthBefore int `json:"health_before"`
@@ -272,22 +301,45 @@ type AI_DuelParticipant struct {
 	AvgTimeToFirstDamage  float64 `json:"avg_time_to_first_damage,omitempty"` // Average across exchanges
 
 	// Player Movement & State
-	Velocity       float64 `json:"velocity,omitempty"`
-	EngagementType string  `json:"engagement_type,omitempty"` // "peek" (>100 u/s) or "hold" (≤100 u/s)
-	IsBlind        bool    `json:"is_blind,omitempty"`
-	IsDucking      bool    `json:"is_ducking,omitempty"`
+	Velocity                 *float64 `json:"velocity"`
+	VelocityAvailable        bool     `json:"velocity_available"`
+	VelocitySource           string   `json:"velocity_source"`
+	VelocityObservation      string   `json:"velocity_observation"`
+	VelocityMeasurementTicks *int     `json:"velocity_measurement_window_ticks"`
+	VelocityObservedTick     *int     `json:"velocity_observed_tick"`
+	EngagementType           string   `json:"engagement_type,omitempty"` // "peek" (>100 u/s) or "hold" (≤100 u/s)
+	IsBlind                  bool     `json:"is_blind,omitempty"`
+	IsDucking                bool     `json:"is_ducking,omitempty"`
 }
+
+const (
+	EngagementPeekVelocityThresholdUPS = 100.0
+
+	VelocityObservationCurrentTick = "current_tick"
+	VelocityObservationLastAlive   = "last_alive"
+	VelocityObservationUnavailable = "unavailable"
+
+	ActiveWeaponObservationObservedCurrent = "observed_current"
+	ActiveWeaponObservationLastObserved    = "last_observed"
+	ActiveWeaponObservationUnavailable     = "unavailable"
+)
 
 // AI_DuelExchange represents a single damage/kill event within a duel
 type AI_DuelExchange struct {
-	Tick              int     `json:"tick"`
-	Attacker          string  `json:"attacker"`
-	Weapon            string  `json:"weapon"`
-	Damage            int     `json:"damage"`
-	Hitgroup          string  `json:"hitgroup"` // head, chest, stomach, left_arm, right_arm, left_leg, right_leg, neck, generic
-	IsKill            bool    `json:"is_kill,omitempty"`
-	TimeToReaction    float64 `json:"time_to_reaction,omitempty"`     // ms from visibility to first shot (pure reaction speed)
-	TimeToFirstDamage float64 `json:"time_to_first_damage,omitempty"` // ms from visibility to this damage (reaction + accuracy)
+	Tick              int       `json:"tick"`
+	Attacker          string    `json:"attacker"`
+	Weapon            string    `json:"weapon"`
+	Damage            int       `json:"damage"`
+	Hitgroup          string    `json:"hitgroup"`
+	IsKill            bool      `json:"is_kill,omitempty"`
+	TimeToReaction    float64   `json:"time_to_reaction,omitempty"`
+	TimeToFirstDamage float64   `json:"time_to_first_damage,omitempty"`
+	HasBulletDamage   bool      `json:"has_bullet_damage"`
+	BulletDistance    float64   `json:"bullet_distance,omitempty"`
+	DamageDirection   AI_Vector `json:"damage_direction,omitempty"`
+	Penetrations      int       `json:"penetrations,omitempty"`
+	NoScope           bool      `json:"no_scope,omitempty"`
+	AttackerInAir     bool      `json:"attacker_in_air,omitempty"`
 }
 
 // AI_DuelContext represents contextual information for the duel
@@ -327,36 +379,48 @@ type RawCombatEvent struct {
 	IsKill bool
 
 	// Attacker identity & state
-	AttackerSteamID        uint64
-	AttackerName           string
-	AttackerTeam           string
-	AttackerMapArea        string
-	AttackerHealth         int
-	AttackerArmor          int
-	AttackerEquipmentValue int
-	AttackerAmmoInMagazine int
-	AttackerAmmoReserve    int
-	AttackerVelocity       float64
-	AttackerIsBlind        bool
-	AttackerIsDucking      bool
-	AttackerShotsFired     int
-	AttackerPosition       AI_Vector // [NEW]
+	AttackerSteamID                  uint64
+	AttackerName                     string
+	AttackerTeam                     string
+	AttackerMapArea                  string
+	AttackerHealth                   int
+	AttackerArmor                    int
+	AttackerEquipmentValue           int
+	AttackerAmmoInMagazine           int
+	AttackerAmmoReserve              int
+	AttackerVelocity                 *float64
+	AttackerVelocityAvailable        bool
+	AttackerVelocitySource           string
+	AttackerVelocityObservation      string
+	AttackerVelocityMeasurementTicks *int
+	AttackerVelocityObservedTick     *int
+	AttackerIsBlind                  bool
+	AttackerIsDucking                bool
+	AttackerShotsFired               int
+	AttackerPosition                 AI_Vector // [NEW]
 
 	// Victim identity & state
-	VictimSteamID        uint64
-	VictimName           string
-	VictimTeam           string
-	VictimMapArea        string
-	VictimWeapon         string // Victim's active weapon
-	VictimHealthBefore   int
-	VictimHealthAfter    int
-	VictimArmorBefore    int
-	VictimArmorAfter     int
-	VictimEquipmentValue int
-	VictimVelocity       float64
-	VictimIsBlind        bool
-	VictimIsDucking      bool
-	VictimPosition       AI_Vector // [NEW]
+	VictimSteamID                  uint64
+	VictimName                     string
+	VictimTeam                     string
+	VictimMapArea                  string
+	VictimWeapon                   *string
+	VictimWeaponObservation        string
+	VictimWeaponObservedTick       *int
+	VictimHealthBefore             int
+	VictimHealthAfter              int
+	VictimArmorBefore              int
+	VictimArmorAfter               int
+	VictimEquipmentValue           int
+	VictimVelocity                 *float64
+	VictimVelocityAvailable        bool
+	VictimVelocitySource           string
+	VictimVelocityObservation      string
+	VictimVelocityMeasurementTicks *int
+	VictimVelocityObservedTick     *int
+	VictimIsBlind                  bool
+	VictimIsDucking                bool
+	VictimPosition                 AI_Vector // [NEW]
 
 	// Combat details
 	Weapon            string
@@ -370,6 +434,10 @@ type RawCombatEvent struct {
 	IsHeadshot        bool
 	NoScope           bool
 	ZoomLevel         int // 0=none, 1=first, 2=second (only for scoped weapons)
+	HasBulletDamage   bool
+	BulletDistance    float64
+	DamageDirection   AI_Vector
+	AttackerInAir     bool
 
 	// Aim metrics
 	CrosshairError float64
@@ -389,11 +457,25 @@ type RawCombatEvent struct {
 	IsOpeningKill          bool
 }
 
+// BulletDamageSnapshot is correlated with PlayerHurt/Kill because the native
+// BulletDamage event is emitted separately and may arrive before or after it.
+type BulletDamageSnapshot struct {
+	Tick            int
+	AttackerSteamID uint64
+	VictimSteamID   uint64
+	Distance        float64
+	DamageDirection AI_Vector
+	NumPenetrations int
+	IsNoScope       bool
+	IsAttackerInAir bool
+}
+
 // AI_GrenadeEvent represents a utility usage
 type AI_GrenadeEvent struct {
 	Round           int                `json:"-"`
 	Type            string             `json:"type"` // "Flashbang", "Smoke", "HE", "Molotov"
 	Thrower         string             `json:"thrower"`
+	ThrowerSteamID  uint64             `json:"thrower_steam_id,string"`
 	TickThrow       int                `json:"tick_throw"`
 	TickExplode     int                `json:"tick_explode"`
 	ThrowerAreaName string             `json:"thrower_area_name"`
@@ -408,12 +490,20 @@ type AI_GrenadeEvent struct {
 	DidBounce       bool               `json:"did_bounce"`
 
 	// New fields for Molotov/HE
-	DamageDealt    int                `json:"damage_dealt,omitempty"`
-	EnemiesDamaged int                `json:"enemies_damaged,omitempty"`
-	AlliesDamaged  int                `json:"allies_damaged,omitempty"`
-	Kills          int                `json:"kills,omitempty"`
-	Duration       float64            `json:"duration,omitempty"` // Seconds
-	DamagedPlayers []AI_DamagedPlayer `json:"damaged_players,omitempty"`
+	DamageDealt         int                `json:"damage_dealt,omitempty"`
+	ArmorDamageDealt    int                `json:"armor_damage_dealt,omitempty"`
+	EnemyDamage         int                `json:"enemy_damage,omitempty"`
+	EnemyArmorDamage    int                `json:"enemy_armor_damage,omitempty"`
+	FriendlyDamage      int                `json:"friendly_damage,omitempty"`
+	FriendlyArmorDamage int                `json:"friendly_armor_damage,omitempty"`
+	SelfDamage          int                `json:"self_damage,omitempty"`
+	SelfArmorDamage     int                `json:"self_armor_damage,omitempty"`
+	EnemiesDamaged      int                `json:"enemies_damaged,omitempty"`
+	AlliesDamaged       int                `json:"allies_damaged,omitempty"`
+	SelfDamaged         bool               `json:"self_damaged,omitempty"`
+	Kills               int                `json:"kills,omitempty"`
+	Duration            float64            `json:"duration,omitempty"` // Seconds
+	DamagedPlayers      []AI_DamagedPlayer `json:"damaged_players,omitempty"`
 
 	// Molotov Extinguished
 	Extinguished bool `json:"extinguished,omitempty"`
@@ -452,18 +542,25 @@ type AI_GrenadesExport struct {
 }
 
 type AI_BlindedPlayer struct {
+	SteamID  uint64  `json:"steam_id,string"`
 	Name     string  `json:"name"`
 	Duration float32 `json:"duration"`
 	Team     string  `json:"team"`
 	IsEnemy  bool    `json:"is_enemy"`
+	IsSelf   bool    `json:"is_self,omitempty"`
+	Relation string  `json:"relation,omitempty"`
 }
 
 type AI_DamagedPlayer struct {
-	Name    string `json:"name"`
-	Damage  int    `json:"damage"`
-	Team    string `json:"team"`
-	IsEnemy bool   `json:"is_enemy"`
-	IsKill  bool   `json:"is_kill"`
+	SteamID     uint64 `json:"steam_id,string"`
+	Name        string `json:"name"`
+	Damage      int    `json:"damage"`
+	ArmorDamage int    `json:"armor_damage"`
+	Team        string `json:"team"`
+	IsEnemy     bool   `json:"is_enemy"`
+	IsSelf      bool   `json:"is_self,omitempty"`
+	IsKill      bool   `json:"is_kill"`
+	Relation    string `json:"relation,omitempty"`
 }
 
 type AI_ViewAngle struct {
@@ -473,23 +570,36 @@ type AI_ViewAngle struct {
 
 // AI_TrackingEvent represents a sampled position snapshot (2Hz)
 type AI_TrackingEvent struct {
-	Tick               int       `json:"tick"`
-	PlayerSteamID      uint64    `json:"player_steam_id"`
-	Team               string    `json:"team"` // "CT" or "T"
-	Position           AI_Vector `json:"pos"`
-	AreaName           string    `json:"area_name"`
-	ViewAngleYaw       float32   `json:"view_yaw"`
-	ViewAnglePitch     float32   `json:"view_pitch"`
-	VelocityLen        float64   `json:"vel_len"`
-	IsWalking          bool      `json:"is_walking"`
-	IsDucking          bool      `json:"is_ducking"`
-	ActiveWeapon       string    `json:"active_weapon"`
-	HasC4              bool      `json:"has_c4"`
-	Health             int       `json:"health"`
-	Armor              int       `json:"armor"`
-	NearbyTeammates    int       `json:"nearby_teammates"`
-	IsAlive            bool      `json:"is_alive"`
-	RoundTimeRemaining float64   `json:"round_time_remaining"`
+	Tick                         int       `json:"tick"`
+	PlayerSteamID                uint64    `json:"player_steam_id,string"`
+	Team                         string    `json:"team"` // "CT" or "T"
+	Position                     AI_Vector `json:"pos"`
+	AreaName                     string    `json:"area_name"`
+	ViewAngleYaw                 float32   `json:"view_yaw"`
+	ViewAnglePitch               float32   `json:"view_pitch"`
+	VelocityVector               AI_Vector `json:"velocity_vector"`
+	VelocityAvailable            bool      `json:"velocity_available"`
+	VelocitySource               string    `json:"velocity_source"`
+	VelocityMeasurementTicks     int       `json:"velocity_measurement_window_ticks"`
+	IsWalking                    bool      `json:"is_walking"`
+	IsDucking                    bool      `json:"is_ducking"`
+	ActiveWeapon                 *string   `json:"active_weapon"`
+	ActiveWeaponStatus           string    `json:"active_weapon_status"`
+	LastObservedActiveWeapon     *string   `json:"last_observed_active_weapon"`
+	LastObservedActiveWeaponTick *int      `json:"last_observed_active_weapon_tick"`
+	HasC4                        bool      `json:"has_c4"`
+	HasDefuseKit                 bool      `json:"has_defuse_kit"`
+	IsPlanting                   bool      `json:"is_planting"`
+	IsDefusing                   bool      `json:"is_defusing"`
+	Health                       int       `json:"health"`
+	Armor                        int       `json:"armor"`
+	NearbyTeammates              int       `json:"nearby_teammates"`
+	IsAlive                      bool      `json:"is_alive"`
+	RoundTimeRemaining           float64   `json:"round_time_remaining"`
+	ObjectivePhase               string    `json:"objective_phase"`
+	PhaseTimeRemaining           *float64  `json:"phase_time_remaining"`
+	RoundClockRemaining          *float64  `json:"round_clock_remaining"`
+	BombTimeRemaining            *float64  `json:"bomb_time_remaining"`
 }
 
 // AI_TrackingTick represents all player states at a specific tick
@@ -533,20 +643,28 @@ type AI_PlayersSummaryExport struct {
 
 // AI_PlayerStats contains comprehensive statistics for a single player
 type AI_PlayerStats struct {
-	SteamID string `json:"steam_id"`
-	Name    string `json:"name"`
-	Team    string `json:"team"` // "CT", "T" or "Mixed"
+	SteamID                string               `json:"steam_id"`
+	Name                   string               `json:"name"`
+	Team                   string               `json:"team"` // "CT", "T" or "Mixed"
+	NativeScoreboard       AI_NativePlayerStats `json:"native_scoreboard"`
+	NativeScoreboardStatus string               `json:"native_scoreboard_status"`
 
 	// === CORE STATS ===
-	Kills        int     `json:"kills"`
-	Deaths       int     `json:"deaths"`
-	Assists      int     `json:"assists"`
-	KDRatio      float64 `json:"kd_ratio"`
-	ADR          float64 `json:"adr"`
-	HSPercentage float64 `json:"hs_percentage"`
-	Headshots    int     `json:"headshots"`
-	KAST         float64 `json:"kast"`          // % rounds with Kill, Assist, Survival or Traded
-	ImpactRating float64 `json:"impact_rating"` // HLTV Impact
+	Kills                      int     `json:"kills"`
+	Deaths                     int     `json:"deaths"`
+	Assists                    int     `json:"assists"`
+	KillsObserved              int     `json:"kills_observed"`
+	DeathsObserved             int     `json:"deaths_observed"`
+	AssistsObserved            int     `json:"assists_observed"`
+	KillsNativeMinusObserved   int     `json:"kills_native_minus_observed"`
+	DeathsNativeMinusObserved  int     `json:"deaths_native_minus_observed"`
+	AssistsNativeMinusObserved int     `json:"assists_native_minus_observed"`
+	KDRatio                    float64 `json:"kd_ratio"`
+	ADR                        float64 `json:"adr"`
+	HSPercentage               float64 `json:"hs_percentage"`
+	Headshots                  int     `json:"headshots"`
+	KAST                       float64 `json:"kast"`          // % rounds with Kill, Assist, Survival or Traded
+	ImpactRating               float64 `json:"impact_rating"` // HLTV Impact
 
 	// === HLTV 2.0 RATING ===
 	// 0.0073*KAST + 0.3591*KPR - 0.5329*DPR + 0.2372*Impact + 0.0032*ADR + 0.1587
@@ -565,24 +683,37 @@ type AI_PlayerStats struct {
 	OpeningSuccessRate    float64 `json:"opening_success_rate"`
 
 	// === TRADING & SUPPORT ===
-	TradeKills   int `json:"trade_kills"`   // Killed the killer of a teammate (refrag)
-	TradedDeaths int `json:"traded_deaths"` // Died and was avenged by teammate
-	FlashAssists int `json:"flash_assists"` // Kills on enemies that were blinded by this player
+	TradeKills              int `json:"trade_kills"`                // Killed the killer of a teammate (refrag)
+	TradedDeaths            int `json:"traded_deaths"`              // Died and was avenged by teammate
+	TradeAttempts           int `json:"trade_attempts"`             // Damaged or killed a teammate's killer in-window
+	FailedTradeAttempts     int `json:"failed_trade_attempts"`      // Attempted but did not complete the trade
+	UntradeableDeaths       int `json:"untradeable_deaths"`         // No living teammate was observed at death
+	NonEvaluableTradeDeaths int `json:"non_evaluable_trade_deaths"` // Missing state, identity or temporal coverage
+	FlashAssists            int `json:"flash_assists"`              // Kills on enemies that were blinded by this player
 
 	// === CLUTCHING ===
-	Clutches1v1Won int `json:"clutches_1v1_won"`
-	Clutches1v2Won int `json:"clutches_1v2_won"`
-	Clutches1v3Won int `json:"clutches_1v3_won"`
-	Clutches1v4Won int `json:"clutches_1v4_won"`
-	Clutches1v5Won int `json:"clutches_1v5_won"`
+	Clutches1v1Won     int `json:"clutches_1v1_won"`
+	Clutches1v2Won     int `json:"clutches_1v2_won"`
+	Clutches1v3Won     int `json:"clutches_1v3_won"`
+	Clutches1v4Won     int `json:"clutches_1v4_won"`
+	Clutches1v5Won     int `json:"clutches_1v5_won"`
+	ClutchAttempts     int `json:"clutch_attempts"`
+	ClutchWins         int `json:"clutch_wins"`
+	ClutchLosses       int `json:"clutch_losses"`
+	ClutchNotEvaluable int `json:"clutch_not_evaluable"`
 
 	// === MULTIKILLS ===
 	MultiKills map[string]int `json:"multikills"` // "1k", "2k", "3k", "4k", "ace"
 
 	// === DAMAGE BREAKDOWN ===
-	TotalDamage   int            `json:"total_damage"`
-	UtilityDamage int            `json:"utility_damage"`
-	GrenadeDamage map[string]int `json:"grenade_damage"` // "he", "molotov", "smoke", "flash"
+	TotalDamage                   int            `json:"total_damage"`
+	CombatDamageObserved          int            `json:"combat_damage_observed"`
+	CombatDamageUnattributedDelta int            `json:"combat_damage_unattributed_delta"`
+	FriendlyDamage                int            `json:"friendly_damage"`
+	SelfDamage                    int            `json:"self_damage"`
+	UtilityDamage                 int            `json:"utility_damage"`          // Authoritative native scoreboard value.
+	UtilityDamageObserved         int            `json:"utility_damage_observed"` // Enemy health damage reconstructed from the utility ledger.
+	GrenadeDamage                 map[string]int `json:"grenade_damage"`          // Ledger-derived breakdown: "he", "molotov", "unknown".
 
 	// === AIM METRICS ===
 	AvgTimeToReaction          float64        `json:"avg_time_to_reaction,omitempty"`
@@ -593,38 +724,62 @@ type AI_PlayerStats struct {
 	AvgCounterStrafeRating     float64        `json:"avg_counter_strafe_rating,omitempty"`
 	ShotsFired                 int            `json:"shots_fired"`
 	ShotsHit                   int            `json:"shots_hit"`
+	ShotsMissed                int            `json:"shots_missed"`
 	AccuracyOverall            float64        `json:"accuracy_overall"`
 	BodyPartHits               map[string]int `json:"body_part_hits"` // "head", "chest", "stomach", "legs"
 
 	// === UTILITY EFFICIENCY ===
 	GrenadesThrownTotal int `json:"grenades_thrown_total"`
 
-	FlashesThrown          int     `json:"flashes_thrown"`
-	EnemiesFlashedTotal    int     `json:"enemies_flashed_total"`
-	EnemiesFlashedPerFlash float64 `json:"enemies_flashed_per_flash"`
-	FlashDurationTotal     float64 `json:"flash_duration_total"`
-	BlindTimePerFlash      float64 `json:"blind_time_per_flash"`
+	FlashesThrown                int     `json:"flashes_thrown"`
+	EnemiesFlashedTotal          int     `json:"enemies_flashed_total"`
+	TeammatesFlashedTotal        int     `json:"teammates_flashed_total"`
+	SelfFlashesTotal             int     `json:"self_flashes_total"`
+	EnemiesFlashedPerFlash       float64 `json:"enemies_flashed_per_flash"`
+	FlashDurationTotal           float64 `json:"flash_duration_total"`
+	EnemyFlashDurationTotalMS    float64 `json:"enemy_flash_duration_total_ms"`
+	TeammateFlashDurationTotalMS float64 `json:"teammate_flash_duration_total_ms"`
+	SelfFlashDurationTotalMS     float64 `json:"self_flash_duration_total_ms"`
+	BlindTimePerFlash            float64 `json:"blind_time_per_flash"`
 
 	HEThrown        int     `json:"he_thrown"`
 	HEDamagePerNade float64 `json:"he_damage_per_nade"`
 
-	MolotovsThrown       int     `json:"molotovs_thrown"`
-	MolotovDamagePerNade float64 `json:"molotov_damage_per_nade"`
+	MolotovsThrown        int     `json:"molotovs_thrown"` // Legacy combined Molotov + incendiary count.
+	MolotovGrenadesThrown int     `json:"molotov_grenades_thrown"`
+	IncendiariesThrown    int     `json:"incendiaries_thrown"`
+	MolotovDamagePerNade  float64 `json:"molotov_damage_per_nade"`
 
 	SmokesThrown int `json:"smokes_thrown"`
+	DecoysThrown int `json:"decoys_thrown"`
 
 	// === ECONOMY ===
+	RoundsPlayed   int `json:"rounds_played"`
 	RoundsSurvived int `json:"rounds_survived"`
 
 	// === WEAPON STATS ===
 	WeaponStats map[string]AI_WeaponStat `json:"weapon_stats"`
 }
 
+// AI_NativePlayerStats exposes scoreboard counters maintained by the game and
+// demoinfocs so downstream consumers can reconcile custom aggregations.
+type AI_NativePlayerStats struct {
+	Kills           int `json:"kills"`
+	Deaths          int `json:"deaths"`
+	Assists         int `json:"assists"`
+	TotalDamage     int `json:"total_damage"`
+	UtilityDamage   int `json:"utility_damage"`
+	MVPs            int `json:"mvps"`
+	Score           int `json:"score"`
+	MoneySpentTotal int `json:"money_spent_total"`
+}
+
 type AI_WeaponStat struct {
-	Kills      int     `json:"kills"`
-	Headshots  int     `json:"headshots"`
-	Damage     int     `json:"damage"`
-	ShotsFired int     `json:"shots_fired"`
-	ShotsHit   int     `json:"shots_hit"`
-	Accuracy   float64 `json:"accuracy"` // (ShotsHit / ShotsFired) * 100
+	Kills       int     `json:"kills"`
+	Headshots   int     `json:"headshots"`
+	Damage      int     `json:"damage"`
+	ShotsFired  int     `json:"shots_fired"`
+	ShotsHit    int     `json:"shots_hit"`
+	ShotsMissed int     `json:"shots_missed"`
+	Accuracy    float64 `json:"accuracy"` // (ShotsHit / ShotsFired) * 100
 }

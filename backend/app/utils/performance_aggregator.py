@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import json
-import logging
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger(__name__)
+from ..matches.player_match_catalog import list_player_matches
+from .performance_detail_aggregator import aggregate_performance_details
 
 EXPORTS_PATH = Path(__file__).resolve().parents[2] / "data" / "exports"
 
@@ -49,73 +48,17 @@ def _extract_ct_t_score(metadata: dict[str, Any] | None) -> tuple[int, int]:
     return 0, 0
 
 
-def _read_json(file_path: Path) -> dict[str, Any] | None:
-    if not file_path.exists():
-        return None
-
-    try:
-        with file_path.open("r", encoding="utf-8") as handle:
-            data = json.load(handle)
-            return data if isinstance(data, dict) else None
-    except Exception as exc:
-        logger.warning("[performance-aggregator] Could not read %s: %s", file_path, exc)
-        return None
-
-
-def _extract_total_rounds(metadata: dict[str, Any] | None) -> int:
-    if not metadata:
-        return 30
-
-    direct = _safe_int(metadata.get("total_rounds"), 0)
-    if direct > 0:
-        return direct
-
-    score_ct, score_t = _extract_ct_t_score(metadata)
-    if score_ct + score_t > 0:
-        return score_ct + score_t
-
-    return 30
-
-
 def _iter_player_matches(steam_id: str) -> list[dict[str, Any]]:
-    matches: list[dict[str, Any]] = []
-    steam_id_str = str(steam_id)
-
-    if not EXPORTS_PATH.exists():
-        return matches
-
-    for match_dir in EXPORTS_PATH.iterdir():
-        if not match_dir.is_dir() or not match_dir.name.startswith("match_"):
-            continue
-
-        players_summary = _read_json(match_dir / "players_summary.json")
-        if not players_summary:
-            continue
-
-        players = players_summary.get("players", [])
-        if not isinstance(players, list):
-            continue
-
-        player = next(
-            (entry for entry in players if str(entry.get("steam_id")) == steam_id_str),
-            None,
-        )
-        if not isinstance(player, dict):
-            continue
-
-        metadata = _read_json(match_dir / "metadata.json") or {}
-        total_rounds = _extract_total_rounds(metadata)
-        match_id = players_summary.get("match_id") or match_dir.name
-        matches.append(
-            {
-                "match_id": str(match_id),
-                "metadata": metadata,
-                "player": player,
-                "total_rounds": total_rounds,
-            }
-        )
-
-    return matches
+    return [
+        {
+            "match_id": match.match_id,
+            "metadata": dict(match.metadata),
+            "player": dict(match.player),
+            "total_rounds": match.total_rounds,
+            "match_dir": str(match.export.directory),
+        }
+        for match in list_player_matches(str(steam_id), EXPORTS_PATH)
+    ]
 
 
 def _weighted_average(total: float, weight: float) -> float:
@@ -124,20 +67,47 @@ def _weighted_average(total: float, weight: float) -> float:
     return total / weight
 
 
-def build_performance_overview(steam_id: str) -> dict[str, Any]:
-    player_matches = _iter_player_matches(steam_id)
+def build_performance_overview(
+    steam_id: str,
+    map_name: str | None = None,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    all_player_matches = _iter_player_matches(steam_id)
+    normalized_map_name = str(map_name or "").strip().lower()
+    if normalized_map_name:
+        all_player_matches = [
+            match
+            for match in all_player_matches
+            if str(match["metadata"].get("map_name", "")).strip().lower() == normalized_map_name
+        ]
+
+    available_matches = len(all_player_matches)
+    player_matches = all_player_matches[:limit] if limit and limit > 0 else all_player_matches
     if not player_matches:
         return {
             "steam_id": str(steam_id),
+            "player": {"steam_id": str(steam_id), "name": ""},
+            "filters": {
+                "map_name": normalized_map_name or None,
+                "limit": limit,
+                "available_matches": available_matches,
+            },
             "overview": {},
             "sides": {},
             "aim": {},
             "combat": {},
+            "duels": {},
+            "mechanics": {},
             "utility": {},
             "weapons": [],
             "maps": [],
             "match_history": [],
             "economy": {},
+            "sources": {
+                "summary_matches": 0,
+                "combat_matches": 0,
+                "economy_matches": 0,
+            },
         }
 
     total_matches = len(player_matches)
@@ -166,6 +136,7 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
     t_adr_weighted_sum = 0.0
 
     total_aim_weight = 0.0
+    reaction_weighted_sum = 0.0
     ttd_weighted_sum = 0.0
     crosshair_avg_weighted_sum = 0.0
     crosshair_peek_weighted_sum = 0.0
@@ -268,6 +239,7 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
 
         aim_weight = float(max(shots_hit, 0))
         total_aim_weight += aim_weight
+        reaction_weighted_sum += _safe_float(player.get("avg_time_to_reaction"), 0.0) * aim_weight
         ttd_weighted_sum += _safe_float(player.get("time_to_damage_avg_ms"), 0.0) * aim_weight
         crosshair_avg_weighted_sum += _safe_float(player.get("crosshair_placement_avg_error"), 0.0) * aim_weight
         crosshair_peek_weighted_sum += _safe_float(player.get("crosshair_placement_peek"), 0.0) * aim_weight
@@ -345,7 +317,9 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
                 "kills": 0,
                 "deaths": 0,
                 "adr_weighted": 0.0,
+                "kast_weighted": 0.0,
                 "rating_weighted": 0.0,
+                "impact_weighted": 0.0,
                 "ct_rating_weighted": 0.0,
                 "t_rating_weighted": 0.0,
                 "ct_adr_weighted": 0.0,
@@ -361,7 +335,9 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
         map_data["kills"] += kills
         map_data["deaths"] += deaths
         map_data["adr_weighted"] += _safe_float(player.get("adr"), 0.0) * total_rounds
+        map_data["kast_weighted"] += _safe_float(player.get("kast"), 0.0) * total_rounds
         map_data["rating_weighted"] += _safe_float(player.get("hltv_rating"), 0.0) * total_rounds
+        map_data["impact_weighted"] += _safe_float(player.get("impact_rating"), 0.0) * total_rounds
         map_data["ct_rating_weighted"] += _safe_float(player.get("ct_rating"), 0.0) * total_rounds
         map_data["t_rating_weighted"] += _safe_float(player.get("t_rating"), 0.0) * total_rounds
         map_data["ct_adr_weighted"] += _safe_float(player.get("ct_adr"), 0.0) * total_rounds
@@ -442,7 +418,9 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
         win_rate_map = (data["wins"] / map_total_matches * 100) if map_total_matches > 0 else 0.0
         kd_map = (data["kills"] / data["deaths"]) if data["deaths"] > 0 else float(data["kills"])
         avg_adr_map = _weighted_average(data["adr_weighted"], float(data["rounds"]))
+        avg_kast_map = _weighted_average(data["kast_weighted"], float(data["rounds"]))
         avg_rating_map = _weighted_average(data["rating_weighted"], float(data["rounds"]))
+        avg_impact_map = _weighted_average(data["impact_weighted"], float(data["rounds"]))
 
         top_weapons = []
         for _, weapon_data in data["weapon_totals"].items():
@@ -480,7 +458,9 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
                 "win_rate": round(win_rate_map, 1),
                 "avg_kd": round(kd_map, 2),
                 "avg_adr": round(avg_adr_map, 1),
+                "avg_kast": round(avg_kast_map, 1),
                 "avg_rating": round(avg_rating_map, 2),
+                "avg_impact": round(avg_impact_map, 2),
                 "matches": data["matches"],
                 "sides": {
                     "ct_rating": round(ct_rating_map, 2),
@@ -501,8 +481,18 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
     he_thrown = utility["he_thrown"]
     molotovs_thrown = utility["molotovs_thrown"]
 
+    details = aggregate_performance_details(player_matches, str(steam_id))
     response = {
         "steam_id": str(steam_id),
+        "player": {
+            "steam_id": str(steam_id),
+            "name": str(player_matches[0]["player"].get("name", "")),
+        },
+        "filters": {
+            "map_name": normalized_map_name or None,
+            "limit": limit,
+            "available_matches": available_matches,
+        },
         "overview": {
             "total_matches": total_matches,
             "wins": wins,
@@ -511,6 +501,7 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
             "kills": total_kills,
             "deaths": total_deaths,
             "assists": total_assists,
+            "headshots": total_headshots,
             "total_damage": total_damage,
             "kd_ratio": round(overall_kd, 2),
             "adr": round(_weighted_average(adr_weighted_sum, total_rounds_weight), 1),
@@ -527,6 +518,10 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
         },
         "aim": {
             "accuracy_overall": round(overall_accuracy, 1),
+            "reaction_time_avg_ms": round(
+                _weighted_average(reaction_weighted_sum, total_aim_weight),
+                1,
+            ),
             "time_to_damage_avg_ms": round(_weighted_average(ttd_weighted_sum, total_aim_weight), 1),
             "crosshair_placement_avg_error": round(_weighted_average(crosshair_avg_weighted_sum, total_aim_weight), 2),
             "crosshair_placement_peek": round(_weighted_average(crosshair_peek_weighted_sum, total_aim_weight), 2),
@@ -546,6 +541,8 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
             "clutches": clutches,
             "multikills": multikills,
         },
+        "duels": details["duels"],
+        "mechanics": details["mechanics"],
         "utility": {
             "grenades_thrown_total": utility["grenades_thrown_total"],
             "flashes_thrown": flashes_thrown,
@@ -581,6 +578,11 @@ def build_performance_overview(steam_id: str) -> dict[str, Any]:
             "rounds_survived": rounds_survived,
             "total_rounds": rounds_total,
             "survival_rate": round(survival_rate, 1),
+            **details["economy"],
+        },
+        "sources": {
+            "summary_matches": total_matches,
+            **details["sources"],
         },
     }
 

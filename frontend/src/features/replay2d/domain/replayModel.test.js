@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  activeCombatShotsAtTick,
   activeEventsAtTick,
   closestFrameIndex,
   deriveZThreshold,
@@ -58,6 +59,61 @@ describe("replay model", () => {
     expect(effectSecondsRemaining(round.frames[1].active_effects[0], 164, 64)).toBe(17);
   });
 
+  it("uses sampled frame bounds to skip buytime and retain post-round", () => {
+    const round = normalizeRound({
+      start_tick: 40,
+      end_tick: 180,
+      frames: [{ tick: 100 }, { tick: 220 }, { tick: 164 }],
+      events: [],
+    });
+    expect(round.frames.map((frame) => frame.tick)).toEqual([100, 164, 220]);
+    expect(round.start_tick).toBe(100);
+    expect(round.end_tick).toBe(220);
+  });
+
+  it("retains the official boundary for replay rounds with atomic combat shots", () => {
+    const round = normalizeRound({
+      start_tick: 90,
+      end_tick: 120,
+      frames: [{ tick: 100 }, { tick: 110 }],
+      events: [],
+      combat_shots: [{ tick: 118, source_event_id: "fire-1" }],
+    });
+    expect(round.end_tick).toBe(120);
+    expect(round.combat_shots).toEqual([{ tick: 118, source_event_id: "fire-1" }]);
+  });
+
+  it("projects atomic shots by causal tick without fabricating a carrier frame", () => {
+    const shots = [{ tick: 118, source_event_id: "fire-1" }];
+    expect(activeCombatShotsAtTick(shots, 117)).toEqual([]);
+    expect(activeCombatShotsAtTick(shots, 118)).toEqual(shots);
+    expect(activeCombatShotsAtTick(shots, 151)).toEqual([]);
+  });
+
+  it("reconstructs bomb state so the plant position is not visible early", () => {
+    const leakedBomb = { state: "carried", x: 1208, y: 2561, site: "A", plant_tick: 200 };
+    const round = normalizeRound({
+      frames: [
+        { tick: 100, players: [], bomb: leakedBomb },
+        { tick: 220, players: [], bomb: leakedBomb },
+      ],
+      events: [{ type: "bomb_plant", tick: 200, x: 1208, y: 2561, site: "A" }],
+    });
+    expect(round.frames[0].bomb).toBeNull();
+    expect(round.frames[1].bomb).toMatchObject({ state: "planted", x: 1208, y: 2561, plant_tick: 200 });
+  });
+
+  it("derives hit events from health changes in historical replay frames", () => {
+    const round = normalizeRound({
+      frames: [
+        { tick: 100, players: [{ steam_id: 7, name: "Seven", team: "CT", health: 100, x: 10, y: 20 }] },
+        { tick: 104, players: [{ steam_id: 7, name: "Seven", team: "CT", health: 72, x: 12, y: 22 }] },
+      ],
+      events: [],
+    });
+    expect(round.events).toContainEqual(expect.objectContaining({ type: "player_hurt", victim_id: 7, damage: 28 }));
+  });
+
   it("generates a deterministic HE shake and disables it for reduced motion", () => {
     const events = [normalizeReplayEvent({ type: "utility_detonate", utility_type: "he", tick: 100 })];
     expect(getHeShake(events, 104, 64, false)).not.toEqual({ x: 0, y: 0 });
@@ -66,7 +122,7 @@ describe("replay model", () => {
 
   it("changes director speed only outside event windows", () => {
     const events = [{ tick: 640 }];
-    expect(directorRate(events, 640, 64, true, 1)).toBe(0.75);
+    expect(directorRate(events, 640, 64, true, 1)).toBe(1);
     expect(directorRate(events, 0, 64, true, 1)).toBe(2);
     expect(directorRate(events, 0, 64, false, 1)).toBe(1);
   });

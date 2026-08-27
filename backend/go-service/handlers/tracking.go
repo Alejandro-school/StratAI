@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
-	"cs2-demo-service/pkg/playerstate"
+	"cs2-demo-service/pkg/objective"
 	"math"
 	"sort"
 
@@ -50,6 +50,9 @@ func RegisterTrackingHandler(ctx *models.DemoContext) {
 		}
 
 		ctx.LastTrackingTick = currentTick
+		clock := CaptureObjectiveClockSnapshot(ctx)
+		objectiveState := ensureObjectiveTracker(ctx).Snapshot()
+		phaseTimeRemaining := clock.PhaseTimeRemaining
 
 		// Iterate over all participants
 		for _, player := range gameState.Participants().Playing() {
@@ -82,8 +85,24 @@ func RegisterTrackingHandler(ctx *models.DemoContext) {
 				}
 			}
 
-			// Create event
-			velocity := playerstate.Velocity(player)
+			motion := ctx.PlayerMotion.ObservePlayer(
+				player,
+				ctx.ActualRoundNumber,
+				currentTick,
+				tickRate,
+			)
+			weaponState := observeActiveWeapon(ctx, player, currentTick)
+			hasObjectiveC4, isPlanting, isDefusing, nativeRoleDisagreement := reconcileObjectiveRole(
+				player.SteamID64,
+				player.IsAlive(),
+				hasC4(player),
+				player.IsPlanting,
+				player.IsDefusing,
+				objectiveState,
+			)
+			if nativeRoleDisagreement {
+				ctx.ObjectiveNativeRoleDisagreements++
+			}
 			event := models.AI_TrackingEvent{
 				Tick:          currentTick,
 				PlayerSteamID: player.SteamID64,
@@ -93,19 +112,40 @@ func RegisterTrackingHandler(ctx *models.DemoContext) {
 					Y: player.Position().Y,
 					Z: player.Position().Z,
 				},
-				AreaName:           areaName,
-				ViewAngleYaw:       player.ViewDirectionX(), // Yaw = horizontal rotation
-				ViewAnglePitch:     player.ViewDirectionY(), // Pitch = vertical rotation
-				VelocityLen:        math.Sqrt(velocity.X*velocity.X + velocity.Y*velocity.Y),
-				IsWalking:          player.IsWalking(),
-				IsDucking:          player.IsDucking(),
-				ActiveWeapon:       getActiveWeapon(player),
-				HasC4:              hasC4(player),
-				Health:             player.Health(),
-				Armor:              player.Armor(),
-				NearbyTeammates:    nearbyTeammates,
-				IsAlive:            player.IsAlive(),
-				RoundTimeRemaining: calculateRoundTimeRemaining(ctx),
+				AreaName:       areaName,
+				ViewAngleYaw:   player.ViewDirectionX(), // Yaw = horizontal rotation
+				ViewAnglePitch: player.ViewDirectionY(), // Pitch = vertical rotation
+				VelocityVector: models.AI_Vector{
+					X: motion.Vector.X,
+					Y: motion.Vector.Y,
+					Z: motion.Vector.Z,
+				},
+				VelocityAvailable:        motion.Available,
+				VelocitySource:           string(motion.Source),
+				VelocityMeasurementTicks: motion.IntervalTicks,
+				IsWalking:                player.IsWalking(),
+				IsDucking:                player.IsDucking(),
+				ActiveWeapon:             weaponState.CurrentWeapon,
+				ActiveWeaponStatus:       weaponState.Status,
+				HasC4:                    hasObjectiveC4,
+				HasDefuseKit:             player.HasDefuseKit(),
+				IsPlanting:               isPlanting,
+				IsDefusing:               isDefusing,
+				Health:                   player.Health(),
+				Armor:                    player.Armor(),
+				NearbyTeammates:          nearbyTeammates,
+				IsAlive:                  player.IsAlive(),
+				RoundTimeRemaining:       clock.PhaseTimeRemaining,
+				ObjectivePhase:           string(clock.Phase),
+				PhaseTimeRemaining:       &phaseTimeRemaining,
+				RoundClockRemaining:      clock.RoundClockRemaining,
+				BombTimeRemaining:        clock.BombTimeRemaining,
+			}
+			if weaponState.CurrentWeapon == nil && weaponState.LastObservation != nil {
+				lastWeapon := weaponState.LastObservation.Weapon
+				lastTick := weaponState.LastObservation.Tick
+				event.LastObservedActiveWeapon = &lastWeapon
+				event.LastObservedActiveWeaponTick = &lastTick
 			}
 
 			// Store with round number for later grouping
@@ -115,6 +155,36 @@ func RegisterTrackingHandler(ctx *models.DemoContext) {
 			})
 		}
 	})
+}
+
+func reconcileObjectiveRole(
+	playerID uint64,
+	playerAlive bool,
+	nativeHasC4, nativePlanting, nativeDefusing bool,
+	snapshot objective.Snapshot,
+) (hasC4, isPlanting, isDefusing, nativeDisagreement bool) {
+	validPlayer := playerID != 0 && playerAlive
+	hasC4 = validPlayer && nativeHasC4
+	isPlanting = validPlayer && snapshot.Phase == objective.PhasePlanting && snapshot.PlantingPlayer.SteamID == playerID
+	isDefusing = validPlayer && snapshot.Phase == objective.PhaseDefusing && snapshot.Defuser.SteamID == playerID
+
+	if validPlayer {
+		switch snapshot.Phase {
+		case objective.PhasePlanting:
+			hasC4 = isPlanting
+		case objective.PhasePlanted, objective.PhaseDefusing, objective.PhaseResolved:
+			hasC4 = false
+		case objective.PhasePreplant:
+			switch snapshot.State {
+			case objective.StateDropped:
+				hasC4 = false
+			case objective.StateCarried:
+				hasC4 = snapshot.Carrier.SteamID == playerID
+			}
+		}
+	}
+	nativeDisagreement = nativeHasC4 != hasC4 || nativePlanting != isPlanting || nativeDefusing != isDefusing
+	return hasC4, isPlanting, isDefusing, nativeDisagreement
 }
 
 func distance(x1, y1, z1, x2, y2, z2 float64) float64 {
@@ -128,13 +198,6 @@ func hasC4(player *common.Player) bool {
 		}
 	}
 	return false
-}
-
-func getActiveWeapon(player *common.Player) string {
-	if player.ActiveWeapon() != nil {
-		return player.ActiveWeapon().String()
-	}
-	return "Knife"
 }
 
 func getPlayerWeapons(player *common.Player) []string {

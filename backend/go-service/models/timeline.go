@@ -56,29 +56,34 @@ type GameStateSnapshot struct {
 
 // PlayerStateSnapshot es el estado de un jugador en un momento dado
 type PlayerStateSnapshot struct {
-	Name            string   `json:"name"`
-	SteamID         uint64   `json:"steam_id"`
-	Team            string   `json:"team"` // "CT", "T"
-	IsAlive         bool     `json:"is_alive"`
-	HP              int      `json:"hp"`
-	Armor           int      `json:"armor"`
-	HasHelmet       bool     `json:"has_helmet"`
-	Money           int      `json:"money"`
-	EquipValue      int      `json:"equip_value"`
-	X               float64  `json:"x"`
-	Y               float64  `json:"y"`
-	Z               float64  `json:"z"`
-	VelocityX       float64  `json:"velocity_x"`
-	VelocityY       float64  `json:"velocity_y"`
-	VelocityZ       float64  `json:"velocity_z"`
-	ViewX           float64  `json:"view_x"` // Pitch
-	ViewY           float64  `json:"view_y"` // Yaw
-	ActiveWeapon    string   `json:"active_weapon"`
-	PrimaryWeapon   string   `json:"primary_weapon,omitempty"`
-	SecondaryWeapon string   `json:"secondary_weapon,omitempty"`
-	Grenades        []string `json:"grenades,omitempty"`
-	HasDefuser      bool     `json:"has_defuser"`
-	FlashDuration   float64  `json:"flash_duration"` // Duración flash actual
+	Name                     string   `json:"name"`
+	SteamID                  uint64   `json:"steam_id"`
+	Team                     string   `json:"team"` // "CT", "T"
+	IsAlive                  bool     `json:"is_alive"`
+	HP                       int      `json:"hp"`
+	Armor                    int      `json:"armor"`
+	HasHelmet                bool     `json:"has_helmet"`
+	Money                    int      `json:"money"`
+	EquipValue               int      `json:"equip_value"`
+	X                        float64  `json:"x"`
+	Y                        float64  `json:"y"`
+	Z                        float64  `json:"z"`
+	VelocityX                *float64 `json:"velocity_x"`
+	VelocityY                *float64 `json:"velocity_y"`
+	VelocityZ                *float64 `json:"velocity_z"`
+	VelocityAvailable        bool     `json:"velocity_available"`
+	VelocitySource           string   `json:"velocity_source"`
+	VelocityObservation      string   `json:"velocity_observation"`
+	VelocityMeasurementTicks *int     `json:"velocity_measurement_window_ticks"`
+	VelocityObservedTick     *int     `json:"velocity_observed_tick"`
+	ViewX                    float64  `json:"view_x"` // Pitch
+	ViewY                    float64  `json:"view_y"` // Yaw
+	ActiveWeapon             string   `json:"active_weapon"`
+	PrimaryWeapon            string   `json:"primary_weapon,omitempty"`
+	SecondaryWeapon          string   `json:"secondary_weapon,omitempty"`
+	Grenades                 []string `json:"grenades,omitempty"`
+	HasDefuser               bool     `json:"has_defuser"`
+	FlashDuration            float64  `json:"flash_duration"` // Duración flash actual
 }
 
 // RoundStartEvent marca inicio de ronda

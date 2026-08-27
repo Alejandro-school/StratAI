@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
-	"cs2-demo-service/pkg/playerstate"
+	"cs2-demo-service/pkg/economy"
 	"fmt"
 	"log"
 
@@ -12,6 +12,10 @@ import (
 
 const (
 	GAME_STATE_SAMPLE_INTERVAL = 128 // 1 segundo a 128 tick rate
+	initialLossBonusLevel      = 1
+	maximumLossBonusLevel      = economy.MaximumLossBonusLevel
+	regulationRoundsPerHalf    = 12
+	overtimeRoundsPerHalf      = 3
 )
 
 // Items de equipamiento inicial que NO deben registrarse como compras
@@ -28,11 +32,6 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 	// GameState sampling cada 128 ticks (SOLO después de freeze time)
 	ctx.Parser.RegisterEventHandler(func(e events.FrameDone) {
 		currentTick := ctx.Parser.GameState().IngameTick()
-
-		// Update PreviousPlayerPosition for velocity calculation (every frame)
-		for _, p := range ctx.Parser.GameState().Participants().Playing() {
-			ctx.PreviousPlayerPosition[p.SteamID64] = p.Position()
-		}
 
 		// FLUSH PENDING COMBAT EVENTS (Buffer logic)
 		// If an event is older than 3 seconds (3 * 128 = 384 ticks), commit it as a non-fatal duel
@@ -90,6 +89,12 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 			return
 		}
 
+		players := gs.Participants().Playing()
+		if isLossBonusResetRound(currentRound) {
+			ctx.CTConsecutiveLosses = initialLossBonusLevel
+			ctx.TConsecutiveLosses = initialLossBonusLevel
+		}
+
 		ctx.InRound = true
 		ctx.CurrentRound = currentRound
 		ctx.CurrentRoundEvents = []models.TimelineEvent{} // Reset eventos de ronda
@@ -102,7 +107,7 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 		ctMoney, tMoney := 0, 0
 		playerStates := []models.PlayerEconomyState{}
 
-		for _, player := range gs.Participants().Playing() {
+		for _, player := range players {
 			if player.Team == common.TeamCounterTerrorists {
 				ctMoney += player.Money()
 			} else if player.Team == common.TeamTerrorists {
@@ -153,9 +158,6 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 		ctx.CurrentRoundEvents = append(ctx.CurrentRoundEvents, event)
 		ctx.Timeline = append(ctx.Timeline, event)
 
-		// Reset bomb tracking
-		ctx.BombPlanted = false
-		ctx.BombSite = ""
 	})
 
 	// Freeze time end - habilitar game state sampling
@@ -187,18 +189,19 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 		if e.Winner == common.TeamCounterTerrorists {
 			winner = "CT"
 			ctx.CTRoundsWon++
-			ctx.CTConsecutiveLosses = 0
-			ctx.TConsecutiveLosses++
 		} else if e.Winner == common.TeamTerrorists {
 			winner = "T"
 			ctx.TRoundsWon++
-			ctx.TConsecutiveLosses = 0
-			ctx.CTConsecutiveLosses++
 		} else {
 			// Draw or other? Usually doesn't reset loss bonus unless specified
 			// But in CS, draw usually means no one wins, but loss bonus might increase for both?
 			// Or just keep as is.
 		}
+		ctx.CTConsecutiveLosses, ctx.TConsecutiveLosses = advanceLossBonusLevels(
+			ctx.CTConsecutiveLosses,
+			ctx.TConsecutiveLosses,
+			e.Winner,
+		)
 
 		event := models.TimelineEvent{
 			Type:  "round_end",
@@ -225,6 +228,7 @@ func RegisterTimelineHandlers(ctx *models.DemoContext) {
 				EndTick:     gs.IngameTick(),
 			}
 			ctx.RoundTimelines = append(ctx.RoundTimelines, roundTimeline)
+			captureSurvivors(ctx)
 		}
 
 		ctx.InRound = false
@@ -393,9 +397,10 @@ func captureGameState(ctx *models.DemoContext, tick int) {
 			}
 		}
 
+		weaponState := observeActiveWeapon(ctx, player, tick)
 		activeWeapon := ""
-		if player.ActiveWeapon() != nil {
-			activeWeapon = player.ActiveWeapon().String()
+		if weaponState.CurrentWeapon != nil {
+			activeWeapon = *weaponState.CurrentWeapon
 		}
 
 		team := "Spectator"
@@ -406,34 +411,39 @@ func captureGameState(ctx *models.DemoContext, tick int) {
 		}
 
 		pos := player.Position()
-		vel := playerstate.Velocity(player)
+		velocity := observePlayerVelocity(ctx, player)
 		viewX := player.ViewDirectionX()
 		viewY := player.ViewDirectionY()
 
 		snapshot := models.PlayerStateSnapshot{
-			Name:            player.Name,
-			SteamID:         player.SteamID64,
-			Team:            team,
-			IsAlive:         player.IsAlive(),
-			HP:              player.Health(),
-			Armor:           player.Armor(),
-			HasHelmet:       player.HasHelmet(),
-			Money:           player.Money(),
-			EquipValue:      player.EquipmentValueCurrent(),
-			X:               pos.X,
-			Y:               pos.Y,
-			Z:               pos.Z,
-			VelocityX:       vel.X,
-			VelocityY:       vel.Y,
-			VelocityZ:       vel.Z,
-			ViewX:           float64(viewX),
-			ViewY:           float64(viewY),
-			ActiveWeapon:    activeWeapon,
-			PrimaryWeapon:   primary,
-			SecondaryWeapon: secondary,
-			Grenades:        grenades,
-			HasDefuser:      player.HasDefuseKit(),
-			FlashDuration:   float64(player.FlashDuration),
+			Name:                     player.Name,
+			SteamID:                  player.SteamID64,
+			Team:                     team,
+			IsAlive:                  player.IsAlive(),
+			HP:                       player.Health(),
+			Armor:                    player.Armor(),
+			HasHelmet:                player.HasHelmet(),
+			Money:                    player.Money(),
+			EquipValue:               player.EquipmentValueCurrent(),
+			X:                        pos.X,
+			Y:                        pos.Y,
+			Z:                        pos.Z,
+			VelocityX:                velocity.X,
+			VelocityY:                velocity.Y,
+			VelocityZ:                velocity.Z,
+			VelocityAvailable:        velocity.Available,
+			VelocitySource:           velocity.Source,
+			VelocityObservation:      velocity.Observation,
+			VelocityMeasurementTicks: velocity.MeasurementTicks,
+			VelocityObservedTick:     velocity.ObservedTick,
+			ViewX:                    float64(viewX),
+			ViewY:                    float64(viewY),
+			ActiveWeapon:             activeWeapon,
+			PrimaryWeapon:            primary,
+			SecondaryWeapon:          secondary,
+			Grenades:                 grenades,
+			HasDefuser:               player.HasDefuseKit(),
+			FlashDuration:            float64(player.FlashDuration),
 		}
 
 		playerSnapshots = append(playerSnapshots, snapshot)
@@ -458,13 +468,15 @@ func captureGameState(ctx *models.DemoContext, tick int) {
 		}
 	}
 
+	objectiveState := ensureObjectiveTracker(ctx).Snapshot()
+
 	// Crear game state snapshot
 	gameState := models.GameStateSnapshot{
 		CTScore:       gs.TeamCounterTerrorists().Score(),
 		TScore:        gs.TeamTerrorists().Score(),
 		TimeRemaining: timeRemaining,
-		BombPlanted:   ctx.BombPlanted,
-		BombSite:      ctx.BombSite,
+		BombPlanted:   objectiveState.IsPlantedNow,
+		BombSite:      objectiveState.Site,
 		Players:       playerSnapshots,
 		CTAlive:       ctAlive,
 		TAlive:        tAlive,
@@ -484,10 +496,27 @@ func captureGameState(ctx *models.DemoContext, tick int) {
 }
 
 func calculateLossBonus(losses int) int {
-	if losses > 4 {
-		losses = 4
+	return economy.LossBonus(losses)
+}
+
+func isLossBonusResetRound(roundNumber int) bool {
+	if roundNumber == 1 || roundNumber == regulationRoundsPerHalf+1 {
+		return true
 	}
-	return 1400 + (losses * 500)
+	firstOvertimeRound := regulationRoundsPerHalf*2 + 1
+	return roundNumber >= firstOvertimeRound &&
+		(roundNumber-firstOvertimeRound)%overtimeRoundsPerHalf == 0
+}
+
+func advanceLossBonusLevels(ctLevel, tLevel int, winner common.Team) (int, int) {
+	switch winner {
+	case common.TeamCounterTerrorists:
+		return max(0, ctLevel-1), min(maximumLossBonusLevel, tLevel+1)
+	case common.TeamTerrorists:
+		return min(maximumLossBonusLevel, ctLevel+1), max(0, tLevel-1)
+	default:
+		return ctLevel, tLevel
+	}
 }
 
 // AddTimelineEvent es un helper para agregar eventos desde otros handlers
@@ -548,12 +577,4 @@ func AddBombToTimeline(ctx *models.DemoContext, tick int, bomb *models.BombEvent
 		Bomb:  bomb,
 	}
 	AddTimelineEvent(ctx, event)
-
-	// Update bomb tracking in context
-	if bomb.EventType == "plant" {
-		ctx.BombPlanted = true
-		ctx.BombSite = bomb.Site
-	} else if bomb.EventType == "defuse" || bomb.EventType == "explode" {
-		ctx.BombPlanted = false
-	}
 }

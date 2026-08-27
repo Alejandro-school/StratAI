@@ -1,0 +1,4296 @@
+{
+  "schema_id": "stratai.ai_coach_capability_catalog@1",
+  "version": "1.0.0",
+  "date": "2026-08-27",
+  "status": "AUDITED_CONTRACT_NO_TRAINING",
+  "product_scope": "integral Mirage coach; trade/peek remain the first technical vertical only",
+  "non_negotiables": [
+    "Go publishes objective reproducible facts, never good/bad judgments",
+    "observed, oracle, outcomes and historical profile stay physically/logically separate",
+    "causal means no future information, not proof of an unobserved counterfactual",
+    "LLM explains an approved Evidence Pack and never ranks actions",
+    "task eligibility is per capability; bundle validity is not a global training permit",
+    "no player IDs as model features"
+  ],
+  "flows": {
+    "faceit_global": {
+      "steps": [
+        "FACEIT demo",
+        "canonical Go processor",
+        "quality gates",
+        "decision/outcome datasets per specialist",
+        "later training/evaluation"
+      ],
+      "focal_player": "none by default",
+      "training_use": "only versioned eligible datasets"
+    },
+    "user_coaching": {
+      "steps": [
+        "user demo",
+        "same canonical Go processor",
+        "safe Steam ID reconciliation",
+        "decision assessment",
+        "prior-only profile update",
+        "personal recommendations"
+      ],
+      "focal_player": "required and safely reconciled",
+      "global_training_use": "not automatic; requires consent, anonymization, quality, versioning and withdrawal"
+    }
+  },
+  "partitions": {
+    "observed": "information reasonably available at or before T0 with availability proof",
+    "oracle": "full-demo hidden state, label/evaluation only",
+    "outcomes": "events at or after T0, label/evaluation only",
+    "perfil_histórico": "only matches strictly earlier than the recommendation"
+  },
+  "availability_statuses": [
+    "EXISTE_VERIFICADO",
+    "DERIVABLE",
+    "PARCIAL",
+    "FALTA_EXTRAER",
+    "REQUIERE_CLASIFICACION",
+    "NO_OBSERVABLE",
+    "DESCONOCIDO"
+  ],
+  "capabilities": [
+    {
+      "id": "CAP-COMBAT-001",
+      "category": "combate",
+      "question": "¿Tomó un duelo razonable y cómo ejecutó disparo, ráfaga, spray, recarga o cambio de arma?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-DUEL-001, DEC-SHOOT-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-DUEL-001",
+        "DEC-SHOOT-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-TAKE-DUEL",
+        "ACT-AVOID-DUEL",
+        "ACT-STOP-SHOOT",
+        "ACT-CONTINUE-BURST",
+        "ACT-RESET-SPRAY",
+        "ACT-RELOAD-NOW",
+        "ACT-DELAY-RELOAD"
+      ],
+      "required_observed_fields": [
+        "FLD-SELF-STATE-16HZ",
+        "FLD-COMBAT-EVENT",
+        "FLD-SHOT-STATE",
+        "FLD-WEAPON-AMMO",
+        "FLD-ROUND-CLOCK"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-DAMAGE-2S",
+        "OUT-DAMAGE-RECEIVED-2S",
+        "OUT-KILL-5S",
+        "OUT-SURVIVAL-10S",
+        "OUT-ROUND-WIN"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-SELF-STATE-16HZ",
+          "FLD-COMBAT-EVENT",
+          "FLD-SHOT-STATE",
+          "FLD-WEAPON-AMMO",
+          "FLD-ROUND-CLOCK"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-CROSSHAIR-001",
+      "category": "mecánica",
+      "question": "¿La mira estaba preparada para el ángulo y fue estable antes del primer contacto?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-SHOOT-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-SHOOT-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-HOLD-ANGLE",
+        "ACT-CHANGE-ANGLE",
+        "ACT-FIRST-PEEK",
+        "ACT-JIGGLE-INFO"
+      ],
+      "required_observed_fields": [
+        "FLD-VIEW-ANGLES",
+        "FLD-POSITION-2HZ",
+        "FLD-VISIBLE-CONTACT",
+        "FLD-CROSSHAIR-ERROR"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-TIME-TO-DAMAGE",
+        "OUT-DAMAGE-2S",
+        "OUT-KILL-5S"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-VIEW-ANGLES",
+          "FLD-POSITION-2HZ",
+          "FLD-VISIBLE-CONTACT",
+          "FLD-CROSSHAIR-ERROR"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-MOVEMENT-001",
+      "category": "mecánica",
+      "question": "¿El movimiento antes, durante y después del disparo favoreció precisión y salida segura?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-SHOOT-001, DEC-POSITION-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-SHOOT-001",
+        "DEC-POSITION-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-STOP-SHOOT",
+        "ACT-CONTINUE-BURST",
+        "ACT-RESET-SPRAY",
+        "ACT-FALL-BACK",
+        "ACT-REPOSITION"
+      ],
+      "required_observed_fields": [
+        "FLD-VELOCITY-2HZ",
+        "FLD-MOVEMENT-DIRECTION",
+        "FLD-SHOT-STATE",
+        "FLD-STANCE"
+      ],
+      "permitted_oracle_for_labels": [],
+      "outcome_ids": [
+        "OUT-DAMAGE-2S",
+        "OUT-DAMAGE-RECEIVED-2S",
+        "OUT-SURVIVAL-10S"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-VELOCITY-2HZ",
+          "FLD-MOVEMENT-DIRECTION",
+          "FLD-SHOT-STATE",
+          "FLD-STANCE"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-PEEK-001",
+      "category": "peeks",
+      "question": "¿Debía asomarse, mantener, repetir, cambiar de ángulo o retirarse en T0?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-PEEK-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-PEEK-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-FIRST-PEEK",
+        "ACT-REPEAT-PEEK",
+        "ACT-WIDE-PEEK",
+        "ACT-JIGGLE-INFO",
+        "ACT-HOLD-ANGLE",
+        "ACT-CHANGE-ANGLE",
+        "ACT-FALL-BACK"
+      ],
+      "required_observed_fields": [
+        "FLD-SELF-STATE-16HZ",
+        "FLD-VISIBLE-CONTACT",
+        "FLD-FOV-CONTACT",
+        "FLD-SMOKE-OCCLUSION",
+        "FLD-EXPOSURE-ANGLES",
+        "FLD-COVER",
+        "FLD-EXIT-ROUTE"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-DAMAGE-2S",
+        "OUT-DAMAGE-RECEIVED-2S",
+        "OUT-KILL-5S",
+        "OUT-SURVIVAL-10S",
+        "OUT-EXPOSURE-DELTA"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-SELF-STATE-16HZ",
+          "FLD-VISIBLE-CONTACT",
+          "FLD-FOV-CONTACT",
+          "FLD-SMOKE-OCCLUSION",
+          "FLD-EXPOSURE-ANGLES",
+          "FLD-COVER",
+          "FLD-EXIT-ROUTE"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "INSUFICIENTE"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "INSUFICIENTE",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-POSITION-001",
+      "category": "posicionamiento",
+      "question": "¿La posición ofrecía cobertura, una exposición asumible y una salida físicamente alcanzable?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-POSITION-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-POSITION-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-HOLD-POSITION",
+        "ACT-ADVANCE-ZONE",
+        "ACT-FALL-BACK",
+        "ACT-REPOSITION",
+        "ACT-CHANGE-ANGLE"
+      ],
+      "required_observed_fields": [
+        "FLD-POSITION-2HZ",
+        "FLD-MAP-ZONE",
+        "FLD-COVER",
+        "FLD-EXPOSURE-ANGLES",
+        "FLD-EXIT-ROUTE",
+        "FLD-ROUND-CLOCK"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-EXPOSURE-DELTA",
+        "OUT-MAP-CONTROL-DELTA",
+        "OUT-SURVIVAL-10S"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-POSITION-2HZ",
+          "FLD-MAP-ZONE",
+          "FLD-COVER",
+          "FLD-EXPOSURE-ANGLES",
+          "FLD-EXIT-ROUTE",
+          "FLD-ROUND-CLOCK"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "INSUFICIENTE"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "INSUFICIENTE",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-TEAM-001",
+      "category": "equipo",
+      "question": "¿Había spacing, apoyo, trade, crossfire o doble peek físicamente conectados?",
+      "affected_players": "actor and relevant teammates",
+      "start_condition": "as defined by DEC-TRADE-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-TRADE-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-WAIT-TRADE",
+        "ACT-SUPPORT-TEAMMATE",
+        "ACT-REGROUP",
+        "ACT-ADVANCE-ZONE",
+        "ACT-HOLD-POSITION"
+      ],
+      "required_observed_fields": [
+        "FLD-TEAMMATE-STATES",
+        "FLD-TRADE-POSSIBLE",
+        "FLD-PATH-DISTANCE",
+        "FLD-CONNECTION-TIME",
+        "FLD-LINE-OF-SIGHT",
+        "FLD-FACING-DELTA"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-TRADE-5S",
+        "OUT-DAMAGE-2S",
+        "OUT-SURVIVAL-10S",
+        "OUT-NUMERIC-ADVANTAGE-DELTA"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-TEAMMATE-STATES",
+          "FLD-TRADE-POSSIBLE",
+          "FLD-PATH-DISTANCE",
+          "FLD-CONNECTION-TIME",
+          "FLD-LINE-OF-SIGHT",
+          "FLD-FACING-DELTA"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL_AVANZADO"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL_AVANZADO",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-ENTRY-001",
+      "category": "equipo",
+      "question": "¿La entrada estuvo sincronizada con compañeros y utilidad observable y generó impacto local?",
+      "affected_players": "actor and relevant teammates",
+      "start_condition": "as defined by DEC-ENTRY-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-ENTRY-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-DELAY-ACTION",
+        "ACT-WAIT-TRADE",
+        "ACT-SUPPORT-TEAMMATE",
+        "ACT-ADVANCE-ZONE",
+        "ACT-REGROUP"
+      ],
+      "required_observed_fields": [
+        "FLD-TEAMMATE-STATES",
+        "FLD-TRADE-POSSIBLE",
+        "FLD-UTILITY-IN-FLIGHT",
+        "FLD-VISIBLE-CONTACT",
+        "FLD-MAP-ZONE"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-DAMAGE-2S",
+        "OUT-TRADE-5S",
+        "OUT-SPACE-PROXY",
+        "OUT-OBJECTIVE-10S",
+        "OUT-SURVIVAL-10S"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-TEAMMATE-STATES",
+          "FLD-TRADE-POSSIBLE",
+          "FLD-UTILITY-IN-FLIGHT",
+          "FLD-VISIBLE-CONTACT",
+          "FLD-MAP-ZONE"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-UTILITY-001",
+      "category": "utilidad",
+      "question": "¿Debía usar, retrasar, conservar o coordinar una utilidad concreta?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-UTILITY-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-UTILITY-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-USE-UTILITY-NOW",
+        "ACT-DELAY-UTILITY",
+        "ACT-SAVE-UTILITY",
+        "ACT-UTILITY-ZONE",
+        "ACT-UTILITY-TEAMMATE",
+        "ACT-UTILITY-OBJECTIVE"
+      ],
+      "required_observed_fields": [
+        "FLD-UTILITY-INVENTORY",
+        "FLD-UTILITY-EVENT",
+        "FLD-UTILITY-TRAJECTORY",
+        "FLD-TEAMMATE-STATES",
+        "FLD-MAP-ZONE",
+        "FLD-ROUND-CLOCK"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-UTILITY-EFFECT",
+        "OUT-DAMAGE-2S",
+        "OUT-SPACE-PROXY",
+        "OUT-OBJECTIVE-10S"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-UTILITY-INVENTORY",
+          "FLD-UTILITY-EVENT",
+          "FLD-UTILITY-TRAJECTORY",
+          "FLD-TEAMMATE-STATES",
+          "FLD-MAP-ZONE",
+          "FLD-ROUND-CLOCK"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-ECONOMY-001",
+      "category": "economía",
+      "question": "¿La compra, drop, eco, force o save era coherente con equipo, rondas futuras y objetivo?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-ECONOMY-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-ECONOMY-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-FULL-BUY",
+        "ACT-PARTIAL-BUY",
+        "ACT-ECO",
+        "ACT-SAVE-EQUIPMENT",
+        "ACT-DROP-EQUIPMENT"
+      ],
+      "required_observed_fields": [
+        "FLD-MONEY",
+        "FLD-TEAM-ECONOMY",
+        "FLD-UTILITY-INVENTORY",
+        "FLD-WEAPON-INVENTORY",
+        "FLD-SCORE"
+      ],
+      "permitted_oracle_for_labels": [],
+      "outcome_ids": [
+        "OUT-ROUND-WIN",
+        "OUT-ECONOMY-1R",
+        "OUT-ECONOMY-3R",
+        "OUT-MATCH-WIN"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-MONEY",
+          "FLD-TEAM-ECONOMY",
+          "FLD-UTILITY-INVENTORY",
+          "FLD-WEAPON-INVENTORY",
+          "FLD-SCORE"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL_FUERTE"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL_FUERTE",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-INFO-001",
+      "category": "información",
+      "question": "¿Qué información estaba disponible según la demo y fue coherente la respuesta del jugador?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-INFO-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-INFO-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-HOLD-POSITION",
+        "ACT-REPOSITION",
+        "ACT-ROTATE-SITE",
+        "ACT-DELAY-ROTATION",
+        "ACT-JIGGLE-INFO"
+      ],
+      "required_observed_fields": [
+        "FLD-VISIBLE-CONTACT",
+        "FLD-LAST-KNOWN-POSITION",
+        "FLD-INFORMATION-AGE",
+        "FLD-OBJECTIVE-STATE",
+        "FLD-TEAMMATE-STATES"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-DAMAGE-RECEIVED-2S",
+        "OUT-MAP-CONTROL-DELTA",
+        "OUT-OBJECTIVE-10S"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-VISIBLE-CONTACT",
+          "FLD-LAST-KNOWN-POSITION",
+          "FLD-INFORMATION-AGE",
+          "FLD-OBJECTIVE-STATE",
+          "FLD-TEAMMATE-STATES"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "INSUFICIENTE"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "INSUFICIENTE",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-ROTATE-001",
+      "category": "rotaciones",
+      "question": "¿Debía mantener control, rotar, retrasar, cancelar o elegir otra ruta?",
+      "affected_players": "actor and relevant teammates",
+      "start_condition": "as defined by DEC-ROTATION-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-ROTATION-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-HOLD-MAP-CONTROL",
+        "ACT-TAKE-MAP-CONTROL",
+        "ACT-CEDE-MAP-CONTROL",
+        "ACT-ROTATE-SITE",
+        "ACT-DELAY-ROTATION",
+        "ACT-CANCEL-ROTATION",
+        "ACT-SAFE-ROUTE"
+      ],
+      "required_observed_fields": [
+        "FLD-MAP-ZONE",
+        "FLD-NAV-ROUTE",
+        "FLD-REACHABILITY",
+        "FLD-TRAVEL-TIME",
+        "FLD-LAST-KNOWN-POSITION",
+        "FLD-OBJECTIVE-STATE",
+        "FLD-ROUND-CLOCK"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-MAP-CONTROL-DELTA",
+        "OUT-OBJECTIVE-10S",
+        "OUT-ROUND-WIN"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-MAP-ZONE",
+          "FLD-NAV-ROUTE",
+          "FLD-REACHABILITY",
+          "FLD-TRAVEL-TIME",
+          "FLD-LAST-KNOWN-POSITION",
+          "FLD-OBJECTIVE-STATE",
+          "FLD-ROUND-CLOCK"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "INSUFICIENTE"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "INSUFICIENTE",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-OBJECTIVE-001",
+      "category": "objetivo",
+      "question": "¿Debía plantar, proteger, jugar postplant, retakear, desactivar o guardar?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-PLANT-001, DEC-RETAKE-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-PLANT-001",
+        "DEC-RETAKE-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-PLANT-NOW",
+        "ACT-DELAY-PLANT",
+        "ACT-PROTECT-PLANTER",
+        "ACT-HOLD-POSTPLANT",
+        "ACT-START-RETAKE",
+        "ACT-ATTEMPT-DEFUSE",
+        "ACT-SAVE-RETAKE",
+        "ACT-ABANDON-OBJECTIVE"
+      ],
+      "required_observed_fields": [
+        "FLD-OBJECTIVE-EVENT",
+        "FLD-OBJECTIVE-STATE",
+        "FLD-ROUND-CLOCK",
+        "FLD-BOMB-CLOCK",
+        "FLD-DEFUSE-KIT",
+        "FLD-NAV-ROUTE",
+        "FLD-TRAVEL-TIME",
+        "FLD-UTILITY-INVENTORY"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-OBJECTIVE-10S",
+        "OUT-SURVIVAL-10S",
+        "OUT-ROUND-WIN",
+        "OUT-ECONOMY-1R"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-OBJECTIVE-EVENT",
+          "FLD-OBJECTIVE-STATE",
+          "FLD-ROUND-CLOCK",
+          "FLD-BOMB-CLOCK",
+          "FLD-DEFUSE-KIT",
+          "FLD-NAV-ROUTE",
+          "FLD-TRAVEL-TIME",
+          "FLD-UTILITY-INVENTORY"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-TIME-001",
+      "category": "transversal",
+      "question": "¿La acción respetó el tiempo restante, los deadlines físicos y la fase de objetivo?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-PEEK-001, DEC-ROTATION-001, DEC-PLANT-001, DEC-RETAKE-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-PEEK-001",
+        "DEC-ROTATION-001",
+        "DEC-PLANT-001",
+        "DEC-RETAKE-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-DELAY-ACTION",
+        "ACT-ADVANCE-ZONE",
+        "ACT-FALL-BACK",
+        "ACT-ATTEMPT-OBJECTIVE",
+        "ACT-ABANDON-OBJECTIVE"
+      ],
+      "required_observed_fields": [
+        "FLD-ROUND-CLOCK",
+        "FLD-BOMB-CLOCK",
+        "FLD-TRAVEL-TIME",
+        "FLD-OBJECTIVE-STATE"
+      ],
+      "permitted_oracle_for_labels": [],
+      "outcome_ids": [
+        "OUT-OBJECTIVE-10S",
+        "OUT-ROUND-WIN"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-ROUND-CLOCK",
+          "FLD-BOMB-CLOCK",
+          "FLD-TRAVEL-TIME",
+          "FLD-OBJECTIVE-STATE"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "DERIVABLE_TRAS_RUTAS"
+      },
+      "initial_method": "versioned formula over specialist outcomes",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "DERIVABLE_TRAS_RUTAS",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-ADVANTAGE-001",
+      "category": "transversal",
+      "question": "¿La acción conservó o mejoró la ventaja numérica disponible en T0?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-RISK-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-RISK-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-HOLD-POSITION",
+        "ACT-DELAY-ACTION",
+        "ACT-TAKE-DUEL",
+        "ACT-AVOID-DUEL",
+        "ACT-REGROUP"
+      ],
+      "required_observed_fields": [
+        "FLD-ALIVE-COUNTS",
+        "FLD-TEAMMATE-STATES",
+        "FLD-OBJECTIVE-STATE",
+        "FLD-ROUND-CLOCK"
+      ],
+      "permitted_oracle_for_labels": [],
+      "outcome_ids": [
+        "OUT-NUMERIC-ADVANTAGE-DELTA",
+        "OUT-DAMAGE-2S",
+        "OUT-SURVIVAL-10S",
+        "OUT-ROUND-WIN"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-ALIVE-COUNTS",
+          "FLD-TEAMMATE-STATES",
+          "FLD-OBJECTIVE-STATE",
+          "FLD-ROUND-CLOCK"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "DERIVABLE"
+      },
+      "initial_method": "versioned formula over specialist outcomes",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "DERIVABLE",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-RISK-001",
+      "category": "transversal",
+      "question": "¿El riesgo asumido era justificable frente a supervivencia, objetivo, tiempo y economía?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-RISK-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-RISK-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-TAKE-DUEL",
+        "ACT-AVOID-DUEL",
+        "ACT-HOLD-POSITION",
+        "ACT-FALL-BACK",
+        "ACT-SAVE-EQUIPMENT"
+      ],
+      "required_observed_fields": [
+        "FLD-HEALTH-ARMOR",
+        "FLD-EXPOSURE-ANGLES",
+        "FLD-COVER",
+        "FLD-ALIVE-COUNTS",
+        "FLD-OBJECTIVE-STATE",
+        "FLD-TEAM-ECONOMY"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-DAMAGE-RECEIVED-2S",
+        "OUT-SURVIVAL-10S",
+        "OUT-ROUND-WIN",
+        "OUT-ECONOMY-1R"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-HEALTH-ARMOR",
+          "FLD-EXPOSURE-ANGLES",
+          "FLD-COVER",
+          "FLD-ALIVE-COUNTS",
+          "FLD-OBJECTIVE-STATE",
+          "FLD-TEAM-ECONOMY"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "INSUFICIENTE_ESPACIAL"
+      },
+      "initial_method": "versioned formula over specialist outcomes",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "INSUFICIENTE_ESPACIAL",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-CLUTCH-001",
+      "category": "situaciones especiales",
+      "question": "¿Qué política conservadora era mejor en un clutch o situación especial con soporte comparable?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-CLUTCH-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-CLUTCH-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-HOLD-POSITION",
+        "ACT-CHANGE-ANGLE",
+        "ACT-JIGGLE-INFO",
+        "ACT-TAKE-DUEL",
+        "ACT-AVOID-DUEL",
+        "ACT-ATTEMPT-OBJECTIVE",
+        "ACT-SAVE-EQUIPMENT"
+      ],
+      "required_observed_fields": [
+        "FLD-ALIVE-COUNTS",
+        "FLD-SELF-STATE-16HZ",
+        "FLD-OBJECTIVE-STATE",
+        "FLD-ROUND-CLOCK",
+        "FLD-UTILITY-INVENTORY",
+        "FLD-LAST-KNOWN-POSITION"
+      ],
+      "permitted_oracle_for_labels": [
+        "FLD-ORACLE-ENEMY-STATE"
+      ],
+      "outcome_ids": [
+        "OUT-DAMAGE-2S",
+        "OUT-KILL-5S",
+        "OUT-OBJECTIVE-10S",
+        "OUT-SURVIVAL-10S",
+        "OUT-ROUND-WIN"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-ALIVE-COUNTS",
+          "FLD-SELF-STATE-16HZ",
+          "FLD-OBJECTIVE-STATE",
+          "FLD-ROUND-CLOCK",
+          "FLD-UTILITY-INVENTORY",
+          "FLD-LAST-KNOWN-POSITION"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "PARCIAL_RARO"
+      },
+      "initial_method": "verified rules + contextual frequency + regularized regression; CatBoost challenger",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "PARCIAL_RARO",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    },
+    {
+      "id": "CAP-PROFILE-001",
+      "category": "perfil histórico",
+      "question": "¿Qué errores, fortalezas y cambios se repiten usando exclusivamente partidas anteriores?",
+      "affected_players": "actor; other players only as factual context",
+      "start_condition": "as defined by DEC-PROFILE-001",
+      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "end_condition": "decision-specific terminal condition; never used as T0 input",
+      "required_history": [
+        "actor physical state at T0",
+        "team and objective state available at T0",
+        "up to 10 seconds of legal history where the decision contract requires it"
+      ],
+      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "observed_action": [
+        "DEC-PROFILE-001"
+      ],
+      "physically_possible_alternatives": [
+        "ACT-PRACTICE-MECHANIC",
+        "ACT-PRACTICE-DECISION",
+        "ACT-MAINTAIN-STRENGTH"
+      ],
+      "required_observed_fields": [
+        "FLD-PRIOR-MATCH-FINDINGS",
+        "FLD-PRIOR-MATCH-CONTEXT",
+        "FLD-PRIOR-EXECUTION"
+      ],
+      "permitted_oracle_for_labels": [],
+      "outcome_ids": [
+        "OUT-PATTERN-RECURRENCE",
+        "OUT-PATTERN-TREND"
+      ],
+      "confounders": [
+        "opponent skill and action",
+        "spawn and prior team plan",
+        "teammate actions and utility",
+        "economy and weapon mismatch",
+        "unobserved voice, intent and subjective sound",
+        "selection/overlap of the observed policy"
+      ],
+      "exclusions": [
+        "warmup or non-standard rules",
+        "unreconciled actor/bot",
+        "missing T0 state",
+        "future leakage",
+        "unsupported map asset",
+        "duplicate/overlapping episode without episode weight"
+      ],
+      "task_eligibility": {
+        "bundle_must_pass": true,
+        "required_fields": [
+          "FLD-PRIOR-MATCH-FINDINGS",
+          "FLD-PRIOR-MATCH-CONTEXT",
+          "FLD-PRIOR-EXECUTION"
+        ],
+        "hard_blockers": [
+          "required field unavailable",
+          "T0 availability violation",
+          "unsupported candidate geometry",
+          "insufficient action support"
+        ],
+        "current_status": "FALTA_IMPLEMENTAR"
+      },
+      "initial_method": "regularized counts with shrinkage",
+      "evaluation_metrics": [
+        "human factual fidelity",
+        "candidate feasibility",
+        "grouped-by-match primary metric",
+        "calibration",
+        "coverage/abstention",
+        "support and effective sample size by action"
+      ],
+      "minimum_support": {
+        "prescriptive_human_test": "100 eligible cases for a frequent family, two blind reviewers and adjudication",
+        "model_action_support": "at least 200 decisions and 30 matches per compared action before a learned recommendation",
+        "effective_sample_size": "at least 100 after episode/match weighting",
+        "rare_family": "pre-registered justified size plus 50-case abstention challenge set"
+      },
+      "confidence": {
+        "high": "all required fields available; supported slice; calibrated interval; no OOD/causal warning",
+        "medium": "facts complete but limited support or close alternatives; conditional wording",
+        "low": "descriptive evidence only; no prescriptive finding"
+      },
+      "abstention_conditions": [
+        "any hard blocker in task_eligibility",
+        "estimated delta below versioned threshold",
+        "two candidates within equivalence margin",
+        "OOD or overlap insufficient",
+        "human-review gate not passed"
+      ],
+      "user_evidence": [
+        "round and T0",
+        "observed action",
+        "parameterized candidate",
+        "facts available at T0",
+        "future consequences clearly marked",
+        "support/ESS/confidence",
+        "replay references",
+        "limitations"
+      ],
+      "implementation_status": "FALTA_IMPLEMENTAR",
+      "required_tests": [
+        "positive fixture",
+        "negative fixture",
+        "unavailable fixture",
+        "future-invariance test",
+        "oracle separation test",
+        "episode deduplication test",
+        "candidate physical-validity test",
+        "abstention test"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-DUEL-001",
+      "type": "duel_take_avoid_or_delay",
+      "start_condition": "first legal contact candidate",
+      "t0_definition": "first tick before commitment",
+      "end_condition": "contact ends or 2s without exchange",
+      "deduplication": "one episode per actor/type within 250ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-SHOOT-001",
+      "type": "shoot_stop_reset_or_reload",
+      "start_condition": "weapon fire/reload/equip boundary",
+      "t0_definition": "tick immediately before action",
+      "end_condition": "burst/reload/contact ends",
+      "deduplication": "one episode per actor/type within 250ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-PEEK-001",
+      "type": "peek_hold_or_reposition",
+      "start_condition": "visibility/cover boundary or post-contact choice",
+      "t0_definition": "last state before displacement/exposure",
+      "end_condition": "2s or next contact",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-POSITION-001",
+      "type": "hold_advance_fallback_or_reposition",
+      "start_condition": "stable position then material movement/angle change",
+      "t0_definition": "last stable state",
+      "end_condition": "arrival or 3s",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-TRADE-001",
+      "type": "spacing_or_trade_connection",
+      "start_condition": "teammate death creates trade window",
+      "t0_definition": "death tick",
+      "end_condition": "trade window closes",
+      "deduplication": "one episode per actor/type within 0ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-ENTRY-001",
+      "type": "enter_delay_support_or_regroup",
+      "start_condition": "crossing classified choke/site boundary",
+      "t0_definition": "last tick before crossing",
+      "end_condition": "5s or objective event",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-UTILITY-001",
+      "type": "use_delay_coordinate_or_save_utility",
+      "start_condition": "eligible inventory plus tactical trigger",
+      "t0_definition": "last state before throw or missed deadline",
+      "end_condition": "effect ends or 10s",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-ECONOMY-001",
+      "type": "buy_partial_eco_drop_or_save",
+      "start_condition": "freeze-time purchase window",
+      "t0_definition": "freeze start snapshot",
+      "end_condition": "freeze end",
+      "deduplication": "one episode per actor/type within one round; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-INFO-001",
+      "type": "respond_to_information",
+      "start_condition": "new legal contact/objective information",
+      "t0_definition": "availability tick",
+      "end_condition": "material response or 3s",
+      "deduplication": "one episode per actor/type within 250ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-ROTATION-001",
+      "type": "rotate_delay_cancel_or_control",
+      "start_condition": "zone departure or new info makes route choice eligible",
+      "t0_definition": "last state before route commitment",
+      "end_condition": "arrival/cancel/deadline",
+      "deduplication": "one episode per actor/type within 1s; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-PLANT-001",
+      "type": "plant_delay_or_protect",
+      "start_condition": "site and C4 eligible",
+      "t0_definition": "last tick before plant/protection choice",
+      "end_condition": "plant closes or 5s",
+      "deduplication": "one episode per actor/type within 250ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-RETAKE-001",
+      "type": "retake_defuse_or_save",
+      "start_condition": "bomb planted and actor alive",
+      "t0_definition": "first eligible postplant state",
+      "end_condition": "round end",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-RISK-001",
+      "type": "preserve_advantage_or_take_risk",
+      "start_condition": "advantage changes or optional exposure starts",
+      "t0_definition": "state before exposure",
+      "end_condition": "5s or advantage change",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-CLUTCH-001",
+      "type": "clutch_policy",
+      "start_condition": "actor becomes sole survivor versus one or more",
+      "t0_definition": "clutch trigger tick",
+      "end_condition": "round end",
+      "deduplication": "one episode per actor/type within 500ms; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    },
+    {
+      "id": "DEC-PROFILE-001",
+      "type": "historical_pattern_priority",
+      "start_condition": "new match finding finalized",
+      "t0_definition": "before current recommendation; prior matches only",
+      "end_condition": "recommendation published",
+      "deduplication": "one episode per actor/type within one match; key=(match_id,round_id,actor_id,type,episode_start)",
+      "history_window": "up to 10s before T0, never future",
+      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+    }
+  ],
+  "actions": [
+    {
+      "id": "ACT-HOLD-POSITION",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-DELAY-ACTION",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-ADVANCE-ZONE",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-FALL-BACK",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-REPOSITION",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-REGROUP",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-SUPPORT-TEAMMATE",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-HOLD-ANGLE",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-CHANGE-ANGLE",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-WAIT-TRADE",
+      "family": "positioning",
+      "required_physical_parameters": [
+        "target_position_or_zone",
+        "route_id_if_movement",
+        "start_tick",
+        "deadline_tick",
+        "facing_yaw_deg",
+        "max_exposure_angles",
+        "required_teammate_ids_join_only",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-TAKE-DUEL",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-AVOID-DUEL",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-FIRST-PEEK",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-REPEAT-PEEK",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-WIDE-PEEK",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-JIGGLE-INFO",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-STOP-SHOOT",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-CONTINUE-BURST",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-RESET-SPRAY",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-RELOAD-NOW",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-DELAY-RELOAD",
+      "family": "combat",
+      "required_physical_parameters": [
+        "target_angle_or_contact_ref",
+        "timing_ms",
+        "stance",
+        "movement_speed_limit_world_ups",
+        "weapon",
+        "ammo_cost",
+        "exit_position_or_zone",
+        "risk_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-USE-UTILITY-NOW",
+      "family": "utility",
+      "required_physical_parameters": [
+        "utility_type",
+        "inventory_item_ref",
+        "target_position_or_zone",
+        "throw_origin",
+        "view_yaw_deg",
+        "view_pitch_deg",
+        "timing_ms",
+        "trajectory_or_lineup_id",
+        "required_teammates",
+        "cost",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-DELAY-UTILITY",
+      "family": "utility",
+      "required_physical_parameters": [
+        "utility_type",
+        "inventory_item_ref",
+        "target_position_or_zone",
+        "throw_origin",
+        "view_yaw_deg",
+        "view_pitch_deg",
+        "timing_ms",
+        "trajectory_or_lineup_id",
+        "required_teammates",
+        "cost",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-SAVE-UTILITY",
+      "family": "utility",
+      "required_physical_parameters": [
+        "utility_type",
+        "inventory_item_ref",
+        "target_position_or_zone",
+        "throw_origin",
+        "view_yaw_deg",
+        "view_pitch_deg",
+        "timing_ms",
+        "trajectory_or_lineup_id",
+        "required_teammates",
+        "cost",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-UTILITY-ZONE",
+      "family": "utility",
+      "required_physical_parameters": [
+        "utility_type",
+        "inventory_item_ref",
+        "target_position_or_zone",
+        "throw_origin",
+        "view_yaw_deg",
+        "view_pitch_deg",
+        "timing_ms",
+        "trajectory_or_lineup_id",
+        "required_teammates",
+        "cost",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-UTILITY-TEAMMATE",
+      "family": "utility",
+      "required_physical_parameters": [
+        "utility_type",
+        "inventory_item_ref",
+        "target_position_or_zone",
+        "throw_origin",
+        "view_yaw_deg",
+        "view_pitch_deg",
+        "timing_ms",
+        "trajectory_or_lineup_id",
+        "required_teammates",
+        "cost",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-UTILITY-OBJECTIVE",
+      "family": "utility",
+      "required_physical_parameters": [
+        "utility_type",
+        "inventory_item_ref",
+        "target_position_or_zone",
+        "throw_origin",
+        "view_yaw_deg",
+        "view_pitch_deg",
+        "timing_ms",
+        "trajectory_or_lineup_id",
+        "required_teammates",
+        "cost",
+        "round_objective"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-FULL-BUY",
+      "family": "economy",
+      "required_physical_parameters": [
+        "money_before",
+        "items_to_buy_or_drop",
+        "total_cost",
+        "team_buy_band",
+        "rounds_horizon",
+        "minimum_money_next_round"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-PARTIAL-BUY",
+      "family": "economy",
+      "required_physical_parameters": [
+        "money_before",
+        "items_to_buy_or_drop",
+        "total_cost",
+        "team_buy_band",
+        "rounds_horizon",
+        "minimum_money_next_round"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-ECO",
+      "family": "economy",
+      "required_physical_parameters": [
+        "money_before",
+        "items_to_buy_or_drop",
+        "total_cost",
+        "team_buy_band",
+        "rounds_horizon",
+        "minimum_money_next_round"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-SAVE-EQUIPMENT",
+      "family": "economy",
+      "required_physical_parameters": [
+        "money_before",
+        "items_to_buy_or_drop",
+        "total_cost",
+        "team_buy_band",
+        "rounds_horizon",
+        "minimum_money_next_round"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-DROP-EQUIPMENT",
+      "family": "economy",
+      "required_physical_parameters": [
+        "money_before",
+        "items_to_buy_or_drop",
+        "total_cost",
+        "team_buy_band",
+        "rounds_horizon",
+        "minimum_money_next_round"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-HOLD-MAP-CONTROL",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-TAKE-MAP-CONTROL",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-CEDE-MAP-CONTROL",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-ROTATE-SITE",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-DELAY-ROTATION",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-CANCEL-ROTATION",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-SAFE-ROUTE",
+      "family": "control",
+      "required_physical_parameters": [
+        "target_zone",
+        "route_id",
+        "start_tick",
+        "arrival_deadline_tick",
+        "travel_time_ms",
+        "information_condition",
+        "required_teammates",
+        "exposure_budget"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-ATTEMPT-OBJECTIVE",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-ABANDON-OBJECTIVE",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-PLANT-NOW",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-DELAY-PLANT",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-PROTECT-PLANTER",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-HOLD-POSTPLANT",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-START-RETAKE",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-ATTEMPT-DEFUSE",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-SAVE-RETAKE",
+      "family": "objective",
+      "required_physical_parameters": [
+        "site",
+        "target_position_or_zone",
+        "route_id",
+        "start_tick",
+        "completion_deadline_tick",
+        "kit_required",
+        "utility_required",
+        "required_teammates",
+        "save_threshold_ms"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-PRACTICE-MECHANIC",
+      "family": "profile",
+      "required_physical_parameters": [
+        "capability_id",
+        "context_slice",
+        "exercise_id",
+        "weekly_repetitions",
+        "evidence_match_count",
+        "confidence_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-PRACTICE-DECISION",
+      "family": "profile",
+      "required_physical_parameters": [
+        "capability_id",
+        "context_slice",
+        "exercise_id",
+        "weekly_repetitions",
+        "evidence_match_count",
+        "confidence_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    },
+    {
+      "id": "ACT-MAINTAIN-STRENGTH",
+      "family": "profile",
+      "required_physical_parameters": [
+        "capability_id",
+        "context_slice",
+        "exercise_id",
+        "weekly_repetitions",
+        "evidence_match_count",
+        "confidence_band"
+      ],
+      "candidate_valid_only_if": [
+        "all required parameters available",
+        "reachable before deadline when movement applies",
+        "inventory and cost legal",
+        "no hidden enemy state used",
+        "minimum comparable support met"
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "OUT-DAMAGE-2S",
+      "partition": "outcomes",
+      "meaning": "health damage dealt",
+      "horizon_seconds": 2,
+      "unit": "points",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-DAMAGE-RECEIVED-2S",
+      "partition": "outcomes",
+      "meaning": "health damage received",
+      "horizon_seconds": 2,
+      "unit": "points",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-KILL-5S",
+      "partition": "outcomes",
+      "meaning": "kill/terminal exchange",
+      "horizon_seconds": 5,
+      "unit": "boolean/count",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-SURVIVAL-10S",
+      "partition": "outcomes",
+      "meaning": "actor survival",
+      "horizon_seconds": 10,
+      "unit": "status",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-TRADE-5S",
+      "partition": "outcomes",
+      "meaning": "trade attempted/completed",
+      "horizon_seconds": 5,
+      "unit": "status",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-NUMERIC-ADVANTAGE-DELTA",
+      "partition": "outcomes",
+      "meaning": "alive-count delta",
+      "horizon_seconds": 5,
+      "unit": "players",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-EXPOSURE-DELTA",
+      "partition": "outcomes",
+      "meaning": "exposure change",
+      "horizon_seconds": 2,
+      "unit": "angle count",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-SPACE-PROXY",
+      "partition": "outcomes",
+      "meaning": "allied space/control proxy",
+      "horizon_seconds": 10,
+      "unit": "cells/world units",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-UTILITY-EFFECT",
+      "partition": "outcomes",
+      "meaning": "flash/damage/denial/continuation",
+      "horizon_seconds": 10,
+      "unit": "mixed",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-OBJECTIVE-10S",
+      "partition": "outcomes",
+      "meaning": "plant/defuse/retake progress",
+      "horizon_seconds": 10,
+      "unit": "status",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-ROUND-WIN",
+      "partition": "outcomes",
+      "meaning": "round result",
+      "horizon_seconds": null,
+      "unit": "boolean",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-MATCH-WIN",
+      "partition": "outcomes",
+      "meaning": "match result",
+      "horizon_seconds": null,
+      "unit": "boolean",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-ECONOMY-1R",
+      "partition": "outcomes",
+      "meaning": "equipment/money next round",
+      "horizon_seconds": null,
+      "unit": "dollars",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-ECONOMY-3R",
+      "partition": "outcomes",
+      "meaning": "equipment/money over three rounds",
+      "horizon_seconds": null,
+      "unit": "dollars",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-MAP-CONTROL-DELTA",
+      "partition": "outcomes",
+      "meaning": "classified map control change",
+      "horizon_seconds": 10,
+      "unit": "zones",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-TIME-TO-DAMAGE",
+      "partition": "outcomes",
+      "meaning": "time until first damage",
+      "horizon_seconds": 5,
+      "unit": "milliseconds",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-PATTERN-RECURRENCE",
+      "partition": "perfil_histórico",
+      "meaning": "prior-only recurrence rate",
+      "horizon_seconds": null,
+      "unit": "rate+interval",
+      "label_only": true,
+      "not_a_correctness_label": true
+    },
+    {
+      "id": "OUT-PATTERN-TREND",
+      "partition": "perfil_histórico",
+      "meaning": "prior-only time trend",
+      "horizon_seconds": null,
+      "unit": "slope+interval",
+      "label_only": true,
+      "not_a_correctness_label": true
+    }
+  ],
+  "fields": [
+    {
+      "id": "FLD-MATCH",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "core/match.json",
+      "json_path": "$",
+      "producer_service": "go-service",
+      "producer_code": "parser.ExportCanonicalBundle/buildCanonicalMatch",
+      "unit": "match",
+      "frequency": "1/match",
+      "meaning": "Mapa, tickrate, duración y marcador.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-SCORE",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "core/match.json",
+      "json_path": "$.ct_score|$.t_score",
+      "producer_service": "go-service",
+      "producer_code": "parser.buildCanonicalMatch",
+      "unit": "rounds",
+      "frequency": "1/match",
+      "meaning": "Marcador final; en T0 se usa el marcador causal de la ronda previa.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-PARTICIPANTS",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "core/participants.json",
+      "json_path": "$.players[]",
+      "producer_service": "go-service",
+      "producer_code": "parser.buildCanonicalParticipants",
+      "unit": "player",
+      "frequency": "10/match esperado",
+      "meaning": "Roster reconciliado; IDs solo para joins y splits.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-ROUNDS",
+      "partition": "outcomes",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "core/rounds.json",
+      "json_path": "$.rounds[]",
+      "producer_service": "go-service",
+      "producer_code": "parser.buildCanonicalRounds",
+      "unit": "round",
+      "frequency": "1/round",
+      "meaning": "Límites, ganador, razón y objetivo de ronda.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-POSITION-2HZ",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.position",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterTrackingHandler/parser.buildCanonicalPlayerStates",
+      "unit": "world units",
+      "frequency": "2 Hz tras freeze",
+      "meaning": "Posición factual por jugador.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-VIEW-ANGLES",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.view_yaw_deg|$.view_pitch_deg",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterTrackingHandler/parser.buildCanonicalPlayerStates",
+      "unit": "degrees",
+      "frequency": "2 Hz",
+      "meaning": "Orientación de vista muestreada.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-VELOCITY-2HZ",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.horizontal_velocity_world_units_per_second|$.velocity_vector_world_units_per_second",
+      "producer_service": "go-service",
+      "producer_code": "handlers.observePlayerVelocity/parser.buildCanonicalPlayerStates",
+      "unit": "world units/s",
+      "frequency": "2 Hz",
+      "meaning": "Velocidad derivada de posición con fuente y ventana.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-MOVEMENT-DIRECTION",
+      "partition": "observed",
+      "availability_status": "DERIVABLE",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "unit vector",
+      "frequency": "por ventana",
+      "meaning": "Dirección normalizada desde el vector de velocidad causal.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-STANCE",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.is_walking|$.is_ducking",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterTrackingHandler",
+      "unit": "boolean",
+      "frequency": "2 Hz",
+      "meaning": "Postura observada.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-HEALTH-ARMOR",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.health|$.armor",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterTrackingHandler",
+      "unit": "points",
+      "frequency": "2 Hz",
+      "meaning": "Vida y armadura.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-SELF-STATE-16HZ",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/tactical/observed.jsonl.gz",
+      "json_path": "$.state",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterReplayHandlers/parser.BuildTacticalExport",
+      "unit": "mixed",
+      "frequency": "16 Hz objetivo",
+      "meaning": "Estado propio y subconjunto publicado con disponibilidad explícita.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-TEAMMATE-STATES",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/tactical/observed.jsonl.gz",
+      "json_path": "$.visibility_scope=team",
+      "producer_service": "go-service",
+      "producer_code": "parser.BuildTacticalExport/tacticalVisibility",
+      "unit": "mixed",
+      "frequency": "16 Hz objetivo",
+      "meaning": "Estados aliados publicados.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-LINE-OF-SIGHT",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "states/tactical/observed.jsonl.gz",
+      "json_path": "$.provenance.line_of_sight",
+      "producer_service": "go-service",
+      "producer_code": "pkg.maps.MapManager.IsVisible/parser.tacticalVisibility",
+      "unit": "boolean",
+      "frequency": "16 Hz objetivo",
+      "meaning": "Raycast geométrico; no incluye FOV ni humo en este productor.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-FOV-CONTACT",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": "go-service",
+      "producer_code": "analyzers visibility exists but not wired to tactical causal stream",
+      "unit": "boolean",
+      "frequency": "contact boundary",
+      "meaning": "Contacto dentro de FOV validado.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-SMOKE-OCCLUSION",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": "go-service",
+      "producer_code": "heuristic exists but is not canonical producer",
+      "unit": "boolean",
+      "frequency": "contact boundary",
+      "meaning": "Bloqueo de visión por humo con versión y geometría.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-VISIBLE-CONTACT",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "states/tactical/observed.jsonl.gz",
+      "json_path": "$.visibility_scope=enemy_los",
+      "producer_service": "go-service",
+      "producer_code": "parser.tacticalVisibility",
+      "unit": "contact",
+      "frequency": "16 Hz objetivo",
+      "meaning": "Actualmente LOS físico solamente; no autoriza afirmar visión razonable.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-LAST-KNOWN-POSITION",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "world units + tick",
+      "frequency": "on contact change",
+      "meaning": "Última posición enemiga legal y edad.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-INFORMATION-AGE",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "milliseconds",
+      "frequency": "on decision",
+      "meaning": "Edad de la última observación.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-COMBAT-EVENT",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "events/combat_events.jsonl",
+      "json_path": "$",
+      "producer_service": "go-service",
+      "producer_code": "handlers.registerAtomicCombatHandlers/parser.buildCanonicalCombatEvents",
+      "unit": "event",
+      "frequency": "callback",
+      "meaning": "Disparo, daño, kill, reload, equip y hechos balísticos.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-SHOT-STATE",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "events/combat_events.jsonl",
+      "json_path": "$.shot_id|$.view_yaw|$.view_pitch|$.actor_position",
+      "producer_service": "go-service",
+      "producer_code": "handlers.registerAtomicCombatHandlers",
+      "unit": "mixed",
+      "frequency": "per shot",
+      "meaning": "Ledger enlazado, pero falta snapshot completo causal de movimiento/arma por shot.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-WEAPON-AMMO",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "events/combat_events.jsonl",
+      "json_path": "$.weapon|$.ammo_in_magazine|$.ammo_reserve",
+      "producer_service": "go-service",
+      "producer_code": "handlers.registerAtomicCombatHandlers",
+      "unit": "rounds",
+      "frequency": "per combat event",
+      "meaning": "Arma sólida; munición tiene ausencias.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-CROSSHAIR-ERROR",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "events/combat_events.jsonl",
+      "json_path": "reaction/crosshair projections",
+      "producer_service": "go-service",
+      "producer_code": "analyzers.RegisterReactionAnalyzer",
+      "unit": "degrees",
+      "frequency": "per eligible contact",
+      "meaning": "Cálculo parcial, sin ledger canónico completo por contacto.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-ROUND-CLOCK",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.round_clock_remaining_ms",
+      "producer_service": "go-service",
+      "producer_code": "handlers.CaptureObjectiveClockSnapshot",
+      "unit": "milliseconds",
+      "frequency": "2 Hz",
+      "meaning": "Reloj de ronda.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-BOMB-CLOCK",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.bomb_time_remaining_ms",
+      "producer_service": "go-service",
+      "producer_code": "handlers.CaptureObjectiveClockSnapshot",
+      "unit": "milliseconds",
+      "frequency": "2 Hz when planted",
+      "meaning": "Reloj de bomba cuando aplica.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-UTILITY-INVENTORY",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/tactical/observed.jsonl.gz",
+      "json_path": "$.state.grenades",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterReplayHandlers/parser.BuildTacticalExport",
+      "unit": "items",
+      "frequency": "16 Hz objetivo",
+      "meaning": "Granadas del sujeto publicado.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-WEAPON-INVENTORY",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "derived/economy_players.json",
+      "json_path": "inventory snapshots",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterEconomyHandlers/parser.buildCanonicalBlock6Economy",
+      "unit": "items/value",
+      "frequency": "round boundaries",
+      "meaning": "Inventario por inicio/freeze/fin; no es snapshot de cada decisión.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-UTILITY-IN-FLIGHT",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "presentation/replay/round_*.json.gz",
+      "json_path": "grenades",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterReplayHandlers",
+      "unit": "projectile",
+      "frequency": "16 Hz",
+      "meaning": "Existe en replay de presentación, no en tabla causal estable.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-UTILITY-EVENT",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "events/utility_events.jsonl",
+      "json_path": "$",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterGrenadeHandlers/parser.buildCanonicalUtilityEvents",
+      "unit": "event",
+      "frequency": "callback",
+      "meaning": "Throw, trayectoria, lifecycle y efectos.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-UTILITY-TRAJECTORY",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "events/utility_events.jsonl",
+      "json_path": "$.trajectory",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterGrenadeHandlers",
+      "unit": "world units/tick",
+      "frequency": "projectile samples",
+      "meaning": "Trayectoria y botes con procedencia.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-MONEY",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "derived/economy_players.json",
+      "json_path": "$.players[].money",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterEconomyHandlers/parser.buildCanonicalBlock6Economy",
+      "unit": "dollars",
+      "frequency": "round boundaries",
+      "meaning": "Dinero con estados de disponibilidad.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-TEAM-ECONOMY",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "derived/economy_rounds.json",
+      "json_path": "$.rounds[]",
+      "producer_service": "go-service",
+      "producer_code": "parser.buildCanonicalBlock6Economy",
+      "unit": "dollars",
+      "frequency": "team/round",
+      "meaning": "Economía agregada por equipo y ronda.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-OBJECTIVE-EVENT",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "events/objective_events.jsonl",
+      "json_path": "$",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterBombHandlers/parser.buildCanonicalObjectiveEvents",
+      "unit": "event",
+      "frequency": "callback",
+      "meaning": "Ledger C4 y attempts.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-OBJECTIVE-STATE",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.objective_phase",
+      "producer_service": "go-service",
+      "producer_code": "handlers.CaptureObjectiveClockSnapshot",
+      "unit": "phase",
+      "frequency": "2 Hz",
+      "meaning": "Fase preplant/planted/resolved.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-DEFUSE-KIT",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.has_defuse_kit",
+      "producer_service": "go-service",
+      "producer_code": "handlers.RegisterTrackingHandler",
+      "unit": "boolean",
+      "frequency": "2 Hz",
+      "meaning": "Kit del jugador.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-ALIVE-COUNTS",
+      "partition": "observed",
+      "availability_status": "DERIVABLE",
+      "artifact": "states/tactical/observed.jsonl.gz",
+      "json_path": "team states at T0",
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "players",
+      "frequency": "per decision",
+      "meaning": "Jugadores vivos por lado a T0.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-TRADE-POSSIBLE",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "causal/decision_features.jsonl",
+      "json_path": "$.trade_possible",
+      "producer_service": "go-service",
+      "producer_code": "pkg.engagement.Derive/parser.appendTradeCausalPartitions",
+      "unit": "boolean",
+      "frequency": "per trade decision",
+      "meaning": "Derivación explícita; no observado directo.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-PATH-DISTANCE",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "world units",
+      "frequency": "per candidate",
+      "meaning": "Distancia navegable, no euclídea.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-CONNECTION-TIME",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "causal/decision_features.jsonl",
+      "json_path": "$.nearest_connection_time_ms",
+      "producer_service": "go-service",
+      "producer_code": "pkg.engagement.Derive",
+      "unit": "milliseconds",
+      "frequency": "per trade decision",
+      "meaning": "Tiempo de conexión derivado para trade.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-FACING-DELTA",
+      "partition": "observed",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "causal/decision_features.jsonl",
+      "json_path": "$.minimum_facing_delta_deg",
+      "producer_service": "go-service",
+      "producer_code": "pkg.engagement.Derive",
+      "unit": "degrees",
+      "frequency": "per trade decision",
+      "meaning": "Diferencia angular mínima derivada.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-MAP-ZONE",
+      "partition": "observed",
+      "availability_status": "REQUIERE_CLASIFICACION",
+      "artifact": "states/player_states/round_*.jsonl",
+      "json_path": "$.area",
+      "producer_service": "go-service",
+      "producer_code": "pkg.maps.GetPlaceName + future polygons",
+      "unit": "zone",
+      "frequency": "2 Hz",
+      "meaning": "Callout actual no equivale a región táctica validada.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-NAV-ROUTE",
+      "partition": "observed",
+      "availability_status": "REQUIERE_CLASIFICACION",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": "go-service",
+      "producer_code": "nav parser has areas but no published graph route",
+      "unit": "route",
+      "frequency": "per candidate",
+      "meaning": "Ruta física versionada.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-REACHABILITY",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "boolean",
+      "frequency": "per candidate",
+      "meaning": "Alcanzabilidad antes del deadline.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-TRAVEL-TIME",
+      "partition": "observed",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "milliseconds",
+      "frequency": "per candidate",
+      "meaning": "Tiempo de llegada por ruta y estado.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-COVER",
+      "partition": "observed",
+      "availability_status": "REQUIERE_CLASIFICACION",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "cover class/fraction",
+      "frequency": "per candidate",
+      "meaning": "Cobertura respecto a ángulos definidos.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-EXPOSURE-ANGLES",
+      "partition": "observed",
+      "availability_status": "REQUIERE_CLASIFICACION",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "count + angle ids",
+      "frequency": "per decision/candidate",
+      "meaning": "Ángulos simultáneos físicamente relevantes.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-EXIT-ROUTE",
+      "partition": "observed",
+      "availability_status": "REQUIERE_CLASIFICACION",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "route",
+      "frequency": "per candidate",
+      "meaning": "Salida alcanzable tras contacto.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-SPACE-PROXY",
+      "partition": "outcomes",
+      "availability_status": "DERIVABLE",
+      "artifact": "states/tactical/oracle.jsonl",
+      "json_path": "future allied positions",
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "world units/cells",
+      "frequency": "2/5/10 seconds",
+      "meaning": "Proxy de espacio posterior, nunca feature T0.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-ORACLE-ENEMY-STATE",
+      "partition": "oracle",
+      "availability_status": "EXISTE_VERIFICADO",
+      "artifact": "states/tactical/oracle.jsonl",
+      "json_path": "$.state.physical",
+      "producer_service": "go-service",
+      "producer_code": "parser.BuildTacticalExport",
+      "unit": "mixed",
+      "frequency": "16 Hz objetivo",
+      "meaning": "Estado real enemigo aislado para etiquetas/evaluación.",
+      "evidence_ref": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+    },
+    {
+      "id": "FLD-PRIOR-MATCH-FINDINGS",
+      "partition": "perfil_histórico",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "findings",
+      "frequency": "per prior match",
+      "meaning": "Findings solo de partidas anteriores.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-PRIOR-MATCH-CONTEXT",
+      "partition": "perfil_histórico",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "context slices",
+      "frequency": "per prior match",
+      "meaning": "Mapa/lado/zona/arma/fase históricos.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-PRIOR-EXECUTION",
+      "partition": "perfil_histórico",
+      "availability_status": "FALTA_EXTRAER",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "rates with intervals",
+      "frequency": "per prior match",
+      "meaning": "Ejecución histórica regularizada.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-VOICE",
+      "partition": "observed",
+      "availability_status": "NO_OBSERVABLE",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "unknown",
+      "frequency": "none",
+      "meaning": "Comunicación de voz no contenida de forma fiable.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-INTENT",
+      "partition": "observed",
+      "availability_status": "NO_OBSERVABLE",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "unknown",
+      "frequency": "none",
+      "meaning": "Intención/plan mental.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-SUBJECTIVE-SOUND",
+      "partition": "observed",
+      "availability_status": "NO_OBSERVABLE",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "unknown",
+      "frequency": "none",
+      "meaning": "Sonido realmente percibido por la persona.",
+      "evidence_ref": null
+    },
+    {
+      "id": "FLD-COUNTERFACTUAL-FUTURE",
+      "partition": "outcomes",
+      "availability_status": "NO_OBSERVABLE",
+      "artifact": null,
+      "json_path": null,
+      "producer_service": null,
+      "producer_code": null,
+      "unit": "unknown",
+      "frequency": "none",
+      "meaning": "Qué habría ocurrido con una acción no tomada.",
+      "evidence_ref": null
+    }
+  ],
+  "models": {
+    "fact_providers": [
+      "Go callbacks/ledgers",
+      "GLTF geometry/raycast",
+      "NAV routing/reachability",
+      "versioned map classification",
+      "causal observability"
+    ],
+    "prescriptive_specialists": [
+      "combat/mechanics",
+      "peek/position",
+      "team/trade/entry",
+      "utility",
+      "economy",
+      "information/rotation",
+      "objective"
+    ],
+    "transverse_evaluators": [
+      "time",
+      "numeric advantage",
+      "risk/survival",
+      "clutch"
+    ],
+    "baselines_in_order": [
+      "verified rule",
+      "contextual frequency/mean",
+      "regularized logistic/linear regression",
+      "CatBoost challenger"
+    ],
+    "temporal_escalation": "small TCN/GRU only after frozen evidence that order is indispensable and tabular is beaten; compact Transformer later",
+    "common_ranking": "versioned expected value minus uncertainty, OOD and unrealistic-execution penalties; may abstain",
+    "player_profile": "regularized prior-only statistics; no per-player neural model",
+    "evidence_pack": "facts, recommendation, support, confidence, versions and replay",
+    "language_model": "explanation only"
+  },
+  "audit_evidence": "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json"
+}

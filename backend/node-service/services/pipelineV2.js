@@ -32,7 +32,7 @@ const DEMOS_DIR = path.resolve(__dirname, '../../data/demos');
 const GC_RESOLVER_VERSION = 2;
 const DEMO_DOWNLOADER_VERSION = 2;
 const ANALYZER_AUTH_VERSION = 2;
-const PARSER_SCHEMA_VERSION = 'v3';
+const PARSER_SCHEMA_VERSION = 'v11';
 const prefix = config.pipelineNamespace;
 const connection = new IORedis(config.redis.url, {
   maxRetriesPerRequest: null,

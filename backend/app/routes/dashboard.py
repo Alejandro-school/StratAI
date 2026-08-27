@@ -8,26 +8,53 @@
 # instead of O(n) folder scanning. See utils/user_aggregates.py for details.
 
 import asyncio
-import os
 import json
 import logging
-import redis.asyncio as aioredis
+import os
+from collections.abc import Mapping
 from typing import Any
-from fastapi import APIRouter, Depends, Request, HTTPException
+
+import httpx
+import redis.asyncio as aioredis
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import StreamingResponse
+
 from ..auth.dependencies import SteamUser, require_steam_user
-from ..config import PIPELINE_NAMESPACE, REDIS_URL
+from ..config import PIPELINE_NAMESPACE, REDIS_URL, STEAM_API_KEY
+from ..matches.canonical_repository import (
+    CanonicalMatch,
+    find_canonical_match,
+    iter_canonical_matches,
+    thaw_json,
+)
+from ..matches.combat_web_projection import project_combat, reaction_averages
+from ..matches.match_web_projection import (
+    project_economy,
+    project_match_metadata,
+    project_player_summary,
+    project_utility,
+)
+from ..matches.player_match_catalog import (
+    PlayerMatch,
+    clear_player_match_cache,
+    list_player_matches,
+)
 from ..middleware.rate_limit import get_rate_limiter
+from ..middleware.security import sanitize_match_id
+from ..tactical.movement_contract import normalize_movement_contract
 
 # Import utils
-from ..utils.maps import normalize_callout, game_to_radar_percent, CALLOUT_FIXED_POSITIONS
+from ..utils.maps import (
+    CALLOUT_FIXED_POSITIONS,
+    game_to_radar_percent,
+    normalize_callout,
+)
 from ..utils.user_aggregates import (
+    EXPORTS_PATH,
+    is_user_map_data_fresh,
     load_user_map_data,
     user_has_map_data,
-    load_match_history,
-    EXPORTS_PATH
 )
-from ..middleware.security import is_safe_path, sanitize_match_id
-
 
 router = APIRouter()
 
@@ -104,56 +131,349 @@ def normalize_grenade_area(raw_area: str, map_name: str) -> str:
 
 
 def load_match_reaction_averages(match_folder: str) -> dict[str, float]:
-    combat_path = os.path.join(match_folder, "combat.json")
-    if not os.path.exists(combat_path):
-        return {}
-
     try:
-        with open(combat_path, "r", encoding="utf-8") as handle:
-            combat_data = json.load(handle)
+        return reaction_averages(CanonicalMatch(match_folder))
     except Exception as exc:
-        logging.warning(f"[get-match-details] No se pudo leer combat.json para reaction_time: {exc}")
+        logging.warning("[get-match-details] No se pudo leer combate canÃ³nico: %s", exc)
         return {}
 
-    values_by_player: dict[str, list[float]] = {}
 
-    for round_item in combat_data.get("rounds", []):
-        for duel in round_item.get("duels", []):
-            attacker = duel.get("attacker") or {}
-            context = duel.get("context") or {}
-            steam_id = attacker.get("steam_id")
-            reaction_time = attacker.get("time_to_reaction")
+def _load_match_projection(match_folder: str, content: str, fallback: Any) -> Any:
+    match = CanonicalMatch(match_folder)
+    projections = {
+        "match": project_match_metadata,
+        "players": project_player_summary,
+        "combat": project_combat,
+        "economy": project_economy,
+        "utility": project_utility,
+    }
+    projector = projections.get(content)
+    if projector is None or not match.has_canonical_bundle():
+        return fallback
+    try:
+        return projector(match)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        logging.warning("[match-projection] No se pudo construir %s: %s", content, exc)
+        return fallback
 
-            if not steam_id or reaction_time is None or context.get("through_smoke"):
-                continue
 
-            try:
-                numeric_reaction = float(reaction_time)
-            except (TypeError, ValueError):
-                continue
+def _round_map(payload: dict[str, Any]) -> dict[int, dict[str, Any]]:
+    result: dict[int, dict[str, Any]] = {}
+    for item in payload.get("rounds", []):
+        try:
+            round_number = int(item.get("round"))
+        except (TypeError, ValueError):
+            continue
+        result[round_number] = item
+    return result
 
-            if numeric_reaction < 50 or numeric_reaction > 2500:
-                continue
 
-            player_key = str(steam_id)
-            values_by_player.setdefault(player_key, []).append(numeric_reaction)
+def _economy_rounds(payload: Any) -> list[dict[str, Any]]:
+    if isinstance(payload, list):
+        payload = payload[0] if payload else {}
+    return payload.get("rounds", []) if isinstance(payload, dict) else []
 
+
+def _steam_ids_match(left: Any, right: Any) -> bool:
+    """Tolerate legacy exports that serialized 64-bit Steam IDs as JSON floats."""
+    if str(left) == str(right):
+        return True
+    try:
+        return abs(int(left) - int(right)) <= 128
+    except (TypeError, ValueError):
+        return False
+
+
+def _summarize_match_rounds(
+    match_folder: str,
+    steam_id: str,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    economy_data = _load_match_projection(match_folder, "economy", {})
+    combat_data = _load_match_projection(match_folder, "combat", {"rounds": []})
+    grenades_data = _load_match_projection(match_folder, "utility", {"rounds": []})
+
+    combat_by_round = _round_map(combat_data)
+    grenades_by_round = _round_map(grenades_data)
+    summaries: list[dict[str, Any]] = []
+
+    for economy_round in _economy_rounds(economy_data):
+        try:
+            round_number = int(economy_round.get("round"))
+        except (TypeError, ValueError):
+            continue
+
+        players = economy_round.get("players") or []
+        teams = economy_round.get("teams") or {}
+        user_player = next(
+            (
+                player
+                for player in players
+                if _steam_ids_match(player.get("steam_id"), steam_id)
+            ),
+            None,
+        )
+        winning_player = next(
+            (
+                player
+                for player in players
+                if str(player.get("outcome", "")).lower() in {"win", "won", "victory"}
+            ),
+            None,
+        )
+        winner = (winning_player or {}).get("team", "")
+        win_reason = (winning_player or {}).get("win_reason", "")
+
+        combat_round = combat_by_round.get(round_number, {})
+        combat_duels = combat_round.get("duels", [])
+        kills = [
+            duel
+            for duel in combat_duels
+            if str(duel.get("outcome", "")).lower() in {"kill", "multi_kill"}
+        ]
+        kills.sort(key=lambda duel: int(duel.get("tick_start") or 0))
+        opening_duel = kills[0] if kills else {}
+        attacker = opening_duel.get("attacker") or {}
+        victims = opening_duel.get("victims") or []
+        first_victim = victims[0] if victims else {}
+
+        user_name = str((user_player or {}).get("name") or "")
+        user_kills = 0
+        user_deaths = 0
+        user_damage = 0
+        user_headshots = 0
+        user_trade_kills = 0
+        user_weapons: list[str] = []
+        for duel in combat_duels:
+            outcome = str(duel.get("outcome", "")).lower()
+            duel_attacker = duel.get("attacker") or {}
+            duel_victims = duel.get("victims") or []
+            if _steam_ids_match(duel_attacker.get("steam_id"), steam_id):
+                user_damage += int(duel_attacker.get("total_damage_dealt") or 0)
+                if outcome in {"kill", "multi_kill"}:
+                    user_kills += int(duel.get("victim_count") or len(duel_victims) or 1)
+                    user_headshots += int(duel_attacker.get("headshots") or 0)
+                    if (duel.get("context") or {}).get("is_trade"):
+                        user_trade_kills += 1
+                    weapon = duel_attacker.get("weapon")
+                    if weapon and weapon not in user_weapons:
+                        user_weapons.append(weapon)
+            if outcome in {"kill", "multi_kill"} and any(
+                _steam_ids_match(victim.get("steam_id"), steam_id)
+                for victim in duel_victims
+            ):
+                user_deaths = 1
+
+        grenade_events = grenades_by_round.get(round_number, {}).get("events", [])
+        user_grenade_events = [
+            event
+            for event in grenade_events
+            if user_name and str(event.get("thrower") or "") == user_name
+        ]
+        utility_damage = sum(int(event.get("damage_dealt") or 0) for event in grenade_events)
+        user_utility_damage = sum(
+            int(event.get("damage_dealt") or 0)
+            for event in user_grenade_events
+        )
+
+        team_spend: dict[str, int] = {}
+        team_equipment: dict[str, int] = {}
+        survivors: dict[str, int] = {}
+        for side in ("CT", "T"):
+            side_players = [player for player in players if player.get("team") == side]
+            team_spend[side] = sum(int(player.get("spent_in_buy") or 0) for player in side_players)
+            team_equipment[side] = sum(
+                int(player.get("final_equipment_value") or player.get("equipment_value_start") or 0)
+                for player in side_players
+            )
+            survivors[side] = sum(1 for player in side_players if player.get("survived"))
+
+        summaries.append(
+            {
+                "round": round_number,
+                "winner": winner,
+                "win_reason": win_reason,
+                "user_outcome": (user_player or {}).get("outcome", ""),
+                "teams": teams,
+                "team_spend": team_spend,
+                "team_equipment": team_equipment,
+                "survivors": survivors,
+                "opening": {
+                    "tick": opening_duel.get("tick_start"),
+                    "killer": attacker.get("name"),
+                    "killer_steam_id": attacker.get("steam_id"),
+                    "killer_team": attacker.get("team"),
+                    "victim": first_victim.get("name"),
+                    "victim_steam_id": first_victim.get("steam_id"),
+                    "weapon": attacker.get("weapon"),
+                    "is_trade": bool((opening_duel.get("context") or {}).get("is_trade")),
+                } if opening_duel else None,
+                "utility": {
+                    "count": len(grenade_events),
+                    "damage": utility_damage,
+                },
+                "user_combat": {
+                    "kills": user_kills,
+                    "deaths": user_deaths,
+                    "damage": user_damage,
+                    "headshots": user_headshots,
+                    "trade_kills": user_trade_kills,
+                    "weapons": user_weapons,
+                },
+                "user_utility": {
+                    "count": len(user_grenade_events),
+                    "damage": user_utility_damage,
+                    "types": [event.get("type") for event in user_grenade_events],
+                },
+                "user_economy": {
+                    "team": (user_player or {}).get("team"),
+                    "initial_money": (user_player or {}).get("initial_money", 0),
+                    "spent": (user_player or {}).get("spent_in_buy", 0),
+                    "final_money": (user_player or {}).get("final_money", 0),
+                    "equipment_value": (user_player or {}).get("final_equipment_value", 0),
+                    "survived": bool((user_player or {}).get("survived")),
+                    "purchases": (user_player or {}).get("purchases", []),
+                },
+            }
+        )
+
+    summaries.sort(key=lambda item: item["round"])
+    total_user_spend = sum(int(item["user_economy"]["spent"] or 0) for item in summaries)
+    full_buy_rounds = sum(
+        1
+        for item in summaries
+        if int(item["user_economy"]["equipment_value"] or 0) >= 4000
+    )
+    low_buy_rounds = sum(
+        1
+        for item in summaries
+        if int(item["user_economy"]["equipment_value"] or 0) < 2000
+    )
+    economy_summary = {
+        "rounds_available": len(summaries),
+        "total_user_spend": total_user_spend,
+        "average_user_spend": round(total_user_spend / len(summaries)) if summaries else 0,
+        "full_buy_rounds": full_buy_rounds,
+        "low_buy_rounds": low_buy_rounds,
+    }
+    return summaries, economy_summary
+
+
+def _profile_from_player(player: dict[str, Any]) -> dict[str, Any]:
+    rating = (
+        player.get("premier_rating")
+        or player.get("cs_rating")
+        or player.get("rating_premier")
+    )
     return {
-        steam_id: round(sum(values) / len(values), 1)
-        for steam_id, values in values_by_player.items()
-        if values
+        "avatar": player.get("avatar") or player.get("avatar_url"),
+        "premier_rating": rating,
+        "rank_type": player.get("rank_type") or player.get("rank"),
+        "status": "available" if rating is not None else "unavailable",
+        "source": "match",
     }
 
-# ============================================================================
-# PROCESSED DEMOS
-# ============================================================================
-def _load_indexed_match(match_folder: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    with open(os.path.join(match_folder, "players_summary.json"), encoding="utf-8") as handle:
-        players_data = json.load(handle).get("players", [])
-    with open(os.path.join(match_folder, "metadata.json"), encoding="utf-8") as handle:
-        metadata = json.load(handle)
-    return players_data, metadata
 
+def _extract_premier_profile(result: Any) -> dict[str, Any]:
+    if not isinstance(result, dict):
+        return {"premier_rating": None, "rank_type": None, "status": "unavailable"}
+    rating: Any = None
+    for key in ("premier_rating", "cs_rating", "rating", "ranking"):
+        candidate = result.get(key)
+        if isinstance(candidate, dict):
+            candidate = candidate.get("value") or candidate.get("rating")
+        if candidate not in (None, ""):
+            rating = candidate
+            break
+    try:
+        rating = int(float(rating)) if rating is not None else None
+    except (TypeError, ValueError):
+        rating = None
+    return {
+        "premier_rating": rating,
+        "rank_type": result.get("rank_type"),
+        "status": "available" if rating is not None or result.get("rank_type") is not None else "unavailable",
+    }
+
+
+async def _load_player_profiles(players: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    profiles = {
+        str(player.get("steam_id")): _profile_from_player(player)
+        for player in players
+        if player.get("steam_id")
+    }
+    steam_ids = list(profiles)
+    if not steam_ids or not STEAM_API_KEY:
+        return profiles
+
+    cached_profiles: dict[str, dict[str, Any]] = {}
+    missing: list[str] = []
+    try:
+        cached_values = await redis.mget(
+            [f"{PIPELINE_NAMESPACE}:steam-profile:{steam_id}" for steam_id in steam_ids]
+        )
+        for steam_id, raw in zip(steam_ids, cached_values):
+            if raw:
+                cached_profiles[steam_id] = json.loads(raw)
+            else:
+                missing.append(steam_id)
+    except Exception as exc:
+        logging.warning("[get-match-details] Caché de perfiles no disponible: %s", exc)
+        missing = steam_ids
+
+    profiles.update(cached_profiles)
+    if not missing:
+        return profiles
+
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            avatar_request = client.get(
+                "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/",
+                params={"key": STEAM_API_KEY, "steamids": ",".join(missing)},
+            )
+            rank_requests = [
+                client.get(
+                    "https://api.steampowered.com/ICSGOPlayers_730/GetGamePersonalData/v1/",
+                    params={"key": STEAM_API_KEY, "steamid": steam_id},
+                )
+                for steam_id in missing
+            ]
+            responses = await asyncio.gather(
+                avatar_request,
+                *rank_requests,
+                return_exceptions=True,
+            )
+
+        avatar_by_id: dict[str, str] = {}
+        avatar_response = responses[0]
+        if isinstance(avatar_response, httpx.Response) and avatar_response.is_success:
+            avatar_by_id = {
+                str(item.get("steamid")): item.get("avatarfull")
+                for item in avatar_response.json().get("response", {}).get("players", [])
+            }
+
+        for steam_id, response in zip(missing, responses[1:]):
+            profile = {**profiles.get(steam_id, {})}
+            profile["avatar"] = avatar_by_id.get(steam_id) or profile.get("avatar")
+            if isinstance(response, httpx.Response) and response.is_success:
+                profile.update(_extract_premier_profile(response.json().get("result", {})))
+                profile["source"] = "steam"
+            profiles[steam_id] = profile
+    except (httpx.HTTPError, ValueError, KeyError) as exc:
+        logging.warning("[get-match-details] No se pudieron enriquecer perfiles Steam: %s", exc)
+
+    try:
+        pipeline = redis.pipeline()
+        for steam_id in missing:
+            pipeline.setex(
+                f"{PIPELINE_NAMESPACE}:steam-profile:{steam_id}",
+                21600,
+                json.dumps(profiles.get(steam_id, {})),
+            )
+        await pipeline.execute()
+    except Exception as exc:
+        logging.warning("[get-match-details] No se pudo guardar la caché de perfiles: %s", exc)
+
+    return profiles
 
 @router.get("/steam/get-processed-demos")
 @rate_limiter.limit(30, 60)  # 30 requests per minute per IP
@@ -161,79 +481,40 @@ async def get_processed_demos(
     request: Request,
     user: SteamUser = Depends(require_steam_user),
 ) -> dict[str, Any]:
-    steam_id = user.steam_id
-    match_ids = await redis.zrevrange(
-        f"{PIPELINE_NAMESPACE}:user:{steam_id}:processed",
-        0,
-        199,
+    matches = await asyncio.to_thread(
+        list_player_matches,
+        user.steam_id,
+        EXPORTS_PATH,
     )
-    if not match_ids:
-        return {"matches": []}
+    return {"matches": [_project_match_list_item(match) for match in matches]}
 
-    raw_index = await redis.hmget(f"{PIPELINE_NAMESPACE}:matches", match_ids)
-    indexed_metadata = {
-        match_id: json.loads(raw)
-        for match_id, raw in zip(match_ids, raw_index)
-        if raw
-    }
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
-    demos: list[dict[str, Any]] = []
 
-    for match_id in match_ids:
-        folder_name = f"match_{match_id}"
-        match_folder = os.path.join(exports_path, folder_name)
-        if not is_safe_path(exports_path, match_folder):
-            continue
-        try:
-            players_data, metadata = await asyncio.to_thread(_load_indexed_match, match_folder)
-        except (FileNotFoundError, OSError, ValueError) as exc:
-            logging.warning("Indexed match %s is not readable: %s", match_id, type(exc).__name__)
-            continue
-
-        user_player = next(
-            (player for player in players_data if str(player.get("steam_id", "")) == steam_id),
-            None,
-        )
-        if not user_player:
-            continue
-
-        scores = str(metadata.get("final_score", "0-0")).split("-", 1)
-        ct_score = int(scores[0].strip()) if scores[0].strip().isdigit() else 0
-        t_score = int(scores[1].strip()) if len(scores) > 1 and scores[1].strip().isdigit() else 0
-        user_team = user_player.get("team", "")
-        team_score, opponent_score = (
-            (ct_score, t_score) if user_team == "CT" else (t_score, ct_score)
-        )
-        index_item = indexed_metadata.get(match_id, {})
-        demos.append(
+def _project_match_list_item(match: PlayerMatch) -> dict[str, Any]:
+    player = match.player
+    return {
+        "match_id": match.match_id,
+        "map_name": match.metadata.get("map_name", "unknown"),
+        "match_date": match.metadata.get("date", ""),
+        "match_duration": match.metadata.get("duration_seconds", 0),
+        "result": "victory" if match.result == "W" else "defeat",
+        "team_score": match.team_score,
+        "opponent_score": match.opponent_score,
+        "total_rounds": match.total_rounds,
+        "user_team": match.user_team,
+        "players": [
             {
-                "match_id": match_id,
-                "map_name": metadata.get("map_name", index_item.get("map_name", "unknown")),
-                "match_date": metadata.get("date", index_item.get("date", "")),
-                "match_duration": metadata.get(
-                    "duration_seconds", index_item.get("duration", 0)
-                ),
-                "result": "victory" if user_team == metadata.get("winner", "") else "defeat",
-                "team_score": team_score,
-                "opponent_score": opponent_score,
-                "total_rounds": metadata.get("total_rounds", 0),
-                "user_team": user_team,
-                "players": [
-                    {
-                        "steam_id": user_player.get("steam_id"),
-                        "name": user_player.get("name", ""),
-                        "kills": user_player.get("kills", 0),
-                        "deaths": user_player.get("deaths", 0),
-                        "assists": user_player.get("assists", 0),
-                        "kd_ratio": user_player.get("kd_ratio", 0),
-                        "adr": user_player.get("adr", 0),
-                        "hs_percentage": user_player.get("hs_percentage", 0),
-                        "hltv_rating": user_player.get("hltv_rating", 0),
-                    }
-                ],
+                "steam_id": player.get("steam_id"),
+                "name": player.get("name", ""),
+                "kills": player.get("kills", 0),
+                "deaths": player.get("deaths", 0),
+                "assists": player.get("assists", 0),
+                "kd_ratio": player.get("kd_ratio", 0),
+                "adr": player.get("adr", 0),
+                "hs_percentage": player.get("hs_percentage", 0),
+                "hltv_rating": player.get("hltv_rating", 0),
             }
-        )
-    return {"matches": demos}
+        ],
+    }
 
 
 # ============================================================================
@@ -248,7 +529,7 @@ async def get_match_details(
 ) -> dict[str, Any]:
     """
     Endpoint para obtener todos los detalles de una partida específica.
-    Combina metadata.json y players_summary.json.
+    Conserva el DTO pÃºblico a partir del bundle canÃ³nico.
     """
     steam_id_str = user.steam_id
     
@@ -260,44 +541,15 @@ async def get_match_details(
     
     logging.info(f"[get-match-details] Buscando detalles de {match_id} para {steam_id_str}")
 
-    # Buscar la carpeta de la partida
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
-    
-    # Try different folder name formats
-    possible_folders = [
-        os.path.join(exports_path, match_id),
-        os.path.join(exports_path, f"match_{match_id}"),
-        os.path.join(exports_path, match_id.replace("match_", "")),
-    ]
-    
-    match_folder = None
-    for folder in possible_folders:
-        if os.path.exists(folder) and os.path.isdir(folder):
-            # Verify path is safely within exports directory
-            if not is_safe_path(exports_path, folder):
-                logging.warning(f"[get-match-details] Path traversal blocked: {folder}")
-                continue
-            match_folder = folder
-            break
-    
-    if not match_folder:
+    match_export = find_canonical_match(EXPORTS_PATH, match_id)
+    if match_export is None:
         logging.warning(f"[get-match-details] Carpeta no encontrada: {match_id}")
         raise HTTPException(status_code=404, detail="Partida no encontrada.")
+    match_folder = str(match_export.directory)
 
     try:
-        # Leer metadata.json
-        metadata_path = os.path.join(match_folder, "metadata.json")
-        metadata = {}
-        if os.path.exists(metadata_path):
-            with open(metadata_path, 'r', encoding='utf-8') as f:
-                metadata = json.load(f)
-        
-        # Leer players_summary.json
-        players_path = os.path.join(match_folder, "players_summary.json")
-        players_data = {"players": []}
-        if os.path.exists(players_path):
-            with open(players_path, 'r', encoding='utf-8') as f:
-                players_data = json.load(f)
+        metadata = project_match_metadata(match_export)
+        players_data = project_player_summary(match_export)
 
         # Ownership validation: verify the authenticated user is a player in this match
         players = players_data.get("players", [])
@@ -348,6 +600,12 @@ async def get_match_details(
         else:
             user_team_score = t_score
             opponent_team_score = ct_score
+
+        round_summaries, economy_summary = _summarize_match_rounds(
+            match_folder,
+            steam_id_str,
+        )
+        player_profiles = await _load_player_profiles(players)
         
         return {
             "match_id": match_id,
@@ -368,7 +626,10 @@ async def get_match_details(
             "team_ct": team_ct,
             "team_t": team_t,
             "current_user": current_user_stats,
-            "current_user_steam_id": steam_id_str
+            "current_user_steam_id": steam_id_str,
+            "player_profiles": player_profiles,
+            "rounds": round_summaries,
+            "economy_summary": economy_summary,
         }
         
     except HTTPException:
@@ -388,50 +649,16 @@ async def get_dashboard_stats(
     force_refresh: bool = False,
     user: SteamUser = Depends(require_steam_user),
 ) -> dict[str, Any]:
-    """
-    Endpoint OPTIMIZADO para el dashboard.
-    
-    OPTIMIZATION (2026-01-08):
-    - Now reads from pre-calculated data/users/{steam_id}/aggregate.json
-    - O(1) file lookup instead of O(n) folder scanning
-    - Falls back to legacy scanning if aggregate file doesn't exist
-    
-    - NO devuelve event_logs (evita transferir miles de eventos innecesarios)
-    - Cache con TTL de 1 hora (invalidado automáticamente al procesar demos)
-    - Solo incluye stats agregadas: KDA, ADR, HS%, mapas, armas
-    - Param force_refresh=true para forzar recálculo sin usar cache
-    
-    Resultado: Carga 10-20x más rápida que get-processed-demos
-    """
+    """Return the dashboard projection from the canonical player-match catalog."""
     steam_id = user.steam_id
-    steam_id_str = user.steam_id
-    
-    # 1. Verificar caché (se invalida automáticamente al procesar demos)
-    cache_key = f"{PIPELINE_NAMESPACE}:dashboard-stats:{steam_id}"
-    
-    # [DEBUG] Force refresh checking for now to ensure user sees fixed data
-    if not force_refresh:
-        # cached = await redis.get(cache_key)
-        # if cached:
-        #     logging.info(f"[dashboard-stats] Cache HIT para {steam_id}")
-        #     return json.loads(cached)
-        pass
-    else:
-        logging.info(f"[dashboard-stats] Force refresh solicitado para {steam_id}")
-        await redis.delete(cache_key)  # Limpiar cache viejo
-    
-    logging.info(f"[dashboard-stats] Cache MISS para {steam_id} - calculando...")
-    
-    # 2. Obtener lista de match_ids procesadas desde Redis
-    match_ids = await redis.zrevrange(
-        f"{PIPELINE_NAMESPACE}:user:{steam_id}:processed",
-        0,
-        499,
+    if force_refresh:
+        clear_player_match_cache()
+    player_matches = await asyncio.to_thread(
+        list_player_matches,
+        steam_id,
+        EXPORTS_PATH,
     )
-    processed_demos_raw = [json.dumps({"match_id": match_id}) for match_id in match_ids]
-    
-    # 3. Cargar datos OPTIMIZADOS desde data/exports/ o Redis
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
+
     matches_data = []
     weapon_stats_agg = {} # {weapon: {kills, shots, hits, damage, headshots}}
     map_results: dict[str, dict[str, int]] = {}
@@ -445,7 +672,7 @@ async def get_dashboard_stats(
     agg_shots_fired = 0
     agg_shots_hit = 0
 
-    if not processed_demos_raw:
+    if not player_matches:
         empty_response = {
             "steam_id": steam_id,
             "stats": {
@@ -456,126 +683,27 @@ async def get_dashboard_stats(
             "aim_stats": {},
             "recent_matches": [], "weapon_stats": [], "map_stats": []
         }
-        await redis.set(cache_key, json.dumps(empty_response), ex=3600)
         return empty_response
 
     
-    for demo_raw in processed_demos_raw:
-        demo = json.loads(demo_raw)
-        match_id = demo.get("match_id")
-        
-        # Intentar leer desde data/exports/ primero (más eficiente)
-        # FIX: Robust folder finding
-        possible_folders = [
-            os.path.join(exports_path, f"match_{match_id}"),
-            os.path.join(exports_path, match_id), # In case match_id already has match_ prefix
-            os.path.join(exports_path, match_id.replace("match_", "")) # In case double match was stripped
-        ]
-        
-        match_folder = None
-        for pf in possible_folders:
-            if os.path.exists(pf):
-                match_folder = pf
-                break
-        
-        if not match_folder:
-            continue
-            
-        players_summary_path = os.path.join(match_folder, "players_summary.json")
-        match_info_path = os.path.join(match_folder, "match_info.json")
-        combat_path = os.path.join(match_folder, "combat.json")
-        metadata_path = os.path.join(match_folder, "metadata.json")
-        
-        player_stats = None
-        match_info = None
-        
-        if not os.path.exists(match_folder):
-            continue
-        
-        # Leer players_summary.json para stats del jugador (si existe)
-        if os.path.exists(players_summary_path):
-            try:
-                with open(players_summary_path, 'r', encoding='utf-8') as f:
-                    players_data = json.load(f)
-                    # Buscar al jugador
-                    for p in players_data.get("players", []):
-                        if str(p.get("steam_id", "")) == str(steam_id):
-                            player_stats = p
-                            break
-            except Exception as e:
-                logging.warning(f"Error leyendo {players_summary_path}: {e}")
-        
-        # Leer metadata.json para resultado y mapa
-        if os.path.exists(metadata_path):
-            try:
-                with open(metadata_path, 'r', encoding='utf-8') as f:
-                    metadata = json.load(f)
-                    final_score = metadata.get("final_score", "0-0")
-                    scores = final_score.split("-") if "-" in final_score else ["0", "0"]
-                    team_score = int(scores[0]) if scores[0].isdigit() else 0
-                    opponent_score = int(scores[1]) if len(scores) > 1 and scores[1].isdigit() else 0
-                    
-                    match_info = {
-                        "map_name": metadata.get("map_name", "unknown"),
-                        "date": metadata.get("date", ""),
-                        "team_score": team_score,
-                        "opponent_score": opponent_score,
-                        "winner": metadata.get("winner", ""),
-                        "duration_seconds": metadata.get("duration_seconds", 0),
-                        "total_rounds": metadata.get("total_rounds", 1)
-                    }
-            except Exception as e:
-                logging.warning(f"Error leyendo {metadata_path}: {e}")
-        
-        # Fallback: Si no hay players_summary.json, calcular stats desde combat.json
-        if not player_stats and os.path.exists(combat_path):
-            try:
-                with open(combat_path, 'r', encoding='utf-8') as f:
-                    combat_data = json.load(f)
-                
-                kills = 0
-                deaths = 0
-                headshots = 0
-                total_damage = 0
-                
-                for round_data in combat_data.get("rounds", []):
-                    for duel in round_data.get("duels", []):
-                        attacker = duel.get("attacker", {})
-                        victims = duel.get("victims", [])
-                        
-                        # Usuario atacante
-                        if str(attacker.get("steam_id", "")) == str(steam_id):
-                            if duel.get("outcome") == "kill":
-                                kills += duel.get("victim_count", 1)
-                                headshots += attacker.get("headshots", 0)
-                            total_damage += attacker.get("total_damage_dealt", 0)
-                        
-                        # Usuario víctima
-                        for victim in victims:
-                            if str(victim.get("steam_id", "")) == str(steam_id):
-                                if duel.get("outcome") == "kill" and victim.get("health_after", 0) == 0:
-                                    deaths += 1
-                
-                total_rounds = match_info.get("total_rounds", 1) if match_info else 1
-                adr = total_damage / max(total_rounds, 1)
-                hs_percentage = (headshots / kills * 100) if kills > 0 else 0
-                kd_ratio = kills / max(deaths, 1)
-                
-                player_stats = {
-                    "kills": kills, "deaths": deaths, "assists": 0,
-                    "kd_ratio": round(kd_ratio, 2), "adr": round(adr, 1),
-                    "hs_percentage": round(hs_percentage, 1), "headshots": headshots
-                }
-            except Exception as e:
-                logging.warning(f"Error calculando stats desde combat.json para {match_id}: {e}")
-        
-        if not match_info:
-            continue
+    for player_match in player_matches:
+        match_id = player_match.match_id
+        player_stats = player_match.player
+        metadata = player_match.metadata
+        team_score = player_match.team_score
+        opponent_score = player_match.opponent_score
+        match_info = {
+            "map_name": metadata.get("map_name", "unknown"),
+            "date": metadata.get("date", ""),
+            "team_score": team_score,
+            "opponent_score": opponent_score,
+            "winner": metadata.get("winner", ""),
+            "duration_seconds": metadata.get("duration_seconds", 0),
+            "total_rounds": metadata.get("total_rounds", 1),
+        }
         
         if player_stats:
-            team_score = match_info.get("team_score", 0)
-            opponent_score = match_info.get("opponent_score", 0)
-            result = "W" if team_score > opponent_score else "L"
+            result = player_match.result
             
             # --- START AGGREGATION FOR AIM & WEAPONS ---
             
@@ -707,8 +835,7 @@ async def get_dashboard_stats(
         "map_stats": map_stats_list
     }
     
-    await redis.set(cache_key, json.dumps(response), ex=3600)
-    logging.info(f"[dashboard-stats] Calculado y cacheado para {steam_id} - {total_matches} partidas")
+    logging.info("[dashboard-stats] Calculado para %s - %s partidas", steam_id, total_matches)
     
     return response
 
@@ -760,42 +887,19 @@ async def get_map_zone_stats(
     matches_analyzed = 0
     
     if os.path.exists(exports_path):
-        for folder_name in os.listdir(exports_path):
-            if not folder_name.startswith("match_"):
+        for match_export in iter_canonical_matches(exports_path):
+            folder_name = match_export.directory.name
+            meta = project_match_metadata(match_export)
+            if meta.get("map_name") != map_name:
                 continue
-            
-            match_folder = os.path.join(exports_path, folder_name)
-            
-            # 1. Metadata check
-            metadata_path = os.path.join(match_folder, "metadata.json")
-            if os.path.exists(metadata_path):
-                try:
-                    with open(metadata_path, 'r', encoding='utf-8') as f:
-                        meta = json.load(f)
-                        if meta.get("map_name") != map_name:
-                            continue
-                except Exception: continue
-            
-            # 2. Player presence check
-            players_summary_path = os.path.join(match_folder, "players_summary.json")
-            if not os.path.exists(players_summary_path): continue
-            
+
+            players = project_player_summary(match_export).get("players", [])
+            if not any(str(player.get("steam_id")) == steam_id_str for player in players):
+                continue
+
             try:
-                with open(players_summary_path, 'r', encoding='utf-8') as f:
-                    p_data = json.load(f)
-                    players = p_data.get("players", []) if isinstance(p_data, dict) else p_data
-                    if not any(str(p.get("steam_id")) == steam_id_str for p in players):
-                        continue
-            except Exception: continue
-            
-            # 3. Combat Data
-            combat_path = os.path.join(match_folder, "combat.json")
-            if not os.path.exists(combat_path): continue
-            
-            try:
-                with open(combat_path, 'r', encoding='utf-8') as f:
-                    combat_data = json.load(f)
-                    for round_item in combat_data.get("rounds", []):
+                combat_data = project_combat(match_export)
+                for round_item in combat_data.get("rounds", []):
                         for duel in round_item.get("duels", []):
                             attacker = duel.get("attacker", {})
                             victims = duel.get("victims", [])
@@ -888,7 +992,14 @@ async def get_callout_stats(
     # ==========================================================================
     # FAST PATH: Try to load from pre-calculated map aggregate file (O(1))
     # ==========================================================================
-    if user_has_map_data(steam_id_str, map_name):
+    if (
+        user_has_map_data(steam_id_str, map_name)
+        and await asyncio.to_thread(
+            is_user_map_data_fresh,
+            steam_id_str,
+            map_name,
+        )
+    ):
         logging.info(f"[callout-stats] Using pre-calculated map data for {steam_id_str}/{map_name}")
         map_data = await asyncio.to_thread(load_user_map_data, steam_id_str, map_name)
         
@@ -902,7 +1013,7 @@ async def get_callout_stats(
             }
     
     # ==========================================================================
-    # FALLBACK: Legacy folder scanning (O(n)) - only if map data doesn't exist
+    # FALLBACK: ProyecciÃ³n canÃ³nica bajo demanda si no existe agregado.
     # ==========================================================================
     logging.info(f"[callout-stats] Fallback to folder scanning for {steam_id_str}/{map_name}")
     
@@ -944,35 +1055,18 @@ async def get_callout_stats(
     
     matches_analyzed = 0
     
-    for folder_name in os.listdir(exports_path):
-        if not folder_name.startswith("match_"):
+    for match_export in iter_canonical_matches(exports_path):
+        meta = project_match_metadata(match_export)
+        if meta.get("map_name") != map_name:
             continue
-        
-        match_folder = os.path.join(exports_path, folder_name)
-        
-        # 1. Metadata filter
-        metadata_path = os.path.join(match_folder, "metadata.json")
-        if os.path.exists(metadata_path):
-            try:
-                with open(metadata_path, 'r', encoding='utf-8') as f:
-                    meta = json.load(f)
-                    if meta.get("map_name") != map_name:
-                        continue
-            except Exception: continue
-        
-        # 2. Player check & Summary Stats
-        players_summary_path = os.path.join(match_folder, "players_summary.json")
-        if not os.path.exists(players_summary_path): continue
-        
+
         player_summary = None
         try:
-            with open(players_summary_path, 'r', encoding='utf-8') as f:
-                p_data = json.load(f)
-                players = p_data.get("players", []) if isinstance(p_data, dict) else p_data
-                for p in players:
-                    if str(p.get("steam_id")) == steam_id_str:
-                        player_summary = p
-                        break
+            players = project_player_summary(match_export).get("players", [])
+            for player in players:
+                if str(player.get("steam_id")) == steam_id_str:
+                    player_summary = player
+                    break
             
             if not player_summary:
                 continue
@@ -988,15 +1082,10 @@ async def get_callout_stats(
                 
         except Exception: continue
         
-        # 3. Combat logic with full context
-        combat_path = os.path.join(match_folder, "combat.json")
-        if not os.path.exists(combat_path): continue
-        
         try:
-            with open(combat_path, 'r', encoding='utf-8') as f:
-                combat_data = json.load(f)
-                
-                for round_item in combat_data.get("rounds", []):
+            combat_data = project_combat(match_export)
+            for round_item in combat_data.get("rounds", []):
+                if isinstance(round_item, dict):
                     duels = round_item.get("duels", [])
                     
                     # Find first kill tick for opening duel detection
@@ -1108,34 +1197,27 @@ async def get_callout_stats(
                                         if vic.get("is_blind", False):
                                             cs["flash_deaths"] += 1
                                         
-                matches_analyzed += 1
+            matches_analyzed += 1
         except Exception as e:
             logging.error(f"[callout-stats] Error {e}")
             continue
         
-        # 4. Get positions from tracking.json
-        tracking_path = os.path.join(match_folder, "tracking.json")
-        if os.path.exists(tracking_path):
-            try:
-                with open(tracking_path, 'r', encoding='utf-8') as f:
-                    tracking_data = json.load(f)
-                    for round_item in tracking_data.get("rounds", []):
-                        for tick_data in round_item.get("ticks", []):
-                            for player in tick_data.get("players", []):
-                                if str(player.get("player_steam_id")) == steam_id_str:
-                                    raw_area = player.get("area_name", "")
-                                    normalized_area = normalize_callout(raw_area, map_name)
-                                    if normalized_area and normalized_area in callout_stats:
-                                        pos = player.get("pos", {})
-                                        if pos.get("x") and pos.get("y"):
-                                            callout_stats[normalized_area]["positions_x"].append(pos["x"])
-                                            callout_stats[normalized_area]["positions_y"].append(pos["y"])
-                                            # [NEW] Also capture Z coordinate
-                                            if pos.get("z") is not None:
-                                                callout_stats[normalized_area]["positions_z"].append(pos["z"])
-                                    break
-            except Exception as e:
-                logging.warning(f"[callout-stats] Error parsing tracking: {e}")
+        try:
+            for player in match_export.iter_player_states():
+                if str(player.get("player_id", "")).removeprefix("steam:") != steam_id_str:
+                    continue
+                normalized_area = normalize_callout(player.get("area", ""), map_name)
+                if not normalized_area or normalized_area not in callout_stats:
+                    continue
+                position = player.get("position") or {}
+                if not position.get("x") or not position.get("y"):
+                    continue
+                callout_stats[normalized_area]["positions_x"].append(position["x"])
+                callout_stats[normalized_area]["positions_y"].append(position["y"])
+                if position.get("z") is not None:
+                    callout_stats[normalized_area]["positions_z"].append(position["z"])
+        except Exception as exc:
+            logging.warning("[callout-stats] Error leyendo estados canÃ³nicos: %s", exc)
 
     # 5. Build final response with all fields
     final_callouts = {}
@@ -1349,7 +1431,14 @@ async def get_aggregate_grenades(
     # ==========================================================================
     # FAST PATH: Try to load from pre-calculated map aggregate file (O(1))
     # ==========================================================================
-    if user_has_map_data(steam_id_str, map_name):
+    if (
+        user_has_map_data(steam_id_str, map_name)
+        and await asyncio.to_thread(
+            is_user_map_data_fresh,
+            steam_id_str,
+            map_name,
+        )
+    ):
         logging.info(f"[aggregate-grenades] Using pre-calculated map data for {steam_id_str}/{map_name}")
         map_data = await asyncio.to_thread(load_user_map_data, steam_id_str, map_name)
         
@@ -1457,7 +1546,7 @@ async def get_aggregate_grenades(
 
     
     # ==========================================================================
-    # FALLBACK: Legacy folder scanning (O(n)) - only if map data doesn't exist
+    # FALLBACK: ProyecciÃ³n canÃ³nica bajo demanda si no existe agregado.
     # ==========================================================================
     logging.info(f"[aggregate-grenades] Fallback to folder scanning for {steam_id_str}/{map_name}")
     
@@ -1467,44 +1556,20 @@ async def get_aggregate_grenades(
 
     
     if os.path.exists(exports_path):
-        for folder_name in os.listdir(exports_path):
-            if not folder_name.startswith("match_"):
+        for match_export in iter_canonical_matches(exports_path):
+            meta = project_match_metadata(match_export)
+            if meta.get("map_name") != map_name:
                 continue
-            match_folder = os.path.join(exports_path, folder_name)
+
+            players = project_player_summary(match_export).get("players", [])
+            if not any(str(player.get("steam_id")) == steam_id_str for player in players):
+                continue
             
-            # Metadata filter
-            metadata_path = os.path.join(match_folder, "metadata.json")
-            if os.path.exists(metadata_path):
-                try:
-                    with open(metadata_path, 'r', encoding='utf-8') as f:
-                        meta = json.load(f)
-                        if meta.get("map_name") != map_name: continue
-                except Exception: continue
-            
-            # Identify User Name
-            players_summary_path = os.path.join(match_folder, "players_summary.json")
-            user_name = None
-            if os.path.exists(players_summary_path):
-                try:
-                    with open(players_summary_path, 'r') as f:
-                        p_data = json.load(f)
-                        for p in p_data.get("players", []):
-                            if str(p.get("steam_id")) == steam_id_str:
-                                user_name = p.get("name")
-                                break
-                except: pass
-            
-            if not user_name: continue
-            
-            # Load grenades with FULL stats
-            grenades_path = os.path.join(match_folder, "grenades.json")
-            if os.path.exists(grenades_path):
-                try:
-                    with open(grenades_path, 'r', encoding='utf-8') as f:
-                        g_data = json.load(f)
-                        for r_item in g_data.get("rounds", []):
-                            for event in r_item.get("events", []):
-                                if event.get("thrower") == user_name:
+            try:
+                g_data = project_utility(match_export)
+                for r_item in g_data.get("rounds", []):
+                    for event in r_item.get("events", []):
+                        if str(event.get("thrower_steam_id")) == steam_id_str:
                                     g_type = event.get("type", "").lower()
                                     # Normalize types
                                     if g_type == "flashbang":
@@ -1537,11 +1602,11 @@ async def get_aggregate_grenades(
                                                 "extinguished": event.get("extinguished", False),
                                                 "kills": event.get("kills", 0)
                                             })
-                except Exception as e:
-                    logging.warning(f"[aggregate-grenades] Error parsing grenades.json: {e}")
+            except Exception as exc:
+                logging.warning("[aggregate-grenades] Error leyendo utilidad canÃ³nica: %s", exc)
             matches_analyzed += 1
             
-    # Build summary stats from grenades.json data
+    # Build summary stats from canonical utility events.
     summary = {
         "smoke": {"thrown": 0},
         "flash": {"thrown": 0, "total_blinded": 0, "avg_blinded": 0, "team_flashed": 0},
@@ -1710,69 +1775,39 @@ async def get_movement_stats(
     OPTIMIZATION (2026-01-08):
     - Now reads from pre-calculated data/users/{steam_id}/maps/{map_name}.json
     - O(1) file lookup instead of O(n) folder scanning
-    - This is a HUGE win since tracking.json files are ~16MB each!
+    - Evita materializar estados completos de todas las partidas.
     
-    Processes tracking.json to extract:
+    Procesa estados canÃ³nicos por ronda para extraer:
     - Heatmap grid: Position density across 20x20 grid cells
     - Flow lines: Common routes between map areas
     - Metrics: Time-to-site, position frequency, etc.
     """
     steam_id_str = user.steam_id
-    steam_id_int = int(user.steam_id)
     logging.info(f"[movement-stats] Request for sid={steam_id_str}, map={map_name}")
     
     # ==========================================================================
     # FAST PATH: Try to load from pre-calculated map aggregate file (O(1))
     # ==========================================================================
-    if user_has_map_data(steam_id_str, map_name):
+    if (
+        user_has_map_data(steam_id_str, map_name)
+        and await asyncio.to_thread(
+            is_user_map_data_fresh,
+            steam_id_str,
+            map_name,
+        )
+    ):
         logging.info(f"[movement-stats] Using pre-calculated map data for {steam_id_str}/{map_name}")
         map_data = await asyncio.to_thread(load_user_map_data, steam_id_str, map_name)
         
         if map_data and "movement" in map_data:
-            movement = map_data["movement"]
-            raw_grid = movement.get("heatmap_grid", [])
-            
-            # Transform raw grid data to frontend format
-            # Raw: {grid_x, grid_y, total, ct, t, game_x, game_y}
-            # Frontend: {x, y, intensity, ct_ratio, sample_count}
-            # Note: We need to use game_to_radar_percent for accurate positioning
-            max_count = max((g.get("total", 0) for g in raw_grid), default=1) or 1
-            
-            heatmap_grid = []
-            for g in raw_grid:
-                total = g.get("total", 0)
-                if total < 1:
-                    continue
-                
-                # Use game coordinates if available for accurate positioning
-                game_x = g.get("game_x", 0)
-                game_y = g.get("game_y", 0)
-                ct = g.get("ct", 0)
-                
-                intensity = round((total / max_count) * 100, 1)
-                if intensity < 1:
-                    continue
-                
-                # Convert game coordinates to radar percentages
-                radar_pos = game_to_radar_percent(game_x, game_y, map_name)
-                
-                if radar_pos:
-                    heatmap_grid.append({
-                        "x": radar_pos.get("x", 50),
-                        "y": radar_pos.get("y", 50),
-                        "intensity": intensity,
-                        "ct_ratio": round(ct / total * 100, 1) if total > 0 else 50,
-                        "sample_count": total,
-                        "avg_z": g.get("avg_z", 0)
-                    })
-            
-            # Sort by intensity for rendering order
-            heatmap_grid.sort(key=lambda x: x["intensity"])
+            normalized_movement = normalize_movement_contract(
+                map_data["movement"],
+                map_name,
+                map_data.get("callout_stats"),
+            )
             
             return {
-                "heatmap_grid": heatmap_grid,
-                "flow_lines": movement.get("flow_lines", []),
-                "metrics": movement.get("metrics", {}),
+                **normalized_movement,
                 "matches_analyzed": map_data.get("matches_analyzed", 0),
                 "map_name": map_name
             }
@@ -1780,7 +1815,7 @@ async def get_movement_stats(
 
     
     # ==========================================================================
-    # FALLBACK: Legacy folder scanning (O(n)) - only if map data doesn't exist
+    # FALLBACK: Estados canÃ³nicos por ronda si no existe agregado.
     # ==========================================================================
     logging.info(f"[movement-stats] Fallback to folder scanning for {steam_id_str}/{map_name}")
     
@@ -1803,52 +1838,24 @@ async def get_movement_stats(
         return _empty_movement_response(map_name)
 
     
-    for folder_name in os.listdir(exports_path):
-        if not folder_name.startswith("match_"):
+    for match_export in iter_canonical_matches(exports_path):
+        meta = project_match_metadata(match_export)
+        if meta.get("map_name") != map_name:
             continue
-        
-        match_folder = os.path.join(exports_path, folder_name)
-        
-        # 1. Metadata filter - must be correct map
-        metadata_path = os.path.join(match_folder, "metadata.json")
-        if os.path.exists(metadata_path):
-            try:
-                with open(metadata_path, 'r', encoding='utf-8') as f:
-                    meta = json.load(f)
-                    if meta.get("map_name") != map_name:
-                        continue
-            except Exception:
-                continue
-        
-        # 2. Player check
-        players_summary_path = os.path.join(match_folder, "players_summary.json")
-        if not os.path.exists(players_summary_path):
+
+        players = project_player_summary(match_export).get("players", [])
+        if not any(str(player.get("steam_id")) == steam_id_str for player in players):
             continue
+
         try:
-            with open(players_summary_path, 'r', encoding='utf-8') as f:
-                p_data = json.load(f)
-                players = p_data.get("players", []) if isinstance(p_data, dict) else p_data
-                player_found = any(str(p.get("steam_id")) == steam_id_str for p in players)
-                if not player_found:
-                    continue
-        except Exception:
-            continue
-        
-        # 3. Process tracking.json
-        tracking_path = os.path.join(match_folder, "tracking.json")
-        if not os.path.exists(tracking_path):
-            continue
-        
-        try:
-            with open(tracking_path, 'r', encoding='utf-8') as f:
-                tracking_data = json.load(f)
-            
-            for round_item in tracking_data.get("rounds", []):
-                round_num = round_item.get("round", 0)
+            for round_num, states in match_export.iter_player_state_rounds(steam_id_str):
                 total_rounds += 1
                 
                 # Track player's previous area for transitions
                 prev_area = None
+                prev_position = None
+                prev_z = None
+                prev_level = None
                 round_team = None  # Team for this round (detected from spawn)
                 round_start_tick = None
                 reached_a = False
@@ -1857,46 +1864,37 @@ async def get_movement_stats(
                 first_b_tick = None
                 first_tick_processed = False
                 
-                for tick_data in round_item.get("ticks", []):
-                    tick = tick_data.get("tick", 0)
-                    
-                    for player in tick_data.get("players", []):
-                        player_id = player.get("player_steam_id")
-                        
-                        # Match by int or string (tracking uses int)
-                        if player_id != steam_id_int and str(player_id) != steam_id_str:
-                            continue
-                        
-                        if not player.get("is_alive", False):
-                            continue
-                        
-                        pos = player.get("pos", {})
-                        area = player.get("area_name", "")
-                        
-                        if not pos or not area:
-                            continue
-                        
-                        game_x = pos.get("x", 0)
-                        game_y = pos.get("y", 0)
-                        
-                        # Get team directly from tracking data (added in Go parser)
-                        # Falls back to inferring from spawn if not present (old data)
-                        team = player.get("team", "")
-                        if not team and not first_tick_processed:
-                            first_tick_processed = True
-                            round_team = _infer_team_from_area(area, map_name)
-                            round_start_tick = tick
-                        if not team:
-                            team = round_team
-                        
-                        # Get Z coordinate for multi-level map filtering
-                        game_z = pos.get("z", 0)
+                for player in states:
+                    tick = player.get("tick", 0)
+                    if not player.get("is_alive", False):
+                        continue
+
+                    pos = player.get("position") or {}
+                    area = player.get("area", "")
+                    if not pos or not area:
+                        continue
+
+                    game_x = pos.get("x", 0)
+                    game_y = pos.get("y", 0)
+                    team = str(player.get("side") or "").upper()
+                    if not team and not first_tick_processed:
+                        first_tick_processed = True
+                        round_team = _infer_team_from_area(area, map_name)
+                        round_start_tick = tick
+                    if not team:
+                        team = round_team
+
+                    game_z = pos.get("z", 0)
+                    if isinstance(game_z, (int, float)):
                         
                         # Grid heatmap
                         radar_pos = game_to_radar_percent(game_x, game_y, map_name)
                         grid_x = min(GRID_SIZE - 1, int(radar_pos["x"] / 100 * GRID_SIZE))
                         grid_y = min(GRID_SIZE - 1, int(radar_pos["y"] / 100 * GRID_SIZE))
-                        grid_key = (grid_x, grid_y)
+                        level_key = (
+                            "upper" if game_z >= NUKE_Z_THRESHOLD else "lower"
+                        ) if map_name == "de_nuke" else "all"
+                        grid_key = (grid_x, grid_y, level_key)
                         
                         if grid_key not in grid_counts:
                             grid_counts[grid_key] = {"total": 0, "ct": 0, "t": 0, "z_sum": 0.0}
@@ -1907,26 +1905,64 @@ async def get_movement_stats(
                         
                         # Area time tracking
                         normalized_area = normalize_callout(area, map_name) or area
-                        if normalized_area not in area_time:
-                            area_time[normalized_area] = {"total_ticks": 0, "ct": 0, "t": 0}
-                        area_time[normalized_area]["total_ticks"] += 1
+                        area_key = (normalized_area, level_key)
+                        if area_key not in area_time:
+                            area_time[area_key] = {
+                                "total_ticks": 0,
+                                "ct": 0,
+                                "t": 0,
+                                "x_sum": 0.0,
+                                "y_sum": 0.0,
+                                "z_sum": 0.0,
+                            }
+                        area_time[area_key]["total_ticks"] += 1
+                        area_time[area_key]["x_sum"] += radar_pos["x"]
+                        area_time[area_key]["y_sum"] += radar_pos["y"]
+                        area_time[area_key]["z_sum"] += game_z
                         if team:
-                            area_time[normalized_area][team.lower()] += 1
+                            area_time[area_key][team.lower()] += 1
                         
                         # Area transitions (flow lines)
-                        if prev_area and prev_area != normalized_area:
-                            transition_key = (prev_area, normalized_area)
+                        if (
+                            prev_area
+                            and (
+                                prev_area != normalized_area
+                                or prev_level != level_key
+                            )
+                            and prev_position
+                        ):
+                            transition_key = (
+                                prev_area,
+                                prev_level,
+                                normalized_area,
+                                level_key,
+                            )
                             if transition_key not in area_transitions:
-                                area_transitions[transition_key] = {"count": 0, "ct": 0, "t": 0, "positions": []}
+                                area_transitions[transition_key] = {
+                                    "count": 0,
+                                    "ct": 0,
+                                    "t": 0,
+                                    "from_x_sum": 0.0,
+                                    "from_y_sum": 0.0,
+                                    "to_x_sum": 0.0,
+                                    "to_y_sum": 0.0,
+                                    "from_z_sum": 0.0,
+                                    "to_z_sum": 0.0,
+                                }
                             area_transitions[transition_key]["count"] += 1
-                            area_transitions[transition_key]["positions"].append({
-                                "x": radar_pos["x"],
-                                "y": radar_pos["y"]
-                            })
+                            area_transitions[transition_key]["from_x_sum"] += prev_position["x"]
+                            area_transitions[transition_key]["from_y_sum"] += prev_position["y"]
+                            area_transitions[transition_key]["to_x_sum"] += radar_pos["x"]
+                            area_transitions[transition_key]["to_y_sum"] += radar_pos["y"]
+                            area_transitions[transition_key]["from_z_sum"] += prev_z
+                            area_transitions[transition_key]["to_z_sum"] += game_z
                             if team:
                                 area_transitions[transition_key][team.lower()] += 1
                         
                         prev_area = normalized_area
+                        prev_position = radar_pos
+                        prev_z = game_z
+                        prev_level = level_key
                         
                         # Time to site tracking
                         if not reached_a and _is_a_site(normalized_area):
@@ -1958,8 +1994,8 @@ async def get_movement_stats(
             
             matches_analyzed += 1
             
-        except Exception as e:
-            logging.warning(f"[movement-stats] Error parsing tracking for {folder_name}: {e}")
+        except Exception as exc:
+            logging.warning("[movement-stats] Error leyendo estados de %s: %s", match_export.match_id, exc)
             continue
     
     # Build response
@@ -1967,7 +2003,7 @@ async def get_movement_stats(
     # 1. Heatmap grid (20x20 cells with intensity)
     max_count = max((c["total"] for c in grid_counts.values()), default=1)
     heatmap_grid = []
-    for (gx, gy), counts in grid_counts.items():
+    for (gx, gy, level), counts in grid_counts.items():
         intensity = round((counts["total"] / max_count) * 100, 1)
         if intensity > 1:  # Only include cells with meaningful data
             # Calculate average Z for multi-level maps (Nuke, Vertigo, Train)
@@ -1976,9 +2012,12 @@ async def get_movement_stats(
                 "x": (gx + 0.5) * (100 / GRID_SIZE),  # Center of cell
                 "y": (gy + 0.5) * (100 / GRID_SIZE),
                 "intensity": intensity,
+                "ct_count": counts["ct"],
+                "t_count": counts["t"],
                 "ct_ratio": round(counts["ct"] / counts["total"] * 100, 1) if counts["total"] > 0 else 50,
                 "sample_count": counts["total"],
-                "avg_z": round(avg_z, 1)  # For level filtering
+                "avg_z": round(avg_z, 1),  # For level filtering
+                "level": level,
             })
     
     # Sort by intensity for rendering order
@@ -1988,29 +2027,26 @@ async def get_movement_stats(
     flow_lines = []
     sorted_transitions = sorted(area_transitions.items(), key=lambda x: x[1]["count"], reverse=True)
     
-    for (from_area, to_area), data in sorted_transitions[:15]:
+    for (
+        from_area,
+        from_level,
+        to_area,
+        to_level,
+    ), data in sorted_transitions[:15]:
         if data["count"] < 2:  # Skip rare transitions
             continue
-        
-        # Calculate average position along the route
-        positions = data.get("positions", [])
-        if positions:
-            avg_x = sum(p["x"] for p in positions) / len(positions)
-            avg_y = sum(p["y"] for p in positions) / len(positions)
-        else:
-            avg_x, avg_y = 50, 50
-        
-        # Get fixed positions for from/to areas
-        from_pos = CALLOUT_FIXED_POSITIONS.get(map_name, {}).get(from_area)
-        to_pos = CALLOUT_FIXED_POSITIONS.get(map_name, {}).get(to_area)
         
         flow_lines.append({
             "from_area": from_area,
             "to_area": to_area,
-            "from_x": from_pos["x"] if from_pos else avg_x - 5,
-            "from_y": from_pos["y"] if from_pos else avg_y - 5,
-            "to_x": to_pos["x"] if to_pos else avg_x + 5,
-            "to_y": to_pos["y"] if to_pos else avg_y + 5,
+            "from_level": from_level,
+            "to_level": to_level,
+            "from_x": data["from_x_sum"] / data["count"],
+            "from_y": data["from_y_sum"] / data["count"],
+            "to_x": data["to_x_sum"] / data["count"],
+            "to_y": data["to_y_sum"] / data["count"],
+            "from_avg_z": data["from_z_sum"] / data["count"],
+            "to_avg_z": data["to_z_sum"] / data["count"],
             "count": data["count"],
             "ct_count": data.get("ct", 0),
             "t_count": data.get("t", 0),
@@ -2023,13 +2059,19 @@ async def get_movement_stats(
     top_positions = []
     total_ticks = sum(a["total_ticks"] for a in area_time.values())
     
-    for area, data in sorted_areas[:10]:
+    for (area, level), data in sorted_areas:
         pct = round((data["total_ticks"] / total_ticks) * 100, 1) if total_ticks > 0 else 0
         top_positions.append({
             "area": area,
+            "level": level,
             "time_percent": pct,
             "ct_percent": round((data["ct"] / data["total_ticks"]) * 100, 1) if data["total_ticks"] > 0 else 50,
-            "sample_count": data["total_ticks"]
+            "sample_count": data["total_ticks"],
+            "position": {
+                "x": data["x_sum"] / data["total_ticks"],
+                "y": data["y_sum"] / data["total_ticks"],
+            },
+            "avg_z": data["z_sum"] / data["total_ticks"],
         })
     
     # Time to site averages
@@ -2052,10 +2094,17 @@ async def get_movement_stats(
     
     logging.info(f"[movement-stats] Processed {matches_analyzed} matches, {total_rounds} rounds, {len(heatmap_grid)} grid cells, {len(flow_lines)} flow lines")
     
+    normalized_movement = normalize_movement_contract(
+        {
+            "heatmap_grid": heatmap_grid,
+            "flow_lines": flow_lines,
+            "metrics": metrics,
+        },
+        map_name,
+    )
+
     return {
-        "heatmap_grid": heatmap_grid,
-        "flow_lines": flow_lines,
-        "metrics": metrics,
+        **normalized_movement,
         "matches_analyzed": matches_analyzed,
         "map_name": map_name
     }
@@ -2100,40 +2149,67 @@ def _is_b_site(area: str) -> bool:
     return "b site" in area_lower or "bsite" in area_lower or area_lower == "b"
 
 
-# ============================================================================
-# 2D REPLAY DATA
-# ============================================================================
+def _load_canonical_replay_index(match_folder: str) -> dict | None:
+    try:
+        payload = CanonicalMatch(match_folder).replay_index()
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        return None
+    return thaw_json(payload) if payload else None
+
+
+def _load_canonical_replay_round(match_folder: str, round_num: int) -> dict | None:
+    try:
+        round_data = CanonicalMatch(match_folder).replay_round(round_num)
+    except (OSError, UnicodeError, json.JSONDecodeError):
+        return None
+    return thaw_json(round_data) if round_data else None
+
+
+def _stream_match_replay(match: CanonicalMatch):
+    index = match.replay_index()
+    separators = (",", ":")
+    yield '{"metadata":'
+    yield json.dumps(
+        thaw_json(index.get("metadata", {})),
+        ensure_ascii=False,
+        separators=separators,
+    )
+    yield ',"rounds":['
+    first = True
+    for entry in index.get("rounds", ()):
+        if not isinstance(entry, Mapping):
+            continue
+        round_number = int(entry.get("round_number") or 0)
+        round_data = match.replay_round(round_number)
+        if not round_data:
+            continue
+        if not first:
+            yield ","
+        first = False
+        yield json.dumps(
+            thaw_json(round_data),
+            ensure_ascii=False,
+            separators=separators,
+        )
+    yield "]}"
+
+
 @router.get("/match/{match_id}/replay")
-async def get_match_replay(match_id: str) -> dict:
+async def get_match_replay(match_id: str) -> StreamingResponse:
     """
     Endpoint para obtener datos de replay 2D de una partida.
     
-    Lee el archivo replay.json de la carpeta de exports de la partida.
+    Emite el replay segmentado sin materializar la partida completa en memoria.
     """
     logging.info(f"[get-match-replay] Fetching replay data for {match_id}")
     
-    # Buscar el archivo replay.json
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
-    match_folder = os.path.join(exports_path, f"match_{match_id}")
-    replay_path = os.path.join(match_folder, "replay.json")
-    
-    if not os.path.exists(replay_path):
-        logging.warning(f"[get-match-replay] Replay file not found: {replay_path}")
+    match_export = find_canonical_match(EXPORTS_PATH, match_id)
+    if match_export is None or not match_export.replay_index():
         raise HTTPException(status_code=404, detail="Replay data not found for this match")
-    
-    try:
-        with open(replay_path, 'r', encoding='utf-8') as f:
-            replay_data = json.load(f)
-        
-        logging.info(f"[get-match-replay] Loaded replay with {len(replay_data.get('rounds', []))} rounds")
-        return replay_data
-        
-    except json.JSONDecodeError as e:
-        logging.error(f"[get-match-replay] Error parsing replay JSON: {e}")
-        raise HTTPException(status_code=500, detail="Error parsing replay data")
-    except Exception as e:
-        logging.error(f"[get-match-replay] Error reading replay file: {e}")
-        raise HTTPException(status_code=500, detail="Error reading replay data")
+    return StreamingResponse(
+        _stream_match_replay(match_export),
+        media_type="application/json",
+    )
 
 
 @router.get("/match/{match_id}/replay/metadata")
@@ -2145,40 +2221,30 @@ async def get_match_replay_metadata(match_id: str) -> dict:
     """
     logging.info(f"[get-match-replay-metadata] Fetching metadata for {match_id}")
     
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
-    match_folder = os.path.join(exports_path, f"match_{match_id}")
-    replay_path = os.path.join(match_folder, "replay.json")
-    
-    if not os.path.exists(replay_path):
+    match_export = find_canonical_match(EXPORTS_PATH, match_id)
+    if match_export is None:
         raise HTTPException(status_code=404, detail="Replay data not found for this match")
-    
-    try:
-        with open(replay_path, 'r', encoding='utf-8') as f:
-            replay_data = json.load(f)
-        
-        # Build rounds summary (without heavy frames data)
-        rounds_summary = []
-        for i, round_data in enumerate(replay_data.get("rounds", [])):
-            rounds_summary.append({
-                "round": round_data.get("round", i + 1),
-                "winner": round_data.get("winner", ""),
-                "start_tick": round_data.get("start_tick", 0),
-                "end_tick": round_data.get("end_tick", 0),
-                "frame_count": len(round_data.get("frames", [])),
-                "event_count": len(round_data.get("events", [])),
-                # Include events for timeline markers
-                "events": round_data.get("events", [])
-            })
-        
-        return {
-            "metadata": replay_data.get("metadata", {}),
-            "rounds_summary": rounds_summary,
-            "total_rounds": len(rounds_summary)
+    canonical_index = thaw_json(match_export.replay_index())
+    if not canonical_index:
+        raise HTTPException(status_code=404, detail="Replay data not found for this match")
+    rounds_summary = [
+        {
+            "round": item.get("round_number"),
+            "winner": (item.get("winner_side") or "").upper(),
+            "start_tick": item.get("start_tick", 0),
+            "end_tick": item.get("end_tick", 0),
+            "frame_count": item.get("frame_count", 0),
+            "event_count": item.get("event_count", 0),
+            "events": item.get("events", []),
         }
-        
-    except Exception as e:
-        logging.error(f"[get-match-replay-metadata] Error: {e}")
-        raise HTTPException(status_code=500, detail="Error reading replay metadata")
+        for item in canonical_index.get("rounds", [])
+        if isinstance(item, dict)
+    ]
+    return {
+        "metadata": canonical_index.get("metadata", {}),
+        "rounds_summary": rounds_summary,
+        "total_rounds": len(rounds_summary),
+    }
 
 
 @router.get("/match/{match_id}/replay/round/{round_num}")
@@ -2190,40 +2256,20 @@ async def get_match_replay_round(match_id: str, round_num: int) -> dict:
     """
     logging.info(f"[get-match-replay-round] Fetching round {round_num} for {match_id}")
     
-    exports_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "exports")
-    match_folder = os.path.join(exports_path, f"match_{match_id}")
-    replay_path = os.path.join(match_folder, "replay.json")
-    
-    if not os.path.exists(replay_path):
+    match_export = find_canonical_match(EXPORTS_PATH, match_id)
+    if match_export is None:
         raise HTTPException(status_code=404, detail="Replay data not found for this match")
-    
     try:
-        with open(replay_path, 'r', encoding='utf-8') as f:
-            replay_data = json.load(f)
-        
-        rounds = replay_data.get("rounds", [])
-        
-        # Find the round (round_num is 1-indexed)
-        round_data = None
-        for r in rounds:
-            if r.get("round") == round_num:
-                round_data = r
-                break
-        
-        # Fallback to array index if round number not found
-        if round_data is None and 0 < round_num <= len(rounds):
-            round_data = rounds[round_num - 1]
-        
-        if round_data is None:
+        round_data = thaw_json(match_export.replay_round(round_num))
+        if not round_data:
             raise HTTPException(status_code=404, detail=f"Round {round_num} not found")
-        
         return {
             "round": round_data.get("round", round_num),
             "winner": round_data.get("winner", ""),
             "start_tick": round_data.get("start_tick", 0),
             "end_tick": round_data.get("end_tick", 0),
             "frames": round_data.get("frames", []),
-            "events": round_data.get("events", [])
+            "events": round_data.get("events", []),
         }
         
     except HTTPException:

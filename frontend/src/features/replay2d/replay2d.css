@@ -11,7 +11,8 @@
   display: grid;
   grid-template-rows: 44px minmax(0, 1fr) 84px;
   width: 100%;
-  height: 100%;
+  height: clamp(560px, calc(100vh - 190px), 820px);
+  min-height: 560px;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -31,6 +32,13 @@
   height: 100vh;
   border: 0;
   border-radius: 0;
+}
+
+@media (max-width: 720px) {
+  .replay-container.r2-shell {
+    height: max(620px, calc(100dvh - 120px));
+    min-height: 620px;
+  }
 }
 
 .r2-shell button,
@@ -255,8 +263,9 @@
   right: 10px;
   z-index: 4;
   display: grid;
-  gap: 3px;
-  width: min(360px, 44%);
+  justify-items: end;
+  gap: 4px;
+  width: min(460px, 58%);
   margin: 0;
   padding: 0;
   pointer-events: none;
@@ -264,25 +273,27 @@
 }
 
 .r2-kill-feed li {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  display: flex;
   align-items: center;
-  gap: 7px;
-  min-height: 27px;
-  padding: 0 7px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-right: 2px solid #ef6862;
-  background: rgba(5, 10, 17, 0.88);
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.28);
-  font-size: 9px;
+  justify-content: flex-end;
+  gap: 6px;
+  min-height: 30px;
+  width: max-content;
+  max-width: 100%;
+  padding: 3px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(4, 9, 15, 0.92);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.36);
+  font-size: 11px;
+  line-height: 1;
 }
 
-.r2-kill-feed li > span:first-child {
-  text-align: right;
+.r2-kill-row.r2-killer-ct {
+  border-right: 2px solid var(--r2-cyan);
 }
 
-.r2-kill-feed li > span:last-child {
-  text-align: left;
+.r2-kill-row.r2-killer-t {
+  border-right: 2px solid var(--r2-amber);
 }
 
 .r2-kill-feed .ct {
@@ -296,8 +307,66 @@
 .r2-kill-weapon {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  color: #aebaca;
+  justify-content: center;
+  gap: 4px;
+  min-width: 42px;
+  color: #dbe5ef;
+}
+
+.r2-kill-weapon img {
+  width: auto;
+  max-width: 48px;
+  height: 15px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(2.4);
+}
+
+.r2-kill-player {
+  overflow: hidden;
+  max-width: 128px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.r2-kill-assist {
+  overflow: hidden;
+  max-width: 92px;
+  font-size: 10px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.r2-kill-modifier,
+.r2-kill-headshot {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+}
+
+.r2-kill-modifier {
+  color: #b9c6d4;
+}
+
+.r2-kill-headshot {
+  color: #ff766f;
+}
+
+.r2-kill-hs {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #ff766f;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.r2-kill-weapon-fallback {
+  color: #c6d1dc;
+  font-size: 9px;
+  font-weight: 700;
 }
 
 .r2-viewport-controls {

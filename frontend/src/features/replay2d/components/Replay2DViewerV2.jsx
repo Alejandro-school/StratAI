@@ -100,7 +100,6 @@ export default function Replay2DViewerV2({
     <section className={`replay-container r2-shell ${isFullscreen ? "fullscreen" : ""}`} ref={rootRef} aria-label="Replay 2D táctica">
       <ReplayHeader
         roundIndex={controller.roundIndex}
-        actualRound={controller.actualRound}
         rounds={controller.roundsSummary}
         frame={controller.currentFrame}
         ctScore={ctScore}

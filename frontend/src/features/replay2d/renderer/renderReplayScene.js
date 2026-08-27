@@ -1,6 +1,6 @@
 import { worldToScreen } from "./replayViewport";
 import { pathWorld, TAU } from "./canvasPrimitives";
-import { drawBomb, drawKillEffects, drawShots } from "./renderReplayCombat";
+import { drawBomb, drawKillEffects, drawPlayerHitEffects, drawShots } from "./renderReplayCombat";
 import { drawPlayers } from "./renderReplayPlayers";
 import { drawEffects, drawEventEffects, drawProjectiles, getHeShake } from "./renderReplayUtility";
 
@@ -97,8 +97,12 @@ export function renderReplayScene({
 }) {
   const context = canvas.getContext("2d");
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.round(size.width * dpr);
-  canvas.height = Math.round(size.height * dpr);
+  const pixelWidth = Math.round(size.width * dpr);
+  const pixelHeight = Math.round(size.height * dpr);
+  if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+    canvas.width = pixelWidth;
+    canvas.height = pixelHeight;
+  }
   context.setTransform(dpr, 0, 0, dpr, 0, 0);
   context.clearRect(0, 0, size.width, size.height);
   context.fillStyle = "#070b11";
@@ -106,7 +110,9 @@ export function renderReplayScene({
   const shake = getHeShake(events, tick, tickRate, reducedMotion);
   const sceneViewport = { ...viewport, originX: viewport.originX + shake.x, originY: viewport.originY + shake.y };
   drawMap(context, sceneViewport, images, activeLevel);
-  if (layers.trajectories) drawProjectiles(context, frame, config, sceneViewport, projectileIcons);
+  if (layers.trajectories) {
+    drawProjectiles(context, frame, config, sceneViewport, projectileIcons, events, tick, tickRate);
+  }
   if (layers.utility) {
     drawEffects(context, frame, config, sceneViewport, tick, tickRate, reducedMotion);
     drawEventEffects(context, events, tick, tickRate, config, sceneViewport, reducedMotion);
@@ -116,7 +122,9 @@ export function renderReplayScene({
   drawBomb(context, frame?.bomb, config, sceneViewport, tick, tickRate);
   if (layers.annotations) drawAnnotations(context, [...(annotations || []), ...(draft ? [draft] : [])], config, sceneViewport);
   drawTrail(context, trail, config, sceneViewport);
-  return drawPlayers(context, frame, config, sceneViewport, {
+  const hitTargets = drawPlayers(context, frame, config, sceneViewport, {
     layers, activeLevel, hasLevels, zThreshold, focusPlayerId,
   });
+  drawPlayerHitEffects(context, events, frame, tick, tickRate, config, sceneViewport, reducedMotion);
+  return hitTargets;
 }

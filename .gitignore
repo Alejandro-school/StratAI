@@ -65,9 +65,14 @@ backend/data/
 *.dae
 *.blend
 
-# Carpetas de agentes/skills de Copilot (no son código del proyecto)
+# Catálogo legado local de agentes
 .agent/
-.agents/
+
+# Estado local de herramientas de agentes
+.tokensave/
+.pytest_cache/
+.ruff_cache/
+backend/go-service/.profile-run/
 
 # Assets de imágenes, videos y fuentes (no código)
 frontend/public/images/*
@@ -97,6 +102,7 @@ backend/go-service/main.exe
 backend/go-service/reprocess_demos.exe
 backend/go-service/scripts/reprocess_demos.exe
 backend/go-service/IA.zip
+/stratai-go-release/
 
 # Otros
 cookies.txt

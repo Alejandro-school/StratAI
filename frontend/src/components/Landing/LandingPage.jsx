@@ -2,35 +2,64 @@ import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { LangProvider } from './i18n/useLang';
 import Navbar from './core/Navbar';
 import BackgroundEffects from './core/effects/BackgroundEffects';
-import HeroSection from './sections/00-Hero/HeroSection';
-import ServicesSection from './sections/02-Services/ServicesSection';
-import HowItWorksSection from './sections/03-HowItWorks/HowItWorksSection';
-import ChatDemoSection from './sections/03-ChatDemo/ChatDemoSection';
-import PricingSection from './sections/04-Pricing/PricingSection';
-import FAQSection from './sections/05-FAQ/FAQSection';
-import CTASection from './sections/07-CTA/CTASection';
+import HeroSection from './sections/hero/HeroSection';
+import ServicesSection from './sections/services/ServicesSection';
+import HowItWorksSection from './sections/how-it-works/HowItWorksSection';
+import ChatDemoSection from './sections/chat-demo/ChatDemoSection';
+import PricingSection from './sections/pricing/PricingSection';
+import FAQSection from './sections/faq/FAQSection';
+import CTASection from './sections/call-to-action/CTASection';
 import '../../styles/Landing/landing.css';
 import '../../styles/Landing/sections/layout.css';
 
 const AgentBackground = lazy(() => import('./core/ParticleBackground'));
+const AGENT_BACKGROUND_FALLBACK_DELAY_MS = 750;
+const AGENT_BACKGROUND_IDLE_TIMEOUT_MS = 2000;
 
 const canRenderAgents = () => (
   !window.matchMedia('(max-width: 768px)').matches
   && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 );
 
+const scheduleAgentBackground = (renderAgents) => {
+  if (typeof window.requestIdleCallback === 'function') {
+    const idleCallbackId = window.requestIdleCallback(
+      renderAgents,
+      { timeout: AGENT_BACKGROUND_IDLE_TIMEOUT_MS },
+    );
+    return () => window.cancelIdleCallback(idleCallbackId);
+  }
+
+  const timeoutId = window.setTimeout(renderAgents, AGENT_BACKGROUND_FALLBACK_DELAY_MS);
+  return () => window.clearTimeout(timeoutId);
+};
+
 const LandingPageContent = () => {
-  const [shouldRenderAgents, setShouldRenderAgents] = useState(canRenderAgents);
+  const [shouldRenderAgents, setShouldRenderAgents] = useState(false);
 
   useEffect(() => {
     const mobileQuery = window.matchMedia('(max-width: 768px)');
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateAgentVisibility = () => setShouldRenderAgents(canRenderAgents());
+    let cancelScheduledRender = () => {};
+
+    const updateAgentVisibility = () => {
+      cancelScheduledRender();
+      if (!canRenderAgents()) {
+        setShouldRenderAgents(false);
+        return;
+      }
+
+      cancelScheduledRender = scheduleAgentBackground(
+        () => setShouldRenderAgents(true),
+      );
+    };
 
     mobileQuery.addEventListener('change', updateAgentVisibility);
     reducedMotionQuery.addEventListener('change', updateAgentVisibility);
+    updateAgentVisibility();
 
     return () => {
+      cancelScheduledRender();
       mobileQuery.removeEventListener('change', updateAgentVisibility);
       reducedMotionQuery.removeEventListener('change', updateAgentVisibility);
     };

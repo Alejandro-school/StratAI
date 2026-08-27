@@ -1,39 +1,27 @@
-import { API_URL } from "../../../utils/api";
+import apiClient from "../../../lib/apiClient";
 import { normalizeRound } from "../domain/replayModel";
 
-async function request(path, options) {
-  const headers = options?.body
-    ? { "Content-Type": "application/json", ...options?.headers }
-    : options?.headers;
-  const response = await fetch(`${API_URL}${path}`, {
-    credentials: "include",
-    ...(headers ? { headers } : {}),
-    ...options,
-  });
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    throw new Error(body.detail || `Error ${response.status}`);
-  }
-  if (response.status === 204) return null;
-  return response.json();
-}
-
 export const replayApi = {
-  metadata: (matchId, signal) => request(`/match/${encodeURIComponent(matchId)}/replay/metadata`, { signal }),
+  metadata: (matchId, signal) => apiClient.get(
+    `/match/${encodeURIComponent(matchId)}/replay/metadata`,
+    { signal },
+  ),
   round: async (matchId, round, signal) => normalizeRound(
-    await request(`/match/${encodeURIComponent(matchId)}/replay/round/${round}`, { signal }),
+    await apiClient.get(`/match/${encodeURIComponent(matchId)}/replay/round/${round}`, { signal }),
   ),
-  annotations: (matchId, signal) => request(`/match/${encodeURIComponent(matchId)}/replay/annotations`, { signal }),
-  createAnnotation: (matchId, annotation) => request(`/match/${encodeURIComponent(matchId)}/replay/annotations`, {
-    method: "POST",
-    body: JSON.stringify(annotation),
-  }),
-  updateAnnotation: (matchId, annotationId, patch) => request(
-    `/match/${encodeURIComponent(matchId)}/replay/annotations/${encodeURIComponent(annotationId)}`,
-    { method: "PATCH", body: JSON.stringify(patch) },
+  annotations: (matchId, signal) => apiClient.get(
+    `/match/${encodeURIComponent(matchId)}/replay/annotations`,
+    { signal },
   ),
-  deleteAnnotation: (matchId, annotationId) => request(
+  createAnnotation: (matchId, annotation) => apiClient.post(
+    `/match/${encodeURIComponent(matchId)}/replay/annotations`,
+    annotation,
+  ),
+  updateAnnotation: (matchId, annotationId, patch) => apiClient.patch(
     `/match/${encodeURIComponent(matchId)}/replay/annotations/${encodeURIComponent(annotationId)}`,
-    { method: "DELETE" },
+    patch,
+  ),
+  deleteAnnotation: (matchId, annotationId) => apiClient.delete(
+    `/match/${encodeURIComponent(matchId)}/replay/annotations/${encodeURIComponent(annotationId)}`,
   ),
 };

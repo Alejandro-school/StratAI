@@ -12,7 +12,7 @@ import (
 
 	"cs2-demo-service/api"
 	"cs2-demo-service/db"
-	"cs2-demo-service/middlewares"
+	"cs2-demo-service/middleware"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -36,11 +36,11 @@ func main() {
 
 	// Endpoint simplificado: procesa una demo y devuelve el JSON directamente
 	// Protected: only accessible from localhost (Node.js service)
-	router.HandleFunc("/process-demo", middlewares.WithInternalOnly(api.HandleProcessDemo)).Methods("POST")
+	router.HandleFunc("/process-demo", middleware.WithInternalOnly(api.HandleProcessDemo)).Methods("POST")
 	router.HandleFunc("/health", api.HandleHealth).Methods("GET")
 	router.HandleFunc("/ready", api.HandleReady).Methods("GET")
 
-	handler := middlewares.WithSecurityHeaders(router)
+	handler := middleware.WithSecurityHeaders(router)
 
 	server := &http.Server{
 		Addr:              ":8080",

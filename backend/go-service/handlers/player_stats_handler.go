@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/combat"
+	"cs2-demo-service/pkg/utility"
 	"math"
 	"sort"
 	"strconv"
@@ -11,16 +13,23 @@ import (
 )
 
 type PlayerStatsHandler struct {
-	stats map[uint64]*models.AI_PlayerStats
+	stats     map[uint64]*models.AI_PlayerStats
+	utilities *utility.Tracker
+
+	eventTick       func() int
+	shotDamage      map[damageShotKey]shotDamageState
+	countedHitShots map[hitShotKey]bool
 
 	// Round tracking
-	currentRound  int
-	roundKills    map[uint64]int
-	roundDeaths   map[uint64]bool
-	roundAssists  map[uint64]bool
-	roundDamage   map[uint64]int
-	roundSurvived map[uint64]bool
-	roundTraded   map[uint64]bool // If player died and was traded
+	currentRound            int
+	roundKills              map[uint64]int
+	roundDeaths             map[uint64]bool
+	roundAssists            map[uint64]bool
+	roundDamage             map[uint64]int
+	roundSurvived           map[uint64]bool
+	roundTraded             map[uint64]bool // If player died and was traded
+	roundPlayers            map[uint64]common.Team
+	roundStartNativeAssists map[uint64]int
 
 	// Side tracking (for CT/T stats)
 	roundSide      map[uint64]common.Team // Player's side this round
@@ -64,69 +73,364 @@ type deathEvent struct {
 	team     common.Team
 }
 
+type damageShotKey struct {
+	attackerID uint64
+	victimID   uint64
+	tick       int
+	weapon     string
+}
+
+type hitShotKey struct {
+	attackerID uint64
+	tick       int
+	weapon     string
+}
+
+type shotDamageState struct {
+	maxHealthBefore int
+	minHealthAfter  int
+	appliedDamage   int
+}
+
 func NewPlayerStatsHandler() *PlayerStatsHandler {
 	return &PlayerStatsHandler{
-		stats:             make(map[uint64]*models.AI_PlayerStats),
-		roundKills:        make(map[uint64]int),
-		roundDeaths:       make(map[uint64]bool),
-		roundAssists:      make(map[uint64]bool),
-		roundDamage:       make(map[uint64]int),
-		roundSurvived:     make(map[uint64]bool),
-		roundTraded:       make(map[uint64]bool),
-		recentDeaths:      make([]deathEvent, 0),
-		roundSide:         make(map[uint64]common.Team),
-		ctRoundDamage:     make(map[uint64]int),
-		tRoundDamage:      make(map[uint64]int),
-		ctKills:           make(map[uint64]int),
-		tKills:            make(map[uint64]int),
-		ctDeaths:          make(map[uint64]int),
-		tDeaths:           make(map[uint64]int),
-		ctAssists:         make(map[uint64]int),
-		tAssists:          make(map[uint64]int),
-		ctRoundsPlayed:    make(map[uint64]int),
-		tRoundsPlayed:     make(map[uint64]int),
-		ctKAST:            make(map[uint64]float64),
-		tKAST:             make(map[uint64]float64),
-		currentRoundKills: make(map[uint64]int),
+		stats:                   make(map[uint64]*models.AI_PlayerStats),
+		shotDamage:              make(map[damageShotKey]shotDamageState),
+		countedHitShots:         make(map[hitShotKey]bool),
+		roundKills:              make(map[uint64]int),
+		roundDeaths:             make(map[uint64]bool),
+		roundAssists:            make(map[uint64]bool),
+		roundDamage:             make(map[uint64]int),
+		roundSurvived:           make(map[uint64]bool),
+		roundTraded:             make(map[uint64]bool),
+		roundPlayers:            make(map[uint64]common.Team),
+		roundStartNativeAssists: make(map[uint64]int),
+		recentDeaths:            make([]deathEvent, 0),
+		roundSide:               make(map[uint64]common.Team),
+		ctRoundDamage:           make(map[uint64]int),
+		tRoundDamage:            make(map[uint64]int),
+		ctKills:                 make(map[uint64]int),
+		tKills:                  make(map[uint64]int),
+		ctDeaths:                make(map[uint64]int),
+		tDeaths:                 make(map[uint64]int),
+		ctAssists:               make(map[uint64]int),
+		tAssists:                make(map[uint64]int),
+		ctRoundsPlayed:          make(map[uint64]int),
+		tRoundsPlayed:           make(map[uint64]int),
+		ctKAST:                  make(map[uint64]float64),
+		tKAST:                   make(map[uint64]float64),
+		currentRoundKills:       make(map[uint64]int),
 	}
 }
 
 // RegisterPlayerStatsHandler registers the handler and returns it
 func RegisterPlayerStatsHandler(ctx *models.DemoContext) *PlayerStatsHandler {
 	h := NewPlayerStatsHandler()
+	h.utilities = ctx.Utilities
+	h.eventTick = func() int {
+		return ctx.Parser.GameState().IngameTick()
+	}
 
+	competitive := func() bool {
+		return ctx != nil && ctx.Parser != nil && ctx.Parser.GameState() != nil &&
+			!ctx.Parser.GameState().IsWarmupPeriod() && ctx.CurrentRound > 0
+	}
 	ctx.Parser.RegisterEventHandler(func(e events.RoundStart) { h.HandleRoundStart(e, ctx) })
-	ctx.Parser.RegisterEventHandler(func(e events.RoundEnd) { h.HandleRoundEnd(e, ctx) })
-	ctx.Parser.RegisterEventHandler(func(e events.Kill) { h.HandleKill(e, ctx) })
-	ctx.Parser.RegisterEventHandler(h.HandleDamage)
-	ctx.Parser.RegisterEventHandler(h.HandleWeaponFire)
-	ctx.Parser.RegisterEventHandler(h.HandleGrenadeThrow)
-	ctx.Parser.RegisterEventHandler(h.HandleBlind)
+	ctx.Parser.RegisterEventHandler(func(e events.RoundEnd) {
+		if competitive() {
+			h.HandleRoundEnd(e, ctx)
+		}
+	})
+	ctx.Parser.RegisterEventHandler(func(e events.Kill) {
+		if competitive() {
+			h.HandleKill(e, ctx)
+		}
+	})
+	ctx.Parser.RegisterEventHandler(func(e events.PlayerHurt) {
+		if competitive() {
+			h.HandleDamage(e)
+		}
+	})
+	ctx.Parser.RegisterEventHandler(func(e events.WeaponFire) {
+		if competitive() {
+			h.HandleWeaponFire(e)
+		}
+	})
 
 	return h
 }
 
 func (h *PlayerStatsHandler) GetStats() []models.AI_PlayerStats {
+	h.applyUtilityStats()
+	return h.finalizeStats()
+}
+
+func (h *PlayerStatsHandler) finalizeStats() []models.AI_PlayerStats {
 	var result []models.AI_PlayerStats
-	for _, s := range h.stats {
+	for steamID, s := range h.stats {
+		if steamID == 0 || s == nil {
+			continue
+		}
 		// Final calculations (Ratings, averages)
 		h.calculateFinalStats(s)
 		result = append(result, *s)
 	}
+	sort.Slice(result, func(left, right int) bool {
+		return result[left].SteamID < result[right].SteamID
+	})
 	return result
+}
+
+func (h *PlayerStatsHandler) applyUtilityStats() {
+	if h.utilities == nil {
+		return
+	}
+	for _, stats := range h.stats {
+		resetUtilityStats(stats)
+	}
+	for _, entry := range h.utilities.Snapshot() {
+		if entry.Actor.Status != utility.AvailabilityObserved || entry.Actor.ID == 0 {
+			continue
+		}
+		stats := h.getOrCreateUtilityStats(entry.Actor)
+		if entry.Launch.Tick.Status == utility.AvailabilityObserved {
+			stats.GrenadesThrownTotal++
+			switch entry.Type {
+			case utility.TypeFlashbang:
+				stats.FlashesThrown++
+			case utility.TypeSmoke:
+				stats.SmokesThrown++
+			case utility.TypeHE:
+				stats.HEThrown++
+			case utility.TypeMolotov:
+				stats.MolotovsThrown++
+				stats.MolotovGrenadesThrown++
+			case utility.TypeIncendiary:
+				stats.MolotovsThrown++
+				stats.IncendiariesThrown++
+			case utility.TypeDecoy:
+				stats.DecoysThrown++
+			}
+		}
+		for _, effect := range entry.Flashes {
+			durationMS := 0.0
+			if effect.Duration.Status == utility.AvailabilityObserved {
+				durationMS = effect.Duration.Value * 1000
+			}
+			switch effect.Relation {
+			case utility.RelationEnemy:
+				stats.EnemiesFlashedTotal++
+				stats.EnemyFlashDurationTotalMS += durationMS
+			case utility.RelationTeammate:
+				stats.TeammatesFlashedTotal++
+				stats.TeammateFlashDurationTotalMS += durationMS
+			case utility.RelationSelf:
+				stats.SelfFlashesTotal++
+				stats.SelfFlashDurationTotalMS += durationMS
+			}
+		}
+		for _, effect := range entry.Damage {
+			if effect.Relation != utility.RelationEnemy {
+				continue
+			}
+			damage := max(0, effect.HealthDamage)
+			switch entry.Type {
+			case utility.TypeHE:
+				stats.GrenadeDamage["he"] += damage
+			case utility.TypeMolotov, utility.TypeIncendiary:
+				stats.GrenadeDamage["molotov"] += damage
+			case utility.TypeUnknown:
+				stats.GrenadeDamage["unknown"] += damage
+			default:
+				continue
+			}
+			stats.UtilityDamageObserved += damage
+		}
+	}
+	for _, stats := range h.stats {
+		stats.FlashDurationTotal = stats.EnemyFlashDurationTotalMS / 1000
+	}
+}
+
+func resetUtilityStats(stats *models.AI_PlayerStats) {
+	stats.GrenadesThrownTotal = 0
+	stats.FlashesThrown = 0
+	stats.EnemiesFlashedTotal = 0
+	stats.TeammatesFlashedTotal = 0
+	stats.SelfFlashesTotal = 0
+	stats.EnemyFlashDurationTotalMS = 0
+	stats.TeammateFlashDurationTotalMS = 0
+	stats.SelfFlashDurationTotalMS = 0
+	stats.FlashDurationTotal = 0
+	stats.EnemiesFlashedPerFlash = 0
+	stats.BlindTimePerFlash = 0
+	stats.HEThrown = 0
+	stats.HEDamagePerNade = 0
+	stats.MolotovsThrown = 0
+	stats.MolotovGrenadesThrown = 0
+	stats.IncendiariesThrown = 0
+	stats.MolotovDamagePerNade = 0
+	stats.SmokesThrown = 0
+	stats.DecoysThrown = 0
+	stats.UtilityDamageObserved = 0
+	stats.GrenadeDamage = make(map[string]int)
+}
+
+func (h *PlayerStatsHandler) getOrCreateUtilityStats(player utility.PlayerRef) *models.AI_PlayerStats {
+	if stats := h.stats[player.ID]; stats != nil {
+		return stats
+	}
+	team := player.Side
+	if team != "CT" && team != "T" {
+		team = "Mixed"
+	}
+	h.stats[player.ID] = &models.AI_PlayerStats{
+		SteamID: strconv.FormatUint(player.ID, 10), Name: player.Name, Team: team,
+		MultiKills: make(map[string]int), GrenadeDamage: make(map[string]int),
+		BodyPartHits: make(map[string]int), WeaponStats: make(map[string]models.AI_WeaponStat),
+	}
+	return h.stats[player.ID]
 }
 
 // GetStatsWithContext returns stats with TTD and crosshair error calculated from combat duels
 func (h *PlayerStatsHandler) GetStatsWithContext(ctx *models.DemoContext) []models.AI_PlayerStats {
-	// First calculate TTD and crosshair error averages from combat data
+	refreshLegacyUtilityProjection(ctx)
+	// Utility can introduce an actor that was absent from event-derived stats.
+	h.applyUtilityStats()
 	h.calculateCombatMetrics(ctx)
-
-	// Then return the stats with final calculations
-	return h.GetStats()
+	h.applyNativeScoreboard(ctx)
+	h.applyCombatLedgerStats(ctx)
+	return h.finalizeStats()
 }
 
-// calculateCombatMetrics aggregates time_to_damage and crosshair_placement from ReactionTimes
-// Uses MEDIAN instead of MEAN to exclude outliers (matching Leetify methodology)
+func (h *PlayerStatsHandler) applyNativeScoreboard(ctx *models.DemoContext) {
+	for _, player := range ctx.Parser.GameState().Participants().All() {
+		if player == nil || player.SteamID64 == 0 {
+			continue
+		}
+		h.getOrCreateStats(player)
+		native := models.AI_NativePlayerStats{
+			Kills:           player.Kills(),
+			Deaths:          player.Deaths(),
+			Assists:         player.Assists(),
+			TotalDamage:     player.TotalDamage(),
+			UtilityDamage:   player.UtilityDamage(),
+			MVPs:            player.MVPs(),
+			Score:           player.Score(),
+			MoneySpentTotal: player.MoneySpentTotal(),
+		}
+		h.applyNativePlayerStats(player.SteamID64, native)
+	}
+}
+
+func (h *PlayerStatsHandler) applyCombatLedgerStats(ctx *models.DemoContext) {
+	if ctx == nil || ctx.Combat == nil {
+		return
+	}
+	events := ctx.Combat.Snapshot()
+	players := make(map[uint64]combat.PlayerRef)
+	for _, event := range events {
+		for _, player := range []combat.PlayerRef{event.Actor, event.Target, event.Assister} {
+			if player.Status == combat.AvailabilityObserved && player.ID != 0 {
+				players[player.ID] = player
+			}
+		}
+	}
+	for _, stats := range h.stats {
+		resetCombatLedgerStats(stats)
+	}
+	for playerID, summary := range combat.Summaries(events) {
+		stats := h.stats[playerID]
+		if stats == nil {
+			stats = newCombatPlayerStats(players[playerID])
+			h.stats[playerID] = stats
+		}
+		stats.KillsObserved = summary.Kills
+		stats.DeathsObserved = summary.Deaths
+		stats.AssistsObserved = summary.Assists
+		stats.KillsNativeMinusObserved = stats.NativeScoreboard.Kills - summary.Kills
+		stats.DeathsNativeMinusObserved = stats.NativeScoreboard.Deaths - summary.Deaths
+		stats.AssistsNativeMinusObserved = stats.NativeScoreboard.Assists - summary.Assists
+		stats.Headshots = summary.Headshots
+		stats.FlashAssists = summary.FlashAssists
+		stats.CombatDamageObserved = summary.EnemyDamage
+		stats.CombatDamageUnattributedDelta = stats.NativeScoreboard.TotalDamage - summary.EnemyDamage
+		stats.FriendlyDamage = summary.FriendlyDamage
+		stats.SelfDamage = summary.SelfDamage
+		stats.ShotsFired = summary.ShotsFired
+		stats.ShotsHit = summary.ShotsHit
+		stats.ShotsMissed = summary.ShotsMissed
+		stats.BodyPartHits = copyCombatBodyPartHits(summary.BodyPartHits)
+		stats.WeaponStats = projectCombatWeaponStats(summary.WeaponStats)
+	}
+}
+
+func resetCombatLedgerStats(stats *models.AI_PlayerStats) {
+	stats.KillsObserved = 0
+	stats.DeathsObserved = 0
+	stats.AssistsObserved = 0
+	stats.KillsNativeMinusObserved = stats.NativeScoreboard.Kills
+	stats.DeathsNativeMinusObserved = stats.NativeScoreboard.Deaths
+	stats.AssistsNativeMinusObserved = stats.NativeScoreboard.Assists
+	stats.Headshots = 0
+	stats.FlashAssists = 0
+	stats.CombatDamageObserved = 0
+	stats.CombatDamageUnattributedDelta = stats.NativeScoreboard.TotalDamage
+	stats.FriendlyDamage = 0
+	stats.SelfDamage = 0
+	stats.ShotsFired = 0
+	stats.ShotsHit = 0
+	stats.ShotsMissed = 0
+	stats.BodyPartHits = make(map[string]int)
+	stats.WeaponStats = make(map[string]models.AI_WeaponStat)
+}
+
+func newCombatPlayerStats(player combat.PlayerRef) *models.AI_PlayerStats {
+	team := player.Side
+	if team != "CT" && team != "T" {
+		team = "Mixed"
+	}
+	return &models.AI_PlayerStats{
+		SteamID: strconv.FormatUint(player.ID, 10), Name: player.Name, Team: team,
+		MultiKills: make(map[string]int), GrenadeDamage: make(map[string]int),
+		BodyPartHits: make(map[string]int), WeaponStats: make(map[string]models.AI_WeaponStat),
+	}
+}
+
+func copyCombatBodyPartHits(source map[string]int) map[string]int {
+	result := make(map[string]int, len(source))
+	for hitgroup, count := range source {
+		result[hitgroup] = count
+	}
+	return result
+}
+
+func projectCombatWeaponStats(source map[string]combat.WeaponSummary) map[string]models.AI_WeaponStat {
+	result := make(map[string]models.AI_WeaponStat, len(source))
+	for weapon, summary := range source {
+		result[weapon] = models.AI_WeaponStat{
+			Kills: summary.Kills, Headshots: summary.Headshots, Damage: summary.Damage,
+			ShotsFired: summary.ShotsFired, ShotsHit: summary.ShotsHit, ShotsMissed: summary.ShotsMissed,
+		}
+	}
+	return result
+}
+
+func (h *PlayerStatsHandler) applyNativePlayerStats(playerID uint64, native models.AI_NativePlayerStats) {
+	stats := h.stats[playerID]
+	if stats == nil {
+		return
+	}
+	stats.NativeScoreboard = native
+	stats.NativeScoreboardStatus = "observed"
+	stats.Kills = native.Kills
+	stats.Deaths = native.Deaths
+	stats.Assists = native.Assists
+	stats.TotalDamage = native.TotalDamage
+	stats.UtilityDamage = native.UtilityDamage
+}
+
+// calculateCombatMetrics aggregates valid visual samples from ReactionTimes.
 func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 	// Iterate through all players in match data
 	for steamID, playerData := range ctx.MatchData.Players {
@@ -140,7 +444,7 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 			continue
 		}
 
-		// Collect valid values for MEDIAN calculation
+		// Collect valid values for aggregate calculation.
 		var reactionValues []float64
 		var ttdValues []float64
 		var crosshairValues []float64
@@ -150,7 +454,8 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 		const peekVelocityThreshold = 100.0 // u/s threshold for peek vs hold
 
 		for _, rt := range playerData.ReactionTimes {
-			if rt.ReactionTimeMs >= 50 && rt.ReactionTimeMs <= 2500 && !rt.SmokeInPath {
+			validVisualSample := !rt.SmokeInPath && !rt.WasFlashed
+			if rt.ReactionTimeMs >= 50 && rt.ReactionTimeMs <= 2500 && validVisualSample {
 				reactionValues = append(reactionValues, float64(rt.ReactionTimeMs))
 			}
 
@@ -159,7 +464,7 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 			// - Exclude through smoke (not a real visual reaction)
 			// - Exclude < 50ms (pre-fire, not real reaction)
 			// - Exclude > 2500ms (strategic delay, not reaction)
-			if rt.TimeToDamage > 0 && !rt.SmokeInPath {
+			if rt.TimeToDamage > 0 && validVisualSample {
 				if rt.TimeToDamage >= 50 && rt.TimeToDamage <= 2500 {
 					ttdValues = append(ttdValues, rt.TimeToDamage)
 				}
@@ -168,30 +473,30 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 			// Crosshair placement error filters:
 			// - Must be > 0 (was calculated)
 			// - Exclude > 90 degrees (looking completely away, likely rotating)
-			if rt.CrosshairPlacementError > 0 && rt.CrosshairPlacementError <= 90 {
+			if rt.CrosshairPlacementError >= 0 && rt.CrosshairPlacementError <= 90 && validVisualSample {
 				crosshairValues = append(crosshairValues, rt.CrosshairPlacementError)
 
-				// Separate by velocity for peek/hold
-				if rt.ShooterVelocity > peekVelocityThreshold {
-					crosshairPeekValues = append(crosshairPeekValues, rt.CrosshairPlacementError)
-				} else {
-					crosshairHoldValues = append(crosshairHoldValues, rt.CrosshairPlacementError)
+				// Unknown motion is not evidence of a stationary hold.
+				if rt.ShooterVelocityAvailable {
+					if rt.ShooterVelocity > peekVelocityThreshold {
+						crosshairPeekValues = append(crosshairPeekValues, rt.CrosshairPlacementError)
+					} else {
+						crosshairHoldValues = append(crosshairHoldValues, rt.CrosshairPlacementError)
+					}
 				}
 			}
 		}
 
 		if len(reactionValues) > 0 {
-			playerStats.AvgTimeToReaction = calculateMedian(reactionValues)
+			playerStats.AvgTimeToReaction = calculateMean(reactionValues)
 		}
 
-		// Calculate MEDIAN for TTD
 		if len(ttdValues) > 0 {
-			playerStats.TimeToDamageAvgMS = calculateMedian(ttdValues)
+			playerStats.TimeToDamageAvgMS = calculateMean(ttdValues)
 		}
 
-		// Calculate MEDIAN for Crosshair Placement (overall)
 		if len(crosshairValues) > 0 {
-			playerStats.CrosshairPlacementAvgError = calculateMedian(crosshairValues)
+			playerStats.CrosshairPlacementAvgError = calculateMean(crosshairValues)
 		}
 
 		// Calculate MEDIAN for Crosshair Placement (peek)
@@ -204,12 +509,22 @@ func (h *PlayerStatsHandler) calculateCombatMetrics(ctx *models.DemoContext) {
 			playerStats.CrosshairPlacementHold = calculateMedian(crosshairHoldValues)
 		}
 
-		// Calculate MEDIAN for Counter-Strafe Rating from accumulated values
 		if playerData.Mechanics != nil && len(playerData.Mechanics.CounterStrafeValues) > 0 {
-			playerData.Mechanics.AvgCounterStrafeRating = calculateMedian(playerData.Mechanics.CounterStrafeValues)
+			playerData.Mechanics.AvgCounterStrafeRating = calculateMean(playerData.Mechanics.CounterStrafeValues)
 			playerStats.AvgCounterStrafeRating = playerData.Mechanics.AvgCounterStrafeRating
 		}
 	}
+}
+
+func calculateMean(values []float64) float64 {
+	if len(values) == 0 {
+		return 0
+	}
+	var sum float64
+	for _, value := range values {
+		sum += value
+	}
+	return sum / float64(len(values))
 }
 
 // calculateMedian returns the median value of a slice of float64
@@ -233,6 +548,11 @@ func calculateMedian(values []float64) float64 {
 }
 
 func (h *PlayerStatsHandler) HandleRoundStart(e events.RoundStart, ctx *models.DemoContext) {
+	gs := ctx.Parser.GameState()
+	if gs == nil || gs.IsWarmupPeriod() {
+		return
+	}
+
 	h.currentRound++
 	h.firstKillOccurred = false
 	h.recentDeaths = make([]deathEvent, 0)
@@ -243,27 +563,31 @@ func (h *PlayerStatsHandler) HandleRoundStart(e events.RoundStart, ctx *models.D
 	h.roundAssists = make(map[uint64]bool)
 	h.roundDamage = make(map[uint64]int)
 	h.roundTraded = make(map[uint64]bool)
+	h.roundPlayers = make(map[uint64]common.Team)
+	h.roundStartNativeAssists = make(map[uint64]int)
 	h.currentRoundKills = make(map[uint64]int)
+	h.shotDamage = make(map[damageShotKey]shotDamageState)
+	h.countedHitShots = make(map[hitShotKey]bool)
 
 	// Track player sides at round start
-	gs := ctx.Parser.GameState()
-	if gs != nil {
-		for _, p := range gs.Participants().Playing() {
-			if p != nil {
-				h.roundSide[p.SteamID64] = p.Team
-				// Count rounds played per side
-				if p.Team == common.TeamCounterTerrorists {
-					h.ctRoundsPlayed[p.SteamID64]++
-				} else if p.Team == common.TeamTerrorists {
-					h.tRoundsPlayed[p.SteamID64]++
-				}
+	for _, p := range gs.Participants().Playing() {
+		if p != nil && p.SteamID64 != 0 && (p.Team == common.TeamCounterTerrorists || p.Team == common.TeamTerrorists) {
+			h.roundPlayers[p.SteamID64] = p.Team
+			h.roundStartNativeAssists[p.SteamID64] = p.Assists()
+			h.roundSide[p.SteamID64] = p.Team
+			if p.Team == common.TeamCounterTerrorists {
+				h.ctRoundsPlayed[p.SteamID64]++
+			} else {
+				h.tRoundsPlayed[p.SteamID64]++
 			}
 		}
 	}
 }
 
 func (h *PlayerStatsHandler) HandleKill(e events.Kill, ctx *models.DemoContext) {
-	if e.Killer != nil {
+	isEnemyKill := e.Killer != nil && e.Victim != nil &&
+		e.Killer.SteamID64 != e.Victim.SteamID64 && e.Killer.Team != e.Victim.Team
+	if isEnemyKill {
 		s := h.getOrCreateStats(e.Killer)
 		s.Kills++
 		h.roundKills[e.Killer.SteamID64]++
@@ -306,8 +630,10 @@ func (h *PlayerStatsHandler) HandleKill(e events.Kill, ctx *models.DemoContext) 
 			}
 		}
 
-		// Trade Kill Logic (5 second window = 320 ticks at 64 tick/s)
-		const tradeWindowTicks = 320
+		// Legacy KAST compatibility only. Canonical trade metrics are rebuilt from
+		// combat_event@2 by pkg/engagement and never use this summary heuristic.
+		const tradeWindowMS = 5000
+		tradeWindowTicks := int(math.Ceil(float64(tradeWindowMS) * getTickRate(ctx) / 1000.0))
 		currentTick := ctx.Parser.GameState().IngameTick()
 		for _, d := range h.recentDeaths {
 			// Check if victim was the killer of a recent teammate death within 5 seconds
@@ -354,7 +680,7 @@ func (h *PlayerStatsHandler) HandleKill(e events.Kill, ctx *models.DemoContext) 
 		}
 	}
 
-	if e.Assister != nil {
+	if isEnemyKill && e.Assister != nil && e.Assister.Team == e.Killer.Team {
 		s := h.getOrCreateStats(e.Assister)
 		s.Assists++
 		h.roundAssists[e.Assister.SteamID64] = true
@@ -421,46 +747,116 @@ func (h *PlayerStatsHandler) checkForClutchSituation(ctx *models.DemoContext) {
 }
 
 func (h *PlayerStatsHandler) HandleDamage(e events.PlayerHurt) {
-	if e.Attacker != nil && e.Player != nil && e.Attacker.SteamID64 != e.Player.SteamID64 {
-		s := h.getOrCreateStats(e.Attacker)
-		damage := e.HealthDamage
-		if damage > 100 {
-			damage = 100
-		}
+	if e.Attacker == nil || e.Player == nil {
+		return
+	}
 
-		s.TotalDamage += damage
-		h.roundDamage[e.Attacker.SteamID64] += damage
+	s := h.getOrCreateStats(e.Attacker)
+	damage := h.shotDamageDelta(e)
+	if damage == 0 {
+		return
+	}
+	if e.Attacker.SteamID64 == e.Player.SteamID64 {
+		s.SelfDamage += damage
+		return
+	}
+	if e.Attacker.Team == e.Player.Team {
+		s.FriendlyDamage += damage
+		return
+	}
 
-		// Side-specific damage
-		if e.Attacker.Team == common.TeamCounterTerrorists {
-			h.ctRoundDamage[e.Attacker.SteamID64] += damage
-		} else if e.Attacker.Team == common.TeamTerrorists {
-			h.tRoundDamage[e.Attacker.SteamID64] += damage
-		}
+	s.TotalDamage += damage
+	h.roundDamage[e.Attacker.SteamID64] += damage
 
-		// Weapon stats - SKIP GRENADES for weapon_stats
-		if e.Weapon != nil && !h.isGrenade(e.Weapon) {
-			wName := e.Weapon.String()
-			ws := s.WeaponStats[wName]
-			ws.Damage += damage
+	// Side-specific damage
+	if e.Attacker.Team == common.TeamCounterTerrorists {
+		h.ctRoundDamage[e.Attacker.SteamID64] += damage
+	} else if e.Attacker.Team == common.TeamTerrorists {
+		h.tRoundDamage[e.Attacker.SteamID64] += damage
+	}
+
+	// Weapon stats - SKIP GRENADES for weapon_stats
+	if e.Weapon != nil && !h.isGrenade(e.Weapon) {
+		wName := e.Weapon.String()
+		ws := s.WeaponStats[wName]
+		ws.Damage += damage
+		if h.markDamagingShot(e.Attacker.SteamID64, wName) {
 			ws.ShotsHit++
-			s.WeaponStats[wName] = ws
-
-			// Track overall shots hit
 			s.ShotsHit++
 		}
-
-		// Grenade damage - tracked separately
-		if h.isGrenade(e.Weapon) {
-			wName := h.normalizeGrenadeName(e.Weapon.String())
-			s.GrenadeDamage[wName] += damage
-			s.UtilityDamage += damage
-		}
-
-		// Body part hits (on the attacker's record)
-		group := hitgroupToString(events.HitGroup(e.HitGroup))
-		s.BodyPartHits[group]++
+		s.WeaponStats[wName] = ws
 	}
+
+	// Grenade damage - tracked separately
+	if h.isGrenade(e.Weapon) {
+		wName := h.normalizeGrenadeName(e.Weapon.String())
+		s.GrenadeDamage[wName] += damage
+	}
+
+	// Body part hits (on the attacker's record)
+	group := hitgroupToString(events.HitGroup(e.HitGroup))
+	s.BodyPartHits[group]++
+}
+
+func (h *PlayerStatsHandler) shotDamageDelta(e events.PlayerHurt) int {
+	damageTaken := e.HealthDamageTaken
+	if damageTaken < 0 {
+		damageTaken = 0
+	}
+	healthAfter := e.Health
+	if healthAfter < 0 {
+		healthAfter = 0
+	}
+	healthBefore := healthAfter + damageTaken
+	if healthBefore > 100 {
+		healthBefore = 100
+	}
+
+	weapon := ""
+	if e.Weapon != nil {
+		weapon = e.Weapon.String()
+	}
+	key := damageShotKey{
+		attackerID: e.Attacker.SteamID64,
+		victimID:   e.Player.SteamID64,
+		tick:       h.currentEventTick(),
+		weapon:     weapon,
+	}
+	state, exists := h.shotDamage[key]
+	if !exists {
+		state.minHealthAfter = healthAfter
+	}
+	if healthBefore > state.maxHealthBefore {
+		state.maxHealthBefore = healthBefore
+	}
+	if healthAfter < state.minHealthAfter {
+		state.minHealthAfter = healthAfter
+	}
+
+	effectiveDamage := state.maxHealthBefore - state.minHealthAfter
+	delta := effectiveDamage - state.appliedDamage
+	if delta < 0 {
+		delta = 0
+	}
+	state.appliedDamage = effectiveDamage
+	h.shotDamage[key] = state
+	return delta
+}
+
+func (h *PlayerStatsHandler) markDamagingShot(attackerID uint64, weapon string) bool {
+	key := hitShotKey{attackerID: attackerID, tick: h.currentEventTick(), weapon: weapon}
+	if h.countedHitShots[key] {
+		return false
+	}
+	h.countedHitShots[key] = true
+	return true
+}
+
+func (h *PlayerStatsHandler) currentEventTick() int {
+	if h.eventTick == nil {
+		return 0
+	}
+	return h.eventTick()
 }
 
 func (h *PlayerStatsHandler) HandleWeaponFire(e events.WeaponFire) {
@@ -475,38 +871,6 @@ func (h *PlayerStatsHandler) HandleWeaponFire(e events.WeaponFire) {
 			ws := s.WeaponStats[wName]
 			ws.ShotsFired++
 			s.WeaponStats[wName] = ws
-		}
-	}
-}
-
-func (h *PlayerStatsHandler) HandleGrenadeThrow(e events.GrenadeProjectileThrow) {
-	if e.Projectile != nil && e.Projectile.Thrower != nil {
-		s := h.getOrCreateStats(e.Projectile.Thrower)
-		s.GrenadesThrownTotal++
-
-		wName := e.Projectile.WeaponInstance.String()
-		// Normalize
-		if wName == "Flashbang" {
-			s.FlashesThrown++
-		} else if wName == "Smoke Grenade" {
-			s.SmokesThrown++
-		} else if wName == "HE Grenade" {
-			s.HEThrown++
-		} else if wName == "Molotov" || wName == "Incendiary Grenade" {
-			s.MolotovsThrown++
-		}
-	}
-}
-
-func (h *PlayerStatsHandler) HandleBlind(e events.PlayerFlashed) {
-	if e.Attacker != nil && e.Player != nil && e.FlashDuration().Seconds() > 0 {
-		// Attacker blinded someone
-		s := h.getOrCreateStats(e.Attacker)
-
-		isEnemy := e.Attacker.Team != e.Player.Team
-		if isEnemy {
-			s.EnemiesFlashedTotal++
-			s.FlashDurationTotal += e.FlashDuration().Seconds()
 		}
 	}
 }
@@ -571,10 +935,35 @@ func (h *PlayerStatsHandler) HandleRoundEnd(e events.RoundEnd, ctx *models.DemoC
 		h.activeClutch = nil
 	}
 
+	playersByID := make(map[uint64]*common.Player)
+	if ctx != nil && ctx.Parser != nil && ctx.Parser.GameState() != nil {
+		for _, player := range ctx.Parser.GameState().Participants().All() {
+			if player != nil && player.SteamID64 != 0 {
+				playersByID[player.SteamID64] = player
+			}
+		}
+	}
+
 	// Calculate KAST for this round
 	for steamID, playerStats := range h.stats {
+		roundTeam, participated := h.roundPlayers[steamID]
+		if !participated {
+			continue
+		}
 		hasKill := h.roundKills[steamID] > 0
-		hasAssist := h.roundAssists[steamID]
+		nativeAssisted := false
+		if player := playersByID[steamID]; player != nil {
+			nativeAssisted = player.Assists() > h.roundStartNativeAssists[steamID]
+			if missing := player.Assists() - playerStats.Assists; missing > 0 {
+				playerStats.Assists += missing
+				if roundTeam == common.TeamCounterTerrorists {
+					h.ctAssists[steamID] += missing
+				} else if roundTeam == common.TeamTerrorists {
+					h.tAssists[steamID] += missing
+				}
+			}
+		}
+		hasAssist := h.roundAssists[steamID] || nativeAssisted
 		survived := !h.roundDeaths[steamID]
 		traded := h.roundTraded[steamID]
 
@@ -582,9 +971,9 @@ func (h *PlayerStatsHandler) HandleRoundEnd(e events.RoundEnd, ctx *models.DemoC
 			playerStats.KAST += 1.0
 
 			// Side-specific KAST
-			if h.roundSide[steamID] == common.TeamCounterTerrorists {
+			if roundTeam == common.TeamCounterTerrorists {
 				h.ctKAST[steamID]++
-			} else if h.roundSide[steamID] == common.TeamTerrorists {
+			} else if roundTeam == common.TeamTerrorists {
 				h.tKAST[steamID]++
 			}
 		}
@@ -641,12 +1030,13 @@ func (h *PlayerStatsHandler) getOrCreateStats(player *common.Player) *models.AI_
 }
 
 func (h *PlayerStatsHandler) calculateFinalStats(s *models.AI_PlayerStats) {
-	rounds := float64(h.currentRound)
+	steamID, _ := strconv.ParseUint(s.SteamID, 10, 64)
+	roundsPlayed := h.ctRoundsPlayed[steamID] + h.tRoundsPlayed[steamID]
+	rounds := float64(roundsPlayed)
 	if rounds == 0 {
 		return
 	}
-
-	steamID, _ := strconv.ParseUint(s.SteamID, 10, 64)
+	s.RoundsPlayed = roundsPlayed
 
 	// Set Team based on the LAST ROUND (roundSide tracks the team at each round start)
 	// This is the team the player was on when the match ended
@@ -698,8 +1088,8 @@ func (h *PlayerStatsHandler) calculateFinalStats(s *models.AI_PlayerStats) {
 	for wName, ws := range s.WeaponStats {
 		if ws.ShotsFired > 0 {
 			ws.Accuracy = (float64(ws.ShotsHit) / float64(ws.ShotsFired)) * 100.0
-			s.WeaponStats[wName] = ws
 		}
+		s.WeaponStats[wName] = ws
 	}
 
 	// CT/T specific stats (use float64 for rating calculations)

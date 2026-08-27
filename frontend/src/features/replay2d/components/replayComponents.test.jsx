@@ -1,8 +1,53 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { normalizeReplayEvent } from "../domain/replayModel";
+import { ReplayHeader } from "./ReplayHeader";
+import { ReplayKillFeed } from "./ReplayKillFeed";
 import { ReplayRosterPanel } from "./ReplayRosterPanel";
 import { ReplayTimeline } from "./ReplayTimeline";
+
+describe("ReplayHeader", () => {
+  it("shows the playable round position instead of the source round id", () => {
+    render(
+      <ReplayHeader
+        roundIndex={1}
+        rounds={[{ round: 2 }, { round: 3 }]}
+        frame={{ time_remaining: 90 }}
+        ctScore={0}
+        tScore={0}
+        onRoundChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("1")).toBeInTheDocument();
+    expect(screen.getByText("/ 2")).toBeInTheDocument();
+  });
+});
+
+describe("ReplayKillFeed", () => {
+  it("uses the CS weapon silhouette and combat modifiers", () => {
+    const kill = normalizeReplayEvent({
+      type: "kill",
+      tick: 640,
+      killer_name: "Kerchak",
+      killer_team: "CT",
+      assister_name: "Coach",
+      assister_team: "CT",
+      victim_name: "Rival",
+      victim_team: "T",
+      weapon: "AK-47",
+      headshot: true,
+      wallbang: true,
+      noscope: true,
+    });
+    const { container } = render(<ReplayKillFeed events={[kill]} tick={640} tickRate={64} />);
+    expect(container.querySelector('img[src="/images/cs2/equipment/ak47.svg"]')).toBeInTheDocument();
+    expect(screen.getByLabelText("Disparo a la cabeza")).toBeInTheDocument();
+    expect(screen.getByText("HS")).toBeInTheDocument();
+    expect(screen.getByLabelText("Penetración")).toBeInTheDocument();
+    expect(screen.getByText("+ Coach")).toBeInTheDocument();
+  });
+});
 
 describe("ReplayTimeline", () => {
   it("renders semantic lanes and seeks to an exact event", () => {

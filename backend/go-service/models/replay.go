@@ -1,5 +1,7 @@
 package models
 
+import "cs2-demo-service/pkg/objective"
+
 // ========================================
 // REPLAY 2D DATA STRUCTURES
 // For high-fidelity 2D replay visualization
@@ -31,12 +33,13 @@ type MapConfig struct {
 
 // ReplayRound contains all frames and events for one round
 type ReplayRound struct {
-	Round     int           `json:"round"`
-	StartTick int           `json:"start_tick"`
-	EndTick   int           `json:"end_tick"`
-	Winner    string        `json:"winner"` // "CT", "T", or ""
-	Frames    []ReplayFrame `json:"frames"`
-	Events    []ReplayEvent `json:"events"`
+	Round       int           `json:"round"`
+	StartTick   int           `json:"start_tick"`
+	EndTick     int           `json:"end_tick"`
+	Winner      string        `json:"winner"` // "CT", "T", or ""
+	Frames      []ReplayFrame `json:"frames"`
+	Events      []ReplayEvent `json:"events"`
+	CombatShots []ReplayShot  `json:"combat_shots"`
 }
 
 // ReplayFrame is a snapshot at a specific tick
@@ -52,7 +55,7 @@ type ReplayFrame struct {
 
 // ReplayPlayerState is the state of a player at a given tick
 type ReplayPlayerState struct {
-	SteamID       uint64   `json:"steam_id"`
+	SteamID       uint64   `json:"steam_id,string"`
 	Name          string   `json:"name"`
 	Team          string   `json:"team"` // "CT" or "T"
 	X             int      `json:"x"`    // Rounded to int for smaller JSON
@@ -79,9 +82,9 @@ type ReplayPlayerState struct {
 
 // ReplayProjectile is a grenade in flight
 type ReplayProjectile struct {
-	ID         int64     `json:"id"`
+	ID         int64     `json:"id,string"`
 	Type       string    `json:"type"` // "smoke", "flashbang", "he", "molotov", "incendiary", "decoy"
-	ThrowerID  uint64    `json:"thrower_id"`
+	ThrowerID  uint64    `json:"thrower_id,string"`
 	X          float64   `json:"x"`
 	Y          float64   `json:"y"`
 	Z          float64   `json:"z"`
@@ -90,48 +93,65 @@ type ReplayProjectile struct {
 
 // ReplayActiveEffect is a deployed smoke, molotov fire, etc.
 type ReplayActiveEffect struct {
-	Type          string    `json:"type"` // "smoke", "inferno"
-	X             float64   `json:"x"`
-	Y             float64   `json:"y"`
-	Radius        float64   `json:"radius,omitempty"`         // For smoke circles
-	TimeRemaining float64   `json:"time_remaining,omitempty"` // Seconds until expiry
-	StartTick     int       `json:"start_tick,omitempty"`     // Stable origin for deterministic playback
-	Hull          []float64 `json:"hull,omitempty"`           // For inferno polygons [x1,y1,x2,y2,...]
+	Type                string    `json:"type"` // "smoke", "inferno"
+	X                   float64   `json:"x"`
+	Y                   float64   `json:"y"`
+	Radius              float64   `json:"radius,omitempty"`         // For smoke circles
+	TimeRemaining       float64   `json:"time_remaining,omitempty"` // Seconds until expiry
+	TimeRemainingStatus string    `json:"time_remaining_status"`
+	TimeRemainingSource string    `json:"time_remaining_source"`
+	StartTick           int       `json:"start_tick,omitempty"` // Stable origin for deterministic playback
+	Hull                []float64 `json:"hull,omitempty"`       // For inferno polygons [x1,y1,x2,y2,...]
+	Points              []float64 `json:"points,omitempty"`     // Actual inferno fire cells [x1,y1,x2,y2,...]
 }
 
 // ReplayShot represents a weapon fire event for visualization
 type ReplayShot struct {
-	Tick      int     `json:"tick,omitempty"`
-	ShooterID uint64  `json:"shooter_id"`
-	FromX     float64 `json:"from_x"`
-	FromY     float64 `json:"from_y"`
-	ToX       float64 `json:"to_x"` // Direction endpoint for line drawing
-	ToY       float64 `json:"to_y"`
-	Weapon    string  `json:"weapon"`
-	Hit       bool    `json:"hit,omitempty"` // If this shot hit someone
+	Tick           int     `json:"tick,omitempty"`
+	SourceEventID  string  `json:"source_event_id"`
+	ShotID         string  `json:"shot_id"`
+	ShooterID      uint64  `json:"shooter_id,string"`
+	FromX          float64 `json:"from_x"`
+	FromY          float64 `json:"from_y"`
+	ToX            float64 `json:"to_x"` // Derived view-direction endpoint, never a factual impact.
+	ToY            float64 `json:"to_y"`
+	Weapon         string  `json:"weapon"`
+	Hit            bool    `json:"hit,omitempty"`
+	Result         string  `json:"result"`
+	ResultStatus   string  `json:"result_status"`
+	PositionStatus string  `json:"position_status"`
+	PositionSource string  `json:"position_source"`
+	EndpointStatus string  `json:"endpoint_status"`
+	EndpointSource string  `json:"endpoint_source"`
 }
 
 // ReplayBombState represents the bomb's current state
 type ReplayBombState struct {
-	State     string  `json:"state"` // "carried", "dropped", "planted", "defusing", "exploded", "defused"
-	X         float64 `json:"x"`
-	Y         float64 `json:"y"`
-	CarrierID uint64  `json:"carrier_id,omitempty"`
-	Site      string  `json:"site,omitempty"` // "A" or "B" when planted
-	PlantTick int     `json:"plant_tick,omitempty"`
-	DefuserID uint64  `json:"defuser_id,omitempty"`
+	State               objective.State `json:"state"`
+	ObjectivePhase      objective.Phase `json:"objective_phase"`
+	IsPlantedNow        bool            `json:"is_planted_now"`
+	WasPlantedThisRound bool            `json:"was_planted_this_round"`
+	X                   float64         `json:"x"`
+	Y                   float64         `json:"y"`
+	CarrierID           *uint64         `json:"carrier_id,string"`
+	Site                string          `json:"site,omitempty"`
+	PlantTick           int             `json:"plant_tick,omitempty"`
+	DefuserID           *uint64         `json:"defuser_id,string"`
+	PositionStatus      string          `json:"position_status,omitempty"`
+	PositionSource      string          `json:"position_source,omitempty"`
 }
 
 // ReplayEvent is a discrete event for timeline markers
 type ReplayEvent struct {
-	ID   string `json:"id,omitempty"`
-	Tick int    `json:"tick"`
-	Type string `json:"type"` // "kill", "bomb_plant", "bomb_defuse", "utility_detonate"
+	ID             string   `json:"id,omitempty"`
+	Tick           int      `json:"tick"`
+	Type           string   `json:"type"` // "kill", "player_hurt", "bomb_plant", "bomb_defuse", "utility_detonate"
+	SourceEventIDs []string `json:"source_event_ids,omitempty"`
 
 	// For kills - includes position data for kill line visualization
-	KillerID     uint64  `json:"killer_id,omitempty"`
-	VictimID     uint64  `json:"victim_id,omitempty"`
-	AssisterID   uint64  `json:"assister_id,omitempty"`
+	KillerID     uint64  `json:"killer_id,omitempty,string"`
+	VictimID     uint64  `json:"victim_id,omitempty,string"`
+	AssisterID   uint64  `json:"assister_id,omitempty,string"`
 	KillerName   string  `json:"killer_name,omitempty"`
 	VictimName   string  `json:"victim_name,omitempty"`
 	AssisterName string  `json:"assister_name,omitempty"`
@@ -150,17 +170,24 @@ type ReplayEvent struct {
 	// For grenades
 	GrenadeType       string   `json:"grenade_type,omitempty"`
 	UtilityType       string   `json:"utility_type,omitempty"`
-	X                 float64  `json:"x,omitempty"`
-	Y                 float64  `json:"y,omitempty"`
-	Z                 float64  `json:"z,omitempty"`
-	ActorID           uint64   `json:"actor_id,omitempty"`
-	AffectedPlayerIDs []uint64 `json:"affected_player_ids,omitempty"`
+	X                 float64  `json:"x"`
+	Y                 float64  `json:"y"`
+	Z                 float64  `json:"z"`
+	ActorID           uint64   `json:"actor_id,omitempty,string"`
+	AffectedPlayerIDs []string `json:"affected_player_ids,omitempty"`
 	Damage            int      `json:"damage,omitempty"`
 	DurationMS        int      `json:"duration_ms,omitempty"`
+	DurationStatus    string   `json:"duration_status,omitempty"`
+	DurationSource    string   `json:"duration_source,omitempty"`
+	PositionStatus    string   `json:"position_status,omitempty"`
+	PositionSource    string   `json:"position_source,omitempty"`
+	CorrelationStatus string   `json:"correlation_status,omitempty"`
+	CorrelationSource string   `json:"correlation_source,omitempty"`
+	SourceThrowID     string   `json:"source_throw_id,omitempty"`
 
 	// For bomb events
 	Site     string `json:"site,omitempty"`
-	PlayerID uint64 `json:"player_id,omitempty"`
+	PlayerID uint64 `json:"player_id,omitempty,string"`
 }
 
 // ========================================

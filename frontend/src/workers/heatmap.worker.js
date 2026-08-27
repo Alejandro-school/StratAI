@@ -6,6 +6,8 @@
 
 const getPointWeight = (point) => {
   if (typeof point.weight === 'number') return point.weight;
+  if (typeof point.sample_count === 'number') return point.sample_count;
+  if (typeof point.intensity === 'number') return point.intensity;
   if (typeof point.count === 'number') return point.count;
   if (typeof point.samples === 'number') return point.samples;
   if (typeof point.value === 'number') return point.value;
@@ -20,27 +22,21 @@ const getMaxValue = (values, fallback = 1) => {
   return max;
 };
 
-const getPercentile = (values, percentile) => {
-  if (!values.length) return 0;
-  const sorted = values.slice().sort((a, b) => a - b);
-  const index = Math.min(sorted.length - 1, Math.max(0, Math.floor((percentile / 100) * sorted.length)));
-  return sorted[index];
-};
-
 /**
  * Build the 256-color heatmap palette as an array of [r,g,b,a] x 256
  */
 const buildPalette = () => {
   // We can't use Canvas in a worker (no DOM), so build the gradient mathematically.
-  // 7 color stops from the original:
+  // Presence palette: cool territory tones with a warm peak.
+  // It deliberately avoids the green/red success/failure language used elsewhere.
   const stops = [
-    { pos: 0.00, r: 0,   g: 0,   b: 0   },  // transparent
-    { pos: 0.15, r: 29,  g: 78,  b: 216 },  // #1d4ed8
-    { pos: 0.35, r: 59,  g: 130, b: 246 },  // #3b82f6
-    { pos: 0.55, r: 34,  g: 197, b: 94  },  // #22c55e
-    { pos: 0.72, r: 250, g: 204, b: 21  },  // #facc15
-    { pos: 0.86, r: 251, g: 146, b: 60  },  // #fb923c
-    { pos: 1.00, r: 239, g: 68,  b: 68  },  // #ef4444
+    { pos: 0.00, r: 0,   g: 0,   b: 0   },
+    { pos: 0.14, r: 6,   g: 62,  b: 86  },
+    { pos: 0.34, r: 14,  g: 116, b: 144 },
+    { pos: 0.58, r: 34,  g: 211, b: 238 },
+    { pos: 0.78, r: 103, g: 232, b: 249 },
+    { pos: 0.92, r: 251, g: 191, b: 36  },
+    { pos: 1.00, r: 255, g: 243, b: 196 },
   ];
 
   const palette = new Uint8ClampedArray(256 * 4);
@@ -126,15 +122,29 @@ const computeHeatmap = ({ points, width, height, intensity }) => {
     }
   }
 
-  // Collect non-zero alpha values for percentile normalization
-  const alphaValues = [];
+  // A 256-bin histogram avoids allocating and sorting millions of JS numbers.
+  const alphaHistogram = new Uint32Array(256);
+  let nonZeroPixels = 0;
+  let maxAlpha = 1;
   for (let i = 0; i < alphaBuffer.length; i++) {
-    if (alphaBuffer[i] > 0) alphaValues.push(alphaBuffer[i]);
+    if (alphaBuffer[i] <= 0) continue;
+    const alpha = Math.round(alphaBuffer[i] * 255);
+    alphaHistogram[alpha] += 1;
+    nonZeroPixels += 1;
+    if (alpha > maxAlpha) maxAlpha = alpha;
   }
-  if (alphaValues.length === 0) return null;
+  if (nonZeroPixels === 0) return null;
 
-  const p98 = getPercentile(alphaValues.map(v => Math.round(v * 255)), 98);
-  const maxAlpha = getMaxValue(alphaValues.map(v => Math.round(v * 255)), 1);
+  const percentileTarget = Math.ceil(nonZeroPixels * 0.98);
+  let cumulativePixels = 0;
+  let p98 = maxAlpha;
+  for (let alpha = 1; alpha < alphaHistogram.length; alpha++) {
+    cumulativePixels += alphaHistogram[alpha];
+    if (cumulativePixels >= percentileTarget) {
+      p98 = alpha;
+      break;
+    }
+  }
   const normalizationTop = Math.max(1, Math.min(maxAlpha, p98 || maxAlpha));
 
   // Build final RGBA pixel buffer

@@ -28,6 +28,7 @@ export const drawShots = (context, frame, config, viewport, tick, tickRate) => {
 
 export const drawBomb = (context, bomb, config, viewport, tick, tickRate) => {
   if (!bomb || !Number.isFinite(bomb.x) || !Number.isFinite(bomb.y)) return;
+  if (bomb.state === "carried" || bomb.state === "resolved" || (bomb.plant_tick && tick < bomb.plant_tick)) return;
   const position = worldToScreen(bomb, config, viewport);
   const color = bomb.state === "defused" ? "#69c7ff" : bomb.state === "exploded" ? "#ff665b" : "#ffbd54";
   context.beginPath();
@@ -40,7 +41,6 @@ export const drawBomb = (context, bomb, config, viewport, tick, tickRate) => {
   context.fillStyle = "#fff";
   context.font = "700 10px system-ui";
   context.textAlign = "center";
-  context.fillText(bomb.site ? `C4 · ${bomb.site}` : "C4", position.x, position.y - 13);
   if ((bomb.state === "planted" || bomb.state === "defusing") && bomb.plant_tick) {
     const remaining = Math.max(0, 40 - (tick - bomb.plant_tick) / tickRate);
     context.fillStyle = remaining <= 10 ? "#ff7772" : "#fff";
@@ -69,6 +69,30 @@ export const drawKillEffects = (context, events, tick, tickRate, config, viewpor
     context.stroke();
     context.beginPath();
     context.arc(to.x, to.y, 8 + progress * 14, 0, TAU);
+    context.stroke();
+  }
+};
+
+export const drawPlayerHitEffects = (context, events, frame, tick, tickRate, config, viewport, reducedMotion) => {
+  for (const event of events || []) {
+    if (event.type !== "player_hurt" || event.tick > tick) continue;
+    const duration = Math.max(0.16, Number(event.durationMs || 320) / 1000);
+    const elapsed = (tick - event.tick) / Math.max(1, tickRate);
+    if (elapsed > duration) continue;
+    const victim = (frame?.players || []).find((player) => String(player.steam_id) === String(event.victim_id));
+    const worldPosition = victim || { x: event.victim_x ?? event.x, y: event.victim_y ?? event.y };
+    if (!Number.isFinite(Number(worldPosition?.x)) || !Number.isFinite(Number(worldPosition?.y))) continue;
+    const position = worldToScreen(worldPosition, config, viewport);
+    const progress = clamp(elapsed / duration, 0, 1);
+    const blink = reducedMotion ? 1 : 0.45 + Math.max(0, Math.sin(progress * Math.PI * 5)) * 0.55;
+    const alpha = (1 - progress) * blink;
+
+    context.beginPath();
+    context.arc(position.x, position.y, 10.5 + progress * 5, 0, TAU);
+    context.fillStyle = `rgba(255,38,48,${0.58 * alpha})`;
+    context.fill();
+    context.strokeStyle = `rgba(255,119,119,${0.95 * alpha})`;
+    context.lineWidth = 2 - progress * 0.8;
     context.stroke();
   }
 };

@@ -2,116 +2,143 @@ package analyzers
 
 import (
 	"cs2-demo-service/models"
-	"cs2-demo-service/pkg/playerstate"
-	"math"
 
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
-// RegisterMechanicsAnalyzer registra el analizador de mecánicas avanzadas
+const (
+	counterStrafeLookbackTicks = 5
+	velocityHistoryCapacity    = 16
+)
+
+type horizontalVelocitySample struct {
+	round     int
+	tick      int
+	speed     float64
+	available bool
+}
+
+type horizontalVelocityHistory map[uint64][]horizontalVelocitySample
+
+// RegisterMechanicsAnalyzer registra el analizador de mecánicas avanzadas.
 func RegisterMechanicsAnalyzer(ctx *models.DemoContext) {
-	// Tracking de velocidad para Counter-Strafe (últimos 10 ticks)
-	velocityHistory := make(map[uint64][]float64)
+	velocityHistory := make(horizontalVelocityHistory)
 
-	// Tracking de Recoil - Deshabilitado por ahora
-	// Los datos de m_aimPunchAngle no son confiables en la posición del evento WeaponFire
-	lastViewPitch := make(map[uint64]float32)
-	lastViewYaw := make(map[uint64]float32)
-
-	// 1. Tracking de Velocidad (FrameDone)
 	ctx.Parser.RegisterEventHandler(func(e events.FrameDone) {
+		if ctx.ActualRoundNumber <= 0 {
+			return
+		}
+		currentTick := ctx.Parser.GameState().IngameTick()
 		for _, player := range ctx.Parser.GameState().Participants().Playing() {
-			if !player.IsAlive() {
+			if player == nil || player.SteamID64 == 0 || !player.IsAlive() {
 				continue
 			}
-			sid := player.SteamID64
-			vel := playerstate.Velocity(player)
-			speed := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y + vel.Z*vel.Z)
-
-			// Mantener historial de 10 ticks
-			history := velocityHistory[sid]
-			if len(history) >= 10 {
-				history = history[1:]
-			}
-			history = append(history, speed)
-			velocityHistory[sid] = history
-
-			// Actualizar tracking de View para futuras features
-			lastViewPitch[sid] = player.ViewDirectionX()
-			lastViewYaw[sid] = player.ViewDirectionY()
+			velocityHistory.record(player.SteamID64, observeHorizontalVelocity(ctx, player, currentTick))
 		}
 	})
 
-	// 2. Análisis al Disparar (WeaponFire)
 	ctx.Parser.RegisterEventHandler(func(e events.WeaponFire) {
 		if e.Shooter == nil || e.Weapon == nil {
 			return
 		}
-
-		// Counter-strafe only applies to rifles (per Leetify methodology)
-		wType := e.Weapon.Type
-		isRifle := wType == common.EqAK47 || wType == common.EqM4A4 ||
-			wType == common.EqM4A1 || wType == common.EqGalil ||
-			wType == common.EqFamas || wType == common.EqSG556 || wType == common.EqAUG
-		if !isRifle {
+		if !isCounterStrafeRifle(e.Weapon.Type) || e.Shooter.IsDucking() || ctx.ActualRoundNumber <= 0 {
 			return
 		}
 
-		// Exclude shots while crouching (no counter-strafe needed when crouched)
-		if e.Shooter.IsDucking() {
+		shooterID := e.Shooter.SteamID64
+		currentTick := ctx.Parser.GameState().IngameTick()
+		current := observeHorizontalVelocity(ctx, e.Shooter, currentTick)
+		velocityHistory.record(shooterID, current)
+		if !current.available {
 			return
 		}
 
-		sid := e.Shooter.SteamID64
+		previous, available := velocityHistory.at(
+			shooterID,
+			ctx.ActualRoundNumber,
+			currentTick-counterStrafeLookbackTicks,
+		)
+		if !available {
+			return
+		}
 
-		// --- Counter-Strafe Analysis (100% Precise using CS2 official formula) ---
-		history := velocityHistory[sid]
-		if len(history) > 5 {
-			// Current velocity at shot time
-			currentSpeed := history[len(history)-1]
-			// Velocity 5 ticks ago (~78ms at 64 tick CS2)
-			prevSpeed := history[len(history)-5]
+		weaponName := e.Weapon.String()
+		accuracyThreshold := models.GetAccuracyThreshold(weaponName)
+		if previous <= accuracyThreshold {
+			return
+		}
 
-			// Get weapon-specific accuracy threshold (34% of MaxPlayerSpeed)
-			weaponName := e.Weapon.String()
-			accuracyThreshold := models.GetAccuracyThreshold(weaponName)
-			weaponMaxSpeed := models.GetWeaponMaxSpeed(weaponName)
-
-			// Only analyze if player was moving significantly (needed to counter-strafe)
-			// Require previous speed > accuracy threshold (was running before shot)
-			if prevSpeed > accuracyThreshold {
-				rating := 0.0
-
-				// Official CS2 Formula:
-				// Speed <= 34% MaxSpeed → Perfect accuracy (100% rating)
-				// Speed > 34% MaxSpeed → Linear penalty up to 100% MaxSpeed (0% rating)
-				if currentSpeed <= accuracyThreshold {
-					// Perfect counter-strafe (stopped below accuracy threshold)
-					rating = 100.0
-				} else if currentSpeed >= weaponMaxSpeed {
-					// Still running at max speed (no counter-strafe)
-					rating = 0.0
-				} else {
-					// Partial counter-strafe: linear interpolation
-					// Formula: rating = 100 * (1 - (speed - threshold) / (maxSpeed - threshold))
-					inaccuracyRange := weaponMaxSpeed - accuracyThreshold
-					speedAboveThreshold := currentSpeed - accuracyThreshold
-					rating = 100.0 * (1.0 - (speedAboveThreshold / inaccuracyRange))
-					if rating < 0 {
-						rating = 0
-					}
-				}
-
-				// Record mechanics stat and save to context
-				recordMechanicStat(ctx, sid, "counter_strafe", rating)
-				ctx.LastShotMechanics[sid] = &models.ShotMechanics{
-					CounterStrafeRating: rating,
-					Tick:                ctx.Parser.GameState().IngameTick(),
-				}
-			}
+		rating := calculateCounterStrafeRating(
+			current.speed,
+			accuracyThreshold,
+			models.GetWeaponMaxSpeed(weaponName),
+		)
+		recordMechanicStat(ctx, shooterID, "counter_strafe", rating)
+		ctx.LastShotMechanics[shooterID] = &models.ShotMechanics{
+			CounterStrafeRating: rating,
+			Tick:                currentTick,
 		}
 	})
+}
+
+func observeHorizontalVelocity(ctx *models.DemoContext, player *common.Player, tick int) horizontalVelocitySample {
+	estimate := ctx.PlayerMotion.ObservePlayer(
+		player,
+		ctx.ActualRoundNumber,
+		tick,
+		ctx.Parser.TickRate(),
+	)
+	return horizontalVelocitySample{
+		round:     ctx.ActualRoundNumber,
+		tick:      tick,
+		speed:     estimate.HorizontalSpeed(),
+		available: estimate.Available,
+	}
+}
+
+func (history horizontalVelocityHistory) record(playerID uint64, sample horizontalVelocitySample) {
+	samples := history[playerID]
+	if len(samples) > 0 && samples[len(samples)-1].tick == sample.tick {
+		samples[len(samples)-1] = sample
+		history[playerID] = samples
+		return
+	}
+	samples = append(samples, sample)
+	if len(samples) > velocityHistoryCapacity {
+		samples = samples[len(samples)-velocityHistoryCapacity:]
+	}
+	history[playerID] = samples
+}
+
+func (history horizontalVelocityHistory) at(playerID uint64, round, tick int) (float64, bool) {
+	samples := history[playerID]
+	for index := len(samples) - 1; index >= 0; index-- {
+		sample := samples[index]
+		if sample.tick < tick {
+			return 0, false
+		}
+		if sample.tick == tick {
+			return sample.speed, sample.round == round && sample.available
+		}
+	}
+	return 0, false
+}
+
+func isCounterStrafeRifle(weaponType common.EquipmentType) bool {
+	return weaponType == common.EqAK47 || weaponType == common.EqM4A4 ||
+		weaponType == common.EqM4A1 || weaponType == common.EqGalil ||
+		weaponType == common.EqFamas || weaponType == common.EqSG556 || weaponType == common.EqAUG
+}
+
+func calculateCounterStrafeRating(currentSpeed, accuracyThreshold, weaponMaxSpeed float64) float64 {
+	if currentSpeed <= accuracyThreshold {
+		return 100
+	}
+	if currentSpeed >= weaponMaxSpeed || weaponMaxSpeed <= accuracyThreshold {
+		return 0
+	}
+	return 100 * (1 - (currentSpeed-accuracyThreshold)/(weaponMaxSpeed-accuracyThreshold))
 }
 
 // Helper para registrar stats

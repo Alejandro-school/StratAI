@@ -23,6 +23,9 @@ export const filterCalloutsBySide = (callouts, activeSide) => {
         win_rate: winRate,
         rating,
         sample_size: total,
+        context_stats: null,
+        flash_death_pct: null,
+        context_scope: 'all-sides-only',
       };
     })
     .filter(Boolean);

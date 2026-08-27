@@ -15,7 +15,7 @@ const MAP_CATALOG = [
   { id: 'de_overpass', name: 'Overpass', radarImage: 'de_overpass_radar_psd.webp', coverImage: '/images/maps/de_overpass.png', color: 'var(--color-primary-300)', availableInTacticalMap: true },
   { id: 'de_train', name: 'Train', radarImage: 'de_train_radar_psd.webp', coverImage: '/images/maps/de_train.png', color: 'var(--color-secondary-600)', availableInTacticalMap: true, levels: { upper: 'de_train_radar_psd.webp', lower: 'de_train_lower_radar_psd.webp' } },
   { id: 'de_vertigo', name: 'Vertigo', radarImage: 'de_vertigo_radar_psd.webp', coverImage: '/images/maps/de_vertigo.png', color: 'var(--color-primary-200)', availableInTacticalMap: false, levels: { upper: 'de_vertigo_radar_psd.webp', lower: 'de_vertigo_lower_radar_psd.webp' } },
-  { id: 'de_anubis', name: 'Anubis', radarImage: 'de_anubis_radar_psd.webp', coverImage: '/images/maps/de_anubis.png', color: 'var(--color-primary-600)', availableInTacticalMap: false },
+  { id: 'de_anubis', name: 'Anubis', radarImage: 'de_anubis_radar_psd.webp', coverImage: '/images/maps/de_anubis.png', color: 'var(--color-primary-600)', availableInTacticalMap: true },
   { id: 'de_ancient', name: 'Ancient', radarImage: 'de_ancient_radar_psd.webp', coverImage: '/images/maps/de_ancient.png', color: 'var(--color-primary-800)', availableInTacticalMap: true },
 ];
 

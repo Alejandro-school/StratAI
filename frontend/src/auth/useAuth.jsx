@@ -10,22 +10,30 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetch(`${API_URL}/auth/steam/status`, {
-      credentials: "include",
-      signal: controller.signal,
-    })
-      .then((response) => {
+    let isActive = true;
+
+    const checkSession = async () => {
+      try {
+        const response = await fetch(`${API_URL}/auth/steam/status`, {
+          credentials: "include",
+          signal: controller.signal,
+        });
         if (!response.ok) throw new Error(`Auth status failed: ${response.status}`);
-        return response.json();
-      })
-      .then(data => {
-        setUser(data.authenticated ? data : null);
-      })
-      .catch((error) => {
-        if (error.name !== "AbortError") setAuthError(error);
-      })
-      .finally(() => setChecking(false));
-    return () => controller.abort();
+
+        const data = await response.json();
+        if (isActive) setUser(data.authenticated ? data : null);
+      } catch (error) {
+        if (isActive && error.name !== "AbortError") setAuthError(error);
+      } finally {
+        if (isActive) setChecking(false);
+      }
+    };
+
+    checkSession();
+    return () => {
+      isActive = false;
+      controller.abort();
+    };
   }, []);
 
   if (checking) {

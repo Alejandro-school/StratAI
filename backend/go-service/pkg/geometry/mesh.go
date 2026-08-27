@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -16,6 +17,30 @@ import (
 type Triangle struct {
 	V0, V1, V2 r3.Vector
 	Normal     r3.Vector
+	edge1      r3.Vector
+	edge2      r3.Vector
+	centroid   r3.Vector
+}
+
+func newTriangle(v0, v1, v2 r3.Vector) Triangle {
+	edge1 := v1.Sub(v0)
+	edge2 := v2.Sub(v0)
+	return Triangle{
+		V0:       v0,
+		V1:       v1,
+		V2:       v2,
+		Normal:   edge1.Cross(edge2).Normalize(),
+		edge1:    edge1,
+		edge2:    edge2,
+		centroid: v0.Add(v1).Add(v2).Mul(1.0 / 3.0),
+	}
+}
+
+func prepareTriangle(triangle Triangle) Triangle {
+	if triangle.edge1 == (r3.Vector{}) && triangle.edge2 == (r3.Vector{}) {
+		return newTriangle(triangle.V0, triangle.V1, triangle.V2)
+	}
+	return triangle
 }
 
 // AABB represents an Axis-Aligned Bounding Box
@@ -87,6 +112,12 @@ type Mesh struct {
 
 // BuildBVH constructs a BVH from a list of triangles
 func BuildBVH(triangles []Triangle, depth int) *BVHNode {
+	if depth == 0 {
+		for i := range triangles {
+			triangles[i] = prepareTriangle(triangles[i])
+		}
+	}
+
 	node := &BVHNode{}
 	node.AABB = CalculateBounds(triangles)
 
@@ -105,44 +136,20 @@ func BuildBVH(triangles []Triangle, depth int) *BVHNode {
 		axis = 2
 	}
 
-	mid := (node.AABB.Min.Add(node.AABB.Max)).Mul(0.5)
-	var midVal float64
-	if axis == 0 {
-		midVal = mid.X
-	} else if axis == 1 {
-		midVal = mid.Y
-	} else {
-		midVal = mid.Z
-	}
-
-	var leftTris, rightTris []Triangle
-	for _, tri := range triangles {
-		// Use centroid to decide side
-		centroid := tri.V0.Add(tri.V1).Add(tri.V2).Mul(1.0 / 3.0)
-		var val float64
-		if axis == 0 {
-			val = centroid.X
-		} else if axis == 1 {
-			val = centroid.Y
-		} else {
-			val = centroid.Z
+	sort.Slice(triangles, func(i, j int) bool {
+		switch axis {
+		case 1:
+			return triangles[i].centroid.Y < triangles[j].centroid.Y
+		case 2:
+			return triangles[i].centroid.Z < triangles[j].centroid.Z
+		default:
+			return triangles[i].centroid.X < triangles[j].centroid.X
 		}
+	})
 
-		if val < midVal {
-			leftTris = append(leftTris, tri)
-		} else {
-			rightTris = append(rightTris, tri)
-		}
-	}
-
-	// Handle edge case where all triangles end up on one side
-	if len(leftTris) == 0 || len(rightTris) == 0 {
-		node.Triangles = triangles
-		return node
-	}
-
-	node.Left = BuildBVH(leftTris, depth+1)
-	node.Right = BuildBVH(rightTris, depth+1)
+	middle := len(triangles) / 2
+	node.Left = BuildBVH(triangles[:middle], depth+1)
+	node.Right = BuildBVH(triangles[middle:], depth+1)
 
 	return node
 }
@@ -343,17 +350,7 @@ func LoadGLTF(path string) (*Mesh, error) {
 					v1 := verts[i1]
 					v2 := verts[i2]
 
-					// Compute Normal
-					edge1 := v1.Sub(v0)
-					edge2 := v2.Sub(v0)
-					normal := edge1.Cross(edge2).Normalize()
-
-					triangles = append(triangles, Triangle{
-						V0:     v0,
-						V1:     v1,
-						V2:     v2,
-						Normal: normal,
-					})
+					triangles = append(triangles, newTriangle(v0, v1, v2))
 				}
 			}
 		}
@@ -463,17 +460,7 @@ func LoadOBJ(path string) (*Mesh, error) {
 				v1 := vertices[indices[i]]
 				v2 := vertices[indices[i+1]]
 
-				// Compute Normal
-				edge1 := v1.Sub(v0)
-				edge2 := v2.Sub(v0)
-				normal := edge1.Cross(edge2).Normalize()
-
-				triangles = append(triangles, Triangle{
-					V0:     v0,
-					V1:     v1,
-					V2:     v2,
-					Normal: normal,
-				})
+				triangles = append(triangles, newTriangle(v0, v1, v2))
 			}
 		}
 	}
@@ -608,8 +595,8 @@ func intersectBVH(node *BVHNode, origin, dir r3.Vector, maxDist float64) bool {
 
 	// Leaf node
 	if node.Left == nil && node.Right == nil {
-		for _, tri := range node.Triangles {
-			if RayIntersectsTriangle(origin, dir, tri, maxDist) {
+		for i := range node.Triangles {
+			if rayIntersectsPreparedTriangle(origin, dir, &node.Triangles[i], maxDist) {
 				return true
 			}
 		}
@@ -633,13 +620,15 @@ func intersectBVH(node *BVHNode, origin, dir r3.Vector, maxDist float64) bool {
 
 // RayIntersectsTriangle implements Möller–Trumbore intersection algorithm
 func RayIntersectsTriangle(origin, dir r3.Vector, tri Triangle, maxDist float64) bool {
+	prepared := prepareTriangle(tri)
+	return rayIntersectsPreparedTriangle(origin, dir, &prepared, maxDist)
+}
+
+func rayIntersectsPreparedTriangle(origin, dir r3.Vector, tri *Triangle, maxDist float64) bool {
 	const epsilon = 1e-6
 
-	edge1 := tri.V1.Sub(tri.V0)
-	edge2 := tri.V2.Sub(tri.V0)
-
-	h := dir.Cross(edge2)
-	a := edge1.Dot(h)
+	h := dir.Cross(tri.edge2)
+	a := tri.edge1.Dot(h)
 
 	if a > -epsilon && a < epsilon {
 		return false // Ray is parallel to triangle
@@ -653,7 +642,7 @@ func RayIntersectsTriangle(origin, dir r3.Vector, tri Triangle, maxDist float64)
 		return false
 	}
 
-	q := s.Cross(edge1)
+	q := s.Cross(tri.edge1)
 	v := f * dir.Dot(q)
 
 	if v < 0.0 || u+v > 1.0 {
@@ -661,7 +650,7 @@ func RayIntersectsTriangle(origin, dir r3.Vector, tri Triangle, maxDist float64)
 	}
 
 	// At this stage we can compute t to find out where the intersection point is on the line.
-	t := f * edge2.Dot(q)
+	t := f * tri.edge2.Dot(q)
 
 	if t > epsilon && t < maxDist {
 		return true // Intersection detected

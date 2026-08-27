@@ -1,39 +1,15 @@
 // frontend/src/components/Dashboard/GrenadeMapTab.jsx
 // Grenade Intel System - Professional CS2 Analysis Dashboard
 import React, { useState, useMemo } from 'react';
-import { useGrenadeStats } from '../../hooks/useGrenadeStats';
+import { useGrenadeStats } from '../../features/tactical-map/hooks/useTacticalStats';
 import { filterGrenadeClusters } from '../../utils/tacticalFilters';
 import { processGrenadeClustersForDisplay } from '../../utils/adaptiveClustering';
+import GrenadeImage from './GrenadeImage';
 import { 
   TrendingUp, AlertTriangle, Target, Zap,
   Eye, EyeOff, ChevronRight, X, MapPin, Award, Crosshair
 } from 'lucide-react';
 import '../../styles/TacticalMap/grenadeMapTab.css';
-
-// ============================================
-// CS2 OFFICIAL GRENADE ICONS (PNG Images)
-// ============================================
-
-// Image paths for real CS2 grenade icons
-const GRENADE_IMAGES = {
-  smoke: '/images/weapons/weapon_smokegrenade.png',
-  flash: '/images/weapons/weapon_flashbang.png',
-  he: '/images/weapons/weapon_hegrenade.png',
-  molotov: '/images/weapons/weapon_molotov.png',
-  incendiary: '/images/weapons/weapon_incgrenade.png'
-};
-
-// CS2 Grenade Image Component
-const GrenadeImage = ({ type, size = 24, className = '' }) => (
-  <img 
-    src={GRENADE_IMAGES[type] || GRENADE_IMAGES.he}
-    alt={type}
-    width={size}
-    height={size}
-    className={`grenade-icon-img ${className}`}
-    style={{ objectFit: 'contain', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}
-  />
-);
 
 // Grenade type configuration
 const GRENADE_TYPES = {
@@ -46,8 +22,8 @@ const GRENADE_TYPES = {
     bgColor: 'rgba(96, 165, 250, 0.15)',
     gradientStart: '#67e8f9',
     gradientEnd: '#0891b2',
-    effectLabel: 'Efectividad',
-    effectUnit: '%',
+    effectLabel: 'Cobertura',
+    effectUnit: '',
     explosionColor: 'rgba(96, 165, 250, 0.82)'
   },
   flash: { 
@@ -92,24 +68,12 @@ const GRENADE_TYPES = {
 };
 
 // ============================================
-// SMART GRENADE MARKER - Contextual with efficiency bar
+// SMART GRENADE MARKER - Size represents observed volume
 // ============================================
 
 const GrenadeMarkerSmart = ({ cluster, type, onClick, isSelected, isHighlighted }) => {
   const config = GRENADE_TYPES[type];
-  
-  // Calculate efficiency for visual feedback
-  const getEfficiency = () => {
-    if (type === 'smoke') return 100;
-    if (type === 'flash') return Math.min(100, Math.round((cluster.avg_blinded || 0) * 40));
-    if (type === 'he' || type === 'molotov') return Math.min(100, Math.round((cluster.avg_damage || 0) * 2));
-    return 50;
-  };
-  
-  const efficiency = getEfficiency();
-  const isGood = efficiency >= 70;
-  const isBad = efficiency < 40;
-  
+
   // LARGER sizes for better visibility
   const baseSize = 48;
   const size = Math.min(64, baseSize + Math.floor(cluster.count / 3) * 4);
@@ -117,26 +81,25 @@ const GrenadeMarkerSmart = ({ cluster, type, onClick, isSelected, isHighlighted 
   
   return (
     <button
-      className={`grenade-marker-smart ${type} ${isSelected ? 'selected' : ''} ${isHighlighted ? 'highlighted' : ''} ${isGood ? 'good' : ''} ${isBad ? 'bad' : ''}`}
+      type="button"
+      className={`grenade-marker-smart ${type} ${isSelected ? 'selected' : ''} ${isHighlighted ? 'highlighted' : ''}`}
       style={{
         left: `${cluster.x}%`,
         top: `${cluster.y}%`,
         '--marker-color': config.color,
         '--marker-glow': config.glowColor,
         '--marker-bg': config.bgColor,
-        '--efficiency': `${efficiency}%`
       }}
       onClick={() => onClick(cluster, type)}
+      aria-label={`${config.label}: ${cluster.count} lanzamientos${cluster.lineup_name ? `, ${cluster.lineup_name}` : ''}`}
+      aria-pressed={isSelected}
     >
-      <div className="marker-pulse" />
+      <div className="marker-pulse" aria-hidden="true" />
       <div className="marker-body" style={{ width: size, height: size }}>
         <GrenadeImage type={type} size={imgSize} />
       </div>
       <div className="marker-count-badge">
         {cluster.count}
-      </div>
-      <div className="marker-efficiency-bar">
-        <div className="efficiency-fill" style={{ width: `${efficiency}%` }} />
       </div>
       {cluster.lineup_name && (
         <span className="marker-label">{cluster.lineup_name}</span>
@@ -279,8 +242,8 @@ const GrenadeArsenal = ({ summary, matchesAnalyzed, visibleTypes, onToggleType }
     switch (type) {
       case 'smoke': 
         return { 
-          value: stats.thrown || 0, 
-          label: 'lanzados',
+          value: '—',
+          label: 'sin métrica de cobertura',
           unit: ''
         };
       case 'flash': 
@@ -326,10 +289,13 @@ const GrenadeArsenal = ({ summary, matchesAnalyzed, visibleTypes, onToggleType }
           
           return (
             <button
+              type="button"
               key={gType}
               className={`arsenal-item ${isActive ? 'active' : 'inactive'}`}
               onClick={() => onToggleType(gType)}
               style={{ '--item-color': config.color, '--item-bg': config.bgColor }}
+              aria-pressed={isActive}
+              aria-label={`${isActive ? 'Ocultar' : 'Mostrar'} ${config.labelEs.toLowerCase()}`}
             >
               <div className="item-icon-large">
                 <GrenadeImage type={gType} size={40} className={isActive ? '' : 'grayscale'} />
@@ -338,11 +304,11 @@ const GrenadeArsenal = ({ summary, matchesAnalyzed, visibleTypes, onToggleType }
                 <div className="item-count-large">{stats.thrown || 0}</div>
                 <div className="item-effect-compact">
                   <span className="effect-value">{effect.value}{effect.unit}</span>
-                  <span className="effect-label-small">{config.effectLabel.toUpperCase()}</span>
+                  <span className="effect-label-small">{effect.label.toUpperCase()}</span>
                 </div>
               </div>
               <div className="item-visibility-icon">
-                {isActive ? <Eye size={12} /> : <EyeOff size={12} />}
+                {isActive ? <Eye size={12} aria-hidden="true" /> : <EyeOff size={12} aria-hidden="true" />}
               </div>
             </button>
           );
@@ -431,8 +397,8 @@ const LineupDetailPanel = ({ cluster, type, onClose }) => {
             </span>
           </div>
         </div>
-        <button className="panel-close" onClick={onClose}>
-          <X size={18} />
+        <button type="button" className="panel-close" onClick={onClose} aria-label="Cerrar detalle del lanzamiento">
+          <X size={18} aria-hidden="true" />
         </button>
       </div>
       
@@ -457,10 +423,12 @@ const LineupDetailPanel = ({ cluster, type, onClose }) => {
           <span className="metric-value">{metrics.primary.value}{metrics.primary.unit || ''}</span>
           <span className="metric-label">{metrics.primary.label}</span>
         </div>
-        <div className={`metric-card ${metrics.secondary.isBad ? 'bad' : ''}`}>
-          <span className="metric-value">{metrics.secondary.value}{metrics.secondary.unit || ''}</span>
-          <span className="metric-label">{metrics.secondary.label}</span>
-        </div>
+        {metrics.secondary.value !== undefined && (
+          <div className={`metric-card ${metrics.secondary.isBad ? 'bad' : ''}`}>
+            <span className="metric-value">{metrics.secondary.value}{metrics.secondary.unit || ''}</span>
+            <span className="metric-label">{metrics.secondary.label}</span>
+          </div>
+        )}
       </div>
       
       {/* Impact Zones */}
@@ -487,35 +455,29 @@ const LineupDetailPanel = ({ cluster, type, onClose }) => {
 };
 
 // ============================================
-// TOP LINEUPS SECTION - Best & Worst
+// FREQUENT LINEUPS - Comparable evidence only (observed volume)
 // ============================================
 
-const TopLineupsSection = ({ grenadeData, summary, onLineupHover, onLineupClick }) => {
-  // Flatten all clusters and sort by effectiveness
+const TopLineupsSection = ({ grenadeData, onLineupHover, onLineupClick }) => {
   const allLineups = useMemo(() => {
     const lineups = [];
     
     Object.entries(grenadeData).forEach(([type, clusters]) => {
       clusters.forEach(cluster => {
-        let score = 0;
         let effectLabel = '';
         
         if (type === 'smoke') {
-          score = (cluster.count || 0) * 10;
-          effectLabel = `${cluster.count} lanzados`;
+          effectLabel = `${cluster.count} usos observados`;
         } else if (type === 'flash') {
-          score = (cluster.avg_blinded || 0) * 40;
-          effectLabel = `${(cluster.avg_blinded || 0).toFixed(1)} cegados`;
+          effectLabel = `${(cluster.avg_blinded || 0).toFixed(1)} cegados de media`;
         } else if (type === 'he' || type === 'molotov') {
-          score = (cluster.avg_damage || 0) * 2;
-          effectLabel = `${Math.round(cluster.avg_damage || 0)} de daño`;
+          effectLabel = `${Math.round(cluster.avg_damage || 0)} de daño medio`;
         }
         
-        if (cluster.count >= 2) { // Only show lineups used at least twice
+        if (cluster.count >= 2) {
           lineups.push({
             ...cluster,
             type,
-            score,
             effectLabel,
             name: cluster.lineup_name || cluster.areas?.[0] || 'Desconocido'
           });
@@ -523,84 +485,48 @@ const TopLineupsSection = ({ grenadeData, summary, onLineupHover, onLineupClick 
       });
     });
     
-    return lineups.sort((a, b) => b.score - a.score);
+    return lineups.sort((a, b) => b.count - a.count).slice(0, 5);
   }, [grenadeData]);
-  
-  const bestLineups = allLineups.slice(0, 3);
-  const worstLineups = allLineups.slice(-3).reverse().filter(l => l.score < 60);
-  
+
   if (allLineups.length === 0) return null;
   
   return (
     <div className="top-lineups-section">
-      {/* Best Lineups */}
-      {bestLineups.length > 0 && (
-        <div className="lineup-category best">
-          <div className="category-header">
-            <Award size={16} className="category-icon" />
-            <h5>Mejores lanzamientos</h5>
-          </div>
-          <div className="lineup-list">
-            {bestLineups.map((lineup, idx) => {
-              const lineupConfig = GRENADE_TYPES[lineup.type];
-              return (
-                <button
-                  key={idx}
-                  className="lineup-item"
-                  onMouseEnter={() => onLineupHover?.(lineup)}
-                  onMouseLeave={() => onLineupHover?.(null)}
-                  onClick={() => onLineupClick?.(lineup, lineup.type)}
-                  style={{ '--lineup-color': lineupConfig.color }}
-                >
-                  <div className="lineup-rank">{idx + 1}</div>
-                  <div className="lineup-icon">
-                    <GrenadeImage type={lineup.type} size={18} />
-                  </div>
-                  <div className="lineup-info">
-                    <span className="lineup-name">{lineup.name}</span>
-                    <span className="lineup-effect">{lineup.effectLabel}</span>
-                  </div>
-                  <span className="lineup-count">×{lineup.count}</span>
-                </button>
-              );
-            })}
-          </div>
+      <div className="lineup-category best">
+        <div className="category-header">
+          <Award size={16} className="category-icon" aria-hidden="true" />
+          <h5>Lanzamientos más usados</h5>
         </div>
-      )}
-      
-      {/* Needs Practice */}
-      {worstLineups.length > 0 && (
-        <div className="lineup-category practice">
-          <div className="category-header">
-            <AlertTriangle size={16} className="category-icon" />
-            <h5>Necesitan Práctica</h5>
-          </div>
-          <div className="lineup-list">
-            {worstLineups.map((lineup, idx) => {
-              const lineupConfig = GRENADE_TYPES[lineup.type];
-              return (
-                <button
-                  key={idx}
-                  className="lineup-item needs-practice"
-                  onMouseEnter={() => onLineupHover?.(lineup)}
-                  onMouseLeave={() => onLineupHover?.(null)}
-                  onClick={() => onLineupClick?.(lineup, lineup.type)}
-                  style={{ '--lineup-color': lineupConfig.color }}
-                >
-                  <div className="lineup-icon">
-                    <GrenadeImage type={lineup.type} size={18} />
-                  </div>
-                  <div className="lineup-info">
-                    <span className="lineup-name">{lineup.name}</span>
-                    <span className="lineup-effect bad">{lineup.effectLabel}</span>
-                  </div>
-                  <span className="lineup-count">×{lineup.count}</span>
-                </button>
-              );
-            })}
-          </div>
+        <div className="lineup-list">
+          {allLineups.map((lineup, idx) => {
+            const lineupConfig = GRENADE_TYPES[lineup.type];
+            return (
+              <button
+                type="button"
+                key={`${lineup.type}-${lineup.x}-${lineup.y}-${idx}`}
+                className="lineup-item"
+                onMouseEnter={() => onLineupHover?.(lineup)}
+                onMouseLeave={() => onLineupHover?.(null)}
+                onFocus={() => onLineupHover?.(lineup)}
+                onBlur={() => onLineupHover?.(null)}
+                onClick={() => onLineupClick?.(lineup, lineup.type)}
+                style={{ '--lineup-color': lineupConfig.color }}
+                aria-label={`${lineupConfig.label}, ${lineup.name}: ${lineup.count} usos`}
+              >
+                <div className="lineup-rank">{idx + 1}</div>
+                <div className="lineup-icon">
+                  <GrenadeImage type={lineup.type} size={18} />
+                </div>
+                <div className="lineup-info">
+                  <span className="lineup-name">{lineup.name}</span>
+                  <span className="lineup-effect">{lineup.effectLabel}</span>
+                </div>
+                <span className="lineup-count">×{lineup.count}</span>
+              </button>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -710,7 +636,6 @@ const GrenadeMapTab = ({
       {/* Top Lineups Section */}
       <TopLineupsSection 
         grenadeData={filteredClustersByType}
-        summary={activeSummary}
         onLineupHover={() => {}} // was setHoveredLineup
         onLineupClick={(cluster, type) => {
           if (onClusterSelect) {

@@ -1,0 +1,1207 @@
+.tactical-experience {
+  --tx-green: #75d6a2;
+  --tx-muted: #a9bbc2;
+  --tx-faint: #80969f;
+  padding: clamp(14px, 2vw, 26px);
+  font-family: 'Archivo', sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(66, 206, 231, 0.055), transparent 25rem),
+    linear-gradient(rgba(94, 145, 158, 0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 145, 158, 0.016) 1px, transparent 1px),
+    var(--tx-bg);
+  background-size: auto, 56px 56px, 56px 56px, auto;
+}
+
+.tactical-experience .ti-signal-layer,
+.tactical-experience .ti-insights,
+.ti-intro {
+  font-family: 'Archivo', sans-serif;
+}
+
+.tactical-experience__eyebrow,
+.tactical-stage-card__kicker,
+.tactical-eyebrow,
+.tactical-stage-card__coordinates,
+.tactical-side-filter button,
+.tactical-level-filter button,
+.tactical-sample-chip,
+.tactical-stage-legend > span,
+.tactical-zone-node__core,
+.tactical-zone-node__label small,
+.tactical-combat-metrics button,
+.tactical-utility-types small,
+.tactical-utility-types i,
+.tactical-utility-detail span,
+.ti-eyebrow,
+.ti-insight-card__index,
+.ti-insight-card__type,
+.ti-insight-card__value,
+.ti-insight-card__footer,
+.ti-evidence-stat,
+.ti-signal__meta,
+.ti-signal__value,
+.ti-signal__index {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.ti-intro .ti-intro__rail,
+.ti-intro .ti-concept__number,
+.ti-intro .ti-intro__sample,
+.ti-intro .ti-intro__sample-value {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.tactical-experience__header {
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tactical-experience__header h1 {
+  margin-block: 3px 2px;
+  font-family: 'Archivo', sans-serif;
+  font-size: clamp(1.8rem, 2.7vw, 2.55rem);
+  font-weight: 650;
+}
+
+.tactical-experience__header p {
+  max-width: 850px;
+  line-height: 1.45;
+}
+
+.tactical-toolbar {
+  position: sticky;
+  top: 68px;
+  min-height: 54px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-color: rgba(159, 203, 215, 0.1);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24);
+}
+
+.tactical-lens-tabs button,
+.tactical-map-trigger {
+  min-height: 42px;
+}
+
+.tactical-lens-tabs button.is-active {
+  color: #eaf9fb;
+  background: rgba(66, 206, 231, 0.09);
+}
+
+.tactical-experience__workspace {
+  grid-template-columns: minmax(0, 2.125fr) minmax(330px, 1fr);
+  gap: 12px;
+}
+
+.tactical-stage-card,
+.tactical-panel,
+.ti-insights {
+  border-color: rgba(159, 203, 215, 0.11);
+}
+
+.tactical-stage-card__header {
+  min-height: 50px;
+  padding-block: 7px;
+}
+
+.tactical-stage {
+  width: min(100%, max(440px, calc(100dvh - 280px)));
+}
+
+.tactical-stage__grid {
+  opacity: 0.16;
+  background-size: 16.666% 16.666%;
+}
+
+.tactical-experience__side {
+  max-height: calc(100dvh - 200px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(66, 206, 231, 0.28) transparent;
+}
+
+.tactical-bottom-sheet-handle,
+.tactical-bottom-sheet-backdrop {
+  display: none;
+}
+
+.tactical-combat-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 3px;
+  padding: 10px 12px;
+  background: rgba(4, 9, 13, 0.5);
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.tactical-combat-metrics button {
+  min-height: 38px;
+  padding: 4px 6px;
+  color: var(--tx-faint);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.56rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.tactical-combat-metrics button:hover {
+  color: var(--tx-text);
+}
+
+.tactical-combat-metrics button.is-active {
+  color: var(--tx-cyan);
+  background: var(--tx-cyan-soft);
+  border-color: rgba(66, 206, 231, 0.3);
+}
+
+.tactical-side-distribution {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.tactical-side-distribution__values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 13px;
+  color: var(--tx-muted);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+}
+
+.tactical-side-distribution__values strong {
+  color: var(--tx-text);
+}
+
+.tactical-side-distribution__bar {
+  height: 5px;
+  margin-top: 8px;
+  overflow: hidden;
+  background: rgba(245, 173, 88, 0.52);
+}
+
+.tactical-side-distribution__bar span {
+  display: block;
+  height: 100%;
+  background: var(--tx-blue);
+}
+
+.tactical-layer-controls > h3 {
+  margin: 0;
+  color: var(--tx-text);
+  font-size: 0.7rem;
+  font-weight: 620;
+}
+
+.tactical-utility-types {
+  display: grid;
+  gap: 1px;
+  background: var(--tx-line);
+  border-bottom: 1px solid var(--tx-line);
+}
+
+.tactical-utility-types > button {
+  position: relative;
+  display: grid;
+  min-height: 94px;
+  grid-template-columns: 54px minmax(92px, 0.75fr) minmax(120px, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px 20px;
+  color: #a9bac0;
+  text-align: left;
+  background: #091117;
+  border: 0;
+  cursor: pointer;
+}
+
+.tactical-utility-types > button:hover,
+.tactical-utility-types > button:focus-visible,
+.tactical-utility-types > button.is-active {
+  background: #0c171e;
+}
+
+.tactical-utility-types > button:not(.is-active) {
+  opacity: 0.48;
+}
+
+.tactical-utility-types__icon {
+  display: grid !important;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  overflow: visible;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(159, 203, 215, 0.12);
+}
+
+.tactical-utility-types__icon .grenade-icon-img {
+  object-fit: contain;
+  filter: saturate(1.08) brightness(1.12) drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5));
+}
+
+.tactical-utility-types > button > span {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.tactical-utility-types strong {
+  color: var(--tx-text);
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.tactical-utility-types small {
+  margin-top: 5px;
+  color: #93a7af;
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.tactical-utility-types__effect {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.tactical-utility-types__effect strong {
+  color: #f1fbfc;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tactical-utility-types > button > i {
+  position: absolute;
+  right: 16px;
+  bottom: 9px;
+  color: var(--tx-amber);
+  font-size: 0.7rem;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.tactical-utility-types > button > i.confidence-high {
+  color: var(--tx-green);
+}
+
+.tactical-utility-detail {
+  margin: 16px;
+  padding: 18px;
+  background: rgba(66, 206, 231, 0.055);
+  border-left: 2px solid var(--tx-cyan);
+}
+
+.tactical-utility-detail > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.tactical-utility-detail__grenade {
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter: saturate(1.08) brightness(1.14) drop-shadow(0 5px 9px rgba(0, 0, 0, 0.55));
+}
+
+.tactical-utility-detail__title {
+  min-width: 0;
+  flex: 1;
+}
+
+.tactical-utility-detail h3 {
+  margin: 4px 0 0;
+  color: var(--tx-text);
+  font-size: 1.12rem;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.tactical-utility-detail header span {
+  color: var(--tx-cyan);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.tactical-utility-detail header button,
+.tactical-bottom-sheet-handle button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  place-items: center;
+  color: var(--tx-muted);
+  background: transparent;
+  border: 1px solid var(--tx-line);
+  cursor: pointer;
+}
+
+.tactical-utility-detail > div {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin-top: 12px;
+  background: var(--tx-line);
+}
+
+.tactical-utility-detail > div span {
+  display: flex;
+  min-height: 82px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--tx-muted);
+  background: #091117;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.tactical-utility-detail > div strong {
+  margin-bottom: 3px;
+  color: var(--tx-text);
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tactical-utility-detail > p {
+  margin: 10px 0 0;
+  color: var(--tx-amber);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.tactical-utility-detail > p.confidence-high {
+  color: var(--tx-green);
+}
+
+.tactical-utility-ranking {
+  border-top: 1px solid var(--tx-line);
+}
+
+.tactical-utility-panel .tactical-panel__header h2 {
+  font-size: 1.3rem;
+}
+
+.tactical-utility-panel .tactical-eyebrow {
+  font-size: 0.75rem;
+}
+
+.tactical-utility-panel .tactical-panel__lead {
+  padding: 17px 18px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.tactical-utility-panel .tactical-sample-chip span {
+  font-size: 0.7rem;
+}
+
+.tactical-utility-panel .tactical-empty-state h3 {
+  font-size: 1rem;
+}
+
+.tactical-utility-panel .tactical-empty-state p,
+.tactical-utility-ranking small {
+  font-size: 0.78rem;
+}
+
+.tactical-utility-ranking strong {
+  font-size: 0.9rem;
+}
+
+.tactical-utility-ranking b {
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tactical-utility-empty__grenade {
+  object-fit: contain;
+  filter: grayscale(0.35) saturate(0.9) brightness(1.12) drop-shadow(0 5px 9px rgba(0, 0, 0, 0.55));
+}
+
+.ti-signal[data-type='strength'],
+.ti-insight-card[data-type='strength'] {
+  --ti-signal-accent: var(--tx-green);
+  --ti-signal-soft: rgba(117, 214, 162, 0.12);
+  --ti-card-accent: var(--tx-green);
+}
+
+.ti-signal[data-type='habit'],
+.ti-insight-card[data-type='habit'] {
+  --ti-signal-accent: var(--tx-cyan);
+  --ti-signal-soft: var(--tx-cyan-soft);
+  --ti-card-accent: var(--tx-cyan);
+}
+
+.ti-insight-card {
+  min-height: 0;
+  padding: 14px;
+}
+
+.ti-insights__header {
+  padding: 16px 18px 13px;
+}
+
+.ti-evidence-stat {
+  min-height: 58px;
+  padding: 10px 13px;
+}
+
+.ti-insights__evidence > p {
+  padding: 8px 13px 10px;
+}
+
+.ti-insights__list {
+  gap: 6px;
+  padding: 9px;
+}
+
+.ti-insight-card p {
+  min-height: 0;
+  -webkit-line-clamp: 2;
+}
+
+.ti-insight-card__recommendation {
+  display: block !important;
+  margin-top: 10px !important;
+  padding: 9px 10px;
+  color: #bacbd0 !important;
+  background: rgba(255, 255, 255, 0.025);
+  border-left: 1px solid var(--ti-card-accent);
+  font-size: 0.62rem !important;
+  line-height: 1.4 !important;
+}
+
+.ti-insight-card__recommendation strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--ti-card-accent);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ti-insight-card__footer {
+  margin-top: 8px;
+  padding-top: 7px;
+}
+
+.ti-signal-position--group {
+  z-index: 3;
+}
+
+.ti-signal-cluster {
+  display: grid;
+  min-width: 52px;
+  min-height: 52px;
+  grid-template-columns: auto auto;
+  place-items: center;
+  gap: 2px 5px;
+  padding: 6px 8px;
+  color: var(--tx-cyan);
+  background: rgba(6, 11, 15, 0.96);
+  border: 1px solid var(--tx-cyan);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42);
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translate(-4px, -4px);
+}
+
+.ti-signal-cluster strong {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.ti-signal-cluster span {
+  grid-column: 1 / -1;
+  max-width: 100px;
+  overflow: hidden;
+  color: var(--tx-text);
+  font-size: 0.55rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tactical-stage-legend .legend-strength {
+  background: var(--tx-green);
+}
+
+.tactical-stage-legend .legend-habit {
+  background: var(--tx-cyan);
+}
+
+.ti-intro__dialog {
+  overscroll-behavior: contain;
+  font-family: 'Archivo', sans-serif;
+}
+
+@media (max-width: 1260px) {
+  .tactical-experience__workspace {
+    grid-template-columns: minmax(0, 1.9fr) minmax(310px, 1fr);
+  }
+
+  .tactical-lens-tabs button {
+    padding-inline: 9px;
+  }
+}
+
+@media (max-width: 980px) {
+  .tactical-experience__workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .tactical-experience__side {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .tactical-stage {
+    width: min(100%, calc(100dvh - 265px));
+    min-width: 440px;
+  }
+}
+
+@media (max-width: 720px) {
+  .tactical-experience {
+    min-height: calc(100dvh - 58px);
+    padding: 12px;
+  }
+
+  .tactical-experience__header {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tactical-experience__header h1 {
+    font-size: 1.75rem;
+  }
+
+  .tactical-experience__header p {
+    display: none;
+  }
+
+  .tactical-help-button {
+    min-height: 42px;
+    padding-inline: 11px;
+    font-size: 0.7rem;
+  }
+
+  .tactical-toolbar {
+    top: 58px;
+    grid-template-columns: minmax(118px, 0.8fr) 1.2fr;
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .tactical-map-picker {
+    min-width: 0;
+  }
+
+  .tactical-lens-tabs {
+    justify-content: flex-start;
+  }
+
+  .tactical-lens-tabs button {
+    min-height: 42px;
+    padding-inline: 10px;
+  }
+
+  .tactical-filter-cluster {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+  }
+
+  .tactical-stage-card__header {
+    min-height: 46px;
+  }
+
+  .tactical-stage {
+    width: 100%;
+    min-width: 0;
+    max-height: 56dvh;
+  }
+
+  .tactical-stage-legend {
+    bottom: 10px;
+    left: 10px;
+    max-width: calc(100% - 74px);
+    padding: 6px 8px;
+  }
+
+  .tactical-stage-legend > span {
+    font-size: 0.48rem;
+  }
+
+  .tactical-experience__side.has-context-selection {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 91;
+    display: block;
+    max-height: min(62dvh, 580px);
+    padding: 0 0 max(8px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    color: var(--tx-text);
+    background: #071017;
+    border-top: 1px solid rgba(66, 206, 231, 0.38);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.56);
+    overscroll-behavior: contain;
+  }
+
+  .tactical-experience__side.has-context-selection .tactical-side-actions {
+    display: none;
+  }
+
+  .tactical-bottom-sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: rgba(1, 4, 6, 0.52);
+    border: 0;
+    cursor: pointer;
+  }
+
+  .tactical-bottom-sheet-handle {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px 6px 18px;
+    color: var(--tx-muted);
+    background: rgba(7, 16, 23, 0.96);
+    border-bottom: 1px solid var(--tx-line);
+    backdrop-filter: blur(10px);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+  }
+
+  .tactical-experience__side.has-context-selection .ti-insights,
+  .tactical-experience__side.has-context-selection .tactical-panel {
+    border: 0;
+  }
+
+  .ti-signal__label {
+    min-width: 96px;
+    max-width: 118px;
+  }
+
+  .ti-intro__actions {
+    position: sticky;
+    bottom: calc(-1 * max(22px, env(safe-area-inset-bottom)));
+    z-index: 3;
+    padding-block: 12px max(22px, env(safe-area-inset-bottom));
+    background: linear-gradient(transparent, var(--ti-panel) 24%);
+  }
+}
+
+@media (max-width: 430px) {
+  .tactical-lens-tabs button span {
+    display: none;
+  }
+
+  .tactical-lens-tabs button {
+    min-width: 42px;
+  }
+
+  .tactical-side-filter button,
+  .tactical-level-filter button {
+    min-height: 36px;
+  }
+
+  .tactical-combat-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tactical-utility-types > button {
+    grid-template-columns: auto 0.7fr 1.1fr;
+    padding-inline: 11px;
+  }
+}
+
+/* Legibility contract: analytical UI never drops below 12px. */
+.tactical-experience__eyebrow,
+.tactical-stage-card__kicker,
+.tactical-eyebrow,
+.ti-eyebrow {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.tactical-experience__header p {
+  font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.tactical-map-trigger > span,
+.tactical-lens-tabs button,
+.tactical-map-menu button,
+.tactical-help-button {
+  font-size: 0.875rem;
+}
+
+.tactical-side-filter button,
+.tactical-level-filter button,
+.tactical-stage-card__coordinates,
+.tactical-stage-legend > span,
+.tactical-bottom-sheet-handle {
+  font-size: 0.75rem;
+}
+
+.tactical-stage-card__header h2 {
+  font-size: 1.125rem;
+}
+
+.tactical-zone-node__core {
+  font-size: 0.75rem;
+}
+
+.tactical-zone-node__label strong {
+  font-size: 0.8125rem;
+}
+
+.tactical-zone-node__label small,
+.tactical-stage-state span {
+  font-size: 0.75rem;
+}
+
+.tactical-stage-state strong {
+  font-size: 1rem;
+}
+
+.tactical-panel__header {
+  min-height: 84px;
+  padding: 19px 20px;
+}
+
+.tactical-panel__header h2,
+.tactical-utility-panel .tactical-panel__header h2,
+.ti-insights__header h2 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.tactical-sample-chip {
+  min-width: 64px;
+  min-height: 56px;
+}
+
+.tactical-sample-chip strong {
+  font-size: 1.25rem;
+}
+
+.tactical-sample-chip span,
+.tactical-utility-panel .tactical-sample-chip span {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.tactical-panel__lead,
+.tactical-utility-panel .tactical-panel__lead {
+  padding: 17px 20px;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.tactical-presence-metrics > div {
+  min-height: 86px;
+}
+
+.tactical-presence-metrics strong {
+  font-size: 1.25rem;
+}
+
+.tactical-presence-metrics span,
+.tactical-side-distribution__values,
+.tactical-range-control,
+.tactical-range-control output,
+.tactical-toggle-row button > span {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.tactical-layer-controls > h3,
+.tactical-ranking h3,
+.tactical-zone-shortlist h3 {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.tactical-ranking__heading > span,
+.tactical-ranking__name::before {
+  font-size: 0.75rem;
+}
+
+.tactical-ranking li {
+  min-height: 30px;
+  grid-template-columns: minmax(112px, 0.9fr) minmax(52px, 1fr) 48px;
+}
+
+.tactical-ranking__name {
+  color: #d5e2e5;
+  font-size: 0.8125rem;
+}
+
+.tactical-ranking li > strong {
+  font-size: 0.8125rem;
+}
+
+.tactical-combat-metrics {
+  gap: 5px;
+  padding-block: 12px;
+}
+
+.tactical-combat-metrics button {
+  min-height: 44px;
+  font-size: 0.75rem;
+}
+
+.tactical-baseline {
+  padding-block: 14px;
+  font-size: 0.8125rem;
+}
+
+.tactical-baseline strong {
+  font-size: 1rem;
+}
+
+.tactical-zone-shortlist button {
+  min-height: 74px;
+  padding: 12px 14px;
+}
+
+.tactical-zone-shortlist button strong,
+.tactical-utility-ranking strong {
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.tactical-zone-shortlist button small,
+.tactical-utility-ranking small {
+  margin-top: 5px;
+  color: #8fa5ae;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.tactical-zone-shortlist button b,
+.tactical-utility-ranking b {
+  font-size: 1rem;
+}
+
+.tactical-confidence-card strong,
+.tactical-action-note strong {
+  font-size: 0.8125rem;
+}
+
+.tactical-confidence-card span,
+.tactical-zone-metric > span,
+.tactical-zone-metric > small,
+.tactical-method-note {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.tactical-zone-metric {
+  min-height: 94px;
+}
+
+.tactical-zone-metric > strong {
+  font-size: 1.25rem;
+}
+
+.tactical-action-note p {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.tactical-empty-state h3,
+.tactical-utility-panel .tactical-empty-state h3 {
+  font-size: 1rem;
+}
+
+.tactical-empty-state p,
+.tactical-utility-panel .tactical-empty-state p {
+  font-size: 0.8125rem;
+}
+
+.tactical-utility-types > button:not(.is-active) {
+  opacity: 0.72;
+}
+
+.tactical-utility-types small,
+.tactical-utility-types > button > i,
+.tactical-utility-detail header span,
+.tactical-utility-detail > div span,
+.tactical-utility-detail > p {
+  font-size: 0.75rem;
+}
+
+.ti-insights {
+  --ti-muted: #a7b8bf;
+  --ti-faint: #7e929b;
+}
+
+.ti-evidence-stat > span,
+.ti-insight-card__index,
+.ti-insight-card__type,
+.ti-insight-card__footer {
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.ti-evidence-stat strong,
+.ti-insight-card__value {
+  font-size: 0.9375rem;
+}
+
+.ti-insights__evidence > p,
+.ti-insight-card p,
+.ti-insight-card__recommendation {
+  font-size: 0.8125rem !important;
+  line-height: 1.55 !important;
+}
+
+.ti-insight-card h3 {
+  font-size: 1.0625rem;
+  line-height: 1.35;
+}
+
+.ti-insight-card__recommendation strong {
+  font-size: 0.75rem;
+}
+
+.ti-insights__empty strong {
+  font-size: 0.9375rem;
+}
+
+.ti-insights__empty span {
+  font-size: 0.8125rem;
+}
+
+.ti-signal__index,
+.ti-signal__meta,
+.ti-signal__value,
+.ti-signal-cluster span {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.ti-signal__label > strong {
+  font-size: 0.8125rem;
+}
+
+.ti-intro {
+  --ti-muted: #a7b8bf;
+  --ti-faint: #7e929b;
+}
+
+.ti-intro__rail,
+.ti-concept__number,
+.ti-intro__sample > div {
+  font-size: 0.75rem;
+}
+
+.ti-concept p,
+.ti-intro__sample p,
+.ti-button {
+  font-size: 0.875rem;
+}
+
+.tactical-experience[data-side='ct'] {
+  --tx-side: #63b3ff;
+  --tx-side-soft: rgba(99, 179, 255, 0.13);
+  --tx-side-line: rgba(99, 179, 255, 0.42);
+  --tx-side-glow: rgba(99, 179, 255, 0.1);
+}
+
+.tactical-experience[data-side='t'] {
+  --tx-side: #f5ad58;
+  --tx-side-soft: rgba(245, 173, 88, 0.13);
+  --tx-side-line: rgba(245, 173, 88, 0.42);
+  --tx-side-glow: rgba(245, 173, 88, 0.1);
+}
+
+.tactical-experience[data-side] {
+  background:
+    radial-gradient(circle at 10% 0%, var(--tx-side-glow), transparent 28rem),
+    linear-gradient(rgba(94, 145, 158, 0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 145, 158, 0.016) 1px, transparent 1px),
+    var(--tx-bg);
+  background-size: auto, 56px 56px, 56px 56px, auto;
+}
+
+.tactical-side-context {
+  display: grid;
+  max-width: 1680px;
+  min-height: 60px;
+  grid-template-columns: 46px minmax(130px, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  margin: 0 auto 10px;
+  padding: 7px 16px 7px 8px;
+  color: var(--tx-text);
+  background: linear-gradient(90deg, var(--tx-side-soft), rgba(8, 14, 19, 0.82) 42%);
+  border: 1px solid var(--tx-side-line);
+  border-left: 4px solid var(--tx-side);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  animation: tacticalSideContextIn 240ms ease-out;
+}
+
+.tactical-side-context__code {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  color: #061016;
+  background: var(--tx-side);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.tactical-side-context > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.tactical-side-context small {
+  color: var(--tx-side);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.tactical-side-context > span > strong {
+  margin-top: 2px;
+  font-size: 1rem;
+}
+
+.tactical-side-context p {
+  margin: 0;
+  color: var(--tx-muted);
+  font-size: 0.8125rem;
+  text-align: right;
+}
+
+.tactical-experience[data-side] .tactical-stage-card,
+.tactical-experience[data-side] .tactical-panel,
+.tactical-experience[data-side] .ti-insights {
+  box-shadow: inset 0 2px 0 var(--tx-side-line);
+}
+
+.tactical-experience[data-side] .tactical-sample-chip {
+  background: var(--tx-side-soft);
+  border-color: var(--tx-side-line);
+}
+
+.tactical-side-filter {
+  gap: 4px;
+  padding: 4px;
+}
+
+.tactical-side-filter button {
+  display: grid;
+  min-width: 82px;
+  min-height: 44px;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  justify-content: center;
+  gap: 7px;
+  padding-inline: 12px;
+  border: 1px solid transparent;
+}
+
+.tactical-side-filter button strong {
+  color: currentColor;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+.tactical-side-filter button span {
+  color: currentColor;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.tactical-side-filter button.ct.is-active,
+.tactical-side-filter button.t.is-active {
+  color: var(--tx-side);
+  background: var(--tx-side-soft);
+  border-color: var(--tx-side-line);
+  box-shadow: inset 0 -3px 0 var(--tx-side);
+}
+
+.tactical-stage-card__coordinates .is-ct,
+.tactical-stage-card__coordinates .is-t {
+  color: var(--tx-side);
+  background: var(--tx-side-soft);
+  border-color: var(--tx-side-line);
+}
+
+@keyframes tacticalSideContextIn {
+  from {
+    opacity: 0.45;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1260px) {
+  .tactical-side-filter button {
+    min-width: 54px;
+  }
+
+  .tactical-side-filter button span {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .tactical-side-context {
+    grid-template-columns: 46px 1fr;
+    padding-right: 10px;
+  }
+
+  .tactical-side-context p {
+    display: none;
+  }
+
+  .tactical-side-filter {
+    min-width: 140px;
+    flex: 1;
+  }
+
+  .tactical-side-filter button {
+    min-width: 70px;
+    flex: 1;
+  }
+
+  .tactical-side-filter button span {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tactical-side-context {
+    animation: none;
+  }
+}

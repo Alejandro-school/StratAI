@@ -1,6 +1,6 @@
-import React, { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import AnalysisProgressRail from '../components/CoachAnalysis/AnalysisProgressRail';
-import AnalysisReplayStage from '../components/CoachAnalysis/AnalysisReplayStage';
 import CoachConversationPanel from '../components/CoachAnalysis/CoachConversationPanel';
 import TacticalVault from '../components/CoachDashboard/TacticalVault';
 import {
@@ -15,9 +15,12 @@ import { useAuth } from '../auth/useAuth';
 import useCoachChat from '../hooks/useCoachChat';
 import useMatchAnalysisSession from '../hooks/useMatchAnalysisSession';
 import useReplaySyncStore from '../stores/useReplaySyncStore';
-import { API_URL } from '../utils/api';
+import { matchesQueryOptions } from '../features/matches/queries/matchQueries';
 import '../styles/pages/coachDashboard.css';
 import '../styles/pages/tacticalVault.css';
+
+const AnalysisReplayStage = lazy(() => import('../components/CoachAnalysis/AnalysisReplayStage'));
+const EMPTY_MATCHES = Object.freeze([]);
 
 const matchesDateFilter = (match, dateFilter) => {
   if (dateFilter === 'all') return true;
@@ -80,18 +83,20 @@ const AnalysisMode = ({
       </div>
 
       <main className="analysis-room-main">
-        <AnalysisReplayStage
-          match={match}
-          matchId={matchId}
-          mapImage={mapImage}
-          selectedEvidence={session.selectedEvidence}
-          status={session.status}
-          isPlaying={replay.isPlaying}
-          activeClip={replay.activeClip}
-          onPlayEvidence={onPlayEvidence}
-          onTogglePlan={onTogglePlan}
-          isSavedToPlan={savedEvidenceIds.has(session.selectedEvidence?.id)}
-        />
+        <Suspense fallback={<div className="analysis-replay-stage" role="status">Cargando replay…</div>}>
+          <AnalysisReplayStage
+            match={match}
+            matchId={matchId}
+            mapImage={mapImage}
+            selectedEvidence={session.selectedEvidence}
+            status={session.status}
+            isPlaying={replay.isPlaying}
+            activeClip={replay.activeClip}
+            onPlayEvidence={onPlayEvidence}
+            onTogglePlan={onTogglePlan}
+            isSavedToPlan={savedEvidenceIds.has(session.selectedEvidence?.id)}
+          />
+        </Suspense>
       </main>
 
       <CoachConversationPanel
@@ -121,10 +126,15 @@ const CoachDashboard = () => {
   const { user } = useAuth();
   const replay = useReplaySyncStore();
   const chatEndRef = useRef(null);
-  const [allMatches, setAllMatches] = useState([]);
-  const [loadingMatches, setLoadingMatches] = useState(true);
-  const [matchesError, setMatchesError] = useState(null);
-  const [matchesRequestKey, setMatchesRequestKey] = useState(0);
+  const greetingSentRef = useRef(false);
+  const {
+    data: allMatches = EMPTY_MATCHES,
+    error: matchesQueryError,
+    isPending: areMatchesPending,
+    refetch: refetchMatches,
+  } = useQuery(matchesQueryOptions(user?.steam_id));
+  const loadingMatches = Boolean(user?.steam_id) && areMatchesPending;
+  const matchesError = matchesQueryError?.message || null;
   const [savedEvidenceIds, setSavedEvidenceIds] = useState(() => new Set());
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const [matchFilterQuery, setMatchFilterQuery] = useState('');
@@ -147,42 +157,11 @@ const CoachDashboard = () => {
   } = useCoachChat(user);
 
   useEffect(() => {
-    const abortController = new AbortController();
-
-    const fetchMatches = async () => {
-      try {
-        setLoadingMatches(true);
-        setMatchesError(null);
-        const response = await fetch(`${API_URL}/steam/get-processed-demos`, {
-          credentials: 'include',
-          signal: abortController.signal
-        });
-
-        if (!response.ok) throw new Error('No se pudieron cargar las partidas');
-
-        const data = await response.json();
-        const fetchedMatches = Array.isArray(data.matches) ? data.matches : [];
-        setAllMatches(fetchedMatches);
-
-        if (fetchedMatches[0]) {
-          setSelectedMatchId(getMatchId(fetchedMatches[0]) || null);
-          sendProactiveGreeting(fetchedMatches);
-        }
-      } catch (error) {
-        if (error.name === 'AbortError') return;
-        console.error(error);
-        setAllMatches([]);
-        setMatchesError(error.message || 'No se pudieron cargar las partidas');
-      } finally {
-        if (!abortController.signal.aborted) setLoadingMatches(false);
-      }
-    };
-
-    fetchMatches();
-    return () => abortController.abort();
-    // Intentional run-once: sendProactiveGreeting changes with restored chat history.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchesRequestKey]);
+    if (greetingSentRef.current || !allMatches.length) return;
+    greetingSentRef.current = true;
+    setSelectedMatchId(getMatchId(allMatches[0]) || null);
+    sendProactiveGreeting(allMatches);
+  }, [allMatches, sendProactiveGreeting]);
 
   const filteredMatches = useMemo(() => {
     const query = deferredFilterQuery.trim().toLowerCase();
@@ -247,9 +226,7 @@ const CoachDashboard = () => {
     analyzeMatch(selectedMatch);
   }, [analysisSession, analyzeMatch, selectedMatch]);
 
-  const retryMatches = useCallback(() => {
-    setMatchesRequestKey((current) => current + 1);
-  }, []);
+  const retryMatches = useCallback(() => refetchMatches(), [refetchMatches]);
 
   const resetMatchFilters = useCallback(() => {
     setMatchFilterQuery('');

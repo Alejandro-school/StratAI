@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import useReplaySyncStore from "../../../stores/useReplaySyncStore";
-import { replayApi } from "../api/replayApi";
 import {
+  activeCombatShotsAtTick,
   clamp,
   closestFrameIndex,
   directorRate,
@@ -9,6 +10,12 @@ import {
   normalizeReplayEvent,
   normalizeRound,
 } from "../domain/replayModel";
+import {
+  replayMetadataQueryOptions,
+  replayRoundQueryOptions,
+} from "../queries/replayQueries";
+
+const PLAYBACK_RENDER_INTERVAL_MS = 1000 / 40;
 
 function urlState() {
   if (typeof window === "undefined") return {};
@@ -29,6 +36,7 @@ export function useReplayController({
   externalControl,
   onAvailabilityChange,
 }) {
+  const queryClient = useQueryClient();
   const initialUrl = useRef(urlState()).current;
   const [metadata, setMetadata] = useState(null);
   const [roundsSummary, setRoundsSummary] = useState([]);
@@ -46,7 +54,9 @@ export function useReplayController({
   const pendingTick = useRef(initialUrl.tick);
   const tickRef = useRef(tick);
   const frameRequest = useRef(null);
+  const lastRenderCommit = useRef(0);
   const { isPlaying: isAiPlaying, activeClip, annotations: aiAnnotations, updateCurrentTick } = useReplaySyncStore();
+  const cacheScope = matchId || preloadedData?.metadata?.match_id || "preloaded";
 
   const actualRound = roundsSummary[roundIndex - 1]?.round || roundIndex;
   const events = useMemo(
@@ -57,7 +67,12 @@ export function useReplayController({
   const startTick = Number(roundData?.start_tick ?? frames[0]?.tick ?? 0);
   const endTick = Number(roundData?.end_tick ?? frames.at(-1)?.tick ?? startTick);
   const tickRate = Number(metadata?.tick_rate || 64);
-  const currentFrame = useMemo(() => interpolateFrame(frames, tick), [frames, tick]);
+  const combatShots = roundData?.combat_shots;
+  const currentFrame = useMemo(() => {
+    const frame = interpolateFrame(frames, tick);
+    if (!frame || !Array.isArray(combatShots)) return frame;
+    return { ...frame, shots: activeCombatShotsAtTick(combatShots, tick) };
+  }, [combatShots, frames, tick]);
   const progress = endTick > startTick ? clamp((tick - startTick) / (endTick - startTick), 0, 1) : 0;
   const effectiveRate = directorRate(events, tick, tickRate, directorMode, playbackRate);
 
@@ -74,7 +89,6 @@ export function useReplayController({
 
   useEffect(() => {
     let cancelled = false;
-    const controller = new AbortController();
     async function load() {
       setIsLoading(true);
       setError("");
@@ -87,13 +101,15 @@ export function useReplayController({
             end_tick: round.end_tick,
             events: (round.events || []).map(normalizeReplayEvent),
           }));
-          preloadedData.rounds?.forEach((round) => cache.current.set(round.round, normalizeRound(round)));
+          preloadedData.rounds?.forEach((round) => (
+            cache.current.set(`${cacheScope}:${round.round}`, normalizeRound(round))
+          ));
           if (!cancelled) {
             setMetadata(preloadedData.metadata);
             setRoundsSummary(summary);
           }
         } else if (matchId) {
-          const result = await replayApi.metadata(matchId, controller.signal);
+          const result = await queryClient.fetchQuery(replayMetadataQueryOptions(matchId));
           if (!cancelled) {
             setMetadata(result.metadata);
             setRoundsSummary((result.rounds_summary || []).map((round) => ({
@@ -109,11 +125,8 @@ export function useReplayController({
       }
     }
     load();
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, [matchId, preloadedData]);
+    return () => { cancelled = true; };
+  }, [cacheScope, matchId, preloadedData, queryClient]);
 
   useEffect(() => {
     if (!roundsSummary.length) return;
@@ -125,18 +138,20 @@ export function useReplayController({
   useEffect(() => {
     if (!metadata || !actualRound) return undefined;
     let cancelled = false;
-    const controller = new AbortController();
     async function loadRound() {
       setIsLoadingRound(true);
       setError("");
       try {
-        let data = cache.current.get(actualRound);
+        const cacheKey = `${cacheScope}:${actualRound}`;
+        let data = cache.current.get(cacheKey);
         if (!data && preloadedData) {
           data = normalizeRound(preloadedData.rounds?.find((round) => round.round === actualRound));
         }
-        if (!data && matchId) data = await replayApi.round(matchId, actualRound, controller.signal);
+        if (!data && matchId) {
+          data = await queryClient.fetchQuery(replayRoundQueryOptions(matchId, actualRound));
+        }
         if (!cancelled && data) {
-          cache.current.set(actualRound, data);
+          cache.current.set(cacheKey, data);
           setRoundData(data);
           const first = data.start_tick ?? data.frames?.[0]?.tick ?? 0;
           const last = data.end_tick ?? data.frames?.at(-1)?.tick ?? first;
@@ -153,11 +168,8 @@ export function useReplayController({
       }
     }
     loadRound();
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, [actualRound, matchId, metadata, preloadedData]);
+    return () => { cancelled = true; };
+  }, [actualRound, cacheScope, matchId, metadata, preloadedData, queryClient]);
 
   useEffect(() => {
     onAvailabilityChange?.(Boolean(metadata));
@@ -167,7 +179,9 @@ export function useReplayController({
     if (!isPlaying && !isAiPlaying) return undefined;
     let previous = performance.now();
     const animate = (now) => {
-      const delta = Math.min(now - previous, 100);
+      // Preserve real elapsed time during a temporarily expensive canvas frame.
+      // The wider cap still prevents a huge jump after returning to a hidden tab.
+      const delta = Math.min(now - previous, 250);
       previous = now;
       const speed = directorRate(events, tickRef.current, tickRate, directorMode, playbackRate);
       const next = tickRef.current + (delta / 1000) * tickRate * speed;
@@ -176,7 +190,11 @@ export function useReplayController({
         setIsPlaying(false);
         return;
       }
-      setTick(next);
+      tickRef.current = next;
+      if (now - lastRenderCommit.current >= PLAYBACK_RENDER_INTERVAL_MS) {
+        lastRenderCommit.current = now;
+        setTickState(next);
+      }
       frameRequest.current = requestAnimationFrame(animate);
     };
     frameRequest.current = requestAnimationFrame(animate);
@@ -186,8 +204,8 @@ export function useReplayController({
   }, [directorMode, endTick, events, isAiPlaying, isPlaying, playbackRate, setTick, tickRate]);
 
   useEffect(() => {
-    updateCurrentTick(tick);
-  }, [tick, updateCurrentTick]);
+    if (isAiPlaying || activeClip) updateCurrentTick(tick);
+  }, [activeClip, isAiPlaying, tick, updateCurrentTick]);
 
   useEffect(() => {
     if (!activeClip || !roundsSummary.length) return;
@@ -237,6 +255,7 @@ export function useReplayController({
   }, [endTick, externalControl, frames, roundIndex, roundsSummary, setTick, startTick, tickRate]);
 
   useEffect(() => {
+    if (isPlaying || isAiPlaying) return undefined;
     const timer = window.setTimeout(() => {
       const url = new URL(window.location.href);
       url.searchParams.set("round", String(actualRound));
@@ -246,7 +265,7 @@ export function useReplayController({
       window.history.replaceState(window.history.state, "", url);
     }, 250);
     return () => window.clearTimeout(timer);
-  }, [actualRound, focusPlayerId, tick]);
+  }, [actualRound, focusPlayerId, isAiPlaying, isPlaying, tick]);
 
   const seekBySeconds = useCallback((seconds) => setTick((current) => current + seconds * tickRate), [setTick, tickRate]);
   const changeRound = useCallback((nextIndex) => {

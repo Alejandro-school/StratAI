@@ -37,6 +37,13 @@ from app.utils.user_aggregates import (
     EXPORTS_PATH,
     USERS_PATH
 )
+from app.matches.canonical_repository import CanonicalMatch
+from app.matches.combat_web_projection import project_combat
+from app.matches.match_web_projection import (
+    project_match_metadata,
+    project_player_summary,
+    project_utility,
+)
 from app.utils.maps import normalize_callout, game_to_radar_percent
 
 # Configure logging
@@ -45,6 +52,8 @@ logging.basicConfig(
     format='%(asctime)s [%(levelname)s] %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+NUKE_Z_THRESHOLD = -500
 
 
 class MigrationAggregator:
@@ -286,14 +295,42 @@ class MapAggregator:
         }
         
         # Movement
-        self.grid_counts = defaultdict(lambda: {"total": 0, "ct": 0, "t": 0, "game_x": 0, "game_y": 0})
-        self.flow_transitions = defaultdict(lambda: {"count": 0, "ct": 0, "t": 0})
+        self.grid_counts = defaultdict(lambda: {
+            "total": 0,
+            "ct": 0,
+            "t": 0,
+            "game_x_sum": 0.0,
+            "game_y_sum": 0.0,
+            "z_sum": 0.0,
+            "z_count": 0,
+        })
+        self.flow_transitions = defaultdict(lambda: {
+            "count": 0,
+            "ct": 0,
+            "t": 0,
+            "from_x_sum": 0.0,
+            "from_y_sum": 0.0,
+            "to_x_sum": 0.0,
+            "to_y_sum": 0.0,
+            "from_z_sum": 0.0,
+            "to_z_sum": 0.0,
+            "z_count": 0,
+        })
+        self.area_time = defaultdict(lambda: {
+            "total": 0,
+            "ct": 0,
+            "t": 0,
+            "game_x_sum": 0.0,
+            "game_y_sum": 0.0,
+            "z_sum": 0.0,
+            "z_count": 0,
+        })
         self.time_to_site = {"A": {"ct": [], "t": []}, "B": {"ct": [], "t": []}}
         self.total_rounds = 0
         self.total_samples = 0
     
     def process_combat(self, combat_data: dict, player_summary: dict):
-        """Process combat.json for callout stats."""
+        """Process the canonical combat web projection for callout stats."""
         for round_item in combat_data.get("rounds", []):
             duels = round_item.get("duels", [])
             
@@ -397,7 +434,7 @@ class MapAggregator:
             self.side_stats["T"]["adr_count"] += 1
     
     def process_grenades(self, grenades_data: dict, player_name: str):
-        """Process grenades.json for grenade stats."""
+        """Process the canonical utility projection for grenade stats."""
         for round_item in grenades_data.get("rounds", []):
             for event in round_item.get("events", []):
                 if event.get("thrower") != player_name:
@@ -451,12 +488,15 @@ class MapAggregator:
                     self.grenades["totals"]["smoke"]["thrown"] += 1
     
     def process_tracking(self, tracking_data: dict):
-        """Process tracking.json for movement heatmap and callout positions."""
+        """Process canonical state samples for movement and callout positions."""
         GRID_SIZE = 20
         
         for round_item in tracking_data.get("rounds", []):
             self.total_rounds += 1
             prev_area = None
+            prev_position = None
+            prev_z = None
+            prev_level = None
             
             for tick_data in round_item.get("ticks", []):
                 for player in tick_data.get("players", []):
@@ -477,45 +517,99 @@ class MapAggregator:
                     
                     game_x = pos.get("x", 0)
                     game_y = pos.get("y", 0)
+                    game_z = pos.get("z")
+                    team_key = team if team in {"ct", "t"} else None
+                    radar_position = game_to_radar_percent(
+                        game_x,
+                        game_y,
+                        self.map_name,
+                    )
                     
-                    # Grid for movement heatmap
-                    # Normalize to 0-1 range (approximate, will be refined)
-                    norm_x = (game_x + 3000) / 6000  # Rough normalization
-                    norm_y = (game_y + 3000) / 6000
-                    grid_x = min(int(norm_x * GRID_SIZE), GRID_SIZE - 1)
-                    grid_y = min(int(norm_y * GRID_SIZE), GRID_SIZE - 1)
+                    # Keep vertically overlapping Nuke cells separate.
+                    level_key = "all"
+                    if self.map_name == "de_nuke":
+                        if game_z is None:
+                            level_key = "unknown"
+                        else:
+                            level_key = "upper" if game_z >= NUKE_Z_THRESHOLD else "lower"
+
+                    grid_x = max(0, min(
+                        int(radar_position["x"] / 100 * GRID_SIZE),
+                        GRID_SIZE - 1,
+                    ))
+                    grid_y = max(0, min(
+                        int(radar_position["y"] / 100 * GRID_SIZE),
+                        GRID_SIZE - 1,
+                    ))
                     
-                    key = (grid_x, grid_y)
+                    key = (grid_x, grid_y, level_key)
                     self.grid_counts[key]["total"] += 1
-                    self.grid_counts[key]["game_x"] = game_x
-                    self.grid_counts[key]["game_y"] = game_y
+                    self.grid_counts[key]["game_x_sum"] += game_x
+                    self.grid_counts[key]["game_y_sum"] += game_y
+                    if game_z is not None:
+                        self.grid_counts[key]["z_sum"] += game_z
+                        self.grid_counts[key]["z_count"] += 1
                     
-                    if team == "ct":
-                        self.grid_counts[key]["ct"] += 1
-                    elif team == "t":
-                        self.grid_counts[key]["t"] += 1
+                    if team_key:
+                        self.grid_counts[key][team_key] += 1
                     
                     self.total_samples += 1
+
+                    normalized_area = normalize_callout(area, self.map_name) or area.strip()
+
+                    if normalized_area:
+                        area_key = (normalized_area, level_key)
+                        area_stats = self.area_time[area_key]
+                        area_stats["total"] += 1
+                        area_stats["game_x_sum"] += game_x
+                        area_stats["game_y_sum"] += game_y
+                        if team_key:
+                            area_stats[team_key] += 1
+                        if game_z is not None:
+                            area_stats["z_sum"] += game_z
+                            area_stats["z_count"] += 1
                     
                     # Flow transitions
-                    if area and prev_area and area != prev_area:
-                        transition_key = (prev_area, area)
-                        self.flow_transitions[transition_key]["count"] += 1
-                        if team == "ct":
-                            self.flow_transitions[transition_key]["ct"] += 1
-                        elif team == "t":
-                            self.flow_transitions[transition_key]["t"] += 1
+                    if (
+                        normalized_area
+                        and prev_area
+                        and (
+                            normalized_area != prev_area
+                            or level_key != prev_level
+                        )
+                        and prev_position
+                    ):
+                        transition_key = (
+                            prev_area,
+                            prev_level,
+                            normalized_area,
+                            level_key,
+                        )
+                        transition = self.flow_transitions[transition_key]
+                        transition["count"] += 1
+                        transition["from_x_sum"] += prev_position["x"]
+                        transition["from_y_sum"] += prev_position["y"]
+                        transition["to_x_sum"] += radar_position["x"]
+                        transition["to_y_sum"] += radar_position["y"]
+                        if prev_z is not None and game_z is not None:
+                            transition["from_z_sum"] += prev_z
+                            transition["to_z_sum"] += game_z
+                            transition["z_count"] += 1
+                        if team_key:
+                            transition[team_key] += 1
                     
                     # Callout positions
-                    if area:
-                        callout = normalize_callout(area, self.map_name)
-                        if callout and callout in self.callout_stats:
-                            self.callout_stats[callout]["positions_x"].append(game_x)
-                            self.callout_stats[callout]["positions_y"].append(game_y)
-                            if pos.get("z") is not None:
-                                self.callout_stats[callout]["positions_z"].append(pos["z"])
-                    
-                    prev_area = area
+                    if normalized_area and normalized_area in self.callout_stats:
+                        self.callout_stats[normalized_area]["positions_x"].append(game_x)
+                        self.callout_stats[normalized_area]["positions_y"].append(game_y)
+                        if game_z is not None:
+                            self.callout_stats[normalized_area]["positions_z"].append(game_z)
+
+                    if normalized_area:
+                        prev_area = normalized_area
+                        prev_position = radar_position
+                        prev_z = game_z
+                        prev_level = level_key
     
     def build_map_data(self) -> dict:
         """Build the final map aggregate structure."""
@@ -659,38 +753,137 @@ class MapAggregator:
         
         # Movement heatmap
         heatmap_grid = []
-        for (grid_x, grid_y), counts in self.grid_counts.items():
+        for (grid_x, grid_y, level), counts in self.grid_counts.items():
             if counts["total"] > 0:
-                heatmap_grid.append({
+                cell = {
                     "grid_x": grid_x,
                     "grid_y": grid_y,
                     "total": counts["total"],
                     "ct": counts["ct"],
                     "t": counts["t"],
-                    "game_x": counts["game_x"],
-                    "game_y": counts["game_y"]
-                })
+                    "game_x": counts["game_x_sum"] / counts["total"],
+                    "game_y": counts["game_y_sum"] / counts["total"],
+                    "level": level,
+                }
+                if counts["z_count"] > 0:
+                    cell["avg_z"] = counts["z_sum"] / counts["z_count"]
+                heatmap_grid.append(cell)
         heatmap_grid.sort(key=lambda x: x["total"], reverse=True)
         data["movement"]["heatmap_grid"] = heatmap_grid
         
         # Flow lines (top 20)
         flow_lines = []
-        for (from_area, to_area), counts in self.flow_transitions.items():
+        for (
+            from_area,
+            from_level,
+            to_area,
+            to_level,
+        ), counts in self.flow_transitions.items():
             if counts["count"] >= 3:  # Min threshold
-                flow_lines.append({
+                route = {
                     "from": from_area,
                     "to": to_area,
+                    "from_level": from_level,
+                    "to_level": to_level,
                     "count": counts["count"],
                     "ct": counts["ct"],
-                    "t": counts["t"]
-                })
+                    "t": counts["t"],
+                    "from_x": counts["from_x_sum"] / counts["count"],
+                    "from_y": counts["from_y_sum"] / counts["count"],
+                    "to_x": counts["to_x_sum"] / counts["count"],
+                    "to_y": counts["to_y_sum"] / counts["count"],
+                }
+                if counts["z_count"] > 0:
+                    route["from_avg_z"] = counts["from_z_sum"] / counts["z_count"]
+                    route["to_avg_z"] = counts["to_z_sum"] / counts["z_count"]
+                flow_lines.append(route)
         flow_lines.sort(key=lambda x: x["count"], reverse=True)
         data["movement"]["flow_lines"] = flow_lines[:20]
-        
+
+        total_area_samples = sum(
+            stats["total"] for stats in self.area_time.values()
+        )
+        top_positions = []
+        for (area, level), stats in sorted(
+            self.area_time.items(),
+            key=lambda item: item[1]["total"],
+            reverse=True,
+        ):
+            position = game_to_radar_percent(
+                stats["game_x_sum"] / stats["total"],
+                stats["game_y_sum"] / stats["total"],
+                self.map_name,
+            )
+            top_position = {
+                "area": area,
+                "level": level,
+                "time_percent": round(
+                    stats["total"] / max(total_area_samples, 1) * 100,
+                    1,
+                ),
+                "ct_percent": round(
+                    stats["ct"] / max(stats["total"], 1) * 100,
+                    1,
+                ),
+                "sample_count": stats["total"],
+                "position": position,
+            }
+            if stats["z_count"] > 0:
+                top_position["avg_z"] = stats["z_sum"] / stats["z_count"]
+            top_positions.append(top_position)
+
+        data["movement"]["metrics"]["top_positions"] = top_positions
         data["movement"]["metrics"]["total_rounds"] = self.total_rounds
         data["movement"]["metrics"]["total_samples"] = self.total_samples
         
         return data
+
+
+def project_tracking(match: CanonicalMatch) -> dict[str, list[dict[str, Any]]]:
+    """Project sharded canonical states into the aggregate builder's tick shape."""
+    rounds: dict[int, dict[int, list[dict[str, Any]]]] = defaultdict(
+        lambda: defaultdict(list),
+    )
+    for state in match.iter_player_states():
+        round_number = int(state.get("round_number") or 0)
+        tick = int(state.get("tick") or 0)
+        player_id = str(state.get("player_id") or "").removeprefix("steam:")
+        rounds[round_number][tick].append(
+            {
+                "tick": tick,
+                "player_steam_id": player_id,
+                "team": str(state.get("side") or "").upper(),
+                "pos": dict(state.get("position") or {}),
+                "area_name": state.get("area", ""),
+                "view_yaw": state.get("view_yaw_deg", 0),
+                "view_pitch": state.get("view_pitch_deg", 0),
+                "vel_len": state.get("velocity_world_units_per_second", 0),
+                "is_walking": bool(state.get("is_walking")),
+                "is_ducking": bool(state.get("is_ducking")),
+                "active_weapon": state.get("active_weapon", ""),
+                "has_c4": bool(state.get("has_c4")),
+                "health": state.get("health", 0),
+                "armor": state.get("armor", 0),
+                "nearby_teammates": state.get("nearby_teammates", 0),
+                "is_alive": bool(state.get("is_alive")),
+                "round_time_remaining": (
+                    float(state.get("round_time_remaining_ms") or 0) / 1000
+                ),
+            },
+        )
+
+    return {
+        "rounds": [
+            {
+                "round": round_number,
+                "ticks": [
+                    {"tick": tick, "players": ticks[tick]}
+                    for tick in sorted(ticks)
+                ],
+            }
+            for round_number, ticks in sorted(rounds.items())
+        ],
+    }
 
 
 def migrate():
@@ -720,48 +913,17 @@ def migrate():
         logger.info(f"Processing [{i}/{len(match_folders)}] {match_folder.name}")
         
         try:
-            # Load metadata
-            metadata_path = match_folder / "metadata.json"
-            if not metadata_path.exists():
-                logger.warning(f"  - No metadata.json, skipping")
+            match = CanonicalMatch(match_folder)
+            if not match.has_canonical_bundle():
+                logger.warning("  - No canonical bundle, skipping")
                 continue
-            
-            with open(metadata_path, 'r', encoding='utf-8') as f:
-                metadata = json.load(f)
-            
+            metadata = project_match_metadata(match)
             map_name = metadata.get("map_name", "unknown")
-            
-            # Load players summary
-            players_path = match_folder / "players_summary.json"
-            if not players_path.exists():
-                logger.warning(f"  - No players_summary.json, skipping")
-                continue
-            
-            with open(players_path, 'r', encoding='utf-8') as f:
-                players_data = json.load(f)
-            
+            players_data = project_player_summary(match)
             players = players_data.get("players", [])
-            
-            # Load combat data
-            combat_path = match_folder / "combat.json"
-            combat_data = {}
-            if combat_path.exists():
-                with open(combat_path, 'r', encoding='utf-8') as f:
-                    combat_data = json.load(f)
-            
-            # Load grenades data
-            grenades_path = match_folder / "grenades.json"
-            grenades_data = {}
-            if grenades_path.exists():
-                with open(grenades_path, 'r', encoding='utf-8') as f:
-                    grenades_data = json.load(f)
-            
-            # Load tracking data
-            tracking_path = match_folder / "tracking.json"
-            tracking_data = {}
-            if tracking_path.exists():
-                with open(tracking_path, 'r', encoding='utf-8') as f:
-                    tracking_data = json.load(f)
+            combat_data = project_combat(match)
+            grenades_data = project_utility(match)
+            tracking_data = project_tracking(match)
             
             # Process each player
             for player in players:

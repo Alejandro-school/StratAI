@@ -1,15 +1,16 @@
 # backend/app/routes/performance.py
 # -------------------------------
 # Ruta para agregar estadísticas de rendimiento global.
-# Lee múltiples players_summary.json y genera un perfil unificado.
+# Proyecta los resÃºmenes canÃ³nicos y genera un perfil unificado.
 
-import json
 import logging
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, Query
 
 from ..auth.dependencies import SteamUser, require_steam_user
+from ..matches.canonical_repository import iter_canonical_matches
+from ..matches.match_web_projection import project_player_summary
 from ..utils.performance_aggregator import build_performance_overview
 
 router = APIRouter()
@@ -26,24 +27,9 @@ def _build_player_index() -> list[dict]:
     if not EXPORTS_PATH.exists():
         return []
 
-    for match_dir in EXPORTS_PATH.iterdir():
-        if not match_dir.is_dir() or not match_dir.name.startswith("match_"):
-            continue
-
-        summary_path = match_dir / "players_summary.json"
-        if not summary_path.exists():
-            continue
-
-        try:
-            with summary_path.open("r", encoding="utf-8") as f:
-                data = json.load(f)
-        except Exception:
-            continue
-
+    for match_export in iter_canonical_matches(EXPORTS_PATH):
+        data = project_player_summary(match_export)
         players = data.get("players", [])
-        if not isinstance(players, list):
-            continue
-
         for player in players:
             sid = str(player.get("steam_id", ""))
             name = str(player.get("name", ""))
@@ -59,10 +45,12 @@ def _build_player_index() -> list[dict]:
 @router.get("/steam/performance-overview")
 async def get_performance_overview(
     force_refresh: bool = False,
+    map_name: str | None = Query(default=None, max_length=64),
+    limit: int | None = Query(default=None, ge=1, le=200),
     user: SteamUser = Depends(require_steam_user),
 ):
     """Devuelve el perfil completo y agregado de rendimiento del jugador."""
-    return build_performance_overview(user.steam_id)
+    return build_performance_overview(user.steam_id, map_name=map_name, limit=limit)
 
 
 @router.get("/steam/performance-stats")
@@ -73,6 +61,8 @@ async def get_performance_stats(
     """Compat endpoint: conserva la ruta histórica con un payload resumido."""
     full_payload = await get_performance_overview(
         force_refresh=force_refresh,
+        map_name=None,
+        limit=None,
         user=user,
     )
 
@@ -120,6 +110,8 @@ async def player_search(
 @router.get("/steam/player-stats/{steam_id}")
 async def get_player_stats(
     steam_id: str,
+    map_name: str | None = Query(default=None, max_length=64),
+    limit: int | None = Query(default=None, ge=1, le=200),
     _user: SteamUser = Depends(require_steam_user),
 ):
     """Return the performance overview for any player by steam_id."""
@@ -127,7 +119,7 @@ async def get_player_stats(
     if not re.match(r"^7656\d{13}$", steam_id):
         return {"error": "Invalid steam_id format"}
 
-    data = build_performance_overview(steam_id)
+    data = build_performance_overview(steam_id, map_name=map_name, limit=limit)
     overview = data.get("overview", {})
 
     if not overview.get("total_matches"):

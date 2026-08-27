@@ -2,79 +2,116 @@ package handlers
 
 import (
 	"cs2-demo-service/models"
+	"cs2-demo-service/pkg/objective"
 
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
-// RegisterBombHandlers registra handlers de bomba
+// RegisterBombHandlers records the complete causal C4 lifecycle in one ledger.
+// The legacy BombEvents projection remains limited to the three visual markers
+// consumed by the current frontend.
 func RegisterBombHandlers(ctx *models.DemoContext) {
-	// Bomb planted
-	ctx.Parser.RegisterEventHandler(func(e events.BombPlanted) {
-		ctx.BombPlanted = true
-		ctx.BombTick = ctx.Parser.GameState().IngameTick()
+	tracker := ensureObjectiveTracker(ctx)
 
-		// Determinar sitio
-		if e.Site == 65 { // ASCII 'A'
-			ctx.BombSite = "A"
-		} else if e.Site == 66 { // ASCII 'B'
-			ctx.BombSite = "B"
-		}
-
-		// Crear evento
-		if e.Player != nil {
-			plantEvent := models.BombEvent{
-				EventType: "plant",
-				Tick:      ctx.BombTick,
-				Round:     ctx.CurrentRound,
-				Player:    e.Player.Name,
-				Site:      ctx.BombSite,
-				X:         float64(e.Player.Position().X),
-				Y:         float64(e.Player.Position().Y),
-				Z:         float64(e.Player.Position().Z),
-			}
-			ctx.MatchData.BombEvents = append(ctx.MatchData.BombEvents, plantEvent)
-
-			// ADD TO TIMELINE
-			AddBombToTimeline(ctx, ctx.BombTick, &plantEvent)
-		}
-	})
-
-	// Bomb defused
-	ctx.Parser.RegisterEventHandler(func(e events.BombDefused) {
-		if e.Player == nil {
+	ctx.Parser.RegisterEventHandler(func(e events.BombDropped) {
+		if !objectiveRoundActive(ctx) {
 			return
 		}
-
-		defuseEvent := models.BombEvent{
-			EventType: "defuse",
-			Tick:      ctx.Parser.GameState().IngameTick(),
-			Round:     ctx.CurrentRound,
-			Player:    e.Player.Name,
-			Site:      ctx.BombSite,
-			X:         float64(e.Player.Position().X),
-			Y:         float64(e.Player.Position().Y),
-			Z:         float64(e.Player.Position().Z),
-		}
-
-		ctx.MatchData.BombEvents = append(ctx.MatchData.BombEvents, defuseEvent)
-
-		// ADD TO TIMELINE
-		AddBombToTimeline(ctx, ctx.Parser.GameState().IngameTick(), &defuseEvent)
+		input := objectiveEventInput(ctx, e.Player, "")
+		entityID := e.EntityID
+		input.EntityID = &entityID
+		tracker.Drop(input)
 	})
 
-	// Bomb exploded
+	ctx.Parser.RegisterEventHandler(func(e events.BombPickup) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		tracker.Pickup(objectiveEventInput(ctx, e.Player, ""))
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.BombPlantBegin) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		tracker.PlantStart(objectiveEventInput(ctx, e.Player, bombSite(e.Site)))
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.BombPlantAborted) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		tracker.PlantAbort(objectiveEventInput(ctx, e.Player, tracker.Snapshot().Site))
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.BombPlanted) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		event := tracker.Plant(objectiveEventInput(ctx, e.Player, bombSite(e.Site)))
+		appendLegacyBombMarker(ctx, "plant", event)
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.BombDefuseStart) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		input := objectiveEventInput(ctx, e.Player, tracker.Snapshot().Site)
+		hasKit := e.HasKit
+		input.HasKit = &hasKit
+		tracker.DefuseStart(input)
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.BombDefuseAborted) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		tracker.DefuseAbort(objectiveEventInput(ctx, e.Player, tracker.Snapshot().Site))
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.BombDefused) {
+		if !objectiveRoundActive(ctx) {
+			return
+		}
+		event := tracker.Defuse(objectiveEventInput(ctx, e.Player, bombSite(e.Site)))
+		appendLegacyBombMarker(ctx, "defuse", event)
+	})
+
 	ctx.Parser.RegisterEventHandler(func(e events.BombExplode) {
-		explodeEvent := models.BombEvent{
-			EventType: "explode",
-			Tick:      ctx.Parser.GameState().IngameTick(),
-			Round:     ctx.CurrentRound,
-			Site:      ctx.BombSite,
+		if !objectiveRoundActive(ctx) {
+			return
 		}
-
-		ctx.MatchData.BombEvents = append(ctx.MatchData.BombEvents, explodeEvent)
-
-		// ADD TO TIMELINE
-		AddBombToTimeline(ctx, ctx.Parser.GameState().IngameTick(), &explodeEvent)
+		input := objectiveEventInput(ctx, e.Player, bombSite(e.Site))
+		input.Position = objectiveBombPosition(tracker.Snapshot(), input.Position)
+		event := tracker.Explode(input)
+		appendLegacyBombMarker(ctx, "explode", event)
 	})
+}
 
+func appendLegacyBombMarker(ctx *models.DemoContext, eventType string, event objective.Event) {
+	marker := models.BombEvent{
+		EventType: eventType,
+		Tick:      event.Tick,
+		Round:     event.Round,
+		Player:    event.Actor.Name,
+		Site:      event.Site,
+	}
+	if event.Position.Available() {
+		marker.X = event.Position.X
+		marker.Y = event.Position.Y
+		marker.Z = event.Position.Z
+	}
+	ctx.MatchData.BombEvents = append(ctx.MatchData.BombEvents, marker)
+	AddBombToTimeline(ctx, event.Tick, &marker)
+}
+
+func bombSite(site events.Bombsite) string {
+	switch site {
+	case events.BombsiteA:
+		return "A"
+	case events.BombsiteB:
+		return "B"
+	default:
+		return ""
+	}
 }

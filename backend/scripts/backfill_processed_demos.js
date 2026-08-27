@@ -72,28 +72,28 @@ async function main() {
       continue;
     }
     
-    // Leer metadata.json
-    const metadataPath = path.join(EXPORTS_DIR, folder, 'metadata.json');
-    if (!fs.existsSync(metadataPath)) {
-      console.log(`⚠️  ${matchId} - sin metadata.json`);
+    // Leer el contrato canónico.
+    const matchPath = path.join(EXPORTS_DIR, folder, 'canonical', 'core', 'match.json');
+    if (!fs.existsSync(matchPath)) {
+      console.log(`⚠️  ${matchId} - sin bundle canónico`);
       errors++;
       continue;
     }
     
     try {
-      const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+      const match = JSON.parse(fs.readFileSync(matchPath, 'utf-8'));
       
       const demoData = {
-        match_id: metadata.match_id || matchId,
+        match_id: match.match_id || matchId,
         steam_id: steamID,
-        map_name: metadata.map_name || 'unknown',
-        date: metadata.date || '',
-        duration: metadata.duration_seconds || 0,
+        map_name: match.map_name || 'unknown',
+        date: match.played_at || '',
+        duration: Math.round((match.duration_ms || 0) / 1000),
         processed_at: new Date().toISOString()
       };
       
       await redisClient.rPush(`processed_demos:${steamID}`, JSON.stringify(demoData));
-      console.log(`✅ ${matchId} - ${metadata.map_name} - ${metadata.date?.split('T')[0] || 'sin fecha'}`);
+      console.log(`✅ ${matchId} - ${match.map_name} - ${match.played_at?.split('T')[0] || 'sin fecha'}`);
       added++;
     } catch (err) {
       console.error(`❌ ${matchId} - Error: ${err.message}`);

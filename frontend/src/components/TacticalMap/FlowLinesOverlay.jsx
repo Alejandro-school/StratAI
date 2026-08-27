@@ -1,73 +1,105 @@
-// frontend/src/components/TacticalMap/FlowLinesOverlay.jsx
-// SVG overlay rendering movement flow corridors between map areas
 import React, { useMemo } from 'react';
 
-/**
- * Renders animated SVG flow lines showing movement patterns.
- * Line thickness ∝ frequency, color = side-dependent.
- */
-const FlowLinesOverlay = React.memo(({ flowLines = [], activeSide = 'all', visible = true }) => {
+const resolvePosition = (line, prefix) => {
+  const nested = line[`${prefix}_pos`];
+  if (nested && Number.isFinite(nested.x) && Number.isFinite(nested.y)) {
+    return nested;
+  }
+
+  const x = Number(line[`${prefix}_x`]);
+  const y = Number(line[`${prefix}_y`]);
+  return Number.isFinite(x) && Number.isFinite(y) ? { x, y } : null;
+};
+
+const resolveLineCounts = (line, activeSide) => {
+  const total = Number(line.count ?? 0);
+  const ct = Number(line.ct_count ?? line.ct ?? 0);
+  const t = Number(line.t_count ?? line.t ?? Math.max(0, total - ct));
+  const visible = activeSide === 'ct' ? ct : activeSide === 't' ? t : total;
+  return { total, ct, t, visible };
+};
+
+const resolveRouteColor = ({ ct, t }, activeSide) => {
+  if (activeSide === 'ct') return { color: '#63b3ff', marker: 'ct' };
+  if (activeSide === 't') return { color: '#f5ad58', marker: 't' };
+
+  const ratio = ct + t > 0 ? ct / (ct + t) : 0.5;
+  if (ratio > 0.65) return { color: '#63b3ff', marker: 'ct' };
+  if (ratio < 0.35) return { color: '#f5ad58', marker: 't' };
+  return { color: '#78d7e8', marker: 'mixed' };
+};
+
+const isRouteOnLevel = (line, currentLevel, zThreshold) => {
+  const resolveLevel = (prefix) => {
+    if (line[`${prefix}_level`]) return line[`${prefix}_level`];
+    const avgZ = Number(line[`${prefix}_avg_z`]);
+    return Number.isFinite(avgZ)
+      ? (avgZ >= zThreshold ? 'upper' : 'lower')
+      : null;
+  };
+  return resolveLevel('from') === currentLevel && resolveLevel('to') === currentLevel;
+};
+
+const FlowLinesOverlay = React.memo(({
+  flowLines = [],
+  activeSide = 'all',
+  visible = true,
+  hasLevels = false,
+  currentLevel = 'upper',
+  zThreshold = null,
+}) => {
   const processedLines = useMemo(() => {
-    if (!flowLines.length) return [];
+    const validLines = flowLines.reduce((result, line) => {
+      const from = resolvePosition(line, 'from');
+      const to = resolvePosition(line, 'to');
+      const counts = resolveLineCounts(line, activeSide);
 
-    // Filter by side if needed
-    let filtered = flowLines;
-    if (activeSide === 'ct') {
-      filtered = flowLines.filter(l => (l.ct_ratio || 0) > 0.55);
-    } else if (activeSide === 't') {
-      filtered = flowLines.filter(l => (l.ct_ratio || 0) < 0.45);
-    }
+      if (
+        !from
+        || !to
+        || counts.visible <= 0
+        || (
+          hasLevels
+          && !isRouteOnLevel(line, currentLevel, zThreshold)
+        )
+      ) return result;
 
-    // Sort by count (draw thicker lines on top)
-    const sorted = [...filtered].sort((a, b) => (a.count || 0) - (b.count || 0));
-
-    // Normalize for thickness
-    const maxCount = Math.max(1, ...sorted.map(l => l.count || 1));
-
-    return sorted.map((line) => {
-      const count = line.count || 1;
-      const normalized = count / maxCount;
-      const thickness = 1.5 + normalized * 4; // 1.5 – 5.5px
-      const opacity = 0.15 + normalized * 0.5; // 0.15 – 0.65
-
-      // Determine color from CT/T ratio
-      const ctRatio = line.ct_ratio ?? 0.5;
-      let color;
-      if (ctRatio > 0.65) {
-        color = '#60a5fa'; // CT blue
-      } else if (ctRatio < 0.35) {
-        color = '#fb923c'; // T orange
-      } else {
-        color = '#818cf8'; // mixed purple
-      }
-
-      // Positions: from_pos and to_pos are {x, y} in 0-100% coords
-      const from = line.from_pos || { x: 0, y: 0 };
-      const to = line.to_pos || { x: 0, y: 0 };
-
-      // Create a slight curve via midpoint offset for visual separation
-      const midX = (from.x + to.x) / 2;
-      const midY = (from.y + to.y) / 2;
-      const dx = to.x - from.x;
-      const dy = to.y - from.y;
-      // Perpendicular offset (alternating direction based on position)
-      const perpScale = 1.5;
-      const ctrlX = midX + (-dy / Math.max(1, Math.sqrt(dx * dx + dy * dy))) * perpScale;
-      const ctrlY = midY + (dx / Math.max(1, Math.sqrt(dx * dx + dy * dy))) * perpScale;
-
-      return {
-        key: `${line.from}-${line.to}`,
+      result.push({
         from,
         to,
-        ctrl: { x: ctrlX, y: ctrlY },
-        thickness,
-        opacity,
-        color,
-        label: `${line.from} → ${line.to}`,
-        count,
+        counts,
+        fromArea: line.from_area ?? line.from ?? 'Origen',
+        toArea: line.to_area ?? line.to ?? 'Destino',
+      });
+      return result;
+    }, []);
+
+    const visibleLines = validLines
+      .sort((a, b) => a.counts.visible - b.counts.visible)
+      .slice(-10);
+    const maxCount = Math.max(1, ...visibleLines.map(({ counts }) => counts.visible));
+
+    return visibleLines.map((line) => {
+      const normalized = line.counts.visible / maxCount;
+      const dx = line.to.x - line.from.x;
+      const dy = line.to.y - line.from.y;
+      const distance = Math.max(1, Math.sqrt(dx * dx + dy * dy));
+      const colorConfig = resolveRouteColor(line.counts, activeSide);
+
+      return {
+        ...line,
+        ...colorConfig,
+        key: `${line.fromArea}-${line.toArea}`,
+        label: `${line.fromArea} → ${line.toArea}`,
+        thickness: 0.45 + normalized * 1.1,
+        opacity: 0.22 + normalized * 0.5,
+        control: {
+          x: (line.from.x + line.to.x) / 2 + (-dy / distance) * 1.5,
+          y: (line.from.y + line.to.y) / 2 + (dx / distance) * 1.5,
+        },
       };
     });
-  }, [flowLines, activeSide]);
+  }, [activeSide, currentLevel, flowLines, hasLevels, zThreshold]);
 
   if (!visible || processedLines.length === 0) return null;
 
@@ -76,65 +108,64 @@ const FlowLinesOverlay = React.memo(({ flowLines = [], activeSide = 'all', visib
       className="flow-lines-overlay"
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 3,
-      }}
+      role="img"
+      aria-label={`${processedLines.length} transiciones de zona observadas`}
     >
       <defs>
-        <marker
-          id="flow-arrow"
-          viewBox="0 0 10 6"
-          refX="9"
-          refY="3"
-          markerWidth="6"
-          markerHeight="4"
-          orient="auto"
-        >
-          <path d="M 0 0 L 10 3 L 0 6 z" fill="currentColor" opacity="0.7" />
-        </marker>
+        {[
+          ['ct', '#63b3ff'],
+          ['t', '#f5ad58'],
+          ['mixed', '#78d7e8'],
+        ].map(([id, color]) => (
+          <marker
+            key={id}
+            id={`flow-arrow-${id}`}
+            viewBox="0 0 10 6"
+            refX="9"
+            refY="3"
+            markerWidth="5"
+            markerHeight="3"
+            orient="auto"
+          >
+            <path d="M 0 0 L 10 3 L 0 6 z" fill={color} opacity="0.9" />
+          </marker>
+        ))}
       </defs>
 
-      {processedLines.map((line) => (
-        <g key={line.key}>
-          {/* Glow effect */}
-          <path
-            d={`M ${line.from.x} ${line.from.y} Q ${line.ctrl.x} ${line.ctrl.y} ${line.to.x} ${line.to.y}`}
-            fill="none"
-            stroke={line.color}
-            strokeWidth={line.thickness + 2}
-            strokeLinecap="round"
-            opacity={line.opacity * 0.3}
-          />
-          {/* Main line */}
-          <path
-            d={`M ${line.from.x} ${line.from.y} Q ${line.ctrl.x} ${line.ctrl.y} ${line.to.x} ${line.to.y}`}
-            fill="none"
-            stroke={line.color}
-            strokeWidth={line.thickness}
-            strokeLinecap="round"
-            strokeDasharray={`${line.thickness * 2} ${line.thickness}`}
-            opacity={line.opacity}
-            style={{ color: line.color }}
-            markerEnd="url(#flow-arrow)"
-          >
-            <animate
-              attributeName="stroke-dashoffset"
-              from={line.thickness * 6}
-              to="0"
-              dur="2s"
-              repeatCount="indefinite"
+      {processedLines.map((line, index) => {
+        const path = `M ${line.from.x} ${line.from.y} Q ${line.control.x} ${line.control.y} ${line.to.x} ${line.to.y}`;
+
+        return (
+          <g key={line.key}>
+            <title>{`${line.label}: ${line.counts.visible} transiciones observadas`}</title>
+            <path
+              d={path}
+              fill="none"
+              stroke={line.color}
+              strokeWidth={line.thickness + 1.2}
+              strokeLinecap="round"
+              opacity={line.opacity * 0.2}
+              vectorEffect="non-scaling-stroke"
             />
-          </path>
-        </g>
-      ))}
+            <path
+              className="flow-route"
+              d={path}
+              fill="none"
+              stroke={line.color}
+              strokeWidth={line.thickness}
+              strokeLinecap="round"
+              opacity={line.opacity}
+              markerEnd={`url(#flow-arrow-${line.marker})`}
+              vectorEffect="non-scaling-stroke"
+              style={{ '--route-delay': `${Math.min(index * 45, 360)}ms` }}
+            />
+          </g>
+        );
+      })}
     </svg>
   );
 });
+
+FlowLinesOverlay.displayName = 'FlowLinesOverlay';
 
 export default FlowLinesOverlay;

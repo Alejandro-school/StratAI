@@ -25,6 +25,27 @@ export function closestFrameIndex(frames, targetTick) {
     : high;
 }
 
+export function activeCombatShotsAtTick(shots, targetTick, visibilityTicks = 32) {
+  const tick = Number(targetTick);
+  if (!Array.isArray(shots) || !Number.isFinite(tick)) return [];
+  const lowerTick = tick - visibilityTicks;
+  let low = 0;
+  let high = shots.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (Number(shots[middle]?.tick) < lowerTick) low = middle + 1;
+    else high = middle;
+  }
+  const first = low;
+  high = shots.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (Number(shots[middle]?.tick) <= tick) low = middle + 1;
+    else high = middle;
+  }
+  return shots.slice(first, low);
+}
+
 export function interpolateFrame(frames, targetTick) {
   if (!frames?.length) return null;
   const index = closestFrameIndex(frames, targetTick);
@@ -65,6 +86,7 @@ const LEGACY_UTILITY = new Map([
 
 function eventLabel(type, subtype) {
   if (type === "kill") return "Eliminación";
+  if (type === "player_hurt") return "Impacto recibido";
   if (type.startsWith("bomb_")) return {
     bomb_plant: "Bomba plantada",
     bomb_defuse: "Bomba desactivada",
@@ -92,11 +114,15 @@ export function normalizeReplayEvent(event, index = 0) {
   }
   if (subtype === "flash") subtype = "flashbang";
   if (subtype === "incendiary") subtype = "inferno";
-  const lane = type === "kill" ? "combat" : type.startsWith("bomb_") ? "objective" : type === "utility_detonate" ? "utility" : "other";
+  const lane = type === "kill" || type === "player_hurt" ? "combat" : type.startsWith("bomb_") ? "objective" : type === "utility_detonate" ? "utility" : "other";
   const actorId = event.actor_id || event.player_id || event.killer_id || null;
+  const sourceId = event.id || `${type}-${event.tick || 0}-${actorId || "system"}`;
   return {
     ...event,
-    id: event.id || `${type}-${event.tick || 0}-${actorId || "system"}-${index}`,
+    // Some parser versions reuse event ids within the same round. Keeping the
+    // source id is useful for diagnostics, while the rendered id must be unique.
+    sourceId,
+    id: `${sourceId}-${index}`,
     type,
     originalType,
     subtype,
@@ -108,14 +134,68 @@ export function normalizeReplayEvent(event, index = 0) {
     y: Number(event.y ?? event.victim_y ?? 0),
     z: Number(event.z || 0),
     durationMs: Number(event.duration_ms || (
-      subtype === "smoke" ? 18000 : subtype === "inferno" ? 7000 : subtype === "flashbang" ? 450 : 600
+      type === "player_hurt" ? 320 : subtype === "smoke" ? 18000 : subtype === "inferno" ? 7000 : subtype === "flashbang" ? 450 : 600
     )),
+  };
+}
+
+function derivePlayerHurtEvents(frames) {
+  const events = [];
+  for (let frameIndex = 1; frameIndex < frames.length; frameIndex += 1) {
+    const previousPlayers = new Map((frames[frameIndex - 1].players || []).map((player) => [String(player.steam_id), player]));
+    for (const player of frames[frameIndex].players || []) {
+      const previous = previousPlayers.get(String(player.steam_id));
+      const damage = Number(previous?.health || 0) - Number(player.health || 0);
+      if (!previous || damage <= 0) continue;
+      events.push({
+        id: `derived-hurt-${frames[frameIndex].tick}-${player.steam_id}`,
+        tick: frames[frameIndex].tick,
+        type: "player_hurt",
+        victim_id: player.steam_id,
+        victim_name: player.name,
+        victim_team: player.team,
+        victim_x: player.x,
+        victim_y: player.y,
+        damage,
+        duration_ms: 320,
+        derived: true,
+      });
+    }
+  }
+  return events;
+}
+
+function bombAtTick(source, events, tick) {
+  const plant = events.find((event) => event.type === "bomb_plant");
+  if (!plant) return source?.state === "carried" ? null : source;
+  if (tick < plant.tick) {
+    return source?.state === "dropped" ? { ...source, site: "", plant_tick: 0 } : null;
+  }
+
+  const defuse = events.find((event) => event.type === "bomb_defuse" && event.tick <= tick);
+  const explosion = events.find((event) => event.type === "bomb_explode" && event.tick <= tick);
+  const state = explosion ? "exploded" : defuse ? "defused" : source?.state === "defusing" ? "defusing" : "planted";
+  return {
+    ...source,
+    state,
+    x: plant.x,
+    y: plant.y,
+    site: plant.site || source?.site || "",
+    plant_tick: plant.tick,
+    defuser_id: defuse?.player_id || source?.defuser_id || 0,
   };
 }
 
 export function normalizeRound(round) {
   if (!round) return null;
   const frames = [...(round.frames || [])].sort((a, b) => a.tick - b.tick);
+  const hasAtomicCombatShots = Array.isArray(round.combat_shots);
+  const combatShots = [...(round.combat_shots || [])].sort((a, b) => a.tick - b.tick);
+  const suppliedEvents = round.events || [];
+  const rawEvents = suppliedEvents.some((event) => String(event.type).toLowerCase() === "player_hurt")
+    ? suppliedEvents
+    : [...suppliedEvents, ...derivePlayerHurtEvents(frames)];
+  const events = rawEvents.map(normalizeReplayEvent).sort((a, b) => a.tick - b.tick);
   const effectStarts = new Map();
   const normalizedFrames = frames.map((frame) => {
     const activeKeys = new Set();
@@ -128,12 +208,29 @@ export function normalizeRound(round) {
     for (const key of effectStarts.keys()) {
       if (!activeKeys.has(key)) effectStarts.delete(key);
     }
-    return { ...frame, active_effects: activeEffects };
+    return { ...frame, active_effects: activeEffects, bomb: bombAtTick(frame.bomb, events, frame.tick) };
   });
+  const firstFrameTick = Number(normalizedFrames[0]?.tick);
+  const lastFrameTick = Number(normalizedFrames.at(-1)?.tick);
+  const lastCombatShotTick = Number(combatShots.at(-1)?.tick);
+  const declaredEndTick = Number(round.end_tick);
+  const atomicEndTick = Math.max(
+    Number.isFinite(lastFrameTick) ? lastFrameTick : 0,
+    Number.isFinite(lastCombatShotTick) ? lastCombatShotTick : 0,
+    Number.isFinite(declaredEndTick) ? declaredEndTick : 0,
+  );
   return {
     ...round,
+    // Older exports used RoundStart/RoundEnd as their boundaries even though
+    // frames are sampled from live play through RoundEndOfficial. Frame bounds
+    // keep those replays useful without forcing a demo re-processing pass.
+    start_tick: Number.isFinite(firstFrameTick) ? firstFrameTick : Number(round.start_tick || 0),
+    end_tick: hasAtomicCombatShots
+      ? atomicEndTick
+      : (Number.isFinite(lastFrameTick) ? lastFrameTick : Number(round.end_tick || round.start_tick || 0)),
     frames: normalizedFrames,
-    events: (round.events || []).map(normalizeReplayEvent).sort((a, b) => a.tick - b.tick),
+    events,
+    combat_shots: combatShots,
   };
 }
 
@@ -160,7 +257,6 @@ export function activeEventsAtTick(events, tick, tickRate = 64) {
 export function directorRate(events, tick, tickRate, enabled, selectedRate = 1) {
   if (!enabled) return selectedRate;
   const closest = (events || []).reduce((distance, event) => Math.min(distance, Math.abs(event.tick - tick)), Infinity);
-  if (closest <= tickRate * 1.25) return Math.min(selectedRate, 0.75);
   if (closest <= tickRate * 4) return selectedRate;
   return Math.max(selectedRate, 2);
 }

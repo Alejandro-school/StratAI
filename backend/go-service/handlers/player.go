@@ -43,9 +43,7 @@ func RegisterPlayerHandlers(ctx *models.DemoContext) {
 				ctx.MatchData.Players[sid] = playerData
 			}
 
-			// Calcular velocidad desde Velocity() nativo
-			vel := playerstate.Velocity(player)
-			speed := math.Sqrt(vel.X*vel.X + vel.Y*vel.Y + vel.Z*vel.Z)
+			velocity := observePlayerVelocity(ctx, player)
 
 			// Calcular distancia recorrida
 			currPos := player.Position()
@@ -60,7 +58,7 @@ func RegisterPlayerHandlers(ctx *models.DemoContext) {
 			ctx.LastPositions[sid] = currPos
 
 			// Crosshair placement analysis
-			pitch := player.ViewDirectionX()
+			yaw, pitch := playerstate.ViewAngles(player)
 
 			// Inicializar crosshair stats si no existe
 			if _, ok := ctx.CrosshairStats[sid]; !ok {
@@ -78,15 +76,20 @@ func RegisterPlayerHandlers(ctx *models.DemoContext) {
 
 			// Crear snapshot de movimiento
 			snapshot := models.MovementLog{
-				Round:     ctx.CurrentRound,
-				Tick:      currentTick,
-				X:         currPos.X,
-				Y:         currPos.Y,
-				Z:         currPos.Z,
-				Speed:     speed,
-				IsDucking: player.IsDucking(),
-				Pitch:     pitch,
-				Yaw:       player.ViewDirectionY(),
+				Round:                    ctx.CurrentRound,
+				Tick:                     currentTick,
+				X:                        currPos.X,
+				Y:                        currPos.Y,
+				Z:                        currPos.Z,
+				Speed:                    velocity.Horizontal,
+				VelocityAvailable:        velocity.Available,
+				VelocitySource:           velocity.Source,
+				VelocityObservation:      velocity.Observation,
+				VelocityMeasurementTicks: velocity.MeasurementTicks,
+				VelocityObservedTick:     velocity.ObservedTick,
+				IsDucking:                player.IsDucking(),
+				Pitch:                    pitch,
+				Yaw:                      yaw,
 			}
 
 			playerData.Movement = append(playerData.Movement, snapshot)

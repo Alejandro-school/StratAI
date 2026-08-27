@@ -1,6 +1,42 @@
 package analyzers
 
-import "testing"
+import (
+	"cs2-demo-service/pkg/playerstate"
+	"testing"
+
+	"github.com/golang/geo/r3"
+)
+
+func TestClassifySprayMovementKeepsUnknownSeparateFromStationary(t *testing.T) {
+	wasMoving, available := classifySprayMovement(playerstate.MotionEstimate{})
+	if wasMoving || available {
+		t.Fatal("an unavailable motion estimate must remain unknown")
+	}
+
+	wasMoving, available = classifySprayMovement(playerstate.MotionEstimate{
+		Vector:    r3.Vector{},
+		Available: true,
+	})
+	if wasMoving || !available {
+		t.Fatal("an observed zero velocity must be classified as stationary")
+	}
+
+	wasMoving, available = classifySprayMovement(playerstate.MotionEstimate{
+		Vector:    r3.Vector{Z: 900},
+		Available: true,
+	})
+	if wasMoving || !available {
+		t.Fatal("spray movement must use horizontal velocity and ignore vertical speed")
+	}
+
+	wasMoving, available = classifySprayMovement(playerstate.MotionEstimate{
+		Vector:    r3.Vector{X: 40, Y: 40},
+		Available: true,
+	})
+	if !wasMoving || !available {
+		t.Fatal("horizontal speed above the threshold must be classified as moving")
+	}
+}
 
 func TestClassifySprayQuality(t *testing.T) {
 	tests := []struct {

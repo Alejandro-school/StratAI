@@ -3,15 +3,18 @@ package handlers
 import (
 	"cs2-demo-service/models"
 	"fmt"
-	"math"
-
-	"github.com/golang/geo/r3"
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/events"
 )
 
 // RegisterCombatHandlers registra handlers para eventos de combate
 func RegisterCombatHandlers(ctx *models.DemoContext) {
+	registerAtomicCombatHandlers(ctx)
+
+	ctx.Parser.RegisterEventHandler(func(e events.BulletDamage) {
+		captureBulletDamageEvent(ctx, &e)
+	})
+
 	// PlayerHurt events for damage tracking
 	ctx.Parser.RegisterEventHandler(func(e events.PlayerHurt) {
 		if e.Attacker == nil || e.Player == nil {
@@ -23,24 +26,18 @@ func RegisterCombatHandlers(ctx *models.DemoContext) {
 		if _, ok := ctx.RoundDamage[attackerID]; !ok {
 			ctx.RoundDamage[attackerID] = make(map[uint64]int)
 		}
-		ctx.RoundDamage[attackerID][victimID] += e.HealthDamage
+		ctx.RoundDamage[attackerID][victimID] += e.HealthDamageTaken
 
 		// FIX Bug 3: Track victim's HP BEFORE this damage event
 		// e.Health is HP AFTER damage, so we add back the damage to get pre-damage HP
 		// IMPORTANT: Cap at 100 because e.HealthDamage can include overkill damage
-		preDamageHP := e.Health + e.HealthDamage
+		preDamageHP := e.Health + e.HealthDamageTaken
 		if preDamageHP > 100 {
 			preDamageHP = 100
 		}
 		ctx.LastKnownHealth[victimID] = preDamageHP
 
-		// FIX: Track victim's active weapon WHILE ALIVE (for use in Kill events)
-		// In Kill events, the victim is already dead and ActiveWeapon() returns nil
-		if e.Player.IsAlive() {
-			if activeWeapon := e.Player.ActiveWeapon(); activeWeapon != nil {
-				ctx.LastActiveWeapon[victimID] = activeWeapon.String()
-			}
-		}
+		cacheActiveWeapon(ctx, e.Player, ctx.Parser.GameState().IngameTick())
 	})
 
 	// Kill events
@@ -149,8 +146,8 @@ func RegisterCombatHandlers(ctx *models.DemoContext) {
 			Attacker:     e.Attacker.Name,
 			Victim:       e.Player.Name,
 			Weapon:       e.Weapon.String(),
-			HealthDamage: e.HealthDamage,
-			ArmorDamage:  e.ArmorDamage,
+			HealthDamage: e.HealthDamageTaken,
+			ArmorDamage:  e.ArmorDamageTaken,
 			HitGroup:     fmt.Sprintf("%v", e.HitGroup),
 			VictimHealth: e.Health,
 			// PHASE 1: Callouts
@@ -273,6 +270,8 @@ func RegisterCombatHandlers(ctx *models.DemoContext) {
 	// PreviousWeaponState = state from tick N-1 (for "before" in kills/damage)
 	// LastWeaponState = state from tick N (for "after" in kills)
 	ctx.Parser.RegisterEventHandler(func(e events.FrameDone) {
+		currentTick := ctx.Parser.GameState().IngameTick()
+		discardStaleBulletDamage(ctx, currentTick)
 		if !ctx.InRound {
 			return
 		}
@@ -293,8 +292,7 @@ func RegisterCombatHandlers(ctx *models.DemoContext) {
 				continue
 			}
 
-			// FIX: Track active weapon name for use in kill events (victim weapon)
-			ctx.LastActiveWeapon[sid] = activeWeapon.String()
+			cacheActiveWeaponName(ctx, sid, activeWeapon.String(), currentTick)
 
 			// Save current LastWeaponState as PreviousWeaponState (tick N-1)
 			if lastState, ok := ctx.LastWeaponState[sid]; ok && lastState != nil {
@@ -310,19 +308,8 @@ func RegisterCombatHandlers(ctx *models.DemoContext) {
 				IsReloading: player.IsReloading,
 				ZoomLevel:   int(activeWeapon.ZoomLevel()),
 			}
-
-			// Update PreviousPlayerPosition
-			ctx.PreviousPlayerPosition[sid] = player.Position()
 		}
 	})
-}
-
-// getVictimWeapon returns the victim's active weapon name
-func getVictimWeapon(victim *common.Player) string {
-	if victim.ActiveWeapon() != nil {
-		return victim.ActiveWeapon().String()
-	}
-	return "Unknown"
 }
 
 // getAreaName returns the area/callout name for a player's position
@@ -338,86 +325,4 @@ func getAreaName(ctx *models.DemoContext, player *common.Player) string {
 	}
 	// Fallback to parser's nav mesh
 	return player.LastPlaceName()
-}
-
-// --- Crosshair Calculation Helpers ---
-
-func calculateCrosshairMetrics(shooter, victim *common.Player) (float64, float64, float64) {
-	if shooter == nil || victim == nil {
-		return 0, 0, 0
-	}
-
-	// Determinar objetivo (Cabeza vs Cuerpo) según arma
-	targetPos := victim.Position()
-	activeWeapon := shooter.ActiveWeapon()
-	isSniper := false
-	if activeWeapon != nil {
-		wType := activeWeapon.Type
-		if wType == common.EqAWP || wType == common.EqSSG08 || wType == common.EqG3SG1 || wType == common.EqScar20 {
-			isSniper = true
-		}
-	}
-
-	if isSniper {
-		targetPos.Z += 40.0 // Altura aproximada pecho/estómago
-	} else {
-		targetPos.Z += 62.0 // Altura aproximada cabeza
-	}
-
-	playerEyePos := shooter.Position()
-	playerEyePos.Z += 64.0 // Altura ojos
-
-	// Vector Ideal (Desde ojos a objetivo)
-	vecIdeal := r3.Vector{
-		X: targetPos.X - playerEyePos.X,
-		Y: targetPos.Y - playerEyePos.Y,
-		Z: targetPos.Z - playerEyePos.Z,
-	}.Normalize()
-
-	// Vector Real (Hacia donde mira el jugador)
-	// NOTE: ViewDirectionX is Yaw, ViewDirectionY is Pitch in demoinfocs-golang
-	vecReal := anglesToR3Vector(shooter.ViewDirectionY(), shooter.ViewDirectionX())
-
-	// Calcular ángulo total
-	angleError := calculateAngle(vecIdeal, vecReal)
-
-	// Calcular Pitch y Yaw Error
-	idealPitch := float64(-math.Asin(vecIdeal.Z) * (180.0 / math.Pi))
-	realPitch := float64(shooter.ViewDirectionY())
-	pitchError := math.Abs(idealPitch - realPitch)
-
-	idealYaw := float64(math.Atan2(vecIdeal.Y, vecIdeal.X) * (180.0 / math.Pi))
-	realYaw := float64(shooter.ViewDirectionX())
-
-	yawDiff := idealYaw - realYaw
-	for yawDiff > 180 {
-		yawDiff -= 360
-	}
-	for yawDiff < -180 {
-		yawDiff += 360
-	}
-	yawError := math.Abs(yawDiff)
-
-	return angleError, pitchError, yawError
-}
-
-func anglesToR3Vector(pitch, yaw float32) r3.Vector {
-	p := float64(pitch) * math.Pi / 180.0
-	y := float64(yaw) * math.Pi / 180.0
-	sinP := math.Sin(p)
-	cosP := math.Cos(p)
-	sinY := math.Sin(y)
-	cosY := math.Cos(y)
-	return r3.Vector{X: cosP * cosY, Y: cosP * sinY, Z: -sinP}
-}
-
-func calculateAngle(v1, v2 r3.Vector) float64 {
-	dot := v1.Dot(v2)
-	if dot > 1.0 {
-		dot = 1.0
-	} else if dot < -1.0 {
-		dot = -1.0
-	}
-	angleRad := math.Acos(dot)
-	return angleRad * (180.0 / math.Pi)
 }

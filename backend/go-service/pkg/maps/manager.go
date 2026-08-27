@@ -1,7 +1,9 @@
 package maps
 
 import (
+	"crypto/sha256"
 	"fmt"
+	"io"
 	"math"
 	"os"
 	"path/filepath"
@@ -9,6 +11,7 @@ import (
 	"sync"
 
 	"cs2-demo-service/pkg/geometry"
+	"cs2-demo-service/pkg/playerstate"
 
 	"github.com/golang/geo/r3"
 	"github.com/markus-wa/demoinfocs-golang/v5/pkg/demoinfocs/common"
@@ -26,6 +29,17 @@ type VisibilityChecker interface {
 	RayCast(origin, dir r3.Vector, maxDist float64) (float64, r3.Vector)
 }
 
+// InputProvenance identifies the exact map asset considered by the loader.
+// RelativePath is rooted at mapsDir so canonical output does not depend on the
+// host checkout path. Used distinguishes a loaded asset from an inspected but
+// rejected input (for example an unsupported nav version).
+type InputProvenance struct {
+	RelativePath string
+	SHA256       string
+	Used         bool
+	LoadError    string
+}
+
 // MapManager handles loading maps and performing visibility checks
 type MapManager struct {
 	mapsDir     string
@@ -35,13 +49,54 @@ type MapManager struct {
 	mapName     string
 	mutex       sync.RWMutex
 	useFallback bool // If true, use heuristic (FOV/Smoke) only
+	inputs      map[string]InputProvenance
 }
 
 // NewMapManager creates a new map manager
 func NewMapManager(mapsDir string) *MapManager {
 	return &MapManager{
 		mapsDir: mapsDir,
+		inputs:  make(map[string]InputProvenance),
 	}
+}
+
+// InputProvenance returns a defensive copy of the map assets observed during
+// LoadMap. It intentionally is not part of VisibilityChecker so lightweight
+// test doubles do not need to implement publication-only provenance.
+func (m *MapManager) InputProvenance() map[string]InputProvenance {
+	m.mutex.RLock()
+	defer m.mutex.RUnlock()
+
+	result := make(map[string]InputProvenance, len(m.inputs))
+	for name, input := range m.inputs {
+		result[name] = input
+	}
+	return result
+}
+
+func (m *MapManager) recordInput(name, path string, used bool, loadErr error) {
+	input := InputProvenance{RelativePath: filepath.ToSlash(path), Used: used}
+	if relativePath, err := filepath.Rel(m.mapsDir, path); err == nil {
+		input.RelativePath = filepath.ToSlash(relativePath)
+	}
+	file, err := os.Open(path)
+	if err == nil {
+		hash := sha256.New()
+		if _, copyErr := io.Copy(hash, file); copyErr == nil {
+			input.SHA256 = fmt.Sprintf("%x", hash.Sum(nil))
+		} else if loadErr == nil {
+			loadErr = copyErr
+		}
+		if closeErr := file.Close(); closeErr != nil && loadErr == nil {
+			loadErr = closeErr
+		}
+	} else if loadErr == nil {
+		loadErr = err
+	}
+	if loadErr != nil {
+		input.LoadError = loadErr.Error()
+	}
+	m.inputs[name] = input
 }
 
 // GetCallout returns the callout name for a given position
@@ -90,6 +145,7 @@ func (m *MapManager) LoadMap(mapName string) error {
 	if m.mapName == mapName && m.currentMesh != nil {
 		return nil // Already loaded
 	}
+	m.inputs = make(map[string]InputProvenance)
 
 	// Sanitize map name (remove path, extension)
 	baseName := filepath.Base(mapName)
@@ -114,6 +170,7 @@ func (m *MapManager) LoadMap(mapName string) error {
 		fmt.Printf("Loading CS2 Mesh (GLTF): %s\n", gltfPath)
 		mesh, err := geometry.LoadGLTF(gltfPath)
 		if err == nil {
+			m.recordInput("physics_map", gltfPath, true, nil)
 			m.currentMesh = mesh
 			m.mapName = mapName
 			m.useFallback = false
@@ -125,9 +182,11 @@ func (m *MapManager) LoadMap(mapName string) error {
 				fmt.Printf("Loading Nav Mesh: %s\n", navPath)
 				nav, err := LoadNavMesh(navPath)
 				if err == nil {
+					m.recordInput("nav_mesh", navPath, true, nil)
 					m.currentNav = nav
 					fmt.Printf("Nav Mesh loaded successfully: %d areas, %d places\n", len(nav.Areas), len(nav.Places))
 				} else {
+					m.recordInput("nav_mesh", navPath, false, err)
 					// v36 parsing not fully supported yet - fallback to demo's LastPlaceName() will be used
 					fmt.Printf("Nav Mesh v36 not supported (using demo fallback): %v\n", err)
 				}
@@ -147,6 +206,7 @@ func (m *MapManager) LoadMap(mapName string) error {
 				fmt.Printf("Loading Callouts JSON: %s\n", placesPath)
 				callouts, err := LoadCallouts(placesPath)
 				if err == nil {
+					m.recordInput("callouts", placesPath, true, nil)
 					m.callouts = callouts
 					fmt.Printf("Callouts loaded successfully: %d places\n", len(callouts))
 
@@ -155,6 +215,7 @@ func (m *MapManager) LoadMap(mapName string) error {
 						m.MapCalloutsToNavMesh(callouts)
 					}
 				} else {
+					m.recordInput("callouts", placesPath, false, err)
 					fmt.Printf("Failed to load Callouts JSON: %v\n", err)
 				}
 			} else {
@@ -164,6 +225,7 @@ func (m *MapManager) LoadMap(mapName string) error {
 
 			return nil
 		}
+		m.recordInput("physics_map", gltfPath, false, err)
 		fmt.Printf("Failed to load GLTF: %v\n", err)
 	}
 
@@ -182,8 +244,8 @@ func (m *MapManager) IsVisible(start, end r3.Vector) bool {
 		return m.TraceRay(start, end)
 	}
 
-	// Fallback: Always return true (let the heuristic handle it)
-	return true
+	// Unknown geometry must not be reported as clear line of sight.
+	return false
 }
 
 // TraceRay checks if a ray from start to end is obstructed by the map geometry
@@ -192,7 +254,7 @@ func (m *MapManager) TraceRay(start, end r3.Vector) bool {
 	defer m.mutex.RUnlock()
 
 	if m.currentMesh == nil {
-		return true // Should not happen if IsLoaded() is checked, but safe default
+		return false
 	}
 
 	// RayIntersects returns true if BLOCKED
@@ -219,10 +281,7 @@ func HeuristicIsVisible(shooter, enemy *common.Player, activeSmokes []r3.Vector)
 
 	// 3. FOV Check
 	// Calculate angle between shooter's view vector and vector to enemy
-	// PositionEyes() is not supported for CS2 yet, so we approximate:
-	// Eye position = Position + (0, 0, 64) (Standing eye height)
-	shooterPos := shooter.Position()
-	shooterPos.Z += 64
+	shooterPos, _ := playerstate.EyePosition(shooter)
 
 	// enemy.Position() returns feet. Add Z for center/chest approx.
 	enemyPos := enemy.Position()
@@ -232,10 +291,10 @@ func HeuristicIsVisible(shooter, enemy *common.Player, activeSmokes []r3.Vector)
 	toEnemy := enemyPos.Sub(shooterPos)
 
 	// Shooter view vector
-	// ViewDirectionX is Pitch, ViewDirectionY is Yaw
-	// We only care about Yaw for 2D FOV check
-	yaw := float64(shooter.ViewDirectionY())
-	yawRad := yaw * math.Pi / 180.0
+	// ViewDirectionX is yaw in demoinfocs.
+	yaw, _ := playerstate.ViewAngles(shooter)
+	yawFloat := float64(yaw)
+	yawRad := yawFloat * math.Pi / 180.0
 
 	// Calculate 2D view direction vector from Yaw
 	viewDir := r3.Vector{
