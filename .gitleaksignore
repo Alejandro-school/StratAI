@@ -9,3 +9,12 @@ f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:.github/workflows/quality.yml:generic-a
 f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:backend/testdata/service_auth_vectors.json:generic-api-key:9
 f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:backend/node-service/test/serviceAuth.integration.test.js:generic-api-key:2
 f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:backend/node-service/test/pipeline.integration.test.js:generic-api-key:2
+# Reviewed SHA-256 evidence metadata, not authentication credentials.
+# Each exception is bound to one exact commit, file, rule and line.
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_SINGLE_DEMO_SMOKE_2026-09-05.json:generic-api-key:1811
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_SINGLE_DEMO_SMOKE_2026-09-05.json:generic-api-key:1829
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_SINGLE_DEMO_SMOKE_2026-09-05.json:generic-api-key:1847
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/SKILLS_REVIEW_2026-10-06.json:generic-api-key:113
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/SKILLS_REVIEW_2026-10-06.json:generic-api-key:129
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/SKILLS_REVIEW_2026-10-06.json:generic-api-key:161
+a2d4f5d27fbe3855b351fb12e9b90cf112de1b14:docs/evidence/AI_COACH_CONTEXT_COMPARISON_OLLAMA_2026-10-06.json:generic-api-key:4311
