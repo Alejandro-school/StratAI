@@ -52,7 +52,7 @@ An explicit not_delivered budget refusal supplies NO facts or new citations.
 The final available call must finish with hypotheses OR explicit insufficiency,
 never a forced tactical answer. Never invent an unavailable sample.
 """
-_HISTORY_KEYS = {'own_player', 'place_context', 'objective', 'round_context'}
+_HISTORY_KEYS = {'own_player', 'own_life', 'place_context', 'objective', 'round_context'}
 _QUANTITIES = re.compile(r'\b(?:cero|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|'
                          r'trece|catorce|quince|dieciseis|diecisiete|dieciocho|diecinueve|veinte|'
                          r'treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa|cien|ciento|mil|'
@@ -77,10 +77,12 @@ class ContextualReadingSession(ReplayReadingSession):
             'other_historical_facets': 'causal_consultation_with_original_limits',
         }
         places = {f['subject']: f for f in self._view['situation'] if f['key'] == 'place_context'}
+        lives = {f['subject']:f['value']['alive'] for f in self._view['situation'] if f['key'] == 'own_life'}
         self._view['spatial_measurements'] = [
             {'player_fact_id': f['id'], 'place_fact_id': places[f['subject']]['id'],
              'membership': membership(f['value'], places[f['subject']]['value'], map_name=packet['map_name'])}
-            for f in self._view['situation'] if f['key'] == 'own_player' and f['value']['alive']
+            for f in self._view['situation'] if f['key'] == 'own_player'
+            and lives.get(f['subject'],f['value'].get('alive')) is True
             and f['subject'] in places
         ]
         self._view['contextual_reading_contract'] = {
@@ -194,12 +196,14 @@ class ContextualConsultation(StrictConsultation):
                         'maxItems':remaining,'items':{'enum':indices}}, {'type':'null'}))
         return {'anyOf':choices}
 
+    def _contextual_identifiers(self):
+        return {'C4'} | {f['subject'] for f in self._facts.values()
+                        if f['key'] == 'own_player' and f['id'] in self._consulted}
+
     def _checked_text(self, value):
         require(value.strip() and all(c.isprintable() or c in '\n\t' for c in value), 'invalid contextual text')
         normalized = unicodedata.normalize('NFKC', value)
-        identifiers = {'C4'} | {f['subject'] for f in self._facts.values()
-                                  if f['key'] == 'own_player' and f['id'] in self._consulted}
-        for identifier in identifiers:
+        for identifier in self._contextual_identifiers():
             normalized = re.sub(r'\b'+re.escape(identifier)+r'\b', '', normalized)
         normalized = ''.join(c for c in unicodedata.normalize('NFKD', normalized) if not unicodedata.combining(c))
         require(not any(c.isnumeric() for c in normalized) and not _QUANTITIES.search(normalized),

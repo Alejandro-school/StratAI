@@ -230,12 +230,18 @@ def consume(access, response, messages, config, *, version=VERSION):
     require(response.get("model") == config.model and response.get("done") is True, "incomplete or different model response")
     require(response.get("done_reason") == "stop", "generation limit reached")
     require(type(response.get("prompt_eval_count")) is int and 0 < response["prompt_eval_count"] <= config.num_ctx, "invalid context accounting")
+    if getattr(access, "grounded_selection", False):
+        require(response["prompt_eval_count"] + config.num_predict <= config.num_ctx,
+                "grounded request has no full output reserve")
     message = response.get("message", {})
     require(not message.get("tool_calls"), "unexpected executable tool call")
     answer = json.loads(message["content"])
     jsonschema.validate(answer, schema(access))
     if getattr(access, "grounded_selection", False) and access.grounding_stage == "audit":
-        return access.complete_audit(answer)
+        finished = access.complete_audit(answer)
+        if finished is None:
+            messages[:] = access.audit_messages()
+        return finished
     if answer["action"] == "finish":
         require(not answer["indices"] and answer["reading"] is not None, "invalid finish envelope")
         if getattr(access, "grounded_selection", False):
@@ -273,6 +279,8 @@ def consume(access, response, messages, config, *, version=VERSION):
                 "Use existing evidence or another available scope; finish with local uncertainty if needed."}]
             reply = model_content(access, {"consultation_results":results}, version)
     messages.append({"role": "user", "content": reply})
+    if getattr(access, "grounded_selection", False):
+        access.refresh_current_boundary(messages)
     return None
 
 
@@ -340,6 +348,13 @@ def verify_replay(session, result):
         require(finished is None, "calls after final reading")
         require(entry["request"] == request_body(access, messages, config), "model request differs from causal replay")
         if "failure" in entry:
+            if getattr(access, "grounded_selection", False) and "response" in entry:
+                try:
+                    consume(access, entry["response"], messages, config, version=result["version"])
+                except (ValueError, KeyError, jsonschema.ValidationError, OSError) as error:
+                    require(str(error) == entry["failure"], "grounding failure replay differs")
+                else:
+                    require(False, "grounding failure was not reproduced")
             break
         finished = consume(access, entry["response"], messages, config, version=result["version"])
     require(len(result["transcript"]) <= config.max_calls, "call budget exceeded")
