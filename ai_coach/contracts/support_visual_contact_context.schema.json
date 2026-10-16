@@ -1,0 +1,1555 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_visual_contact_context@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "rows",
+    "matrix",
+    "summary",
+    "evaluator_diagnostics"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_visual_contact_context@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source",
+        "clock_source",
+        "anchors",
+        "physical_context",
+        "navigation_context",
+        "objective_context",
+        "c4_context",
+        "attempt_source",
+        "clock_context",
+        "attempt_context",
+        "position_source",
+        "motion_source",
+        "position_context",
+        "timing_source",
+        "motion_context",
+        "visual_source",
+        "timing_context"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "anchors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "navigation_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "motion_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "timing_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "motion_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "visual_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "timing_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "actor_alias",
+          "ally_alias",
+          "instance",
+          "round_number",
+          "source_sequence",
+          "epoch",
+          "t0_tick",
+          "t0_frame",
+          "competitive_round_status",
+          "initial",
+          "missing_context",
+          "decision_eligible",
+          "visual_reference"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "instance": {
+            "type": "integer"
+          },
+          "round_number": {
+            "type": "integer"
+          },
+          "source_sequence": {
+            "type": "integer"
+          },
+          "epoch": {
+            "type": "integer"
+          },
+          "t0_tick": {
+            "type": "integer"
+          },
+          "t0_frame": {
+            "type": "integer"
+          },
+          "competitive_round_status": {
+            "enum": [
+              "canonical_interval_matched",
+              "not_accredited"
+            ]
+          },
+          "initial": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "self",
+              "ally"
+            ],
+            "properties": {
+              "self": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "native_eye_offset",
+                  "reference_fov_degrees",
+                  "flash_clear",
+                  "smoke_clear",
+                  "visual_contact"
+                ],
+                "properties": {
+                  "native_eye_offset": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "x",
+                              "y",
+                              "z"
+                            ],
+                            "properties": {
+                              "x": {
+                                "type": "number"
+                              },
+                              "y": {
+                                "type": "number"
+                              },
+                              "z": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "reason": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "native_eye_offset_unavailable"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "reference_fov_degrees": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "exclusiveMaximum": 180
+                          },
+                          "reason": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "native_camera_fov_unavailable",
+                              "native_camera_fov_default_or_range_unaccredited",
+                              "native_camera_fov_transition_unaccredited",
+                              "scoped_optics_or_scope_state_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "flash_clear": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "rendered_flash_opacity_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "smoke_clear": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "smoke_volume_and_coverage_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "visual_contact": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "legal_visual_contact_inputs_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "ally": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "native_eye_offset",
+                  "reference_fov_degrees",
+                  "flash_clear",
+                  "smoke_clear",
+                  "visual_contact"
+                ],
+                "properties": {
+                  "native_eye_offset": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "x",
+                              "y",
+                              "z"
+                            ],
+                            "properties": {
+                              "x": {
+                                "type": "number"
+                              },
+                              "y": {
+                                "type": "number"
+                              },
+                              "z": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          "reason": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "native_eye_offset_unavailable"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "reference_fov_degrees": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "exclusiveMaximum": 180
+                          },
+                          "reason": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "native_camera_fov_unavailable",
+                              "native_camera_fov_default_or_range_unaccredited",
+                              "native_camera_fov_transition_unaccredited",
+                              "scoped_optics_or_scope_state_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "flash_clear": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "rendered_flash_opacity_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "smoke_clear": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "smoke_volume_and_coverage_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "visual_contact": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          },
+                          "reason": {
+                            "enum": [
+                              "legal_visual_contact_inputs_unaccredited"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "missing_context": {
+            "const": [
+              "physical_entry_not_accredited",
+              "physical_navigation_not_accredited",
+              "line_of_sight_and_contact_not_accredited",
+              "cooperation_and_intent_not_observable",
+              "instantaneous_velocity_and_full_weapon_readiness_not_accredited",
+              "ownership_does_not_establish_tactical_responsibility",
+              "countdowns_require_current_native_pause_and_clock_alignment",
+              "native_clocks_do_not_establish_visible_hud_rounding_or_wall_time",
+              "scheduled_attempt_margin_does_not_predict_completion_or_tactical_viability",
+              "planting_progress_is_native_delivery_tick_resolution_not_input_subtick_or_outcome",
+              "native_object_geometry_is_not_automatically_legal_player_information",
+              "parented_object_requires_an_accredited_current_world_transform",
+              "spotted_flag_past_carrier_and_global_plant_do_not_reveal_exact_position",
+              "base_and_historical_velocity_are_not_current_pawn_velocity",
+              "native_motion_and_ground_contact_do_not_establish_complete_readiness",
+              "movement_enum_code_does_not_establish_intention_or_physical_route",
+              "weapon_tick_fraction_clock_semantics_require_positive_source",
+              "elapsed_native_deadline_does_not_establish_can_fire_or_complete_readiness",
+              "pawn_service_deadline_does_not_identify_the_cause_of_a_block",
+              "static_collision_mesh_does_not_accredit_rendered_or_dynamic_occlusion",
+              "smoke_volume_and_delivery_coverage_require_positive_source",
+              "native_flash_duration_and_max_alpha_are_not_current_rendered_opacity",
+              "canonical_fov_proxy_is_not_a_recording_of_the_players_viewport",
+              "ally_contact_is_not_subjective_self_knowledge",
+              "contact_does_not_establish_attention_trade_opportunity_or_tactical_superiority"
+            ]
+          },
+          "decision_eligible": {
+            "const": false
+          },
+          "visual_reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "self",
+              "ally"
+            ],
+            "properties": {
+              "self": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "source_sequence",
+                  "frame",
+                  "state_sequence",
+                  "pawn_life"
+                ],
+                "properties": {
+                  "source_sequence": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "frame": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "state_sequence": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 1
+                  },
+                  "pawn_life": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "pattern": "^support-pawn-[0-9]{6}$"
+                  }
+                }
+              },
+              "ally": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "source_sequence",
+                  "frame",
+                  "state_sequence",
+                  "pawn_life"
+                ],
+                "properties": {
+                  "source_sequence": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "frame": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "state_sequence": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 1
+                  },
+                  "pawn_life": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "pattern": "^support-pawn-[0-9]{6}$"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance",
+          "actor_alias",
+          "ally_alias",
+          "anchors",
+          "canonical_interval_matched",
+          "fact_status_counts"
+        ],
+        "properties": {
+          "instance": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "anchors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "canonical_interval_matched": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fact_status_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "self.native_eye_offset",
+              "self.reference_fov_degrees",
+              "self.flash_clear",
+              "self.smoke_clear",
+              "self.visual_contact",
+              "ally.native_eye_offset",
+              "ally.reference_fov_degrees",
+              "ally.flash_clear",
+              "ally.smoke_clear",
+              "ally.visual_contact"
+            ],
+            "properties": {
+              "self.native_eye_offset": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.reference_fov_degrees": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.flash_clear": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.smoke_clear": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.visual_contact": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.native_eye_offset": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.reference_fov_degrees": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.flash_clear": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.smoke_clear": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.visual_contact": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchors",
+        "canonical_interval_matched",
+        "matrix_rows",
+        "fact_status_counts",
+        "eligible_decisions",
+        "native_field_state_counts"
+      ],
+      "properties": {
+        "anchors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "canonical_interval_matched": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matrix_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fact_status_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "self.native_eye_offset",
+            "self.reference_fov_degrees",
+            "self.flash_clear",
+            "self.smoke_clear",
+            "self.visual_contact",
+            "ally.native_eye_offset",
+            "ally.reference_fov_degrees",
+            "ally.flash_clear",
+            "ally.smoke_clear",
+            "ally.visual_contact"
+          ],
+          "properties": {
+            "self.native_eye_offset": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.reference_fov_degrees": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.flash_clear": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.smoke_clear": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.visual_contact": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.native_eye_offset": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.reference_fov_degrees": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.flash_clear": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.smoke_clear": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.visual_contact": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "eligible_decisions": {
+          "const": 0
+        },
+        "native_field_state_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "m_vecX",
+            "m_vecY",
+            "m_vecZ",
+            "m_pCameraServices.m_iFOV",
+            "m_pCameraServices.m_iFOVStart",
+            "m_pCameraServices.m_flFOVTime",
+            "m_pCameraServices.m_flFOVRate",
+            "m_flFlashDuration",
+            "m_flFlashMaxAlpha",
+            "m_bIsScoped"
+          ],
+          "properties": {
+            "m_vecX": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_vecY": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_vecZ": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_pCameraServices.m_iFOV": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_pCameraServices.m_iFOVStart": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_pCameraServices.m_flFOVTime": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_pCameraServices.m_flFOVRate": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_flFlashDuration": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_flFlashMaxAlpha": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_bIsScoped": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "evaluator_diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visibility_scope",
+        "pair_counts_by_anchor_role"
+      ],
+      "properties": {
+        "visibility_scope": {
+          "const": "internal_physics_diagnostic_not_initial_information"
+        },
+        "pair_counts_by_anchor_role": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "self",
+            "ally"
+          ],
+          "properties": {
+            "self": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "static_ray",
+                "reference_fov",
+                "smoke_occlusion",
+                "flash_impairment",
+                "legal_contact"
+              ],
+              "properties": {
+                "static_ray": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "reference_fov": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "smoke_occlusion": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "flash_impairment": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "legal_contact": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            },
+            "ally": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "static_ray",
+                "reference_fov",
+                "smoke_occlusion",
+                "flash_impairment",
+                "legal_contact"
+              ],
+              "properties": {
+                "static_ray": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "reference_fov": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "smoke_occlusion": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "flash_impairment": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "legal_contact": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

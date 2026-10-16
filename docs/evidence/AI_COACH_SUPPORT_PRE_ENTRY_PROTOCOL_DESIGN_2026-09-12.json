@@ -1,0 +1,816 @@
+{
+  "phase": "3E.11",
+  "date": "2026-09-12",
+  "status": "documentary_design_frozen_and_checked_physical_entry_unaccredited",
+  "scope": {
+    "design_id": "support_preparation_census/0.1.0-design.1",
+    "runtime_registered": false,
+    "new_demo_parses": 0,
+    "new_demo_acquisitions": 0,
+    "runtime_source_changes": 0,
+    "new_runtime_schemas": 0,
+    "decision_examples_created": 0,
+    "activity": "Documentary protocol, synthetic selection cases and read-only audit of retained observations.",
+    "not_a_functional_smoke": true
+  },
+  "versions": {
+    "plan": "2.31",
+    "human_contract": "1.38",
+    "design": "support_preparation_census/0.1.0-design.1",
+    "retained_source_capture": "fresh_replay_16hz_FrameDone_with_full_pawn_life@1",
+    "inherited_runtime": {
+      "parser": "v16",
+      "canonical_export": "3.8.0",
+      "quality": 12,
+      "catalog": "1.7.0",
+      "contract": "1.0.0-candidate.1",
+      "runtime_schemas": 82,
+      "reason_codes": 19,
+      "sdk": "demoinfocs-golang/v5 v5.2.0"
+    },
+    "inherited_runtime_scope": "Unchanged existing runtime; not newly built, parsed or smoke-tested in 3E.11."
+  },
+  "source": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e10-smoke-02o2gm9w\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+    "bytes": 91847824,
+    "sha256": "c3526c6647483605f4d0f29b4048eca3f8bed90338e460804bda6e345ce59ac3",
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "demo_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "build": "working-tree-support-visual-contact-3e10-20260912-r1"
+  },
+  "source_validation_lineage": {
+    "phase_3e10_evidence": {
+      "path": "docs/evidence/AI_COACH_SUPPORT_VISUAL_CONTACT_SINGLE_DEMO_SMOKE_2026-09-12.json",
+      "bytes": 604102,
+      "sha256": "40070cbfd577b515ee06dc63ff0ad3f3c5c60e3444459587ab5ea233e269729a"
+    },
+    "validation_scope": "Original schema, producer, causal availability, semantics and provenance remain in the retained 3E.10 evidence. This audit reuses identical bytes and the original build references.",
+    "new_claim": "Prospective documentary census selection and later sampled-position descriptors only."
+  },
+  "protocol": {
+    "document": {
+      "path": "docs/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL.md",
+      "bytes": 15537,
+      "sha256": "cfd93771b31b95ffa2af6cdb0f167facd3bb4825cd3693933decfd2b91f3fa55"
+    },
+    "cases": {
+      "path": "docs/references/support-preparation-selection-cases-v1.json",
+      "bytes": 9644,
+      "sha256": "79714543fc6be1166fb245cd5653cb845e29fe7631f9d21af474e56810d9e754"
+    },
+    "t0": "Current admissible support FrameDone cut, before the open future execution window; not necessarily before physical movement starts.",
+    "selection": "All usable directed own/ally pairs in the current cut; no historical/future movement, death, distance or hidden-enemy selection criterion.",
+    "prefix_obligation": "For fixed match/protocol, selecting a prefix equals full-stream selection restricted to that prefix; initial access clips before consulting future data.",
+    "population_limit": "Captured preparation checkpoints, correlated across allies, directions and overlapping windows; not independent tactical decisions or all physical opportunities.",
+    "phase_limit": "Capture playing does not establish freeze completion or competitive round eligibility."
+  },
+  "commands": {
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+    "reference_audit": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\audit_preparation_design.py"
+    ],
+    "reference_audit_binding": "Script path and input-binding file are retained and hashed in work-inventory.json.",
+    "closure": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\verify_closure.py"
+    ],
+    "contract": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "-m",
+      "ai_coach.contracts.validate_contract"
+    ],
+    "protected_before": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\protected_inventory.py",
+      "before"
+    ],
+    "protected_after": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\protected_inventory.py",
+      "after"
+    ],
+    "git_diff_check": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "evidence_finalization": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\finalize_evidence.py"
+    ]
+  },
+  "design_audit": {
+    "ok": true,
+    "protocol": "support_preparation_census/0.1.0-design.1",
+    "scope": "documentary_design_consistency_not_runtime_materialization",
+    "source": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e10-smoke-02o2gm9w\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+      "bytes": 91847824,
+      "sha256": "c3526c6647483605f4d0f29b4048eca3f8bed90338e460804bda6e345ce59ac3",
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "demo_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "build": "working-tree-support-visual-contact-3e10-20260912-r1"
+    },
+    "counts": {
+      "cuts_total": 30716,
+      "roster_rows_total": 306740,
+      "cuts_admissible": 27948,
+      "actor_alias_cuts": 279437,
+      "actor_usable": 205324,
+      "pairs_examined": 1117576,
+      "pairs_selected": 660686,
+      "actor_unavailable:not_alive": 74113,
+      "pairs_excluded_actor": 296452,
+      "pairs_excluded_ally": 160438,
+      "cuts_excluded_phase": 2768,
+      "cuts_excluded_clock": 0,
+      "actor_unavailable:unsupported_side": 0,
+      "actor_unavailable:disconnected": 0,
+      "actor_unavailable:native_identity_unavailable": 0,
+      "actor_unavailable:alive_unavailable": 0,
+      "actor_unavailable:position_unavailable": 0,
+      "actor_unavailable:ambiguous_actor_alias": 0,
+      "actor_unavailable:shared_pawn_reference": 0
+    },
+    "selected_actor_cuts": 199454,
+    "matrix_rows": 1040,
+    "old_anchors_preserved_as_subset": 32340,
+    "selection_sha256": "1665cef5d38a8f0af7e0e0d06ae187c7e731b3d143fc1cccf334588c3fcda6b6",
+    "prefix_checks": [
+      {
+        "prefix_frames": 1,
+        "selection_sha256": "4eacce22b0c2ef80c7a20771ee01519a1cbfb0a7c4788f5b33415fd9dfc07ab0"
+      },
+      {
+        "prefix_frames": 1000,
+        "selection_sha256": "508335a28202559177fe3f091d4f515955ebdfdf8231784b91651dfab99f951f"
+      },
+      {
+        "prefix_frames": 15358,
+        "selection_sha256": "b1fe993b8493f22403125b2f3e0d259c3655a0375a5ae04ac2a68bd4b23fbe88"
+      },
+      {
+        "prefix_frames": 477,
+        "selection_sha256": "34f587f4f1c8f90f5a131cd0c24f65f0e4176533b0f3d3c410d704e350510d96"
+      },
+      {
+        "prefix_frames": 30716,
+        "selection_sha256": "1665cef5d38a8f0af7e0e0d06ae187c7e731b3d143fc1cccf334588c3fcda6b6"
+      }
+    ],
+    "two_independent_selectors_agree": true,
+    "execution_by_role": {
+      "self": {
+        "sampled_displacement": 597847,
+        "no_sampled_displacement": 40390,
+        "censored:not_alive": 14774,
+        "censored:horizon_gap_or_boundary": 6619,
+        "censored:identity_unavailable_or_changed": 1056,
+        "censored:missing_exact_horizon_sample": 0,
+        "censored:disconnected": 0,
+        "censored:native_identity_unavailable": 0,
+        "censored:alive_unavailable": 0,
+        "censored:position_unavailable": 0,
+        "censored:ambiguous_actor_alias": 0,
+        "censored:shared_pawn_reference": 0,
+        "censored:unsupported_side": 0
+      },
+      "ally": {
+        "sampled_displacement": 597847,
+        "no_sampled_displacement": 40390,
+        "censored:not_alive": 14774,
+        "censored:horizon_gap_or_boundary": 6619,
+        "censored:identity_unavailable_or_changed": 1056,
+        "censored:missing_exact_horizon_sample": 0,
+        "censored:disconnected": 0,
+        "censored:native_identity_unavailable": 0,
+        "censored:alive_unavailable": 0,
+        "censored:position_unavailable": 0,
+        "censored:ambiguous_actor_alias": 0,
+        "censored:shared_pawn_reference": 0,
+        "censored:unsupported_side": 0
+      }
+    },
+    "joint_execution": {
+      "sampled_displacement / sampled_displacement": 549790,
+      "sampled_displacement / no_sampled_displacement": 34837,
+      "no_sampled_displacement / sampled_displacement": 34837,
+      "no_sampled_displacement / no_sampled_displacement": 4726,
+      "censored:not_alive / no_sampled_displacement": 827,
+      "censored:not_alive / sampled_displacement": 13220,
+      "no_sampled_displacement / censored:not_alive": 827,
+      "sampled_displacement / censored:not_alive": 13220,
+      "censored:not_alive / censored:not_alive": 660,
+      "censored:horizon_gap_or_boundary / censored:horizon_gap_or_boundary": 6552,
+      "censored:identity_unavailable_or_changed / censored:identity_unavailable_or_changed": 1056,
+      "censored:horizon_gap_or_boundary / censored:not_alive": 67,
+      "censored:not_alive / censored:horizon_gap_or_boundary": 67
+    },
+    "real_controls": [
+      {
+        "key": [
+          1,
+          0,
+          1,
+          1296,
+          1280,
+          "support-actor-0374dbb72f3df78dc051",
+          "support-actor-8b2d8b7d6930ff7368f6"
+        ],
+        "role": "self",
+        "execution_status": "sampled_displacement"
+      },
+      {
+        "key": [
+          1,
+          0,
+          1,
+          1296,
+          1280,
+          "support-actor-0374dbb72f3df78dc051",
+          "support-actor-8b2d8b7d6930ff7368f6"
+        ],
+        "role": "ally",
+        "execution_status": "sampled_displacement"
+      },
+      {
+        "key": [
+          4,
+          0,
+          1,
+          1308,
+          1292,
+          "support-actor-5417ff890f2bbdaa3713",
+          "support-actor-89dd22ca9c19fc02fd8b"
+        ],
+        "role": "ally",
+        "execution_status": "no_sampled_displacement"
+      },
+      {
+        "key": [
+          4,
+          0,
+          1,
+          1308,
+          1292,
+          "support-actor-89dd22ca9c19fc02fd8b",
+          "support-actor-5417ff890f2bbdaa3713"
+        ],
+        "role": "self",
+        "execution_status": "no_sampled_displacement"
+      },
+      {
+        "key": [
+          258,
+          0,
+          1,
+          2324,
+          2308,
+          "support-actor-5417ff890f2bbdaa3713",
+          "support-actor-876cc87fa226ac66bbb7"
+        ],
+        "role": "self",
+        "execution_status": "censored:not_alive"
+      },
+      {
+        "key": [
+          258,
+          0,
+          1,
+          2324,
+          2308,
+          "support-actor-876cc87fa226ac66bbb7",
+          "support-actor-5417ff890f2bbdaa3713"
+        ],
+        "role": "ally",
+        "execution_status": "censored:not_alive"
+      },
+      {
+        "key": [
+          445,
+          0,
+          1,
+          3072,
+          3056,
+          "support-actor-0374dbb72f3df78dc051",
+          "support-actor-8b2d8b7d6930ff7368f6"
+        ],
+        "role": "self",
+        "execution_status": "censored:horizon_gap_or_boundary"
+      },
+      {
+        "key": [
+          445,
+          0,
+          1,
+          3072,
+          3056,
+          "support-actor-0374dbb72f3df78dc051",
+          "support-actor-8b2d8b7d6930ff7368f6"
+        ],
+        "role": "ally",
+        "execution_status": "censored:horizon_gap_or_boundary"
+      },
+      {
+        "key": [
+          1134,
+          0,
+          1,
+          5829,
+          5812,
+          "support-actor-5417ff890f2bbdaa3713",
+          "support-actor-876cc87fa226ac66bbb7"
+        ],
+        "role": "self",
+        "execution_status": "censored:identity_unavailable_or_changed"
+      },
+      {
+        "key": [
+          1134,
+          0,
+          1,
+          5829,
+          5812,
+          "support-actor-5417ff890f2bbdaa3713",
+          "support-actor-876cc87fa226ac66bbb7"
+        ],
+        "role": "ally",
+        "execution_status": "censored:identity_unavailable_or_changed"
+      }
+    ],
+    "real_hidden_enemy_scalars_changed": 4958,
+    "real_enemy_and_malformed_future_invariance": true,
+    "real_initial_features_unchanged": true,
+    "initial_feature_copy_isolated": true,
+    "physical_entry_accredited": false,
+    "tactical_commitment_accredited": false,
+    "new_demo_parses": 0,
+    "seconds": 22.487
+  },
+  "selection_and_execution_matrix": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\design-pair-matrix.json",
+    "bytes": 1589711,
+    "sha256": "2e6ab975f7b4db1b47325b931fe7fb61273c8f8250bc46b338d5a541ec1c02ca",
+    "rows": 1040,
+    "unit": "Actor/ally/instance/epoch/side, directed; selected/excluded denominators and per-role execution counters, including zeros.",
+    "sum_selected": 660686,
+    "sum_examined": 1117576
+  },
+  "synthetic_fixtures": {
+    "ok": true,
+    "cases": [
+      {
+        "case": "native_zero_stationary",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "no_sampled_displacement",
+        "actual_future": "no_sampled_displacement"
+      },
+      {
+        "case": "first_cut_without_history",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "no_sampled_displacement",
+        "actual_future": "no_sampled_displacement"
+      },
+      {
+        "case": "future_movement",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "sampled_displacement",
+        "actual_future": "sampled_displacement"
+      },
+      {
+        "case": "movement_already_in_progress",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "sampled_displacement",
+        "actual_future": "sampled_displacement"
+      },
+      {
+        "case": "far_separation_not_thresholded",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_not_alive",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_disconnected",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_missing_position",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_nonfinite_position",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_bool_coordinate",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_alive_unknown",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_identity_unknown",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "shared_pawn_life",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "shared_full_handle",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "duplicate_actor_alias",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "no_usable_ally",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_postround",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_bad_clock",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "current_bad_sample_step",
+        "expected_selected": 0,
+        "actual_selected": 0,
+        "implementations_agree": true
+      },
+      {
+        "case": "new_epoch_current",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true
+      },
+      {
+        "case": "new_pawn_current",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true
+      },
+      {
+        "case": "same_tick_distinct_frames",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true
+      },
+      {
+        "case": "future_disconnection",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:disconnected",
+        "actual_future": "censored:disconnected"
+      },
+      {
+        "case": "future_not_alive",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:not_alive",
+        "actual_future": "censored:not_alive"
+      },
+      {
+        "case": "future_life_change",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:identity_unavailable_or_changed",
+        "actual_future": "censored:identity_unavailable_or_changed"
+      },
+      {
+        "case": "future_side_change",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:identity_unavailable_or_changed",
+        "actual_future": "censored:identity_unavailable_or_changed"
+      },
+      {
+        "case": "future_gap",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:horizon_gap_or_boundary",
+        "actual_future": "censored:horizon_gap_or_boundary"
+      },
+      {
+        "case": "future_phase_boundary",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:horizon_gap_or_boundary",
+        "actual_future": "censored:horizon_gap_or_boundary"
+      },
+      {
+        "case": "missing_exact_horizon",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true,
+        "expected_future": "censored:missing_exact_horizon_sample",
+        "actual_future": "censored:missing_exact_horizon_sample"
+      },
+      {
+        "case": "declared_freeze_does_not_promote_or_remove",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true
+      },
+      {
+        "case": "possible_hold_function_does_not_label_intent",
+        "expected_selected": 2,
+        "actual_selected": 2,
+        "implementations_agree": true
+      }
+    ],
+    "case_count": 31,
+    "enemy_roster_order_and_initial_invariance": true,
+    "malformed_future_prefix_invariance": true,
+    "branching_future_invariance": true,
+    "retroactive_backdating_counterexample_reproduced": true
+  },
+  "independence": {
+    "selection": "Two separately implemented selectors agree on every retained cut; neither imports the application derivation.",
+    "future_descriptors": "Verified by fixtures and retained-data controls, not by a second independent implementation of every future classifier. Full independent runtime recomputation is required in 3E.12.",
+    "counterexample": "With identical prefixes, choosing the sample before a future advance changes selection across future branches; C0 does not."
+  },
+  "prior_no_death_control": {
+    "source": {
+      "path": "docs/evidence/AI_COACH_SUPPORT_CAUSAL_ANCHOR_SINGLE_DEMO_SMOKE_2026-09-09.json",
+      "bytes": 369233,
+      "sha256": "2d95232b7f9bd3b021a18a773d31c6bf32aafa3a48c621c3825991204dbb86bb"
+    },
+    "controls": [
+      {
+        "json_path": "independent_recomputation.death_window_audit.counts.no_pair_death_in_canonical_window",
+        "count": 29162
+      },
+      {
+        "json_path": "independent_recomputation.death_window_audit.counts.no_any_kill_in_canonical_window",
+        "count": 26346
+      }
+    ],
+    "scope": "Previously validated canonical windows of the 32340 legacy anchors, all retained as a subset of C0. Original event-coverage conditions still apply. These are not newly computed kill counts over all C0 candidates.",
+    "used_for_selection": false
+  },
+  "verification": {
+    "ok": true,
+    "baseline_files": 1100,
+    "unchanged_baseline_files": 1093,
+    "changed_only_documentary_paths": [
+      "README.md",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/README.md",
+      "docs/ai-coach-validation.md",
+      "docs/archive/ai-coach/README.md",
+      "docs/prompts/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_PROMPT.md"
+    ],
+    "only_completed_prompt_removed": "docs/prompts/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_PROMPT.md",
+    "previous_evidence_jsons_unchanged": 41,
+    "prior_output_and_work_files_verified": 170,
+    "prior_functional_build_sources_verified": 487,
+    "documents": 48,
+    "local_markdown_links": 472,
+    "missing_links": [],
+    "git_diff_check": 0,
+    "single_active_prompt": "AI_COACH_SUPPORT_PREPARATION_CENSUS_PHASE_PROMPT.md",
+    "runtime_contract": {
+      "counts": {
+        "actions": 51,
+        "capabilities": 17,
+        "decisions": 15,
+        "fields": 58,
+        "outcomes": 18
+      },
+      "ok": true,
+      "runtime_contracts": {
+        "reason_codes": 19,
+        "schemas": 82
+      }
+    },
+    "design_cases_match_retained_verifier": true
+  },
+  "protected_corpus": {
+    "before": {
+      "approved_bundles": 44,
+      "source_files": 50,
+      "files": 4356,
+      "hashed_files": 181,
+      "bytes": 42372398910,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+      "seconds": 1.364
+    },
+    "after": {
+      "approved_bundles": 44,
+      "source_files": 50,
+      "files": 4356,
+      "hashed_files": 181,
+      "bytes": 42372398910,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+      "seconds": 2.364,
+      "unchanged": true
+    },
+    "before_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\protected_before.json",
+      "bytes": 621838,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15"
+    },
+    "after_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\protected_after.json",
+      "bytes": 621838,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15"
+    },
+    "method": "Compare path-key/size/mtime for all 4356 files across 44 approved bundles, 50 source demos, local release and backend/data/exports. SHA-256 additionally covers 181 selected files: manifests, the single approved source and release files. This is not a full content rehash of all demos and bundle artifacts.",
+    "mutations": 0
+  },
+  "preservation": {
+    "baseline_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\baseline-source-inventory.json",
+      "bytes": 201341,
+      "sha256": "2354917602a55440474d660cb74fba6397d69ceb3a3c4ff79dff4ab257f59d6e"
+    },
+    "baseline_files": 1100,
+    "unchanged_baseline_files": 1093,
+    "existing_documentary_changes": [
+      "README.md",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/README.md",
+      "docs/ai-coach-validation.md",
+      "docs/archive/ai-coach/README.md",
+      "docs/prompts/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_PROMPT.md"
+    ],
+    "deleted_completed_prompt": "docs/prompts/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_PROMPT.md",
+    "previous_evidence_jsons_unchanged": 41,
+    "previous_output_and_work_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\previous-phase-inventory.json",
+      "bytes": 45426,
+      "sha256": "17b9baf5f496368f06b8469dee1f0a8cdfffcf08c002f43c4b40edcba9357f99"
+    },
+    "previous_output_and_work_files_content_verified": 170,
+    "previous_functional_build_files_content_verified": 487,
+    "functional_build_inventory_reference": "source_build_inventory in the hash-bound 3E.10 evidence",
+    "temporary_interface": "Preserved by source baseline; no product/interface changes."
+  },
+  "retention": {
+    "new_work_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz",
+    "new_work_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\work-inventory.json",
+      "bytes": 6799,
+      "sha256": "2ea3a0d60db118b1024c94b6a6e0dc3c3c009b04f62eeb3c3190bd3971fda6a7"
+    },
+    "inventoried_work_files": 31,
+    "inventoried_work_bytes": 5678375,
+    "inventory_self_excluded": true,
+    "previous_attempts": [
+      {
+        "prefix": "attempt1-",
+        "ok": true,
+        "seconds": 19.496
+      },
+      {
+        "prefix": "attempt2-",
+        "ok": true,
+        "seconds": 22.741
+      }
+    ],
+    "refinements": "All three design-audit revisions passed. Retained refinements made zero coverage explicit, added boundary-prefix controls and distinguished identity unavailable from identity changed. No runtime producer failure or demo reparse.",
+    "prior_temporary_outputs": "All remain read-only and retained; no cleanup attempted.",
+    "repository_artifacts": [
+      {
+        "path": "README.md",
+        "bytes": 8166,
+        "sha256": "322c90abeb7163ff09c6bc6d360de039447cf47cf0f9c2e9c06fe00d8afa4a3f"
+      },
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "bytes": 103860,
+        "sha256": "6a8e51baae98dbeb0c61c2cc3ec8e155afd94d188facf2b5ba2ddc0d92e7da57"
+      },
+      {
+        "path": "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+        "bytes": 76192,
+        "sha256": "c6056e630cb811d2683d795cade408052aaa170afcfb39458d714aa25eaf77d9"
+      },
+      {
+        "path": "docs/README.md",
+        "bytes": 6836,
+        "sha256": "51f72a01d18680578b5a27b72fbc89a388a2518ba1188f21596d273e205772bf"
+      },
+      {
+        "path": "docs/archive/ai-coach/README.md",
+        "bytes": 9176,
+        "sha256": "3447134d41e8f38e2b712195cf4eb183c89b2674a079f26a9ad8a35405e6f64d"
+      },
+      {
+        "path": "docs/ai-coach-validation.md",
+        "bytes": 20679,
+        "sha256": "17e4bf4e54c3f7d8a79fde7850fd820ab6b386f135e554b0131bea23f762761e"
+      },
+      {
+        "path": "docs/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL.md",
+        "bytes": 15537,
+        "sha256": "cfd93771b31b95ffa2af6cdb0f167facd3bb4825cd3693933decfd2b91f3fa55"
+      },
+      {
+        "path": "docs/references/support-preparation-selection-cases-v1.json",
+        "bytes": 9644,
+        "sha256": "79714543fc6be1166fb245cd5653cb845e29fe7631f9d21af474e56810d9e754"
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_2026-09-12.md",
+        "bytes": 8279,
+        "sha256": "2c5d6f7089ef480c4b096e5daafd434e4a0effe6ba04ef16f247b15c6cc9b574"
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_PREPARATION_CENSUS_PHASE_PROMPT.md",
+        "bytes": 4685,
+        "sha256": "988e4baf14ff22f23081bc7a1f2435d916c55cc1f510981f930ab10e5548e855"
+      }
+    ]
+  },
+  "code_discovery": {
+    "graph_project": "E-Carpeta-compartida-Proyecto-IA-StratAI",
+    "graph_search": "ai_coach/support/anchors.py",
+    "result": "Transport closed",
+    "fallback": "bounded direct source and documentation reads"
+  },
+  "limits": [
+    "No physical pre-entry trigger is accredited: an oriented boundary fixed before selection and exact linked spatial/temporal continuity evidence remain missing.",
+    "Tactical commitment and intent require contextual criteria and viable alternatives; neither movement nor human interpretation substitutes for a physical source.",
+    "No sampled displacement does not prove continuous stillness, deliberate waiting, absence of physical entry or tactical correctness.",
+    "Legal contact, physical NAV, instantaneous velocity, carried/dropped C4, complete timing/readiness and cooperation retain their documented positive-source dependencies.",
+    "No new competitive mapping, tactical review, comparison, recommendation, training, publication, promotion or 44/44 migration.",
+    "Runtime suites and the one-demo functional smoke were not rerun for this documentary phase; retained 3E.10 results are lineage, not new tests."
+  ],
+  "gates": {
+    "physical_entry_accredited": false,
+    "tactical_commitment_accredited": false,
+    "legal_visual_contact_accredited": false,
+    "s2_s3_eligible": false,
+    "comparison_allowed": false,
+    "recommendations_allowed": false,
+    "training_allowed": false,
+    "product_supported": false
+  },
+  "next_action": {
+    "phase": "3E.12",
+    "prompt": "docs/prompts/AI_COACH_SUPPORT_PREPARATION_CENSUS_PHASE_PROMPT.md",
+    "scope": "Implement only the prospective preparation census C0 with explicit optional runtime contracts, materializer/reader, prefix-isolated initial facts and separate later descriptors. Reuse existing capture when sufficient; preserve all previous sources, anchors, IDs and semantics.",
+    "functional_gate": "After appropriate suites pass, exactly the same approved demo in a new empty isolated TEMP, with independent recomputation and retained inventory.",
+    "executed_in_this_phase": false
+  }
+}

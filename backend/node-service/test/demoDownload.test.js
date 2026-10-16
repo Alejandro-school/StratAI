@@ -14,15 +14,12 @@ const {
   validateExistingDemo,
 } = require('../services/demoDownload');
 
-test('accepts HTTPS CDNs and only the exact legacy Valve replay HTTP hosts', () => {
+test('accepts allowed HTTPS CDNs and rejects unauthenticated HTTP transfers', () => {
   assert.equal(
     validateDemoUrl('https://cdn.steamcontent.com/demo.dem.bz2').protocol,
     'https:',
   );
-  assert.equal(
-    validateDemoUrl('http://replay196.valve.net/demo.dem.bz2').protocol,
-    'http:',
-  );
+  assert.throws(() => validateDemoUrl('http://replay196.valve.net/demo.dem.bz2'), /not allowed/);
   assert.throws(
     () => validateDemoUrl('http://cdn.steamcontent.com/demo.dem.bz2'),
     /not allowed/,
@@ -33,14 +30,14 @@ test('accepts HTTPS CDNs and only the exact legacy Valve replay HTTP hosts', () 
   );
 });
 
-test('preserves legacy Valve HTTP URLs without relaxing the allowlist', () => {
+test('upgrades known legacy URLs and never downgrades HTTPS', () => {
   assert.equal(
     normalizeGcDemoUrl('http://replay123.valve.net/demo.dem.bz2').href,
-    'http://replay123.valve.net/demo.dem.bz2',
+    'https://replay123.valve.net/demo.dem.bz2',
   );
   assert.equal(
     normalizeGcDemoUrl('https://replay123.valve.net/demo.dem.bz2').href,
-    'http://replay123.valve.net/demo.dem.bz2',
+    'https://replay123.valve.net/demo.dem.bz2',
   );
   assert.throws(
     () => normalizeGcDemoUrl('http://valve.net.attacker.example/demo.dem.bz2'),

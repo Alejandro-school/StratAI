@@ -14,6 +14,7 @@ import NavigationFrame from '../components/Layout/NavigationFrame';
 import { useAuth } from '../auth/useAuth';
 import useCoachChat from '../hooks/useCoachChat';
 import useMatchAnalysisSession from '../hooks/useMatchAnalysisSession';
+import useMatchProgress from '../hooks/useMatchProgress';
 import useReplaySyncStore from '../stores/useReplaySyncStore';
 import { matchesQueryOptions } from '../features/matches/queries/matchQueries';
 import '../styles/pages/coachDashboard.css';
@@ -134,6 +135,10 @@ const CoachDashboard = () => {
     refetch: refetchMatches,
   } = useQuery(matchesQueryOptions(user?.steam_id));
   const loadingMatches = Boolean(user?.steam_id) && areMatchesPending;
+  const { completedCount, resetCompleted } = useMatchProgress(user?.steam_id);
+  useEffect(() => {
+    if (completedCount > 0) refetchMatches().finally(resetCompleted);
+  }, [completedCount, refetchMatches, resetCompleted]);
   const matchesError = matchesQueryError?.message || null;
   const [savedEvidenceIds, setSavedEvidenceIds] = useState(() => new Set());
   const [selectedMatchId, setSelectedMatchId] = useState(null);

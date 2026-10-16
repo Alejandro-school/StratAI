@@ -1,0 +1,257 @@
+{
+  "design_id": "support_preparation_census/0.1.0-design.1",
+  "status": "frozen_documentary_design_not_runtime",
+  "runtime_registered": false,
+  "source_capture_contract": "fresh_replay_16hz_FrameDone_with_full_pawn_life@1",
+  "reference_verifier": {
+    "retained_path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\audit_preparation_design.py",
+    "sha256": "10e32acd8d53ed4793bebaef3329f82843f8b26090d8302290fc928dec8b229a",
+    "command": [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e11-work-u8trtljz\\audit_preparation_design.py"
+    ],
+    "scope": "synthetic selection checks and retained-source design audit; no demo parser or application imports"
+  },
+  "fixture_setup": {
+    "frames": 35,
+    "sequence_and_frame": "q+1 for q=0..34",
+    "tick": "1000+4*q",
+    "instance": 1,
+    "epoch": 0,
+    "tick_rate": 64,
+    "sample_step": 4,
+    "phase": "playing",
+    "players": [
+      {
+        "alias": "synthetic-a",
+        "side": "CT",
+        "handle": 16385
+      },
+      {
+        "alias": "synthetic-b",
+        "side": "CT",
+        "handle": 16386
+      },
+      {
+        "alias": "synthetic-e",
+        "side": "T",
+        "handle": 16387
+      }
+    ],
+    "player_defaults": "connected=true; identity/position/alive statuses observed; alive=true; position XYZ all zero; pawn_life=synthetic-life-<alias>"
+  },
+  "mutation_notation": "Documentary Python expressions copied from the retained verifier. field(fs,i,p,k,v) assigns a player field. The referenced verifier contains the executable generator; this JSON is not a runtime input. Nonfinite values occur only in fixtures.",
+  "cases": [
+    {
+      "name": "native_zero_stationary",
+      "mutation_expression": "lambda fs: None",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "no_sampled_displacement"
+    },
+    {
+      "name": "first_cut_without_history",
+      "mutation_expression": "lambda fs: None",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 0,
+      "expected_actor_execution": "no_sampled_displacement"
+    },
+    {
+      "name": "future_movement",
+      "mutation_expression": "lambda fs: [field(fs, i, 0, 'position', {'x': 32, 'y': 0, 'z': 0}) for i in range(3, 35)]",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "sampled_displacement"
+    },
+    {
+      "name": "movement_already_in_progress",
+      "mutation_expression": "lambda fs: [field(fs, i, 0, 'position', {'x': i, 'y': 0, 'z': 0}) for i in range(35)]",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "sampled_displacement"
+    },
+    {
+      "name": "far_separation_not_thresholded",
+      "mutation_expression": "lambda fs: [field(fs, i, 1, 'position', {'x': 4096, 'y': 0, 'z': 0}) for i in range(35)]",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_not_alive",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'alive', False)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_disconnected",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'connected', False)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_missing_position",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'position', None)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_nonfinite_position",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'position', {'x': float('nan'), 'y': 0, 'z': 0})",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_bool_coordinate",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'position', {'x': True, 'y': 0, 'z': 0})",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_alive_unknown",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'alive', None)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_identity_unknown",
+      "mutation_expression": "lambda fs: field(fs, 2, 0, 'identity_status', 'unavailable')",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "shared_pawn_life",
+      "mutation_expression": "lambda fs: field(fs, 2, 1, 'pawn_life', 'synthetic-life-synthetic-a')",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "shared_full_handle",
+      "mutation_expression": "lambda fs: field(fs, 2, 1, 'pawn_handle', 16385)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "duplicate_actor_alias",
+      "mutation_expression": "lambda fs: fs[2]['players'].append(deepcopy(fs[2]['players'][0]))",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "no_usable_ally",
+      "mutation_expression": "lambda fs: fs[2]['players'].pop(1)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_postround",
+      "mutation_expression": "lambda fs: fs[2].update(phase='postround')",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_bad_clock",
+      "mutation_expression": "lambda fs: fs[2].update(tick_rate=0)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "current_bad_sample_step",
+      "mutation_expression": "lambda fs: fs[2].update(sample_step=0)",
+      "expected_selected_pairs": 0,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "new_epoch_current",
+      "mutation_expression": "lambda fs: [fs[i].update(epoch=1) for i in range(2, 35)]",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "new_pawn_current",
+      "mutation_expression": "lambda fs: [field(fs, i, 0, 'pawn_life', 'synthetic-new-life') for i in range(2, 35)]",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "same_tick_distinct_frames",
+      "mutation_expression": "lambda fs: fs[2].update(tick=fs[1]['tick'])",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "future_disconnection",
+      "mutation_expression": "lambda fs: field(fs, 8, 0, 'connected', False)",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:disconnected"
+    },
+    {
+      "name": "future_not_alive",
+      "mutation_expression": "lambda fs: field(fs, 8, 0, 'alive', False)",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:not_alive"
+    },
+    {
+      "name": "future_life_change",
+      "mutation_expression": "lambda fs: field(fs, 8, 0, 'pawn_life', 'synthetic-new-life')",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:identity_unavailable_or_changed"
+    },
+    {
+      "name": "future_side_change",
+      "mutation_expression": "lambda fs: field(fs, 8, 0, 'side', 'T')",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:identity_unavailable_or_changed"
+    },
+    {
+      "name": "future_gap",
+      "mutation_expression": "lambda fs: fs[8].update(tick=1033)",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:horizon_gap_or_boundary"
+    },
+    {
+      "name": "future_phase_boundary",
+      "mutation_expression": "lambda fs: fs[8].update(phase='postround')",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:horizon_gap_or_boundary"
+    },
+    {
+      "name": "missing_exact_horizon",
+      "mutation_expression": "lambda fs: fs.pop()",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2,
+      "expected_actor_execution": "censored:missing_exact_horizon_sample"
+    },
+    {
+      "name": "declared_freeze_does_not_promote_or_remove",
+      "mutation_expression": "lambda fs: fs[2].update(native_freeze=True)",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2
+    },
+    {
+      "name": "possible_hold_function_does_not_label_intent",
+      "mutation_expression": "lambda fs: fs[2].update(context_declared='protect_plant')",
+      "expected_selected_pairs": 2,
+      "current_zero_based_index": 2
+    }
+  ],
+  "invariants": [
+    "two separately implemented selectors agree",
+    "prefix invariance including malformed unused future",
+    "opponent scalar and roster-order invariance",
+    "initial facts unchanged and copied",
+    "retroactive T0 backdating counterexample differs on identical prefixes"
+  ],
+  "decision_id": null,
+  "physical_entry_accredited": false,
+  "tactical_commitment_accredited": false,
+  "comparison_allowed": false,
+  "training_allowed": false,
+  "product_supported": false
+}

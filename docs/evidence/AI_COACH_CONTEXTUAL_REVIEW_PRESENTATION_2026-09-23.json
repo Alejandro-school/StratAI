@@ -1,0 +1,322 @@
+{
+  "user_feedback_literal": "R1: Hay 3 jugadores desconocidos. No se donde están, y no se si es un problema de la captura de los datos o es que están muertos y entonces no lo captura. Yo por coordenadas no te puedo decir donde estan porque no lo se, yo se los nombres de los sitios, no las coordenadas. Igualmente falta información, como la utilidad que tiene. Y \"vivo observado\" no se a que se refiere.",
+  "feedback_kind": "review_packet_information_and_usability",
+  "scored_as_tactical_label": false,
+  "detector_changed": false,
+  "new_demos_processed": 0,
+  "inventory_verified_current": false,
+  "cases": [
+    {
+      "case": "R1",
+      "episode_id": "cf87833570641dd0974122f33fd115cb23a3f7e7221b111142b38dbaa3e7e0fc",
+      "source_alias": "demo-045df2521c790a7d8a69",
+      "context_id": "001efa7125795cfe8d44c93edf4d097f543751df847d64d2a6337765cc503ee7",
+      "selection": "fourth of 12 fixed windows, no prediction used",
+      "cut": {
+        "sequence": 6507,
+        "frame": 35418,
+        "tick": 35393,
+        "epoch": 0,
+        "instance": 7,
+        "round_number": 6,
+        "tick_rate": 64,
+        "sample_step": 4,
+        "phase": "playing"
+      },
+      "actors": [
+        {
+          "actor": "T1",
+          "life_state": "Muerto",
+          "utility_types_in_replay_list": [],
+          "inventory_freshness": "not_applicable_dead",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T2",
+          "life_state": "Muerto",
+          "utility_types_in_replay_list": [],
+          "inventory_freshness": "not_applicable_dead",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T3",
+          "life_state": "Vivo",
+          "utility_types_in_replay_list": [
+            "humo"
+          ],
+          "inventory_freshness": "unaccredited",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T4",
+          "life_state": "Muerto",
+          "utility_types_in_replay_list": [],
+          "inventory_freshness": "not_applicable_dead",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T5",
+          "life_state": "Vivo",
+          "utility_types_in_replay_list": [
+            "HE",
+            "humo"
+          ],
+          "inventory_freshness": "unaccredited",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        }
+      ],
+      "source_rows_cross_checked": 325,
+      "source_context_sha256": "b6ee3ef33733c73aea9c87cdc6e68d12a343dc517c7a0b868d38ad08decc3a98",
+      "source_replay_artifact": "presentation/replay/round_006.json.gz",
+      "source_replay_sha256": "50c22fd91277bf9ffdcdf8a21576bf9b980badfc53f669bb6d1dd62c422548b6",
+      "source_manifest_sha256": "cf486d7999da6a125868717cb413a5381e0b6ae80bef2dc1fadc480f86e3cc35",
+      "map_reference": {
+        "artifact": "de_mirage_texto.vmap",
+        "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+        "bytes": 211928992,
+        "kind": "local_vmap_env_cs_place_origin"
+      },
+      "automatic_zone_assignment": false
+    },
+    {
+      "case": "R2",
+      "episode_id": "9648f784a2ac5bab8b222412ec89713a5d17c9c84d473834b40eb6e3fada92f4",
+      "source_alias": "demo-066944f5acb806ba5f81",
+      "context_id": "65c00a40859e2e837c210461a0b13dc4624b563fe1101fa553752b15b41ca0bb",
+      "selection": "fourth of 12 fixed windows, no prediction used",
+      "cut": {
+        "sequence": 6382,
+        "frame": 36193,
+        "tick": 36168,
+        "epoch": 0,
+        "instance": 8,
+        "round_number": 7,
+        "tick_rate": 64,
+        "sample_step": 4,
+        "phase": "playing"
+      },
+      "actors": [
+        {
+          "actor": "T1",
+          "life_state": "Vivo",
+          "utility_types_in_replay_list": [
+            "HE",
+            "flash"
+          ],
+          "inventory_freshness": "unaccredited",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T2",
+          "life_state": "Vivo",
+          "utility_types_in_replay_list": [
+            "humo"
+          ],
+          "inventory_freshness": "unaccredited",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T3",
+          "life_state": "Muerto",
+          "utility_types_in_replay_list": [],
+          "inventory_freshness": "not_applicable_dead",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T4",
+          "life_state": "Vivo",
+          "utility_types_in_replay_list": [
+            "flash",
+            "humo"
+          ],
+          "inventory_freshness": "unaccredited",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        },
+        {
+          "actor": "T5",
+          "life_state": "Vivo",
+          "utility_types_in_replay_list": [
+            "HE",
+            "flash",
+            "humo"
+          ],
+          "inventory_freshness": "unaccredited",
+          "alive_source": "context_and_exact_tick_replay_agree"
+        }
+      ],
+      "source_rows_cross_checked": 325,
+      "source_context_sha256": "88cb5743fd47543bc25a6328129f0797cec010c2a59613f6c8846c97b86b2aef",
+      "source_replay_artifact": "presentation/replay/round_007.json.gz",
+      "source_replay_sha256": "ade9a9db5de2bc4bf0cf7784df4e87c690fdc2f5cb75c72451652a2dd4fe62b0",
+      "source_manifest_sha256": "a6ab4f819bf31dc7293b050875657aa23ad44a3010f32349afcf7add41d2390d",
+      "map_reference": {
+        "artifact": "de_mirage_texto.vmap",
+        "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+        "bytes": 211928992,
+        "kind": "local_vmap_env_cs_place_origin"
+      },
+      "automatic_zone_assignment": false
+    }
+  ],
+  "protected_files_unchanged": 62,
+  "protected_hashes": {
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-0d8d4742-8b32-407b-9d9f-7a9f260020f7\\manifest.json": "edc7efe71658afef0bb0ce100210319100864a35e6a0fdc51e3a14ee13b32f2e",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-0e13c120-2130-4835-bd19-74dc1d80454c\\manifest.json": "c17633027e1f8c389d3fdbb85eb31a958f1d0957c4e5092bedd8ae8ecf8c8f13",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-117f8428-0a73-49b2-b754-70a42f5a2f98\\manifest.json": "ce5f3cb8b35c2318b55a78f2685bb465fe93578ee66d9685de2babbafcfa6913",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-1283ff87-ce52-4330-8828-de5e8ffb13e0\\manifest.json": "e5d32dcaf5caef5447fe35c1a7b1b45bf197ba189f62a5bda8fc2b9daca417b1",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-146ecb11-8182-41e3-b8c7-9b0eb5d9ae2a\\manifest.json": "c87a4159e4837bff177a9f42ec769cf8a4170c27fb2796cb7298b46438aac27a",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-177e278d-bf8b-4917-b661-72cdf4826da1\\manifest.json": "629ae6a83ae49eb1b9591c4b5f1a0f1fdd480f056ed704cc8dc7595d29e40ab8",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-18abdf61-c731-4228-9c84-23605ac49ef9\\manifest.json": "f3eacb17ce239e211a92b2fdba062a75fdf62b97c7d48a64ca004fa2f9b04822",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-2a7a8a45-6a20-402e-851f-b0ba2e98cce7\\manifest.json": "04e2362280e1b2039ed1942fc60fc5430360f6a2eec2023be5d66578dfaf4974",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-2cdca66a-0c7f-4871-a89d-8f973ea1bb05\\manifest.json": "6a7cb2ee9b9694248038932d1e8efce3316b739dc50d08c8dc5e1345152f2cd7",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-2f361ba8-652c-40cd-869d-60eaa086f88e\\manifest.json": "93e2eebbcce7e0614190f240d19ed6859355a30f8383f90a4a799fe14147f8b5",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-3af12135-dc52-4884-abe9-d1618a205bbe\\manifest.json": "4d3302a3b64d197dd1879a6d6321f68d51c2dc8024cfe7b7ddea81b9605827e6",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407\\manifest.json": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-55c6c1dd-8ee6-432a-a621-d72fc7db0093\\manifest.json": "7964ce27535e0cd5f53061bdc83acde09275ad587374b191d13f1c82c61dcae5",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-62becc5d-4a05-4d47-bd98-a59bf6975b9d\\manifest.json": "eafb71746c5f60fe3522740edf9dfe93e5bd44ef0dd0be3a3ed018883a229ca3",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-6ba63f66-307c-4c3d-ab4f-bd9802076de1\\manifest.json": "ba17ecb293da3c2c41d1305bf24c9798bc65d0580ad5b28c1d0d2f88bcb79751",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-6d3ff085-85f8-4ce7-ae0c-c26c737448be\\manifest.json": "8dda4a3740bc8e9edf5bcc6b00e05af1b381d5086b119635a05ba2d1fe19da6a",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-6eaf63f6-f287-4559-a388-e7584b620b8f\\manifest.json": "bf8c414d9ac0fd905a264a718c63d2c3b31d20ab9f300ae9aeed3f42b35eb3d3",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-71b21e75-3fe7-4b12-b29e-ad56e5616925\\manifest.json": "527fc30554f935ad7e854d284ceee30c96cfddc70dcc14ddc49b09d6b72c0788",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-76ee4c29-41b4-4758-a7d2-bf9588a8960e\\manifest.json": "b0936446cb34a32441f5b7bbc633e683327c5bbdd935b1db4af012714a5f124f",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-7aaf4d69-4721-46cc-8cc4-95792a5c3233\\manifest.json": "d52b8d42ec0b6a0dd00d518c327ae05ca12a54415bda5d94aa7574edc6ac4291",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-7dcc0c64-4571-4481-a398-7b59a721e6a5\\manifest.json": "9abd881462229639360c1809a9cc3b98b3fead1b84092823d6127e075c63ee78",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-80f45fe4-37ad-4428-95f2-5bd55073dfe8\\manifest.json": "c56985c3c5e44b0cce6c84501962a82d405cada717bd9486658569d9c793f5a2",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-85cbe79b-3e94-437c-a639-6fc6a5b308a2\\manifest.json": "24b41214638145c1e43242d347c712c11ac5e7e0a96d217d375a5e7306dc1365",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-8d873cb6-1e80-402f-95f1-254c996b4d8a\\manifest.json": "cbbd7e49b48839fd76425dd5ab43ce322b0a1f1a42e4714238cdff4216687bec",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-8fdff138-7118-46cc-b7a4-37b75a6e0a2b\\manifest.json": "11f99902075ed67cd0ddf5d0827f5a2c175031b99c0c0573f3efba7199ce0e22",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-9251e0d0-f0d9-44a7-beeb-50313634ee8c\\manifest.json": "f239072ac6c4e11c31e2a7adb0dc4bc39e9b339869cf1d1b5234926773dfe70d",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-9a3f6a43-0569-4f77-84e2-1d1ee248bf2e\\manifest.json": "597dd1ef4293e3ba378cc00da79ebc4ef2640d978f2c286a243a6304bf963961",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-b242760b-ae60-4bc7-8b32-df7c39fbf470\\manifest.json": "0be98e0d82aee950706baa82d54de11469bd187e1827822acc5041e3ae7280dd",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-b69d5abb-30a1-46b8-bd79-bf048a0f2c7b\\manifest.json": "2c3adc01f5e375ca80fc272dfeb084b41341723a728cb09661cbb9dc4631df76",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-b922c2eb-fccc-450a-94f1-f1f6ca4f0e52\\manifest.json": "ccdd163a6e01e9723eaebd4b786e0a089fd1c5a5415c247ade85fa6ecef9ff83",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-b9aad2f0-b84b-4b5a-8448-50b5ab1ef600\\manifest.json": "8c4b4d656bde864216151f924253c1469ed66edbc97349c7c3a115d0067496e6",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-ba397cdb-4a0f-4044-8d85-2f733ebb9e17\\manifest.json": "f63b8c790911e6bef931f5de13d0a101e297dd65832aee5162d0bf9a611b9c4a",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-ca19dfe6-760a-4fa5-9582-5e8d8057d1ec\\manifest.json": "e02eefb682efb311dc2a4518f9f29fb8dbaaab9b6305fcfe94ba5c20683dbd86",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-d47de771-186c-48b1-8b43-4776e014f2a3\\manifest.json": "c52e3c33c0a6345515119b2106531f675361ec5278f6883551eb5b0fdd967e5c",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-d7ef2149-bb88-40bf-a6d9-ad2a51b486d2\\manifest.json": "f22cfd3d0139eed4cfe633cd4dcbfdcec6a30b6874812626b431617449397846",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-dd986f46-f51b-4b79-a117-19004467c7db\\manifest.json": "b918344df66ca7bfb1c2b4237d38832e9d218f3653d3d0a3539076e8c2a2690b",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-dec5bc02-5d98-49c5-966a-4e5da2d09605\\manifest.json": "d3e5f01deb372db236c7380c87f074d1eef847d23c67b8c46cac069b4be0f4b5",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-e0800176-6caa-4a10-a796-cbb469c545a5\\manifest.json": "5a6023e5c4c6ac75cb4d6a9eba5964e8d1e473a47f6568d7fac5522e641f1300",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-e57a68b2-337a-4358-b3df-c9eeec07134e\\manifest.json": "92d373bb7a4f9c419f6b760c2eb050815a55eaf31bd290a8c22aa753d2dcda24",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-e88a824e-dbb6-4690-9305-584bdadced96\\manifest.json": "bb758067befd6d8bcad1478a9370aea93a7ffca721379c78cefa594b6b993be7",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-eae5f3ed-8fbe-4c82-bb8d-052d8006b1aa\\manifest.json": "9bd752915ab8817ecce83a0effa51cf5ce1fb3a5282717a5e1c32a4553b6da0e",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-f034c9dd-1fb1-4804-a604-659deb023ca5\\manifest.json": "5afbc30320321139d551cee7c7acca80830b974eeffba34a92ab9968129c219a",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-f7fc00db-5f51-49d8-9f24-bedbfd3af8ed\\manifest.json": "4314134b12a69276bef17920de76064b7b583fb1c1905431254391006e23535b",
+    "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\analyzed_demos\\1-fcbd6b94-a285-4a59-9804-13121a04a4db\\manifest.json": "f6a5b187337c451ad4ad02c1e0135a8b792aef46c7f985604352a30f8731a2e5",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\contracts\\capability_catalog.json": "c7b3d10246ec59cf912411df7aa3d8459527643be5746b0e95e5083634d850a7",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\TEMPORARY_INTERFACE_MODE.txt": "7ab2e450268375305d4ffcf60cee51cac47141af719df3504006479e2736f53f",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-scope-20260922\\StratAI_Plan_del_coach_ICT_I1_v8.xlsx": "4d85a5bdbd088fd6d22cd1be964deadd5730e2fefa5145f14f9979842d058a76",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-contextual-20260923\\R1.md": "dc7b35c2512bc8caa056dbc05d0a08b7bde6d632146a4134d302036f87ce5270",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-contextual-20260923\\R2.md": "bc1bf0cf537e8022c28439edf550127293a7ee4cdff5ae620ed4ec2a78affed1",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-contextual-20260923\\R1.svg": "14367fad5408ac22a41c31d2f845c1b610d141954d36952c15f1d46cacd822aa",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-contextual-20260923\\R2.svg": "69b916266a30c96c3a64e55e7bde17fd09a2407780e39ea341bf352bae68d43f",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-contextual-20260923\\StratAI_Plan_del_coach_ICT_I2_v9.xlsx": "8c9c7ed888ffcffa1bf917da529efe3dee021cc1f3cba438ae9410d4c3b1446d",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\coaching.py": "312b99cf4b48508b37fee141763b0c3b3fc5bba71a508a3a9d3af0f2c81f185d",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\context.py": "94954dc9fda62094f26925d8d5b7229edf420b16e19af352551393a581c2aa36",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\contextual_io.py": "b94ac19de5e3fcb168927811f1732aae96297d2272e411ff6ff244e664c08e36",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\detector.py": "db2ee961307a1b1bd86132384846e628d0584d8068f796a7e17c63c6677a3337",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\evaluation.py": "988f5bfa04f5af4e27ed5f1cc85d2b74bf0e12b06c492976836f19ef7613a967",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\replay_report.py": "8b63cfdb326c52c39a8fb81939f1b3592886d066db3911980d4bf108b3ed588e",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\spatial_reference.py": "10ef95b807e33818f529dbe1f1cbac8975c33e858292727285a451fc1dca62e5",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588"
+  },
+  "radar_sha256": "062729376c7ad5cd86db90f8cb48eddaf11a410483804d0426e133254e70f799",
+  "script_sha256": "0c05f09893113f788527f754be40e726884514b3f17733ee012ba99a6f88fa2b",
+  "runtime_changed": false,
+  "review_predictions_opened": false,
+  "remaining_work": "accredit_inventory_freshness_before_requesting_new_tactical_labels",
+  "workbook_verification": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_new_cells": [
+      [
+        "xl/worksheets/sheet11.xml",
+        "A25"
+      ],
+      [
+        "xl/worksheets/sheet11.xml",
+        "B25"
+      ],
+      [
+        "xl/worksheets/sheet11.xml",
+        "C25"
+      ],
+      [
+        "xl/worksheets/sheet11.xml",
+        "D25"
+      ],
+      [
+        "xl/worksheets/sheet11.xml",
+        "E25"
+      ],
+      [
+        "xl/worksheets/sheet11.xml",
+        "F25"
+      ],
+      [
+        "xl/worksheets/sheet11.xml",
+        "G25"
+      ]
+    ],
+    "literal_feedback_preserved": true,
+    "source_sha256": "8c9c7ed888ffcffa1bf917da529efe3dee021cc1f3cba438ae9410d4c3b1446d",
+    "output_sha256": "d7375c4d42cbd1a3bbe86562ccc17f044693746c4628ebc6ecf7846762a97181"
+  },
+  "map_label_layout": {
+    "scope": "human_review_presentation_only",
+    "source": "visual_inspection_of_retained_radar",
+    "label_anchors_pixels": [
+      [
+        243,
+        219,
+        "Apartamentos B"
+      ],
+      [
+        514,
+        586,
+        "Conector"
+      ],
+      [
+        615,
+        450,
+        "Medio"
+      ],
+      [
+        561,
+        778,
+        "A"
+      ],
+      [
+        235,
+        294,
+        "B"
+      ]
+    ],
+    "automatic_zone_assignment": false,
+    "replaces": "raw_vmap_origin_used_as_visual_label_location"
+  },
+  "final_maps_visually_verified": [
+    "R1-map.png",
+    "R2-map.png"
+  ],
+  "final_artifacts": {
+    "R1-map.png": "7caf588a87c94ee48dbbbb16ee37456d44b8ec164b63c1a399272b95bc13b503",
+    "R1-map.svg": "0779aaca40ca73fb0f135daa755adcb7c16263bf57e26a7c937f68e7e540ec9d",
+    "R1.md": "80c2bd458c2a20f66ac2578a141ea33a0e8f32e0298e02c8df0f7236f7b30a74",
+    "R1.svg": "c794459cc66ec266a4b3dc793887c8d6bd3f5c07959333720825e8e8ce449ac3",
+    "R2-map.png": "8e54c8b6779442864da47af5c5f1cdb88a4a0cf840da891d54c6dc188dde7798",
+    "R2-map.svg": "0d977fa7ed97d11f2c9b7ff338e38bb3d570c6183eb98bcf524e5d49e9d8109e",
+    "R2.md": "91bab33f63fff659811c55b1f2061cf5e72bcb67facf6fb8dbf25f1e10e9cb32",
+    "R2.svg": "36610ffd99d2f6195702fd831260e8203e5f8b0907dcd9c3fe474f6a0a7c592c",
+    "refine_map.py": "a5bf8820929cb4b11ea95ee29fd97dacd81ce4909c4eb9f791027050139ede84",
+    "revise_packets.py": "0c05f09893113f788527f754be40e726884514b3f17733ee012ba99a6f88fa2b",
+    "StratAI_Plan_del_coach_ICT_I2_v10.xlsx": "d7375c4d42cbd1a3bbe86562ccc17f044693746c4628ebc6ecf7846762a97181",
+    "workbook-after.png": "a39dcac073d4e01d3be4f12ddcf884d9f0b737bfa163f4250b9c49bdff70c97d",
+    "workbook-before.png": "69b443533bc31b6d8d6ebd89e173ea32f4baa111b185755fd0fc87fd327885e6",
+    "workbook.mjs": "f220bdc02c8b45fea322fac6f7dee0b18acbd5fc3a0b29505ddd7944e6909670"
+  }
+}

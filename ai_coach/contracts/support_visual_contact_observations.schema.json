@@ -1,0 +1,781 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_visual_contact_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "capture_contract",
+    "observations",
+    "geometry"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_visual_contact_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source",
+        "clock_source",
+        "attempt_source",
+        "position_source",
+        "motion_source",
+        "physical_source",
+        "timing_source"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "motion_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "timing_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "native_visual_inputs_and_exact_support_cuts@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deliveries",
+        "states",
+        "cuts"
+      ],
+      "properties": {
+        "deliveries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "frame",
+              "tick",
+              "entity_life",
+              "kind",
+              "property",
+              "previous",
+              "value"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "entity_life": {
+                "type": "string",
+                "pattern": "^support-visual-pawn-[0-9]{6}$"
+              },
+              "kind": {
+                "enum": [
+                  "created",
+                  "creation_replay",
+                  "update",
+                  "destroyed"
+                ]
+              },
+              "property": {
+                "type": "string"
+              },
+              "previous": {
+                "$ref": "#/$defs/scalar"
+              },
+              "value": {
+                "$ref": "#/$defs/scalar"
+              }
+            }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "first_cut",
+              "instance",
+              "epoch",
+              "entity_life",
+              "handle",
+              "class_name",
+              "created_frame",
+              "fields",
+              "field_sequences"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "entity_life": {
+                "type": "string",
+                "pattern": "^support-visual-pawn-[0-9]{6}$"
+              },
+              "handle": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "class_name": {
+                "const": "CCSPlayerPawn"
+              },
+              "created_frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "fields": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "m_vecX",
+                  "m_vecY",
+                  "m_vecZ",
+                  "m_pCameraServices.m_iFOV",
+                  "m_pCameraServices.m_iFOVStart",
+                  "m_pCameraServices.m_flFOVTime",
+                  "m_pCameraServices.m_flFOVRate",
+                  "m_flFlashDuration",
+                  "m_flFlashMaxAlpha",
+                  "m_bIsScoped"
+                ],
+                "properties": {
+                  "m_vecX": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecY": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecZ": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pCameraServices.m_iFOV": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pCameraServices.m_iFOVStart": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pCameraServices.m_flFOVTime": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pCameraServices.m_flFOVRate": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_flFlashDuration": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_flFlashMaxAlpha": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_bIsScoped": {
+                    "$ref": "#/$defs/scalar"
+                  }
+                }
+              },
+              "field_sequences": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "m_vecX",
+                  "m_vecY",
+                  "m_vecZ",
+                  "m_pCameraServices.m_iFOV",
+                  "m_pCameraServices.m_iFOVStart",
+                  "m_pCameraServices.m_flFOVTime",
+                  "m_pCameraServices.m_flFOVRate",
+                  "m_flFlashDuration",
+                  "m_flFlashMaxAlpha",
+                  "m_bIsScoped"
+                ],
+                "properties": {
+                  "m_vecX": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecY": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecZ": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pCameraServices.m_iFOV": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pCameraServices.m_iFOVStart": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pCameraServices.m_flFOVTime": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pCameraServices.m_flFOVRate": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_flFlashDuration": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_flFlashMaxAlpha": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_bIsScoped": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "clock_order",
+              "delivery_sequence",
+              "state_sequence",
+              "players",
+              "geometry_loaded",
+              "rays"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "clock_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "delivery_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "pawn_handle",
+                    "pawn_life",
+                    "state_sequence",
+                    "coordinates"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[a-f0-9]{20}$"
+                    },
+                    "pawn_handle": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "pawn_life": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^support-pawn-[0-9]{6}$"
+                    },
+                    "state_sequence": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 1
+                    },
+                    "coordinates": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [],
+                          "properties": {}
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "CBodyComponent.m_cellX",
+                            "CBodyComponent.m_cellY",
+                            "CBodyComponent.m_cellZ",
+                            "CBodyComponent.m_vecX",
+                            "CBodyComponent.m_vecY",
+                            "CBodyComponent.m_vecZ"
+                          ],
+                          "properties": {
+                            "CBodyComponent.m_cellX": {
+                              "$ref": "#/$defs/scalar"
+                            },
+                            "CBodyComponent.m_cellY": {
+                              "$ref": "#/$defs/scalar"
+                            },
+                            "CBodyComponent.m_cellZ": {
+                              "$ref": "#/$defs/scalar"
+                            },
+                            "CBodyComponent.m_vecX": {
+                              "$ref": "#/$defs/scalar"
+                            },
+                            "CBodyComponent.m_vecY": {
+                              "$ref": "#/$defs/scalar"
+                            },
+                            "CBodyComponent.m_vecZ": {
+                              "$ref": "#/$defs/scalar"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "geometry_loaded": {
+                "type": "boolean"
+              },
+              "rays": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "observer_index",
+                    "subject_index",
+                    "clear"
+                  ],
+                  "properties": {
+                    "observer_index": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "subject_index": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "clear": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "map_name",
+        "assets",
+        "raycast_method",
+        "semantic_scope",
+        "dynamic_occluders_accredited",
+        "smoke_volume_accredited",
+        "rendered_flash_accredited"
+      ],
+      "properties": {
+        "map_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference",
+              "sha256",
+              "role"
+            ],
+            "properties": {
+              "reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "role": {
+                "enum": [
+                  "physics_gltf",
+                  "physics_buffer"
+                ]
+              }
+            }
+          }
+        },
+        "raycast_method": {
+          "const": "map_mesh_segment_raycast@1"
+        },
+        "semantic_scope": {
+          "const": "static_physics_mesh_eye_segment_diagnostic_only"
+        },
+        "dynamic_occluders_accredited": {
+          "const": false
+        },
+        "smoke_volume_accredited": {
+          "const": false
+        },
+        "rendered_flash_accredited": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scalar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "native_type",
+        "declared_type",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "observed",
+            "absent",
+            "unsupported_type",
+            "nonfinite"
+          ]
+        },
+        "native_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "declared_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": [
+                "number",
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

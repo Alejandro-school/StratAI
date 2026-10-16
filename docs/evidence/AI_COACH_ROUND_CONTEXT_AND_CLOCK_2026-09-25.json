@@ -1,0 +1,349 @@
+{
+  "phase": "round_context_and_review_clock_v1",
+  "date": "2026-09-25",
+  "authorization": {
+    "date": "2026-09-25",
+    "literal": "Hazlo",
+    "scope": "Implementar la identificaci\u00f3n fiable de rondas de cuchillos y el reloj de ronda en las fichas, conforme al criterio IC27 ya aceptado.",
+    "new_expert_game_criterion": false,
+    "tactical_detector_changed": false,
+    "human_answers_used_as_detector_inputs": false,
+    "training_allowed": false
+  },
+  "criterion": "IC27",
+  "positive_native_knife_classification_real_verified": false,
+  "positive_knife_rule_verified_on_synthetic_cases": true,
+  "native_unknown_and_bomb_objective_branches_real_verified": true,
+  "clock_verified_preplant_and_planted": true,
+  "parser": "v16",
+  "canonical_export": "3.8.0",
+  "quality": 12,
+  "runtime_schemas": 114,
+  "reason_codes": 19,
+  "catalog_version": "1.7.0",
+  "build_identifier": "working-tree-round-context-20260925",
+  "binary_sha256": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+  "source_alias": "demo-0beb9110ec408f80c39b",
+  "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+  "distinct_approved_matches": 1,
+  "parser_passes": 2,
+  "repeat_reason": "Native boolean convar is serialized as false/true as well as 0/1; conservative classifier accepts both. Positive native knife proof remains unavailable. Repeat same approved match after final affected tests.",
+  "commands": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 107.676
+    },
+    "ai-coach": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 575.187
+    },
+    "targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_round_context.py",
+        "ai_coach/tests/test_support_objective_clock.py",
+        "ai_coach/tests/test_review_completion.py",
+        "ai_coach/tests/test_temporal_detector.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 40.342
+    },
+    "final-targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_round_context.py",
+        "ai_coach/tests/test_support_objective_clock.py",
+        "ai_coach/tests/test_review_completion.py",
+        "ai_coach/tests/test_temporal_detector.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 49.272
+    },
+    "final-targeted-native-variant": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_round_context.py",
+        "ai_coach/tests/test_support_objective_clock.py",
+        "ai_coach/tests/test_review_completion.py",
+        "ai_coach/tests/test_temporal_detector.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 57.184
+    },
+    "contract": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.contracts.validate_contract"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 7.67
+    },
+    "build": {
+      "command": [
+        "go",
+        "build",
+        "-overlay",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\overlay.json",
+        "-o",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\canonical-export.exe",
+        "./cmd/canonical-export"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 2.509
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\demo-0beb9110ec408f80c39b.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\capture",
+        "--alias",
+        "demo-0beb9110ec408f80c39b",
+        "--checksum",
+        "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 112.881
+    },
+    "producer-final": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\demo-0beb9110ec408f80c39b.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\capture",
+        "--alias",
+        "demo-0beb9110ec408f80c39b",
+        "--checksum",
+        "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 133.446
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v2",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-smoke-vsdl_m9o\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "1118:2222",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 187.107
+    },
+    "materialize-final": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v2",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "1118:2222",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 153.892
+    },
+    "validate-final": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v2",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "1118:2222",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 214.431
+    },
+    "canonical-final": {
+      "ok": true,
+      "errors": [],
+      "seconds": 416.857,
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-round-context-20260925\\smoke.py",
+        "canonical"
+      ]
+    }
+  },
+  "counts": {
+    "elapsed_recomputed": 1170,
+    "origin_witness_recomputed": 1158,
+    "native_round_remaining_recomputed": 1158,
+    "round_kind_unknown": 65,
+    "samples": 1170,
+    "round_kind_bomb_objective": 1105,
+    "round_clock_not_applicable": 12,
+    "native_bomb_remaining_recomputed": 12,
+    "native_round_source_frames": 23777,
+    "native_round_messages": 4,
+    "native_clock_source_frames": 23777
+  },
+  "checks": {
+    "full_ai_coach_before_final_prefix_and_native_variant_changes": 2014,
+    "final_affected_tests": 141,
+    "root_check_all_passed": true,
+    "new_round_context_tests": 22,
+    "corpus_manifests_unchanged": 44,
+    "original_demo_sha256_after_matches": true
+  },
+  "E01": {
+    "active_scope": "excluded_by_expert",
+    "native_scope": "pending_context",
+    "native_kind": "unknown",
+    "not_scored_as_correct_abstention": true
+  },
+  "E02": {
+    "case": "E02",
+    "original_episode_id": "dab404755d3e3ac166464b521ab42334f5d9b549a256ee4e6418070835e33273",
+    "original_context_id": "b20e095df6e3ad59f75cad952edb4e3fcc2ae436af16dc52491bae1e275f26b5",
+    "original_packet_sha256": "c72d5a9bd7b451e6b980c84ff083b8855faf3871ae8c769dea458235d1f888a6",
+    "original_html_sha256": "937c4cac22f508afffd597a59f7dd7c109976743204b57ff80a39a69fe629d66",
+    "new_context_id": "75e72fd5442e6aa2238ca6e14af3ee0bd14fbe641324be746756c59101a50b43",
+    "new_packet_sha256": "c488d09e2b503a31edc4c6b1601a0413919cd59de22e6e93ddd0724a86659844",
+    "new_html_sha256": "b952de50465a763ce808dfb90c13f63cffefb1df40b25e1bc312ff3e468623ae",
+    "schema_id": "stratai.contextual_review_packet@2",
+    "analysis_scope": "eligible",
+    "samples": 1105,
+    "old_facts_preserved": true,
+    "operator_viewed_own_ally_prefix_during_visual_qa": true,
+    "predictions_shown": false,
+    "new_predictions_generated": false,
+    "review_not_received": true,
+    "private_reviewer_exposure": "unknown",
+    "instrument_changed_after_E01_review": true,
+    "review_must_bind_original_episode_and_context_ids": true,
+    "original_selection_or_prediction_replaced": false
+  },
+  "workbook": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_changed_cells": [
+      "F32",
+      "G32"
+    ],
+    "sheet": "Contexto colectivo",
+    "literal_reviews_preserved": true,
+    "visual_review": true,
+    "output_sha256": "964fe95483f6b59b4699fb59499632eda3b0a05ce51d2a5ddeb0f3411c766968"
+  },
+  "artifacts": {
+    "preflight-final.json": "f2ac6d718d921d7e8336f0bf611b8b52fbb3540d37f033365fda3cf5130f61f9",
+    "factual-audit.json": "225a73c3bb0dfdb7038767fb92df6756af4711a880961128a278a1a8f6f58520",
+    "retained-inventory.json": "0978f290ab590a03c6c4ce3ffbd95561997387a93432a82d58aae14b94755d70",
+    "E02-delivery.json": "e02598027ed0519c7eec20684fd75067156b990350e6ff969b01986a12579744",
+    "visual-verification.json": "d20ee3e12048d9753be5389379a864f5d82e4caaeaeafc0378e32b21d6596728",
+    "StratAI_Plan_del_coach_TP10_v18.xlsx": "964fe95483f6b59b4699fb59499632eda3b0a05ce51d2a5ddeb0f3411c766968"
+  },
+  "pilot": {
+    "historical_cases": 36,
+    "excluded_by_expert": 1,
+    "pending_reviews": 35,
+    "active_scored": 0,
+    "instrument_changed_after_E01": true
+  },
+  "original_detector_and_predictions_unchanged": true,
+  "training_allowed": false,
+  "downloads": false,
+  "promotion": false,
+  "cleanup_attempted": false,
+  "limits": [
+    "Native knife proof incomplete on the real smoke: only 3 of 9 convars observed; buy prohibition false.",
+    "Synthetic positive knife tests do not demonstrate generalization or real positive coverage.",
+    "The frozen legacy runner remains for reproducibility; new analyses use review_packet_v2 analyze.",
+    "No native pause in these selected real cuts; missing/paused/misaligned cases verified with automated fixtures.",
+    "No independent tactical accuracy, recommendation viability, profile/practice or training gate opened."
+  ]
+}

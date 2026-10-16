@@ -113,6 +113,9 @@ TRUSTED_HOSTS = [
 # =============================================================================
 SESSION_COOKIE_NAME = "session"
 SESSION_MAX_AGE = int(os.getenv("SESSION_MAX_AGE", "604800"))  # 7 days default
+SESSION_ABSOLUTE_MAX_AGE = int(os.getenv("SESSION_ABSOLUTE_MAX_AGE", "604800"))
+if SESSION_MAX_AGE < 1 or SESSION_ABSOLUTE_MAX_AGE < 1:
+    raise RuntimeError("Session lifetimes must be positive")
 SESSION_SAME_SITE = "lax"
 SESSION_HTTPS_ONLY = IS_PRODUCTION  # True in production, False in dev
 SESSION_COOKIE_HTTPONLY = True

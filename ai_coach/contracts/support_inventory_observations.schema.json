@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_inventory_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "capture_contract",
+    "observations",
+    "c4_source"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_inventory_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "capture_contract": {
+      "const": "same_support_FrameDone_native_reserve@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cuts",
+        "states"
+      ],
+      "properties": {
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "state_sequence",
+              "c4_state_sequence"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "c4_state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "first_cut",
+              "items"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "entity_life",
+                    "handle",
+                    "fields"
+                  ],
+                  "properties": {
+                    "entity_life": {
+                      "type": "string",
+                      "pattern": "^support-item-[0-9]{6,}$"
+                    },
+                    "handle": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "fields": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_pReserveAmmo.0000",
+                        "m_iPrimaryReserveAmmoCount"
+                      ],
+                      "properties": {
+                        "m_pReserveAmmo.0000": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_iPrimaryReserveAmmoCount": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "c4_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

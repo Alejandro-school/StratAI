@@ -1,0 +1,267 @@
+{
+  "date": "2026-09-26",
+  "request_literal": "Tiene demasiados campos el formulario. Con indicar tu alias, como interpretas la partida y si te falta información para analizar todo correctamente ya me sirve. Eso si. para analizar realmente todo bien, yo creo que es necesario saber donde estan los enemigos o almenos saberlo cuando ves a alguien.. Si no. Han muerto 2 compañeros y no se donde ni se la información que tienen mi equipo para analizar",
+  "form_status": "published_verified",
+  "fields": [
+    "alias",
+    "reading",
+    "missing"
+  ],
+  "instrument": "stratai.review_web@2",
+  "cases": 34,
+  "factual_json_blocks_unchanged": 102,
+  "existing_records_unchanged": 6,
+  "tests": {
+    "command": "npm test",
+    "passed": 6,
+    "failed": 0
+  },
+  "hosted": {
+    "ok": true,
+    "cases": [
+      {
+        "case": "E03",
+        "three_fields": true,
+        "sha256": "0cc1f60fb5d24cea0c32218bed29fc3bbf846d471788f4b10a296e9fb9b316d9"
+      },
+      {
+        "case": "E04",
+        "three_fields": true,
+        "sha256": "16a9a337e4945eea8a213f6093073ca4ce2bfeb05764a0dfd24c51ca578455e7"
+      },
+      {
+        "case": "E05",
+        "three_fields": true,
+        "sha256": "448281055500cd1386a989aa1536e092631bf5e9b05afd1044ce31334c104517"
+      },
+      {
+        "case": "E06",
+        "three_fields": true,
+        "sha256": "4db18222adb248ff0607871b8dbf45af22c557d346f8299d7936de630d5431f7"
+      },
+      {
+        "case": "E07",
+        "three_fields": true,
+        "sha256": "3e3644a893b248da92ee186f5cd6aaf13ca63dc8ed543225143755a32fbb531d"
+      },
+      {
+        "case": "E08",
+        "three_fields": true,
+        "sha256": "f47201bb077c91c1aa6cf49d876e3a9b79df7d37b68b7272689b645947a4f346"
+      },
+      {
+        "case": "E09",
+        "three_fields": true,
+        "sha256": "c1726e3bfa6f0ca6d4fc5d6805869be8dadb3ec1896ad2dfb3b215a0e6472f15"
+      },
+      {
+        "case": "E10",
+        "three_fields": true,
+        "sha256": "e4baaa124aa4fb52ac2b226aea870ffdfd6cff3bf76e479f536217e3c84dfc83"
+      },
+      {
+        "case": "E11",
+        "three_fields": true,
+        "sha256": "542622374adc671b029d305c09fc5aa98d65d2f7eed0ee286945b493c9b51d69"
+      },
+      {
+        "case": "E12",
+        "three_fields": true,
+        "sha256": "5271744edeabec185a561bf248b24b35ebbffa4ce8216024eb3870bcadc0f1a8"
+      },
+      {
+        "case": "E13",
+        "three_fields": true,
+        "sha256": "55e26d899827939614339f5caef113fb6b9cc2e22d06959c7c7c0e630e3958b9"
+      },
+      {
+        "case": "E14",
+        "three_fields": true,
+        "sha256": "f6fecea699073a7a6db2f8a4b74cb55b21b87cc492ab8eac64388c2b7338c3ef"
+      },
+      {
+        "case": "E15",
+        "three_fields": true,
+        "sha256": "ece73656e62f4338f0820337043de2dbf33f018991eef30f3c416e8e55280af2"
+      },
+      {
+        "case": "E16",
+        "three_fields": true,
+        "sha256": "8fbb0314c71cd0c775ffd47a565d8e3ce8c5501212b5b9dbe548c2bd3e6aea76"
+      },
+      {
+        "case": "E17",
+        "three_fields": true,
+        "sha256": "1fc140ec536df827c3962bdf2714888a1050e986c4e29814d9b2929b6e95b624"
+      },
+      {
+        "case": "E18",
+        "three_fields": true,
+        "sha256": "9f55cad34ebea3e4b814e438d9dcbba81818c4cc2f978086759a2d4a666b51cb"
+      },
+      {
+        "case": "E19",
+        "three_fields": true,
+        "sha256": "7e658ea46c1f489ba71051e3f03f676a2048ff443d9e1461bb30235a6df68d7f"
+      },
+      {
+        "case": "E20",
+        "three_fields": true,
+        "sha256": "8df4aac669d398c9233f04411703c53e51825631e212b15af91e571121200031"
+      },
+      {
+        "case": "E21",
+        "three_fields": true,
+        "sha256": "db0f4a1d43ea8045fe810369467780acf9a8f76861879d548b3fd84ecef4cd45"
+      },
+      {
+        "case": "E22",
+        "three_fields": true,
+        "sha256": "9ce09db36f1108706e15e88c41fd30cba099a1d86f313bda97e59d54ab09bd5a"
+      },
+      {
+        "case": "E23",
+        "three_fields": true,
+        "sha256": "a6138f685094b015c278c26a3f778e172ed2d62b412e85e018f9b1dbd1af1ebb"
+      },
+      {
+        "case": "E24",
+        "three_fields": true,
+        "sha256": "d1231a470c073c2072b7d3e9db66cf11305ff7d15d59802f7c09af9580965fc1"
+      },
+      {
+        "case": "E25",
+        "three_fields": true,
+        "sha256": "4e4aaf5b10ba4f57d3e2aeae904cc565c17b4881db08b0b2b0438b2bc193dada"
+      },
+      {
+        "case": "E26",
+        "three_fields": true,
+        "sha256": "62950002c8f10f83826ea12a69525f31a2f4b922c9bb38512640d6ef5166fd98"
+      },
+      {
+        "case": "E27",
+        "three_fields": true,
+        "sha256": "01634c6ec4e3b4f8d8ed86d7ef333190464711451e18dfd1eac46c0eec9e1e74"
+      },
+      {
+        "case": "E28",
+        "three_fields": true,
+        "sha256": "6cec297b8078a707e4424cbb8c7ebdcb9d1a831d39bca45832e3fd10836e1964"
+      },
+      {
+        "case": "E29",
+        "three_fields": true,
+        "sha256": "9c426c11a09cca0b5959686a5a54e19e9f9e98248c01a6b3f2e573232b6037c8"
+      },
+      {
+        "case": "E30",
+        "three_fields": true,
+        "sha256": "99e75e62a203cbf8c52d8f3addb68c10cf91d4b470c1d3d4901c6a77059f620f"
+      },
+      {
+        "case": "E31",
+        "three_fields": true,
+        "sha256": "3abb0a6043a7984fc972342e1d6159022e7a9c012c57cb1dd4bcae75e3c1791c"
+      },
+      {
+        "case": "E32",
+        "three_fields": true,
+        "sha256": "dc0e5d82451a925c3dfa9cd9b89f82a319fcbe7ce8691ce27f740cdfae5ce22e"
+      },
+      {
+        "case": "E33",
+        "three_fields": true,
+        "sha256": "efd72d44358330fc2ff03ec5fe9de894d7a95c4b2f9e7fd29a5257c503a99d84"
+      },
+      {
+        "case": "E34",
+        "three_fields": true,
+        "sha256": "b353e74b530afc31dcceb9fbac1c60ee3d17554bbee077f06c892c8d205a6997"
+      },
+      {
+        "case": "E35",
+        "three_fields": true,
+        "sha256": "5421ac181b59494feac4a2e95064e024ba9afde61af0071883527db2945e3005"
+      },
+      {
+        "case": "E36",
+        "three_fields": true,
+        "sha256": "dc7894475116af4327ed17636af59a1eb025a26dc6ff6225a39de8c0bb90e9c6"
+      }
+    ],
+    "existing_records_preserved": 6,
+    "new_technical_records": [
+      8,
+      7
+    ],
+    "expert_answers_created": 0,
+    "fields": [
+      "alias",
+      "reading",
+      "missing"
+    ],
+    "omitted_exposure": "not_collected",
+    "old_form_requests_ask_reload": true,
+    "no_platform_login": true,
+    "immutable_versions_and_idempotence": true,
+    "other_reviewers_isolated": true,
+    "clock_format": "mm:ss",
+    "browser_visual_test": false
+  },
+  "publication": {
+    "version": {
+      "id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_c243b9db18ac8191a1e42b46f66e4591",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "version_number": 4,
+      "source": {
+        "commit_sha": "c49a61a5e073bb56557da62ea55a3c16b31d1232"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_000000003a888210b3dfcdbdd351a0de",
+        "content_hash": "sha256:353dbb5295505937bd1fe25e7e978ddadc06116bcfb419bfd0ed1a01621b8b5c",
+        "size_bytes": 11202560,
+        "file_count": 40
+      },
+      "screenshot_url": null,
+      "deployment_id": null
+    },
+    "deployment": {
+      "id": "appgdep_6ab782f6c2388191a4be40d806042db1",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "title": "StratAI · Revisión de 34 casos",
+      "version_id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_c243b9db18ac8191a1e42b46f66e4591",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6ab6ca78f2bc81918ef415064532155d",
+      "failure_message": null,
+      "env_set_revision": 2,
+      "updated_at": "2026-09-26T08:32:10.543502+00:00"
+    },
+    "access_mode": "public",
+    "invitation_and_owner_links_changed": false,
+    "runtime_environment_revision": 2,
+    "changed_environment_keys": [
+      "CONTENT_KEY"
+    ]
+  },
+  "protected_files_unchanged": 160,
+  "context_status": "audited_and_proposed_waiting_for_perspective_choice",
+  "perspective_answer_received": false,
+  "context_new_implementation": false,
+  "death_transition_occurrences_in_cards": 63,
+  "last_alive_positions_available": 63,
+  "dead_sample_positions_available": 0,
+  "source_of_death_positions_candidate": "captureRawKillEvent; subset with exclusions, no blanket event coverage claim",
+  "spotting_attribution": "still pending independent factual binding per existing radar dependency",
+  "new_parser_runs": 0,
+  "new_expert_labels": 0,
+  "detector_changes": 0,
+  "training": false,
+  "workbook": "v20 unchanged; no new agreed game criterion",
+  "browser_visual_test": false,
+  "smoke_applicability": "Only the review form and storage adapter changed; no replay producer or replay data contract changed. Context layer remains proposed."
+}

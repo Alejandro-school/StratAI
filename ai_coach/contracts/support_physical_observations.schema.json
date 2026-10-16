@@ -1,0 +1,611 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_physical_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "support_source",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_physical_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "support_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "same_support_FrameDone_native_physical@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frames"
+      ],
+      "properties": {
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "players"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "context"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[0-9a-f]{20}$"
+                    },
+                    "context": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "weapon_handle",
+                            "weapon_life",
+                            "weapon_identity_status",
+                            "raw_clip",
+                            "raw_reserve",
+                            "reserve_source",
+                            "reload_signal",
+                            "reload_signal_tick",
+                            "facts"
+                          ],
+                          "properties": {
+                            "weapon_handle": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 4294967295
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "weapon_life": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^support-weapon-[0-9]{6,}$"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "weapon_identity_status": {
+                              "enum": [
+                                "observed",
+                                "unavailable",
+                                "unresolved",
+                                "destroyed"
+                              ]
+                            },
+                            "raw_clip": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 4294967295
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "raw_reserve": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -2147483648,
+                                  "maximum": 2147483647
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "reserve_source": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    "m_pReserveAmmo.0000",
+                                    "m_iPrimaryReserveAmmoCount"
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "reload_signal": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    "weapon_reload",
+                                    "item_equip",
+                                    "weapon_fire",
+                                    "clip_update"
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "reload_signal_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "facts": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "view_angles",
+                                "walking",
+                                "ducking",
+                                "active_weapon",
+                                "ammo_in_magazine",
+                                "ammo_reserve",
+                                "reloading"
+                              ],
+                              "properties": {
+                                "view_angles": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "number"
+                                          },
+                                          "minItems": 2,
+                                          "maxItems": 2
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "walking": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "ducking": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "active_weapon": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "ammo_in_magazine": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable",
+                                        "not_applicable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "integer",
+                                          "minimum": 0
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "ammo_reserve": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable",
+                                        "not_applicable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "integer",
+                                          "minimum": 0
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "reloading": {
+                                  "type": "object",
+                                  "additionalProperties": false,
+                                  "required": [
+                                    "status",
+                                    "value",
+                                    "reason"
+                                  ],
+                                  "properties": {
+                                    "status": {
+                                      "enum": [
+                                        "observed",
+                                        "unavailable",
+                                        "not_applicable"
+                                      ]
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "reason": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "native_fields_absent",
+                                            "invalid_native_type",
+                                            "nonfinite",
+                                            "weapon_identity_unavailable",
+                                            "current_weapon_observation_unavailable",
+                                            "non_ammunition_weapon",
+                                            "native_fields_absent_or_invalid",
+                                            "reload_signal_unavailable",
+                                            "weapon_handle_reused",
+                                            "unknown_weapon_class",
+                                            "missing_exact_physical_sample",
+                                            "actor_physical_context_unavailable"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

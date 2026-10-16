@@ -7,10 +7,12 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 
 	"cs2-demo-service/pkg/geometry"
+	"cs2-demo-service/pkg/navigation"
 	"cs2-demo-service/pkg/playerstate"
 
 	"github.com/golang/geo/r3"
@@ -42,14 +44,15 @@ type InputProvenance struct {
 
 // MapManager handles loading maps and performing visibility checks
 type MapManager struct {
-	mapsDir     string
-	currentMesh *geometry.Mesh // Only support GLTF meshes for CS2
-	currentNav  *NavMesh       // Navigation Mesh for callouts
-	callouts    []Callout      // List of named callouts (from places.json)
-	mapName     string
-	mutex       sync.RWMutex
-	useFallback bool // If true, use heuristic (FOV/Smoke) only
-	inputs      map[string]InputProvenance
+	mapsDir      string
+	currentMesh  *geometry.Mesh // Only support GLTF meshes for CS2
+	currentNav   *NavMesh       // Navigation Mesh for callouts
+	callouts     []Callout      // List of named callouts (from places.json)
+	mapName      string
+	mutex        sync.RWMutex
+	useFallback  bool // If true, use heuristic (FOV/Smoke) only
+	inputs       map[string]InputProvenance
+	replayVision bool // Opt-in opaque world geometry for calculated replay contacts.
 }
 
 // NewMapManager creates a new map manager
@@ -58,6 +61,12 @@ func NewMapManager(mapsDir string) *MapManager {
 		mapsDir: mapsDir,
 		inputs:  make(map[string]InputProvenance),
 	}
+}
+
+func NewReplayVisionMapManager(mapsDir string) *MapManager {
+	m := NewMapManager(mapsDir)
+	m.replayVision = true
+	return m
 }
 
 // InputProvenance returns a defensive copy of the map assets observed during
@@ -72,6 +81,88 @@ func (m *MapManager) InputProvenance() map[string]InputProvenance {
 		result[name] = input
 	}
 	return result
+}
+
+// NavigationGraphSnapshot returns a deterministic defensive copy of the
+// directed area connections loaded from the NAV asset. The physics mesh used
+// for raycasts is intentionally not accepted as evidence of navigability.
+func (m *MapManager) NavigationGraphSnapshot() (*navigation.Graph, error) {
+	m.mutex.RLock()
+	defer m.mutex.RUnlock()
+
+	if m.currentNav == nil || len(m.currentNav.Areas) == 0 {
+		return nil, nil
+	}
+
+	positions := make(map[uint32]r3.Vector, len(m.currentNav.Areas))
+	graph := &navigation.Graph{
+		Version:          navigation.GraphContractVersion,
+		AssetReference:   "nav_mesh_in_memory",
+		AvailabilityTick: 0,
+		Nodes:            make([]navigation.Node, 0, len(m.currentNav.Areas)),
+		Edges:            make([]navigation.Edge, 0),
+	}
+	if input, ok := m.inputs["nav_mesh"]; ok && input.Used {
+		if input.RelativePath != "" {
+			graph.AssetReference = input.RelativePath
+		}
+		graph.AssetSHA256 = input.SHA256
+	}
+
+	for _, area := range m.currentNav.Areas {
+		if area.ID == 0 {
+			return nil, fmt.Errorf("navigation graph: NAV area has zero id")
+		}
+		if _, exists := positions[area.ID]; exists {
+			return nil, fmt.Errorf("navigation graph: duplicate NAV area id %d", area.ID)
+		}
+		center := area.Center
+		if len(area.Corners) > 0 {
+			center = centerOfNavCorners(area.Corners)
+		}
+		if math.IsNaN(center.X) || math.IsNaN(center.Y) || math.IsNaN(center.Z) ||
+			math.IsInf(center.X, 0) || math.IsInf(center.Y, 0) || math.IsInf(center.Z, 0) {
+			return nil, fmt.Errorf("navigation graph: NAV area %d has non-finite center", area.ID)
+		}
+		positions[area.ID] = center
+		graph.Nodes = append(graph.Nodes, navigation.Node{
+			ID:       area.ID,
+			Position: center,
+			Corners:  append([]r3.Vector(nil), area.Corners...),
+		})
+	}
+
+	edges := make(map[[2]uint32]navigation.Edge)
+	for _, area := range m.currentNav.Areas {
+		for _, targetID := range area.Connections {
+			if area.ID == targetID {
+				continue
+			}
+			target, exists := positions[targetID]
+			if !exists {
+				return nil, fmt.Errorf("navigation graph: area %d references missing area %d", area.ID, targetID)
+			}
+			delta := positions[area.ID].Sub(target)
+			weight := math.Sqrt(delta.Dot(delta))
+			if weight <= 0 || math.IsNaN(weight) || math.IsInf(weight, 0) {
+				return nil, fmt.Errorf("navigation graph: area %d -> %d has invalid weight", area.ID, targetID)
+			}
+			key := [2]uint32{area.ID, targetID}
+			edges[key] = navigation.Edge{FromID: area.ID, ToID: targetID, Weight: weight}
+		}
+	}
+
+	for _, edge := range edges {
+		graph.Edges = append(graph.Edges, edge)
+	}
+	sort.Slice(graph.Nodes, func(i, j int) bool { return graph.Nodes[i].ID < graph.Nodes[j].ID })
+	sort.Slice(graph.Edges, func(i, j int) bool {
+		if graph.Edges[i].FromID != graph.Edges[j].FromID {
+			return graph.Edges[i].FromID < graph.Edges[j].FromID
+		}
+		return graph.Edges[i].ToID < graph.Edges[j].ToID
+	})
+	return graph, nil
 }
 
 func (m *MapManager) recordInput(name, path string, used bool, loadErr error) {
@@ -145,6 +236,12 @@ func (m *MapManager) LoadMap(mapName string) error {
 	if m.mapName == mapName && m.currentMesh != nil {
 		return nil // Already loaded
 	}
+	// Do not let assets from a previously loaded map leak into a failed or
+	// partial load of another map.
+	m.currentMesh = nil
+	m.currentNav = nil
+	m.callouts = nil
+	m.useFallback = false
 	m.inputs = make(map[string]InputProvenance)
 
 	// Sanitize map name (remove path, extension)
@@ -168,7 +265,11 @@ func (m *MapManager) LoadMap(mapName string) error {
 
 	if _, err := os.Stat(gltfPath); err == nil {
 		fmt.Printf("Loading CS2 Mesh (GLTF): %s\n", gltfPath)
-		mesh, err := geometry.LoadGLTF(gltfPath)
+		loader := geometry.LoadGLTF
+		if m.replayVision {
+			loader = geometry.LoadReplayVisionGLTF
+		}
+		mesh, err := loader(gltfPath)
 		if err == nil {
 			m.recordInput("physics_map", gltfPath, true, nil)
 			m.currentMesh = mesh
@@ -187,8 +288,9 @@ func (m *MapManager) LoadMap(mapName string) error {
 					fmt.Printf("Nav Mesh loaded successfully: %d areas, %d places\n", len(nav.Areas), len(nav.Places))
 				} else {
 					m.recordInput("nav_mesh", navPath, false, err)
-					// v36 parsing not fully supported yet - fallback to demo's LastPlaceName() will be used
-					fmt.Printf("Nav Mesh v36 not supported (using demo fallback): %v\n", err)
+					// Keep parsing usable through the geometry/callout fallback, but do
+					// not mislabel every NAV decoding failure as an unsupported version.
+					fmt.Printf("Nav Mesh unavailable (using demo fallback): %v\n", err)
 				}
 			} else {
 				fmt.Printf("Nav file not found: %s\n", navPath)

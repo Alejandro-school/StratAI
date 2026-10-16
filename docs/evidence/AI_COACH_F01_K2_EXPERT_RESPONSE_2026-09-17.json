@@ -1,0 +1,54 @@
+{
+  "id": "ICT-D1-F01-K2-EXPERT-RESPONSE-1",
+  "date": "2026-09-17",
+  "author": "user_expert",
+  "source": "conversation",
+  "case_id": "F01-K2",
+  "case_version": "0.2",
+  "presented_card": "docs/AI_COACH_F01_K2_REVIEW_v0.2.md",
+  "cut": {
+    "round": 1,
+    "tick": 8636,
+    "frame": 8654,
+    "source_sequence": 1417,
+    "instance": 2,
+    "epoch": 0,
+    "seconds_since_K1": 1.75,
+    "native_seconds_remaining": 101.25
+  },
+  "question_verbatim": "Respecto a K1, ¿qué se mantiene y qué cambia en tu interpretación del plan y las funciones de los jugadores, y qué señales nuevas te llevan a esa lectura?",
+  "response_verbatim": "Mantengo la lectura anterior. Parece un push hacia B ya que se encuentran todos los jugadores avanzando",
+  "explicit_reading": {
+    "maintains_previous_reading": true,
+    "plan_verbatim": "Parece un push hacia B",
+    "reason_verbatim": "ya que se encuentran todos los jugadores avanzando",
+    "new_individual_roles_stated": [],
+    "new_missing_information_stated": null,
+    "previous_reading_reference": "docs/evidence/AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.json"
+  },
+  "agent_synthesis": {
+    "classification": "continuity_of_contextual_interpretation",
+    "plan": "push/entrada hacia B",
+    "signal": "avance colectivo interpretado por el experto",
+    "role_treatment": "La lectura anterior se mantiene por referencia; esta respuesta no vuelve a detallar funciones ni añade roles individuales.",
+    "factual_contrast": "T1, T2, T3 y T4 avanzaron entre K1 y K2. T1 repite XY al final en tres muestras y T5 no presenta desplazamiento horizontal resuelto. El literal no se convierte en una afirmación factual de movimiento simultáneo de los cinco.",
+    "plan_refuted_by_sampling_detail": false,
+    "tactical_change_forced": false,
+    "global_rule_inferred": false,
+    "probability_assigned": false
+  },
+  "limits": {
+    "open_development_review": true,
+    "blind_evaluation": false,
+    "independent_matches": 1,
+    "same_round_cuts_independent": false,
+    "confirmed_mental_intent": false,
+    "physical_support_accredited": false,
+    "tactical_correctness_accredited": false,
+    "full_rubric_approved": false,
+    "design_hypotheses_still_pending": 18,
+    "training_allowed": false,
+    "eligible_capabilities": 0,
+    "S2_S3": "open"
+  }
+}

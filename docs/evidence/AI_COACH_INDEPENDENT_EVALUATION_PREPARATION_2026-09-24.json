@@ -1,0 +1,113 @@
+{
+  "schema": "documentary_phase_evidence_no_runtime_contract_change",
+  "created_at": "2026-09-24T15:07:09.882979+00:00",
+  "phase": "TP10_independent_evaluation_preparation",
+  "preparation_completed": true,
+  "tactical_evaluation_completed": false,
+  "summary": {
+    "approved_matches": 44,
+    "development_matches": 7,
+    "unallocated_matches": 37,
+    "unique_participants": 311,
+    "earliest_played_at": "2026-08-24T02:56:51Z",
+    "latest_played_at": "2026-08-25T09:01:42Z",
+    "latest_development_played_at": "2026-08-25T09:01:42Z",
+    "reserve_overlap_histogram": {
+      "0": 13,
+      "1": 3,
+      "2": 9,
+      "3": 6,
+      "4": 4,
+      "5": 2
+    },
+    "player_disjoint_candidates": 13,
+    "candidate_pairs_with_shared_players": 9,
+    "forward_temporal_candidates": 0,
+    "player_disjoint_and_forward_temporal_candidates": 0,
+    "prior_aggregate_exposure": 44,
+    "available_source_demos": 44
+  },
+  "conditional_selection": {
+    "status": "not_frozen_scope_answer_pending",
+    "method": "greedy_ascending_full_sha256_accept_only_if_no_players_shared_with_development_or_already_accepted_matches",
+    "maximum_pilot_matches": 3,
+    "pilot_matches_if_same_period_accepted": [
+      "demo-0beb9110ec408f80c39b",
+      "demo-1028fce95708dda309ae",
+      "demo-5224a45934f2d5b94c01"
+    ],
+    "remaining_mutually_disjoint_in_order": [
+      "demo-ad48bf05c36fef00f8d4",
+      "demo-cab5667cb4c8e0e77c34",
+      "demo-d5f90617b4bf38036f3c",
+      "demo-d88bdfaf6b87ae48c84f",
+      "demo-e4588db759c3e388a28a"
+    ],
+    "eligible_strict_forward_pilot": [],
+    "representative_sample_claim": false
+  },
+  "pending_expert_scope": {
+    "status": "asked_no_answer_received",
+    "question": "La auditoría encuentra 13 partidas cuyos jugadores no aparecen en las siete de desarrollo, pero todas pertenecen al mismo periodo y son anteriores a la última partida de desarrollo. Propongo evaluar primero otras partidas y jugadores de ese periodo, dejando pendiente la validación con partidas posteriores. ¿Qué alcance quieres para esta fase?",
+    "options": [
+      "Evaluar otros jugadores del mismo periodo",
+      "Exigir también partidas posteriores"
+    ],
+    "literal_answer": null,
+    "workbook_v14_unchanged": true
+  },
+  "audit_verification": {
+    "source_files_hashed_before_and_after": 179,
+    "paired_artifact_entries_verified": 176,
+    "pair_counts_independently_recomputed": 946,
+    "protected_files_unchanged": 159,
+    "demos_parsed": 0,
+    "predictions_created": 0,
+    "human_reviews_created": 0,
+    "raw_participant_identifiers_retained": false,
+    "original_corpus_mutated": false,
+    "runtime_modified": false
+  },
+  "limits": {
+    "all_matches_prior_aggregate_exposure": true,
+    "unlogged_private_tactical_exposure": "unknown",
+    "dates_independently_refetched": false,
+    "demo_bytes_rehashed_this_phase": false,
+    "independent_generalization_accredited": false,
+    "tactical_accuracy": null,
+    "runtime_changes": 0,
+    "demos_parsed": 0,
+    "new_predictions": 0,
+    "new_episode_packets": 0,
+    "human_reviews": 0,
+    "training_allowed": false
+  },
+  "verification_command": "backend/venv/Scripts/python.exe -B outputs/stratai-independent-evaluation-20260924/verify_delivery.py",
+  "artifacts": [
+    {
+      "path": "outputs/stratai-independent-evaluation-20260924/audit_cohort.py",
+      "sha256": "f0e3dac80ebe21a729e5d2fdc6ec10bdc699939cfb303d24ab12a599fed844cd",
+      "bytes": 11350
+    },
+    {
+      "path": "outputs/stratai-independent-evaluation-20260924/cohort-audit.json",
+      "sha256": "987eb64a819ca89bcec508642f0a5329936b67d356781f224b5a564ccc01f5b4",
+      "bytes": 288430
+    },
+    {
+      "path": "outputs/stratai-independent-evaluation-20260924/Ficha_de_revision_ciega.md",
+      "sha256": "b2abf5f2e1dcd59c545e3ff85479fae6f3cd310423a5516d22bf131237855639",
+      "bytes": 1412
+    },
+    {
+      "path": "docs/AI_COACH_INDEPENDENT_EVALUATION_PROTOCOL.md",
+      "sha256": "c953876b1aa4fd887f8b217fe1669c06b7c1a6260189413d806963d36643a17c",
+      "bytes": 12145
+    },
+    {
+      "path": "outputs/stratai-independent-evaluation-20260924/verify_delivery.py",
+      "sha256": "6516c87fbdc2ed2a4bb9dd85b97df064950626cbfb780edb61f6036e2476ad51",
+      "bytes": 8472
+    }
+  ]
+}

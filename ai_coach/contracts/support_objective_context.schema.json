@@ -1,0 +1,1230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_objective_context@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "rows",
+    "matrix",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_objective_context@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "anchors",
+        "physical_context",
+        "navigation_context"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "anchors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "navigation_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "actor_alias",
+          "ally_alias",
+          "instance",
+          "round_number",
+          "source_sequence",
+          "epoch",
+          "t0_tick",
+          "t0_frame",
+          "competitive_round_status",
+          "initial",
+          "missing_context",
+          "decision_eligible"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "instance": {
+            "type": "integer"
+          },
+          "round_number": {
+            "type": "integer"
+          },
+          "source_sequence": {
+            "type": "integer"
+          },
+          "epoch": {
+            "type": "integer"
+          },
+          "t0_tick": {
+            "type": "integer"
+          },
+          "t0_frame": {
+            "type": "integer"
+          },
+          "competitive_round_status": {
+            "enum": [
+              "canonical_interval_matched",
+              "not_accredited"
+            ]
+          },
+          "initial": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "global",
+              "self",
+              "ally"
+            ],
+            "properties": {
+              "global": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "bomb_planted",
+                  "freeze_period",
+                  "warmup",
+                  "round_duration_seconds",
+                  "objective_phase",
+                  "round_elapsed_seconds",
+                  "bomb_elapsed_seconds"
+                ],
+                "properties": {
+                  "bomb_planted": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "freeze_period": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "warmup": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "round_duration_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "objective_phase": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "preplant",
+                              "planted",
+                              "resolved"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "round_elapsed_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "bomb_elapsed_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "self": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "in_bomb_zone",
+                  "defusing",
+                  "has_defuse_kit"
+                ],
+                "properties": {
+                  "in_bomb_zone": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "defusing": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "has_defuse_kit": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "ally": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "in_bomb_zone",
+                  "defusing",
+                  "has_defuse_kit"
+                ],
+                "properties": {
+                  "in_bomb_zone": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "defusing": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "has_defuse_kit": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "boolean"
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "missing_context": {
+            "const": [
+              "physical_entry_not_accredited",
+              "physical_navigation_not_accredited",
+              "line_of_sight_and_contact_not_accredited",
+              "cooperation_and_intent_not_observable",
+              "objective_position_and_carrier_not_accredited",
+              "countdown_and_pause_clock_not_accredited",
+              "instantaneous_velocity_and_full_weapon_readiness_not_accredited"
+            ]
+          },
+          "decision_eligible": {
+            "const": false
+          }
+        }
+      }
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance",
+          "actor_alias",
+          "ally_alias",
+          "anchors",
+          "phase_observed",
+          "canonical_interval_matched",
+          "fact_status_counts"
+        ],
+        "properties": {
+          "instance": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "anchors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "phase_observed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "canonical_interval_matched": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fact_status_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "global.bomb_planted",
+              "global.freeze_period",
+              "global.warmup",
+              "global.round_duration_seconds",
+              "global.objective_phase",
+              "global.round_elapsed_seconds",
+              "global.bomb_elapsed_seconds",
+              "self.in_bomb_zone",
+              "self.defusing",
+              "self.has_defuse_kit",
+              "ally.in_bomb_zone",
+              "ally.defusing",
+              "ally.has_defuse_kit"
+            ],
+            "properties": {
+              "global.bomb_planted": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "global.freeze_period": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "global.warmup": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "global.round_duration_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "global.objective_phase": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "global.round_elapsed_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "global.bomb_elapsed_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.in_bomb_zone": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.defusing": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.has_defuse_kit": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.in_bomb_zone": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.defusing": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.has_defuse_kit": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchors",
+        "phase_observed",
+        "canonical_interval_matched",
+        "matrix_rows",
+        "fact_status_counts",
+        "eligible_decisions"
+      ],
+      "properties": {
+        "anchors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "phase_observed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "canonical_interval_matched": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matrix_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fact_status_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "global.bomb_planted",
+            "global.freeze_period",
+            "global.warmup",
+            "global.round_duration_seconds",
+            "global.objective_phase",
+            "global.round_elapsed_seconds",
+            "global.bomb_elapsed_seconds",
+            "self.in_bomb_zone",
+            "self.defusing",
+            "self.has_defuse_kit",
+            "ally.in_bomb_zone",
+            "ally.defusing",
+            "ally.has_defuse_kit"
+          ],
+          "properties": {
+            "global.bomb_planted": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "global.freeze_period": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "global.warmup": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "global.round_duration_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "global.objective_phase": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "global.round_elapsed_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "global.bomb_elapsed_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.in_bomb_zone": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.defusing": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.has_defuse_kit": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.in_bomb_zone": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.defusing": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.has_defuse_kit": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "eligible_decisions": {
+          "const": 0
+        }
+      }
+    }
+  }
+}

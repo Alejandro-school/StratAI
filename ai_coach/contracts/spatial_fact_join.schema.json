@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_fact_join@1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "join_policy",
+    "decision_key",
+    "decision_family",
+    "source_alias",
+    "round_number",
+    "t0_tick",
+    "participant_alias",
+    "field_id",
+    "status",
+    "reason_codes",
+    "row_line",
+    "sample_tick",
+    "availability_tick",
+    "training_allowed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.spatial_fact_join@1"
+    },
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "join_policy": {
+      "const": "exact_source_round_participant_tick_no_carry_forward@1"
+    },
+    "decision_key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "decision_family": {
+      "enum": [
+        "spacing_or_trade_connection",
+        "peek_hold_or_reposition"
+      ]
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "round_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "t0_tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "participant_alias": {
+      "type": "string",
+      "pattern": "^participant-[0-9]{3}$"
+    },
+    "field_id": {
+      "enum": [
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+        "FLD-GEOMETRIC-OCCLUSION",
+        "FLD-NAV-EXIT-PATH"
+      ]
+    },
+    "status": {
+      "enum": [
+        "present",
+        "missing",
+        "null"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "row_line": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "sample_tick": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "availability_tick": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "training_allowed": {
+      "const": false
+    }
+  }
+}

@@ -1,136 +1,39 @@
 ---
 name: vercel-react-best-practices
-description: React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.
+description: Diagnose React render, request and bundle bottlenecks in StratAI. Use for frontend performance work or substantial React refactors.
 license: MIT
 metadata:
-  author: vercel
-  version: "1.0.0"
+  author: Vercel Engineering; adapted for StratAI
+  upstream-ref: 063bee94c3f4df8453406c830b0a7df0f2860278
 ---
 
-# Vercel React Best Practices
+# React performance for StratAI
 
-Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 57 rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
+Selected rules from [Vercel's official collection](https://github.com/vercel-labs/agent-skills/tree/063bee94c3f4df8453406c830b0a7df0f2860278/skills/react-best-practices). Read only the references relevant to the measured problem.
 
-## When to Apply
+## Apply to this stack
 
-Reference these guidelines when:
-- Writing new React components or Next.js pages
-- Implementing data fetching (client or server-side)
-- Reviewing code for performance issues
-- Refactoring existing React/Next.js code
-- Optimizing bundle size or load times
+StratAI uses React 18, JavaScript, Vite, TanStack Query and Zustand. Check the current package manifests before relying on version-specific APIs. Upstream TypeScript examples illustrate patterns; implement them in the existing JavaScript style. This selection does not introduce Next.js, server components/actions, SWR, React Compiler, Activity or useEffectEvent.
 
-## Rule Categories by Priority
+Start with a reproducible interaction and a baseline: render commits, request count/waterfalls, frame time or build chunk size. Prioritise the measured bottleneck. Upstream impact labels and speedup examples are illustrative, not measurements of StratAI.
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Eliminating Waterfalls | CRITICAL | `async-` |
-| 2 | Bundle Size Optimization | CRITICAL | `bundle-` |
-| 3 | Server-Side Performance | HIGH | `server-` |
-| 4 | Client-Side Data Fetching | MEDIUM-HIGH | `client-` |
-| 5 | Re-render Optimization | MEDIUM | `rerender-` |
-| 6 | Rendering Performance | MEDIUM | `rendering-` |
-| 7 | JavaScript Performance | LOW-MEDIUM | `js-` |
-| 8 | Advanced Patterns | LOW | `advanced-` |
+## Load the relevant rule
 
-## Quick Reference
+| Problem | Reference |
+| --- | --- |
+| Independent requests form a waterfall | [Parallel operations](rules/async-parallel.md) |
+| Touch or wheel listeners delay scrolling | [Passive listeners](rules/client-passive-event-listeners.md) |
+| An effect mirrors props or state | [Derived state](rules/rerender-derived-state-no-effect.md) |
+| A callback uses stale state | [Functional updates](rules/rerender-functional-setstate.md) |
+| Initialisation repeats expensive work | [Lazy state](rules/rerender-lazy-state-init.md) |
+| A measured expensive child rerenders | [Memoised components](rules/rerender-memo.md) |
+| Memoisation costs more than the expression | [Simple expressions](rules/rerender-simple-expression-in-memo.md) |
+| Frame or pointer values cause React renders | [Transient refs](rules/rerender-use-ref-transient-values.md) |
+| Inputs lose focus or children remount | [Component identity](rules/rerender-no-inline-components.md) |
+| Repeated joins scan the same array | [Index maps](rules/js-index-maps.md) |
 
-### 1. Eliminating Waterfalls (CRITICAL)
+Preserve semantics when applying these rules: parallelise independent reads, not ordered mutations; keep state that drives visible UI reactive; keep initialisers pure for StrictMode; define duplicate-key behaviour before replacing a find with a Map. Memoisation requires correct dependencies and evidence of benefit.
 
-- `async-defer-await` - Move await into branches where actually used
-- `async-parallel` - Use Promise.all() for independent operations
-- `async-dependencies` - Use better-all for partial dependencies
-- `async-api-routes` - Start promises early, await late in API routes
-- `async-suspense-boundaries` - Use Suspense to stream content
+For bundle loading, use native import() or [React.lazy and Suspense](https://react.dev/reference/react/lazy) with the current Vite structure. Keep loading and error fallbacks. For server state, preserve existing [TanStack Query keys](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys), invalidation, cancellation and user boundaries. Share listeners through existing owners/hooks where appropriate instead of adding another state library.
 
-### 2. Bundle Size Optimization (CRITICAL)
-
-- `bundle-barrel-imports` - Import directly, avoid barrel files
-- `bundle-dynamic-imports` - Use next/dynamic for heavy components
-- `bundle-defer-third-party` - Load analytics/logging after hydration
-- `bundle-conditional` - Load modules only when feature is activated
-- `bundle-preload` - Preload on hover/focus for perceived speed
-
-### 3. Server-Side Performance (HIGH)
-
-- `server-auth-actions` - Authenticate server actions like API routes
-- `server-cache-react` - Use React.cache() for per-request deduplication
-- `server-cache-lru` - Use LRU cache for cross-request caching
-- `server-dedup-props` - Avoid duplicate serialization in RSC props
-- `server-serialization` - Minimize data passed to client components
-- `server-parallel-fetching` - Restructure components to parallelize fetches
-- `server-after-nonblocking` - Use after() for non-blocking operations
-
-### 4. Client-Side Data Fetching (MEDIUM-HIGH)
-
-- `client-swr-dedup` - Use SWR for automatic request deduplication
-- `client-event-listeners` - Deduplicate global event listeners
-- `client-passive-event-listeners` - Use passive listeners for scroll
-- `client-localstorage-schema` - Version and minimize localStorage data
-
-### 5. Re-render Optimization (MEDIUM)
-
-- `rerender-defer-reads` - Don't subscribe to state only used in callbacks
-- `rerender-memo` - Extract expensive work into memoized components
-- `rerender-memo-with-default-value` - Hoist default non-primitive props
-- `rerender-dependencies` - Use primitive dependencies in effects
-- `rerender-derived-state` - Subscribe to derived booleans, not raw values
-- `rerender-derived-state-no-effect` - Derive state during render, not effects
-- `rerender-functional-setstate` - Use functional setState for stable callbacks
-- `rerender-lazy-state-init` - Pass function to useState for expensive values
-- `rerender-simple-expression-in-memo` - Avoid memo for simple primitives
-- `rerender-move-effect-to-event` - Put interaction logic in event handlers
-- `rerender-transitions` - Use startTransition for non-urgent updates
-- `rerender-use-ref-transient-values` - Use refs for transient frequent values
-
-### 6. Rendering Performance (MEDIUM)
-
-- `rendering-animate-svg-wrapper` - Animate div wrapper, not SVG element
-- `rendering-content-visibility` - Use content-visibility for long lists
-- `rendering-hoist-jsx` - Extract static JSX outside components
-- `rendering-svg-precision` - Reduce SVG coordinate precision
-- `rendering-hydration-no-flicker` - Use inline script for client-only data
-- `rendering-hydration-suppress-warning` - Suppress expected mismatches
-- `rendering-activity` - Use Activity component for show/hide
-- `rendering-conditional-render` - Use ternary, not && for conditionals
-- `rendering-usetransition-loading` - Prefer useTransition for loading state
-
-### 7. JavaScript Performance (LOW-MEDIUM)
-
-- `js-batch-dom-css` - Group CSS changes via classes or cssText
-- `js-index-maps` - Build Map for repeated lookups
-- `js-cache-property-access` - Cache object properties in loops
-- `js-cache-function-results` - Cache function results in module-level Map
-- `js-cache-storage` - Cache localStorage/sessionStorage reads
-- `js-combine-iterations` - Combine multiple filter/map into one loop
-- `js-length-check-first` - Check array length before expensive comparison
-- `js-early-exit` - Return early from functions
-- `js-hoist-regexp` - Hoist RegExp creation outside loops
-- `js-min-max-loop` - Use loop for min/max instead of sort
-- `js-set-map-lookups` - Use Set/Map for O(1) lookups
-- `js-tosorted-immutable` - Use toSorted() for immutability
-
-### 8. Advanced Patterns (LOW)
-
-- `advanced-event-handler-refs` - Store event handlers in refs
-- `advanced-init-once` - Initialize app once per app load
-- `advanced-use-latest` - useLatest for stable callback refs
-
-## How to Use
-
-Read individual rule files for detailed explanations and code examples:
-
-```
-rules/async-parallel.md
-rules/bundle-barrel-imports.md
-```
-
-Each rule file contains:
-- Brief explanation of why it matters
-- Incorrect code example with explanation
-- Correct code example with explanation
-- Additional context and references
-
-## Full Compiled Document
-
-For the complete guide with all rules expanded: `AGENTS.md`
+After a change, compare the same interaction and run the relevant frontend tests and build through the root scripts. Check replay seeking, speed and selected-player behaviour when they are affected. Record the actual improvement or state that the result remains unmeasured.

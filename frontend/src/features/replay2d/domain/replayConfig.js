@@ -54,6 +54,7 @@ export const DEFAULT_LAYERS = {
   names: true,
   fov: true,
   shots: true,
+  sound: true,
   trajectories: true,
   utility: true,
   deaths: true,

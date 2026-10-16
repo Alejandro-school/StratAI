@@ -1,0 +1,568 @@
+{
+  "ok": true,
+  "created_at": "2026-09-23T12:10:30.087039+00:00",
+  "command": "python -B outputs/stratai-contextual-separation-20260923/audit_separation.py",
+  "script_sha256": "54339bd63d201a6ef674ec14df7f4cc90b79de23bd4924e09322fba2b6fd71d6",
+  "scope": "seven_frozen_matches_metadata_only_no_demo_processing",
+  "matches": {
+    "demo-a11eb0d600ee702c9edb": {
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "split": "development",
+      "played_at": "2026-08-25T09:01:42Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown"
+    },
+    "demo-5bdb2dac2277dd9463ac": {
+      "source_sha256": "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+      "split": "development",
+      "played_at": "2026-08-24T17:38:02Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown"
+    },
+    "demo-381bbf14c9ccd5693047": {
+      "source_sha256": "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+      "split": "development",
+      "played_at": "2026-08-24T10:39:56Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown"
+    },
+    "demo-310597a1cb8f27f26c55": {
+      "source_sha256": "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+      "split": "development",
+      "played_at": "2026-08-24T18:28:02Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown"
+    },
+    "demo-6e4a3660d53931747fa8": {
+      "source_sha256": "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+      "split": "development",
+      "played_at": "2026-08-24T23:39:38Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown"
+    },
+    "demo-045df2521c790a7d8a69": {
+      "source_sha256": "045df2521c790a7d8a690272208ab8f14a24f6f5493dadeb670e75d157598fa4",
+      "split": "review_reserve",
+      "played_at": "2026-08-24T20:51:04Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown",
+      "participants_shared_with_development": 2,
+      "shared_local_aliases": [
+        "P029",
+        "P038"
+      ],
+      "strictly_after_latest_development": false
+    },
+    "demo-066944f5acb806ba5f81": {
+      "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+      "split": "review_reserve",
+      "played_at": "2026-08-25T04:47:09Z",
+      "played_at_status": "observed",
+      "played_at_source": "faceit",
+      "date_scope": "observed_original_corpus_metadata_not_independently_refetched",
+      "capture_played_at": null,
+      "capture_played_at_status": "unavailable",
+      "participants": 10,
+      "identity_agrees_with_capture": true,
+      "prior_aggregate_audit_exposure": true,
+      "prior_tactical_review_exposure": "unknown",
+      "developer_or_reviewer_private_exposure": "unknown",
+      "participants_shared_with_development": 3,
+      "shared_local_aliases": [
+        "P025",
+        "P035",
+        "P061"
+      ],
+      "strictly_after_latest_development": false
+    }
+  },
+  "pairwise_overlap": [
+    {
+      "left": "demo-045df2521c790a7d8a69",
+      "right": "demo-066944f5acb806ba5f81",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-045df2521c790a7d8a69",
+      "right": "demo-310597a1cb8f27f26c55",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-045df2521c790a7d8a69",
+      "right": "demo-381bbf14c9ccd5693047",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-045df2521c790a7d8a69",
+      "right": "demo-5bdb2dac2277dd9463ac",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-045df2521c790a7d8a69",
+      "right": "demo-6e4a3660d53931747fa8",
+      "shared_count": 1,
+      "shared_local_aliases": [
+        "P038"
+      ]
+    },
+    {
+      "left": "demo-045df2521c790a7d8a69",
+      "right": "demo-a11eb0d600ee702c9edb",
+      "shared_count": 1,
+      "shared_local_aliases": [
+        "P029"
+      ]
+    },
+    {
+      "left": "demo-066944f5acb806ba5f81",
+      "right": "demo-310597a1cb8f27f26c55",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-066944f5acb806ba5f81",
+      "right": "demo-381bbf14c9ccd5693047",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-066944f5acb806ba5f81",
+      "right": "demo-5bdb2dac2277dd9463ac",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-066944f5acb806ba5f81",
+      "right": "demo-6e4a3660d53931747fa8",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-066944f5acb806ba5f81",
+      "right": "demo-a11eb0d600ee702c9edb",
+      "shared_count": 3,
+      "shared_local_aliases": [
+        "P025",
+        "P035",
+        "P061"
+      ]
+    },
+    {
+      "left": "demo-310597a1cb8f27f26c55",
+      "right": "demo-381bbf14c9ccd5693047",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-310597a1cb8f27f26c55",
+      "right": "demo-5bdb2dac2277dd9463ac",
+      "shared_count": 1,
+      "shared_local_aliases": [
+        "P057"
+      ]
+    },
+    {
+      "left": "demo-310597a1cb8f27f26c55",
+      "right": "demo-6e4a3660d53931747fa8",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-310597a1cb8f27f26c55",
+      "right": "demo-a11eb0d600ee702c9edb",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-381bbf14c9ccd5693047",
+      "right": "demo-5bdb2dac2277dd9463ac",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-381bbf14c9ccd5693047",
+      "right": "demo-6e4a3660d53931747fa8",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-381bbf14c9ccd5693047",
+      "right": "demo-a11eb0d600ee702c9edb",
+      "shared_count": 1,
+      "shared_local_aliases": [
+        "P040"
+      ]
+    },
+    {
+      "left": "demo-5bdb2dac2277dd9463ac",
+      "right": "demo-6e4a3660d53931747fa8",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-5bdb2dac2277dd9463ac",
+      "right": "demo-a11eb0d600ee702c9edb",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    },
+    {
+      "left": "demo-6e4a3660d53931747fa8",
+      "right": "demo-a11eb0d600ee702c9edb",
+      "shared_count": 0,
+      "shared_local_aliases": []
+    }
+  ],
+  "unique_participants": 63,
+  "latest_development_played_at": "2026-08-25T09:01:42Z",
+  "reserve_summary": {
+    "matches": 2,
+    "no_participants_shared_with_development": 0,
+    "strictly_after_latest_development": 0,
+    "prior_aggregate_audit_exposure": 2
+  },
+  "conclusions": {
+    "independent_generalization_accredited": false,
+    "new_player_test_accredited": false,
+    "forward_temporal_test_accredited": false,
+    "human_reviews_received": 0,
+    "tactical_accuracy": null,
+    "historical_exposure_scope": "positive_aggregate_audit_exposure_only_no_claim_about_unlogged_human_access",
+    "requires_further_inventory_search_for_these_gates": false
+  },
+  "verification": {
+    "pairwise_counts_recomputed_by_membership": 21,
+    "protected_hashes_unchanged": 47,
+    "frozen_detector_sources_unchanged": 10,
+    "source_hashes_checked_before_and_after": 59,
+    "review_templates": [
+      {
+        "label": "demo-045df2521c790a7d8a69/evaluation/review_template.json",
+        "sha256": "784aec7f596af3b17f0726fab4c450b8238243122cb1dfd841bd06bde986ef4b",
+        "reviews": 0
+      },
+      {
+        "label": "demo-066944f5acb806ba5f81/evaluation/review_template.json",
+        "sha256": "e015dfd0e6579b0be4e686b9636610fc35fe4acb32235cc476a069b41185da78",
+        "reviews": 0
+      },
+      {
+        "label": "demo-310597a1cb8f27f26c55/evaluation/review_template.json",
+        "sha256": "b245cc83428189141c519ef4394e14f7c7fa61ae066f236a52356f366ff44c23",
+        "reviews": 0
+      },
+      {
+        "label": "demo-381bbf14c9ccd5693047/evaluation/review_template.json",
+        "sha256": "0da8e5a88c2a560c5af2b75fe449863979787e21b053ab9cc21988e81488f01a",
+        "reviews": 0
+      },
+      {
+        "label": "demo-5bdb2dac2277dd9463ac/evaluation/review_template.json",
+        "sha256": "f03c53d0b6aff661a53bfb948576cf613395c3b40225b292ab8531e5b1616613",
+        "reviews": 0
+      },
+      {
+        "label": "demo-6e4a3660d53931747fa8/evaluation/review_template.json",
+        "sha256": "bf76b3222a8c8e59b23598ce52799900d63d3ed216c1c0454d3143df7b848282",
+        "reviews": 0
+      },
+      {
+        "label": "demo-a11eb0d600ee702c9edb/evaluation/review_template.json",
+        "sha256": "43beaeca6c44ef5845d90d45f38a373ab0a0f3ae70c0e09433585684d000c075",
+        "reviews": 0
+      }
+    ],
+    "runtime_modified": false,
+    "demos_parsed": 0,
+    "original_corpus_mutated": false
+  },
+  "inputs": [
+    {
+      "label": "demo-045df2521c790a7d8a69/capture/canonical/core/match_metadata.json",
+      "sha256": "9c2802e8d97dd67f3c712d97d96c215c21d346129524f596365727e42bf11925"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/capture/canonical/core/participants.json",
+      "sha256": "fce3f7b04607ae9aa1e1fd8150164d372cff6f936d18b962ade5deb9e2f687d2"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/capture/canonical/manifest.json",
+      "sha256": "cf486d7999da6a125868717cb413a5381e0b6ae80bef2dc1fadc480f86e3cc35"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/corpus/canonical/core/match_metadata.json",
+      "sha256": "7d9b1fd0f1a1779919e01dd01e4db2e5b5724b4c3fb5a610f0d5c447921f5b56"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/corpus/canonical/core/participants.json",
+      "sha256": "4706fcdff4f89075b2f682c505e1afe7130efbe41f061f0912a1135e52b66953"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/corpus/canonical/manifest.json",
+      "sha256": "b284460e2e3ca3601093e916416c13bff00ec14013dec695e80eff8902a5f44a"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/corpus/manifest.json",
+      "sha256": "5a6023e5c4c6ac75cb4d6a9eba5964e8d1e473a47f6568d7fac5522e641f1300"
+    },
+    {
+      "label": "demo-045df2521c790a7d8a69/evaluation/review_template.json",
+      "sha256": "784aec7f596af3b17f0726fab4c450b8238243122cb1dfd841bd06bde986ef4b"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/capture/canonical/core/match_metadata.json",
+      "sha256": "9bb11fa589579e40bfb350f5c9e9cca24a4f5e05629bf645ae48ead6fa62ba20"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/capture/canonical/core/participants.json",
+      "sha256": "c372b84a89e8f10148f6e580fdc5c3269e145dbde09dacfb59da21fdee5789a8"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/capture/canonical/manifest.json",
+      "sha256": "a6ab4f819bf31dc7293b050875657aa23ad44a3010f32349afcf7add41d2390d"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/corpus/canonical/core/match_metadata.json",
+      "sha256": "37e36225a4e8405a9b21083a0bce5366a30e643396e55672aa266b001e28b183"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/corpus/canonical/core/participants.json",
+      "sha256": "583ab11b10e6d39cdc1128349e5636f4df16bc6c52a292fbd936d530d36fe758"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/corpus/canonical/manifest.json",
+      "sha256": "d06c1fb9d2cbdcbd63ffc5014d8bac2ff4d5c6b41c10bc94b98e89810fcfbf50"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/corpus/manifest.json",
+      "sha256": "8c4b4d656bde864216151f924253c1469ed66edbc97349c7c3a115d0067496e6"
+    },
+    {
+      "label": "demo-066944f5acb806ba5f81/evaluation/review_template.json",
+      "sha256": "e015dfd0e6579b0be4e686b9636610fc35fe4acb32235cc476a069b41185da78"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/capture/canonical/core/match_metadata.json",
+      "sha256": "7bf2eaae467f49c1f610bd62ef68b4e35b69a74e38ea261f4332497a00d259ee"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/capture/canonical/core/participants.json",
+      "sha256": "042cc30ed6b592a19eef7634e52b84b7ad2474a1dce4d826b5043bec0bdb1725"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/capture/canonical/manifest.json",
+      "sha256": "194ab4aedae47fbb845c9a67d31da85af949a34f18357e8b5e8bc13098ad01be"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/corpus/canonical/core/match_metadata.json",
+      "sha256": "9008a9299488db539f31e5c5462cc3bcb166e881592027194f9b56425e30d57f"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/corpus/canonical/core/participants.json",
+      "sha256": "3c7edd5137e77e90c988f56fc0925c5f3b70866521b5883f20a4418f727ff451"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/corpus/canonical/manifest.json",
+      "sha256": "494363998d20d73d9610a7405bf518da533c1bf5b46b0baa88965656fc461d9f"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/corpus/manifest.json",
+      "sha256": "9bd752915ab8817ecce83a0effa51cf5ce1fb3a5282717a5e1c32a4553b6da0e"
+    },
+    {
+      "label": "demo-310597a1cb8f27f26c55/evaluation/review_template.json",
+      "sha256": "b245cc83428189141c519ef4394e14f7c7fa61ae066f236a52356f366ff44c23"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/capture/canonical/core/match_metadata.json",
+      "sha256": "3561eec8e04d94766c9237ebbc6c58a6545056dfe0e38c1f7987ca2d3af79f8e"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/capture/canonical/core/participants.json",
+      "sha256": "a20727339e192de6d438f69fd102eeb18c081fe58473797ba6d7327bcbe27089"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/capture/canonical/manifest.json",
+      "sha256": "e2cb92f5d43f4b49f830c21d0fe2f0c00722ac79e0851ad9fcd9dd526e90334f"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/corpus/canonical/core/match_metadata.json",
+      "sha256": "29592a0de37a67aac9841ba448ecc843cd4e1c363df52212ccda9b7bc3f26c8d"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/corpus/canonical/core/participants.json",
+      "sha256": "4a03a0992352f2f9e9896aba3a26aa875754c65007e66351d8eea7f5830d58b7"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/corpus/canonical/manifest.json",
+      "sha256": "f851a4de630f88d14c7160cf98db0b626158a73f7a9ca9aa81cb6e3161b4ffa5"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/corpus/manifest.json",
+      "sha256": "f239072ac6c4e11c31e2a7adb0dc4bc39e9b339869cf1d1b5234926773dfe70d"
+    },
+    {
+      "label": "demo-381bbf14c9ccd5693047/evaluation/review_template.json",
+      "sha256": "0da8e5a88c2a560c5af2b75fe449863979787e21b053ab9cc21988e81488f01a"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/capture/canonical/core/match_metadata.json",
+      "sha256": "7ca5f82c64359770d2e3bbfd6d4b1c3c30776b91972ff314fecf94e98b102129"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/capture/canonical/core/participants.json",
+      "sha256": "de181cf58965da9df06169785dafe87d746662e1acaf59c1818f875d363a998d"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/capture/canonical/manifest.json",
+      "sha256": "a75538e350fa7ade6a9a40fcf4079f7443debfc88980e6669a12d8366a369c5c"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/corpus/canonical/core/match_metadata.json",
+      "sha256": "9a9c7bb703d0fdcc86f78b4f91fcbafc5ce48f8e91a6c6fd2978cb850ceff1cc"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/corpus/canonical/core/participants.json",
+      "sha256": "d91d564c03296907fd224d3ef014d1d647d7538e54f169c1fb9dc40e4c54f57b"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/corpus/canonical/manifest.json",
+      "sha256": "638ce164ef9c81e603d0cc6d3a0584885062a98899a0a012b57c62c2b1c418f5"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/corpus/manifest.json",
+      "sha256": "bb758067befd6d8bcad1478a9370aea93a7ffca721379c78cefa594b6b993be7"
+    },
+    {
+      "label": "demo-5bdb2dac2277dd9463ac/evaluation/review_template.json",
+      "sha256": "f03c53d0b6aff661a53bfb948576cf613395c3b40225b292ab8531e5b1616613"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/capture/canonical/core/match_metadata.json",
+      "sha256": "f8bd34a5e3c219e8bf3dd6d61d70c34d2dd0313d2807f18de4b66e361eea9a02"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/capture/canonical/core/participants.json",
+      "sha256": "0ef4e5d2113da2ec9a05bd68235b83cc1ed082ed0a79cccbc6134c6b581338b7"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/capture/canonical/manifest.json",
+      "sha256": "be7bd330eb06bfc71117c5fa3ce9956c9d5ed94969991753ded9b87c256d67d4"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/corpus/canonical/core/match_metadata.json",
+      "sha256": "ac28e5ca78d26a9a1c3e3793deb5b8943e8966fc8fa8e0881e6b143ff60bfce6"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/corpus/canonical/core/participants.json",
+      "sha256": "848b31775e72ff11cb73f37ba5ec212e7eb6cafb282a6f5d755b8be52680d894"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/corpus/canonical/manifest.json",
+      "sha256": "dc8aedd8bf30e7bca991c620ba165a5e12dd9ab7bdc1cdf449c254deed6909e2"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/corpus/manifest.json",
+      "sha256": "92d373bb7a4f9c419f6b760c2eb050815a55eaf31bd290a8c22aa753d2dcda24"
+    },
+    {
+      "label": "demo-6e4a3660d53931747fa8/evaluation/review_template.json",
+      "sha256": "bf76b3222a8c8e59b23598ce52799900d63d3ed216c1c0454d3143df7b848282"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/capture/canonical/core/match_metadata.json",
+      "sha256": "b3926d8b69c01063aae6263f45992c31803667095900cb970e803d31f3fe7ad2"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/capture/canonical/core/participants.json",
+      "sha256": "5b7260c9c683284c70860b31fa86d4d4220cd211552ae9e921c1bf46998e18a0"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/capture/canonical/manifest.json",
+      "sha256": "b6003d4384980907af38bc5f131c7a574b22e2291365b1d1178e97151b97effb"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/corpus/canonical/core/match_metadata.json",
+      "sha256": "84b4a1dd114e273cbe0e06fa134e9de6ca3721f24f9bf13fa2e01a024777a340"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/corpus/canonical/core/participants.json",
+      "sha256": "050ca10b04ce185a24ee7c75f8c4cc939b86c95899469fb4d8ee0586dcc4ac1b"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/corpus/canonical/manifest.json",
+      "sha256": "221d1c11771e0f25e1f3fe74990b5ca2b476432717fb7b66d8a19602d2804aca"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/corpus/manifest.json",
+      "sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5"
+    },
+    {
+      "label": "demo-a11eb0d600ee702c9edb/evaluation/review_template.json",
+      "sha256": "43beaeca6c44ef5845d90d45f38a373ab0a0f3ae70c0e09433585684d000c075"
+    },
+    {
+      "label": "docs\\evidence\\AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json",
+      "sha256": "38c39620e4714357c716e5884bdb6199a610916a33d7a47af55a1e986c0e2bb9"
+    },
+    {
+      "label": "outputs\\stratai-contextual-20260923\\evaluation-plan.json",
+      "sha256": "a7240d852307f27ed6183f1c4da88d8581d52ec2728822cc0a43b1b7c6b59fa7"
+    },
+    {
+      "label": "outputs\\stratai-contextual-20260923\\evaluation-result.json",
+      "sha256": "6999b0e96f24af668bd6307ca033aebafd1098f54e9f7803f676fa342d1f0e2e"
+    }
+  ]
+}

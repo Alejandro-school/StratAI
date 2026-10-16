@@ -11,6 +11,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+from ai_coach.contracts.runtime_contracts import (
+    RuntimeContractError,
+    validate_runtime_contract_files,
+)
 
 ALLOWED_AVAILABILITY = {
     "EXISTE_VERIFICADO",
@@ -57,7 +61,12 @@ REQUIRED_DECISION_KEYS = {
     "history_window",
     "action_label_window",
 }
-REQUIRED_ACTION_KEYS = {"id", "family", "required_physical_parameters", "candidate_valid_only_if"}
+REQUIRED_ACTION_KEYS = {
+    "id",
+    "family",
+    "required_physical_parameters",
+    "candidate_valid_only_if",
+}
 REQUIRED_OUTCOME_KEYS = {
     "id",
     "partition",
@@ -86,7 +95,9 @@ class ContractValidationError(ValueError):
     """Raised when a contract violates a structural or reference invariant."""
 
 
-def _indexed(items: Any, collection: str, errors: list[str]) -> dict[str, dict[str, Any]]:
+def _indexed(
+    items: Any, collection: str, errors: list[str]
+) -> dict[str, dict[str, Any]]:
     if not isinstance(items, list):
         errors.append(f"{collection}: expected a list")
         return {}
@@ -144,14 +155,22 @@ def validate_contract(contract: dict[str, Any]) -> dict[str, int]:
         for item_id in items:
             previous = all_ids.get(item_id)
             if previous:
-                errors.append(f"global duplicate id {item_id} in {previous} and {collection}")
+                errors.append(
+                    f"global duplicate id {item_id} in {previous} and {collection}"
+                )
             all_ids[item_id] = collection
 
     for capability_id, capability in capabilities.items():
         missing = sorted(REQUIRED_CAPABILITY_KEYS - capability.keys())
         if missing:
             errors.append(f"{capability_id}: missing keys {', '.join(missing)}")
-        _check_refs(capability_id, "observed_action", capability.get("observed_action"), decisions, errors)
+        _check_refs(
+            capability_id,
+            "observed_action",
+            capability.get("observed_action"),
+            decisions,
+            errors,
+        )
         _check_refs(
             capability_id,
             "physically_possible_alternatives",
@@ -168,8 +187,20 @@ def validate_contract(contract: dict[str, Any]) -> dict[str, int]:
         )
         permitted_oracle = capability.get("permitted_oracle_for_labels")
         if permitted_oracle:
-            _check_refs(capability_id, "permitted_oracle_for_labels", permitted_oracle, fields, errors)
-        _check_refs(capability_id, "outcome_ids", capability.get("outcome_ids"), outcomes, errors)
+            _check_refs(
+                capability_id,
+                "permitted_oracle_for_labels",
+                permitted_oracle,
+                fields,
+                errors,
+            )
+        _check_refs(
+            capability_id,
+            "outcome_ids",
+            capability.get("outcome_ids"),
+            outcomes,
+            errors,
+        )
 
         eligibility = capability.get("task_eligibility")
         if not isinstance(eligibility, dict):
@@ -201,7 +232,9 @@ def validate_contract(contract: dict[str, Any]) -> dict[str, int]:
         if status not in ALLOWED_AVAILABILITY:
             errors.append(f"{field_id}.availability_status: invalid value {status!r}")
         if field.get("partition") not in allowed_partitions:
-            errors.append(f"{field_id}.partition: invalid value {field.get('partition')!r}")
+            errors.append(
+                f"{field_id}.partition: invalid value {field.get('partition')!r}"
+            )
 
     for action_id, action in actions.items():
         missing = sorted(REQUIRED_ACTION_KEYS - action.keys())
@@ -209,12 +242,32 @@ def validate_contract(contract: dict[str, Any]) -> dict[str, int]:
             errors.append(f"{action_id}: missing keys {', '.join(missing)}")
         params = action.get("required_physical_parameters")
         if not isinstance(params, list) or not params:
-            errors.append(f"{action_id}.required_physical_parameters: expected a non-empty list")
+            errors.append(
+                f"{action_id}.required_physical_parameters: expected a non-empty list"
+            )
 
     for decision_id, decision in decisions.items():
         missing = sorted(REQUIRED_DECISION_KEYS - decision.keys())
         if missing:
             errors.append(f"{decision_id}: missing keys {', '.join(missing)}")
+
+    if contract.get("version") == "1.7.0":
+        economic = decisions.get("DEC-ECONOMY-001", {})
+        if (
+            economic.get("action_label_window")
+            != "strictly after T0 and strictly before observed freeze end; boundary ticks ambiguous; execution labels only"
+            or economic.get("specific_contract") != "economy_opportunity_protocol.json"
+        ):
+            errors.append(
+                "DEC-ECONOMY-001: invalid versioned freeze execution contract"
+            )
+        for action_id, action in actions.items():
+            if (
+                action.get("family") == "economy"
+                and action.get("specific_contract")
+                != "economy_opportunity_protocol.json"
+            ):
+                errors.append(f"{action_id}: missing economic opportunity contract")
 
     for outcome_id, outcome in outcomes.items():
         missing = sorted(REQUIRED_OUTCOME_KEYS - outcome.keys())
@@ -244,10 +297,26 @@ def main() -> int:
     try:
         contract = json.loads(args.contract.read_text(encoding="utf-8"))
         counts = validate_contract(contract)
-    except (OSError, json.JSONDecodeError, ContractValidationError) as exc:
-        print(json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False, sort_keys=True))
+        runtime_counts = validate_runtime_contract_files()
+    except (
+        OSError,
+        json.JSONDecodeError,
+        ContractValidationError,
+        RuntimeContractError,
+    ) as exc:
+        print(
+            json.dumps(
+                {"ok": False, "error": str(exc)}, ensure_ascii=False, sort_keys=True
+            )
+        )
         return 1
-    print(json.dumps({"ok": True, "counts": counts}, ensure_ascii=False, sort_keys=True))
+    print(
+        json.dumps(
+            {"ok": True, "counts": counts, "runtime_contracts": runtime_counts},
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+    )
     return 0
 
 

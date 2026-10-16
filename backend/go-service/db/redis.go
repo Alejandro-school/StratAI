@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"cs2-demo-service/models"
@@ -34,17 +35,35 @@ func matchDataKey(matchID string) string {
 }
 
 // initRedis inicializa la conexión a Redis
-func InitRedis() error {
-	redisAddr := os.Getenv("REDIS_ADDR")
+func redisOptions() (*redis.Options, error) {
+	if value := strings.TrimSpace(os.Getenv("REDIS_URL")); value != "" {
+		options, err := redis.ParseURL(value)
+		if err != nil {
+			return nil, fmt.Errorf("invalid REDIS_URL")
+		}
+		return options, nil
+	}
+	redisAddr := strings.TrimSpace(os.Getenv("REDIS_ADDR"))
 	if redisAddr == "" {
 		redisAddr = "localhost:6379"
 	}
-	Rdb = redis.NewClient(&redis.Options{
+	return &redis.Options{
 		Addr: redisAddr,
 		DB:   0,
-	})
-	_, err := Rdb.Ping(Ctx).Result()
+	}, nil
+}
+
+func InitRedis() error {
+	options, err := redisOptions()
 	if err != nil {
+		return err
+	}
+	Rdb = redis.NewClient(options)
+	ctx, cancel := context.WithTimeout(Ctx, 5*time.Second)
+	defer cancel()
+	_, err = Rdb.Ping(ctx).Result()
+	if err != nil {
+		_ = Rdb.Close()
 		return fmt.Errorf("could not connect to Redis: %w", err)
 	}
 	return nil

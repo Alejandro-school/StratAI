@@ -1,0 +1,116 @@
+{
+  "phase": "AUD-O01",
+  "status": "repaired_and_verified",
+  "report": {
+    "path": "docs/archive/ai-coach/AI_COACH_STYLE_REQUIREMENT_REPAIR_2026-09-20.md",
+    "bytes": 1820,
+    "sha256": "6039804a7c8913adf5a54045e318b122320b7a3e35a03456cd0a713fb5e91765"
+  },
+  "checks": {
+    "o-ruff": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "ai_coach"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "started_utc": "2026-09-20T14:49:16.446363+00:00",
+      "network_dependency_resolution": "disabled",
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-audit-followup-20260920\\o-ruff.log",
+      "exit_code": 0,
+      "seconds": 0.259,
+      "log_sha256": "a49ed77daff176c882080e57ee654d8b3fae7dda54c72d19b079a5c9432fd0a2",
+      "receipt": {
+        "path": "outputs/stratai-audit-followup-20260920/o-ruff.json",
+        "bytes": 576,
+        "sha256": "e02a8235598afb632f3c82a88157d652d2edbddf88b414443e16726c9afc52b7"
+      }
+    },
+    "o-affected": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_nav_fact_boundary.py",
+        "ai_coach/tests/test_spatial_candidate.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "started_utc": "2026-09-20T14:49:16.711325+00:00",
+      "network_dependency_resolution": "disabled",
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-audit-followup-20260920\\o-affected.log",
+      "exit_code": 0,
+      "seconds": 56.034,
+      "log_sha256": "ae08da9218dce2e4594dec8003988463287d965301af84f5677785c587deea60",
+      "receipt": {
+        "path": "outputs/stratai-audit-followup-20260920/o-affected.json",
+        "bytes": 756,
+        "sha256": "996a9dd28aeacbb4c40fa37609e078bca951677c5f0e344ec7892237ceea6199"
+      }
+    }
+  },
+  "comparison": {
+    "equivalent_unbounded_cache_only": true,
+    "test_import_order_only": true,
+    "readme_only_go_requirement": true,
+    "go_mod_minimum": "1.24.0",
+    "new_runtime_data_contract": false,
+    "new_smoke_required": false
+  },
+  "preservation": {
+    "ok": true,
+    "baseline_files": 1513,
+    "changed_existing": [
+      "README.md",
+      "ai_coach/contracts/capability_catalog.json",
+      "ai_coach/contracts/runtime_contracts.py",
+      "ai_coach/contracts/spatial_candidate.py",
+      "ai_coach/datasets/spatial_candidate.py",
+      "ai_coach/tests/test_contract.py",
+      "ai_coach/tests/test_spatial_candidate.py",
+      "ai_coach/tests/test_spatial_review_protocol.py",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/canonical-spatial-candidate-v3.9.md",
+      "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md"
+    ],
+    "unexpected_changes": [],
+    "protected_inventory_unchanged": true,
+    "HEAD_unchanged": true,
+    "staging_unchanged": true
+  },
+  "snapshots": [
+    {
+      "path": "outputs/stratai-audit-followup-20260920/o-closed/ai_coach/contracts/spatial_candidate.py",
+      "bytes": 7627,
+      "sha256": "a63757388085c1a568ad75f0cbf9a71d91d6c1be2b45326753eb48576aacbf74"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/o-closed/ai_coach/tests/test_spatial_candidate.py",
+      "bytes": 26182,
+      "sha256": "0b965ba6f437591fe02248e82f9bb814c15a3533fd4890d876f97bb407639e02"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/o-closed/README.md",
+      "bytes": 9206,
+      "sha256": "ff5565c94d1a2282e027eecc7a05375742068086a544b9aaf61c9fe1b2891a4f"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/o-closed/docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 145056,
+      "sha256": "671607c133048c504f13e87a8b93a9c92f5bc0f16f69bdac88da8e3123ef41f2"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/o-closed/docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 937,
+      "sha256": "b3fd9efd7152a70789c5dc0874fc6298ecbe6e7542fac89e46a43acaa2a4c763"
+    }
+  ],
+  "next_action": "Prepare interpreter proposal for expert framing"
+}

@@ -179,8 +179,8 @@ backend\venv\Scripts\python.exe backend\go-service\scripts\economy_stats_metadat
 
 Consulta también:
 
-- [`docs/canonical-publication-rollback.md`](../../../docs/canonical-publication-rollback.md)
+- [`docs/operations/canonical-publication-rollback.md`](../../../docs/operations/canonical-publication-rollback.md)
 - [`docs/canonical-export-schema-v3.8.md`](../../../docs/canonical-export-schema-v3.8.md)
-- [`docs/golden-corpus.md`](../../../docs/golden-corpus.md)
+- [`docs/operations/golden-corpus.md`](../../../docs/operations/golden-corpus.md)
 
 Última revisión: 21 de agosto de 2026.

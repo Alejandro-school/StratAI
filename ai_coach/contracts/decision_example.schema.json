@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.ai_coach_decision_example@1",
+  "title": "DecisionExample",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "example_id",
+    "decision_family",
+    "join_keys",
+    "t0_tick",
+    "observed",
+    "oracle",
+    "outcomes",
+    "historical_profile",
+    "references",
+    "evidence"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.ai_coach_decision_example@1"},
+    "contract_version": {"const": "1.0.0"},
+    "example_id": {"type": "string", "minLength": 1},
+    "decision_family": {
+      "enum": ["spacing_or_trade_connection", "peek_hold_or_reposition"]
+    },
+    "join_keys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["match_id", "decision_id", "round_number", "actor_player_id", "observed_state_ref"],
+      "properties": {
+        "match_id": {"type": "string", "minLength": 1},
+        "decision_id": {"type": "string", "minLength": 1},
+        "round_number": {"type": "integer", "minimum": 1},
+        "actor_player_id": {"type": "string", "minLength": 1},
+        "observed_state_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "t0_tick": {"type": "integer", "minimum": 0},
+    "observed": {"$ref": "#/$defs/observedPartition"},
+    "oracle": {"$ref": "#/$defs/oraclePartition"},
+    "outcomes": {"$ref": "#/$defs/outcomePartition"},
+    "historical_profile": {"$ref": "#/$defs/profilePartition"},
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed_action", "outcome", "quality"],
+      "properties": {
+        "observed_action": {"$ref": "#/$defs/artifactReference"},
+        "outcome": {"$ref": "#/$defs/artifactReference"},
+        "quality": {"$ref": "#/$defs/artifactReference"}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"$ref": "#/$defs/artifactReference"}
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "availabilityBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["availability_tick", "status", "values"],
+      "properties": {
+        "availability_tick": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["observed", "derived", "inferred", "unavailable"]},
+        "values": {"type": "object"}
+      }
+    },
+    "observedPartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "referenced_state", "tactical_state", "context", "quality"],
+      "properties": {
+        "action": {"$ref": "#/$defs/availabilityBlock"},
+        "referenced_state": {"$ref": "#/$defs/availabilityBlock"},
+        "tactical_state": {"$ref": "#/$defs/availabilityBlock"},
+        "context": {"$ref": "#/$defs/availabilityBlock"},
+        "quality": {"type": "object"}
+      }
+    },
+    "oraclePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audit_only", "available", "status", "values"],
+      "properties": {
+        "audit_only": {"const": true},
+        "available": {"type": "boolean"},
+        "status": {"enum": ["available", "unavailable"]},
+        "values": {"type": "object"}
+      }
+    },
+    "outcomePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_or_evaluation_only", "outcome_tick", "values"],
+      "properties": {
+        "label_or_evaluation_only": {"const": true},
+        "outcome_tick": {"type": "integer", "minimum": 0},
+        "values": {"type": "object"}
+      }
+    },
+    "profilePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strictly_before_t0", "status", "values"],
+      "properties": {
+        "strictly_before_t0": {"const": true},
+        "status": {"const": "not_materialized"},
+        "values": {"type": "null"}
+      }
+    },
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "schema_id", "path", "line"],
+      "properties": {
+        "artifact_type": {"type": "string", "minLength": 1},
+        "schema_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "line": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

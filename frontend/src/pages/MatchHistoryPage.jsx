@@ -21,6 +21,7 @@ const EMPTY_MATCHES = Object.freeze([]);
 const PIPELINE_ERROR_MESSAGES = {
   demo_url_unavailable: 'Steam ya no ofrece esta demo. Las partidas nuevas se procesarán automáticamente.',
   cdn_url_expired: 'El enlace de descarga ha caducado; se solicitará uno nuevo automáticamente.',
+  cdn_url_unavailable: 'Steam no ofrece una descarga válida de esta demo. Las partidas nuevas se seguirán sincronizando.',
   steam_credentials_invalid: 'Steam ha rechazado los códigos del historial. Vuelve a configurarlos.',
 };
 
@@ -32,6 +33,7 @@ function getPipelineMessage(event) {
   if (event.stage === 'downloading') return 'Descargando demo...';
   if (event.stage === 'analyzing') return 'Analizando demo...';
   if (event.stage === 'retry_wait') return 'Steam no ha respondido; reintentando automáticamente...';
+  if (event.stage === 'discovery_failed') return 'No se pudo sincronizar el historial con Steam. Inténtalo de nuevo en unos instantes.';
   if (event.stage === 'failed') {
     return PIPELINE_ERROR_MESSAGES[event.error_code]
       || `No se pudo procesar la partida (${event.error_code || 'error desconocido'}).`;

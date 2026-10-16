@@ -1,0 +1,557 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source",
+    "through_index",
+    "cut",
+    "situation",
+    "evolution",
+    "events",
+    "uncertainty",
+    "later_supplements",
+    "history",
+    "interpretations",
+    "recommendations",
+    "limitations",
+    "training_allowed",
+    "product_supported",
+    "common_context_id"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.common_factual_context@1"
+    },
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_context_id",
+        "instrument",
+        "source_demo_sha256",
+        "native_content_id"
+      ],
+      "properties": {
+        "candidate_context_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "instrument": {
+          "enum": [
+            "stratai.review_web@5",
+            "stratai.review_web@9"
+          ]
+        },
+        "source_demo_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "native_content_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "through_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cut": {
+      "$ref": "#/$defs/cut"
+    },
+    "situation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frame",
+        "objective",
+        "players",
+        "resources",
+        "information"
+      ],
+      "properties": {
+        "frame": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fact"
+          }
+        },
+        "objective": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fact"
+          }
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fact"
+          }
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fact"
+          }
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fact"
+          }
+        }
+      }
+    },
+    "evolution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from_index",
+          "to_index",
+          "cut",
+          "continuity",
+          "comparison",
+          "changes"
+        ],
+        "properties": {
+          "from_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "to_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cut": {
+            "$ref": "#/$defs/cut"
+          },
+          "continuity": {
+            "type": "string"
+          },
+          "comparison": {
+            "enum": [
+              "boundary_only",
+              "adjacent_observations"
+            ]
+          },
+          "changes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "group",
+                "subject",
+                "key",
+                "before",
+                "after"
+              ],
+              "properties": {
+                "group": {
+                  "enum": [
+                    "frame",
+                    "objective",
+                    "players",
+                    "resources",
+                    "information"
+                  ]
+                },
+                "subject": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "key": {
+                  "type": "string"
+                },
+                "before": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/reference"
+                  }
+                },
+                "after": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/reference"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "group",
+          "subject",
+          "status",
+          "value",
+          "reason",
+          "unit",
+          "perspective",
+          "original_instrument",
+          "derivation",
+          "availability_cut",
+          "available_index",
+          "evidence",
+          "seconds_since_event"
+        ],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "group": {
+            "enum": [
+              "frame",
+              "objective",
+              "players",
+              "resources",
+              "information"
+            ]
+          },
+          "subject": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {},
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "perspective": {
+            "type": "string"
+          },
+          "original_instrument": {
+            "type": "boolean"
+          },
+          "derivation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "availability_cut": {
+            "$ref": "#/$defs/cut"
+          },
+          "available_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "seconds_since_event": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "group",
+          "subject",
+          "key",
+          "status",
+          "reason",
+          "evidence"
+        ],
+        "properties": {
+          "group": {
+            "enum": [
+              "frame",
+              "objective",
+              "players",
+              "resources",
+              "information"
+            ]
+          },
+          "subject": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "key": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/reference"
+            }
+          }
+        }
+      }
+    },
+    "later_supplements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fact"
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_count",
+        "start_cut",
+        "prior_rounds_status",
+        "native_status"
+      ],
+      "properties": {
+        "sample_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "start_cut": {
+          "$ref": "#/$defs/cut"
+        },
+        "prior_rounds_status": {
+          "const": "not_supplied"
+        },
+        "native_status": {
+          "enum": [
+            "not_supplied",
+            "unavailable",
+            "observed"
+          ]
+        }
+      }
+    },
+    "interpretations": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "recommendations": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "common_context_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.common_factual_context@1",
+  "x-stratai-training-authorized": false,
+  "$defs": {
+    "cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "frame",
+        "tick",
+        "epoch",
+        "instance",
+        "round_number",
+        "tick_rate",
+        "sample_step",
+        "phase"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "round_number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick_rate": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sample_step": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "phase": {
+          "type": "string"
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document",
+        "pointer"
+      ],
+      "properties": {
+        "document": {
+          "enum": [
+            "candidate",
+            "native"
+          ]
+        },
+        "pointer": {
+          "type": "string",
+          "pattern": "^/"
+        }
+      }
+    },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "group",
+        "subject",
+        "status",
+        "value",
+        "reason",
+        "unit",
+        "perspective",
+        "original_instrument",
+        "derivation",
+        "availability_cut",
+        "available_index",
+        "evidence"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "group": {
+          "enum": [
+            "frame",
+            "objective",
+            "players",
+            "resources",
+            "information"
+          ]
+        },
+        "subject": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {},
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "perspective": {
+          "type": "string"
+        },
+        "original_instrument": {
+          "type": "boolean"
+        },
+        "derivation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "availability_cut": {
+          "$ref": "#/$defs/cut"
+        },
+        "available_index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reference"
+          }
+        }
+      }
+    }
+  }
+}

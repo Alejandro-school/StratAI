@@ -4,7 +4,7 @@
 require('dotenv').config();
 const express = require('express');
 const config = require('./services/config');
-const friendController = require('./controllers/friendController');
+const steamStatusController = require('./controllers/steamStatusController');
 const demoController = require('./controllers/demoController');
 const { securityHeaders, requestSizeLimit } = require('./middleware/security');
 const { iniciarSesionSteam, botPool } = require('./services/steamGateway');
@@ -27,10 +27,10 @@ app.use(express.json({
 }));
 app.get('/health', (_req, res) => res.json({ status: 'ok', service: 'steam-pipeline' }));
 app.get('/ready', (_req, res) => {
-  const ready = redisClient.isReady && (isPipelineReady() || !config.pipelineV2Enabled);
+  const ready = redisClient.isReady && isPipelineReady() && botPool.getStatus().readyBots > 0;
   return res.status(ready ? 200 : 503).json({ status: ready ? 'ready' : 'not_ready' });
 });
-app.use(friendController);
+app.use(steamStatusController);
 app.use(demoController);
 
 let server;
@@ -71,7 +71,7 @@ let isShuttingDown = false;
   await startPipelineV2();
 
   // 4) Levanta el servidor HTTP
-  server = app.listen(config.server.port, () => {
+  server = app.listen(config.server.port, config.server.host, () => {
     console.log(`🚀 Servidor Node.js corriendo en http://localhost:${config.server.port}`);
   });
   server.requestTimeout = 30_000;

@@ -1,0 +1,46 @@
+# Conciliación monetaria 3D.8 — 8 de septiembre de 2026
+
+Entrega funcional validada. [Evidencia completa](../../evidence/AI_COACH_ECONOMY_CASHFLOW_SINGLE_DEMO_SMOKE_2026-09-08.json), [contrato](../../contracts/economy/canonical-economy-cashflow-v1.md) y [plan vigente](../../AI_COACH_IMPLEMENTATION_PLAN.md). TEMP retenido con inventario por indicación del usuario, sin intento ni revisión de borrado.
+
+El selector optativo **11** añade lecturas frescas de cuenta/gasto al corte de tenencia y entradas, un catálogo de vidas de controlador y el handle de pawn leído en cada entrega monetaria. La traza anterior no bastaba para acreditar esos tres elementos en todos los cortes. Se conservan los selectores 1–10 y las fuentes anteriores.
+
+La frontera se demuestra mediante el orden explícito de callbacks del proyecto y la relación **`trace_next_frame = cut.frame + 1`**. Cada marcador contiene el prefijo completo de traza disponible en ese corte. La lectura de entradas y dinero es síncrona dentro del mismo callback; no avanza el parser entre lecturas. Se comprueban series completas, controlador vivo, actor/lado/instancia propios de cada entrega y reloj del corte. Esto acredita entrega por comando de demo, sin afirmar subtick físico, orden completo de los handlers internos del SDK ni conocimiento del jugador.
+
+La única partida aporta **13 vidas de controlador, 2.825 entregas monetarias, 35.485 cortes y 1.114 estados distintos**. Se examinan **354.426 pares de pawn/cortes adyacentes** y se retienen **1.365 intervalos**. Los **353.061 pares omitidos** tienen payloads idénticos y ninguna entrega seleccionada, con cortes compatibles. Es una decisión de almacenamiento: datos desconocidos idénticos no prueban ausencia de actividad económica.
+
+| Resultado | Intervalos | Alcance |
+|---|---:|---|
+| Igualdad con una entrada y vínculo exacto | **153** | Consistencia de importes, sin acreditar causa de compra o pago individual. |
+| Igualdad con varias entradas y vínculos exactos | **0** | Variante no observada en esta partida. |
+| Igualdad sin objeto único acreditado | **759** | Duplicidad o algún vínculo no exacto; no asignar dinero al objeto. |
+| Descenso del contador de gasto | **54** | Se conserva la disminución; no se clasifica como devolución efectiva. |
+| Sin cambios en el intervalo retenido comparable | **156** | No incluye las omisiones con datos desconocidos. |
+| Entregas sin cambio neto y sin cambios de entradas | **0** | Sin cobertura real de esta variante. |
+| Residuos presentes | **0** | Los dos contrastes dan cero en los 1.122 intervalos comparables. |
+| No comparable | **243** | Los residuos quedan `null`, no cero. |
+
+Los motivos pueden solaparse: **241 cortes incompatibles**, **23 casos sin vínculo estable de actor**, **4 cambios de vida de pawn**, **4 casos sin controlador/actor único o presente** y **4 reclamaciones de controlador no únicas**. En los 243 intervalos afectados no se calcula el cambio de entradas atribuible. Las secuencias de entregas seleccionadas permanecen consultables. No se arrastra una cuenta desconocida ni se rellena identidad con datos posteriores.
+
+Hay **46/50 oportunidades con intervalos retenidos**. La evidencia incluye las 50 filas con todos los estados y ceros; retener intervalos no acredita una oportunidad de consejo. Las cuatro oportunidades de instancias sin enlace competitivo siguen sin enlace. También se conservan fronteras entre instancias como no comparables, sin adjudicarles una operación económica.
+
+Un programa independiente, sin importar módulos del producto, contrasta los **35.485 prefijos**, las **2.825 filas auxiliares de entrega**, las vidas/handles y la cobertura de todos los pares, incluidas omisiones. Recalcula los **1.365 intervalos**, **1.932 deltas individuales en canales completos** y **983 ocurrencias añadidas/retiradas**, además de sumas, residuos, estados y matriz. Los 2.761 usos de secuencias en intervalos son referencias retenidas, no un recuento adicional de transacciones.
+
+Se observan **98 intervalos con multiplicidad de entradas**, pero **cero reordenaciones puras, costes cero, compensaciones de saldo/gasto, movimientos no nulos con neto cero o entregas repetidas de igual valor** en los canales evaluados. Los 12 pares de cortes con igual tick no cambian estado monetario. Las 26 baselines existen en la traza global, pero ninguna cae en un canal evaluable entre los cortes retenidos; su manejo, el reenvío de creación, los datos ausentes y otras variantes se verifican con fixtures. Las nuevas lecturas de cuenta y gasto están presentes como `int32` en 11.139 registros de pawn/estado cada una; el handle está presente como `uint64`. La cobertura sintética no aumenta la cobertura real.
+
+Los contrastes son `diferencia de cuenta + coste neto registrado de entradas` y `diferencia de gasto − coste neto registrado de entradas`. Todos los intervalos comparables producen cero en ambos, incluidos los descensos de contador. Esto describe aritmética observada; no acredita la regla de precios, el reembolso efectivo ni la correspondencia causal entre una entrega y un objeto. Tampoco prueba drop voluntario, regalo o cooperación. Todos los intervalos mantienen `cause=not_accredited`, `refund_amount=null` y `decision_eligible=false`.
+
+Pasaron **`npm run check:all`**, **659 pruebas de AI Coach —40 nuevas—**, seis pruebas Go nuevas, Ruff y `go mod verify`. La suite pública incluye 43 pruebas Python backend, 88 frontend y 14 Node; tres pruebas de integración Node permanecen omitidas por su entorno y se enumeran en la evidencia. Se recontrastaron los 14 hashes de SDK/despachador fijados.
+
+La primera ejecución pública detectó una prueba de cifrado inestable: cambiar el último carácter de Base64 sin padding podía modificar sólo bits de relleno, conservando los bytes cifrados. Se corrigió esa prueba para alterar un byte autenticado, sin cambiar el cifrado de producción; la suite completa volvió a pasar antes del smoke. Se conservan log y resultado del fallo inicial. El grafo se utilizó primero; después devolvió `Transport closed`, incluida la comprobación final de cobertura. La lectura localizada y los hashes de la build sustentan la revisión, sin afirmar cobertura exhaustiva del grafo.
+
+El smoke ejecutó **una partida aprobada y una pasada**, después de las pruebas: alias `demo-a11eb0d600ee702c9edb`, build `working-tree-economy-3d8-20260908-r1`. Parser **84.012 s**, materializador monetario **77.586 s**, validación del informe **77.635 s** y validación canónica completa **269.215 s, cero errores**. SHA-256 de fuente, binario, comandos, fuentes de build y cada artefacto constan en la evidencia.
+
+Los controles independientes recalculan también **25.255 entradas**, **60.517 registros de tenencia** y **213 cambios**. Las nueve salidas previas conservan su contenido salvo build/procedencia. Se mantienen **77 estados iniciales acreditados, 173 ambiguos, tres equipos competitivos completos, 50 oportunidades, 60 diferencias numéricas, 15 transiciones de inventario, 1.467 capturas históricas, 7.918 filas de traza y 463 referencias de recursos**. Los 4.356 archivos protegidos, 181 hashes de control y 29 evidencias anteriores permanecen iguales.
+
+El registro pasa a **59 schemas/19 razones**, plan `2.19` y contrato humano `1.26`. Catálogo `1.7.0`, export `3.8.0`, parser `v16`, quality `12` y manifest `@3` conservan su significado. Comparación económica, entrenamiento y producto siguen deshabilitados. Se retienen **92 archivos / 833.331.996 bytes** en `C:/Users/kerch/AppData/Local/Temp/stratai-3d8-smoke-mx7nlhva`, con inventario y hashes.
+
+El cierre documental verifica **348 archivos funcionales** iguales a la build, **403 enlaces locales en 65 documentos** sin destinos ausentes, catálogo intacto, un único prompt y `git diff --check` correcto. De los 1.042 archivos previos, 1.024 permanecen intactos; los 18 cambios restantes están dentro del alcance documentado. La evidencia conserva también los hashes de los programas auxiliares de validación y del test de cifrado corregido.
+
+Ahora podemos comprobar juntos dinero, gasto y cambios de entradas en un mismo intervalo, distinguiendo igualdad, ambigüedad y descensos. **Siguen sin acreditarse transacciones itemizadas, reglas/assets exactos, cesta completa, cooperación y la mayoría de los estados iniciales de equipo.** Para afirmar que un actor compró o devolvió un objeto por un importe efectivo hace falta una fuente transaccional positiva: operación, importe, actor y vida de objeto explícitos, con reloj y procedencia enlazables a esta demo. Más recogidas, igualdades de saldo, entradas retiradas o refunds heurísticos no sustituyen esa fuente. La cooperación requiere evidencia adicional de coordinación/intención.
+
+La dependencia económica se reabre con ese material positivo; la [identidad exacta de assets](../../ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md) conserva su especificación separada. No se encadena otro inventario del mismo bloqueo. El plan selecciona **3E.1: anclaje causal para apoyo previo a la entrada**, déficit de S2–S3 ya identificado en el piloto. Debe seleccionar oportunidades con información disponible en T0, incluyendo casos sin muerte, sin reutilizar `DeathTick` para juzgar una decisión anterior. Recomendador, perfil, misiones, evaluación humana y migración 44/44 siguen pendientes.

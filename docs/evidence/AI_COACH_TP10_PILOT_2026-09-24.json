@@ -1,0 +1,728 @@
+{
+  "created_at": "2026-09-24T16:17:58.718379+00:00",
+  "phase": "TP10_same_period_player_disjoint_pilot",
+  "technical_preparation_completed": true,
+  "independent_tactical_evaluation_completed": false,
+  "scope_answer_verbatim": "Hazlo",
+  "workbook_criterion": "IC25",
+  "configuration": "collective_c4_approach@2-temporal-provisional",
+  "contradiction_seconds": 1.0,
+  "distinct_matches": 3,
+  "episodes": 36,
+  "human_reviews": 0,
+  "selection": [
+    {
+      "alias": "demo-0beb9110ec408f80c39b",
+      "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+      "bytes": 261876403,
+      "played_at": "2026-08-24T21:38:54Z"
+    },
+    {
+      "alias": "demo-1028fce95708dda309ae",
+      "sha256": "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c",
+      "bytes": 342432379,
+      "played_at": "2026-08-24T15:35:43Z"
+    },
+    {
+      "alias": "demo-5224a45934f2d5b94c01",
+      "sha256": "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4",
+      "bytes": 359208831,
+      "played_at": "2026-08-24T21:14:11Z"
+    }
+  ],
+  "frozen_selection_sha256": "daccebcdd8d38569b78873a3dfbfe74cb04f8fe50318ea2d39c109c54b21e028",
+  "evaluation_manifest_sha256": "bbd45481dbbde49878b52475ce587f35b15a9e0e952eb7c6a448027826977dae",
+  "runtime_changed": false,
+  "new_functional_smoke_required": false,
+  "execution_scheduling": [
+    {
+      "created_at": "2026-09-24T15:36:52.082201+00:00",
+      "kind": "technical_scheduling_amendment",
+      "supersedes": "frozen-selection.json maximum_concurrent_matches only for read-only validation scheduling",
+      "parsing_and_materialization_concurrency": 1,
+      "additional_read_only_validation_processes": 1,
+      "maximum_simultaneous_pipeline_processes": 2,
+      "selection_configuration_thresholds_and_outputs_unchanged": true,
+      "rationale": "Overlap read-only canonical validation of completed captures with sequential generation; do not reprocess sources or modify any frozen artifact.",
+      "free_memory_kib_observed_before_start": 6105348
+    },
+    {
+      "created_at": "2026-09-24T15:53:10.630744+00:00",
+      "kind": "technical_scheduling_amendment_after_generation",
+      "supersedes": "validation-scheduling.json maximum_simultaneous_pipeline_processes for read-only verification only",
+      "parsing_and_materialization_complete": true,
+      "parsing_and_materialization_concurrency_used": 1,
+      "maximum_simultaneous_read_only_processes": 3,
+      "free_memory_kib_observed": 6920364,
+      "source_selection_configuration_thresholds_and_generated_outputs_unchanged": true,
+      "reason": "Overlap canonical, factual and reader checks of immutable completed outputs; no further parsing or generation."
+    }
+  ],
+  "existing_functional_closure": "AI_COACH_TEMPORAL_PERSISTENCE_2026-09-24",
+  "parser_build": "working-tree-contextual-temporal-persistence-20260924",
+  "binary_sha256": "eea54eb43375b50d4e1485241b129eace342f0776820784a87741704625f9ce3",
+  "parser": "v16",
+  "canonical_export": "3.8.0",
+  "quality_version": 12,
+  "runtime_schemas": 112,
+  "reason_codes": 19,
+  "capability_catalog_version": "1.7.0",
+  "commands": [
+    {
+      "alias": "demo-0beb9110ec408f80c39b",
+      "stages": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\demo-0beb9110ec408f80c39b.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\capture",
+            "--alias",
+            "demo-0beb9110ec408f80c39b",
+            "--checksum",
+            "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-contextual-temporal-persistence-20260924",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "seconds": 83.201,
+          "exit_code": 0
+        },
+        "interpret": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.contextual_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\interpretation",
+            "--side",
+            "T",
+            "--intervals",
+            "1:65",
+            "1118:2222",
+            "3896:4350",
+            "6283:6672",
+            "7435:8669",
+            "9387:10686",
+            "12090:12869",
+            "14606:15190",
+            "17261:17325",
+            "19132:19521",
+            "20185:21549",
+            "21918:23607",
+            "--map-vmap",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 188.429,
+          "exit_code": 0
+        },
+        "blind": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.review_packet",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\blind",
+            "--side",
+            "T",
+            "--intervals",
+            "1:65",
+            "1118:2222",
+            "3896:4350",
+            "6283:6672",
+            "7435:8669",
+            "9387:10686",
+            "12090:12869",
+            "14606:15190",
+            "17261:17325",
+            "19132:19521",
+            "20185:21549",
+            "21918:23607",
+            "--radar",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 289.632,
+          "exit_code": 0
+        },
+        "interpret-validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.contextual_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\interpretation",
+            "--map-vmap",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 337.513,
+          "exit_code": 0
+        },
+        "blind-validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.review_packet",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\blind",
+            "--radar",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 308.691,
+          "exit_code": 0
+        },
+        "canonical": {
+          "ok": true,
+          "errors": [],
+          "seconds": 319.838,
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-tp10-pilot-20260924\\batch.py",
+            "canonical"
+          ],
+          "source_alias": "demo-0beb9110ec408f80c39b",
+          "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7"
+        }
+      }
+    },
+    {
+      "alias": "demo-1028fce95708dda309ae",
+      "stages": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\demo-1028fce95708dda309ae.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\capture",
+            "--alias",
+            "demo-1028fce95708dda309ae",
+            "--checksum",
+            "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-contextual-temporal-persistence-20260924",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "seconds": 105.691,
+          "exit_code": 0
+        },
+        "interpret": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.contextual_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\capture\\smoke_run_demo-1028fce95708dda309ae",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\interpretation",
+            "--side",
+            "T",
+            "--intervals",
+            "1:65",
+            "2276:2795",
+            "5407:5601",
+            "7013:8247",
+            "11046:11110",
+            "12998:13647",
+            "16175:16564",
+            "18140:19244",
+            "21752:22011",
+            "23505:24544",
+            "27115:27374",
+            "29111:29955",
+            "--map-vmap",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 224.116,
+          "exit_code": 0
+        },
+        "blind": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.review_packet",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\capture\\smoke_run_demo-1028fce95708dda309ae",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\blind",
+            "--side",
+            "T",
+            "--intervals",
+            "1:65",
+            "2276:2795",
+            "5407:5601",
+            "7013:8247",
+            "11046:11110",
+            "12998:13647",
+            "16175:16564",
+            "18140:19244",
+            "21752:22011",
+            "23505:24544",
+            "27115:27374",
+            "29111:29955",
+            "--radar",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 259.671,
+          "exit_code": 0
+        },
+        "interpret-validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.contextual_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\capture\\smoke_run_demo-1028fce95708dda309ae",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\interpretation",
+            "--map-vmap",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 253.024,
+          "exit_code": 0
+        },
+        "blind-validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.review_packet",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\capture\\smoke_run_demo-1028fce95708dda309ae",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-1028fce95708dda309ae\\blind",
+            "--radar",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 257.421,
+          "exit_code": 0
+        },
+        "canonical": {
+          "ok": true,
+          "errors": [],
+          "seconds": 527.144,
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-tp10-pilot-20260924\\batch.py",
+            "canonical"
+          ],
+          "source_alias": "demo-1028fce95708dda309ae",
+          "source_sha256": "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c"
+        }
+      }
+    },
+    {
+      "alias": "demo-5224a45934f2d5b94c01",
+      "stages": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\demo-5224a45934f2d5b94c01.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\capture",
+            "--alias",
+            "demo-5224a45934f2d5b94c01",
+            "--checksum",
+            "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-contextual-temporal-persistence-20260924",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "seconds": 138.888,
+          "exit_code": 0
+        },
+        "interpret": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.contextual_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\capture\\smoke_run_demo-5224a45934f2d5b94c01",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\interpretation",
+            "--side",
+            "T",
+            "--intervals",
+            "1:65",
+            "2301:3405",
+            "4706:6525",
+            "8540:9839",
+            "12023:12932",
+            "16259:16453",
+            "19502:19631",
+            "21758:22667",
+            "24155:25714",
+            "28583:28972",
+            "30905:32074",
+            "34834:35418",
+            "--map-vmap",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 255.698,
+          "exit_code": 0
+        },
+        "blind": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.review_packet",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\capture\\smoke_run_demo-5224a45934f2d5b94c01",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\blind",
+            "--side",
+            "T",
+            "--intervals",
+            "1:65",
+            "2301:3405",
+            "4706:6525",
+            "8540:9839",
+            "12023:12932",
+            "16259:16453",
+            "19502:19631",
+            "21758:22667",
+            "24155:25714",
+            "28583:28972",
+            "30905:32074",
+            "34834:35418",
+            "--radar",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 321.2,
+          "exit_code": 0
+        },
+        "interpret-validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.contextual_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\capture\\smoke_run_demo-5224a45934f2d5b94c01",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\interpretation",
+            "--map-vmap",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 358.804,
+          "exit_code": 0
+        },
+        "blind-validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.review_packet",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\capture\\smoke_run_demo-5224a45934f2d5b94c01",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-5224a45934f2d5b94c01\\blind",
+            "--radar",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "seconds": 330.44,
+          "exit_code": 0
+        },
+        "canonical": {
+          "ok": true,
+          "errors": [],
+          "seconds": 646.211,
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-tp10-pilot-20260924\\batch.py",
+            "canonical"
+          ],
+          "source_alias": "demo-5224a45934f2d5b94c01",
+          "source_sha256": "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4"
+        }
+      }
+    }
+  ],
+  "factual_checks": {
+    "ok": true,
+    "checks": {
+      "participants_joined_to_audited_corpus": 30,
+      "life_states": 130975,
+      "positions": 98567,
+      "causal_references": 328109,
+      "inventory_status:current": 98567,
+      "objective_states": 26195,
+      "episodes": 36,
+      "grenade_ownership_and_quantity": 148263,
+      "c4_positive_owners": 16831,
+      "inventory_status:not_applicable": 32408,
+      "temporal_events": 147,
+      "approach_signals": 16,
+      "motion_steps": 1358,
+      "motion_counters": 21
+    },
+    "by_match": [
+      {
+        "alias": "demo-0beb9110ec408f80c39b",
+        "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "checks": {
+          "participants_joined_to_audited_corpus": 10,
+          "life_states": 47125,
+          "positions": 35426,
+          "causal_references": 117977,
+          "inventory_status:current": 35426,
+          "objective_states": 9425,
+          "episodes": 12,
+          "grenade_ownership_and_quantity": 65511,
+          "c4_positive_owners": 6393,
+          "inventory_status:not_applicable": 11699,
+          "temporal_events": 55,
+          "approach_signals": 6,
+          "motion_steps": 315,
+          "motion_counters": 7
+        }
+      },
+      {
+        "alias": "demo-1028fce95708dda309ae",
+        "sha256": "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c",
+        "checks": {
+          "participants_joined_to_audited_corpus": 10,
+          "life_states": 33150,
+          "positions": 28795,
+          "causal_references": 90740,
+          "inventory_status:current": 28795,
+          "objective_states": 6630,
+          "episodes": 12,
+          "grenade_ownership_and_quantity": 26107,
+          "c4_positive_owners": 4881,
+          "inventory_status:not_applicable": 4355,
+          "temporal_events": 52,
+          "approach_signals": 6,
+          "motion_steps": 628,
+          "motion_counters": 9
+        }
+      },
+      {
+        "alias": "demo-5224a45934f2d5b94c01",
+        "sha256": "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4",
+        "checks": {
+          "participants_joined_to_audited_corpus": 10,
+          "life_states": 50700,
+          "positions": 34346,
+          "causal_references": 119392,
+          "inventory_status:current": 34346,
+          "objective_states": 10140,
+          "episodes": 12,
+          "grenade_ownership_and_quantity": 56645,
+          "c4_positive_owners": 5557,
+          "inventory_status:not_applicable": 16354,
+          "temporal_events": 40,
+          "approach_signals": 4,
+          "motion_steps": 415,
+          "motion_counters": 5
+        }
+      }
+    ],
+    "seconds": 1002.751,
+    "human_reviews": 0,
+    "independent_tactical_accuracy": null,
+    "configuration_unchanged": true
+  },
+  "factual_command": {
+    "command": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-tp10-pilot-20260924\\audit_matches.py"
+    ],
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+    "seconds": 1006.693,
+    "exit_code": 0
+  },
+  "corpus_manifest_hashes_unchanged": 44,
+  "source_demos_rehashed_unchanged": 3,
+  "sealed_source_files_unchanged": 161,
+  "primary_artifacts_rehashed_unchanged": 9,
+  "retention": {
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_",
+    "files": 330,
+    "bytes": 4894102031
+  },
+  "review_status": {
+    "delivered_case": "E01",
+    "pending_cases": 36,
+    "reviewer_exposure": "not_received",
+    "predictions_in_cards": false
+  },
+  "exposure_notes": {
+    "all_matches_prior_aggregate_audit_exposure": true,
+    "private_tactical_exposure": "unknown",
+    "operator_progress_log_access": "First match parser tail inspected during execution; included round-end metadata for rounds 18-20. No episode or match selection changed. Reviewer access to diagnostic logs has not been assessed.",
+    "operator_visual_qa": "Only E01 factual card inspected on desktop and mobile. No tactical label entered. No prediction included in the card.",
+    "forward_temporal_generalization": false,
+    "team_organization_independence": "not_verified"
+  },
+  "tactical_accuracy": null,
+  "training_allowed": false,
+  "recommendations_generated": 0,
+  "artifacts": [
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/frozen-selection.json",
+      "sha256": "daccebcdd8d38569b78873a3dfbfe74cb04f8fe50318ea2d39c109c54b21e028",
+      "bytes": 29022
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/evaluation-manifest.json",
+      "sha256": "bbd45481dbbde49878b52475ce587f35b15a9e0e952eb7c6a448027826977dae",
+      "bytes": 13374
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/review-catalog.json",
+      "sha256": "2ebca0cca5f3e692e05dbc67e95c8c38610d529f318be4e2e0434f90e751b7e3",
+      "bytes": 27510
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/factual-audit.json",
+      "sha256": "76885517ef7bfb8b7592c545f5f8f947e28958e8422e7cd535c7bdae6df60361",
+      "bytes": 2730
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/sealed-evaluation.json",
+      "sha256": "d4815f8f10f0f8fd4281d64c229a94db9d901ef1b9ed13b2ae8f64a194e547f5",
+      "bytes": 1112
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/unreviewed-comparison.json",
+      "sha256": "0fcba6db216d06a885f664d715349986ed55f8334f7bc1f8cf10747009abc416",
+      "bytes": 454
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/secondary-sensitivity.json",
+      "sha256": "b5ec224949df151b4d4dc89b1c33479b00e1142bb14fad6b98768cab829845c4",
+      "bytes": 15319
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/retained-inventory.json",
+      "sha256": "1eaeef218788c6fad6d1d4ba8973db934f2b061c3a3396b265882822a4b96270",
+      "bytes": 84983
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/first-review-delivery.json",
+      "sha256": "28e6e3257ff58b5cc352d72cbbb0f5717344ed35388d1f760bc8200dcf32d336",
+      "bytes": 543
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/workbook-verification.json",
+      "sha256": "7d41bdcfce8f6463767a2e094f6034f576300682f9de473bcc74445975c050db",
+      "bytes": 410
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/selection-verification.json",
+      "sha256": "f554267b8e1e3b7c59ad2e4517385fa26e85642b4df6f879eb51714bf12ba8db",
+      "bytes": 872
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/visual-verification.json",
+      "sha256": "fa599e9d74a513d1ad52f945fbed8a346e3326ea2736967d4e30f45e7774b401",
+      "bytes": 1503
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/validation-scheduling.json",
+      "sha256": "2247e97c9c950c8d35a73adf1f5f545872efeb5ffb4a5af3660d31e9f0e80cf7",
+      "bytes": 646
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/validation-scheduling-2.json",
+      "sha256": "2c2041160bb27c132b5ddfe186dbb5bb72674c8ee6fe063e6fbcee4c8fbfd6d2",
+      "bytes": 643
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/primary-prediction-seal.json",
+      "sha256": "79c1b4dfcad52d4b5226e47c83363d25b152f6c199a51f26cfde0309ee6cf995",
+      "bytes": 2751
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/StratAI_Plan_del_coach_TP10_v15.xlsx",
+      "sha256": "a872f15cb6742e41b2587f9742aa01880a6e2767126121921f83ae09bef7d0b5",
+      "bytes": 113524
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/review/E01.html",
+      "sha256": "a4144dcc5d32cb110cb67f5f6984f8fd477a98be83a82747d309536bb4549c4d",
+      "bytes": 504236
+    },
+    {
+      "path": "docs/evidence/AI_COACH_TP10_SCOPE_ACCEPTANCE_2026-09-24.json",
+      "sha256": "0f04fe9403278a734491aada4b9c69d5121833efb1af01d011d4faac187d07e1",
+      "bytes": 714
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/prepare.py",
+      "sha256": "8bb7f1217b324cd04a6326b4ae4b56248f67629a096b99c8e4eb6429899a073b",
+      "bytes": 5204
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/batch.py",
+      "sha256": "dee3100228f61aaa2539cf392834d6db24f5278c31d30852b1dc27a4b03eba85",
+      "bytes": 7875
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/audit_matches.py",
+      "sha256": "c914fb673f950624cddd64cafbd1b95f6584642bb89e5c3861f7e39b8433f949",
+      "bytes": 11868
+    },
+    {
+      "path": "outputs/stratai-tp10-pilot-20260924/finish.py",
+      "sha256": "9889f3919a13594f6a903b46831f067b9c0a758eaab902ef0be8a9c2baf81c40",
+      "bytes": 6995
+    }
+  ]
+}

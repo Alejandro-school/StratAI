@@ -111,7 +111,25 @@ func isPathSafe(basePath, targetPath string) bool {
 	if err != nil {
 		return false
 	}
-	return strings.HasPrefix(absTarget, absBase+string(filepath.Separator)) || absTarget == absBase
+	// Reject unrelated paths before opening any object during real-path resolution.
+	lexical, err := filepath.Rel(absBase, absTarget)
+	if err != nil || lexical == "." || lexical == ".." || filepath.IsAbs(lexical) || strings.HasPrefix(lexical, ".."+string(filepath.Separator)) {
+		return false
+	}
+	resolvedBase, err := resolveExistingDemoPath(absBase)
+	if err != nil {
+		return false
+	}
+	resolvedTarget, err := resolveExistingDemoPath(absTarget)
+	if err != nil {
+		return false
+	}
+	relative, err := filepath.Rel(resolvedBase, resolvedTarget)
+	if err != nil || relative == "." || relative == ".." || filepath.IsAbs(relative) || strings.HasPrefix(relative, ".."+string(filepath.Separator)) {
+		return false
+	}
+	info, err := os.Stat(resolvedTarget)
+	return err == nil && info.Mode().IsRegular()
 }
 
 func hashFile(path string) (string, error) {
@@ -416,6 +434,10 @@ func HandleProcessDemo(w http.ResponseWriter, r *http.Request) {
 	}
 	if req.SchemaVersion == "" {
 		req.SchemaVersion = defaultParserSchemaVersion
+	}
+	if req.SchemaVersion != defaultParserSchemaVersion {
+		http.Error(w, "unsupported parser_schema_version: expected "+defaultParserSchemaVersion, http.StatusUnprocessableEntity)
+		return
 	}
 	if req.JobID == "" {
 		req.JobID = req.MatchID

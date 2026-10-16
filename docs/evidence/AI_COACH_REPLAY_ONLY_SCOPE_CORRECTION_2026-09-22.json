@@ -1,0 +1,19 @@
+{
+  "id": "REPLAY-ONLY-SCOPE-CORRECTION-20260922",
+  "date": "2026-09-22",
+  "source": "Usuario, conversación del proyecto",
+  "literal": "Esto no nos sirve. De echo ya lo hablamos en su dia. En todo caso lo que hay que hacer es descargar la replay de la partida. No se puede generar muestras ni se puede incorporar grabación en web ni nada.",
+  "agent_synthesis": [
+    "La fuente del análisis es la replay de una partida real.",
+    "Retirar la propuesta de generar sesiones/muestras nuevas para obtener vídeo del HUD.",
+    "Excluir grabación web e importación o solicitud de grabaciones personales como requisito de este recorrido.",
+    "Usar la replay ya descargada cuando esté disponible; evitar una descarga duplicada.",
+    "Las carencias de una información concreta no deben convertirse en exigencia de una fuente rechazada por el usuario. Conservar los límites de esa información sin inventarla."
+  ],
+  "new_recording_feature_authorized": false,
+  "synthetic_gameplay_capture_authorized": false,
+  "existing_tests_or_cuts_from_real_replays_rejected": false,
+  "last_field_is_agent_scope_interpretation": true,
+  "blanket_corpus_acquisition_authorized": false,
+  "runtime_changes": false
+}

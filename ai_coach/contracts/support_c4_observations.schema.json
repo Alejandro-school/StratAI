@@ -1,0 +1,401 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_c4_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "support_source",
+    "objective_source",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_c4_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "support_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "objective_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "same_support_FrameDone_native_inventory_owner@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cuts",
+        "states"
+      ],
+      "properties": {
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "objective_order",
+              "state_sequence"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "objective_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "first_cut",
+              "players",
+              "entities"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "pawn_life",
+                    "pawn_handle",
+                    "inventory_status",
+                    "inventory_length",
+                    "slots"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[a-f0-9]{20}$"
+                    },
+                    "pawn_life": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^support-pawn-[0-9]{6,}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "pawn_handle": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "inventory_status": {
+                      "enum": [
+                        "pawn_unavailable",
+                        "absent",
+                        "unsupported_type",
+                        "outside_probe",
+                        "observed"
+                      ]
+                    },
+                    "inventory_length": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "slots": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "handle",
+                          "target_life"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "resolved",
+                              "absent",
+                              "unsupported_type",
+                              "invalid_sentinel",
+                              "entity_unavailable",
+                              "serial_mismatch",
+                              "kind_or_life_unavailable",
+                              "destroyed"
+                            ]
+                          },
+                          "handle": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 4294967295
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "target_life": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^support-item-[0-9]{6,}$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "entities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "entity_life",
+                    "handle",
+                    "class_name",
+                    "definition",
+                    "owner"
+                  ],
+                  "properties": {
+                    "entity_life": {
+                      "type": "string",
+                      "pattern": "^support-item-[0-9]{6,}$"
+                    },
+                    "handle": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "class_name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "definition": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "status",
+                        "native_type",
+                        "value"
+                      ],
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "observed",
+                            "absent",
+                            "unsupported_type"
+                          ]
+                        },
+                        "native_type": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "value": {
+                          "type": [
+                            "boolean",
+                            "integer",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "owner": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "status",
+                        "handle",
+                        "target_life"
+                      ],
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "resolved",
+                            "absent",
+                            "unsupported_type",
+                            "invalid_sentinel",
+                            "entity_unavailable",
+                            "serial_mismatch",
+                            "kind_or_life_unavailable",
+                            "destroyed"
+                          ]
+                        },
+                        "handle": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 4294967295
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "target_life": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^support-pawn-[0-9]{6,}$"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

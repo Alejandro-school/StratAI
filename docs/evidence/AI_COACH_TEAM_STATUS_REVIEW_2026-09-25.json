@@ -1,0 +1,434 @@
+{
+  "phase": "team_status_review_v3",
+  "date": "2026-09-25",
+  "request": {
+    "literal": "Pues todo esto hay que registrarlo, y con los datos lo tenemos, no se porque la IA no muestra todo esto... O es que yo no me estoy enterando muchoi",
+    "scope": "Connect available factual counts and objective/clock summary to the review card. Keep E02 expert reading and frozen predictions separate.",
+    "new_tactical_rule": false,
+    "training_allowed": false
+  },
+  "source_alias": "demo-0beb9110ec408f80c39b",
+  "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+  "distinct_approved_matches": 1,
+  "parser_passes": 1,
+  "parser": "v16",
+  "canonical": "3.8.0",
+  "quality": 12,
+  "runtime_schemas": 115,
+  "reason_codes": 19,
+  "catalog_version": "1.7.0",
+  "build_identifier": "working-tree-round-context-20260925",
+  "unchanged_go_binary_reused": true,
+  "binary_sha256": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+  "producer_sources": {
+    "ai_coach\\interpretation\\coaching.py": "f46940337d46709dc3a43ace1686604fcb358860f73a5e886b7e9904b7821e27",
+    "ai_coach\\interpretation\\context.py": "94954dc9fda62094f26925d8d5b7229edf420b16e19af352551393a581c2aa36",
+    "ai_coach\\interpretation\\contextual_io.py": "1633023636a1bcfe1c4c8d15af8ea86772649e6800e3564cd691b39671938082",
+    "ai_coach\\interpretation\\detector.py": "db2ee961307a1b1bd86132384846e628d0584d8068f796a7e17c63c6677a3337",
+    "ai_coach\\interpretation\\evaluation.py": "988f5bfa04f5af4e27ed5f1cc85d2b74bf0e12b06c492976836f19ef7613a967",
+    "ai_coach\\interpretation\\inventory.py": "db1859f355830a05eb3e15ee158d70b8dc9d04bc9f50b4e775b00cb03328fab0",
+    "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+    "ai_coach\\interpretation\\replay_report.py": "8b63cfdb326c52c39a8fb81939f1b3592886d066db3911980d4bf108b3ed588e",
+    "ai_coach\\interpretation\\review.py": "10cc44e238c11ab7c23db194f3afe5ade602a8c3a06dc3699794ae54759d9162",
+    "ai_coach\\interpretation\\review_packet.py": "0e9eb66e12aa2621f52381bddec1fc358db416b06e2e01fe75b6de163c42caef",
+    "ai_coach\\interpretation\\review_packet_v2.py": "236472418c1b05eebd2e7a647dd2d1bee4fabc9306bb8eb4a719b141529fe745",
+    "ai_coach\\interpretation\\review_packet_v3.py": "01f793a8c721d3c8a23b7a49b16c31c962a858c09dea211d594107ad18688600",
+    "ai_coach\\interpretation\\round_context.py": "8751031031e31bf0074c43e66eb95deaf6520dd326ea49f8b8bcb95990bd2422",
+    "ai_coach\\interpretation\\spatial_reference.py": "10ef95b807e33818f529dbe1f1cbac8975c33e858292727285a451fc1dca62e5",
+    "ai_coach\\interpretation\\team_status.py": "d5ab444e6e33dae138565aa10b954d012861c38174b4c3dee355bc1b9116979d",
+    "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+    "ai_coach\\interpretation\\temporal_detector.py": "cca62b81a036fc999e5bb3527cc4dec76247ded50aebc1b645ca8e57d55fcd14",
+    "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588",
+    "ai_coach\\interpretation\\review_packet.html": "bc5ce32b7e6d34b210a08fe87fec1a7d4f3406b503ca7c833cf4fbc038de4623",
+    "ai_coach\\interpretation\\review_packet_v2.html": "79293f37ad47bbf61e0789db84cc367de2754a56042b06493e3a5c37af474869",
+    "ai_coach\\interpretation\\review_packet_v3.html": "a60590557ee0382dd7ec501739c7e99e03530804f5d861e317d7e17f83351ea8",
+    "ai_coach\\contracts\\contextual_review_packet_v3.schema.json": "815cc2296771f8e3bc61a0e15ef62faf0e4a23b01ea63e7a01cd92b4fe38aa4e",
+    "ai_coach\\contracts\\runtime_contracts.py": "c2e91fc6402cb635a91b7c124d5fac51def3cec4326b247d9c47fe33f883a225"
+  },
+  "commands": {
+    "targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_team_status.py",
+        "ai_coach/tests/test_round_context.py",
+        "ai_coach/tests/test_review_completion.py",
+        "ai_coach/tests/test_temporal_detector.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 27.767
+    },
+    "root-python": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "test:python"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 6.421
+    },
+    "root-lint": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "lint:python"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 1.243
+    },
+    "scope-lint": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "ai_coach/interpretation/team_status.py",
+        "ai_coach/interpretation/review_packet_v3.py",
+        "ai_coach/tests/test_team_status.py",
+        "--select",
+        "E9,F63,F7,F82"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 0.493
+    },
+    "contract": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.contracts.validate_contract"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 7.666
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\demo-0beb9110ec408f80c39b.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture",
+        "--alias",
+        "demo-0beb9110ec408f80c39b",
+        "--checksum",
+        "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 105.911
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "1118:2222",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 200.819
+    },
+    "validate": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "1118:2222",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 196.486
+    }
+  },
+  "counts": {
+    "native_counts_recomputed": 2340,
+    "public_death_counts_recomputed": 2340,
+    "status_observed": 2340,
+    "samples": 1170
+  },
+  "new_tests": 18,
+  "affected_tests": 115,
+  "backend_tests": 43,
+  "real_partial_or_unavailable_counts": 0,
+  "partial_and_conflict_branches": "automated fixtures only",
+  "factual_audit": {
+    "ok": true,
+    "counts": {
+      "native_counts_recomputed": 2340,
+      "public_death_counts_recomputed": 2340,
+      "status_observed": 2340,
+      "samples": 1170
+    },
+    "cases": [
+      {
+        "case": "E01",
+        "samples": 65,
+        "original_context_id": "b3c5233e3e62dd5d5cd557f04c539203eebba3f3c8119a04113465530ae2e9a6",
+        "new_context_id": "b3c5233e3e62dd5d5cd557f04c539203eebba3f3c8119a04113465530ae2e9a6",
+        "scope": "pending_context",
+        "initial": {
+          "allies": {
+            "alive": 5,
+            "observed_alive": 5,
+            "observed_dead": 0,
+            "reason": null,
+            "side": "T",
+            "status": "observed",
+            "unknown": 0
+          },
+          "opponents": {
+            "alive": 5,
+            "observed_alive": 5,
+            "observed_dead": 0,
+            "reason": null,
+            "side": "CT",
+            "status": "observed",
+            "unknown": 0
+          },
+          "roster_start_sequence": 1,
+          "source_sequence": 1
+        },
+        "final": {
+          "allies": {
+            "alive": 5,
+            "observed_alive": 5,
+            "observed_dead": 0,
+            "reason": null,
+            "side": "T",
+            "status": "observed",
+            "unknown": 0
+          },
+          "opponents": {
+            "alive": 5,
+            "observed_alive": 5,
+            "observed_dead": 0,
+            "reason": null,
+            "side": "CT",
+            "status": "observed",
+            "unknown": 0
+          },
+          "roster_start_sequence": 1,
+          "source_sequence": 65
+        },
+        "facts_previously_delivered_preserved": true,
+        "packet_sha256": "d548239788cc5b49de0e5a16563046c05cecf80d4ab29716be0f41a3738f4cda",
+        "html_sha256": "aa0a7b9f4b9eb1ad2067d9299cc7b769380ca8656a39ece1182114b4f898ffa9"
+      },
+      {
+        "case": "E02",
+        "samples": 1105,
+        "original_context_id": "75e72fd5442e6aa2238ca6e14af3ee0bd14fbe641324be746756c59101a50b43",
+        "new_context_id": "75e72fd5442e6aa2238ca6e14af3ee0bd14fbe641324be746756c59101a50b43",
+        "scope": "eligible",
+        "initial": {
+          "allies": {
+            "alive": 5,
+            "observed_alive": 5,
+            "observed_dead": 0,
+            "reason": null,
+            "side": "T",
+            "status": "observed",
+            "unknown": 0
+          },
+          "opponents": {
+            "alive": 5,
+            "observed_alive": 5,
+            "observed_dead": 0,
+            "reason": null,
+            "side": "CT",
+            "status": "observed",
+            "unknown": 0
+          },
+          "roster_start_sequence": 1118,
+          "source_sequence": 1118
+        },
+        "final": {
+          "allies": {
+            "alive": 2,
+            "observed_alive": 2,
+            "observed_dead": 3,
+            "reason": null,
+            "side": "T",
+            "status": "observed",
+            "unknown": 0
+          },
+          "opponents": {
+            "alive": 1,
+            "observed_alive": 1,
+            "observed_dead": 4,
+            "reason": null,
+            "side": "CT",
+            "status": "observed",
+            "unknown": 0
+          },
+          "roster_start_sequence": 1118,
+          "source_sequence": 2222
+        },
+        "facts_previously_delivered_preserved": true,
+        "packet_sha256": "8ce93e75832dac1c94ddbd71007029a236c9a184929fe992660b45e9af308467",
+        "html_sha256": "e2b4aa5ac84c1fccfdd2301c86ba91f237febfe12e436277d17057e11610777e"
+      }
+    ],
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "source_refs": [
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_observations.json",
+        "sha256": "614f03792e7a651b6626a8f570ae5138ff496226d47638bed67aa8c98278f7f1"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\combat_events.jsonl",
+        "sha256": "46b5392ac6767765a98d48b17400593c6cf26375561373ed198066d37fd5d92c"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\manifest.json",
+        "sha256": "38cf5462919cb2e138f7d5164e9a2cfa5caad070413d0ca21c70a952aa87efd9"
+      }
+    ],
+    "real_partial_or_unavailable_counts": 0,
+    "partial_and_conflict_coverage": "automated fixtures only",
+    "hidden_rival_positions_resources_retained": false,
+    "new_predictions": 0,
+    "training_allowed": false
+  },
+  "visual_verification": {
+    "ok": true,
+    "case": "E02 v3",
+    "url": "http://127.0.0.1:60215/E02.html",
+    "desktop": {
+      "width": 1440,
+      "height": 1050,
+      "screenshot": ".playwright-cli/page-2026-09-25T15-47-07-846Z.png",
+      "visually_inspected": true
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "scroll_width": 375,
+      "screenshot": ".playwright-cli/page-2026-09-25T15-46-14-241Z.png",
+      "visually_inspected": true
+    },
+    "initial_summary": "Bomba sin plantar. 5 aliados vivos · 5 rivales vivos",
+    "final_summary": "Bomba plantada. 2 aliados vivos · 1 rival vivo · Bomba: 0:39.27",
+    "home_end_play_pause_verified": true,
+    "playback_sample_observed": {
+      "slider": 64,
+      "elapsed_seconds": 4,
+      "round_remaining": "1:51.00"
+    },
+    "no_horizontal_overflow_mobile": true,
+    "page_console_errors": 0,
+    "page_console_warnings": 0,
+    "opponent_positions_or_resources_displayed": false,
+    "predictions_displayed": false
+  },
+  "workbook": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_changed_cells": [
+      "A34",
+      "B34",
+      "C34",
+      "D34",
+      "E34",
+      "F33",
+      "F34",
+      "G33",
+      "G34"
+    ],
+    "sheet": "Contexto colectivo",
+    "literal_reviews_preserved": true,
+    "visual_review": true,
+    "output_sha256": "24006e7d5624629489c09df8c1b7df5126e4bb4bfcb6381e68bf4b76b7ecf8a7"
+  },
+  "delivery": {
+    "case": "E02",
+    "original_episode_id": "dab404755d3e3ac166464b521ab42334f5d9b549a256ee4e6418070835e33273",
+    "original_context_id": "b20e095df6e3ad59f75cad952edb4e3fcc2ae436af16dc52491bae1e275f26b5",
+    "original_packet_sha256": "c72d5a9bd7b451e6b980c84ff083b8855faf3871ae8c769dea458235d1f888a6",
+    "original_html_sha256": "937c4cac22f508afffd597a59f7dd7c109976743204b57ff80a39a69fe629d66",
+    "previous_v2_packet_sha256": "c488d09e2b503a31edc4c6b1601a0413919cd59de22e6e93ddd0724a86659844",
+    "previous_v2_html_sha256": "b952de50465a763ce808dfb90c13f63cffefb1df40b25e1bc312ff3e468623ae",
+    "new_context_id": "75e72fd5442e6aa2238ca6e14af3ee0bd14fbe641324be746756c59101a50b43",
+    "new_packet_sha256": "8ce93e75832dac1c94ddbd71007029a236c9a184929fe992660b45e9af308467",
+    "new_html_sha256": "e2b4aa5ac84c1fccfdd2301c86ba91f237febfe12e436277d17057e11610777e",
+    "schema_id": "stratai.contextual_review_packet@3",
+    "samples": 1105,
+    "old_facts_preserved": true,
+    "additional_information": "Aggregate ally/opponent alive counts and factual objective/clock summary at each cut.",
+    "instrument_changed_after_E02_review": true,
+    "original_E02_review_not_relabelled": true,
+    "new_predictions_generated": false,
+    "predictions_shown": false,
+    "review_not_requested_again": true,
+    "training_allowed": false
+  },
+  "original_36_cards_and_predictions_unchanged": true,
+  "E02_review_unchanged": true,
+  "corpus_manifests_unchanged": 44,
+  "new_tactical_rule": false,
+  "detector_input_changed": false,
+  "training_allowed": false,
+  "limits": [
+    "5v5 scope; other formats have no exact count under this contract.",
+    "Display uses native alive flags, independently checked against public death events on this match; not subjective player awareness.",
+    "No automatic postplant defense interpretation, position quality or recommendation.",
+    "Presentation changed after E02 expert reading; not a new independent test.",
+    "Only E02 is redelivered; other original cards remain at their recorded version."
+  ],
+  "artifact_hashes": {
+    "preflight.json": "f05fccd96a38361e57f7220e284f15cc2586aca81f0ff36f7c1599bde3fd30c0",
+    "factual-audit.json": "682bc6ff3d4ecbea80c2526aa7b5872e14a36387eeeb33c61081f94d6d4cd966",
+    "retained-inventory.json": "b716cc1bc34746788262c80ccfae140103be1d21e05a35712e3c257054e1b02d",
+    "E02-delivery.json": "1886d348d4dbb9483db41bd8537cf7cea881782a5fb65988c0bea8f1525630bd",
+    "visual-verification.json": "27918c0ab65e0bb0304c2d161e48dc6921bec6309a62c1df2a2ef705798e97a5",
+    "StratAI_Plan_del_coach_TP10_v20.xlsx": "24006e7d5624629489c09df8c1b7df5126e4bb4bfcb6381e68bf4b76b7ecf8a7"
+  }
+}

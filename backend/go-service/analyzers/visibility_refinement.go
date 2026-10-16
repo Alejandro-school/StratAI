@@ -153,18 +153,16 @@ func isVisibleInFrame(ctx *models.DemoContext, frame visibilityFrame, shooterID,
 	if !enemy.alive && !allowDeadEnemy {
 		return false, 0
 	}
-	if !isInsideVisibilityFrustum(shooter, enemy.head, enemy.chest) {
-		return false, 0
-	}
+	frustum := playerViewFrustum(shooter)
 
 	raycasts := 0
-	if !smokeBlocksSight(frame.smokes, shooter.eyes, enemy.head) {
+	if frustum.contains(shooter.eyes, enemy.head) && !smokeBlocksSight(frame.smokes, shooter.eyes, enemy.head) {
 		raycasts++
 		if ctx.MapManager.IsVisible(shooter.eyes, enemy.head) {
 			return true, raycasts
 		}
 	}
-	if !smokeBlocksSight(frame.smokes, shooter.eyes, enemy.chest) {
+	if frustum.contains(shooter.eyes, enemy.chest) && !smokeBlocksSight(frame.smokes, shooter.eyes, enemy.chest) {
 		raycasts++
 		if ctx.MapManager.IsVisible(shooter.eyes, enemy.chest) {
 			return true, raycasts

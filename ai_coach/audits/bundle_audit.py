@@ -15,10 +15,10 @@ import json
 import math
 import sys
 from collections import Counter
+from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, BinaryIO, Iterable, Iterator, Mapping, Sequence
-
+from typing import Any, BinaryIO
 
 SCHEMA_ID = "stratai.ai_coach_bundle_audit@1"
 DEFAULT_MAX_JSON_BYTES = 64 * 1024 * 1024
@@ -88,10 +88,7 @@ def _is_identifier_path(path: str) -> bool:
     leaf = path.rsplit(".", 1)[-1].removesuffix("[]").lower()
     return (
         leaf == "display_name"
-        or leaf.endswith("_id")
-        or leaf.endswith("_ids")
-        or leaf.endswith("_ref")
-        or leaf.endswith("_refs")
+        or leaf.endswith(("_id", "_ids", "_ref", "_refs"))
         or leaf in {"match_id", "steam_id", "player_id", "decision_id", "event_id", "state_id"}
     )
 
@@ -447,7 +444,7 @@ def _field_payload(path: str, metric: FieldMetric, state: AuditState) -> dict[st
 def build_report(state: AuditState, bundles_root: Path) -> dict[str, Any]:
     fingerprint = hashlib.sha256()
     for bundle_id, manifest_hash in sorted(state.canonical_manifest_hashes):
-        fingerprint.update(f"{bundle_id}\0{manifest_hash}\n".encode("utf-8"))
+        fingerprint.update(f"{bundle_id}\0{manifest_hash}\n".encode())
     return {
         "schema_id": SCHEMA_ID,
         "input": {

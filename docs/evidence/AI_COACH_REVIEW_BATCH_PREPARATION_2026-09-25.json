@@ -1,0 +1,1825 @@
+{
+  "date": "2026-09-25",
+  "status": "prepared_awaiting_grouped_expert_responses",
+  "user_request": {
+    "literal": "Cuantos casos hay que revisar? Preparame todos los que hagan falta para revisarlos a la vez. En vez de ir 1 a 1",
+    "scope": "All 34 pending cases of the frozen TP10 pilot, E03-E36, as one review package.",
+    "one_by_one_chat_delivery_superseded": true,
+    "new_tactical_phase_authorized": false,
+    "sources": "Same three approved local pilot demos; two recaptured for already verified native clocks/configuration.",
+    "independent_accuracy_claim": false,
+    "training_allowed": false
+  },
+  "case_count": 34,
+  "cases_per_match": [
+    10,
+    12,
+    12
+  ],
+  "historical_cases": 36,
+  "excluded": [
+    "E01"
+  ],
+  "already_reviewed": [
+    "E02"
+  ],
+  "sources": [
+    {
+      "alias": "demo-0beb9110ec408f80c39b",
+      "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+      "capture_reused": true
+    },
+    {
+      "alias": "demo-1028fce95708dda309ae",
+      "sha256": "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c",
+      "capture_reused": false
+    },
+    {
+      "alias": "demo-5224a45934f2d5b94c01",
+      "sha256": "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4",
+      "capture_reused": false
+    }
+  ],
+  "build_identifier": "working-tree-round-context-20260925",
+  "binary_sha256": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+  "contracts": {
+    "parser": "v16",
+    "canonical": "3.8.0",
+    "quality": 12,
+    "runtime_schemas": 115,
+    "review_packet": "stratai.contextual_review_packet@3"
+  },
+  "runtime_changed": false,
+  "new_functional_smoke_required": false,
+  "execution_kind": "Approved pilot batch using unchanged verified producers; two new captures, one reused capture.",
+  "stages": {
+    "materialize-1": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-0beb9110ec408f80c39b\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "3896:4350",
+        "6283:6672",
+        "7435:8669",
+        "9387:10686",
+        "12090:12869",
+        "14606:15190",
+        "17261:17325",
+        "19132:19521",
+        "20185:21549",
+        "21918:23607",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 404.808
+    },
+    "validate-1": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-team-status-smoke-jcoy041i\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-0beb9110ec408f80c39b\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "3896:4350",
+        "6283:6672",
+        "7435:8669",
+        "9387:10686",
+        "12090:12869",
+        "14606:15190",
+        "17261:17325",
+        "19132:19521",
+        "20185:21549",
+        "21918:23607",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 516.843
+    },
+    "producer-2": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-1028fce95708dda309ae\\demo-1028fce95708dda309ae.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-1028fce95708dda309ae\\capture",
+        "--alias",
+        "demo-1028fce95708dda309ae",
+        "--checksum",
+        "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 122.168
+    },
+    "materialize-2": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-1028fce95708dda309ae\\capture\\smoke_run_demo-1028fce95708dda309ae",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-1028fce95708dda309ae\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "2276:2795",
+        "5407:5601",
+        "7013:8247",
+        "11046:11110",
+        "12998:13647",
+        "16175:16564",
+        "18140:19244",
+        "21752:22011",
+        "23505:24544",
+        "27115:27374",
+        "29111:29955",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 472.094
+    },
+    "validate-2": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-1028fce95708dda309ae\\capture\\smoke_run_demo-1028fce95708dda309ae",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-1028fce95708dda309ae\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "2276:2795",
+        "5407:5601",
+        "7013:8247",
+        "11046:11110",
+        "12998:13647",
+        "16175:16564",
+        "18140:19244",
+        "21752:22011",
+        "23505:24544",
+        "27115:27374",
+        "29111:29955",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 464.786
+    },
+    "producer-3": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-5224a45934f2d5b94c01\\demo-5224a45934f2d5b94c01.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-5224a45934f2d5b94c01\\capture",
+        "--alias",
+        "demo-5224a45934f2d5b94c01",
+        "--checksum",
+        "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 138.176
+    },
+    "materialize-3": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-5224a45934f2d5b94c01\\capture\\smoke_run_demo-5224a45934f2d5b94c01",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-5224a45934f2d5b94c01\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "2301:3405",
+        "4706:6525",
+        "8540:9839",
+        "12023:12932",
+        "16259:16453",
+        "19502:19631",
+        "21758:22667",
+        "24155:25714",
+        "28583:28972",
+        "30905:32074",
+        "34834:35418",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 609.915
+    },
+    "validate-3": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-5224a45934f2d5b94c01\\capture\\smoke_run_demo-5224a45934f2d5b94c01",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-batch-3zw8xa4i\\demo-5224a45934f2d5b94c01\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "1:65",
+        "2301:3405",
+        "4706:6525",
+        "8540:9839",
+        "12023:12932",
+        "16259:16453",
+        "19502:19631",
+        "21758:22667",
+        "24155:25714",
+        "28583:28972",
+        "30905:32074",
+        "34834:35418",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 560.932
+    }
+  },
+  "totals": {
+    "native_counts_recomputed": 49457,
+    "public_death_counts_recomputed": 49457,
+    "elapsed_recomputed": 25025,
+    "native_round_clocks_recomputed": 24655,
+    "samples": 25025,
+    "cases": 34,
+    "native_bomb_clocks_recomputed": 370
+  },
+  "cases": [
+    {
+      "case": "E03",
+      "match": 1,
+      "round": 4,
+      "episode_id": "64b787d6b1c9ce890a1a9c3d04dbf980a636353a4f35bdd68af86be6c6b9c00b",
+      "original_context_id": "de1c914a39a81001f3c45acc86925852c945ace59d6918ba6035d61c19fd8795",
+      "original_packet_sha256": "0c9620ff389efec50550ec13cd6d2209c5c4406c8556939d37a53cd0015b77ce",
+      "original_html_sha256": "fd494a2ee70a2c19adf3517e318616ce857de36b0cf152dded600df10e0c765f",
+      "new_context_id": "2c5fab6ee4028af26acda9f4a992b5749e1dfe9c12b87af96950a674ebf76192",
+      "new_packet_sha256": "fa938e8d4e0c7a9866583ad1d69c77e879aded509568e7301193fba6c8d3f42c",
+      "new_html_sha256": "50ac1d436354ee0c10c44be21c767689fece6d2f9dd1e5820be823da7ece670d",
+      "scope": "eligible",
+      "sample_count": 455,
+      "interval": {
+        "end_sequence": 4350,
+        "start_sequence": 3896
+      },
+      "counts": {
+        "allies:observed": 455,
+        "opponents:observed": 455
+      },
+      "clocks": {
+        "round:observed": 455,
+        "bomb:not_applicable": 455
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 28.375,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "534c1c8a6d518fc515fd80380cc52a138b9ba6916ee10e9ee9c4e2bde80ec9a8",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E04",
+      "match": 1,
+      "round": 7,
+      "episode_id": "dd8c8b2368a3f29d9fca802c51966df8a81cfcf16cb01eae01658678d0e8db0c",
+      "original_context_id": "54135d02dba9dbbd42b7e25cdda4658219121a775ed5edc93ff51d9b1128744d",
+      "original_packet_sha256": "88b9d10c23b06ac480a0990ac6740ffe818c0d0e8b60fbc02526da93387f6f0d",
+      "original_html_sha256": "14d083d0e29b83cb4c0565f7561d3d91be1c1d81177129771612c9e5dbd985ce",
+      "new_context_id": "558ab7a447853b735da24a9861f8f3f26b9c85ea4cb966075e3cfa18d3db12df",
+      "new_packet_sha256": "468694f045e56810d2555e76f2b5b12cccbde7f86abfb9ca645ec83f9fc6815f",
+      "new_html_sha256": "381a3c361fd17f5ca7535b59c56a1c6265763c97385e64a43ea609720de89b85",
+      "scope": "eligible",
+      "sample_count": 390,
+      "interval": {
+        "end_sequence": 6672,
+        "start_sequence": 6283
+      },
+      "counts": {
+        "allies:observed": 390,
+        "opponents:observed": 390
+      },
+      "clocks": {
+        "round:observed": 390,
+        "bomb:not_applicable": 390
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 24.3125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "1b7bed92da37dc1951de75b552156960a67a13540fbe6ef654c9f0c1c240ab78",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E05",
+      "match": 1,
+      "round": 8,
+      "episode_id": "9ed96da5157bde0b1d6036cc8133e4cc0bd2b735dd8cacf39c05225574a24922",
+      "original_context_id": "1d91d9caaccba10cd289ad40b9ab2e68f290ab5658fb85f1083562df15c1e980",
+      "original_packet_sha256": "c21ab7c306bfb2c2e82009b24ba795f222fd1becb402ba02e70b1a1a8d0a39bb",
+      "original_html_sha256": "48b0409ab154f01d266a50ec99d01b18b5e8dd9719ef29f325e6f9a987ecc22c",
+      "new_context_id": "fab325897e9e975a8c5dabaf55f3e5ef2df661d0de8a11173a03a5478d10dde2",
+      "new_packet_sha256": "46f03df7e76825d8cab0acd3d79b6b0316807cb4371c7d2612780926a71e8624",
+      "new_html_sha256": "e935eea75cd0b9ebd31cd402bf960996f0ca0322d7bae8f1653e40a514b09c92",
+      "scope": "eligible",
+      "sample_count": 1235,
+      "interval": {
+        "end_sequence": 8669,
+        "start_sequence": 7435
+      },
+      "counts": {
+        "allies:observed": 1235,
+        "opponents:observed": 1235
+      },
+      "clocks": {
+        "round:observed": 1235,
+        "bomb:not_applicable": 1235
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 77.125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "86e9b5956b335dd1e090961b38ceeae48f2720bff573abe5d3770799030ed045",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E06",
+      "match": 1,
+      "round": 9,
+      "episode_id": "90604446724bb719710e1a5bbe2c951c83d178213b49c91cf8a7349dd9082fe5",
+      "original_context_id": "ea9837d893420c6df3f9ccbd05aa2bebd4d8178e033ee4829beb27a3818a30ac",
+      "original_packet_sha256": "38d036b92ccd9361492e98d974596ba8910ce53b06b28cd9e315105e3955cc6f",
+      "original_html_sha256": "28ee057072457d3b2c12fa893f7a3b995229686d7f52fb19244bae702996197f",
+      "new_context_id": "6e8a5248eb5489458fc41b42047c87d9be00e67d300a6fa42e11d566560327b2",
+      "new_packet_sha256": "2cf0e0c7af25c12810bf31c2e8d72ab475c273b55404ea900ef4fd05fdfc56c1",
+      "new_html_sha256": "66f581182e5dfffdcfd5cdb07bfdc321ac21b0457cd33e449dd8fec0405b087c",
+      "scope": "pending_context",
+      "sample_count": 1300,
+      "interval": {
+        "end_sequence": 10686,
+        "start_sequence": 9387
+      },
+      "counts": {
+        "allies:observed": 1300,
+        "opponents:observed": 1300
+      },
+      "clocks": {
+        "round:observed": 1300,
+        "bomb:not_applicable": 1300
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 81.1875,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "f0536146e4e72eec7a7d991baf136e44c037845c4e73f03dd69623d21d009d54",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E07",
+      "match": 1,
+      "round": 11,
+      "episode_id": "5bffec843fd25c8b1979f3b7bb6f8a7c37336dea3b33f74fecabd0cbd8c1f872",
+      "original_context_id": "3e696dedf89e009d783e0e5c9cc4a17496a8dc239798f0c37ed11bc3ae234543",
+      "original_packet_sha256": "a76e36e960ac1f3aba95916b4785c6b6f12c541c0a348e541989b8384df85cf9",
+      "original_html_sha256": "f45228bb226c4fb604bb7b9418b7610f0d60e3cadace25e1813407fd3ae26202",
+      "new_context_id": "989e6cb88076167ce99e72596fe2f63dd936ace6b3a15ca7e1fa53c0899ae1a4",
+      "new_packet_sha256": "c972381a36a6c2d499337282c1041ddcae9267731b6123fbef538d2810c307a3",
+      "new_html_sha256": "0a896a8e12f2c003a47c9b078aae6dee17e3e6e5a3d2d4325409e4fab51f8711",
+      "scope": "eligible",
+      "sample_count": 780,
+      "interval": {
+        "end_sequence": 12869,
+        "start_sequence": 12090
+      },
+      "counts": {
+        "allies:observed": 780,
+        "opponents:observed": 780
+      },
+      "clocks": {
+        "round:observed": 780,
+        "bomb:not_applicable": 780
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 48.6875,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "7520160ab34ba50d3088c56c6f8fbe0621d5e0838ca7e363d59cb8ec65d02bd1",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E08",
+      "match": 1,
+      "round": 14,
+      "episode_id": "49fead8c4d0e173e6f5646f7cd72155accb9760a23ccf391803d141d81587310",
+      "original_context_id": "d78adbc5ad95115d4e46b8573cbcc5b07fdc5d58c5206c1dd3ce3921a5b051a3",
+      "original_packet_sha256": "b1f7d35be7e693c2768e78aeaea0c4f525ded16b95f4da2004ddd8f2a599dcd8",
+      "original_html_sha256": "d6de16f71c9a3e2f2d3d5c75b67512d218712f30a2261e07a658f590a60fafc8",
+      "new_context_id": "e17909754796ccb23a78d69d2e524078a8de1af696991566daf293f204ddab36",
+      "new_packet_sha256": "7b79949e6a3b5eca8db333c98c0578dd5ac9fd2829989ac7e54a7cf4e0251804",
+      "new_html_sha256": "0293e6f97323301fb037a8040ed4760e51bf62da9307ec9344e18e59fc4283c1",
+      "scope": "eligible",
+      "sample_count": 585,
+      "interval": {
+        "end_sequence": 15190,
+        "start_sequence": 14606
+      },
+      "counts": {
+        "allies:observed": 585,
+        "opponents:observed": 585
+      },
+      "clocks": {
+        "round:observed": 521,
+        "bomb:not_applicable": 521,
+        "round:not_applicable": 64,
+        "bomb:observed": 64
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 36.5,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "1b6b4f1c4bd0a393b7a66582b5609e8846c5a1adcb4c994b6e48d4b40e2dd509",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E09",
+      "match": 1,
+      "round": 16,
+      "episode_id": "775179b35ef22016df72117058e8b6527418d7c2f37fbf76b6cdbdbf0f90df33",
+      "original_context_id": "c01246681896d0ecd0e1a536da31c90229804bb0d4cf69f350e4579470189478",
+      "original_packet_sha256": "7ad8394a8be8bc1ce1b22c1e1592dd33ce00718fb39b60bb78dfe0462a374993",
+      "original_html_sha256": "31daa0af8b710a6725812f296f59cf759d0f40b42de4ffa3827fe29589758295",
+      "new_context_id": "a984825c04f341f1d6b8b14973d6117b0a52b66a686a1202d989c8de68d5909c",
+      "new_packet_sha256": "879d4b95df70c903634272dd496560cc9efb93df4e42f4a4fcf2309098f9ad5a",
+      "new_html_sha256": "f0481b11f2e5634d92e30121f96d06ea6f5aa36cdcb4853c93f91fa05e4b1a93",
+      "scope": "eligible",
+      "sample_count": 65,
+      "interval": {
+        "end_sequence": 17325,
+        "start_sequence": 17261
+      },
+      "counts": {
+        "allies:observed": 65,
+        "opponents:observed": 65
+      },
+      "clocks": {
+        "round:observed": 65,
+        "bomb:not_applicable": 65
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 4.0,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "b80608cebe8134f9ebc9b95847f9b862ed8653bc98279ef9f0dc813e1956eb90",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E10",
+      "match": 1,
+      "round": 18,
+      "episode_id": "b3cba0e9a7f3edd073d91815e3eebece1cb2e5669af544172b02e8af2008f696",
+      "original_context_id": "ba9454206e2681834c63d5b073cb809ac514e2e58e4574b7c3e2dcfa8099cc8d",
+      "original_packet_sha256": "64f599f33e4e63cbbe3db613f987ee66f62986e1ae066c1161f9f40c7b616159",
+      "original_html_sha256": "40e9ec19eff5515983a93248b678dc05eb840beb8b660b4690ec910dd96e55ef",
+      "new_context_id": "46506238570050a9ba8e50dafaed7ec5c000abd49e0532c5709473d0e737041c",
+      "new_packet_sha256": "af062968777020b028de8f0eb40b2d6c4cd178cab2afddb55b635ea593f8866a",
+      "new_html_sha256": "bdffb4f6ef60ade1273a2865949df50cf264835c966004a260faa28d09802df6",
+      "scope": "eligible",
+      "sample_count": 390,
+      "interval": {
+        "end_sequence": 19521,
+        "start_sequence": 19132
+      },
+      "counts": {
+        "allies:observed": 390,
+        "opponents:observed": 390
+      },
+      "clocks": {
+        "round:observed": 390,
+        "bomb:not_applicable": 390
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 24.3125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "1441272b54a7519871fd4c54d9a75ad84f875c0b9fed3c4a2ed6d24a585cdc84",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E11",
+      "match": 1,
+      "round": 19,
+      "episode_id": "0eec465ac7f973711fe1e91938c3c587bf218ff2408db4db97cfe8d774f4fadd",
+      "original_context_id": "6e30fcf69c33b869dde08c0ceec2c14ca588c88364bcdced76211e35fd0283a7",
+      "original_packet_sha256": "397ad53ad8c1f7d76fb6cd4b81bc0aa8177c51809372dafa4df9e45ab8198f34",
+      "original_html_sha256": "526d5e5a3f280c5149e9965eaa66d32d7706811ae28f1391f22fb828f918de79",
+      "new_context_id": "4cd1bc50b6e8f69c1a2d764d2c8768ad8c9e6c14780044529fb753f544489d15",
+      "new_packet_sha256": "258a182a865d45c806fbc4d4ec20bcafdef45364340f42cff54f51be39364500",
+      "new_html_sha256": "3eb62158ebbcf28a97c5039637395c967fdfd5472ffcdee20166756f5905dc1a",
+      "scope": "eligible",
+      "sample_count": 1365,
+      "interval": {
+        "end_sequence": 21549,
+        "start_sequence": 20185
+      },
+      "counts": {
+        "allies:observed": 1365,
+        "opponents:observed": 1365
+      },
+      "clocks": {
+        "round:observed": 1365,
+        "bomb:not_applicable": 1365
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 85.25,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "7ad3ec658dc753e5a1dca8871be769ac7facb37a7b678022402936eed1b1bac2",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E12",
+      "match": 1,
+      "round": 20,
+      "episode_id": "04228dd1efc8ce5c8b2f16d70ebf036b4b560d374135b43895a894306d9002e2",
+      "original_context_id": "1d596e50671b29399d00c734364971388710dbb5045adffd20324132b744b5e9",
+      "original_packet_sha256": "dd87d4990b29ebfed01d22faecdba01ed24bc9609eded853dfa4395cd805279b",
+      "original_html_sha256": "a41d9e1fdeafd2a00673d76c91df4e749e061eefad3c33b358133b9357a97917",
+      "new_context_id": "6992d5e3f52cb155ffcd56713095a620561a625dce911c506a7dd6be443beb41",
+      "new_packet_sha256": "4ede819cf7a04ccc1dcbbf90e1db56cb1ab4fbb8c265b4af057e7bfd9c5f2b27",
+      "new_html_sha256": "dc821d979f526cd8c4d22c4f7619018aee8bef21365c53a553cd4ecc0d2c941e",
+      "scope": "eligible",
+      "sample_count": 1690,
+      "interval": {
+        "end_sequence": 23607,
+        "start_sequence": 21918
+      },
+      "counts": {
+        "allies:observed": 1690,
+        "opponents:observed": 1690
+      },
+      "clocks": {
+        "round:observed": 1690,
+        "bomb:not_applicable": 1690
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 105.5625,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-0beb9110ec408f80c39b",
+      "delivered_html_sha256": "b6b9455a4e63024a0a0e28eead33d75a71fa4ee4434eb9f9311f264732b6f5e1",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E13",
+      "match": 2,
+      "round": 1,
+      "episode_id": "6a052882f7c94dfc63b165418a47a135c80ea098141a87a8a3b9f0a5a75a53cc",
+      "original_context_id": "8c46a46e5ad945181ac366d3ccab9ede327a5a30333e20027d2a950c6431cdde",
+      "original_packet_sha256": "bcfbbe40383d2506644339f98f0db47895e2289a043fc3d78ab15f632164ccd8",
+      "original_html_sha256": "07f1628f065279b80201050e7f9857d7d3b1ba3ca4f0615e812e53a81f865ee0",
+      "new_context_id": "59e9c26617a1ec4685478172122b814065dc6342f05d0a0dc2844bc3254e716c",
+      "new_packet_sha256": "169a46cdb2aa496a363352e90a254ee5523a643930fe5bee7b78dd944e5bce96",
+      "new_html_sha256": "5107044421b1f00b65d2ce5300b3da61e0af21800440f4d11420f254e90f3603",
+      "scope": "pending_context",
+      "sample_count": 65,
+      "interval": {
+        "end_sequence": 65,
+        "start_sequence": 1
+      },
+      "counts": {
+        "allies:observed": 65,
+        "opponents:partial": 65
+      },
+      "clocks": {
+        "round:observed": 65,
+        "bomb:not_applicable": 65
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 4.0,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "9caf3ff6181a5181b1b05ad64cabe04822ec0c2465013cf9a518d8a115608640",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E14",
+      "match": 2,
+      "round": 2,
+      "episode_id": "6be94ba726b261fc7ee296a8f4253f883f41efddbdec3cf9f28ecad6957e0b07",
+      "original_context_id": "7661d3ae13d8700282b777d14a14a348194da0182575804a548c94ff2df6a865",
+      "original_packet_sha256": "c8707b204c387db0d47b7a0841a242b8dd99d8db034b54bf5a9533061028662a",
+      "original_html_sha256": "50c89cd45896c2cc61d5beb8ee88c68c2d22a12c93cc93653a6ca382bd0be899",
+      "new_context_id": "60100bed21711affc64ac072b14937c819829c392f4667852b8086ebab449d05",
+      "new_packet_sha256": "1a92f9cbd745f107b69b8a56176eb7afa927edecfeb793c52626660343c853b7",
+      "new_html_sha256": "2c43ab698ac87b2b7b76aeebc48d6a0f3eb01fc36cdf89176dc8bb16336a44bf",
+      "scope": "pending_context",
+      "sample_count": 520,
+      "interval": {
+        "end_sequence": 2795,
+        "start_sequence": 2276
+      },
+      "counts": {
+        "allies:observed": 520,
+        "opponents:observed": 520
+      },
+      "clocks": {
+        "round:observed": 520,
+        "bomb:not_applicable": 520
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 32.4375,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "6620a7a912fd4de3d4cbd870d45a870b8ff57b77f0258b955e5461cc82dd04d5",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E15",
+      "match": 2,
+      "round": 5,
+      "episode_id": "298c3eb51c37153cba5c1b11c17ce2554ebf4d36facedbcd1f3fc696b135700a",
+      "original_context_id": "67d7a0c07897d54abde7d854ae03ad9f08bcd2da991d0cbb15bfe256a10c5494",
+      "original_packet_sha256": "19933ca26db12dc43f778e504a5834daa71dd9cdb80ddae47bf9cdee087aa6d9",
+      "original_html_sha256": "809345361254689d9c8df70f192987905552a96352e44452cd6c76f028f59e0f",
+      "new_context_id": "48301f0ce1e3cc031c710d789a99e5b880f7b48aec26aeb47224d29ef4992b72",
+      "new_packet_sha256": "bb5fa958e263a61f4ea91feb2383f112dbbd3a7b16ae8b4dd99084692d8a7621",
+      "new_html_sha256": "18ebd351d16059625d8f68d88e8f784ae15bf3b879d88f8e7f8baaf26b07747d",
+      "scope": "eligible",
+      "sample_count": 195,
+      "interval": {
+        "end_sequence": 5601,
+        "start_sequence": 5407
+      },
+      "counts": {
+        "allies:observed": 195,
+        "opponents:observed": 195
+      },
+      "clocks": {
+        "round:observed": 195,
+        "bomb:not_applicable": 195
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 12.125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "cc6a048b1799ccd066afa4fd167ba369958bd5980732149df27c03b9c68c10bf",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E16",
+      "match": 2,
+      "round": 7,
+      "episode_id": "7cb6e67c945441bbb08edcae385db0a2a5ce4512677191ae7593c4c7d6e87b41",
+      "original_context_id": "f7a2828e995684ea0dbc118ce3b1feceb9f05cfb96860d5e51da6179c74b99a5",
+      "original_packet_sha256": "6142e0507799786dcc38a6318d94688bdb45005527cc9262efa3e598c0577a82",
+      "original_html_sha256": "29e02326a64b3c6aac35a9ccae3da90defc4e908ffeaf816f57addf38f7d326b",
+      "new_context_id": "903072b4a651ad85def124442a6c87376adc432527bc9f3fbedb028939b78e3a",
+      "new_packet_sha256": "015d5f8ffffbd18499ae6c64e30c793701f3a72743348155111a7e4a57b3372e",
+      "new_html_sha256": "380d5872199c1c6d5d99d3df31ee6aa2b2600a26775c1d355c0a1b5dbe99294f",
+      "scope": "eligible",
+      "sample_count": 1235,
+      "interval": {
+        "end_sequence": 8247,
+        "start_sequence": 7013
+      },
+      "counts": {
+        "allies:observed": 1235,
+        "opponents:observed": 1235
+      },
+      "clocks": {
+        "round:observed": 1235,
+        "bomb:not_applicable": 1235
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 77.125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "507cabe062ab2827b8caa121bce71aed260fae92b05be0438497a7918b15d0ea",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E17",
+      "match": 2,
+      "round": 10,
+      "episode_id": "9c06dc1fa6f958d2f260c1b6852b00f037fe813fcaa7832c9c4fd5e6abd772e4",
+      "original_context_id": "d46bf10e953f0a22b4e4c2bafe2d2bdb4457f067082b62e32683804ad5d64c28",
+      "original_packet_sha256": "5c7dbc22fee361d96e161e285ed329be37ff7ad295e8a3a7e6041f8e511cccd8",
+      "original_html_sha256": "7f366449b617d848fbfed651d4317de492b1b938c8ebc4452737223d7bceb562",
+      "new_context_id": "fd71d991bf3b01f71fb107c520342b778de84dcb624824ae98a7a540ef3a57d1",
+      "new_packet_sha256": "611462add70d17c5ad97b79f363d89b2769c8de803fd161da0dd1678aba5a5dd",
+      "new_html_sha256": "5ab371ce19a4310d18a9535f9377a607a91d88c283eef81d7572b39ceaebc597",
+      "scope": "pending_context",
+      "sample_count": 65,
+      "interval": {
+        "end_sequence": 11110,
+        "start_sequence": 11046
+      },
+      "counts": {
+        "allies:observed": 65,
+        "opponents:observed": 65
+      },
+      "clocks": {
+        "round:observed": 65,
+        "bomb:not_applicable": 65
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 4.0,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "72b0f8380e705d2dd60ce4f3d7f5e1c4a6e86f24be85cb4b096bd766eb04250a",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E18",
+      "match": 2,
+      "round": 11,
+      "episode_id": "15be832b1529b2f3028a31feb66d5cb726328da8ea50b4ddaeffcf688f7511af",
+      "original_context_id": "ca43908adbbb82c505d691f2df6d5ae8c248715556540372cbe052ad60f45a7f",
+      "original_packet_sha256": "fc868599805f9f9ba56ab88dab64f17f82242325d8d42bd37d1c4da4895c4acc",
+      "original_html_sha256": "1f195f5af067115002a6615940e8a88e1aa60db82c1fa9a30c404e65280af738",
+      "new_context_id": "82536a0009376cf2f19db60113cf6c9f18612f5ca533b46f80f3b3b69a2f8bdc",
+      "new_packet_sha256": "8330aa033bd08becb02e9894f962a71619e4815c74e5b8f353836d46bafba905",
+      "new_html_sha256": "c9d4f8a499d57d03f2d815a414f27436a991ff96cf80e1b67ebb3e349aa6e926",
+      "scope": "eligible",
+      "sample_count": 650,
+      "interval": {
+        "end_sequence": 13647,
+        "start_sequence": 12998
+      },
+      "counts": {
+        "allies:observed": 650,
+        "opponents:observed": 650
+      },
+      "clocks": {
+        "round:observed": 650,
+        "bomb:not_applicable": 650
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 40.5625,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "a2803e7e9f9e8c843dca51735e4f6f172478e05dd92ce448f57109f53ec6ad58",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E19",
+      "match": 2,
+      "round": 14,
+      "episode_id": "d0095b57528d45f26b157d029f21862914d7444096d0f25cf30c9993f3d220c5",
+      "original_context_id": "a6dda240943a3988487eef60e87b41e2ab1ecc8e1e992902c32a3b2265f53ab2",
+      "original_packet_sha256": "16b16c67fa55708920c9056ca74bb7f3fa05301f62beb500b7d9dab6b8d4e293",
+      "original_html_sha256": "148ee27cf72bd147037877470d2f20f7c33b5ebe1e9da40f13404ee451b42467",
+      "new_context_id": "40cdeb37914c8c5373b40da71cffdccda7ac352c53405ba7b5f8276c94df776b",
+      "new_packet_sha256": "835f92765c33596bb84dd0771f16b91b27ff2d4569d78727fd58e079b885f1f5",
+      "new_html_sha256": "f40c1c6ab948c59b4d3ea04aba29bff13cf83fa9164cf5658882b7e34d4004b9",
+      "scope": "eligible",
+      "sample_count": 390,
+      "interval": {
+        "end_sequence": 16564,
+        "start_sequence": 16175
+      },
+      "counts": {
+        "allies:observed": 390,
+        "opponents:observed": 390
+      },
+      "clocks": {
+        "round:observed": 390,
+        "bomb:not_applicable": 390
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 24.3125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "3f8d203dd87b757988a4d36ffe372fb1ead3e67fd6771d11f5327468d007ce63",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E20",
+      "match": 2,
+      "round": 16,
+      "episode_id": "bf618660dc7cbdf31880fbb5c894e250d8134e14f7c6b00dcae05bcf42a67171",
+      "original_context_id": "cf94545d9e2e4dca1d6f8d38aa4ee5e358bfc1bcee2953f3e0fd7bd05d69efcd",
+      "original_packet_sha256": "d25ad12520d181fc4921762b775c2733efd2754eb1806f53326493077f85e3e6",
+      "original_html_sha256": "87e114a7fcd90e9f2582169f222a47adffd393f0220456093e49d30b7d6b898f",
+      "new_context_id": "3a212ad0c7f494c9b22b996e11095a92e2677d9d338e01eda13439ceeebf83e4",
+      "new_packet_sha256": "3f8ea62feb6a2ec9704df134b1d4aa158613c13b97ca4370f316a7ace95e6e0b",
+      "new_html_sha256": "0af27f62b12d2dba8553aba3897575dfc0430b3d79b4cdb58e8bd6bc45d37ac4",
+      "scope": "eligible",
+      "sample_count": 1105,
+      "interval": {
+        "end_sequence": 19244,
+        "start_sequence": 18140
+      },
+      "counts": {
+        "allies:observed": 1105,
+        "opponents:observed": 1105
+      },
+      "clocks": {
+        "round:observed": 1105,
+        "bomb:not_applicable": 1105
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 69.0,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "a591de5fb305a2442eab22f78845666f9df20de48de3851e629d8b34ff53d24f",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E21",
+      "match": 2,
+      "round": 19,
+      "episode_id": "bae8505ea3e9c06f8847b1f6dfee6a3d342e1dd8e1594532943a8ed1f6ff15c1",
+      "original_context_id": "bd7afa776dfb7e0c4d0db26dff790586fa4984543326df197eddf6c981c31dcd",
+      "original_packet_sha256": "857044e07873c374cee0e921ce8a0604a78ae3b753e397881120fd3ce90f8e39",
+      "original_html_sha256": "3a4dd169f91f504c47e67360e54f80b26472fec08bac890aef3db421d864dd8e",
+      "new_context_id": "ec0a8c18309abc5e1f480dafb7c0a5ba6f5133b7d4ce034e1bc723a07fdeea49",
+      "new_packet_sha256": "94c30033b25fe630a5fea3c3b95f4b9e504fcfaa97354bb11761ec4301a3b455",
+      "new_html_sha256": "6fd1a5473660d117e0501653936d37594bbc8d046dab6b89ba9881a140d0f7dd",
+      "scope": "eligible",
+      "sample_count": 260,
+      "interval": {
+        "end_sequence": 22011,
+        "start_sequence": 21752
+      },
+      "counts": {
+        "allies:observed": 260,
+        "opponents:observed": 260
+      },
+      "clocks": {
+        "round:observed": 260,
+        "bomb:not_applicable": 260
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 16.1875,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "9ebce8b2eb71209038ffcbeb88310830ffa83b52ad44a0a8b94a215e8a455056",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E22",
+      "match": 2,
+      "round": 20,
+      "episode_id": "2cce6f9abb6a15c3ae09cb210670d813d1bc62d800033a11b2e24ae016f49658",
+      "original_context_id": "fef2f0cb717f4ff26d6731ba42200cc443068dcd82b26a71c5939c2f81f48f30",
+      "original_packet_sha256": "5763da46962ee86b8ef8c134ebc514d8aba4ea17f5f0bf0b6545a2e5121adeb1",
+      "original_html_sha256": "118ae5a0dce3d1bcea59af5dc67123ae34cc5eaca914cd7dfc792b486b44d85b",
+      "new_context_id": "04316b58a0e1e1be674ebf14dd5fda294b8c2c4c2a44c9f0bc3a63a1d7f9fcd8",
+      "new_packet_sha256": "8ff6fc8c110bc74273bf29e9ab33ed9c5048b616b30aef8fc5dd6035652df597",
+      "new_html_sha256": "d12533e81931df0fdae91560c98106fa7fde727f11374345a305092a308dea19",
+      "scope": "eligible",
+      "sample_count": 1040,
+      "interval": {
+        "end_sequence": 24544,
+        "start_sequence": 23505
+      },
+      "counts": {
+        "allies:observed": 1040,
+        "opponents:observed": 1040
+      },
+      "clocks": {
+        "round:observed": 1040,
+        "bomb:not_applicable": 1040
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 64.9375,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "26366589af0227d9077b4734e003392324c3cf91ceedbd89b950588a03e7ba9e",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E23",
+      "match": 2,
+      "round": 23,
+      "episode_id": "56409c2e645f2c776aeb91b480fb6b17e813823de5b7d0e25c6535ba647ff28c",
+      "original_context_id": "5a7659f9497dbe992cd5045043050eb64dea792cbde0ad758e661c2e06bcba8f",
+      "original_packet_sha256": "c164b18e410cd60f740511d9dfd70b7d90debbf16b0cdbba9196244fadf5e893",
+      "original_html_sha256": "5d1d66451244378892227fc0ad1be3049520be0a970aa6527c4dda9c410206f2",
+      "new_context_id": "bbccce568fe9b4ad89179cfd28a3630bcde9004846c93023f7a77583b5240f36",
+      "new_packet_sha256": "40fa5311f150b31a1c6327011005a2ae36df1a146da97aa9f13e8788709729a8",
+      "new_html_sha256": "28c859b07cd5154bd0b672e1f677b14b72f7fb89b92021562b7bbbad56bb0eda",
+      "scope": "pending_context",
+      "sample_count": 260,
+      "interval": {
+        "end_sequence": 27374,
+        "start_sequence": 27115
+      },
+      "counts": {
+        "allies:observed": 260,
+        "opponents:observed": 260
+      },
+      "clocks": {
+        "round:observed": 260,
+        "bomb:not_applicable": 260
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 16.1875,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "e938069699b4ee767379c88cc2f68e31302974f7dde9ead39a4187702ed712f9",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E24",
+      "match": 2,
+      "round": 24,
+      "episode_id": "3b54fb65128c9a35ae921b9aee81215555e90f27b38e09cc5d98d5f122789051",
+      "original_context_id": "39654dcaec136a493f9dbc851358bc6b70296f6534354afc51006a19a5799325",
+      "original_packet_sha256": "8aeeeac7e1a97a017e352216bd1c279f1d6946c236d56ac377d7dba82020374e",
+      "original_html_sha256": "75e5639c18ffded34f1fa5da350a08f7964ddeef0570455346e13ec3fcf11f25",
+      "new_context_id": "8248bcd7e60472db29077e26cd94f78cff381cdbc767e5d113c1143b40e33af0",
+      "new_packet_sha256": "2fe87c6d2e6b16f66c8b42517b510793cbacd08d3afa73cc58d60643a401f34b",
+      "new_html_sha256": "41a7ab2d2eef749c7b411771b69ea09ca8cc2cc6e52f23490bb20cc1f21971fe",
+      "scope": "eligible",
+      "sample_count": 845,
+      "interval": {
+        "end_sequence": 29955,
+        "start_sequence": 29111
+      },
+      "counts": {
+        "allies:observed": 845,
+        "opponents:observed": 317,
+        "opponents:partial": 528
+      },
+      "clocks": {
+        "round:observed": 659,
+        "bomb:not_applicable": 659,
+        "round:not_applicable": 186,
+        "bomb:observed": 186
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 52.75,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-1028fce95708dda309ae",
+      "delivered_html_sha256": "9d6f0199512cfd9e161884c96fc73fbb50d128e2b37895e0fd7398d9dc3df0b5",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E25",
+      "match": 3,
+      "round": 1,
+      "episode_id": "15b4e21c6f367451ad0a2d8b1ab9e9ddd95b6711961e423e8e8211ff32020ffc",
+      "original_context_id": "24670e439eb6b53d3d580e5c1acaffab4fe85d304926daaa90002fb6347579e3",
+      "original_packet_sha256": "dbc46e8d47a6cfba2eb20318eed7b4a4ea1feee85beb9f0a18aff12e00d2dd04",
+      "original_html_sha256": "88cabac6497048fa44717016aec0664f4c5459710c1f5bb84c42fedbd61be977",
+      "new_context_id": "6f91da73f050595e3f61030322d5d9d3108f5fa40b062b78019814d52aaf9e66",
+      "new_packet_sha256": "22883d088b36015e7c4b8f254133cd2ba0b8ae73ee231d4713f415b2bcf3154d",
+      "new_html_sha256": "2b32e33aeefad64581caaf4451e94cd3ed4a8d3cf2ef9f5aa7cb82bd45afb361",
+      "scope": "pending_context",
+      "sample_count": 65,
+      "interval": {
+        "end_sequence": 65,
+        "start_sequence": 1
+      },
+      "counts": {
+        "allies:observed": 65,
+        "opponents:observed": 65
+      },
+      "clocks": {
+        "round:observed": 65,
+        "bomb:not_applicable": 65
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 4.0,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "623d32d7c889425e15eabb6d176e50581bae2435a88affa6408e8c5c72ff3760",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E26",
+      "match": 3,
+      "round": 3,
+      "episode_id": "60626431475d7fdf3a270fea761fe9653d8db712706652eb7572d2ee28c97e8b",
+      "original_context_id": "5dab47948956ae0d631d71c08c9553ed584c8f888d0d2a27d6b4ae22e1a26b98",
+      "original_packet_sha256": "0697426a9d992328a36004a39d006f22194d58f18dfd0b4f0a161ca405201925",
+      "original_html_sha256": "2a0f931c48efdff56f896007f3bd1f7a69194681198bafca21255e28308a9085",
+      "new_context_id": "81f9fbf53f92c864c62d8758a7eda4ceb115b82e3ea833a187c9c639bd89e366",
+      "new_packet_sha256": "13b18530d28fdd1f8ad065ea5801a5ae9978a78e5c505ffaa82df526b1a64ebf",
+      "new_html_sha256": "f90607076db7a19768cbf01f86fedae9b3c2fd3f4af6e8059441b310e0185082",
+      "scope": "eligible",
+      "sample_count": 1105,
+      "interval": {
+        "end_sequence": 3405,
+        "start_sequence": 2301
+      },
+      "counts": {
+        "allies:observed": 1105,
+        "opponents:observed": 1105
+      },
+      "clocks": {
+        "round:observed": 1105,
+        "bomb:not_applicable": 1105
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 69.0,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "2b8db8715027a546cb4ea3eac3942fc5dbb73ed27ac7b59f5280144cf6f8bd9b",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E27",
+      "match": 3,
+      "round": 5,
+      "episode_id": "c2340a9698296d6785f0a84b291c39bb656ab5daa0c1174dd2faa99bb00e3b67",
+      "original_context_id": "c275510f06e25b62284216febadc345d8e6a5865093d8c8376fbecb776da5461",
+      "original_packet_sha256": "178973f97982ef98d6e66656a74fd6976e951c2e2c56cdbaae6f887bd2706a3d",
+      "original_html_sha256": "87face13740461ef22e7fa264d03a94d2264d32367619e5aead61109f6b01f5c",
+      "new_context_id": "7db078b4be67909e7ee6c10b5db2e07dfb3c3f6ebc891fc0c238429f0df174fb",
+      "new_packet_sha256": "0c1bc46ad3ed5d904acfa654cfd896637285ce4dd10aefd9d00cc23657093483",
+      "new_html_sha256": "4add0cb3f8f5b5ec3b1c1a94d6d3db3410e4b63283e78f3b5a50b5d1adbaddf8",
+      "scope": "pending_context",
+      "sample_count": 1820,
+      "interval": {
+        "end_sequence": 6525,
+        "start_sequence": 4706
+      },
+      "counts": {
+        "allies:observed": 1820,
+        "opponents:observed": 1820
+      },
+      "clocks": {
+        "round:observed": 1700,
+        "bomb:not_applicable": 1700,
+        "round:not_applicable": 120,
+        "bomb:observed": 120
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 113.6875,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "5b4a78c3bd01d59e40d495857a1d17957654d4ed4c600e918bd7128d8e9a29e9",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E28",
+      "match": 3,
+      "round": 8,
+      "episode_id": "3e1115ad9a75bc7b5357ef0d8f352a57d9667e8b54e28a3f294e1cb03064f72a",
+      "original_context_id": "72cea828075398abac960ddbe9ee311cda2179f77a03671daaf5d1104915e52e",
+      "original_packet_sha256": "2d376768d515252aaa0869d2713558115e4306619264d26a6ba175bb99b3f84a",
+      "original_html_sha256": "122e1db69b5648da7701a9d8210df6b18e0ce91ec562d601eb09b961feb75b3f",
+      "new_context_id": "71ec61360c90b6f1a1247ce6266d88e033ae7eaf574a7426cb81c066f74f72e1",
+      "new_packet_sha256": "6ba39d03ce368fd36ae518384b0ebcd6e4f4bcf2c40229b7515adba8ecfa83d2",
+      "new_html_sha256": "7e6ecd4ba33d03300fb94d74b577e5be8ca0e45368fd58c685779148b7a30183",
+      "scope": "pending_context",
+      "sample_count": 1300,
+      "interval": {
+        "end_sequence": 9839,
+        "start_sequence": 8540
+      },
+      "counts": {
+        "allies:observed": 1300,
+        "opponents:observed": 1300
+      },
+      "clocks": {
+        "round:observed": 1300,
+        "bomb:not_applicable": 1300
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 81.1875,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "5aa042469245a0e8069fddba1ffdf3e92783600e502bdf4f07c23d9e78dff2a1",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E29",
+      "match": 3,
+      "round": 10,
+      "episode_id": "82431446cca6df4c5d51553012f32304cbad18e59f14b981416f71dfec1e54dd",
+      "original_context_id": "448e9fe94e9e2b9bc6405df818bd4ab706a20955f36cd4ebe6895e299f077747",
+      "original_packet_sha256": "89d075943d0cc7f81c03ae6103901b47f203f98cfd9592cdde934490326b8779",
+      "original_html_sha256": "f2eeccd0e1beaa26d20cc410f829b587b7f955f602e37b41e72ff81c8f313552",
+      "new_context_id": "bc77184b011e50236f0c979d9c3257fe8517183b5f93e316c7d0737093e820a2",
+      "new_packet_sha256": "42b2db76bc3233415eadc8f5737d3aaccb6bd60c391a2164d735d582c90fe594",
+      "new_html_sha256": "696b7b0d08810890a0d36842aa891999a5b076629ac90358761b2c88f386f4c1",
+      "scope": "eligible",
+      "sample_count": 910,
+      "interval": {
+        "end_sequence": 12932,
+        "start_sequence": 12023
+      },
+      "counts": {
+        "allies:observed": 910,
+        "opponents:observed": 910
+      },
+      "clocks": {
+        "round:observed": 910,
+        "bomb:not_applicable": 910
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 56.8125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "feb1bb9c7c2775e398aed6c23d6869a9521d7352c3c6f288a6be96121012ba24",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E30",
+      "match": 3,
+      "round": 14,
+      "episode_id": "872a1c781a42af74fd4f7ed232b5be65375941d0175a3cf34a421f1f0786115d",
+      "original_context_id": "a334adc1e7225d86e50268bb7212af57182d55563b4f579b911c176a3baace68",
+      "original_packet_sha256": "f784471d5c7fa1a68719d01f67cd0630960e5398ac6fa3769981b6c116194693",
+      "original_html_sha256": "e0e680961963b46c99d3acaa5cc12192469fa65a91cf39cb9a90f5445d09f12c",
+      "new_context_id": "7960ffc46c5a107159a4908bfd24624c9a66588b2abbc989eec87487e3e3b8cd",
+      "new_packet_sha256": "9ab922275f3a8dd0fcf5f9bfc3f77cd4e2f144267cfe5bbb5133d03eaa4ba195",
+      "new_html_sha256": "4a6adda689af552382f75eccd56658148d22207bdc031363fa7f2c67c664cc97",
+      "scope": "pending_context",
+      "sample_count": 195,
+      "interval": {
+        "end_sequence": 16453,
+        "start_sequence": 16259
+      },
+      "counts": {
+        "allies:observed": 195,
+        "opponents:observed": 195
+      },
+      "clocks": {
+        "round:observed": 195,
+        "bomb:not_applicable": 195
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 12.125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "3fff591cae416ee6db782803abe0d586f202583d8f3d342ecfdae24d84ac3afb",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E31",
+      "match": 3,
+      "round": 17,
+      "episode_id": "8277c2db94ba48b82118d71ab2e0145479dd9047f290f66197777580294a8a9f",
+      "original_context_id": "313c5336c5e796678dd037d587cc5769524230fdbc32da96556155b6b4a7c10d",
+      "original_packet_sha256": "c9cc158cbcaf1fc6d2021a2d16d76b862e8804f814694215edf1d3ac952a3d24",
+      "original_html_sha256": "46b308de8c0a232b87b633596a8659a369094f1a361949b34636db534f052c82",
+      "new_context_id": "487c550db4eef7d16a462d7dcc79dbc0cfeb3a091ed66a664878e56e6201265e",
+      "new_packet_sha256": "b7752e8c0e7fd0a4a8cdf881910ff92a38ebdad2228d15d398faef067f802b86",
+      "new_html_sha256": "8b4d5b15039c3f2e6bf12a8c94f476fd80446171413775b25e39e2bdf55a6737",
+      "scope": "eligible",
+      "sample_count": 130,
+      "interval": {
+        "end_sequence": 19631,
+        "start_sequence": 19502
+      },
+      "counts": {
+        "allies:observed": 130,
+        "opponents:observed": 130
+      },
+      "clocks": {
+        "round:observed": 130,
+        "bomb:not_applicable": 130
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 8.0625,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "74e38336fe2c6da94badb95a59825d66fe27fb42079807854936705ddf2a0945",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E32",
+      "match": 3,
+      "round": 18,
+      "episode_id": "104f1f8dfcf317f3d936ca6951be0a0c0c29506db261abc3f0bdd193c0973e85",
+      "original_context_id": "cfaee7252cd07a4c44400067cb160942bd9bdf2a6d08923be80dcf67f207f25a",
+      "original_packet_sha256": "b06a5256352ba182c127c87ba051e506921838e44679206be575e61916bc5fd6",
+      "original_html_sha256": "1a83fbe86ab66dc99d5303a4c4cdf0cfec31600ff6e836cc9647ae6530b3a87a",
+      "new_context_id": "f735ba8c80aa3d3ab1cb189cf5a4e9048a54f47c8ff5e490a8552c9ceb58ab80",
+      "new_packet_sha256": "7dadd7d0c22486df277b189219e1e3d57af5348da5d2de85db77a3960662f844",
+      "new_html_sha256": "de80b3c16ec339fe21d87784f764b94d4eb7354496b7c4f0a744226b1227075f",
+      "scope": "pending_context",
+      "sample_count": 910,
+      "interval": {
+        "end_sequence": 22667,
+        "start_sequence": 21758
+      },
+      "counts": {
+        "allies:observed": 910,
+        "opponents:observed": 910
+      },
+      "clocks": {
+        "round:observed": 910,
+        "bomb:not_applicable": 910
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 56.8125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "0740b64c5ee34efb33564d6f681a1c2ebcb9af7d658069e37cb56eff1152d06f",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E33",
+      "match": 3,
+      "round": 20,
+      "episode_id": "fd8c681064a64e4d600f287ef056fcd9b07cf9be05bc68699011220584a7eea5",
+      "original_context_id": "1ecde220e80942362df8c1d3fde80531e34973f1309f1f958d03ac6905e6c553",
+      "original_packet_sha256": "7cec37c246d7149912c4efb7ef3d8d3d2cdd2978e40ebf0c0a00d3f06dd18e31",
+      "original_html_sha256": "20a5b522427a42e53d0bb17f52ad8cfbce6d263cc6fd05a436828b67117e89b8",
+      "new_context_id": "2707bc43efd3d53bac8f0a9209d208037bf4f0620ae955932c5f8485083fc94f",
+      "new_packet_sha256": "dfb13139a7a378f134a6f78ef6bd50bdd51aa4ff9fe3ba14327cbd512e76ba72",
+      "new_html_sha256": "59517e389fda0c4e21b9627fc48d4c6d23aa04f973b6319f2cab9a29f2927830",
+      "scope": "eligible",
+      "sample_count": 1560,
+      "interval": {
+        "end_sequence": 25714,
+        "start_sequence": 24155
+      },
+      "counts": {
+        "allies:observed": 1560,
+        "opponents:observed": 1560
+      },
+      "clocks": {
+        "round:observed": 1560,
+        "bomb:not_applicable": 1560
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 97.4375,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "503aec729d9070e5f7bf71cb6d544ce0d5d841a298e22aaf5b97a10f6f52f365",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E34",
+      "match": 3,
+      "round": 23,
+      "episode_id": "ae8b08a10d9242efccfba3be534fcd8fdd3c7d495e559d1cf4399e40ead88c98",
+      "original_context_id": "0e023274ea0af32b9d9f153462a62b6e992c89a03f09c8d6d5f01e3244af6941",
+      "original_packet_sha256": "771d459232f9e92d1fec9ab2f791fc14e1ca68b0e2aeb09a2751e3142b05198f",
+      "original_html_sha256": "b3309d29064f20ab61ae561a4097016bf9cb182b42a4f098338faee04c5c007d",
+      "new_context_id": "d9e29812f0bbff0e499a8b8fb9c8d85ec78b1b707dd9c83c8dcd29a017c30f8e",
+      "new_packet_sha256": "49832b82896a43baca6412442874df0a320f6b54d70102702cf7343b591a87ef",
+      "new_html_sha256": "b707ab3667ee408aa44f23995355e48be5bcfa7711174f02ff239496632223bb",
+      "scope": "pending_context",
+      "sample_count": 390,
+      "interval": {
+        "end_sequence": 28972,
+        "start_sequence": 28583
+      },
+      "counts": {
+        "allies:observed": 390,
+        "opponents:observed": 390
+      },
+      "clocks": {
+        "round:observed": 390,
+        "bomb:not_applicable": 390
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 24.3125,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "bd7e18255b1f115f7564b7a6d75d500be125b1505c1bc895825b5865f1fd6896",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E35",
+      "match": 3,
+      "round": 25,
+      "episode_id": "9be5dce2a5a3903d51452c71a1f40a493418757d77076cd07fc4a6bab8981de8",
+      "original_context_id": "d066d1fa53bd4c36e6de6b86157586dd7e20c8380f91f86a9622a5421e744054",
+      "original_packet_sha256": "cff91abf7659907476436543463a5598cbf6ada343a5e22469e8317bc7d4da0e",
+      "original_html_sha256": "d881d9b00a9b2de89911df88c5c7d79f6515a40b540ea625d2dc7d314d4c62bf",
+      "new_context_id": "e1f85082a034bac0bae73fa0fbe8da8427615af5f8fa7152c9f47c8257f1bad7",
+      "new_packet_sha256": "18a9353535fff641c6b5663e2f66b94dd3efa32e30a3b76fcb68fd142d799249",
+      "new_html_sha256": "32e7c0364c9912d1d1172a624e409bda4ab4dab6e07c8da3031203deda97e279",
+      "scope": "pending_context",
+      "sample_count": 1170,
+      "interval": {
+        "end_sequence": 32074,
+        "start_sequence": 30905
+      },
+      "counts": {
+        "allies:observed": 1170,
+        "opponents:observed": 1170
+      },
+      "clocks": {
+        "round:observed": 1170,
+        "bomb:not_applicable": 1170
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 73.0625,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "40545504c68cf7b05c632b947df7c78bc277c4f151f97a616d9756cc91e2affc",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    },
+    {
+      "case": "E36",
+      "match": 3,
+      "round": 28,
+      "episode_id": "efc95f06048eb869834c844aab635b5e3b3d2be0c274db8be68ba7c8e2a93aa6",
+      "original_context_id": "04fc9431e86977a357d18827420be420ac56a3b43bf1f8f74fb0fb7776dff491",
+      "original_packet_sha256": "fce7da4293710b647f3c46e7e94ff7d9161dc0c368874e89f9f9401d41af536f",
+      "original_html_sha256": "a7169dbb10222e0797361f3a32072cea3d6295fd5a54be075cc5fd473a32540f",
+      "new_context_id": "3d999831f1bcfd676852be7e74ba67688cd51d6911a85399e5c0cc88b2ab5b75",
+      "new_packet_sha256": "5882d8fe08a581bdbcc17bce2958e4b1a31d7d450660dbde41b675f99b4599ce",
+      "new_html_sha256": "26f9b302526f0acba123d87fbffb09c25a90c7b422aefc51f52a966ee9779c43",
+      "scope": "eligible",
+      "sample_count": 585,
+      "interval": {
+        "end_sequence": 35418,
+        "start_sequence": 34834
+      },
+      "counts": {
+        "allies:observed": 585,
+        "opponents:observed": 585
+      },
+      "clocks": {
+        "round:observed": 585,
+        "bomb:not_applicable": 585
+      },
+      "original_facts_preserved": true,
+      "schema_id": "stratai.contextual_review_packet@3",
+      "seconds_visible": 36.5,
+      "predictions_included": false,
+      "review_received": false,
+      "source_alias": "demo-5224a45934f2d5b94c01",
+      "delivered_html_sha256": "9c954ababb6ce4b358c0dee4e114328c5665c1da5a073c9ead836001fbf5b8f4",
+      "delivery_annotation": "Case ID and match in title/brand only; embedded data and scripts unchanged."
+    }
+  ],
+  "instrument_change_declared": true,
+  "frozen_predictions_read": false,
+  "new_predictions": 0,
+  "frozen_originals_and_runtime_seal_checked": true,
+  "protected_file_count": 160,
+  "approved_corpus_manifest_count_unchanged": 44,
+  "reviewer_private_exposure": "unknown",
+  "operator_visual_qa_own_ally_prefixes": true,
+  "new_expert_reviews_received": 0,
+  "accuracy_scores": 0,
+  "independent_generalization_claim": false,
+  "training_allowed": false,
+  "package": {
+    "ok": true,
+    "cases": 34,
+    "files": [
+      {
+        "path": "fichas/E03.html",
+        "bytes": 1960964,
+        "sha256": "534c1c8a6d518fc515fd80380cc52a138b9ba6916ee10e9ee9c4e2bde80ec9a8"
+      },
+      {
+        "path": "fichas/E04.html",
+        "bytes": 2714283,
+        "sha256": "1b7bed92da37dc1951de75b552156960a67a13540fbe6ef654c9f0c1c240ab78"
+      },
+      {
+        "path": "fichas/E05.html",
+        "bytes": 5970979,
+        "sha256": "86e9b5956b335dd1e090961b38ceeae48f2720bff573abe5d3770799030ed045"
+      },
+      {
+        "path": "fichas/E06.html",
+        "bytes": 6169219,
+        "sha256": "f0536146e4e72eec7a7d991baf136e44c037845c4e73f03dd69623d21d009d54"
+      },
+      {
+        "path": "fichas/E07.html",
+        "bytes": 4227712,
+        "sha256": "7520160ab34ba50d3088c56c6f8fbe0621d5e0838ca7e363d59cb8ec65d02bd1"
+      },
+      {
+        "path": "fichas/E08.html",
+        "bytes": 2905075,
+        "sha256": "1b6b4f1c4bd0a393b7a66582b5609e8846c5a1adcb4c994b6e48d4b40e2dd509"
+      },
+      {
+        "path": "fichas/E09.html",
+        "bytes": 767904,
+        "sha256": "b80608cebe8134f9ebc9b95847f9b862ed8653bc98279ef9f0dc813e1956eb90"
+      },
+      {
+        "path": "fichas/E10.html",
+        "bytes": 2526035,
+        "sha256": "1441272b54a7519871fd4c54d9a75ad84f875c0b9fed3c4a2ed6d24a585cdc84"
+      },
+      {
+        "path": "fichas/E11.html",
+        "bytes": 6200560,
+        "sha256": "7ad3ec658dc753e5a1dca8871be769ac7facb37a7b678022402936eed1b1bac2"
+      },
+      {
+        "path": "fichas/E12.html",
+        "bytes": 8042416,
+        "sha256": "b6b9455a4e63024a0a0e28eead33d75a71fa4ee4434eb9f9311f264732b6f5e1"
+      },
+      {
+        "path": "fichas/E13.html",
+        "bytes": 592822,
+        "sha256": "9caf3ff6181a5181b1b05ad64cabe04822ec0c2465013cf9a518d8a115608640"
+      },
+      {
+        "path": "fichas/E14.html",
+        "bytes": 2538126,
+        "sha256": "6620a7a912fd4de3d4cbd870d45a870b8ff57b77f0258b955e5461cc82dd04d5"
+      },
+      {
+        "path": "fichas/E15.html",
+        "bytes": 1048638,
+        "sha256": "cc6a048b1799ccd066afa4fd167ba369958bd5980732149df27c03b9c68c10bf"
+      },
+      {
+        "path": "fichas/E16.html",
+        "bytes": 5721952,
+        "sha256": "507cabe062ab2827b8caa121bce71aed260fae92b05be0438497a7918b15d0ea"
+      },
+      {
+        "path": "fichas/E17.html",
+        "bytes": 708677,
+        "sha256": "72b0f8380e705d2dd60ce4f3d7f5e1c4a6e86f24be85cb4b096bd766eb04250a"
+      },
+      {
+        "path": "fichas/E18.html",
+        "bytes": 2997807,
+        "sha256": "a2803e7e9f9e8c843dca51735e4f6f172478e05dd92ce448f57109f53ec6ad58"
+      },
+      {
+        "path": "fichas/E19.html",
+        "bytes": 2071965,
+        "sha256": "3f8d203dd87b757988a4d36ffe372fb1ead3e67fd6771d11f5327468d007ce63"
+      },
+      {
+        "path": "fichas/E20.html",
+        "bytes": 4238188,
+        "sha256": "a591de5fb305a2442eab22f78845666f9df20de48de3851e629d8b34ff53d24f"
+      },
+      {
+        "path": "fichas/E21.html",
+        "bytes": 1756048,
+        "sha256": "9ebce8b2eb71209038ffcbeb88310830ffa83b52ad44a0a8b94a215e8a455056"
+      },
+      {
+        "path": "fichas/E22.html",
+        "bytes": 4098919,
+        "sha256": "26366589af0227d9077b4734e003392324c3cf91ceedbd89b950588a03e7ba9e"
+      },
+      {
+        "path": "fichas/E23.html",
+        "bytes": 1665976,
+        "sha256": "e938069699b4ee767379c88cc2f68e31302974f7dde9ead39a4187702ed712f9"
+      },
+      {
+        "path": "fichas/E24.html",
+        "bytes": 4036726,
+        "sha256": "9d6f0199512cfd9e161884c96fc73fbb50d128e2b37895e0fd7398d9dc3df0b5"
+      },
+      {
+        "path": "fichas/E25.html",
+        "bytes": 590409,
+        "sha256": "623d32d7c889425e15eabb6d176e50581bae2435a88affa6408e8c5c72ff3760"
+      },
+      {
+        "path": "fichas/E26.html",
+        "bytes": 5131827,
+        "sha256": "2b8db8715027a546cb4ea3eac3942fc5dbb73ed27ac7b59f5280144cf6f8bd9b"
+      },
+      {
+        "path": "fichas/E27.html",
+        "bytes": 6775361,
+        "sha256": "5b4a78c3bd01d59e40d495857a1d17957654d4ed4c600e918bd7128d8e9a29e9"
+      },
+      {
+        "path": "fichas/E28.html",
+        "bytes": 5046583,
+        "sha256": "5aa042469245a0e8069fddba1ffdf3e92783600e502bdf4f07c23d9e78dff2a1"
+      },
+      {
+        "path": "fichas/E29.html",
+        "bytes": 3920779,
+        "sha256": "feb1bb9c7c2775e398aed6c23d6869a9521d7352c3c6f288a6be96121012ba24"
+      },
+      {
+        "path": "fichas/E30.html",
+        "bytes": 1047811,
+        "sha256": "3fff591cae416ee6db782803abe0d586f202583d8f3d342ecfdae24d84ac3afb"
+      },
+      {
+        "path": "fichas/E31.html",
+        "bytes": 919133,
+        "sha256": "74e38336fe2c6da94badb95a59825d66fe27fb42079807854936705ddf2a0945"
+      },
+      {
+        "path": "fichas/E32.html",
+        "bytes": 5117752,
+        "sha256": "0740b64c5ee34efb33564d6f681a1c2ebcb9af7d658069e37cb56eff1152d06f"
+      },
+      {
+        "path": "fichas/E33.html",
+        "bytes": 7648422,
+        "sha256": "503aec729d9070e5f7bf71cb6d544ce0d5d841a298e22aaf5b97a10f6f52f365"
+      },
+      {
+        "path": "fichas/E34.html",
+        "bytes": 2606376,
+        "sha256": "bd7e18255b1f115f7564b7a6d75d500be125b1505c1bc895825b5865f1fd6896"
+      },
+      {
+        "path": "fichas/E35.html",
+        "bytes": 5874548,
+        "sha256": "40545504c68cf7b05c632b947df7c78bc277c4f151f97a616d9756cc91e2affc"
+      },
+      {
+        "path": "fichas/E36.html",
+        "bytes": 3303351,
+        "sha256": "9c954ababb6ce4b358c0dee4e114328c5665c1da5a073c9ead836001fbf5b8f4"
+      },
+      {
+        "path": "index.html",
+        "bytes": 12309,
+        "sha256": "03ce69482c236e47bee29e43e9ce259d7ddd74d884bd9b1df58a1f730aa9fbb5"
+      },
+      {
+        "path": "LEEME.txt",
+        "bytes": 856,
+        "sha256": "c2aca7e06db604df086dd4690a838ba915caa2f749bb83027e158a550999251d"
+      },
+      {
+        "path": "Respuestas_por_chat.md",
+        "bytes": 5292,
+        "sha256": "a34d10f5b651e57c0b54dc65b106b2b537f2358be44b896960dd3d24cacbba81"
+      },
+      {
+        "path": "Respuestas_TP10_34_casos.xlsx",
+        "bytes": 5720,
+        "sha256": "bba70370d100513c4c1e3797e8b8b371bacfb27fb64de3269c0b628fec04fa58"
+      }
+    ],
+    "zip_sha256": "fb3503a96c4c9ac180494d51466922e8d33e029a90d576eb3c3ae5791bf26823",
+    "zip_bytes": 11041987,
+    "links_checked": 36,
+    "no_predictions_in_cards": true,
+    "no_hidden_opponent_positions_in_cards": true,
+    "all_answers_blank": true,
+    "training_allowed": false,
+    "semantic_validation_receipts_required_before_delivery": true
+  },
+  "workbook": {
+    "ok": true,
+    "cases": 34,
+    "response_cells_blank": 136,
+    "native_dropdown_preserved": true,
+    "header_frozen": true,
+    "visual_review": true,
+    "sheets": 1,
+    "output_sha256": "bba70370d100513c4c1e3797e8b8b371bacfb27fb64de3269c0b628fec04fa58",
+    "unsupported_hyperlink_formula_removed": "Relative card filenames are shown; the HTML index supplies actual links."
+  },
+  "visual": {
+    "ok": true,
+    "engine": "Playwright CLI / Chromium",
+    "screenshots": [
+      {
+        "path": "output\\playwright\\tp10-batch-e03-desktop.png",
+        "sha256": "a43aaf3ecf454d3c192b64579e4ae690a50a4ae9c29857983a3bb52ef0f9b596",
+        "visually_reviewed": true
+      },
+      {
+        "path": "output\\playwright\\tp10-batch-e03-mobile-top.png",
+        "sha256": "d7f106c75b574db55975ceb996f83385d3d316d5b06053fff5fcdea0f9dcd60d",
+        "visually_reviewed": true
+      },
+      {
+        "path": "output\\playwright\\tp10-batch-e03-mobile.png",
+        "sha256": "b170f8b5b5994428e1f3779bdb2aa27f6e4a5e0975e3b203666d4bf3f9e5cf88",
+        "visually_reviewed": true
+      },
+      {
+        "path": "output\\playwright\\tp10-batch-e13-desktop.png",
+        "sha256": "cde83498713f2d3686431730ba9703732665d166a4dac4de8eed0c494e6be4c5",
+        "visually_reviewed": true
+      },
+      {
+        "path": "output\\playwright\\tp10-batch-e25-desktop.png",
+        "sha256": "a905d985cf1b65cb0033c41a2a8e447efc6cfb89e33597ab6888f77836936730",
+        "visually_reviewed": true
+      },
+      {
+        "path": "output\\playwright\\tp10-batch-index-desktop.png",
+        "sha256": "7930eacb2029aa34a5a00f0371121bfde4dc17793074b4449a1213faef04f21d",
+        "visually_reviewed": true
+      },
+      {
+        "path": "output\\playwright\\tp10-batch-index-mobile.png",
+        "sha256": "83bb545c3fef8248c5a00a3f145896658641a678f4c2b38af6d9e4753bc94f2c",
+        "visually_reviewed": true
+      }
+    ],
+    "index": {
+      "total_cards": 34,
+      "filters": [
+        {
+          "match": 1,
+          "count": 10
+        },
+        {
+          "match": 2,
+          "count": 12
+        },
+        {
+          "match": 3,
+          "count": 12
+        }
+      ],
+      "all_groups_restored": 3,
+      "desktop": [
+        1440,
+        1050
+      ],
+      "desktop_scroll_width": 1425,
+      "mobile": [
+        390,
+        844
+      ],
+      "mobile_scroll_width": 375
+    },
+    "cards_reviewed": [
+      "E03",
+      "E13",
+      "E25"
+    ],
+    "labels_in_title_and_header": true,
+    "no_horizontal_overflow": true,
+    "playback": {
+      "case": "E03",
+      "home_cut": 0,
+      "end_cut": 454,
+      "clock_and_counts_change_with_cut": true,
+      "advanced_while_playing": true,
+      "pause_cut": 293,
+      "pause_button_restored": "Reproducir"
+    },
+    "http": {
+      "ok": true,
+      "files_checked": 38,
+      "sha256_matches_packaged_files": true
+    },
+    "workbook_http": {
+      "ok": true,
+      "sha256": "bba70370d100513c4c1e3797e8b8b371bacfb27fb64de3269c0b628fec04fa58",
+      "bytes": 5720,
+      "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    "browser_console_errors": 0,
+    "browser_console_warnings": 0,
+    "operator_exposure": "Own/ally factual prefixes only; no frozen predictions or future outcomes viewed.",
+    "probe_issues": "CLI shell quoting and one stale button reference corrected; these were QA command errors, not app errors. Quoting output retained in failed-cli-quoting-output.txt."
+  },
+  "partial_roster_audit": {
+    "ok": true,
+    "match": 2,
+    "counts": {
+      "partial_counts_recomputed": 593,
+      "unknown_not_inferred_dead": 593
+    },
+    "cases": [
+      {
+        "case": "E13",
+        "counts": {
+          "opponents": 65
+        }
+      },
+      {
+        "case": "E24",
+        "counts": {
+          "opponents": 528
+        }
+      }
+    ],
+    "criterion": "Only connected, identity-observed, alive-observed current players count as known; residual 5v5 slots remain unknown."
+  },
+  "retention": {
+    "inventory": "outputs/stratai-review-batch-20260925/retained-inventory.json",
+    "inventory_sha256": "ed809e7f9be4bffdd3466358a52a01b7a8843bcf0f718df9978db387d7777abb",
+    "file_count": 242,
+    "bytes": 3953307245,
+    "deletion": false
+  },
+  "scope_limits": "No tactical rules, training, downloads, promotion, CURRENT changes or 44/44 migration."
+}

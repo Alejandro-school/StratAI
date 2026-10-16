@@ -36,7 +36,24 @@ const (
 
 // ReplayHandler manages replay data collection
 type ReplayHandler struct {
-	ctx *models.DemoContext
+	ctx                              *models.DemoContext
+	support                          *supportTracker
+	supportPhysicalState             *supportPhysicalTracker
+	supportObjectiveOrder            int
+	supportC4State                   *supportC4Tracker
+	supportObjectiveClock            *supportClockTracker
+	supportRoundContext              *supportRoundTracker
+	supportAttempt                   *supportAttemptTracker
+	supportPosition                  *supportPositionTracker
+	supportMotion                    *supportMotionTracker
+	supportVisual                    *supportVisualTracker
+	supportTiming                    *supportTimingTracker
+	replayRoundClock                 *replayRoundClock
+	replayEventThrows                map[int64][]models.ReplayContextEvent
+	replayEventProjectileEntities    map[int][]models.ReplayContextEvent
+	replayEventInfernos              map[int64]models.ReplayContextEvent
+	utilityVisualEffects             map[string]replayUtilityVisualEffect
+	utilitySmokeOcclusionUnavailable bool
 
 	// Current round data
 	currentRound *models.ReplayRoundData
@@ -50,6 +67,10 @@ type ReplayHandler struct {
 
 	// Stable player equipment within the current round.
 	playerEquipment map[uint64]replayPlayerEquipment
+
+	// Callback-backed reload state. Its explicit availability bit prevents the
+	// native bool's zero value from becoming an observed false.
+	reloadState replayReloadTracker
 
 	// Output: all rounds
 	Rounds []models.ReplayRound
@@ -66,6 +87,7 @@ type ReplayHandler struct {
 }
 
 type replayPlayerEquipment struct {
+	inventory    *models.ReplayInventoryContext
 	weapons      []string
 	activeWeapon string
 	hasDefuseKit bool
@@ -81,6 +103,7 @@ func NewReplayHandler(ctx *models.DemoContext) *ReplayHandler {
 		activeSmokes:      make(map[int64]*models.ReplayActiveEffect),
 		activeInfernos:    make(map[int64]*models.ReplayActiveEffect),
 		playerEquipment:   make(map[uint64]replayPlayerEquipment),
+		reloadState:       newReplayReloadTracker(),
 		Rounds:            []models.ReplayRound{},
 		roundPhase:        "none",
 	}
@@ -89,6 +112,16 @@ func NewReplayHandler(ctx *models.DemoContext) *ReplayHandler {
 // RegisterReplayHandlers registers all handlers needed for replay data collection
 func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 	handler := NewReplayHandler(ctx)
+	handler.registerReplaySoundInformation()
+	handler.registerReplayRoundClock()
+	handler.registerSupportObjective()
+	handler.registerSupportC4()
+	handler.registerSupportObjectiveClock()
+	handler.registerSupportAttemptOrigin()
+	handler.registerSupportObjectivePosition()
+	handler.registerSupportNativeMotion()
+	handler.registerSupportWeaponTiming()
+	handler.registerSupportVisualContact()
 
 	// ========================================
 	// ROUND LIFECYCLE
@@ -103,6 +136,11 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		// TotalRoundsPlayed is owned by the parser and is already settled for this
 		// event. Do not depend on another handler updating shared context first.
 		roundNumber := replayRoundNumber(gameState.TotalRoundsPlayed())
+		handler.freezeTimeEndTick, handler.roundEndTick = 0, 0
+		if handler.replayRoundClock != nil {
+			handler.replayRoundClock.aligned = false
+			handler.replayRoundClock.freezeFrame = -1
+		}
 		ensureObjectiveTracker(ctx).BeginRound(roundNumber, gameState.IngameTick())
 		handler.currentRound = &models.ReplayRoundData{
 			Round:     roundNumber,
@@ -110,15 +148,23 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			Frames:    []models.ReplayFrame{},
 			Events:    []models.ReplayEvent{},
 		}
+		if ctx.CaptureCalculatedVision {
+			handler.currentRound.EventContext = &models.ReplayEventContext{SchemaID: "stratai.replay_events@1", Events: []models.ReplayContextEvent{}}
+		}
 
 		// Reset active effects
 		handler.activeSmokes = make(map[int64]*models.ReplayActiveEffect)
 		handler.activeInfernos = make(map[int64]*models.ReplayActiveEffect)
 		handler.activeProjectiles = make(map[int64]*models.ReplayProjectile)
+		handler.utilityVisualEffects = make(map[string]replayUtilityVisualEffect)
+		handler.utilitySmokeOcclusionUnavailable = false
 		handler.resetPlayerEquipment()
+		handler.reloadState.resetRound()
 
 		// We're now in freeze time
 		handler.roundPhase = "freezetime"
+		handler.supportRoundStart()
+		handler.objectiveEvent("round_start")
 	})
 
 	// Freeze Time End - gameplay starts here. Keeping RoundStart as the replay
@@ -129,8 +175,12 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			return
 		}
 		handler.freezeTimeEndTick = ctx.Parser.GameState().IngameTick()
+		if handler.replayRoundClock != nil {
+			handler.replayRoundClock.freezeFrame = handler.replayRoundClock.frame
+		}
 		handler.currentRound.StartTick = handler.freezeTimeEndTick
 		handler.roundPhase = "playing"
+		handler.objectiveEvent("freeze_end")
 		ensureObjectiveTracker(ctx).NativeSnapshot(nativeObjectiveObservation(
 			ctx,
 			handler.currentRound.Round,
@@ -155,6 +205,7 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 
 		// Switch to post-round sampling - continue capturing frames
 		handler.roundPhase = "postround"
+		handler.objectiveEvent("round_end")
 	})
 
 	// Round Officially Ended - now save the round
@@ -170,17 +221,73 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 	})
 
 	// ========================================
+	// CALLBACK-BACKED RELOAD STATE
+	// ========================================
+
+	// WeaponReload is a start event in demoinfocs and is the only signal that
+	// accredits true. The active weapon binds the clip callback used to observe
+	// the later transition back to false.
+	ctx.Parser.RegisterEventHandler(func(e events.WeaponReload) {
+		if handler.currentRound == nil || e.Player == nil {
+			return
+		}
+		handler.recordReloadStart(e.Player, ctx.Parser.GameState().IngameTick())
+	})
+
+	// Equipping or firing a weapon proves that this weapon is not reloading at
+	// the callback tick. ItemEquip is absent from some demos, so its absence is
+	// never treated as an implicit false.
+	ctx.Parser.RegisterEventHandler(func(e events.ItemEquip) {
+		if handler.currentRound == nil || e.Player == nil {
+			return
+		}
+		handler.recordReloadFalse(
+			e.Player,
+			e.Weapon,
+			ctx.Parser.GameState().IngameTick(),
+			replayReloadSignalItemEquip,
+		)
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.WeaponFire) {
+		if handler.currentRound == nil || e.Shooter == nil {
+			return
+		}
+		handler.recordReloadFalse(
+			e.Shooter,
+			e.Weapon,
+			ctx.Parser.GameState().IngameTick(),
+			replayReloadSignalWeaponFire,
+		)
+	})
+
+	ctx.Parser.RegisterEventHandler(func(e events.Kill) {
+		if e.Victim != nil {
+			handler.reloadState.invalidatePlayer(e.Victim.SteamID64)
+		}
+	})
+
+	// ========================================
 	// FRAME SAMPLING (Player positions, effects, etc.)
 	// ========================================
 
 	ctx.Parser.RegisterEventHandler(func(e events.FrameDone) {
+		if handler.replayRoundClock != nil {
+			defer func() { handler.replayRoundClock.frame++ }()
+		}
+		roundContext := handler.captureReplayRoundContext()
+		handler.supportClock(ctx.Parser.GameState().IngameTick())
+		handler.captureSupportAttemptFrame()
+		handler.captureSupportPositionBirths()
 		if handler.currentRound == nil {
 			return
 		}
 
 		gameState := ctx.Parser.GameState()
 		currentTick := gameState.IngameTick()
+		handler.captureReplayUtilityVisionFrame(currentTick)
 		tickRate := ctx.Parser.TickRate()
+		handler.bindReloadClipCallbacks(gameState.Participants().Playing())
 
 		// Calculate ticks per sample
 		ticksPerSample := int(tickRate / float64(ReplaySampleRateHz))
@@ -217,6 +324,7 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 
 		// Build frame
 		frame := models.ReplayFrame{
+			RoundContext:  roundContext,
 			Tick:          currentTick,
 			TimeRemaining: calculateRoundTimeRemaining(ctx),
 			Players:       handler.collectPlayerStates(gameState),
@@ -226,6 +334,7 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		}
 
 		handler.currentRound.Frames = append(handler.currentRound.Frames, frame)
+		handler.captureSupport(frame, ticksPerSample)
 	})
 
 	// ========================================
@@ -262,6 +371,9 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			Z:          proj.Position().Z,
 			Trajectory: []float64{proj.Position().X, proj.Position().Y},
 		}
+		handler.recordReplayGrenadeThrow(e)
+		handler.observeReplayUtilityPoint("launch", "projectile:"+strconv.FormatInt(handler.activeProjectiles[proj.UniqueID()].ID, 10),
+			normalizeGrenadeType(grenadeType), proj.Position(), "demoinfocs_event:GrenadeProjectileThrow", "native_projectile_position", "")
 	})
 
 	// Grenade destroyed (exploded/expired)
@@ -287,10 +399,14 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			TimeRemainingStatus: string(utility.AvailabilityUnavailable),
 			TimeRemainingSource: utility.SourceUnavailable,
 		}
+		handler.recordReplayUtilityEffect(e.Grenade, e.GrenadeEntityID, e.Position, "utility_start", "demoinfocs_event:SmokeStart")
+		handler.startReplayUtilityVisualSmoke(e)
 	})
 
 	ctx.Parser.RegisterEventHandler(func(e events.SmokeExpired) {
+		handler.recordReplayUtilityEffect(e.Grenade, e.GrenadeEntityID, e.Position, "utility_end", "demoinfocs_event:SmokeExpired")
 		delete(handler.activeSmokes, playerstate.EquipmentID(e.Grenade))
+		handler.endReplayUtilityVisualSmoke(e)
 	})
 
 	// ========================================
@@ -338,11 +454,15 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 			TimeRemainingSource: utility.SourceUnavailable,
 			Hull:                hullFlat, Points: firePoints,
 		}
+		handler.recordReplayInfernoEvent(inferno, "utility_start", "demoinfocs_event:InfernoStart")
+		handler.startReplayUtilityVisualInferno(inferno)
 	})
 
 	ctx.Parser.RegisterEventHandler(func(e events.InfernoExpired) {
+		handler.recordReplayInfernoEvent(e.Inferno, "utility_end", "demoinfocs_event:InfernoExpired")
 		if infernoKey, ok := replayInfernoKey(e.Inferno); ok {
 			delete(handler.activeInfernos, infernoKey)
+			handler.endReplayUtilityVisualInferno(infernoKey)
 		}
 	})
 
@@ -353,6 +473,7 @@ func RegisterReplayHandlers(ctx *models.DemoContext) *ReplayHandler {
 		handler.removeDetonatedProjectile("he", e.Position.X, e.Position.Y)
 	})
 
+	handler.registerReplayEvents()
 	return handler
 }
 
@@ -441,17 +562,23 @@ func (h *ReplayHandler) finishCurrentRound(endTick int) {
 		h.currentRound.Round,
 		tickRate,
 	)
+	reconcileReplayUtilityVisionLife(h.currentRound)
+	h.reconcileReplaySoundInformation(endTick)
 	h.Rounds = append(h.Rounds, models.ReplayRound{
-		Round:       h.currentRound.Round,
-		StartTick:   h.currentRound.StartTick,
-		EndTick:     h.currentRound.EndTick,
-		Winner:      h.currentRound.Winner,
-		Frames:      h.currentRound.Frames,
-		Events:      h.currentRound.Events,
-		CombatShots: projectReplayCombatShots(combatEvents, h.currentRound.Round),
+		SoundInformation: h.currentRound.SoundInformation,
+		UtilityVision:    h.currentRound.UtilityVision,
+		EventContext:     h.currentRound.EventContext,
+		Round:            h.currentRound.Round,
+		StartTick:        h.currentRound.StartTick,
+		EndTick:          h.currentRound.EndTick,
+		Winner:           h.currentRound.Winner,
+		Frames:           h.currentRound.Frames,
+		Events:           h.currentRound.Events,
+		CombatShots:      projectReplayCombatShots(combatEvents, h.currentRound.Round),
 	})
 	h.currentRound = nil
 	h.roundPhase = "none"
+	h.reloadState.resetRound()
 }
 
 func projectReplayObjectiveMarkers(
@@ -636,6 +763,9 @@ func replayObjectiveMarker(event objective.Event) (models.ReplayEvent, bool) {
 	eventType := ""
 	durationMS := 0
 	switch event.Type {
+	case objective.EventCarrierSnapshot, objective.EventDrop, objective.EventPickup,
+		objective.EventPlantStart, objective.EventPlantAbort, objective.EventDefuseStart, objective.EventDefuseAbort:
+		eventType = "bomb_" + string(event.Type)
 	case objective.EventPlant:
 		eventType = "bomb_plant"
 	case objective.EventDefuse:
@@ -648,24 +778,31 @@ func replayObjectiveMarker(event objective.Event) (models.ReplayEvent, bool) {
 	}
 
 	marker := models.ReplayEvent{
-		ID:         event.ID,
-		Tick:       event.Tick,
-		Type:       eventType,
-		Site:       event.Site,
-		PlayerID:   event.Actor.SteamID,
-		DurationMS: durationMS,
+		ID:                event.ID,
+		SourceEventIDs:    []string{event.ID},
+		Tick:              event.Tick,
+		Type:              eventType,
+		Site:              event.Site,
+		PlayerID:          event.Actor.SteamID,
+		DurationMS:        durationMS,
+		PlayerTeam:        event.Actor.Side,
+		ObjectiveState:    event.StateAfter,
+		ObjectiveSequence: event.Sequence,
+		ObjectivePhase:    event.PhaseAfter,
+		Source:            event.Source,
+		AvailabilityTick:  event.Tick,
+		PositionStatus:    objective.PositionUnavailable,
+		PositionSource:    "actor_event_not_object_position",
 	}
-	if event.Position.Available() {
-		marker.X = event.Position.X
-		marker.Y = event.Position.Y
-		marker.Z = event.Position.Z
-	}
+	// Callbacks capture the actor's location (or a retained position at explode),
+	// not a fresh native object coordinate. The frame supplies C4 geometry.
 	return marker, true
 }
 
 func isReplayObjectiveMarker(eventType string) bool {
 	switch eventType {
-	case "bomb_plant", "bomb_defuse", "bomb_explode":
+	case "bomb_plant", "bomb_defuse", "bomb_explode", "bomb_carrier_snapshot", "bomb_drop", "bomb_pickup",
+		"bomb_plant_start", "bomb_plant_abort", "bomb_defuse_start", "bomb_defuse_abort":
 		return true
 	default:
 		return false
@@ -675,6 +812,11 @@ func isReplayObjectiveMarker(eventType string) bool {
 func compareReplayEvents(left, right models.ReplayEvent) int {
 	if order := cmp.Compare(left.Tick, right.Tick); order != 0 {
 		return order
+	}
+	if isReplayObjectiveMarker(left.Type) && isReplayObjectiveMarker(right.Type) {
+		if order := cmp.Compare(left.ObjectiveSequence, right.ObjectiveSequence); order != 0 {
+			return order
+		}
 	}
 	if order := cmp.Compare(left.Type, right.Type); order != 0 {
 		return order
@@ -697,30 +839,90 @@ func (h *ReplayHandler) collectPlayerStates(gs dem.GameState) []models.ReplayPla
 			continue
 		}
 
+		observationTick := gs.IngameTick()
+		motion := h.ctx.PlayerMotion.ObservePlayer(
+			p,
+			h.ctx.ActualRoundNumber,
+			observationTick,
+			h.ctx.Parser.TickRate(),
+		)
+		activeWeaponObservation := observeActiveWeapon(h.ctx, p, observationTick)
+		observedActiveWeapon := ""
+		if activeWeaponObservation.CurrentWeapon != nil {
+			observedActiveWeapon = *activeWeaponObservation.CurrentWeapon
+		}
+		reloadObservation := h.reloadState.refreshSnapshot(
+			p.SteamID64,
+			p.IsAlive(),
+			playerstate.EquipmentID(p.ActiveWeapon()),
+			p.IsReloading,
+			observationTick,
+		)
+		weaponStateObservation := observeReplayWeaponState(
+			p,
+			activeWeaponObservation,
+			reloadObservation,
+			observationTick,
+		)
 		equipment := h.resolvePlayerEquipment(p)
+		eyes, nativeEyes := playerstate.EyePosition(p)
+		eyesAvailable := !math.IsNaN(eyes.X) && !math.IsInf(eyes.X, 0) &&
+			!math.IsNaN(eyes.Y) && !math.IsInf(eyes.Y, 0) &&
+			!math.IsNaN(eyes.Z) && !math.IsInf(eyes.Z, 0)
+		eyeSource := "fallback_eye_position"
+		if nativeEyes {
+			eyeSource = "native_eye_position"
+		}
+		yaw := p.ViewDirectionX()
+		pitch := p.ViewDirectionY()
+		viewAnglesAvailable := !math.IsNaN(float64(yaw)) && !math.IsInf(float64(yaw), 0) &&
+			!math.IsNaN(float64(pitch)) && !math.IsInf(float64(pitch), 0)
+		zoomLevel := 0
+		zoomLevelAvailable := false
+		if activeWeapon := p.ActiveWeapon(); activeWeapon != nil {
+			zoomLevel = int(activeWeapon.ZoomLevel())
+			zoomLevelAvailable = true
+		}
 		state := models.ReplayPlayerState{
-			SteamID:       p.SteamID64,
-			Name:          p.Name,
-			Team:          getTeamString(p.Team),
-			X:             int(math.Round(p.Position().X)),
-			Y:             int(math.Round(p.Position().Y)),
-			Z:             p.Position().Z,
-			Yaw:           p.ViewDirectionX(),
-			Pitch:         p.ViewDirectionY(),
-			Health:        p.Health(),
-			Armor:         p.Armor(),
-			Alive:         p.IsAlive(),
-			Weapon:        equipment.activeWeapon,
-			Weapons:       equipment.weapons,
-			HasDefuseKit:  equipment.hasDefuseKit,
-			HasHelmet:     equipment.hasHelmet,
-			HasC4:         replayPlayerHasC4(p.SteamID64, p.IsAlive(), objectiveState),
-			FlashDuration: p.FlashDurationTimeRemaining().Seconds(),
-			Money:         p.Money(),
-			IsDucking:     p.IsDucking(),
-			IsWalking:     p.IsWalking(),
-			IsScoped:      p.IsScoped(),
-			IsDefusing:    p.IsDefusing,
+			SteamID:                       p.SteamID64,
+			Name:                          p.Name,
+			Team:                          getTeamString(p.Team),
+			X:                             int(math.Round(p.Position().X)),
+			Y:                             int(math.Round(p.Position().Y)),
+			Z:                             p.Position().Z,
+			Yaw:                           yaw,
+			Pitch:                         pitch,
+			Health:                        p.Health(),
+			Armor:                         p.Armor(),
+			Alive:                         p.IsAlive(),
+			InventoryContext:              equipment.inventory,
+			Weapon:                        equipment.activeWeapon,
+			Weapons:                       equipment.weapons,
+			HasDefuseKit:                  equipment.hasDefuseKit,
+			HasHelmet:                     equipment.hasHelmet,
+			HasC4:                         replayPlayerHasC4(p.SteamID64, p.IsAlive(), objectiveState),
+			FlashDuration:                 p.FlashDurationTimeRemaining().Seconds(),
+			Money:                         p.Money(),
+			IsDucking:                     p.IsDucking(),
+			IsWalking:                     p.IsWalking(),
+			IsScoped:                      p.IsScoped(),
+			IsDefusing:                    p.IsDefusing,
+			EyeX:                          eyes.X,
+			EyeY:                          eyes.Y,
+			EyeZ:                          eyes.Z,
+			EyePositionAvailable:          eyesAvailable,
+			EyePositionSource:             eyeSource,
+			ViewAnglesAvailable:           viewAnglesAvailable,
+			ZoomLevel:                     zoomLevel,
+			ZoomLevelAvailable:            zoomLevelAvailable,
+			MotionHorizontalSpeed:         motion.HorizontalSpeed(),
+			MotionAvailable:               motion.Available,
+			MotionSource:                  string(motion.Source),
+			MotionAvailabilityTick:        motion.ObservedTick,
+			ObservedActiveWeapon:          observedActiveWeapon,
+			ActiveWeaponObservationStatus: activeWeaponObservation.Status,
+			ActiveWeaponAvailabilityTick:  observationTick,
+			ObservedWeaponState:           weaponStateObservation,
 		}
 
 		players = append(players, state)
@@ -757,6 +959,10 @@ func (h *ReplayHandler) resolvePlayerEquipment(player *common.Player) replayPlay
 	activeWeapon := ""
 	if active := player.ActiveWeapon(); active != nil {
 		activeWeapon = active.String()
+	}
+	if h.ctx.CaptureCalculatedVision {
+		cached.inventory = observeReplayInventory(cached.inventory, player.IsAlive(),
+			h.ctx.Parser.GameState().IngameTick(), weapons, activeWeapon, player.HasHelmet())
 	}
 
 	cached = mergePlayerEquipment(
@@ -810,22 +1016,32 @@ func (h *ReplayHandler) snapshotBombState(gs dem.GameState, tick int) *models.Re
 		return nil
 	}
 	tracker := ensureObjectiveTracker(h.ctx)
-	snapshot := tracker.NativeSnapshot(nativeObjectiveObservation(
+	return replayBombObservation(tracker, nativeObjectiveObservation(
 		h.ctx,
 		h.currentRound.Round,
 		tick,
 	))
+}
+
+func replayBombObservation(tracker *objective.Tracker, observation objective.NativeObservation) *models.ReplayBombState {
+	snapshot := tracker.NativeSnapshot(observation)
+	// The shared ledger can retain a previous position for historical consumers.
+	// Replay geometry represents this sample only; missing native data stays absent.
+	snapshot.Position = observation.Position
 	return replayBombState(snapshot)
 }
 
 func replayBombState(snapshot objective.Snapshot) *models.ReplayBombState {
 	return &models.ReplayBombState{
+		SchemaID:            "stratai.replay_objective@2",
+		ObservationTick:     snapshot.Tick,
 		State:               snapshot.State,
 		ObjectivePhase:      snapshot.Phase,
 		IsPlantedNow:        snapshot.IsPlantedNow,
 		WasPlantedThisRound: snapshot.WasPlantedThisRound,
 		X:                   snapshot.Position.X,
 		Y:                   snapshot.Position.Y,
+		Z:                   snapshot.Position.Z,
 		CarrierID:           replayPlayerIDPointer(snapshot.Carrier.SteamID),
 		Site:                snapshot.Site,
 		PlantTick:           snapshot.PlantTick,

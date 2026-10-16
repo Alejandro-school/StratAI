@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_native_sources_manifest@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "source_candidate",
+    "artifact",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_native_sources_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "source_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "economy_candidate_manifest.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "economy_native_sources.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshots",
+        "snapshot_checks",
+        "version_observations",
+        "sellback_observed",
+        "round_purchases_observed",
+        "match_purchases_observed",
+        "native_purchase_events"
+      ],
+      "properties": {
+        "snapshots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "snapshot_checks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "version_observations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sellback_observed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "round_purchases_observed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "match_purchases_observed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "native_purchase_events": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

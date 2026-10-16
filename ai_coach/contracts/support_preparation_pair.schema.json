@@ -1,0 +1,578 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_pair@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "candidate_id",
+    "t0",
+    "actor_alias",
+    "ally_alias",
+    "side",
+    "pawn_references",
+    "initial",
+    "execution",
+    "decision_id",
+    "decision_eligible",
+    "physical_entry_status",
+    "tactical_commitment_status"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_pair@1"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^support-preparation-[0-9a-f]{64}$"
+    },
+    "t0": {
+      "$ref": "#/$defs/cut"
+    },
+    "actor_alias": {
+      "type": "string",
+      "pattern": "^support-actor-[0-9a-f]{20}$"
+    },
+    "ally_alias": {
+      "type": "string",
+      "pattern": "^support-actor-[0-9a-f]{20}$"
+    },
+    "side": {
+      "enum": [
+        "CT",
+        "T"
+      ]
+    },
+    "pawn_references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self",
+        "ally"
+      ],
+      "properties": {
+        "self": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "handle",
+            "life"
+          ],
+          "properties": {
+            "handle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "life": {
+              "type": "string",
+              "pattern": "^support-pawn-[0-9]{6,}$"
+            }
+          }
+        },
+        "ally": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "handle",
+            "life"
+          ],
+          "properties": {
+            "handle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "life": {
+              "type": "string",
+              "pattern": "^support-pawn-[0-9]{6,}$"
+            }
+          }
+        }
+      }
+    },
+    "initial": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self",
+        "ally"
+      ],
+      "properties": {
+        "self": {
+          "$ref": "#/$defs/features"
+        },
+        "ally": {
+          "$ref": "#/$defs/features"
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self",
+        "ally"
+      ],
+      "properties": {
+        "self": {
+          "$ref": "#/$defs/execution"
+        },
+        "ally": {
+          "$ref": "#/$defs/execution"
+        }
+      }
+    },
+    "decision_id": {
+      "const": null
+    },
+    "decision_eligible": {
+      "const": false
+    },
+    "physical_entry_status": {
+      "const": "not_accredited"
+    },
+    "tactical_commitment_status": {
+      "const": "not_accredited"
+    }
+  },
+  "$defs": {
+    "cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "frame",
+        "tick",
+        "epoch",
+        "instance",
+        "tick_rate",
+        "sample_step"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tick": {
+          "type": "integer"
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_step": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "position",
+        "alive",
+        "availability_tick",
+        "availability_frame"
+      ],
+      "properties": {
+        "position": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "integer"
+            },
+            "y": {
+              "type": "integer"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "alive": {
+          "const": true
+        },
+        "availability_tick": {
+          "type": "integer"
+        },
+        "availability_frame": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "end_tick",
+        "availability_sequence",
+        "availability_frame",
+        "availability_tick",
+        "sampled_displacement"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "sampled_displacement",
+            "no_sampled_displacement",
+            "censored:missing_exact_horizon_sample",
+            "censored:horizon_gap_or_boundary",
+            "censored:identity_unavailable_or_changed",
+            "censored:ambiguous_actor_alias",
+            "censored:shared_pawn_reference",
+            "censored:unsupported_side",
+            "censored:disconnected",
+            "censored:native_identity_unavailable",
+            "censored:alive_unavailable",
+            "censored:not_alive",
+            "censored:position_unavailable"
+          ]
+        },
+        "end_tick": {
+          "type": "integer"
+        },
+        "availability_sequence": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_frame": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_tick": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sampled_displacement": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "sampled_displacement"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sampled_displacement": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "no_sampled_displacement"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sampled_displacement": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "pattern": "^censored:"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sampled_displacement": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "censored:missing_exact_horizon_sample"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "availability_sequence": {
+                "const": null
+              },
+              "availability_frame": {
+                "const": null
+              },
+              "availability_tick": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "not": {
+                  "const": "censored:missing_exact_horizon_sample"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "availability_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "availability_frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "availability_tick": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "status_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sampled_displacement",
+        "no_sampled_displacement",
+        "censored:missing_exact_horizon_sample",
+        "censored:horizon_gap_or_boundary",
+        "censored:identity_unavailable_or_changed",
+        "censored:ambiguous_actor_alias",
+        "censored:shared_pawn_reference",
+        "censored:unsupported_side",
+        "censored:disconnected",
+        "censored:native_identity_unavailable",
+        "censored:alive_unavailable",
+        "censored:not_alive",
+        "censored:position_unavailable"
+      ],
+      "properties": {
+        "sampled_displacement": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "no_sampled_displacement": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:missing_exact_horizon_sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:horizon_gap_or_boundary": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:identity_unavailable_or_changed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:ambiguous_actor_alias": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:shared_pawn_reference": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:unsupported_side": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:disconnected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:native_identity_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:alive_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:not_alive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:position_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "matrix_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance",
+        "epoch",
+        "side",
+        "actor_alias",
+        "ally_alias",
+        "counts",
+        "execution_counts"
+      ],
+      "properties": {
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "side": {
+          "enum": [
+            "CT",
+            "T"
+          ]
+        },
+        "actor_alias": {
+          "type": "string",
+          "pattern": "^support-actor-[0-9a-f]{20}$"
+        },
+        "ally_alias": {
+          "type": "string",
+          "pattern": "^support-actor-[0-9a-f]{20}$"
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "selected",
+            "excluded_actor",
+            "excluded_ally"
+          ],
+          "properties": {
+            "selected": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_actor": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_ally": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "execution_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "self",
+            "ally"
+          ],
+          "properties": {
+            "self": {
+              "$ref": "#/$defs/status_counts"
+            },
+            "ally": {
+              "$ref": "#/$defs/status_counts"
+            }
+          }
+        }
+      }
+    }
+  }
+}

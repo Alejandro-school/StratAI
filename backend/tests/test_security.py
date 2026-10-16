@@ -9,8 +9,9 @@ def test_sanitize_match_id_keeps_supported_characters() -> None:
     assert sanitize_match_id("match_2026-07-24") == "match_2026-07-24"
 
 
-def test_sanitize_match_id_removes_path_traversal_characters() -> None:
-    assert sanitize_match_id("../../match.json") == "matchjson"
+def test_sanitize_match_id_rejects_path_traversal_characters() -> None:
+    with pytest.raises(ValueError, match="Invalid match_id"):
+        sanitize_match_id("../../match.json")
 
 
 def test_sanitize_match_id_rejects_empty_result() -> None:

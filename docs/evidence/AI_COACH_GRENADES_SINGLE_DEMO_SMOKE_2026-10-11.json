@@ -1,0 +1,544 @@
+{
+  "schema_id": "stratai.ai_coach_grenades_phase_evidence@1",
+  "status": "technical_closed; fixed pair attempted; tactical quality not demonstrated",
+  "source_alias": "demo-0beb9110ec408f80c39b",
+  "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+  "distinct_matches": 1,
+  "retained_captures": 5,
+  "final_command": {
+    "argv": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-grenades-smoke-ouieiu_v\\team-replay-smoke.exe",
+      "--demo",
+      "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-1283ff87-ce52-4330-8828-de5e8ffb13e0.dem",
+      "--output",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-grenades-smoke-ouieiu_v\\capture",
+      "--checksum",
+      "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7"
+    ],
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+    "build": [
+      "go",
+      "build",
+      "-o",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-grenades-smoke-ouieiu_v\\team-replay-smoke.exe",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-grenades-20261011\\smoke_producer.go"
+    ],
+    "binary_sha256": "991b6908286ec91d5532031ba4d402dc86faa496518657f87a0c55799575f052",
+    "producer_sha256": "040b04938355be6db32ba246337de3085015b0ca1da8866acf4760db711efbad",
+    "exit_code": 0,
+    "seconds": 36.683,
+    "parser": "v16",
+    "replay_schema": 5,
+    "calculated_contact_schema": "stratai.calculated_vision@2",
+    "projection_schema": "stratai.team_replay_projection@10",
+    "objective_schema": "stratai.replay_objective@2",
+    "input_schema": "stratai.replay_context_input@8",
+    "round_context_schema": "stratai.replay_round_context@2",
+    "inventory_schema": "stratai.replay_inventory@1",
+    "factual_reading_schema": "stratai.replay_factual_reading@1",
+    "go_version": "go version go1.26.2 windows/amd64",
+    "retained_temp": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-grenades-smoke-ouieiu_v",
+    "inventory_after_parse": [
+      {
+        "path": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "capture\\combat-audit.json",
+        "bytes": 488177,
+        "sha256": "74440f3333fa103db4c47e5e555613c1d7b646500cd46615033c54335e6e1570"
+      },
+      {
+        "path": "capture\\inventory-audit.json",
+        "bytes": 37646121,
+        "sha256": "f3f62d0ddd963fb6fd83503c42bc05541da63fa6bf6b8daec89be00100987e87"
+      },
+      {
+        "path": "capture\\metrics.json",
+        "bytes": 40139,
+        "sha256": "73074347853e023bab47efe99178cf22d55f8969a90e41313ef7aa403d83481c"
+      },
+      {
+        "path": "capture\\objective-ledger.json",
+        "bytes": 55731,
+        "sha256": "77e69d89a96d71c5a319b401a1e1c36f41b37f61c6f16a40be4283636937aab4"
+      },
+      {
+        "path": "capture\\replay.json",
+        "bytes": 276881612,
+        "sha256": "db85a60943bc2c3145675c67bdb2627a4cd3a85ad11d881f7844dd139f3b0cee"
+      },
+      {
+        "path": "capture\\utility-launch-audit.json",
+        "bytes": 72885,
+        "sha256": "ef2094681cd4b3bc84b892c01f96d71ea63e7b3a9f4db8d7fb48c32064f8191d"
+      },
+      {
+        "path": "parse.log",
+        "bytes": 5678,
+        "sha256": "9b82c4e1f9e87056573495c197664fb8da908def3cfd8a3faac7b367abee48d6"
+      },
+      {
+        "path": "team-replay-smoke.exe",
+        "bytes": 18777600,
+        "sha256": "991b6908286ec91d5532031ba4d402dc86faa496518657f87a0c55799575f052"
+      }
+    ]
+  },
+  "native_source": {
+    "ok": true,
+    "counts": {
+      "independent_living_observer_checks": 21142,
+      "independent_native_launch_position_checks": 402,
+      "launch": 402,
+      "type:smoke": 13010,
+      "side:T": 11860,
+      "projectile": 8123,
+      "side:CT": 9282,
+      "type:flashbang": 2308,
+      "effect": 12617,
+      "type:molotov": 840,
+      "type:inferno": 2222,
+      "type:he": 1528,
+      "type:incendiary": 1154,
+      "type:decoy": 80
+    },
+    "abstentions": {
+      "observer_death_at_or_before_observation_tick": 1
+    },
+    "method": "Independent preexisting native utility observer for launch clocks/type/XYZ; own live snapshots and native death callbacks; schema and effect lifecycle checks.",
+    "limits": [
+      "Visibility remains a geometric estimate; real human perception is not independently observed.",
+      "Effect point visibility does not validate full smoke/fire geometry; map-build compatibility remains unverified."
+    ]
+  },
+  "projection": {
+    "ok": true,
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "counts": {
+      "views": 46796,
+      "source_observations_checked": 2112892,
+      "possible_dead_receipts": 762874,
+      "launch_estimates_checked": 0,
+      "sampled_segments_checked": 696049,
+      "reverse_seeks": 40
+    },
+    "examples": {
+      "partial_projectile": {
+        "round": 1,
+        "side": "T",
+        "tick": 7881,
+        "row": {
+          "id": "r1-utility-observation-2",
+          "observer_id": "1",
+          "object_id": "projectile:1",
+          "kind": "projectile",
+          "utility_type": "smoke",
+          "type_status": "estimated_native_type_proxy",
+          "position": {
+            "x": -189.15625,
+            "y": 868.78125,
+            "z": 17.625
+          },
+          "observation_tick": 7880,
+          "availability_tick": 7880,
+          "status": "estimated",
+          "affiliation": "own_team",
+          "source": {
+            "kind": "go_calculated_utility",
+            "reference": "r1-utility-observation-2",
+            "native_source": "demoinfocs_state:GrenadeProjectiles",
+            "eye_source": "native_eye_position",
+            "position_basis": "native_projectile_position"
+          },
+          "recipient_basis": {
+            "frame_tick": 7877,
+            "present_player_ids": [
+              "1",
+              "6",
+              "7",
+              "9",
+              "10"
+            ]
+          },
+          "recipients": [
+            {
+              "player_id": "1",
+              "kind": "individual_observation",
+              "reception": "origin",
+              "availability_tick": 7880
+            },
+            {
+              "player_id": "6",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 7880
+            },
+            {
+              "player_id": "7",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 7880
+            },
+            {
+              "player_id": "9",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 7880
+            },
+            {
+              "player_id": "10",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 7880
+            }
+          ]
+        }
+      },
+      "effect": {
+        "round": 1,
+        "side": "T",
+        "tick": 8425,
+        "row": {
+          "id": "r1-utility-observation-138",
+          "observer_id": "9",
+          "object_id": "smoke:entity:130:start:8343",
+          "kind": "effect",
+          "utility_type": "smoke",
+          "type_status": "estimated_native_type_proxy",
+          "position": {
+            "x": -1978.1002197265625,
+            "y": -348.6843566894531,
+            "z": -91.98912811279297
+          },
+          "observation_tick": 8424,
+          "availability_tick": 8424,
+          "status": "estimated",
+          "affiliation": "unknown",
+          "source": {
+            "kind": "go_calculated_utility",
+            "reference": "r1-utility-observation-138",
+            "native_source": "demoinfocs_event:SmokeStart",
+            "eye_source": "native_eye_position",
+            "position_basis": "effect_representative_point_not_full_geometry"
+          },
+          "recipient_basis": {
+            "frame_tick": 8421,
+            "present_player_ids": [
+              "1",
+              "6",
+              "7",
+              "9",
+              "10"
+            ]
+          },
+          "recipients": [
+            {
+              "player_id": "1",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 8424
+            },
+            {
+              "player_id": "6",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 8424
+            },
+            {
+              "player_id": "7",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 8424
+            },
+            {
+              "player_id": "9",
+              "kind": "individual_observation",
+              "reception": "origin",
+              "availability_tick": 8424
+            },
+            {
+              "player_id": "10",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 8424
+            }
+          ]
+        }
+      }
+    },
+    "seconds": 316.83052109999994,
+    "method": "Primitive native observations, own roster, deaths and arithmetic; no calls to launcher producer to create expected counts.",
+    "perception": "estimated",
+    "communication": "possible_simulated",
+    "independent_tactical_evaluation": false
+  },
+  "information": {
+    "ok": true,
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "counts": {
+      "views": 46796,
+      "observations_checked": 217422,
+      "recipients_checked": 1086189,
+      "direct_observations": 217422,
+      "possible_receipts": 868767,
+      "memories": 58348,
+      "current_contacts": 2647,
+      "multiple_observers": 107,
+      "dead_recipients_possible": 219355,
+      "death_history": 124611,
+      "reverse_seek": 40,
+      "ct_views": 23398
+    },
+    "examples": {
+      "multiple_observers": {
+        "round": 1,
+        "side": "T",
+        "tick": 7977,
+        "contact": {
+          "subject_id": "8",
+          "subject_side": "CT",
+          "state": "current_contact",
+          "position": {
+            "x": -1755.6104736328125,
+            "y": 811.291015625,
+            "z": -47.96875
+          },
+          "observation_tick": 7976,
+          "availability_tick": 7976,
+          "age_ticks": 1,
+          "observation_ids": [
+            "round:1:start:7037:contact:7976:7:8",
+            "round:1:start:7037:contact:7976:9:8"
+          ]
+        }
+      },
+      "memory": {
+        "round": 1,
+        "side": "T",
+        "tick": 8253,
+        "contact": {
+          "subject_id": "4",
+          "subject_side": "CT",
+          "state": "last_observed",
+          "position": {
+            "x": -1333.8170166015625,
+            "y": 264.3134765625,
+            "z": -167.96875
+          },
+          "observation_tick": 8248,
+          "availability_tick": 8248,
+          "age_ticks": 5,
+          "observation_ids": [
+            "round:1:start:7037:contact:8248:7:4"
+          ]
+        }
+      },
+      "dead_receiver": {
+        "round": 1,
+        "side": "T",
+        "tick": 9065,
+        "observation": {
+          "id": "round:1:start:7037:contact:9064:7:2",
+          "observer_id": "7",
+          "subject_id": "2",
+          "subject_side": "CT",
+          "position": {
+            "x": -2322.641357421875,
+            "y": -472.6761474609375,
+            "z": -167.96875
+          },
+          "observation_tick": 9064,
+          "availability_tick": 9064,
+          "status": "estimated",
+          "source": {
+            "kind": "go_calculated_contact",
+            "reference": "round:1:contact:9064:7:2"
+          },
+          "recipient_basis": {
+            "frame_tick": 9061,
+            "source": {
+              "kind": "demo_replay_frame",
+              "reference": "round:1:frame:9061:recipients:T"
+            },
+            "present_player_ids": [
+              "1",
+              "6",
+              "7",
+              "9",
+              "10"
+            ]
+          },
+          "recipients": [
+            {
+              "player_id": "1",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 9064
+            },
+            {
+              "player_id": "6",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 9064
+            },
+            {
+              "player_id": "7",
+              "kind": "individual_observation",
+              "reception": "origin",
+              "availability_tick": 9064
+            },
+            {
+              "player_id": "9",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 9064
+            },
+            {
+              "player_id": "10",
+              "kind": "simulated_team_communication",
+              "reception": "possible",
+              "availability_tick": 9064
+            }
+          ]
+        },
+        "dead_recipients": [
+          "10"
+        ]
+      }
+    },
+    "projection_sha256": "e13154b46254c1d10782afb064d293d4c35b62c91418985e037a3e9c5d564fec",
+    "seconds": 265.0691532,
+    "recomputation": "native contacts, own snapshots and causal deaths; no information-producer expected-value calls",
+    "real_confirmed_contacts": 0,
+    "perception": "estimated",
+    "communication": "possible_simulated",
+    "absent_variants": [
+      "confirmed positive human vision",
+      "actual voice reception",
+      "delayed confirmed availability (synthetic regression only)"
+    ]
+  },
+  "comparison": {
+    "cases": [
+      {
+        "case_id": "N01",
+        "status": "rejected_or_incomplete",
+        "seconds": 25.702,
+        "local_calls": 1,
+        "result_sha256": "f6b71a1822c5111a1018fa69fbb164795f3bbd02dc478a6e33ebd009783e5dd7",
+        "receipt": {
+          "input_hash": "2d1342037551ada81018b0ffe951e00d40d206b6a20aa9f3863545abb01bfe37",
+          "projected_packet_hash": "3504badc39ffd7c0ac4d8ed5ec065dc11c2ad285944a2d7fa49138970d095747",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": "invalid finish envelope",
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": false,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": null,
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N04",
+        "status": "mechanically_valid",
+        "seconds": 31.555,
+        "local_calls": 1,
+        "result_sha256": "6311bc37c87442d1fbb0f600c74f0d9026de013930843d86d6d1a998cc8b0083",
+        "receipt": {
+          "input_hash": "ea7a9a957c57ebbab8cc4dba84ee8c1031d0a5a97cc3e24fd56e920c5ae2bce9",
+          "projected_packet_hash": "aa2795fb63fe50b01649026fd084de4ef21010a6a0da56454cf6974c460e23dd",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N10",
+        "status": "rejected_or_incomplete",
+        "seconds": 0.636,
+        "local_calls": 1,
+        "result_sha256": "5a32a1ed70a4abcdf0e01795398794198baca36bdf7a0d7da27b7eefff9b2f8a",
+        "receipt": {
+          "input_hash": "67f03f14a9150f9f44b8779e3ab5672ea3289fee76bec131a27758e9466b7ea7",
+          "projected_packet_hash": "ae746fcce0dca53148c9908fdb5cef23231ce44e930927f144e340b2e05f6985",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": "local HTTP 400: {\"error\":\"{\\\"error\\\":{\\\"code\\\":400,\\\"message\\\":\\\"request (66150 tokens) exceeds the available context size (65536 tokens), try increasing it\\\",\\\"type\\\":\\\"exceed_context_size_error\\\",\\\"n_prompt_tokens\\\":66150,\\\"n_ctx\\\":65536}}\"}",
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": false,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": null,
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      }
+    ],
+    "local_calls": 3,
+    "external_calls": 0,
+    "provider_cost_usd": 0,
+    "training": false,
+    "independent_evaluation": false
+  },
+  "delivery": {
+    "ok": true,
+    "source_gate": "delivery-final-automated-checks.json",
+    "source_delta_since_producer_and_generation_gate": [
+      "frontend/src/features/replay2d/components/ReplayCoachReading.jsx",
+      "frontend/src/features/replay2d/components/ReplayCoachReading.test.jsx",
+      "outputs/stratai-grenades-20261011/offline.jsx"
+    ],
+    "no_producer_or_fact_changes": true,
+    "smoke_final": "retry-4-smoke-command.json",
+    "technical_closed_before_generation": true,
+    "comparison_complete_attempts": 3,
+    "model_unchanged": true,
+    "tactical_improvement_demonstrated": false,
+    "context_size_limit_discovered": {
+      "requested_tokens": 66150,
+      "fixed_num_ctx": 65536,
+      "case": "N10"
+    },
+    "browser_final": "viewer-browser-attempts-final.json",
+    "frontend_passed": 300,
+    "affected_python_backend_passed": 92,
+    "next_action": "Review pair and repair lossless context delivery before expert sound framing."
+  },
+  "tests_path": "outputs/stratai-grenades-20261011/delivery-final-automated-checks.json",
+  "tests_sha256": "627e3775efee9a16076ccb743459d96e62ea41392e7308b8f31045eca5c51cf4",
+  "retained_temp_inventory": "outputs/stratai-grenades-20261011/retained-temp-inventory.json",
+  "retained_temp_inventory_sha256": "4d508d4a5ef10d5469a4661cd12b5d9b4099f6f9a40a19361cbc749358630ea3",
+  "limits": [
+    "Visibility/type/communication are estimates; no human perception confirmation",
+    "No eligible natural launcher triple in this demo",
+    "Native opaque inferno identities are local to a capture",
+    "N01 invalid final envelope; N04 no interpretation; N10 context limit",
+    "No independent tactical evaluation, training, corpus migration or promotion"
+  ]
+}

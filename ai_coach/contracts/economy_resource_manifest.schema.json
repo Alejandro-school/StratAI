@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_resource_manifest@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "source_context",
+    "exact_build_asset_binding",
+    "schema_id",
+    "contract_version",
+    "codec_reference",
+    "native_format_version",
+    "economic_rules",
+    "sessions"
+  ],
+  "properties": {
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "source_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "const": "economy_rule_context_manifest.json"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "exact_build_asset_binding": {
+      "const": "not_accredited"
+    },
+    "schema_id": {
+      "const": "stratai.economy_resource_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "codec_reference": {
+      "const": "clarity-7fb3f1d07564a12efa99194d45cfbf5762ba5910-bounded-v1"
+    },
+    "native_format_version": {
+      "type": "null"
+    },
+    "economic_rules": {
+      "const": "not_accredited"
+    },
+    "sessions": {
+      "type": "array",
+      "maxItems": 4096,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence",
+          "tick",
+          "source_path",
+          "source",
+          "status",
+          "decoded"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "source_path": {
+            "const": "CSVCMsg_ServerInfo.game_session_manifest"
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "present",
+              "bytes",
+              "sha256"
+            ],
+            "properties": {
+              "present": {
+                "type": "boolean"
+              },
+              "bytes": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "status": {
+            "enum": [
+              "absent",
+              "read_limit_exceeded",
+              "malformed_or_unsupported",
+              "decoded"
+            ]
+          },
+          "decoded": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "compression",
+                  "encoded_bytes",
+                  "decoded_bytes",
+                  "decoded_sha256",
+                  "outer_consumed_bits",
+                  "outer_padding_bits",
+                  "inner_consumed_bits",
+                  "inner_padding_bits",
+                  "type_name_hashes",
+                  "directory_name_hashes",
+                  "entries"
+                ],
+                "properties": {
+                  "compression": {
+                    "enum": [
+                      "none",
+                      "lzss"
+                    ]
+                  },
+                  "encoded_bytes": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1048576
+                  },
+                  "decoded_bytes": {
+                    "type": "integer",
+                    "minimum": 6,
+                    "maximum": 1048576
+                  },
+                  "decoded_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "outer_consumed_bits": {
+                    "type": "integer",
+                    "minimum": 25,
+                    "maximum": 8388608
+                  },
+                  "outer_padding_bits": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 7
+                  },
+                  "inner_consumed_bits": {
+                    "type": "integer",
+                    "minimum": 48,
+                    "maximum": 8388608
+                  },
+                  "inner_padding_bits": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 7
+                  },
+                  "type_name_hashes": {
+                    "type": "array",
+                    "maxItems": 4096,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "directory_name_hashes": {
+                    "type": "array",
+                    "maxItems": 4096,
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    }
+                  },
+                  "entries": {
+                    "type": "array",
+                    "maxItems": 4096,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "ordinal",
+                        "directory_index",
+                        "type_index",
+                        "reference_name_sha256"
+                      ],
+                      "properties": {
+                        "ordinal": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4095
+                        },
+                        "directory_index": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4095
+                        },
+                        "type_index": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4095
+                        },
+                        "reference_name_sha256": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

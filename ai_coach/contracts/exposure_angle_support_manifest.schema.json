@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.exposure_angle_support_manifest@1",
+  "title": "Exposure-angle map support manifest",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "contract_version", "packages"],
+  "properties": {
+    "schema_id": {"const": "stratai.exposure_angle_support_manifest@1"},
+    "contract_version": {"const": "1.0.0"},
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "map_id", "contract_version", "asset_version", "package_path",
+          "package_sha256", "implementation_status", "geometry_status",
+          "tactical_review_status", "product_supported", "training_use_authorized"
+        ],
+        "properties": {
+          "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+          "contract_version": {"const": "1.0.0"},
+          "asset_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+          "package_path": {"type": "string", "pattern": "^packages/de_[a-z0-9_]+/[0-9A-Za-z.-]+/package\\.json$"},
+          "package_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "implementation_status": {"const": "candidate"},
+          "geometry_status": {"const": "validated"},
+          "tactical_review_status": {"enum": ["pending_review", "approved"]},
+          "product_supported": {"type": "boolean"},
+          "training_use_authorized": {"const": false}
+        }
+      }
+    }
+  }
+}

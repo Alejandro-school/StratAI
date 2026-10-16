@@ -49,9 +49,11 @@ function preloadProjectileIconCatalog() {
 }
 
 export function ReplayCanvas({
+  mapImageSources,
   mapName,
   config,
   frame,
+  soundReviewMarkers,
   frames,
   events,
   tick,
@@ -103,14 +105,14 @@ export function ReplayCanvas({
 
   useEffect(() => {
     const level = hasLevels ? activeLevel : "upper";
-    const image = loadImage(getMapSource(mapName, level), (loaded) => {
+    const image = loadImage(mapImageSources?.[level] || getMapSource(mapName, level), (loaded) => {
       setImages((current) => ({ ...current, [level]: loaded }));
     });
     return () => {
       image.onload = null;
       image.onerror = null;
     };
-  }, [activeLevel, hasLevels, mapName]);
+  }, [activeLevel, hasLevels, mapName, mapImageSources]);
 
   useEffect(() => {
     let disposed = false;
@@ -159,6 +161,7 @@ export function ReplayCanvas({
       images,
       projectileIcons,
       frame,
+      soundReviewMarkers,
       events,
       annotations,
       draft,
@@ -175,7 +178,7 @@ export function ReplayCanvas({
     });
   }, [
     activeLevel, annotations, config, draft, events, focusPlayerId, frame, hasLevels,
-    images, layers, projectileIcons, reducedMotion, size, tick, tickRate, trail, viewport, zThreshold,
+    images, layers, projectileIcons, reducedMotion, size, tick, tickRate, trail, viewport, zThreshold, soundReviewMarkers,
   ]);
 
   const localPoint = (event) => {

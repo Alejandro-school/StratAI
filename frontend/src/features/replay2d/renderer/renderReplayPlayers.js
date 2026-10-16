@@ -38,6 +38,20 @@ const drawDeadPlayers = (context, players, config, viewport, showDeaths) => {
   }
 };
 
+const drawCommunicatedDeaths = (context, markers, config, viewport) => {
+  for (const marker of markers || []) {
+    const point = worldToScreen(marker.position, config, viewport);
+    context.strokeStyle = TEAM_COLORS[marker.team]?.solid || "#fff";
+    context.lineWidth = 2;
+    context.beginPath();
+    context.moveTo(point.x - 6, point.y - 6);
+    context.lineTo(point.x + 6, point.y + 6);
+    context.moveTo(point.x + 6, point.y - 6);
+    context.lineTo(point.x - 6, point.y + 6);
+    context.stroke();
+  }
+};
+
 const drawDirectionalMarker = (context, position, yaw, team, number, selected) => {
   const isCounterTerrorist = team.solid === TEAM_COLORS.CT.solid;
   const playerFill = isCounterTerrorist ? "#d9f1ff" : "#ffedbd";
@@ -90,7 +104,31 @@ export const drawPlayers = (context, frame, config, viewport, options) => {
     ...stableRosterPlayers(players, "CT").map((player, index) => [playerIdentity(player), index + 1]),
     ...stableRosterPlayers(players, "T").map((player, index) => [playerIdentity(player), index + 1]),
   ]);
-  drawDeadPlayers(context, ordered, config, viewport, options.layers.deaths);
+  if (frame?.perspective) {
+    if (options.layers.deaths) drawCommunicatedDeaths(context, frame.death_markers, config, viewport);
+  } else drawDeadPlayers(context, ordered, config, viewport, options.layers.deaths);
+  const memoryLabels = [];
+  for (const marker of frame?.last_seen_markers || []) {
+    const point = worldToScreen(marker.position, config, viewport);
+    context.save();
+    context.strokeStyle = TEAM_COLORS[marker.team]?.solid || '#fff';
+    context.lineWidth = 1.5;
+    context.setLineDash([3, 3]);
+    context.beginPath(); context.arc(point.x, point.y, 8, 0, TAU); context.stroke();
+    context.setLineDash([]);
+    const age = Number.isFinite(options.tickRate) && options.tickRate > 0
+      ? `${Number((marker.age_ticks / options.tickRate).toFixed(1))} s` : `${marker.age_ticks} ticks`;
+    context.font = '650 10px system-ui'; context.fillStyle = '#edf5ff'; context.textAlign = 'center';
+    const text = `${options.layers.names ? `${marker.name} · ` : ''}hace ${age}`;
+    const width = context.measureText(text).width + 8;
+    let labelY = point.y - 20;
+    // Move only the label: the hollow circle keeps the exact historical point.
+    while (memoryLabels.some(label => Math.abs(label.x - point.x) < (label.width + width) / 2
+      && Math.abs(label.y - labelY) < 14)) labelY -= 14;
+    memoryLabels.push({ x: point.x, y: labelY, width });
+    context.fillText(text, point.x, labelY);
+    context.restore();
+  }
   for (const player of ordered.filter((item) => item.alive)) {
     const position = worldToScreen(player, config, viewport);
     const playerId = playerIdentity(player);
@@ -98,7 +136,7 @@ export const drawPlayers = (context, frame, config, viewport, options) => {
     const onLevel = !options.hasLevels || isOnActiveLevel(player, options.activeLevel, options.zThreshold);
     const team = TEAM_COLORS[player.team] || TEAM_COLORS.T;
     context.globalAlpha = onLevel ? 1 : 0.25;
-    if (options.layers.fov && (selected || viewport.zoom >= 1.15)) {
+    if (Number.isFinite(player.yaw) && options.layers.fov && (selected || viewport.zoom >= 1.15)) {
       const yaw = (-player.yaw * Math.PI) / 180;
       context.beginPath();
       context.moveTo(position.x, position.y);
@@ -107,8 +145,15 @@ export const drawPlayers = (context, frame, config, viewport, options) => {
       context.fillStyle = team.soft;
       context.fill();
     }
-    const yaw = (-player.yaw * Math.PI) / 180;
-    drawDirectionalMarker(context, position, yaw, team, teamNumber.get(playerId), selected);
+    if (Number.isFinite(player.yaw)) {
+      const yaw = (-player.yaw * Math.PI) / 180;
+      drawDirectionalMarker(context, position, yaw, team, player.display_number || teamNumber.get(playerId), selected);
+    } else {
+      context.beginPath();
+      context.arc(position.x, position.y, 9, 0, TAU);
+      context.fillStyle = team.solid;
+      context.fill();
+    }
     if (player.flash_duration > 0) {
       context.beginPath();
       context.arc(position.x, position.y, 17, 0, TAU);

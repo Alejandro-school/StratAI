@@ -10,15 +10,20 @@ require("dotenv").config({ path: __dirname + "/../.env" });
 require("dotenv").config({ path: __dirname + "/../../.env" });
 
 const crypto = require("crypto");
-const env = process.env.NODE_ENV || process.env.APP_ENV || "development";
+if (process.env.NODE_ENV && process.env.APP_ENV && process.env.NODE_ENV !== process.env.APP_ENV) {
+  throw new Error('NODE_ENV and APP_ENV must agree');
+}
+const env = process.env.APP_ENV || process.env.NODE_ENV || "development";
+if (!["development", "test", "production"].includes(env)) throw new Error('Invalid application environment');
 const sessionSecret = process.env.SESSION_SECRET_KEY || "";
 const deriveDevelopmentSecret = (purpose) => crypto
   .createHash("sha256")
   .update(`${sessionSecret}:${purpose}`)
   .digest("hex");
-const allowUnsignedLocalInternal = process.env.ALLOW_UNSIGNED_LOCAL_INTERNAL === undefined
-  ? env !== "production"
-  : process.env.ALLOW_UNSIGNED_LOCAL_INTERNAL === "true";
+const allowUnsignedLocalInternal = process.env.ALLOW_UNSIGNED_LOCAL_INTERNAL === "true";
+if (env === "production" && allowUnsignedLocalInternal) {
+  throw new Error('Unsigned internal requests are forbidden in production');
+}
 
 module.exports = {
   env,
@@ -52,8 +57,6 @@ module.exports = {
 
   // TTLs para Redis (en segundos)
   ttl: {
-    friendStatus: 86400, // 24 horas (for confirmed "friend" / "not_friend")
-    friendStatusPending: 300, // 5 minutos (for "pending" — re-check frequently)
     matchData: 3600, // 1 hora
     demoUrl: 43200, // 12 horas — URLs de Valve CDN expiran, TTL conservador
   },
@@ -94,6 +97,7 @@ module.exports = {
 
   // Servidor
   server: {
+    host: process.env.NODE_SERVICE_HOST || "127.0.0.1",
     port: parseInt(process.env.PORT || "4000", 10),
   },
 

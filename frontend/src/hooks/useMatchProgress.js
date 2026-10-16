@@ -21,9 +21,14 @@ export default function useMatchProgress(steamId) {
   const [connectionState, setConnectionState] = useState('idle');
   const eventSourceRef = useRef(null);
   const completedJobsRef = useRef(new Set());
+  const activeJobsRef = useRef(new Set());
 
   const connect = useCallback(() => {
     if (!steamId) return;
+    if (typeof EventSource === 'undefined') {
+      setConnectionState('closed');
+      return;
+    }
 
     // Close existing connection
     if (eventSourceRef.current) {
@@ -34,6 +39,14 @@ export default function useMatchProgress(steamId) {
     eventSourceRef.current = es;
     setConnectionState('connecting');
 
+    const rememberCompletion = (data) => {
+      const key = data.job_id || data.match_id;
+      if (data.stage === 'completed' && key && !completedJobsRef.current.has(key)) {
+        completedJobsRef.current.add(key);
+        setCompletedCount(count => count + 1);
+      }
+    };
+
     es.onopen = () => setConnectionState('connected');
 
     const handlePipelineEvent = (e) => {
@@ -42,17 +55,13 @@ export default function useMatchProgress(steamId) {
         setLatestEvent(data);
         setEvents(prev => [...prev.slice(-49), data]); // keep last 50
 
-        const completionKey = data.job_id || data.match_id;
-        if (
-          data.stage === 'completed'
-          && completionKey
-          && !completedJobsRef.current.has(completionKey)
-        ) {
-          completedJobsRef.current.add(completionKey);
-          setCompletedCount(c => c + 1);
+        rememberCompletion(data);
+        const key = data.job_id || data.match_id;
+        if (key) {
+          if (ACTIVE_STAGES.includes(data.stage)) activeJobsRef.current.add(key);
+          else activeJobsRef.current.delete(key);
         }
-
-        setIsProcessing(ACTIVE_STAGES.includes(data.stage));
+        setIsProcessing(activeJobsRef.current.size > 0);
       } catch {
         // ignore parse errors (heartbeats, etc.)
       }
@@ -63,6 +72,10 @@ export default function useMatchProgress(steamId) {
         const data = JSON.parse(event.data);
         setSnapshot(data);
         const jobs = data.jobs || [];
+        activeJobsRef.current = new Set(jobs
+          .filter(job => ACTIVE_STAGES.includes(job.stage))
+          .map(job => job.job_id || job.match_id));
+        jobs.forEach(rememberCompletion);
         const activeJob = jobs.find((job) => ACTIVE_STAGES.includes(job.stage));
         setLatestEvent(activeJob || jobs[0] || null);
         setIsProcessing(Boolean(activeJob));
@@ -81,6 +94,13 @@ export default function useMatchProgress(steamId) {
   }, [steamId]);
 
   useEffect(() => {
+    activeJobsRef.current.clear();
+    completedJobsRef.current.clear();
+    setCompletedCount(0);
+    setEvents([]);
+    setLatestEvent(null);
+    setSnapshot(null);
+    setIsProcessing(false);
     connect();
     return () => {
       if (eventSourceRef.current) {

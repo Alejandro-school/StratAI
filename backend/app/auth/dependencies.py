@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from fastapi import HTTPException, Request
+from . import sessions
 
 
 @dataclass(frozen=True)
@@ -10,12 +11,14 @@ class SteamUser:
     avatar: str = ""
 
 
-def require_steam_user(request: Request) -> SteamUser:
-    steam_id = request.session.get("steam_id")
-    if not isinstance(steam_id, str) or len(steam_id) != 17 or not steam_id.isdigit():
+async def require_steam_user(request: Request) -> SteamUser:
+    profile = await sessions.session_profile(request)
+    if profile is None:
         raise HTTPException(status_code=401, detail="Usuario no autenticado.")
-    return SteamUser(
-        steam_id=steam_id,
-        username=str(request.session.get("username", "")),
-        avatar=str(request.session.get("avatar", "")),
+    user = SteamUser(
+        steam_id=profile["steam_id"],
+        username=str(profile.get("username", "")),
+        avatar=str(profile.get("avatar", "")),
     )
+    request.state.steam_user = user
+    return user

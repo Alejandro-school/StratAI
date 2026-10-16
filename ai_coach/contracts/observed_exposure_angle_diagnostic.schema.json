@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_exposure_angle_diagnostic@1",
+  "title": "Observed exposure-angle diagnostic candidate",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "source_alias", "map_id", "asset_version",
+    "round_number", "t0_tick", "availability_tick", "participant_alias",
+    "position_world", "view_yaw_degrees", "geometry_clearance",
+    "tactical_exposure", "provenance", "training_allowed"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_exposure_angle_diagnostic@1"},
+    "contract_version": {"const": "1.0.0"},
+    "source_alias": {"type": "string", "pattern": "^demo-[0-9a-f]{20}$"},
+    "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+    "asset_version": {"type": ["string", "null"]},
+    "round_number": {"type": "integer", "minimum": 1},
+    "t0_tick": {"type": "integer", "minimum": 0},
+    "availability_tick": {"type": "integer", "minimum": 0},
+    "participant_alias": {"type": "string", "pattern": "^participant-[0-9]{3}$"},
+    "position_world": {"$ref": "#/$defs/vector"},
+    "view_yaw_degrees": {"type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 360},
+    "geometry_clearance": {"$ref": "#/$defs/geometry_fact"},
+    "tactical_exposure": {"$ref": "#/$defs/tactical_fact"},
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["position_source", "view_angles_source", "package_sha256", "geometry_revision", "package_contract_version"],
+      "properties": {
+        "position_source": {"const": "replay_player_state_position_16hz"},
+        "view_angles_source": {"const": "demoinfocs_view_angles_at_source_frame"},
+        "package_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "geometry_revision": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "package_contract_version": {"const": "1.0.0"}
+      }
+    },
+    "training_allowed": {"const": false}
+  },
+  "$defs": {
+    "vector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+    },
+    "sector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "start_degrees", "width_degrees"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sample-[0-9]{3}/sector-[0-9]{3}$"},
+        "start_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "width_degrees": {"type": "number", "exclusiveMinimum": 0, "maximum": 360}
+      }
+    },
+    "geometry_fact": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "status", "reason_codes", "sample_id", "sample_alias",
+        "horizontal_distance_units", "vertical_distance_units",
+        "absolute_geometry_sectors", "view_relative_geometry_sectors",
+        "view_inside_geometry_sector"
+      ],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reason"}},
+        "sample_id": {"type": ["string", "null"], "pattern": "^sample-[0-9]{3}$"},
+        "sample_alias": {"type": ["string", "null"]},
+        "horizontal_distance_units": {"type": ["number", "null"], "minimum": 0},
+        "vertical_distance_units": {"type": ["number", "null"], "minimum": 0},
+        "absolute_geometry_sectors": {"type": "array", "items": {"$ref": "#/$defs/sector"}},
+        "view_relative_geometry_sectors": {"type": "array", "items": {"$ref": "#/$defs/sector"}},
+        "view_inside_geometry_sector": {"type": ["boolean", "null"]}
+      }
+    },
+    "tactical_fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason_codes", "annotation_refs"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reason"}},
+        "annotation_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^annotation-[0-9]{3}$"}}
+      }
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "map_not_registered", "package_file_missing", "package_hash_mismatch",
+        "contract_version_incompatible", "asset_version_incompatible", "map_id_mismatch",
+        "package_invalid", "geometry_source_mismatch", "outside_declared_sample_coverage",
+        "ambiguous_sample_overlap", "position_unavailable", "view_angles_unavailable",
+        "human_review_pending"
+      ]
+    }
+  }
+}

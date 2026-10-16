@@ -96,7 +96,7 @@ def test_metadata_adapter_preserves_legacy_uppercase_winner(monkeypatch) -> None
                 "rounds": [{"round_number": 1, "winner_side": "ct"}],
             }
 
-    monkeypatch.setattr(dashboard, "find_canonical_match", lambda *_args: MatchStub())
+    monkeypatch.setattr(dashboard, "require_match_access", lambda *_args: MatchStub())
 
     response = asyncio.run(dashboard.get_match_replay_metadata("123"))
 

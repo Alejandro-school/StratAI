@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_rule_package@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "registry_sha256",
+    "source_references",
+    "status",
+    "demo_build_binding",
+    "server_configuration",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "releases"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_rule_package@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "registry_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "revision",
+          "kind",
+          "repository_path",
+          "url",
+          "file",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "kind": {
+            "enum": [
+              "version",
+              "weapons",
+              "competitive"
+            ]
+          },
+          "repository_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://raw\\.githubusercontent\\.com/SteamTracking/GameTracking-CS2/[a-f0-9]{40}/game/csgo/"
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}-(version|weapons|competitive)\\.txt$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4000000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "status": {
+      "const": "historical_reference_only"
+    },
+    "demo_build_binding": {
+      "const": "unverified"
+    },
+    "server_configuration": {
+      "const": "not_proved_by_defaults"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "releases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "revision",
+          "version",
+          "items",
+          "defaults"
+        ],
+        "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "version": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ClientVersion",
+              "ServerVersion",
+              "PatchVersion",
+              "ProductName",
+              "appID",
+              "ServerAppID",
+              "SourceRevision",
+              "VersionDate",
+              "VersionTime"
+            ],
+            "properties": {
+              "ClientVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ServerVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "PatchVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ProductName": {
+                "type": "string",
+                "minLength": 1
+              },
+              "appID": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ServerAppID": {
+                "type": "string",
+                "minLength": 1
+              },
+              "SourceRevision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "VersionDate": {
+                "type": "string",
+                "minLength": 1
+              },
+              "VersionTime": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "item_definition_index",
+                "name",
+                "price",
+                "kill_award"
+              ],
+              "properties": {
+                "item_definition_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "price": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "value",
+                    "status",
+                    "pointer"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0
+                    },
+                    "status": {
+                      "enum": [
+                        "reference",
+                        "unavailable"
+                      ]
+                    },
+                    "pointer": {
+                      "type": "string",
+                      "pattern": "^/[0-9]+/(m_nPrice|m_nKillAward)$"
+                    }
+                  }
+                },
+                "kill_award": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "value",
+                    "status",
+                    "pointer"
+                  ],
+                  "properties": {
+                    "value": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0
+                    },
+                    "status": {
+                      "enum": [
+                        "reference",
+                        "unavailable"
+                      ]
+                    },
+                    "pointer": {
+                      "type": "string",
+                      "pattern": "^/[0-9]+/(m_nPrice|m_nKillAward)$"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "defaults": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "value",
+                "line"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "line": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

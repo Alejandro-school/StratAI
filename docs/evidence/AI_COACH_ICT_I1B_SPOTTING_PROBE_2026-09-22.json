@@ -1,0 +1,531 @@
+{
+  "id": "ICT-I1B-SPOTTING-PROBE-20260922",
+  "date": "2026-09-22",
+  "scope": "Diagnostic native spotting capture; no HUD/contact/recipient claims",
+  "preflight": {
+    "demo_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "approved_bundle_count": 44,
+    "distinct_matches": 1,
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-spotting-oymx8tzi",
+    "binary_sha256": "00171dc8a74311cb048ac30855b2530091ab486c902a8f17e0bf54fae5121399",
+    "sources": {
+      "backend\\go-service\\cmd\\spotting-probe\\main.go": "c23b72d561b65d893933edb4bba3b5b094d3fd6c6885a605d5c4465a16863e83",
+      "backend\\go-service\\cmd\\spotting-probe\\main_test.go": "acc8f938af707395da51a1163ac6d3758ba94801144259f7fcf8bbfbb5ac046d",
+      "backend\\go-service\\cmd\\spotting-probe\\output_guard.go": "a19a8968d7d5560804f0a0ec4051681ca1873960c86ab83c325ff3147c4735ef",
+      "backend\\go-service\\cmd\\spotting-probe\\path_reparse_other.go": "cc0e760209b5d21d58fba78eb41d626fdfe0b30ad1eb4a52b93b1a11c7183776",
+      "backend\\go-service\\cmd\\spotting-probe\\path_reparse_windows.go": "e89a9a103ce68787a8bcb99e4f2f2e37b543ad6eac0a9fb2edae649a52e4e0b7"
+    },
+    "build": "working-tree-ict-i1b-probe-20260922",
+    "probe_schema": "stratai.spotting_probe@1",
+    "base_parser": "v16 unchanged",
+    "base_export": "3.8.0 unchanged",
+    "sdk": "demoinfocs/v5@v5.2.0"
+  },
+  "automated_checks": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 71.541
+    },
+    "probe-tests": {
+      "command": [
+        "go",
+        "test",
+        "./cmd/spotting-probe",
+        "-v"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 1.372
+    }
+  },
+  "producer": {
+    "command": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-spotting-oymx8tzi\\spotting-probe.exe",
+      "--demo",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-spotting-oymx8tzi\\demo-a11eb0d600ee702c9edb.dem",
+      "--output",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-spotting-oymx8tzi\\capture",
+      "--sha256",
+      "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262"
+    ],
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+    "exit_code": 0,
+    "seconds": 21.177
+  },
+  "audit": {
+    "ok": true,
+    "duration_seconds": 1.05,
+    "counts": {
+      "header": 1,
+      "frame_snapshot": 1372,
+      "server_info": 1,
+      "declarations": 1,
+      "entity_created": 12,
+      "property_probe": 72,
+      "entity_create_finished": 12,
+      "property_delivery": 1762,
+      "sdk_spotters_changed": 970,
+      "entity_destroyed": 2
+    },
+    "rows_validated": 4205,
+    "snapshot_actor_cuts": 15047,
+    "masks_independently_recomputed": 27352,
+    "snapshot_values_reconciled_with_prior_callbacks": 41028,
+    "nonzero_mask_observations": 2496,
+    "zero_mask_observations": 24856,
+    "multiple_set_bit_observations": 410,
+    "candidate_slot_mapping": {
+      "unique_candidate": 3103
+    },
+    "native_mask_transitions": {
+      "zero_to_nonzero": 390,
+      "nonzero_to_other_nonzero": 174,
+      "nonzero_to_zero": 379
+    },
+    "controller_reassignments": {
+      "controller_index_reassigned": 2
+    },
+    "pawn_changes": 0,
+    "headers": [
+      {
+        "allow_clientside_entities": true,
+        "build": 10896,
+        "map": "de_mirage",
+        "patch": 14177
+      }
+    ],
+    "servers": [
+      {
+        "is_hltv": true,
+        "player_slot": 10,
+        "tick_interval": 0.015625
+      }
+    ],
+    "declarations": [
+      {
+        "name": "m_bSpotted",
+        "nested_serializer": "",
+        "serializer": "CC4",
+        "type": "bool",
+        "version": 0
+      },
+      {
+        "name": "m_bSpottedByMask",
+        "nested_serializer": "",
+        "serializer": "CC4",
+        "type": "uint32[2]",
+        "version": 0
+      },
+      {
+        "name": "m_bSpotted",
+        "nested_serializer": "",
+        "serializer": "CCSPlayerPawn",
+        "type": "bool",
+        "version": 0
+      },
+      {
+        "name": "m_bSpottedByMask",
+        "nested_serializer": "",
+        "serializer": "CCSPlayerPawn",
+        "type": "uint32[2]",
+        "version": 0
+      },
+      {
+        "name": "m_bSpotted",
+        "nested_serializer": "",
+        "serializer": "CHostage",
+        "type": "bool",
+        "version": 0
+      },
+      {
+        "name": "m_bSpottedByMask",
+        "nested_serializer": "",
+        "serializer": "CHostage",
+        "type": "uint32[2]",
+        "version": 0
+      },
+      {
+        "name": "m_bSpotted",
+        "nested_serializer": "",
+        "serializer": "CPlantedC4",
+        "type": "bool",
+        "version": 0
+      },
+      {
+        "name": "m_bSpottedByMask",
+        "nested_serializer": "",
+        "serializer": "CPlantedC4",
+        "type": "uint32[2]",
+        "version": 0
+      }
+    ],
+    "property_probes": {
+      "m_bSpotted|present_property": 12,
+      "m_bSpottedByMask.0000|present_property": 12,
+      "m_bSpottedByMask.0001|present_property": 12,
+      "m_entitySpottedState.m_bSpotted|absent_property": 12,
+      "m_entitySpottedState.m_bSpottedByMask.0000|absent_property": 12,
+      "m_entitySpottedState.m_bSpottedByMask.0001|absent_property": 12
+    },
+    "property_deliveries": {
+      "m_bSpotted": 788,
+      "m_bSpottedByMask.0000": 962,
+      "m_bSpottedByMask.0001": 12
+    },
+    "native_types": {
+      "m_bSpotted|bool": 788,
+      "m_bSpottedByMask.0000|uint64": 962,
+      "m_bSpottedByMask.0001|uint64": 12
+    },
+    "native_examples": [
+      {
+        "sequence": 160,
+        "actor": "actor-001",
+        "property": "m_bSpottedByMask.0000",
+        "raw": 32,
+        "candidate_slots": [
+          5
+        ]
+      },
+      {
+        "sequence": 160,
+        "actor": "actor-006",
+        "property": "m_bSpottedByMask.0000",
+        "raw": 1,
+        "candidate_slots": [
+          0
+        ]
+      },
+      {
+        "sequence": 160,
+        "actor": "actor-007",
+        "property": "m_bSpottedByMask.0000",
+        "raw": 32,
+        "candidate_slots": [
+          5
+        ]
+      },
+      {
+        "sequence": 171,
+        "actor": "actor-001",
+        "property": "m_bSpottedByMask.0000",
+        "raw": 32,
+        "candidate_slots": [
+          5
+        ]
+      },
+      {
+        "sequence": 171,
+        "actor": "actor-006",
+        "property": "m_bSpottedByMask.0000",
+        "raw": 705,
+        "candidate_slots": [
+          0,
+          6,
+          7,
+          9
+        ]
+      }
+    ],
+    "transition_examples": [
+      {
+        "sequence": 160,
+        "frame": 1864,
+        "tick": 1848,
+        "actor": "actor-001",
+        "entity_life": 7,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 32,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 160,
+        "frame": 1864,
+        "tick": 1848,
+        "actor": "actor-006",
+        "entity_life": 6,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 1,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 160,
+        "frame": 1864,
+        "tick": 1848,
+        "actor": "actor-007",
+        "entity_life": 4,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 32,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 171,
+        "frame": 1897,
+        "tick": 1881,
+        "actor": "actor-006",
+        "entity_life": 6,
+        "property": "m_bSpottedByMask.0000",
+        "before": 1,
+        "after": 705,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 171,
+        "frame": 1897,
+        "tick": 1881,
+        "actor": "actor-007",
+        "entity_life": 4,
+        "property": "m_bSpottedByMask.0000",
+        "before": 32,
+        "after": 34,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 171,
+        "frame": 1897,
+        "tick": 1881,
+        "actor": "actor-008",
+        "entity_life": 5,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 32,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 171,
+        "frame": 1897,
+        "tick": 1881,
+        "actor": "actor-010",
+        "entity_life": 9,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 32,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 189,
+        "frame": 1930,
+        "tick": 1914,
+        "actor": "actor-001",
+        "entity_life": 7,
+        "property": "m_bSpottedByMask.0000",
+        "before": 32,
+        "after": 18,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 189,
+        "frame": 1930,
+        "tick": 1914,
+        "actor": "actor-002",
+        "entity_life": 3,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 585,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 189,
+        "frame": 1930,
+        "tick": 1914,
+        "actor": "actor-004",
+        "entity_life": 10,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 2,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 189,
+        "frame": 1930,
+        "tick": 1914,
+        "actor": "actor-005",
+        "entity_life": 1,
+        "property": "m_bSpottedByMask.0000",
+        "before": 0,
+        "after": 65,
+        "classification": "native_mask_transition_only"
+      },
+      {
+        "sequence": 189,
+        "frame": 1930,
+        "tick": 1914,
+        "actor": "actor-006",
+        "entity_life": 6,
+        "property": "m_bSpottedByMask.0000",
+        "before": 705,
+        "after": 640,
+        "classification": "native_mask_transition_only"
+      }
+    ],
+    "property_states": {
+      "m_bSpotted|observed|False": 11180,
+      "m_bSpottedByMask.0000|observed|0": 11180,
+      "m_bSpottedByMask.0001|observed|0": 13676,
+      "m_entitySpottedState.m_bSpotted|absent_property|None": 15047,
+      "m_entitySpottedState.m_bSpottedByMask.0000|absent_property|None": 15047,
+      "m_entitySpottedState.m_bSpottedByMask.0001|absent_property|None": 15047,
+      "m_bSpotted|absent_property|None": 1371,
+      "m_bSpottedByMask.0000|absent_property|None": 1371,
+      "m_bSpottedByMask.0001|absent_property|None": 1371,
+      "m_bSpotted|observed|True": 2496,
+      "m_bSpottedByMask.0000|observed|32": 273,
+      "m_bSpottedByMask.0000|observed|1": 161,
+      "m_bSpottedByMask.0000|observed|705": 2,
+      "m_bSpottedByMask.0000|observed|34": 8,
+      "m_bSpottedByMask.0000|observed|18": 37,
+      "m_bSpottedByMask.0000|observed|585": 4,
+      "m_bSpottedByMask.0000|observed|2": 251,
+      "m_bSpottedByMask.0000|observed|65": 2,
+      "m_bSpottedByMask.0000|observed|640": 2,
+      "m_bSpottedByMask.0000|observed|713": 8,
+      "m_bSpottedByMask.0000|observed|128": 184,
+      "m_bSpottedByMask.0000|observed|22": 33,
+      "m_bSpottedByMask.0000|observed|512": 165,
+      "m_bSpottedByMask.0000|observed|649": 26,
+      "m_bSpottedByMask.0000|observed|50": 4,
+      "m_bSpottedByMask.0000|observed|137": 4,
+      "m_bSpottedByMask.0000|observed|20": 16,
+      "m_bSpottedByMask.0000|observed|54": 16,
+      "m_bSpottedByMask.0000|observed|201": 2,
+      "m_bSpottedByMask.0000|observed|641": 16,
+      "m_bSpottedByMask.0000|observed|136": 10,
+      "m_bSpottedByMask.0000|observed|577": 1,
+      "m_bSpottedByMask.0000|observed|38": 2,
+      "m_bSpottedByMask.0000|observed|648": 3,
+      "m_bSpottedByMask.0000|observed|8": 139,
+      "m_bSpottedByMask.0000|observed|16": 150,
+      "m_bSpottedByMask.0000|observed|513": 8,
+      "m_bSpottedByMask.0000|observed|6": 17,
+      "m_bSpottedByMask.0000|observed|64": 265,
+      "m_bSpottedByMask.0000|observed|9": 15,
+      "m_bSpottedByMask.0000|observed|521": 10,
+      "m_bSpottedByMask.0000|observed|520": 15,
+      "m_bSpottedByMask.0000|observed|4": 223,
+      "m_bSpottedByMask.0000|observed|129": 25,
+      "m_bSpottedByMask.0000|observed|36": 65,
+      "m_bSpottedByMask.0000|observed|272": 6,
+      "m_bSpottedByMask.0000|observed|256": 275,
+      "m_bSpottedByMask.0000|observed|260": 5,
+      "m_bSpottedByMask.0000|observed|258": 28,
+      "m_bSpottedByMask.0000|observed|576": 2,
+      "m_bSpottedByMask.0000|observed|288": 18
+    },
+    "tactical_features": 0,
+    "hud_state_verified": false,
+    "recipient_verified": false,
+    "protected_workspace_files": 599,
+    "approved_manifest_hashes_unchanged": 44,
+    "retained_files": 4,
+    "retained_bytes": 367520337
+  },
+  "additional_checks": {
+    "schema_rejects_mutations": [
+      "sequence",
+      "clock_epoch",
+      "kind",
+      "hud_state"
+    ],
+    "state_combinations": {
+      "spotted=False; any_mask_bit=False": 11180,
+      "spotted=True; any_mask_bit=True": 2496
+    },
+    "life_state_samples": {
+      "observed|0": 9291,
+      "absent_property|None": 1371,
+      "observed|2": 3559,
+      "observed|1": 826
+    },
+    "same_value_callback_repetitions": {},
+    "changed_values_between_callbacks": {
+      "m_bSpotted": 776,
+      "m_bSpottedByMask.0000": 950
+    },
+    "registration_callbacks": 0,
+    "junction_guard": {
+      "ok": true,
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-spotting-oymx8tzi\\spotting-probe.exe",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-guard-8jo_e5tf\\junction",
+        "--demo",
+        "nonexistent-input-must-not-be-opened",
+        "--sha256",
+        "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262"
+      ],
+      "exit_code": 1,
+      "stderr": "spotting probe output path must not contain symlinks or reparse points",
+      "retained_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-guard-8jo_e5tf",
+      "junction": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-guard-8jo_e5tf\\junction",
+      "target": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1b-guard-8jo_e5tf\\target",
+      "target_empty": true,
+      "demos_parsed": 0
+    },
+    "interpretation": "Boolean and mask combination is native state only. No demonstrated red-dot/question-mark mapping."
+  },
+  "retained_inventory": [
+    {
+      "path": "capture\\observations.jsonl",
+      "bytes": 20447086,
+      "sha256": "839a04a0064da9da06ac48824152aa4c37abed6805baad8c68dafe963fd0b20c"
+    },
+    {
+      "path": "capture\\summary.json",
+      "bytes": 943,
+      "sha256": "014998125404f20812d466c005ad14d413232beeaf8bb9c471b716cce91e2d7a"
+    },
+    {
+      "path": "demo-a11eb0d600ee702c9edb.dem",
+      "bytes": 330945844,
+      "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262"
+    },
+    {
+      "path": "spotting-probe.exe",
+      "bytes": 16126464,
+      "sha256": "00171dc8a74311cb048ac30855b2530091ab486c902a8f17e0bf54fae5121399"
+    }
+  ],
+  "supporting_artifacts": {
+    "outputs\\stratai-ict-i1b-probe-20260922\\audit.py": "2d363cf6cc173045d1937bdb90104800b72799504fb52f29643783efadf145b7",
+    "outputs\\stratai-ict-i1b-probe-20260922\\finish_audit.py": "3a3d249b84a20ce65c4bc77b2b857a7d1333937b7d6d1360ea3f62e576eb4c92",
+    "outputs\\stratai-ict-i1b-probe-20260922\\run.py": "2500b6c780fee210901f2c3f3d16e4713516289b40f9b67f372d198bd4d9160d",
+    "outputs\\stratai-ict-i1b-probe-20260922\\observation.schema.json": "5befe89a2e87f2a45c77747b1eb414d8903f43a8ee8a6a19ce9309b23c0b82cd",
+    "outputs\\stratai-ict-i1b-probe-20260922\\audit.json": "066ecb61494a36045d939222350ede49e7823e5ac01608d2ee4ebec3108e9742",
+    "outputs\\stratai-ict-i1b-probe-20260922\\additional-checks.json": "f23bfd79bfbcf021087f6a7f4a51c81e473e2f10a8adeeca02996923db467214",
+    "outputs\\stratai-ict-i1b-probe-20260922\\retained-inventory.json": "9f48a37da46961b7dca6ff04d7247c67bee43aa533afd504109d82e9a2c57493"
+  },
+  "expert_framing": "IC17, Excel v7 unchanged",
+  "graph_discovery": "list_projects: Transport closed; bounded direct source fallback",
+  "gates": {
+    "native_spotting_present": true,
+    "hud_current_vs_lost_verified": false,
+    "recipient_verified": false,
+    "coordinate_codec_verified": false,
+    "semantic_zone_binding_verified": false,
+    "tactical_features": 0,
+    "training_allowed": false
+  },
+  "counts_zero": {
+    "spotted_message": 0,
+    "spotted_envelope": 0
+  },
+  "claims_not_made": [
+    "No universal absence of radar data in all demos",
+    "No mapping of false/zero to question mark or icon removal",
+    "No assumption that active mask bits list all HUD recipients",
+    "No complete revalidation of the 44 approved bundle contents"
+  ]
+}

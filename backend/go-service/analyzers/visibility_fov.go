@@ -3,6 +3,7 @@ package analyzers
 import (
 	"cs2-demo-service/models"
 	"cs2-demo-service/pkg/playerstate"
+	"cs2-demo-service/pkg/visualcontact"
 	"math"
 
 	"github.com/golang/geo/r3"
@@ -18,12 +19,9 @@ const (
 )
 
 type viewFrustum struct {
-	forward           r3.Vector
-	right             r3.Vector
-	up                r3.Vector
+	inner             visualcontact.Frustum
 	tanHalfHorizontal float64
 	tanHalfVertical   float64
-	circular          bool
 }
 
 type visibilityPlayerState struct {
@@ -46,37 +44,17 @@ type visibilityPlayerState struct {
 func newViewFrustum(pitch, yaw float32, referenceHorizontalFOV float64) viewFrustum {
 	verticalFOV := 2 * math.Atan(math.Tan(degreesToRadians(referenceHorizontalFOV)/2)/sourceReferenceAspect)
 	horizontalFOV := 2 * math.Atan(math.Tan(verticalFOV/2)*canonicalAspectRatio)
-	forward := anglesToR3Vector(pitch, yaw)
-	yawRadians := degreesToRadians(float64(yaw))
-	right := r3.Vector{X: -math.Sin(yawRadians), Y: math.Cos(yawRadians)}
-
 	return viewFrustum{
-		forward:           forward,
-		right:             right,
-		up:                forward.Cross(right),
+		inner: visualcontact.NewFrustum(
+			float64(pitch), float64(yaw), referenceHorizontalFOV, false,
+		),
 		tanHalfHorizontal: math.Tan(horizontalFOV / 2),
 		tanHalfVertical:   math.Tan(verticalFOV / 2),
 	}
 }
 
 func (frustum viewFrustum) contains(origin, target r3.Vector) bool {
-	toTarget := target.Sub(origin)
-	depth := frustum.forward.Dot(toTarget)
-	if depth <= 0 {
-		return false
-	}
-
-	horizontal := math.Abs(frustum.right.Dot(toTarget) / depth)
-	vertical := math.Abs(frustum.up.Dot(toTarget) / depth)
-	if horizontal > frustum.tanHalfHorizontal || vertical > frustum.tanHalfVertical {
-		return false
-	}
-	if !frustum.circular {
-		return true
-	}
-	horizontal /= frustum.tanHalfHorizontal
-	vertical /= frustum.tanHalfVertical
-	return horizontal*horizontal+vertical*vertical <= 1
+	return frustum.inner.Contains(origin, target)
 }
 
 func visibilityStateFromPlayer(ctx *models.DemoContext, player *common.Player, tick int) visibilityPlayerState {
@@ -116,7 +94,10 @@ func playerViewFrustum(state visibilityPlayerState) viewFrustum {
 		fov = scopedReferenceFOV(state.weaponType, state.zoomLevel)
 	}
 	frustum := newViewFrustum(state.pitch, state.yaw, fov)
-	frustum.circular = state.isScoped && isSniperWeapon(state.weaponType)
+	frustum.inner = visualcontact.NewFrustum(
+		float64(state.pitch), float64(state.yaw), fov,
+		state.isScoped && isSniperWeapon(state.weaponType),
+	)
 	return frustum
 }
 

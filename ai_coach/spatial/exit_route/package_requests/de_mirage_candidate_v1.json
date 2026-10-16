@@ -1,0 +1,36 @@
+{
+  "schema_id": "stratai.exit_route_generation_request@1",
+  "contract_version": "1.0.0",
+  "asset_version": "1.0.0-candidate.1",
+  "map_id": "de_mirage",
+  "sources": {
+    "nav_mesh": "de_mirage/de_mirage.nav",
+    "physics_gltf": "de_mirage/de_mirage_physics.gltf",
+    "physics_buffer": "de_mirage/de_mirage_physics.bin",
+    "sample_seed_catalog": "de_mirage/de_mirage_places.json"
+  },
+  "related_geometry_audit": [
+    {
+      "role": "exposure_package",
+      "schema_id": "stratai.exposure_angle_map_package@1",
+      "artifact_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+      "semantic_use": "audited_separate_geometry_not_used_as_exit_route_truth"
+    },
+    {
+      "role": "cover_package",
+      "schema_id": "stratai.cover_map_package@1",
+      "artifact_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "semantic_use": "audited_separate_geometry_not_used_as_exit_route_truth"
+    }
+  ],
+  "samples": [
+    {"id": "exit-sample-001", "alias": "mirage-exit-reference-001", "origin_coordinate": "TSpawn", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-001/candidate-001", "alias": "mirage-exit-candidate-001", "source_coordinate": "TopofMid"}]},
+    {"id": "exit-sample-002", "alias": "mirage-exit-reference-002", "origin_coordinate": "TopofMid", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-002/candidate-001", "alias": "mirage-exit-candidate-002", "source_coordinate": "Catwalk"}]},
+    {"id": "exit-sample-003", "alias": "mirage-exit-reference-003", "origin_coordinate": "Middle", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-003/candidate-001", "alias": "mirage-exit-candidate-003", "source_coordinate": "BombsiteA"}]},
+    {"id": "exit-sample-004", "alias": "mirage-exit-reference-004", "origin_coordinate": "Catwalk", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-004/candidate-001", "alias": "mirage-exit-candidate-004", "source_coordinate": "BombsiteB"}]},
+    {"id": "exit-sample-005", "alias": "mirage-exit-reference-005", "origin_coordinate": "BombsiteA", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-005/candidate-001", "alias": "mirage-exit-candidate-005", "source_coordinate": "CTSpawn"}]},
+    {"id": "exit-sample-006", "alias": "mirage-exit-reference-006", "origin_coordinate": "BombsiteB", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-006/candidate-001", "alias": "mirage-exit-candidate-006", "source_coordinate": "Apartments"}]},
+    {"id": "exit-sample-007", "alias": "mirage-exit-reference-007", "origin_coordinate": "Apartments", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-007/candidate-001", "alias": "mirage-exit-candidate-007", "source_coordinate": "BombsiteB"}]},
+    {"id": "exit-sample-008", "alias": "mirage-exit-reference-008", "origin_coordinate": "CTSpawn", "selection_radius_units": 192, "vertical_tolerance_units": 96, "destinations": [{"id": "exit-sample-008/candidate-001", "alias": "mirage-exit-candidate-008", "source_coordinate": "BombsiteA"}]}
+  ]
+}

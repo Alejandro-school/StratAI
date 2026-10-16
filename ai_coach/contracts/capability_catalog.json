@@ -1,7 +1,7 @@
 {
   "schema_id": "stratai.ai_coach_capability_catalog@1",
-  "version": "1.0.0",
-  "date": "2026-08-27",
+  "version": "1.7.0",
+  "date": "2026-09-06",
   "status": "AUDITED_CONTRACT_NO_TRAINING",
   "product_scope": "integral Mirage coach; trade/peek remain the first technical vertical only",
   "non_negotiables": [
@@ -10,7 +10,11 @@
     "causal means no future information, not proof of an unobserved counterfactual",
     "LLM explains an approved Evidence Pack and never ranks actions",
     "task eligibility is per capability; bundle validity is not a global training permit",
-    "no player IDs as model features"
+    "no player IDs as model features",
+    "exact replay clocks and numerical travel scenarios are internal only; user-facing timing is qualitative, conditional and uncertain",
+    "geometry, collision and NAV facts are validated automatically; humans judge contextual tactical decisions rather than recomputable numbers",
+    "human labels are versioned and used only through offline training/evaluation; no response updates a production model directly",
+    "the locked human test is excluded from training, active selection, threshold tuning and acquisition decisions"
   ],
   "flows": {
     "faceit_global": {
@@ -35,6 +39,60 @@
       ],
       "focal_player": "required and safely reconciled",
       "global_training_use": "not automatic; requires consent, anonymization, quality, versioning and withdrawal"
+    },
+    "human_ground_truth": {
+      "steps": [
+        "causal T0 decision context",
+        "observed action plus machine-generated physically valid alternatives",
+        "split assignment grouped by match before labels are opened",
+        "blind tactical comparison with reasons, confidence and abstention",
+        "quality control and conflict adjudication",
+        "versioned human dataset",
+        "offline training or calibration",
+        "evaluation against a locked human test",
+        "promotion or rollback"
+      ],
+      "routine_review": "one expert reviewer with blind sampled quality control",
+      "double_review": "locked test, calibration/control sample, ambiguous cases and disagreements",
+      "active_selection": "uncertainty, system/reviewer disagreement, rarity, coverage gaps and OOD plus a stable random audit quota",
+      "forbidden_sources": [
+        "spatial_human_review_v1",
+        "spatial_context_review_v2",
+        "isolated geometry or NAV certification",
+        "future outcome treated as automatic tactical correctness"
+      ],
+      "online_model_update": false
+    }
+  },
+  "spatial_fact_boundary": {
+    "contract_version": "2.0.0",
+    "canonical_bundle_compatibility": "bundle 3.8.0 remains readable and unchanged; spatial 3.9.0-candidate.1 explicitly composes the immutable base, factual sidecars, exact-T0 joins and DecisionExample@2; no corpus migration or training authorization",
+    "legacy_package_contract": "1.0.0 objective geometry and source provenance only",
+    "objective_field_ids": [
+      "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+      "FLD-GEOMETRIC-OCCLUSION",
+      "FLD-NAV-EXIT-PATH"
+    ],
+    "deprecated_mixed_field_ids": [
+      "FLD-COVER",
+      "FLD-EXIT-ROUTE",
+      "FLD-EXPOSURE-ANGLES"
+    ],
+    "tactical_judgment": "unavailable in objective sidecars; requires a future causal decision-ground-truth contract",
+    "legacy_review_contracts": "deprecated_visual_qa_only; forbidden for ground truth, evaluation and training",
+    "candidate_materialization": {
+      "export_format_version": "3.9.0-candidate.1",
+      "manifest_schema_id": "stratai.canonical_spatial_candidate_manifest@1",
+      "join_schema_id": "stratai.spatial_fact_join@1",
+      "loader_schema_id": "stratai.spatial_candidate_loader@1",
+      "validator_schema_id": "stratai.spatial_candidate_validator@1",
+      "decision_example_schema_id": "stratai.ai_coach_decision_example@2",
+      "join_policy": "exact_source_round_participant_tick_no_carry_forward@1",
+      "training_allowed": false,
+      "product_supported": false,
+      "contract_ref": "docs/canonical-spatial-candidate-v3.9.md",
+      "validation_status": "single_demo_validated_cleanup_pending",
+      "phase_evidence_ref": "docs/evidence/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_SINGLE_DEMO_SMOKE_2026-09-05.json"
     }
   },
   "partitions": {
@@ -446,9 +504,9 @@
         "FLD-VISIBLE-CONTACT",
         "FLD-FOV-CONTACT",
         "FLD-SMOKE-OCCLUSION",
-        "FLD-EXPOSURE-ANGLES",
-        "FLD-COVER",
-        "FLD-EXIT-ROUTE"
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+        "FLD-GEOMETRIC-OCCLUSION",
+        "FLD-NAV-EXIT-PATH"
       ],
       "permitted_oracle_for_labels": [
         "FLD-ORACLE-ENEMY-STATE"
@@ -483,9 +541,9 @@
           "FLD-VISIBLE-CONTACT",
           "FLD-FOV-CONTACT",
           "FLD-SMOKE-OCCLUSION",
-          "FLD-EXPOSURE-ANGLES",
-          "FLD-COVER",
-          "FLD-EXIT-ROUTE"
+          "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+          "FLD-GEOMETRIC-OCCLUSION",
+          "FLD-NAV-EXIT-PATH"
         ],
         "hard_blockers": [
           "required field unavailable",
@@ -571,9 +629,9 @@
       "required_observed_fields": [
         "FLD-POSITION-2HZ",
         "FLD-MAP-ZONE",
-        "FLD-COVER",
-        "FLD-EXPOSURE-ANGLES",
-        "FLD-EXIT-ROUTE",
+        "FLD-GEOMETRIC-OCCLUSION",
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+        "FLD-NAV-EXIT-PATH",
         "FLD-ROUND-CLOCK"
       ],
       "permitted_oracle_for_labels": [
@@ -605,9 +663,9 @@
         "required_fields": [
           "FLD-POSITION-2HZ",
           "FLD-MAP-ZONE",
-          "FLD-COVER",
-          "FLD-EXPOSURE-ANGLES",
-          "FLD-EXIT-ROUTE",
+          "FLD-GEOMETRIC-OCCLUSION",
+          "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+          "FLD-NAV-EXIT-PATH",
           "FLD-ROUND-CLOCK"
         ],
         "hard_blockers": [
@@ -1045,14 +1103,14 @@
       "question": "¿La compra, drop, eco, force o save era coherente con equipo, rondas futuras y objetivo?",
       "affected_players": "actor; other players only as factual context",
       "start_condition": "as defined by DEC-ECONOMY-001",
-      "t0": "last legal state before observed action; availability_tick <= t0_tick",
+      "t0": "exact round start with complete own-team v2 initial observation and verified competitive correspondence",
       "end_condition": "decision-specific terminal condition; never used as T0 input",
       "required_history": [
         "actor physical state at T0",
         "team and objective state available at T0",
         "up to 10 seconds of legal history where the decision contract requires it"
       ],
-      "label_outcome_window": "2s, 5s and 10s where applicable; round/match/economy horizons are outcomes only",
+      "label_outcome_window": "full observed freeze for execution labels with boundary abstention; round/match/economy horizons remain outcomes only",
       "observed_action": [
         "DEC-ECONOMY-001"
       ],
@@ -1105,7 +1163,9 @@
         "hard_blockers": [
           "required field unavailable",
           "T0 availability violation",
-          "unsupported candidate geometry",
+          "competitive initial team or execution window unavailable",
+          "economic rule compatibility unverified",
+          "itemized observed action unavailable",
           "insufficient action support"
         ],
         "current_status": "PARCIAL_FUERTE"
@@ -1542,7 +1602,7 @@
     {
       "id": "CAP-TIME-001",
       "category": "transversal",
-      "question": "¿La acción respetó el tiempo restante, los deadlines físicos y la fase de objetivo?",
+      "question": "¿La acción tenía un margen temporal físicamente razonable, sin atribuir al jugador un conocimiento exacto del reloj o de su llegada?",
       "affected_players": "actor; other players only as factual context",
       "start_condition": "as defined by DEC-PEEK-001, DEC-ROTATION-001, DEC-PLANT-001, DEC-RETAKE-001",
       "t0": "last legal state before observed action; availability_tick <= t0_tick",
@@ -1802,8 +1862,8 @@
       ],
       "required_observed_fields": [
         "FLD-HEALTH-ARMOR",
-        "FLD-EXPOSURE-ANGLES",
-        "FLD-COVER",
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+        "FLD-GEOMETRIC-OCCLUSION",
         "FLD-ALIVE-COUNTS",
         "FLD-OBJECTIVE-STATE",
         "FLD-TEAM-ECONOMY"
@@ -1837,8 +1897,8 @@
         "bundle_must_pass": true,
         "required_fields": [
           "FLD-HEALTH-ARMOR",
-          "FLD-EXPOSURE-ANGLES",
-          "FLD-COVER",
+          "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+          "FLD-GEOMETRIC-OCCLUSION",
           "FLD-ALIVE-COUNTS",
           "FLD-OBJECTIVE-STATE",
           "FLD-TEAM-ECONOMY"
@@ -2215,11 +2275,12 @@
       "id": "DEC-ECONOMY-001",
       "type": "buy_partial_eco_drop_or_save",
       "start_condition": "freeze-time purchase window",
-      "t0_definition": "freeze start snapshot",
+      "t0_definition": "exact round start with complete own-team v2 initial observation and verified competitive correspondence",
       "end_condition": "freeze end",
       "deduplication": "one episode per actor/type within one round; key=(match_id,round_id,actor_id,type,episode_start)",
       "history_window": "up to 10s before T0, never future",
-      "action_label_window": "0.25-2s after T0 only to identify the observed action; never state input"
+      "action_label_window": "strictly after T0 and strictly before observed freeze end; boundary ticks ambiguous; execution labels only",
+      "specific_contract": "economy_opportunity_protocol.json"
     },
     {
       "id": "DEC-INFO-001",
@@ -2895,7 +2956,8 @@
         "inventory and cost legal",
         "no hidden enemy state used",
         "minimum comparable support met"
-      ]
+      ],
+      "specific_contract": "economy_opportunity_protocol.json"
     },
     {
       "id": "ACT-PARTIAL-BUY",
@@ -2914,7 +2976,8 @@
         "inventory and cost legal",
         "no hidden enemy state used",
         "minimum comparable support met"
-      ]
+      ],
+      "specific_contract": "economy_opportunity_protocol.json"
     },
     {
       "id": "ACT-ECO",
@@ -2933,7 +2996,8 @@
         "inventory and cost legal",
         "no hidden enemy state used",
         "minimum comparable support met"
-      ]
+      ],
+      "specific_contract": "economy_opportunity_protocol.json"
     },
     {
       "id": "ACT-SAVE-EQUIPMENT",
@@ -2952,7 +3016,8 @@
         "inventory and cost legal",
         "no hidden enemy state used",
         "minimum comparable support met"
-      ]
+      ],
+      "specific_contract": "economy_opportunity_protocol.json"
     },
     {
       "id": "ACT-DROP-EQUIPMENT",
@@ -2971,7 +3036,8 @@
         "inventory and cost legal",
         "no hidden enemy state used",
         "minimum comparable support met"
-      ]
+      ],
+      "specific_contract": "economy_opportunity_protocol.json"
     },
     {
       "id": "ACT-HOLD-MAP-CONTROL",
@@ -3704,50 +3770,50 @@
       "artifact": "states/tactical/observed.jsonl.gz",
       "json_path": "$.provenance.line_of_sight",
       "producer_service": "go-service",
-      "producer_code": "pkg.maps.MapManager.IsVisible/parser.tacticalVisibility",
+      "producer_code": "pkg.maps.MapManager.IsVisible/parser.tacticalVisibility; parser.BuildObservedVisualContactLedger candidate",
       "unit": "boolean",
       "frequency": "16 Hz objetivo",
-      "meaning": "Raycast geométrico; no incluye FOV ni humo en este productor.",
-      "evidence_ref": null
+      "meaning": "En los bundles 3.8.0 sigue siendo un proxy geométrico parcial. El contrato candidato observed_visual_contact@1 lo separa explícitamente de FOV, humo y contacto.",
+      "evidence_ref": "docs/archive/ai-coach/AI_COACH_OBSERVED_VISUAL_CONTACT_PHASE_2026-08-28.md"
     },
     {
       "id": "FLD-FOV-CONTACT",
       "partition": "observed",
-      "availability_status": "FALTA_EXTRAER",
+      "availability_status": "DERIVABLE",
       "artifact": null,
       "json_path": null,
       "producer_service": "go-service",
-      "producer_code": "analyzers visibility exists but not wired to tactical causal stream",
+      "producer_code": "parser.BuildObservedVisualContactLedger/pkg.visualcontact.NewFrustum",
       "unit": "boolean",
-      "frequency": "contact boundary",
-      "meaning": "Contacto dentro de FOV validado.",
-      "evidence_ref": null
+      "frequency": "16 Hz y boundary de contacto",
+      "meaning": "Cálculo candidato histórico de pertenencia al frustum con orientación y FOV de referencia disponibles en T0. DERIVABLE califica ese proxy, no visión efectiva, atención ni contacto legal. El FOV estable de referencia support no acredita renderizado/oclusiones ni ausencia de flash. No materializado en los 44 bundles 3.8.0; no habilita elegibilidad por esta descripción.",
+      "evidence_ref": "docs/canonical-support-visual-contact-v1.md"
     },
     {
       "id": "FLD-SMOKE-OCCLUSION",
       "partition": "observed",
-      "availability_status": "FALTA_EXTRAER",
+      "availability_status": "DERIVABLE",
       "artifact": null,
       "json_path": null,
       "producer_service": "go-service",
-      "producer_code": "heuristic exists but is not canonical producer",
+      "producer_code": "parser.BuildObservedVisualContactLedger/pkg.visualcontact.DistancePointToSegment2D",
       "unit": "boolean",
-      "frequency": "contact boundary",
-      "meaning": "Bloqueo de visión por humo con versión y geometría.",
-      "evidence_ref": null
+      "frequency": "16 Hz y boundary de contacto",
+      "meaning": "Cálculo candidato histórico de intersección con un cilindro de humo y eventos causales. DERIVABLE califica ese proxy geométrico, no el volumen evolutivo/renderizado ni humo efectivo en el corte. Support/C0 mantienen smoke_clear y contacto legal unavailable/null hasta acreditar las fuentes necesarias. No materializado en los 44 bundles 3.8.0.",
+      "evidence_ref": "docs/canonical-support-visual-contact-v1.md"
     },
     {
       "id": "FLD-VISIBLE-CONTACT",
       "partition": "observed",
-      "availability_status": "PARCIAL",
-      "artifact": "states/tactical/observed.jsonl.gz",
-      "json_path": "$.visibility_scope=enemy_los",
+      "availability_status": "DERIVABLE",
+      "artifact": null,
+      "json_path": null,
       "producer_service": "go-service",
-      "producer_code": "parser.tacticalVisibility",
+      "producer_code": "parser.BuildObservedVisualContactLedger",
       "unit": "contact",
       "frequency": "16 Hz objetivo",
-      "meaning": "Actualmente LOS físico solamente; no autoriza afirmar visión razonable.",
-      "evidence_ref": null
+      "meaning": "Proxy candidato histórico compuesto de raycast estático, FOV y cilindro de humo disponibles en T0; una entrada ausente conserva null/unavailable. DERIVABLE se refiere al cálculo del proxy, no a percepción o contacto legal acreditados. Support/C0 mantienen visual_contact unavailable/null por cobertura insuficiente de oclusión renderizada/dinámica, humo evolutivo y flash; causalidad temporal no resuelve esas dependencias. Los 44 bundles 3.8.0 no contienen este candidato.",
+      "evidence_ref": "docs/canonical-support-visual-contact-v1.md"
     },
     {
       "id": "FLD-LAST-KNOWN-POSITION",
@@ -3811,8 +3877,8 @@
       "producer_code": "handlers.registerAtomicCombatHandlers",
       "unit": "rounds",
       "frequency": "per combat event",
-      "meaning": "Arma sólida; munición tiene ausencias.",
-      "evidence_ref": null
+      "meaning": "El artefacto canónico 3.8.0 conserva arma/ammo sólo por evento y sigue parcial. El candidato separado stratai.observed_weapon_state@1 demuestra arma activa, cargador, reserva y reload causales a 16 Hz con ausencia explícita, pero aún no está materializado ni cambia elegibilidad.",
+      "evidence_ref": "docs/evidence/AI_COACH_WEAPON_AMMO_RELOAD_SINGLE_DEMO_SMOKE_2026-08-28.json"
     },
     {
       "id": "FLD-CROSSHAIR-ERROR",
@@ -4012,15 +4078,15 @@
     {
       "id": "FLD-PATH-DISTANCE",
       "partition": "observed",
-      "availability_status": "FALTA_EXTRAER",
+      "availability_status": "DERIVABLE",
       "artifact": null,
       "json_path": null,
-      "producer_service": null,
-      "producer_code": null,
+      "producer_service": "go-service",
+      "producer_code": "pkg.maps.MapManager.NavigationGraphSnapshot/pkg.navigation.Evaluate/parser.BuildObservedNavigationPath",
       "unit": "world units",
       "frequency": "per candidate",
-      "meaning": "Distancia navegable, no euclídea.",
-      "evidence_ref": null
+      "meaning": "Distancia mínima sobre conexiones NAV dirigidas, separada de la distancia euclídea; contrato candidato no materializado en bundles 3.8.0.",
+      "evidence_ref": "docs/archive/ai-coach/AI_COACH_NAV_REACHABILITY_PATH_ETA_PHASE_2026-08-28.md"
     },
     {
       "id": "FLD-CONNECTION-TIME",
@@ -4077,28 +4143,67 @@
     {
       "id": "FLD-REACHABILITY",
       "partition": "observed",
-      "availability_status": "FALTA_EXTRAER",
+      "availability_status": "DERIVABLE",
       "artifact": null,
       "json_path": null,
-      "producer_service": null,
-      "producer_code": null,
+      "producer_service": "go-service",
+      "producer_code": "pkg.maps.MapManager.NavigationGraphSnapshot/pkg.navigation.Evaluate/parser.BuildObservedNavigationPath",
       "unit": "boolean",
       "frequency": "per candidate",
-      "meaning": "Alcanzabilidad antes del deadline.",
-      "evidence_ref": null
+      "meaning": "Conexión navegable dirigida entre dos posiciones; no afirma intención ni llegada antes de un deadline.",
+      "evidence_ref": "docs/archive/ai-coach/AI_COACH_NAV_REACHABILITY_PATH_ETA_PHASE_2026-08-28.md"
     },
     {
       "id": "FLD-TRAVEL-TIME",
       "partition": "observed",
-      "availability_status": "FALTA_EXTRAER",
+      "availability_status": "DERIVABLE",
       "artifact": null,
       "json_path": null,
-      "producer_service": null,
-      "producer_code": null,
+      "producer_service": "go-service",
+      "producer_code": "parser.BuildObservedNavigationPath/navigationTimingScenarios",
       "unit": "milliseconds",
       "frequency": "per candidate",
-      "meaning": "Tiempo de llegada por ruta y estado.",
-      "evidence_ref": null
+      "meaning": "Escenarios temporales exactos sólo para apoyo interno: referencia optimista continua a 250 UPS, máximo continuo del arma actual cuando se conoce y proyección del ritmo horizontal observado en T0. No predicen la llegada, no recomiendan por sí solos y nunca se comunican al jugador como segundos exactos.",
+      "evidence_ref": "docs/archive/ai-coach/AI_COACH_ETA_CONTEXT_AND_SINGLE_DEMO_SMOKE_PHASE_2026-08-28.md"
+    },
+    {
+      "id": "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+      "partition": "observed",
+      "availability_status": "DERIVABLE",
+      "artifact": "observed_exposure_angle_diagnostic.jsonl.gz",
+      "json_path": "$.geometry_clearance",
+      "producer_service": "go-service",
+      "producer_code": "parser.BuildObservedExposureAngleRecord",
+      "unit": "versioned angular sectors and clearance rays",
+      "frequency": "1 Hz per alive participant",
+      "meaning": "Hecho geométrico reproducible sobre sectores de apertura desde T0; no expresa seguridad, intención, calidad ni recomendación. Sidecar @2 unido por igualdad exacta de T0 en 3.9.0-candidate.1; permanece ausente en los bundles 3.8.0. La cobertura sólo se acredita desde DecisionExample@2 con join causal.",
+      "evidence_ref": "docs/archive/ai-coach/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_PHASE_2026-09-05.md"
+    },
+    {
+      "id": "FLD-GEOMETRIC-OCCLUSION",
+      "partition": "observed",
+      "availability_status": "DERIVABLE",
+      "artifact": "observed_cover_diagnostic.jsonl.gz",
+      "json_path": "$.geometry_occlusion",
+      "producer_service": "go-service",
+      "producer_code": "parser.BuildObservedCoverRecord",
+      "unit": "occluded probes by posture and azimuth",
+      "frequency": "1 Hz per alive participant",
+      "meaning": "Hecho geométrico reproducible de oclusión del volumen del jugador; no equivale a buena cobertura ni a una decisión táctica. Sidecar @2 unido por igualdad exacta de T0 en 3.9.0-candidate.1; permanece ausente en los bundles 3.8.0. La cobertura sólo se acredita desde DecisionExample@2 con join causal.",
+      "evidence_ref": "docs/archive/ai-coach/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_PHASE_2026-09-05.md"
+    },
+    {
+      "id": "FLD-NAV-EXIT-PATH",
+      "partition": "observed",
+      "availability_status": "PARCIAL",
+      "artifact": "observed_exit_route_diagnostic.jsonl.gz",
+      "json_path": "$.candidates[*].objective_viability",
+      "producer_service": "go-service",
+      "producer_code": "parser.BuildObservedExitRouteRecord",
+      "unit": "diagnostic directed graph connectivity and center-graph distance",
+      "frequency": "1 Hz per alive participant and declared candidate",
+      "meaning": "Diagnóstico reproducible del subgrafo NAV local: conectividad dirigida y distancias entre centros, sin acreditar tránsito físico, su ausencia ni coste físico. Faltan vínculo demo–asset, semántica completa de enlaces/atributos/hull y asociación física. Tanto reachable=true como false permanecen fuera de las features físicas. El sidecar @2 conserva números, IDs y procedencia; en 3.9.0-candidate.2, DecisionExample@3 guarda el diagnóstico en spatial_evidence y el hecho observado queda unavailable, sin cobertura física para TaskEligibility. El join exacto T0 acredita disponibilidad temporal, no física. Ausente en los 44 bundles 3.8.0; no acredita apoyo, seguridad ni recomendación.",
+      "evidence_ref": "docs/canonical-spatial-candidate-v3.9.md"
     },
     {
       "id": "FLD-COVER",
@@ -4110,7 +4215,7 @@
       "producer_code": null,
       "unit": "cover class/fraction",
       "frequency": "per candidate",
-      "meaning": "Cobertura respecto a ángulos definidos.",
+      "meaning": "ID mixto legado retirado de prerrequisitos: confundía oclusión física con calidad táctica de cobertura. Conservado sólo por compatibilidad documental.",
       "evidence_ref": null
     },
     {
@@ -4123,7 +4228,7 @@
       "producer_code": null,
       "unit": "count + angle ids",
       "frequency": "per decision/candidate",
-      "meaning": "Ángulos simultáneos físicamente relevantes.",
+      "meaning": "ID mixto legado retirado de prerrequisitos: confundía apertura geométrica con relevancia táctica. Conservado sólo por compatibilidad documental.",
       "evidence_ref": null
     },
     {
@@ -4136,7 +4241,7 @@
       "producer_code": null,
       "unit": "route",
       "frequency": "per candidate",
-      "meaning": "Salida alcanzable tras contacto.",
+      "meaning": "ID mixto legado retirado de prerrequisitos: confundía ruta NAV con viabilidad táctica de salida. Conservado sólo por compatibilidad documental.",
       "evidence_ref": null
     },
     {

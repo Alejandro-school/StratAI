@@ -1,0 +1,244 @@
+{
+  "id": "ICT-I1-R1-20260922",
+  "status": "closed_descriptive_presentation_only",
+  "date": "2026-09-22",
+  "scope": "Existing own/ally temporal facts presented in Spanish, no tactical rules or new expert criteria",
+  "preflight": {
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "distinct_approved_matches": 1,
+    "approved_bundles": 44,
+    "build_identifier": "working-tree-replay-report-20260922",
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n",
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "quality": 12,
+    "temporal_contract": "1.0.0-candidate.1",
+    "schema_id": "stratai.temporal_description@1",
+    "binary_sha256": "cd095caffdc2ae53d20abfba8f5b32f294d5643e5ded640f013e553c01a2873c",
+    "overlay_sha256": "1fedf81a458d7062d2a2abf304572e889b5d3eac513e44024f9f6a3114156a5b",
+    "go_main_sha256": "d81c18d3240a21b229aa693061cc825d21d5332a5d6cd9c56f47b1f3048daa06",
+    "overlay_difference": "Only automatic staging deletion disabled; no producer logic changed.",
+    "guard": "empty strict TEMP descendant without links/reparse; exclusive writes",
+    "sources": {
+      "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+      "ai_coach\\interpretation\\replay_report.py": "8b63cfdb326c52c39a8fb81939f1b3592886d066db3911980d4bf108b3ed588e",
+      "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+      "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588",
+      "ai_coach\\contracts\\temporal_description.schema.json": "45a893f43f40471aaf82e4e61d9c4ee31ed77f52aa2ee383c87a1ef695e9cbb1",
+      "ai_coach\\contracts\\accelerated_support_schema.py": "234b9f58441704183e82cf7918e9ebdf07110e6928418cce00f281bd68b93ca3",
+      "ai_coach\\support\\anchors.py": "861d7ebd8468ccd7153d1ba02792cd70d5b72fc9b22c967b9ae1b6015e0c4d9b",
+      "backend\\requirements.txt": "d7e223a50874ed9271b0b82b9116a6b37b329b6592610e4e08d547c559ebe929"
+    }
+  },
+  "verification": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 61.316,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\check-all.log"
+    },
+    "final-targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_replay_report.py",
+        "ai_coach/tests/test_temporal_description.py",
+        "ai_coach/tests/test_accelerated_support_schema.py",
+        "ai_coach/tests/test_support_anchors.py",
+        "ai_coach/tests/test_support_physical.py",
+        "ai_coach/tests/test_support_objective.py",
+        "ai_coach/tests/test_support_c4.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 27.747,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\final-targeted.log"
+    },
+    "report-final-tests": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_replay_report.py",
+        "ai_coach/tests/test_temporal_description.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 1.038,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\report-final-tests.log"
+    },
+    "report-lint": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ruff",
+        "check",
+        "ai_coach/interpretation/replay_report.py",
+        "ai_coach/tests/test_replay_report.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 0.237,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\report-lint.log"
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\demo-a11eb0d600ee702c9edb.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\capture",
+        "--alias",
+        "demo-a11eb0d600ee702c9edb",
+        "--checksum",
+        "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-replay-report-20260922",
+        "--ai-coach-support-c4-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 77.346,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\producer.log"
+    },
+    "report": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.replay_report",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\report",
+        "--side",
+        "T",
+        "--sequences",
+        "1389",
+        "1417"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 14.316,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\report.log"
+    },
+    "audit": {
+      "ok": true,
+      "distinct_matches": 1,
+      "records": 2,
+      "actor_cuts": 10,
+      "hypotheses_unavailable": 8,
+      "recommendations": 0,
+      "independent_checks": {
+        "positions": 10,
+        "alive": 10,
+        "physical_facts": 70,
+        "displacements": 10,
+        "references": 30
+      },
+      "previous_verified_ledger_equal": true,
+      "protected_manifests_unchanged": 44,
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "seconds": 4.64,
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\report_smoke.py",
+        "audit"
+      ]
+    }
+  },
+  "presentation": {
+    "actors": 10,
+    "artifacts": [
+      {
+        "bytes": 5292,
+        "path": "replay_report.md",
+        "sha256": "345a389bae4e711e419ed4dcb49201eb7df779d4bb76f74689068c81424329d3"
+      },
+      {
+        "bytes": 21899,
+        "path": "replay_report_records.jsonl",
+        "sha256": "2a579f9d18b968cf470251bd0b2e830f7ed360f7e99278e5b37ed8d6cf05fd20"
+      }
+    ],
+    "comparison_allowed": false,
+    "hypotheses_unavailable": 8,
+    "presentation_version": "replay_description_es@1",
+    "product_supported": false,
+    "records": 2,
+    "sequences": [
+      1389,
+      1417
+    ],
+    "side": "T",
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_artifacts": {
+      "support_c4_observations.json": {
+        "bytes": 14368205,
+        "path": "support_c4_observations.json",
+        "sha256": "11aa1d94f8d4472cdb9c2a29e7ded71c4b0f7077a1808dedf5925b0a0e5fef4f"
+      },
+      "support_objective_observations.json": {
+        "bytes": 112277198,
+        "path": "support_objective_observations.json",
+        "sha256": "c56557a7733e6adf5180665d02f43be9321d4cbdcabb7342d39b75eb82eb134e"
+      },
+      "support_observations.json": {
+        "bytes": 91847807,
+        "path": "support_observations.json",
+        "sha256": "c295bce2a4b285a41eb534522c07d4636a5e6abfe033dbee37e39c18d332927e"
+      },
+      "support_physical_observations.json": {
+        "bytes": 177194923,
+        "path": "support_physical_observations.json",
+        "sha256": "8a7d27f8bd99c7b56f42189c1850c600623a52c359928803cf2007c9923f1336"
+      }
+    },
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "temporal_contract": "1.0.0-candidate.1",
+    "training_allowed": false
+  },
+  "report_path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\report\\replay_report.md",
+  "retained_inventory": {
+    "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-report-20260922\\retained-inventory.json",
+    "sha256": "740e2295059a9624c1edaaea5fe58a94d3f1d527f1091c8373e255cbc9b366d3",
+    "files": 84,
+    "bytes": 1483722602
+  },
+  "distinct_approved_matches": 1,
+  "tactical_interpretation_accredited": false,
+  "training": false,
+  "promotion": false,
+  "new_acquisition": false,
+  "web_recording": false,
+  "expert_workbook_modified": false,
+  "independent_audit_helper_correction": {
+    "ok": false,
+    "stage": "independent_audit_helper",
+    "error": "KeyError: sequence",
+    "cause": "Audit helper used sequence instead of the physical frame's source_sequence; physical facts also require context.facts.",
+    "producer_changed": false,
+    "outputs_changed": false,
+    "resolution": "Correct helper paths and audit the same retained match and output. No extra parsing."
+  }
+}

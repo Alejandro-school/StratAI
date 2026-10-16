@@ -1,0 +1,25 @@
+# Contratos de apoyo y preparación
+
+Contratos candidatos y suplementos del dominio. Consulta el [índice general](../README.md) para distinguirlos del contrato publicado, y el [plan canónico](../../AI_COACH_IMPLEMENTATION_PLAN.md) para su estado y dependencias.
+
+- [Anclajes factuales de apoyo — candidato v1](canonical-support-anchors-v1.md)
+- [Origen nativo del intento de plantado v1](canonical-support-attempt-origin-v1.md)
+- [Tenencia causal de C4 propia o aliada v1](canonical-support-c4-v1.md)
+- [Movimiento nativo propio y aliado v1](canonical-support-native-motion-v1.md)
+- [Contexto NAV propio/aliado — candidato v1](canonical-support-navigation-v1.md)
+- [Relojes causales nativos del objetivo v1](canonical-support-objective-clock-v1.md)
+- [Posición nativa del objetivo y disponibilidad legal v1](canonical-support-objective-position-v1.md)
+- [Contexto causal del objetivo — candidato v1](canonical-support-objective-v1.md)
+- [Contexto físico propio/aliado — candidato v1](canonical-support-physical-v1.md)
+- [Origen y progreso nativo del plantado en C0 v1](canonical-support-preparation-attempt-origin-v1.md)
+- [Tenencia causal propia/aliada de C4 en C0 v1](canonical-support-preparation-c4-v1.md)
+- [Movimiento nativo propio y aliado en C0 v1](canonical-support-preparation-native-motion-v1.md)
+- [Relojes causales del objetivo en C0 v1](canonical-support-preparation-objective-clock-v1.md)
+- [Posición legal del objetivo en C0 v1](canonical-support-preparation-objective-position-v1.md)
+- [Contexto causal del objetivo en C0 v1](canonical-support-preparation-objective-v1.md)
+- [Contexto físico propio/aliado en C0 v1](canonical-support-preparation-physical-v1.md)
+- [Censo prospectivo de preparación de apoyo C0 v1](canonical-support-preparation-v1.md)
+- [Entradas visuales propias y aliadas en C0 v1](canonical-support-preparation-visual-contact-v1.md)
+- [Temporización nativa propia y aliada en C0 v1](canonical-support-preparation-weapon-timing-v1.md)
+- [Temporización nativa del arma propia y aliada v1](canonical-support-weapon-timing-v1.md)
+- [Contacto visual propio y aliado](../../canonical-support-visual-contact-v1.md)

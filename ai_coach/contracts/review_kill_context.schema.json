@@ -1,0 +1,17 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema",
+ "type":"object","additionalProperties":false,
+ "required":["schema_id","case_id","source_alias","source_sha256","frame_count","side","events","source_refs","omissions","perception_proven"],
+ "properties":{
+  "schema_id":{"const":"stratai.review_kill_context@1"},"case_id":{"type":"string","pattern":"^E[0-9]{2}$"},
+  "source_alias":{"type":"string"},"source_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+  "frame_count":{"type":"integer","minimum":1},"side":{"enum":["T","CT"]},"perception_proven":{"const":false},
+  "source_refs":{"type":"object","additionalProperties":false,"required":["support_sha256","canonical_manifest_sha256","combat_sha256","combat_record_count"],"properties":{"support_sha256":{"$ref":"#/$defs/hash"},"canonical_manifest_sha256":{"$ref":"#/$defs/hash"},"combat_sha256":{"$ref":"#/$defs/hash"},"combat_record_count":{"type":"integer","minimum":0}}},
+  "omissions":{"type":"object","additionalProperties":{"type":"integer","minimum":0}},
+  "events":{"type":"array","items":{"type":"object","additionalProperties":false,
+   "required":["id","available_index","available_sequence","tick","round","elapsed_seconds","attacker","victim","relation","weapon","weapon_is_utility","through_smoke","penetrated_objects","source","position_meaning"],
+   "properties":{"id":{"type":"string","pattern":"^kill-[a-f0-9]{20}$"},"available_index":{"type":"integer","minimum":0},"available_sequence":{"type":"integer","minimum":1},"tick":{"type":"integer","minimum":0},"round":{"type":"integer","minimum":1},"elapsed_seconds":{"type":["number","null"],"minimum":0},"attacker":{"anyOf":[{"$ref":"#/$defs/player"},{"type":"null"}]},"victim":{"$ref":"#/$defs/player"},"relation":{"enum":["enemy","team","self","unknown","teammate"]},"weapon":{"type":["string","null"]},"weapon_is_utility":{"type":["boolean","null"]},"through_smoke":{"type":["boolean","null"]},"penetrated_objects":{"type":["integer","null"],"minimum":0},"source":{"const":"kill_callback"},"position_meaning":{"const":"event_position_not_current_or_confirmed_perception"}}
+  }}
+ },
+ "$defs":{"hash":{"type":"string","pattern":"^[a-f0-9]{64}$"},"player":{"type":"object","additionalProperties":false,"required":["label","side","life","position"],"properties":{"label":{"type":"string","pattern":"^(T|CT)[1-9][0-9]*$"},"side":{"enum":["T","CT"]},"life":{"type":"string","minLength":1},"position":{"anyOf":[{"type":"null"},{"type":"object","additionalProperties":false,"required":["x","y","z"],"properties":{"x":{"type":"number"},"y":{"type":"number"},"z":{"type":"number"}}}]}}}
+}}

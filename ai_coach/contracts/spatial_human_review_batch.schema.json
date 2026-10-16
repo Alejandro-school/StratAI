@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_human_review_batch@1",
+  "title": "Deterministic package-only batch for spatial human review",
+  "contract_version": "1.0.0",
+  "x-stratai-status": "deprecated_visual_qa_only",
+  "x-stratai-ground-truth-authorized": false,
+  "x-stratai-evaluation-authorized": false,
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "batch_id", "protocol", "map_id",
+    "purpose", "authorization", "source_packages", "selection", "blinding",
+    "leakage_control", "review_units", "summary"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.spatial_human_review_batch@1"},
+    "contract_version": {"const": "1.0.0"},
+    "batch_id": {"type": "string", "pattern": "^spatial-pilot-[0-9a-f]{24}$"},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_id", "protocol_version", "handbook_version", "published_at", "protocol_sha256", "handbook_sha256"],
+      "properties": {
+        "schema_id": {"const": "stratai.spatial_human_review_protocol@1"},
+        "protocol_version": {"const": "1.0.0"},
+        "handbook_version": {"const": "1.0.0"},
+        "published_at": {"type": "string", "format": "date-time"},
+        "protocol_sha256": {"$ref": "#/$defs/sha256"},
+        "handbook_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+    "purpose": {"const": "mirage_spatial_human_review_pilot_input_only"},
+    "authorization": {"$ref": "#/$defs/authorization"},
+    "source_packages": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/source_package"}
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "seed_id", "items_per_family", "candidate_population_by_family", "selected_by_family", "excluded_by_pilot_limit_by_family"],
+      "properties": {
+        "algorithm": {"const": "sha256_rank_without_replacement@1"},
+        "seed_id": {"const": "mirage-spatial-review-pilot-1b10-v1"},
+        "items_per_family": {"type": "integer", "minimum": 1, "maximum": 16},
+        "candidate_population_by_family": {"$ref": "#/$defs/family_counts"},
+        "selected_by_family": {"$ref": "#/$defs/family_counts"},
+        "excluded_by_pilot_limit_by_family": {"$ref": "#/$defs/family_counts"}
+      }
+    },
+    "blinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_visible_partition", "audit_partition_visible_to_reviewer", "family_order", "prior_responses_visible"],
+      "properties": {
+        "reviewer_visible_partition": {"const": "reviewer_view"},
+        "audit_partition_visible_to_reviewer": {"const": false},
+        "family_order": {"const": "sha256_interleaved_deterministic@1"},
+        "prior_responses_visible": {"const": false}
+      }
+    },
+    "leakage_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["split_id", "grouping_key", "cross_split_duplicate_count", "training_split"],
+      "properties": {
+        "split_id": {"const": "pilot_review_only"},
+        "grouping_key": {"const": "map_id_family_source_sample_ref"},
+        "cross_split_duplicate_count": {"const": 0},
+        "training_split": {"const": false}
+      }
+    },
+    "review_units": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/review_unit"}
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_review_units", "families", "family_counts", "objective_geometry_available", "observed_context_unavailable", "responses", "reviewer_identities", "classifications", "adjudications", "recommendations"],
+      "properties": {
+        "total_review_units": {"type": "integer", "minimum": 3},
+        "families": {"const": 3},
+        "family_counts": {"$ref": "#/$defs/family_counts"},
+        "objective_geometry_available": {"type": "integer", "minimum": 3},
+        "observed_context_unavailable": {"type": "integer", "minimum": 3},
+        "responses": {"const": 0},
+        "reviewer_identities": {"const": 0},
+        "classifications": {"const": 0},
+        "adjudications": {"const": 0},
+        "recommendations": {"const": 0}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+    },
+    "family_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exposure", "cover", "exit_route"],
+      "properties": {
+        "exposure": {"type": "integer", "minimum": 0},
+        "cover": {"type": "integer", "minimum": 0},
+        "exit_route": {"type": "integer", "minimum": 0}
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_execution_authorized", "training_use_authorized", "product_supported", "canonical_materialization", "release_authorized", "corpus_reprocessing_authorized"],
+      "properties": {
+        "review_execution_authorized": {"const": false},
+        "training_use_authorized": {"const": false},
+        "product_supported": {"const": false},
+        "canonical_materialization": {"const": false},
+        "release_authorized": {"const": false},
+        "corpus_reprocessing_authorized": {"const": false}
+      }
+    },
+    "source_package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "schema_id", "contract_version", "asset_version", "map_id", "package_sha256", "support_manifest_sha256", "geometry_revision", "coverage_declaration", "full_map_coverage", "tactical_review_status", "product_supported", "training_use_authorized"],
+      "properties": {
+        "family": {"enum": ["exposure", "cover", "exit_route"]},
+        "schema_id": {"type": "string", "pattern": "^stratai\\.(exposure_angle|cover|exit_route)_map_package@1$"},
+        "contract_version": {"const": "1.0.0"},
+        "asset_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+        "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+        "package_sha256": {"$ref": "#/$defs/sha256"},
+        "support_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "geometry_revision": {"$ref": "#/$defs/sha256"},
+        "coverage_declaration": {"type": "string", "minLength": 1},
+        "full_map_coverage": {"const": false},
+        "tactical_review_status": {"const": "pending_review"},
+        "product_supported": {"const": false},
+        "training_use_authorized": {"const": false}
+      }
+    },
+    "audit_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["access_scope", "family", "map_id", "package_schema_id", "package_sha256", "support_manifest_sha256", "source_sample_ref", "source_candidate_ref", "source_annotation_ref", "source_group_id"],
+      "properties": {
+        "access_scope": {"const": "coordinator_only"},
+        "family": {"enum": ["exposure", "cover", "exit_route"]},
+        "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+        "package_schema_id": {"type": "string", "minLength": 1},
+        "package_sha256": {"$ref": "#/$defs/sha256"},
+        "support_manifest_sha256": {"$ref": "#/$defs/sha256"},
+        "source_sample_ref": {"type": "string", "minLength": 1},
+        "source_candidate_ref": {"type": "string", "minLength": 1},
+        "source_annotation_ref": {"type": "string", "minLength": 1},
+        "source_group_id": {"type": "string", "pattern": "^srcgrp-[0-9a-f]{24}$"}
+      }
+    },
+    "answer_option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer_id", "label", "requires_reason"],
+      "properties": {
+        "answer_id": {"enum": ["supported", "not_supported", "missing_context", "not_evaluable", "abstain"]},
+        "label": {"type": "string", "minLength": 1},
+        "requires_reason": {"type": "boolean"}
+      }
+    },
+    "observed_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason_codes", "availability_cutoff", "facts", "source_kind"],
+      "properties": {
+        "status": {"const": "unavailable"},
+        "reason_codes": {"type": "array", "prefixItems": [{"const": "package_only_pilot_no_observed_context"}], "items": false, "minItems": 1, "maxItems": 1},
+        "availability_cutoff": {"const": null},
+        "facts": {"type": "object", "maxProperties": 0},
+        "source_kind": {"const": "none_demo_not_opened"}
+      }
+    },
+    "ray": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["azimuth_degrees", "hit_distance_units", "clearance_met"],
+      "properties": {
+        "azimuth_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "hit_distance_units": {"type": ["number", "null"], "minimum": 0},
+        "clearance_met": {"type": "boolean"}
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["height_units", "lateral_offset_units", "hit_distance_units", "occluded_within_protection_distance"],
+      "properties": {
+        "height_units": {"type": "number"},
+        "lateral_offset_units": {"type": "number"},
+        "hit_distance_units": {"type": ["number", "null"], "minimum": 0},
+        "occluded_within_protection_distance": {"type": "boolean"}
+      }
+    },
+    "exposure_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_type", "coordinates", "origin_world", "selection_radius_units", "vertical_tolerance_units", "sector", "supporting_rays", "geometry_only"],
+      "properties": {
+        "evidence_type": {"const": "angular_clearance_sector"},
+        "coordinates": {"const": "source2_xyz_world_units"},
+        "origin_world": {"$ref": "#/$defs/vector"},
+        "selection_radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_tolerance_units": {"type": "number", "exclusiveMinimum": 0},
+        "sector": {
+          "type": "object", "additionalProperties": false,
+          "required": ["start_degrees", "width_degrees", "interval_semantics"],
+          "properties": {
+            "start_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+            "width_degrees": {"type": "number", "exclusiveMinimum": 0, "maximum": 360},
+            "interval_semantics": {"const": "start_inclusive_end_exclusive"}
+          }
+        },
+        "supporting_rays": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/ray"}},
+        "geometry_only": {"const": true}
+      }
+    },
+    "cover_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_type", "coordinates", "origin_world", "selection_radius_units", "vertical_tolerance_units", "incoming_azimuth_degrees", "posture_id", "profile", "geometry_only"],
+      "properties": {
+        "evidence_type": {"const": "player_volume_occlusion"},
+        "coordinates": {"const": "source2_xyz_world_units"},
+        "origin_world": {"$ref": "#/$defs/vector"},
+        "selection_radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_tolerance_units": {"type": "number", "exclusiveMinimum": 0},
+        "incoming_azimuth_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "posture_id": {"enum": ["crouching", "standing"]},
+        "profile": {
+          "type": "object", "additionalProperties": false,
+          "required": ["posture_id", "probe_count", "occluded_probe_count", "complete_volume_occlusion", "probes"],
+          "properties": {
+            "posture_id": {"enum": ["crouching", "standing"]},
+            "probe_count": {"const": 9},
+            "occluded_probe_count": {"type": "integer", "minimum": 0, "maximum": 9},
+            "complete_volume_occlusion": {"type": "boolean"},
+            "probes": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/probe"}}
+          }
+        },
+        "geometry_only": {"const": true}
+      }
+    },
+    "connectivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason_codes", "direct_distance_world_units", "reachable", "path_distance_world_units", "origin_association_world_units", "destination_association_world_units"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]},
+        "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "direct_distance_world_units": {"type": "number", "minimum": 0},
+        "reachable": {"type": ["boolean", "null"]},
+        "path_distance_world_units": {"type": ["number", "null"], "minimum": 0},
+        "origin_association_world_units": {"type": ["number", "null"], "minimum": 0},
+        "destination_association_world_units": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "exit_route_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_type", "coordinates", "origin_world", "destination_world", "selection_radius_units", "vertical_tolerance_units", "direction", "objective_connectivity", "geometry_only", "exact_user_facing_time_allowed", "arrival_prediction"],
+      "properties": {
+        "evidence_type": {"const": "directed_navigation_candidate"},
+        "coordinates": {"const": "source2_xyz_world_units"},
+        "origin_world": {"$ref": "#/$defs/vector"},
+        "destination_world": {"$ref": "#/$defs/vector"},
+        "selection_radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_tolerance_units": {"type": "number", "exclusiveMinimum": 0},
+        "direction": {"const": "origin_to_destination"},
+        "objective_connectivity": {"$ref": "#/$defs/connectivity"},
+        "geometry_only": {"const": true},
+        "exact_user_facing_time_allowed": {"const": false},
+        "arrival_prediction": {"const": false}
+      }
+    },
+    "reviewer_view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt_id", "question", "claim_boundary", "options", "objective_geometry", "observed_context", "evidence_limits"],
+      "properties": {
+        "prompt_id": {"type": "string", "pattern": "^spatial-question-[0-9]{2}$"},
+        "question": {"type": "string", "minLength": 20},
+        "claim_boundary": {"type": "string", "minLength": 20},
+        "options": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/answer_option"}},
+        "objective_geometry": {"oneOf": [{"$ref": "#/$defs/exposure_evidence"}, {"$ref": "#/$defs/cover_evidence"}, {"$ref": "#/$defs/exit_route_evidence"}]},
+        "observed_context": {"$ref": "#/$defs/observed_context"},
+        "evidence_limits": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "review_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_unit_id", "display_order", "split_id", "state", "audit_context", "reviewer_view", "visible_evidence_sha256", "review_responses", "adjudication"],
+      "properties": {
+        "review_unit_id": {"type": "string", "pattern": "^sru-[0-9a-f]{24}$"},
+        "display_order": {"type": "integer", "minimum": 1},
+        "split_id": {"const": "pilot_review_only"},
+        "state": {"enum": ["pending_review", "reviewed", "needs_adjudication", "adjudicated", "rejected", "unavailable"]},
+        "audit_context": {"$ref": "#/$defs/audit_context"},
+        "reviewer_view": {"$ref": "#/$defs/reviewer_view"},
+        "visible_evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "review_responses": {"type": "array", "maxItems": 2, "items": {"type": "object"}},
+        "adjudication": {"type": ["object", "null"]}
+      }
+    }
+  }
+}

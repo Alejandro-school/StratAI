@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_session_payload@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "probe_sha256",
+    "schema_id",
+    "contract_version",
+    "source_context",
+    "economic_probe_sha256",
+    "exact_build_asset_binding",
+    "observations"
+  ],
+  "properties": {
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "probe_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "schema_id": {
+      "const": "stratai.economy_session_payload@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "properties": {
+        "path": {
+          "const": "economy_rule_context_manifest.json"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "economic_probe_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "exact_build_asset_binding": {
+      "const": "not_accredited"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sessions"
+      ],
+      "properties": {
+        "sessions": {
+          "type": "array",
+          "maxItems": 4096,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "tick",
+              "blocks"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2147483647
+              },
+              "tick": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "blocks": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "source_path",
+                    "source",
+                    "status",
+                    "format",
+                    "compression",
+                    "checksum_verified",
+                    "nodes",
+                    "scalars",
+                    "economic_names_seen",
+                    "fields"
+                  ],
+                  "properties": {
+                    "source_path": {
+                      "enum": [
+                        "CSVCMsg_ServerInfo.game_session_manifest",
+                        "CSVCMsg_ServerInfo.game_session_config.data"
+                      ]
+                    },
+                    "source": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "present",
+                        "bytes",
+                        "sha256"
+                      ],
+                      "properties": {
+                        "present": {
+                          "type": "boolean"
+                        },
+                        "bytes": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "minimum": 0
+                        },
+                        "sha256": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^[a-f0-9]{64}$"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "status": {
+                      "enum": [
+                        "absent",
+                        "unsupported_format",
+                        "read_limit_exceeded",
+                        "malformed",
+                        "decoded"
+                      ]
+                    },
+                    "format": {
+                      "enum": [
+                        "unverified",
+                        "vbkv_alt_end_11"
+                      ]
+                    },
+                    "compression": {
+                      "enum": [
+                        "unverified",
+                        "none"
+                      ]
+                    },
+                    "checksum_verified": {
+                      "type": "boolean"
+                    },
+                    "nodes": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4096
+                    },
+                    "scalars": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4096
+                    },
+                    "economic_names_seen": {
+                      "type": "array",
+                      "maxItems": 56,
+                      "uniqueItems": true,
+                      "items": {
+                        "enum": [
+                          "ammo_grenade_limit_default",
+                          "ammo_grenade_limit_flashbang",
+                          "ammo_grenade_limit_total",
+                          "cash_player_bomb_defused",
+                          "cash_player_bomb_planted",
+                          "cash_player_damage_hostage",
+                          "cash_player_interact_with_hostage",
+                          "cash_player_killed_enemy_default",
+                          "cash_player_killed_enemy_factor",
+                          "cash_player_killed_hostage",
+                          "cash_player_killed_teammate",
+                          "cash_player_rescued_hostage",
+                          "cash_team_bonus_shorthanded",
+                          "cash_team_elimination_bomb_map",
+                          "cash_team_elimination_hostage_map_ct",
+                          "cash_team_elimination_hostage_map_t",
+                          "cash_team_hostage_alive",
+                          "cash_team_hostage_interaction",
+                          "cash_team_loser_bonus",
+                          "cash_team_loser_bonus_consecutive_rounds",
+                          "cash_team_planted_bomb_but_defused",
+                          "cash_team_rescued_hostage",
+                          "cash_team_terrorist_win_bomb",
+                          "cash_team_win_by_defusing_bomb",
+                          "cash_team_win_by_hostage_rescue",
+                          "cash_team_win_by_time_running_out_bomb",
+                          "cash_team_win_by_time_running_out_hostage",
+                          "mp_afterroundmoney",
+                          "mp_buy_allow_grenades",
+                          "mp_buy_anywhere",
+                          "mp_buy_during_immunity",
+                          "mp_buytime",
+                          "mp_consecutive_loss_aversion",
+                          "mp_consecutive_loss_max",
+                          "mp_death_drop_defuser",
+                          "mp_death_drop_grenade",
+                          "mp_death_drop_gun",
+                          "mp_defuser_allocation",
+                          "mp_free_armor",
+                          "mp_freezetime",
+                          "mp_maxmoney",
+                          "mp_maxrounds",
+                          "mp_overtime_enable",
+                          "mp_overtime_maxrounds",
+                          "mp_overtime_startmoney",
+                          "mp_playercashawards",
+                          "mp_starting_losses",
+                          "mp_startmoney",
+                          "mp_teamcashawards",
+                          "mp_weapons_allow_heavy",
+                          "mp_weapons_allow_map_placed",
+                          "mp_weapons_allow_pistols",
+                          "mp_weapons_allow_rifles",
+                          "mp_weapons_allow_smgs",
+                          "mp_weapons_allow_zeus",
+                          "sv_buy_status_override"
+                        ]
+                      }
+                    },
+                    "fields": {
+                      "type": "array",
+                      "maxItems": 4105,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "path",
+                          "present",
+                          "native_type",
+                          "status",
+                          "value",
+                          "reference_name_sha256",
+                          "occurrence",
+                          "node_index"
+                        ],
+                        "properties": {
+                          "path": {
+                            "enum": [
+                              "//c_game_mode",
+                              "//c_game_type",
+                              "//ct_arms",
+                              "//ct_models/",
+                              "//default_game_mode",
+                              "//default_game_type",
+                              "//numSlots",
+                              "//t_arms",
+                              "//t_models/"
+                            ]
+                          },
+                          "present": {
+                            "type": "boolean"
+                          },
+                          "native_type": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  0,
+                                  1,
+                                  2
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "enum": [
+                              "not_seen_in_decoded_tree",
+                              "observed_native_integer",
+                              "observed_reference_name_hash",
+                              "native_type_unsupported"
+                            ]
+                          },
+                          "value": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "reference_name_sha256": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[a-f0-9]{64}$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "occurrence": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 4095
+                          },
+                          "node_index": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "minimum": 1,
+                            "maximum": 4096
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

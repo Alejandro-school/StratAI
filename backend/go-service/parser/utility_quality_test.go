@@ -98,6 +98,33 @@ func TestCanonicalUtilityProjectionIsHashStableAcrossPermutations(t *testing.T) 
 	}
 }
 
+func TestCanonicalUtilityProjectionIgnoresInitialVelocityCandidateAndRuntimeSerial(t *testing.T) {
+	base := validUtilityQualityThrow()
+	mutated := base
+	mutated.SourceEntitySerial = 777
+	mutated.SourceEntitySerialStatus = utility.AvailabilityObserved
+	mutated.InitialVelocityCandidate = utility.InitialVelocityCandidate{
+		Vector: utility.Vector{X: 600, Y: 0, Z: 200}, HorizontalSpeed: 600,
+		ObservedTick: 10, AvailabilityTick: 10,
+		MeasurementStartTick: 10, MeasurementEndTick: 10,
+		Status: utility.AvailabilityObserved, Source: utility.SourceProjectileVelocity,
+		IdentityStatus:  utility.AvailabilityObserved,
+		RuntimeEntityID: 42, RuntimeEntitySerial: 777, ActorID: 1, Type: utility.TypeFlashbang,
+	}
+
+	before, err := json.Marshal(projectCanonicalUtilityThrows("utility-candidate-isolation", []utility.Throw{base}))
+	if err != nil {
+		t.Fatal(err)
+	}
+	after, err := json.Marshal(projectCanonicalUtilityThrows("utility-candidate-isolation", []utility.Throw{mutated}))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(before, after) || sha256.Sum256(before) != sha256.Sum256(after) {
+		t.Fatalf("candidate-only state changed canonical 3.8 bytes\nbefore: %s\nafter:  %s", before, after)
+	}
+}
+
 func TestUtilityQualityAcceptsCoherentThrow(t *testing.T) {
 	throw := validUtilityQualityThrow()
 	if violations := utilityThrowContractViolations(throw); violations != 0 {

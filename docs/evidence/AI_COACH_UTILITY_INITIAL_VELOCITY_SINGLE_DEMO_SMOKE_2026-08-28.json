@@ -1,0 +1,303 @@
+{
+  "schema_id": "stratai.ai_coach_utility_initial_velocity_phase_evidence@1",
+  "date": "2026-08-28",
+  "status": "passed_after_two_invalidated_attempts_same_demo",
+  "phase": "1B.5",
+  "scope": "causal utility projectile initial velocity with observed availability, measurement window and provenance",
+  "gate_1b": "pending",
+  "training_allowed": false,
+  "single_demo_policy": {
+    "approved_demo_count_opened": 1,
+    "distinct_demo_count": 1,
+    "attempt_count": 3,
+    "same_demo_reused_after_each_invalidated_attempt": true,
+    "one_parse_per_attempt": true,
+    "corpus_reprocessing": false,
+    "downloads": false,
+    "publication_or_promotion": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "approved_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "approved_manifest_status": "passed",
+    "approved_parser_schema_version": "v16",
+    "approved_export_format_version": "3.8.0"
+  },
+  "contracts": {
+    "candidate_schema_id": "stratai.observed_utility_initial_velocity@1",
+    "candidate_contract_version": "1.0.0",
+    "report_schema_id": "stratai.observed_utility_initial_velocity_full_demo@1",
+    "causal_role": "launch_time_observation_only",
+    "identity_semantics": "join_only",
+    "physical_identity": "round_plus_entity_id_plus_serial_plus_actor_plus_utility_type",
+    "units": "source2_world_units_per_second",
+    "coordinate_frame": "source2_world_xyz",
+    "measurement_window_unit": "ingame_ticks",
+    "canonical_export_format_unchanged": "3.8.0",
+    "canonical_parser_schema_unchanged": "v16"
+  },
+  "implementation": {
+    "git_head": "e1825795307d27a6d1a62e95db84a7d8c9012b21",
+    "git_branch": "agent/steam-pipeline-replay-v2",
+    "worktree_was_dirty_before_phase": true,
+    "producer_properties": {
+      "same_parse_as_canonical_bundle": true,
+      "candidate_separate_from_canonical_3_8": true,
+      "native_source_preferred": "demoinfocs_grenade_projectile_m_vecVelocity_at_throw",
+      "fallback_source": "projectile_position_delta",
+      "fallback_uses_first_online_post_launch_position": true,
+      "availability_equals_second_sample_tick": true,
+      "facts_freeze_after_availability": true,
+      "future_oracle_trajectory_effects_and_outcomes_ignored": true,
+      "distinct_observed_serials_are_isolated_physical_scopes": true,
+      "same_exact_physical_scope_reuse_abstains_only_new_candidate": true,
+      "any_component_abs_gte_flt_max_is_unavailable": true,
+      "all_zero_native_or_delta_vector_is_ambiguous": true,
+      "valid_zero_component_is_preserved": true,
+      "participant_aliases_follow_first_causal_appearance": true,
+      "participant_aliases_and_join_ids_are_local_only": true,
+      "legacy_3_8_projection_is_byte_invariant_to_candidate_and_runtime_serial": true,
+      "legacy_same_tick_throw_dedup_is_preserved": true,
+      "json_schema_is_executed_with_draft_2020_12": true,
+      "python_json_types_are_strict": true,
+      "all_unavailable_rows_require_generic_reason": true,
+      "ambiguous_reconciliation_requires_exactly_one_closed_identity_cause": true
+    },
+    "python_dependency": {
+      "requirement": "jsonschema>=4.18,<5",
+      "verified_local_version": "4.26.0"
+    },
+    "file_hashes": [
+      {"path": "backend/go-service/models/observed_utility_initial_velocity.go", "bytes": 4672, "sha256": "3e828532cfdb82b17b306078ca7f9bddfb0a95d2102a9322073f297fa71a3d70"},
+      {"path": "backend/go-service/pkg/utility/types.go", "bytes": 13428, "sha256": "72d8d8f351edc9f8ffbcb3e3b00040f38397f4b59c0c0f8bf376d8cd019bf397"},
+      {"path": "backend/go-service/pkg/utility/tracker.go", "bytes": 73321, "sha256": "b3557e8c4986b510e6a9384686f4a4d56b6c02c886e19305f368c34f28538500"},
+      {"path": "backend/go-service/pkg/utility/initial_velocity_candidate_test.go", "bytes": 15454, "sha256": "6ef937629143257dc964dc0cf9765359cfdda4d99fc4e24d1abb5247bfc4faab"},
+      {"path": "backend/go-service/handlers/grenade_throw.go", "bytes": 9161, "sha256": "1f7a8bc2e9b5c623bcd2af706b5952cb059d95e231037270c650b9688c4af2dd"},
+      {"path": "backend/go-service/handlers/grenade_throw_initial_velocity_test.go", "bytes": 3086, "sha256": "4c5ab2bcbb1ef47f527bf4e84872ab9a3a3e4d2020275e2eb7dfe07ffad1eb01"},
+      {"path": "backend/go-service/parser/observed_utility_initial_velocity.go", "bytes": 43385, "sha256": "abf2d442d9cbbf32321a9ac24500d8c2d98b14fea6228a4bb46fb813b6508a93"},
+      {"path": "backend/go-service/parser/observed_utility_initial_velocity_test.go", "bytes": 20448, "sha256": "b6e29b921bb38ef2d0c38b229c2a8104f85570b657bd784dc252ba7dc09735a7"},
+      {"path": "backend/go-service/parser/utility_quality_test.go", "bytes": 36647, "sha256": "685097e1d9b8bc12c782947703a9bd4fb56047993c36a325bfabc5ea2a56e060"},
+      {"path": "backend/go-service/cmd/canonical-export/main.go", "bytes": 46525, "sha256": "9fcca58a26416f4e511bd00ae8e2e44b1ce0ef91d9cb426bbf742222810d2727"},
+      {"path": "backend/go-service/cmd/canonical-export/main_test.go", "bytes": 45427, "sha256": "754ef023396efbc1499cddacfef537e746253e097d49f289179e64e6330498ec"},
+      {"path": "ai_coach/contracts/observed_utility_initial_velocity.schema.json", "bytes": 15600, "sha256": "d4a319a1c915afeace6909387cbc0a9ed0c591cee18219b7a16d9da90deed420"},
+      {"path": "ai_coach/contracts/validate_utility_initial_velocity_full_demo.py", "bytes": 26618, "sha256": "eb86c598128e4b5afd3482f4b9e04c6dc14a946eab524bf7126f26c9264aa29b"},
+      {"path": "ai_coach/tests/test_utility_initial_velocity_full_demo_validation.py", "bytes": 21099, "sha256": "9ee42b0659a3ae4701c3f0fe5a6a7f201903dffa3b9b7d83a8f453581181b87b"},
+      {"path": "backend/requirements.txt", "bytes": 134, "sha256": "2a5b7dcaa90067bfb9f412d4bca0cc2cb7c6dd97920732cff4e8d059f749f7a9"}
+    ]
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "temp_leaf": "stratai-one-demo-utility-velocity-b118b989522244a489b5de9085e22a8a",
+      "build_identifier": "working-tree-utility-initial-velocity-full-demo-20260828-r1",
+      "started_utc": "2026-08-28T18:31:36.9020084Z",
+      "ended_utc": "2026-08-28T18:33:52.1462961Z",
+      "producer_duration_ms": 135244,
+      "producer_exit_code": 0,
+      "status": "failed_closed_by_independent_review",
+      "coverage_at_the_time": {"rows": 403, "observed": 398, "unavailable": 5},
+      "report": {"bytes": 1503, "sha256": "0f824c79126278dbbde522556ff588eb6d24438cb67efc44cf0f3502586345fe"},
+      "defects": [
+        "candidate received the normalized 64 Hz fallback instead of the raw parser tickrate",
+        "FrameDone lookup did not require exact entity serial, actor and utility type",
+        "simultaneous callback order could affect aliases",
+        "measurement window was mislabeled demo_ticks instead of ingame_ticks",
+        "partial and signed FLT_MAX sentinels were not closed consistently"
+      ]
+    },
+    {
+      "attempt": 2,
+      "temp_leaf": "stratai-one-demo-utility-velocity-1c52d209e9314b0d869ce23d5d46a136",
+      "build_identifier": "working-tree-utility-initial-velocity-full-demo-20260828-r2",
+      "started_utc": "2026-08-28T19:43:42.3874557Z",
+      "ended_utc": "2026-08-28T19:45:29.0299304Z",
+      "producer_duration_ms": 106636,
+      "producer_exit_code": 0,
+      "status": "failed_closed_by_post_smoke_audit",
+      "coverage_at_the_time": {"rows": 403, "observed": 386, "unavailable": 17},
+      "report": {"bytes": 1508, "sha256": "3d9e0de41e8ed895263482ef9d73604314683cfaeea22cd7d9ec8a47cf71de5d"},
+      "rows_artifact": {
+        "bytes": 32959,
+        "sha256": "7c702a2872a1b12e1efc54b0e4b9f67586132506e1e413da58c348c6d786af3e",
+        "logical_bytes": 411117,
+        "logical_sha256": "f57ecbea177e2f0e8385a2061ba9b644ee2454c61f269b866e5615a2666d75d6"
+      },
+      "validators_at_the_time": {
+        "candidate_duration_ms": 819,
+        "candidate_status": "passed",
+        "canonical_direct_duration_ms": 316761,
+        "canonical_semantic_errors": 0
+      },
+      "defects": [
+        "twelve distinct observed serials were incorrectly classified as entity reuse",
+        "ambiguous rows lost the specific closed reason before publication"
+      ]
+    },
+    {
+      "attempt": 3,
+      "temp_leaf": "stratai-one-demo-utility-velocity-2952c64387d14def992188dec1ed16b3",
+      "build_identifier": "working-tree-utility-initial-velocity-full-demo-20260828-r3",
+      "started_utc": "2026-08-28T19:55:34.9247958Z",
+      "ended_utc": "2026-08-28T19:57:50.9607996Z",
+      "producer_duration_ms": 136031,
+      "producer_exit_code": 0,
+      "status": "passed",
+      "validators_ms": {
+        "utility_initial_velocity_full_stream": 840,
+        "canonical_direct_semantics": 374846
+      }
+    }
+  ],
+  "exact_producer_shell": "Windows PowerShell",
+  "exact_producer_working_directory": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+  "exact_producer_command": "go run ./cmd/canonical-export --demo 'E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem' --output 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-utility-velocity-2952c64387d14def992188dec1ed16b3' --alias 'demo-a11eb0d600ee702c9edb' --checksum 'a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262' --maps-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps' --build-id 'working-tree-utility-initial-velocity-full-demo-20260828-r3' --ai-coach-full-demo-validation --navigation-smoke-queries 64 --visual-contact-smoke-frames 256",
+  "successful_result": {
+    "rows": 403,
+    "launches": 403,
+    "rounds": 24,
+    "round_numbers": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+    "participant_aliases": 10,
+    "projectile_aliases": 398,
+    "throw_aliases": 403,
+    "status": {"observed": 398, "unavailable": 5},
+    "sources": {"projectile_position_delta": 398, "unavailable": 5},
+    "measurement_methods": {"two_position_delta": 398, "unavailable": 5},
+    "window_ticks": {"1": 398},
+    "tick_rates_hz": {"64": 398},
+    "availability_lag_ticks": {"1": 398},
+    "observed_tick_equals_availability_tick": 398,
+    "utility_types": {
+      "flashbang": 120,
+      "smoke": 108,
+      "he": 69,
+      "molotov": 49,
+      "incendiary": 47,
+      "decoy": 5,
+      "unavailable": 5
+    },
+    "component_zeros": {"x": 0, "y": 1, "z": 0},
+    "vector_ranges": {
+      "x": {"min": -966, "max": 954},
+      "y": {"min": -943.99609375, "max": 982},
+      "z": {"min": -1010, "max": 820.000244140625}
+    },
+    "horizontal_speed": {"min": 2, "max": 982.2036448720804},
+    "max_independent_recompute_abs_error": 0,
+    "recompute_mismatch_count": 0,
+    "unavailable_rounds": {"16": 2, "23": 3},
+    "abstention_reasons": {
+      "initial_velocity_unavailable": 5,
+      "launch_tick_unavailable": 5,
+      "launcher_unavailable_at_launch": 5,
+      "native_velocity_property_unavailable": 5,
+      "projectile_entity_unavailable": 5,
+      "utility_type_unavailable_at_launch": 5
+    },
+    "causal_and_privacy_checks": {
+      "availability_before_observation": 0,
+      "availability_before_window_end": 0,
+      "future_mutation_changes_frozen_fact": 0,
+      "delta_recompute_mismatch": 0,
+      "raw_steam_id_string_hits": 0,
+      "raw_player_name_fields": 0,
+      "raw_entity_or_serial_fields": 0,
+      "absolute_path_string_hits": 0,
+      "oracle_fields": 0
+    }
+  },
+  "successful_artifacts": [
+    {"path": "observed_utility_initial_velocity_full_demo.json", "bytes": 1544, "sha256": "09eb00ff4e135c56a1cee7227c21aab5fd2d7edff636aade8a4ee5dabf9043ce"},
+    {"path": "observed_utility_initial_velocity_rows.jsonl.gz", "bytes": 33517, "sha256": "3827c0bc6974443f8f0f6dde86ea54f0f6ad03d7dd6f36c6103e484062c4a7ec", "logical_bytes": 412380, "logical_sha256": "ceed420d6bb8be68ac302f02fc85708fb1c00c8d4f5a8d611d5f339496261218"},
+    {"path": "match_demo-a11eb0d600ee702c9edb/canonical/manifest.json", "bytes": 33495, "sha256": "033258a0c023c8ebdf46662c2679cda3fb13351ae5665a810e2c1ea8e08804c9"}
+  ],
+  "canonical_bundle": {
+    "semantic_errors": 0,
+    "files": 73,
+    "bytes": 735286379,
+    "declared_artifacts": 72,
+    "export_format_version": "3.8.0",
+    "parser_schema_version": "v16"
+  },
+  "automated_verification": [
+    {"command": "go test -count=1 ./pkg/utility ./parser ./handlers ./cmd/canonical-export", "status": "passed"},
+    {"command": "python -m ai_coach.contracts.validate_utility_initial_velocity_full_demo ... --require-observed", "status": "passed; 403 rows, 398 observed, 5 unavailable", "duration_ms": 840},
+    {"command": "golden_demo_semantic_runner.validate_direct_bundle(...)", "status": "passed; 0 errors", "duration_ms": 374846},
+    {"command": "npm run test:go / npm run test:python / npm run lint:python", "status": "passed; all Go packages, 43 backend Python tests, lint clean"},
+    {"command": "npm run check:all", "status": "passed; frontend 88, Node 14 passed/3 skipped, all Go packages, backend Python 43, frontend build", "duration_ms_approx": 68000},
+    {"command": "python -m pytest ai_coach/tests -q", "status": "137 passed", "duration_ms": 7340},
+    {"command": "python -m ai_coach.contracts.validate_contract", "status": "passed; 17 capabilities, 15 decisions, 51 actions, 18 outcomes, 55 fields, 7 runtime schemas, 18 reason codes", "duration_ms": 326},
+    {"command": "python -m ruff check ai_coach", "status": "passed", "duration_ms": 468},
+    {"command": ".\\backend\\venv\\Scripts\\python.exe -m json.tool docs/evidence/AI_COACH_UTILITY_INITIAL_VELOCITY_SINGLE_DEMO_SMOKE_2026-08-28.json", "status": "passed"},
+    {"command": "git diff --check", "status": "passed; exit code 0 (line-ending conversion warnings only)"}
+  ],
+  "protected_state": {
+    "pre_utc": "2026-08-28T18:06:19.4078831Z",
+    "post_utc": "2026-08-28T20:03:21.2236596Z",
+    "all_equal": true,
+    "metadata_digest_contract": "ordinal relative_posix_path<TAB>bytes<TAB>last_write_utc_ticks, UTF-8 LF with trailing LF, SHA-256",
+    "content_digest_contract": "ordinal relative_posix_path<TAB>bytes<TAB>file_sha256, UTF-8 LF with trailing LF, SHA-256",
+    "trees": {
+      "demos": {"files": 100, "bytes": 13589310951, "sha256": "b2e68292260f20c0edfa663acb4dd8d3fdcd78cc7acf5c02c1abd63b6a6081df"},
+      "analyzed_demos": {"files": 3013, "bytes": 27264064316, "sha256": "57452310039c829854b1cd3a39b98b8b0f29268511a52e50df1a2c100ebf97e5"},
+      "failed": {"files": 727, "bytes": 5245908800, "sha256": "7003e3a0c8353be4642cd5f1556a3dfd2fff84ec7e4f72a3882b6c9c08c95f59"},
+      "staging": {"files": 0, "bytes": 0, "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},
+      "backend_data_exports": {"files": 1242, "bytes": 1353261344, "sha256": "ec459e860895e8b16ab6cae4fbb0a0ef5d366fe3d0c6f52eface0d293cf5e466"}
+    },
+    "approved_manifests": {
+      "count": 44,
+      "passed": 44,
+      "parser_v16": 44,
+      "export_3_8_0": 44,
+      "root_manifest_content_tree": {"files": 44, "bytes": 1048029, "sha256": "a236d872c0272ade790c3af5fc688f71897147492596a6fceea7951281418571"}
+    },
+    "faceit_demos_git": {
+      "head": "f132c8de4bcc97650352ec5a647fdf3985f11353",
+      "branch": "main",
+      "clean": true
+    },
+    "release": {
+      "current": "stratai-2c6db440231d463a",
+      "current_sha256": "600d3f69631c12112fa2af11fdf2a23813529bfba536806ba19627db3a8ee799",
+      "files": 9,
+      "bytes": 24047407,
+      "ordinal_content_tree_sha256": "c04d3a7be1bddb567efa38c43781ec4975e593b50d293fe0ae649753b0852310",
+      "release_json_sha256": "fe62c434595d7eb29c6796cf85661039fe3fc8a3c7d1551d77e27a5ddcac5572",
+      "declared_artifacts": 6,
+      "declared_artifacts_valid": 6,
+      "strict_inventory_valid": false,
+      "preexisting_extra_files": [
+        {"path": "scripts/__pycache__/canonical_export_validator.cpython-313.pyc", "bytes": 409996, "sha256": "57699813f8ae095248fb2831fbddd426319ab12318341a069a227f3dac738f16"},
+        {"path": "scripts/__pycache__/golden_corpus_validator.cpython-313.pyc", "bytes": 7617, "sha256": "9cc94deddaa21b35d98c88bcc8beea42650cfe469b97d13a495f1148a242904c"}
+      ]
+    }
+  },
+  "cleanup": {
+    "status": "removed_after_evidence_write",
+    "removed_and_verified_absent_utc": "2026-08-28T20:15:26.6761776Z",
+    "large_outputs_retained": 0,
+    "total_files_removed": 249,
+    "total_bytes_removed": 2336710363,
+    "recoverability": "none; temporary outputs were permanently deleted",
+    "measured_before_removal": [
+      {"temp_leaf": "stratai-one-demo-utility-velocity-b118b989522244a489b5de9085e22a8a", "files": 83, "bytes": 778903555, "directory": true, "reparse_point": false},
+      {"temp_leaf": "stratai-one-demo-utility-velocity-1c52d209e9314b0d869ce23d5d46a136", "files": 83, "bytes": 778903107, "directory": true, "reparse_point": false},
+      {"temp_leaf": "stratai-one-demo-utility-velocity-2952c64387d14def992188dec1ed16b3", "files": 83, "bytes": 778903701, "directory": true, "reparse_point": false}
+    ],
+    "temp_leaves": [
+      "stratai-one-demo-utility-velocity-b118b989522244a489b5de9085e22a8a",
+      "stratai-one-demo-utility-velocity-1c52d209e9314b0d869ce23d5d46a136",
+      "stratai-one-demo-utility-velocity-2952c64387d14def992188dec1ed16b3"
+    ]
+  },
+  "limitations": [
+    "The candidate is not materialized in any approved canonical 3.8.0 bundle.",
+    "The 14759 historical projectile_initial_velocity facts remain unavailable and CAP-UTILITY-001 remains not materialized.",
+    "No decision, candidate action, recommendation, intention, quality label or outcome was produced.",
+    "The real smoke used only position delta because no native m_vecVelocity candidate satisfied the strict contract in this demo.",
+    "Negative non-finite, sentinel, same-tick conflict, exact-scope reuse and future-mutation paths are covered by synthetic tests rather than attributed to the real demo.",
+    "Gate 1B remains pending and training_allowed remains false."
+  ],
+  "next_demonstrated_blocker": "FLD-LAST-KNOWN-POSITION plus FLD-INFORMATION-AGE from causal visual-contact episodes; prompt only, not executed"
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "stratai.ai_coach_spatial_human_review_protocol_mirage_pilot_evidence@1",
+  "phase": "1B.10",
+  "date": "2026-09-01",
+  "status": "protocol_and_review_only_pilot_preparation_complete",
+  "protocol": {
+    "schema_id": "stratai.spatial_human_review_protocol@1",
+    "version": "1.0.0",
+    "sha256": "1d7089845f7618224bf7856c2d3c1c2cc8bc06986c9cb982b1bb7e96a59b89c3",
+    "handbook_sha256": "b0a10ac2fa62b5f2e11f5bf4259743dcfea85f9a14d34fd294a40b7b45938818",
+    "reviewers_required": 2,
+    "separate_adjudicator_required_on_conflict": true,
+    "geometry_rewrite_allowed": false,
+    "automatic_support_approval_allowed": false
+  },
+  "source_artifacts": {
+    "exposure_angle": {
+      "package_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+      "support_manifest_sha256": "45aae8d770b956e8a9a94a6a68a66d027aa7ec1eef425112737c329d7b584e15"
+    },
+    "cover": {
+      "package_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "support_manifest_sha256": "d7037898cd579827fa57ee681b2f17859cc8403236a709d56688170e73e5e7ed"
+    },
+    "exit_route": {
+      "package_sha256": "6007fb5680eb331b2433e3a0377e613a1e6a219f96c4ed3fbf37260ee8440200",
+      "support_manifest_sha256": "dc180bf6e2840a300adda02a559f4a01c79a8e819ea182d8ef3d2ca664bf0650"
+    },
+    "hashes_unchanged_after_generation": true
+  },
+  "generation": {
+    "command": "python -m ai_coach.spatial.review.build_pilot --output-root <new-empty-temporary-directory>",
+    "validator_command": "python -m ai_coach.contracts.validate_spatial_review_pilot <temporary-directory>/spatial_review_pilot_batch.json",
+    "runs": 2,
+    "build_duration_seconds": [
+      0.9574411,
+      0.9165801
+    ],
+    "validation_duration_seconds": [
+      0.9188287,
+      0.9065527
+    ],
+    "byte_identical": true,
+    "bytes_per_batch": 36533,
+    "batch_sha256": "19648364aee7716221eba7ebded9c0c44a71ad6c513e9a6b9a5f7f9a21bf1b06",
+    "independent_validator_passes": 2,
+    "temporary_outputs_removed_after_evidence_capture": true
+  },
+  "batch": {
+    "map": "de_mirage",
+    "purpose": "review_only",
+    "selection_seed": "mirage-spatial-review-pilot-1b10-v1",
+    "units": 12,
+    "units_by_family": {
+      "exposure_angle": 4,
+      "cover": 4,
+      "exit_route": 4
+    },
+    "candidate_population_by_family": {
+      "exposure_angle": 25,
+      "cover": 384,
+      "exit_route": 8
+    },
+    "status_counts": {
+      "pending_review": 12
+    },
+    "observed_context_available": 0,
+    "human_responses": 0,
+    "reviewer_identities": 0,
+    "human_classifications": 0,
+    "adjudications": 0,
+    "recommendations": 0,
+    "support_approved": false,
+    "training_enabled": false
+  },
+  "verification": {
+    "ai_coach_pytest": {
+      "passed": 195,
+      "failed": 0
+    },
+    "targeted_review_tests": {
+      "passed": 14,
+      "failed": 0
+    },
+    "ruff_ai_coach": "passed",
+    "runtime_contract_schemas": 21,
+    "root_check_all": "passed"
+  },
+  "one_demo_smoke_gate": {
+    "applies": false,
+    "reason": "package_only_builder_does_not_read_demos_or_change_parser_exporter_derived_facts_or_demo_runtime_contracts",
+    "demos_opened": 0
+  },
+  "gate_1b_complete": false,
+  "next_phase": "1B.11_real_human_review_pilot_execution"
+}

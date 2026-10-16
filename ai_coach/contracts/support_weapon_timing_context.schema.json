@@ -1,0 +1,2120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_weapon_timing_context@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "rows",
+    "matrix",
+    "summary",
+    "clock_witnesses"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_weapon_timing_context@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source",
+        "clock_source",
+        "anchors",
+        "physical_context",
+        "navigation_context",
+        "objective_context",
+        "c4_context",
+        "attempt_source",
+        "clock_context",
+        "attempt_context",
+        "position_source",
+        "motion_source",
+        "position_context",
+        "timing_source",
+        "motion_context"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "anchors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "navigation_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "motion_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "timing_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "motion_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "actor_alias",
+          "ally_alias",
+          "instance",
+          "round_number",
+          "source_sequence",
+          "epoch",
+          "t0_tick",
+          "t0_frame",
+          "competitive_round_status",
+          "initial",
+          "missing_context",
+          "decision_eligible",
+          "timing_reference"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "instance": {
+            "type": "integer"
+          },
+          "round_number": {
+            "type": "integer"
+          },
+          "source_sequence": {
+            "type": "integer"
+          },
+          "epoch": {
+            "type": "integer"
+          },
+          "t0_tick": {
+            "type": "integer"
+          },
+          "t0_frame": {
+            "type": "integer"
+          },
+          "competitive_round_status": {
+            "enum": [
+              "canonical_interval_matched",
+              "not_accredited"
+            ]
+          },
+          "initial": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "self",
+              "ally"
+            ],
+            "properties": {
+              "self": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "primary_remaining_seconds",
+                  "primary_deadline_state",
+                  "secondary_remaining_seconds",
+                  "secondary_deadline_state",
+                  "postpone_remaining_seconds",
+                  "postpone_deadline_state",
+                  "pawn_remaining_seconds",
+                  "pawn_deadline_state"
+                ],
+                "properties": {
+                  "primary_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "primary_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "secondary_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "secondary_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "postpone_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "postpone_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "pawn_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "pawn_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "ally": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "primary_remaining_seconds",
+                  "primary_deadline_state",
+                  "secondary_remaining_seconds",
+                  "secondary_deadline_state",
+                  "postpone_remaining_seconds",
+                  "postpone_deadline_state",
+                  "pawn_remaining_seconds",
+                  "pawn_deadline_state"
+                ],
+                "properties": {
+                  "primary_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "primary_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "secondary_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "secondary_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "postpone_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "postpone_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "pawn_remaining_seconds": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "pawn_deadline_state": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "const": "observed"
+                          },
+                          "value": {
+                            "enum": [
+                              "pending",
+                              "elapsed",
+                              "paused"
+                            ]
+                          },
+                          "reason": {
+                            "const": null
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "status",
+                          "value",
+                          "reason"
+                        ],
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "unavailable",
+                              "not_applicable"
+                            ]
+                          },
+                          "value": {
+                            "const": null
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "missing_context": {
+            "const": [
+              "physical_entry_not_accredited",
+              "physical_navigation_not_accredited",
+              "line_of_sight_and_contact_not_accredited",
+              "cooperation_and_intent_not_observable",
+              "instantaneous_velocity_and_full_weapon_readiness_not_accredited",
+              "ownership_does_not_establish_tactical_responsibility",
+              "countdowns_require_current_native_pause_and_clock_alignment",
+              "native_clocks_do_not_establish_visible_hud_rounding_or_wall_time",
+              "scheduled_attempt_margin_does_not_predict_completion_or_tactical_viability",
+              "planting_progress_is_native_delivery_tick_resolution_not_input_subtick_or_outcome",
+              "native_object_geometry_is_not_automatically_legal_player_information",
+              "parented_object_requires_an_accredited_current_world_transform",
+              "spotted_flag_past_carrier_and_global_plant_do_not_reveal_exact_position",
+              "base_and_historical_velocity_are_not_current_pawn_velocity",
+              "native_motion_and_ground_contact_do_not_establish_complete_readiness",
+              "movement_enum_code_does_not_establish_intention_or_physical_route",
+              "weapon_tick_fraction_clock_semantics_require_positive_source",
+              "elapsed_native_deadline_does_not_establish_can_fire_or_complete_readiness",
+              "pawn_service_deadline_does_not_identify_the_cause_of_a_block"
+            ]
+          },
+          "decision_eligible": {
+            "const": false
+          },
+          "timing_reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "self",
+              "ally"
+            ],
+            "properties": {
+              "self": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "source_sequence",
+                      "frame",
+                      "pawn_state_sequence",
+                      "pawn_life",
+                      "weapon_state_sequence",
+                      "weapon_life",
+                      "clock_witness_sequence"
+                    ],
+                    "properties": {
+                      "source_sequence": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "frame": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "pawn_state_sequence": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "pawn_life": {
+                        "type": "string",
+                        "pattern": "^support-pawn-[0-9]{6}$"
+                      },
+                      "weapon_state_sequence": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 1
+                      },
+                      "weapon_life": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "pattern": "^support-weapon-[0-9]{6}$"
+                      },
+                      "clock_witness_sequence": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "ally": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "source_sequence",
+                      "frame",
+                      "pawn_state_sequence",
+                      "pawn_life",
+                      "weapon_state_sequence",
+                      "weapon_life",
+                      "clock_witness_sequence"
+                    ],
+                    "properties": {
+                      "source_sequence": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "frame": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "pawn_state_sequence": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "pawn_life": {
+                        "type": "string",
+                        "pattern": "^support-pawn-[0-9]{6}$"
+                      },
+                      "weapon_state_sequence": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 1
+                      },
+                      "weapon_life": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "pattern": "^support-weapon-[0-9]{6}$"
+                      },
+                      "clock_witness_sequence": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ],
+                        "minimum": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance",
+          "actor_alias",
+          "ally_alias",
+          "anchors",
+          "canonical_interval_matched",
+          "fact_status_counts"
+        ],
+        "properties": {
+          "instance": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[a-f0-9]{20}$"
+          },
+          "anchors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "canonical_interval_matched": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fact_status_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "self.primary_remaining_seconds",
+              "self.primary_deadline_state",
+              "self.secondary_remaining_seconds",
+              "self.secondary_deadline_state",
+              "self.postpone_remaining_seconds",
+              "self.postpone_deadline_state",
+              "self.pawn_remaining_seconds",
+              "self.pawn_deadline_state",
+              "ally.primary_remaining_seconds",
+              "ally.primary_deadline_state",
+              "ally.secondary_remaining_seconds",
+              "ally.secondary_deadline_state",
+              "ally.postpone_remaining_seconds",
+              "ally.postpone_deadline_state",
+              "ally.pawn_remaining_seconds",
+              "ally.pawn_deadline_state"
+            ],
+            "properties": {
+              "self.primary_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.primary_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.secondary_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.secondary_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.postpone_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.postpone_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.pawn_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "self.pawn_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.primary_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.primary_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.secondary_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.secondary_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.postpone_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.postpone_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.pawn_remaining_seconds": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ally.pawn_deadline_state": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchors",
+        "canonical_interval_matched",
+        "matrix_rows",
+        "fact_status_counts",
+        "eligible_decisions",
+        "native_field_state_counts"
+      ],
+      "properties": {
+        "anchors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "canonical_interval_matched": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matrix_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fact_status_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "self.primary_remaining_seconds",
+            "self.primary_deadline_state",
+            "self.secondary_remaining_seconds",
+            "self.secondary_deadline_state",
+            "self.postpone_remaining_seconds",
+            "self.postpone_deadline_state",
+            "self.pawn_remaining_seconds",
+            "self.pawn_deadline_state",
+            "ally.primary_remaining_seconds",
+            "ally.primary_deadline_state",
+            "ally.secondary_remaining_seconds",
+            "ally.secondary_deadline_state",
+            "ally.postpone_remaining_seconds",
+            "ally.postpone_deadline_state",
+            "ally.pawn_remaining_seconds",
+            "ally.pawn_deadline_state"
+          ],
+          "properties": {
+            "self.primary_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.primary_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.secondary_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.secondary_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.postpone_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.postpone_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.pawn_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "self.pawn_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.primary_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.primary_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.secondary_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.secondary_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.postpone_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.postpone_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.pawn_remaining_seconds": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "ally.pawn_deadline_state": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "eligible_decisions": {
+          "const": 0
+        },
+        "native_field_state_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "m_pWeaponServices.m_hActiveWeapon",
+            "m_pWeaponServices.m_flNextAttack",
+            "m_flSimulationTime",
+            "m_nTickBase",
+            "m_hOwnerEntity",
+            "m_nNextPrimaryAttackTick",
+            "m_flNextPrimaryAttackTickRatio",
+            "m_nNextSecondaryAttackTick",
+            "m_flNextSecondaryAttackTickRatio",
+            "m_nPostponeFireReadyTicks",
+            "m_flPostponeFireReadyFrac"
+          ],
+          "properties": {
+            "m_pWeaponServices.m_hActiveWeapon": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_pWeaponServices.m_flNextAttack": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_flSimulationTime": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_nTickBase": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_hOwnerEntity": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_nNextPrimaryAttackTick": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_flNextPrimaryAttackTickRatio": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_nNextSecondaryAttackTick": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_flNextSecondaryAttackTickRatio": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_nPostponeFireReadyTicks": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "m_flPostponeFireReadyFrac": {
+              "type": "object",
+              "propertyNames": {
+                "enum": [
+                  "observed",
+                  "absent",
+                  "unsupported_type",
+                  "nonfinite"
+                ]
+              },
+              "additionalProperties": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "clock_witnesses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_sequence",
+          "frame",
+          "tick",
+          "instance",
+          "epoch",
+          "rules_life",
+          "interval_order",
+          "server_tick",
+          "native_interval_seconds",
+          "native_round_start_seconds",
+          "public_freeze_event_sequence"
+        ],
+        "properties": {
+          "source_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "frame": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "tick": {
+            "type": "integer"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "rules_life": {
+            "type": "string",
+            "pattern": "^support-clock-object-[0-9]{6,}$"
+          },
+          "interval_order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "server_tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "native_interval_seconds": {
+            "type": "number",
+            "minimum": 0.00390625,
+            "maximum": 0.0625
+          },
+          "native_round_start_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "public_freeze_event_sequence": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,876 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_manifest@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "protocol",
+    "source_observations",
+    "artifacts",
+    "coverage",
+    "decision_id",
+    "eligible_decisions",
+    "physical_entries_accredited",
+    "tactical_commitments_accredited"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "protocol": {
+      "$ref": "#/$defs/reference"
+    },
+    "source_observations": {
+      "$ref": "#/$defs/reference"
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "bytes",
+          "sha256",
+          "records"
+        ],
+        "properties": {
+          "path": {
+            "enum": [
+              "support_preparation_cuts.jsonl",
+              "support_preparation_pairs.jsonl"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "records": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "counts",
+        "actor_unavailable",
+        "execution_by_role",
+        "joint_execution",
+        "matrix"
+      ],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cuts_total",
+            "cuts_admissible",
+            "cuts_excluded_phase",
+            "cuts_excluded_clock",
+            "roster_rows_total",
+            "actor_alias_cuts",
+            "actor_usable",
+            "selected_actor_cuts",
+            "pairs_examined",
+            "pairs_selected",
+            "pairs_excluded_actor",
+            "pairs_excluded_ally"
+          ],
+          "properties": {
+            "cuts_total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cuts_admissible": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cuts_excluded_phase": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "cuts_excluded_clock": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "roster_rows_total": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_alias_cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_usable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "selected_actor_cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pairs_examined": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pairs_selected": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pairs_excluded_actor": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pairs_excluded_ally": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "actor_unavailable": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ambiguous_actor_alias",
+            "shared_pawn_reference",
+            "unsupported_side",
+            "disconnected",
+            "native_identity_unavailable",
+            "alive_unavailable",
+            "not_alive",
+            "position_unavailable"
+          ],
+          "properties": {
+            "ambiguous_actor_alias": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "shared_pawn_reference": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unsupported_side": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "disconnected": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "native_identity_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "alive_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "not_alive": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "position_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "execution_by_role": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "self",
+            "ally"
+          ],
+          "properties": {
+            "self": {
+              "$ref": "#/$defs/status_counts"
+            },
+            "ally": {
+              "$ref": "#/$defs/status_counts"
+            }
+          }
+        },
+        "joint_execution": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "sampled_displacement / sampled_displacement",
+              "sampled_displacement / no_sampled_displacement",
+              "sampled_displacement / censored:missing_exact_horizon_sample",
+              "sampled_displacement / censored:horizon_gap_or_boundary",
+              "sampled_displacement / censored:identity_unavailable_or_changed",
+              "sampled_displacement / censored:ambiguous_actor_alias",
+              "sampled_displacement / censored:shared_pawn_reference",
+              "sampled_displacement / censored:unsupported_side",
+              "sampled_displacement / censored:disconnected",
+              "sampled_displacement / censored:native_identity_unavailable",
+              "sampled_displacement / censored:alive_unavailable",
+              "sampled_displacement / censored:not_alive",
+              "sampled_displacement / censored:position_unavailable",
+              "no_sampled_displacement / sampled_displacement",
+              "no_sampled_displacement / no_sampled_displacement",
+              "no_sampled_displacement / censored:missing_exact_horizon_sample",
+              "no_sampled_displacement / censored:horizon_gap_or_boundary",
+              "no_sampled_displacement / censored:identity_unavailable_or_changed",
+              "no_sampled_displacement / censored:ambiguous_actor_alias",
+              "no_sampled_displacement / censored:shared_pawn_reference",
+              "no_sampled_displacement / censored:unsupported_side",
+              "no_sampled_displacement / censored:disconnected",
+              "no_sampled_displacement / censored:native_identity_unavailable",
+              "no_sampled_displacement / censored:alive_unavailable",
+              "no_sampled_displacement / censored:not_alive",
+              "no_sampled_displacement / censored:position_unavailable",
+              "censored:missing_exact_horizon_sample / sampled_displacement",
+              "censored:missing_exact_horizon_sample / no_sampled_displacement",
+              "censored:missing_exact_horizon_sample / censored:missing_exact_horizon_sample",
+              "censored:missing_exact_horizon_sample / censored:horizon_gap_or_boundary",
+              "censored:missing_exact_horizon_sample / censored:identity_unavailable_or_changed",
+              "censored:missing_exact_horizon_sample / censored:ambiguous_actor_alias",
+              "censored:missing_exact_horizon_sample / censored:shared_pawn_reference",
+              "censored:missing_exact_horizon_sample / censored:unsupported_side",
+              "censored:missing_exact_horizon_sample / censored:disconnected",
+              "censored:missing_exact_horizon_sample / censored:native_identity_unavailable",
+              "censored:missing_exact_horizon_sample / censored:alive_unavailable",
+              "censored:missing_exact_horizon_sample / censored:not_alive",
+              "censored:missing_exact_horizon_sample / censored:position_unavailable",
+              "censored:horizon_gap_or_boundary / sampled_displacement",
+              "censored:horizon_gap_or_boundary / no_sampled_displacement",
+              "censored:horizon_gap_or_boundary / censored:missing_exact_horizon_sample",
+              "censored:horizon_gap_or_boundary / censored:horizon_gap_or_boundary",
+              "censored:horizon_gap_or_boundary / censored:identity_unavailable_or_changed",
+              "censored:horizon_gap_or_boundary / censored:ambiguous_actor_alias",
+              "censored:horizon_gap_or_boundary / censored:shared_pawn_reference",
+              "censored:horizon_gap_or_boundary / censored:unsupported_side",
+              "censored:horizon_gap_or_boundary / censored:disconnected",
+              "censored:horizon_gap_or_boundary / censored:native_identity_unavailable",
+              "censored:horizon_gap_or_boundary / censored:alive_unavailable",
+              "censored:horizon_gap_or_boundary / censored:not_alive",
+              "censored:horizon_gap_or_boundary / censored:position_unavailable",
+              "censored:identity_unavailable_or_changed / sampled_displacement",
+              "censored:identity_unavailable_or_changed / no_sampled_displacement",
+              "censored:identity_unavailable_or_changed / censored:missing_exact_horizon_sample",
+              "censored:identity_unavailable_or_changed / censored:horizon_gap_or_boundary",
+              "censored:identity_unavailable_or_changed / censored:identity_unavailable_or_changed",
+              "censored:identity_unavailable_or_changed / censored:ambiguous_actor_alias",
+              "censored:identity_unavailable_or_changed / censored:shared_pawn_reference",
+              "censored:identity_unavailable_or_changed / censored:unsupported_side",
+              "censored:identity_unavailable_or_changed / censored:disconnected",
+              "censored:identity_unavailable_or_changed / censored:native_identity_unavailable",
+              "censored:identity_unavailable_or_changed / censored:alive_unavailable",
+              "censored:identity_unavailable_or_changed / censored:not_alive",
+              "censored:identity_unavailable_or_changed / censored:position_unavailable",
+              "censored:ambiguous_actor_alias / sampled_displacement",
+              "censored:ambiguous_actor_alias / no_sampled_displacement",
+              "censored:ambiguous_actor_alias / censored:missing_exact_horizon_sample",
+              "censored:ambiguous_actor_alias / censored:horizon_gap_or_boundary",
+              "censored:ambiguous_actor_alias / censored:identity_unavailable_or_changed",
+              "censored:ambiguous_actor_alias / censored:ambiguous_actor_alias",
+              "censored:ambiguous_actor_alias / censored:shared_pawn_reference",
+              "censored:ambiguous_actor_alias / censored:unsupported_side",
+              "censored:ambiguous_actor_alias / censored:disconnected",
+              "censored:ambiguous_actor_alias / censored:native_identity_unavailable",
+              "censored:ambiguous_actor_alias / censored:alive_unavailable",
+              "censored:ambiguous_actor_alias / censored:not_alive",
+              "censored:ambiguous_actor_alias / censored:position_unavailable",
+              "censored:shared_pawn_reference / sampled_displacement",
+              "censored:shared_pawn_reference / no_sampled_displacement",
+              "censored:shared_pawn_reference / censored:missing_exact_horizon_sample",
+              "censored:shared_pawn_reference / censored:horizon_gap_or_boundary",
+              "censored:shared_pawn_reference / censored:identity_unavailable_or_changed",
+              "censored:shared_pawn_reference / censored:ambiguous_actor_alias",
+              "censored:shared_pawn_reference / censored:shared_pawn_reference",
+              "censored:shared_pawn_reference / censored:unsupported_side",
+              "censored:shared_pawn_reference / censored:disconnected",
+              "censored:shared_pawn_reference / censored:native_identity_unavailable",
+              "censored:shared_pawn_reference / censored:alive_unavailable",
+              "censored:shared_pawn_reference / censored:not_alive",
+              "censored:shared_pawn_reference / censored:position_unavailable",
+              "censored:unsupported_side / sampled_displacement",
+              "censored:unsupported_side / no_sampled_displacement",
+              "censored:unsupported_side / censored:missing_exact_horizon_sample",
+              "censored:unsupported_side / censored:horizon_gap_or_boundary",
+              "censored:unsupported_side / censored:identity_unavailable_or_changed",
+              "censored:unsupported_side / censored:ambiguous_actor_alias",
+              "censored:unsupported_side / censored:shared_pawn_reference",
+              "censored:unsupported_side / censored:unsupported_side",
+              "censored:unsupported_side / censored:disconnected",
+              "censored:unsupported_side / censored:native_identity_unavailable",
+              "censored:unsupported_side / censored:alive_unavailable",
+              "censored:unsupported_side / censored:not_alive",
+              "censored:unsupported_side / censored:position_unavailable",
+              "censored:disconnected / sampled_displacement",
+              "censored:disconnected / no_sampled_displacement",
+              "censored:disconnected / censored:missing_exact_horizon_sample",
+              "censored:disconnected / censored:horizon_gap_or_boundary",
+              "censored:disconnected / censored:identity_unavailable_or_changed",
+              "censored:disconnected / censored:ambiguous_actor_alias",
+              "censored:disconnected / censored:shared_pawn_reference",
+              "censored:disconnected / censored:unsupported_side",
+              "censored:disconnected / censored:disconnected",
+              "censored:disconnected / censored:native_identity_unavailable",
+              "censored:disconnected / censored:alive_unavailable",
+              "censored:disconnected / censored:not_alive",
+              "censored:disconnected / censored:position_unavailable",
+              "censored:native_identity_unavailable / sampled_displacement",
+              "censored:native_identity_unavailable / no_sampled_displacement",
+              "censored:native_identity_unavailable / censored:missing_exact_horizon_sample",
+              "censored:native_identity_unavailable / censored:horizon_gap_or_boundary",
+              "censored:native_identity_unavailable / censored:identity_unavailable_or_changed",
+              "censored:native_identity_unavailable / censored:ambiguous_actor_alias",
+              "censored:native_identity_unavailable / censored:shared_pawn_reference",
+              "censored:native_identity_unavailable / censored:unsupported_side",
+              "censored:native_identity_unavailable / censored:disconnected",
+              "censored:native_identity_unavailable / censored:native_identity_unavailable",
+              "censored:native_identity_unavailable / censored:alive_unavailable",
+              "censored:native_identity_unavailable / censored:not_alive",
+              "censored:native_identity_unavailable / censored:position_unavailable",
+              "censored:alive_unavailable / sampled_displacement",
+              "censored:alive_unavailable / no_sampled_displacement",
+              "censored:alive_unavailable / censored:missing_exact_horizon_sample",
+              "censored:alive_unavailable / censored:horizon_gap_or_boundary",
+              "censored:alive_unavailable / censored:identity_unavailable_or_changed",
+              "censored:alive_unavailable / censored:ambiguous_actor_alias",
+              "censored:alive_unavailable / censored:shared_pawn_reference",
+              "censored:alive_unavailable / censored:unsupported_side",
+              "censored:alive_unavailable / censored:disconnected",
+              "censored:alive_unavailable / censored:native_identity_unavailable",
+              "censored:alive_unavailable / censored:alive_unavailable",
+              "censored:alive_unavailable / censored:not_alive",
+              "censored:alive_unavailable / censored:position_unavailable",
+              "censored:not_alive / sampled_displacement",
+              "censored:not_alive / no_sampled_displacement",
+              "censored:not_alive / censored:missing_exact_horizon_sample",
+              "censored:not_alive / censored:horizon_gap_or_boundary",
+              "censored:not_alive / censored:identity_unavailable_or_changed",
+              "censored:not_alive / censored:ambiguous_actor_alias",
+              "censored:not_alive / censored:shared_pawn_reference",
+              "censored:not_alive / censored:unsupported_side",
+              "censored:not_alive / censored:disconnected",
+              "censored:not_alive / censored:native_identity_unavailable",
+              "censored:not_alive / censored:alive_unavailable",
+              "censored:not_alive / censored:not_alive",
+              "censored:not_alive / censored:position_unavailable",
+              "censored:position_unavailable / sampled_displacement",
+              "censored:position_unavailable / no_sampled_displacement",
+              "censored:position_unavailable / censored:missing_exact_horizon_sample",
+              "censored:position_unavailable / censored:horizon_gap_or_boundary",
+              "censored:position_unavailable / censored:identity_unavailable_or_changed",
+              "censored:position_unavailable / censored:ambiguous_actor_alias",
+              "censored:position_unavailable / censored:shared_pawn_reference",
+              "censored:position_unavailable / censored:unsupported_side",
+              "censored:position_unavailable / censored:disconnected",
+              "censored:position_unavailable / censored:native_identity_unavailable",
+              "censored:position_unavailable / censored:alive_unavailable",
+              "censored:position_unavailable / censored:not_alive",
+              "censored:position_unavailable / censored:position_unavailable"
+            ]
+          },
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "matrix": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/matrix_row"
+          }
+        }
+      }
+    },
+    "decision_id": {
+      "const": null
+    },
+    "eligible_decisions": {
+      "const": 0
+    },
+    "physical_entries_accredited": {
+      "const": 0
+    },
+    "tactical_commitments_accredited": {
+      "const": 0
+    }
+  },
+  "$defs": {
+    "cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "frame",
+        "tick",
+        "epoch",
+        "instance",
+        "tick_rate",
+        "sample_step"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tick": {
+          "type": "integer"
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_step": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "position",
+        "alive",
+        "availability_tick",
+        "availability_frame"
+      ],
+      "properties": {
+        "position": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y",
+            "z"
+          ],
+          "properties": {
+            "x": {
+              "type": "integer"
+            },
+            "y": {
+              "type": "integer"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "alive": {
+          "const": true
+        },
+        "availability_tick": {
+          "type": "integer"
+        },
+        "availability_frame": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "end_tick",
+        "availability_sequence",
+        "availability_frame",
+        "availability_tick",
+        "sampled_displacement"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "sampled_displacement",
+            "no_sampled_displacement",
+            "censored:missing_exact_horizon_sample",
+            "censored:horizon_gap_or_boundary",
+            "censored:identity_unavailable_or_changed",
+            "censored:ambiguous_actor_alias",
+            "censored:shared_pawn_reference",
+            "censored:unsupported_side",
+            "censored:disconnected",
+            "censored:native_identity_unavailable",
+            "censored:alive_unavailable",
+            "censored:not_alive",
+            "censored:position_unavailable"
+          ]
+        },
+        "end_tick": {
+          "type": "integer"
+        },
+        "availability_sequence": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_frame": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_tick": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sampled_displacement": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "sampled_displacement"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sampled_displacement": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "no_sampled_displacement"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sampled_displacement": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "pattern": "^censored:"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "sampled_displacement": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "censored:missing_exact_horizon_sample"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "availability_sequence": {
+                "const": null
+              },
+              "availability_frame": {
+                "const": null
+              },
+              "availability_tick": {
+                "const": null
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "not": {
+                  "const": "censored:missing_exact_horizon_sample"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "availability_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "availability_frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "availability_tick": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "status_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sampled_displacement",
+        "no_sampled_displacement",
+        "censored:missing_exact_horizon_sample",
+        "censored:horizon_gap_or_boundary",
+        "censored:identity_unavailable_or_changed",
+        "censored:ambiguous_actor_alias",
+        "censored:shared_pawn_reference",
+        "censored:unsupported_side",
+        "censored:disconnected",
+        "censored:native_identity_unavailable",
+        "censored:alive_unavailable",
+        "censored:not_alive",
+        "censored:position_unavailable"
+      ],
+      "properties": {
+        "sampled_displacement": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "no_sampled_displacement": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:missing_exact_horizon_sample": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:horizon_gap_or_boundary": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:identity_unavailable_or_changed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:ambiguous_actor_alias": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:shared_pawn_reference": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:unsupported_side": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:disconnected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:native_identity_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:alive_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:not_alive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "censored:position_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "matrix_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance",
+        "epoch",
+        "side",
+        "actor_alias",
+        "ally_alias",
+        "counts",
+        "execution_counts"
+      ],
+      "properties": {
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "side": {
+          "enum": [
+            "CT",
+            "T"
+          ]
+        },
+        "actor_alias": {
+          "type": "string",
+          "pattern": "^support-actor-[0-9a-f]{20}$"
+        },
+        "ally_alias": {
+          "type": "string",
+          "pattern": "^support-actor-[0-9a-f]{20}$"
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "selected",
+            "excluded_actor",
+            "excluded_ally"
+          ],
+          "properties": {
+            "selected": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_actor": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excluded_ally": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "execution_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "self",
+            "ally"
+          ],
+          "properties": {
+            "self": {
+              "$ref": "#/$defs/status_counts"
+            },
+            "ally": {
+              "$ref": "#/$defs/status_counts"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schema_id": "stratai.cover_generation_request@1",
+  "contract_version": "1.0.0",
+  "asset_version": "1.0.0-candidate.1",
+  "map_id": "de_mirage",
+  "sources": {
+    "physics_gltf": "de_mirage/de_mirage_physics.gltf",
+    "physics_buffer": "de_mirage/de_mirage_physics.bin",
+    "sample_seed_catalog": "de_mirage/de_mirage_places.json"
+  },
+  "player_volume": {
+    "model_id": "cylinder_cross_section_probes@1",
+    "radius_units": 16,
+    "lateral_offsets_units": [-16, 0, 16],
+    "postures": [
+      {
+        "id": "crouching",
+        "volume_height_units": 54,
+        "probe_heights_units": [18, 34, 46]
+      },
+      {
+        "id": "standing",
+        "volume_height_units": 72,
+        "probe_heights_units": [18, 45, 64]
+      }
+    ]
+  },
+  "resolution": {
+    "azimuth_step_degrees": 15,
+    "maximum_ray_distance_units": 128,
+    "protection_distance_units": 96
+  },
+  "samples": [
+    {"id": "cover-sample-001", "alias": "mirage-cover-reference-001", "source_coordinate": "TSpawn", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-002", "alias": "mirage-cover-reference-002", "source_coordinate": "TopofMid", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-003", "alias": "mirage-cover-reference-003", "source_coordinate": "Middle", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-004", "alias": "mirage-cover-reference-004", "source_coordinate": "Catwalk", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-005", "alias": "mirage-cover-reference-005", "source_coordinate": "BombsiteA", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-006", "alias": "mirage-cover-reference-006", "source_coordinate": "BombsiteB", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-007", "alias": "mirage-cover-reference-007", "source_coordinate": "Apartments", "selection_radius_units": 192, "vertical_tolerance_units": 96},
+    {"id": "cover-sample-008", "alias": "mirage-cover-reference-008", "source_coordinate": "CTSpawn", "selection_radius_units": 192, "vertical_tolerance_units": 96}
+  ]
+}

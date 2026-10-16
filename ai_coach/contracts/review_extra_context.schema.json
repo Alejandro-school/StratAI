@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "source_alias",
+    "source_sha256",
+    "frame_count",
+    "side",
+    "omissions",
+    "perception_proven",
+    "schema_id",
+    "source_refs",
+    "damage",
+    "c4"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^E[0-9]{2}$"
+    },
+    "source_alias": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "frame_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "side": {
+      "enum": [
+        "T",
+        "CT"
+      ]
+    },
+    "omissions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "perception_proven": {
+      "const": false
+    },
+    "schema_id": {
+      "const": "stratai.review_extra_context@1"
+    },
+    "source_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_sha256",
+        "canonical_manifest_sha256",
+        "combat_events_sha256",
+        "combat_events_record_count",
+        "objective_events_sha256",
+        "objective_events_record_count"
+      ],
+      "properties": {
+        "support_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "canonical_manifest_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "combat_events_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "combat_events_record_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "objective_events_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "objective_events_record_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "damage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "available_index",
+          "available_sequence",
+          "tick",
+          "round",
+          "elapsed_seconds",
+          "attacker",
+          "victim",
+          "weapon",
+          "weapon_is_utility",
+          "health_damage",
+          "armor_damage",
+          "source"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^damage-[a-f0-9]{20}$"
+          },
+          "available_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "available_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "round": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "elapsed_seconds": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "attacker": {
+            "$ref": "#/$defs/player"
+          },
+          "victim": {
+            "$ref": "#/$defs/player"
+          },
+          "weapon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "weapon_is_utility": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "health_damage": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "armor_damage": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source": {
+            "const": "player_hurt_callback"
+          }
+        }
+      }
+    },
+    "c4": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "available_index",
+          "available_sequence",
+          "tick",
+          "round",
+          "elapsed_seconds",
+          "kind",
+          "actor",
+          "death_same_tick",
+          "source"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^c4-[a-f0-9]{20}$"
+          },
+          "available_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "available_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "round": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "elapsed_seconds": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "kind": {
+            "enum": [
+              "bomb_drop",
+              "bomb_pickup"
+            ]
+          },
+          "actor": {
+            "$ref": "#/$defs/player"
+          },
+          "death_same_tick": {
+            "type": "boolean"
+          },
+          "source": {
+            "const": "objective_callback"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "player": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "side",
+        "life",
+        "position"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "pattern": "^(T|CT)[1-9][0-9]*$"
+        },
+        "side": {
+          "enum": [
+            "T",
+            "CT"
+          ]
+        },
+        "life": {
+          "type": "string",
+          "minLength": 1
+        },
+        "position": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "z"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

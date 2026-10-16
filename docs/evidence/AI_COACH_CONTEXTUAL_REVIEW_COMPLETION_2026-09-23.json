@@ -1,0 +1,390 @@
+{
+  "phase": "ICT-I2.R3 contextual inventory and review completion",
+  "date": "2026-09-23",
+  "user_instruction": "Implementa todo.",
+  "scope": "Technical continuation of accepted IC19/IC20/IC21 criteria, not a fabricated R2 review",
+  "checks": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 88.389,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\check-all.log"
+    },
+    "ai-coach": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 498.118,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\ai-coach.log"
+    },
+    "contract": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.contracts.validate_contract"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 4.846,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\contract.log"
+    },
+    "final-targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_contextual_interpretation.py",
+        "ai_coach/tests/test_review_completion.py",
+        "ai_coach/tests/test_temporal_description.py",
+        "ai_coach/tests/test_accelerated_support_schema.py",
+        "ai_coach/tests/test_support_anchors.py",
+        "ai_coach/tests/test_support_physical.py",
+        "ai_coach/tests/test_support_objective.py",
+        "ai_coach/tests/test_support_c4.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 41.985,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\final-targeted.log"
+    },
+    "build": {
+      "command": [
+        "go",
+        "build",
+        "-overlay",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\overlay.json",
+        "-o",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\canonical-export.exe",
+        "./cmd/canonical-export"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 1.8,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\build.log"
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\demo-066944f5acb806ba5f81.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\capture",
+        "--alias",
+        "demo-066944f5acb806ba5f81",
+        "--checksum",
+        "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-contextual-review-inventory-20260923",
+        "--ai-coach-support-c4-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 71.408,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\producer.log"
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\capture\\smoke_run_demo-066944f5acb806ba5f81",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\ledger",
+        "--side",
+        "T",
+        "--intervals",
+        "6318:6382",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 24.905,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\materialize.log"
+    },
+    "validate": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\capture\\smoke_run_demo-066944f5acb806ba5f81",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l\\ledger",
+        "--side",
+        "T",
+        "--intervals",
+        "6318:6382",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 27.277,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\validate.log"
+    }
+  },
+  "canonical": {
+    "ok": true,
+    "errors": [],
+    "seconds": 264.354,
+    "command": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\smoke.py",
+      "canonical"
+    ]
+  },
+  "smoke": {
+    "ok": true,
+    "source_alias": "demo-066944f5acb806ba5f81",
+    "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+    "distinct_approved_matches": 1,
+    "build_identifier": "working-tree-contextual-review-inventory-20260923",
+    "counts": {
+      "exact_cuts": 22747,
+      "live_actor_samples": 315,
+      "grenade_item_samples": 752,
+      "quantity_abstentions": 0,
+      "objective_samples": 65,
+      "dead_actor_samples": 10,
+      "unchanged_factual_samples": 65
+    },
+    "native_statuses": {
+      "m_iPrimaryReserveAmmoCount:absent:None": 21056,
+      "m_pReserveAmmo.0000:observed:int32": 21056
+    },
+    "quantities_by_kind": {
+      "44": {
+        "1": 191
+      },
+      "46": {
+        "1": 89
+      },
+      "45": {
+        "1": 198
+      },
+      "43": {
+        "1": 274
+      }
+    },
+    "corroborated_grenade_native_reserves_at_state_changes": {
+      "0": 6903
+    },
+    "review_packet_context_id": "e85d6a6197f21f4f745e0c22d51a9cacbd5e3596637ac7124d37df39abb9c9be",
+    "frozen_context_id": "65c00a40859e2e837c210461a0b13dc4624b563fe1101fa553752b15b41ca0bb",
+    "protected_hashes_unchanged": 48,
+    "source_seal_unchanged": true,
+    "retained_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-inventory-smoke-rgl7u68l",
+    "retained_files": 81,
+    "retained_bytes": 1113608387,
+    "seconds": 4.295,
+    "training_allowed": false,
+    "command": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-completion-20260923\\audit_smoke.py"
+    ]
+  },
+  "preflight": {
+    "path": "outputs\\stratai-review-completion-20260923\\preflight.json",
+    "bytes": 21769,
+    "sha256": "4448cf6cd00300270654a40622b191eb9df0d8a6229854afe5398b3fc3162d8a"
+  },
+  "r1": {
+    "ok": true,
+    "source_alias": "demo-045df2521c790a7d8a69",
+    "source_sha256": "045df2521c790a7d8a690272208ab8f14a24f6f5493dadeb670e75d157598fa4",
+    "read_only_retained_capture": true,
+    "parsed_again": false,
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-r1-review-packet-usznqyxg",
+    "seconds": 44.117,
+    "manifest": {
+      "schema_id": "stratai.contextual_review_packet_manifest@1",
+      "side": "T",
+      "intervals": [
+        [
+          6443,
+          6507
+        ]
+      ],
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 70905945,
+          "sha256": "4f814d6d3c5924ec39985733dd011e45f4e1e58b52bca2d38517144f232e0f8d"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 139288122,
+          "sha256": "9b9e26a269a83347bd3be3bd79109c61e88e218969895950d9e747acddad5871"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 86866979,
+          "sha256": "653057b4c1a9ba854896f24fc9f07b53431317803189766d618c218e576c6811"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 11530118,
+          "sha256": "5058f1107ce6fad9fe4de3daf5ff953440479654198ef8f9be4901e5cd370598"
+        }
+      },
+      "radar": {
+        "path": "de_mirage_radar_psd.webp",
+        "bytes": 262784,
+        "sha256": "062729376c7ad5cd86db90f8cb48eddaf11a410483804d0426e133254e70f799"
+      },
+      "template_sha256": "bc5ce32b7e6d34b210a08fe87fec1a7d4f3406b503ca7c833cf4fbc038de4623",
+      "artifacts": [
+        {
+          "path": "case_001.json",
+          "bytes": 626731,
+          "sha256": "c3cc4c92f5a2f51822f2a9f14d3681e8db91fad6b4889abd8d558b1808ff29a7"
+        },
+        {
+          "path": "case_001.html",
+          "bytes": 545081,
+          "sha256": "1d9f40274685237731670d4deb5a68eeef95a7e33422516892a05431c5416441"
+        }
+      ],
+      "training_allowed": false
+    },
+    "comparison": "abstained_with_undetermined_strategy",
+    "native_presence": "current_at_exact_cut",
+    "quantities": "unavailable_in_old_capture",
+    "artifacts": [
+      {
+        "path": "case_001.html",
+        "bytes": 545081,
+        "sha256": "1d9f40274685237731670d4deb5a68eeef95a7e33422516892a05431c5416441"
+      },
+      {
+        "path": "case_001.json",
+        "bytes": 626731,
+        "sha256": "c3cc4c92f5a2f51822f2a9f14d3681e8db91fad6b4889abd8d558b1808ff29a7"
+      },
+      {
+        "path": "review_packet_manifest.json",
+        "bytes": 1630,
+        "sha256": "c19393be6957535a98a183eed21cb852d9eff381a84dfcdb7fb5519101c0cf39"
+      }
+    ]
+  },
+  "comparison": {
+    "path": "outputs\\stratai-review-completion-20260923\\R1-comparison-v2.json",
+    "bytes": 1478,
+    "sha256": "fed80aea5924e6dc7f76963576f367f6e9ae004eba9aa80fa4c160f843e402b2"
+  },
+  "review": {
+    "path": "outputs\\stratai-review-completion-20260923\\R1-review-v2.json",
+    "bytes": 803,
+    "sha256": "8b6bd2fe6cbbb961faab2a1bcf703011da363ca33239b798dd92bb16b1c37eb7"
+  },
+  "retained_inventory": {
+    "path": "outputs\\stratai-review-completion-20260923\\smoke-inventory.json",
+    "bytes": 19813,
+    "sha256": "c538e40e018eb36187aa552f242cf73e80a09c701c2d2922168affa4ef347fbd"
+  },
+  "workbook": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_changed_cells": [
+      "A27",
+      "B27",
+      "C27",
+      "D27",
+      "E27",
+      "F25",
+      "F26",
+      "F27",
+      "G27"
+    ],
+    "sheet": "Contexto colectivo",
+    "literal_reviews_preserved": true,
+    "visual_review": true,
+    "output_sha256": "b8e6d93eeb6c0d908f38ed2820190e5af25a01e9ea01a592e3be91f8b027da7a"
+  },
+  "visual_checks": {
+    "desktop_and_mobile": true,
+    "keyboard_slider": true,
+    "playback": true,
+    "screenshots": [
+      {
+        "path": "output\\playwright\\stratai-review-r1.png",
+        "bytes": 223008,
+        "sha256": "f64669a5e6dae0ee9c6daa183f31637001428683b9048ba61aaf934a6a22d368"
+      },
+      {
+        "path": "output\\playwright\\stratai-review-r1-mobile.png",
+        "bytes": 130065,
+        "sha256": "a2a9b2c4d8c6d7fb7fbb9d11c38f1572e7734cf0866086489d0c43d885fad90e"
+      },
+      {
+        "path": "output\\playwright\\stratai-review-r2.png",
+        "bytes": 221612,
+        "sha256": "4274fa4adcc30f41f6f9044d1073805cc82a355185988f1a9fd2e81ea67c2a1e"
+      }
+    ],
+    "console": "No script errors; only missing optional favicon on local HTTP server"
+  },
+  "runtime_schemas": 111,
+  "reason_codes": 19,
+  "human_reviews_received": 1,
+  "human_reviews_compared_multidimensionally": 1,
+  "global_accuracy": null,
+  "r2_human_review_received": false,
+  "detector_changed": false,
+  "training_allowed": false,
+  "limitations": [
+    "R1 quantities unavailable in retained capture",
+    "map labels visual only; build/regions unaccredited",
+    "R1/R2 not independent generalization test",
+    "no viable-alternative comparator or coaching/profile/practice enabled"
+  ],
+  "artifacts": [
+    {
+      "path": "outputs\\stratai-review-completion-20260923\\R1.html",
+      "bytes": 545081,
+      "sha256": "1d9f40274685237731670d4deb5a68eeef95a7e33422516892a05431c5416441"
+    },
+    {
+      "path": "outputs\\stratai-review-completion-20260923\\R2.html",
+      "bytes": 614247,
+      "sha256": "554c90f376ae155e29a9335f10d6403c721cb3261fd846af07b0100ce58ddfe2"
+    },
+    {
+      "path": "outputs\\stratai-review-completion-20260923\\StratAI_Plan_del_coach_ICT_I2_v12.xlsx",
+      "bytes": 112253,
+      "sha256": "b8e6d93eeb6c0d908f38ed2820190e5af25a01e9ea01a592e3be91f8b027da7a"
+    }
+  ]
+}

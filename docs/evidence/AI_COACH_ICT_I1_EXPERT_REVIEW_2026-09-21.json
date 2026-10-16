@@ -1,0 +1,335 @@
+{
+  "id": "ICT-I1-EXPERT-REVIEW-20260921",
+  "status": "documentary_reception_complete",
+  "date": "2026-09-21",
+  "response": {
+    "path": "docs/evidence/AI_COACH_ICT_I1_EXPERT_RESPONSE_2026-09-21.json",
+    "bytes": 3125,
+    "sha256": "745f635b1f183ec75ebe16e85b0195a7bc51d74e6997af77171db0829d7c23a8"
+  },
+  "report": {
+    "path": "docs/archive/ai-coach/AI_COACH_ICT_I1_EXPERT_REVIEW_2026-09-21.md",
+    "bytes": 4189,
+    "sha256": "4ced78687e0d8115d9672797ba12287e08ed3c841c1613601b5c695e06f6335b"
+  },
+  "scope": {
+    "path": "docs/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+    "bytes": 9494,
+    "sha256": "6003a7c48ff72cba6b86422be252ff81da2ce32ec47243b07026a729851af47b"
+  },
+  "workbook": {
+    "path": "outputs/stratai-ict-i1-feedback-20260921/delivery/StratAI_Plan_del_coach_ICT_I1_v6.xlsx",
+    "bytes": 109471,
+    "sha256": "1825b541181dce3e0c3b9fcb47c25a21fd789e3091e6c7930af61dd51aee4fa5"
+  },
+  "workbook_checks": {
+    "path": "outputs/stratai-ict-i1-feedback-20260921/workbook-verification.json",
+    "bytes": 4599,
+    "sha256": "214563d6edbd32d6131f6c8259345caf539066c31f263736c749b2f09ee20f6a"
+  },
+  "workbook_verification": {
+    "ok": true,
+    "source_sha256": "16d7ca5ae6d25247023583d5b02e352b683613f7e0d94c4c01cba5ab6a3e64dd",
+    "output_sha256": "1825b541181dce3e0c3b9fcb47c25a21fd789e3091e6c7930af61dd51aee4fa5",
+    "sheets": 14,
+    "changed_cells": 49,
+    "changed_cell_coordinates": [
+      {
+        "sheet": "Guía",
+        "cell": "A2"
+      },
+      {
+        "sheet": "Guía",
+        "cell": "B5"
+      },
+      {
+        "sheet": "Guía",
+        "cell": "B12"
+      },
+      {
+        "sheet": "Guía",
+        "cell": "C12"
+      },
+      {
+        "sheet": "Guía",
+        "cell": "B15"
+      },
+      {
+        "sheet": "Guía",
+        "cell": "C15"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "A25"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "B25"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "C25"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "D25"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "E25"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "F25"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "A26"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "B26"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "C26"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "D26"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "E26"
+      },
+      {
+        "sheet": "Fuentes",
+        "cell": "F26"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "A2"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "A3"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "G13"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "A18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "B18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "C18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "D18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "E18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "F18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "G18"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "A19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "B19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "C19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "D19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "E19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "F19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "G19"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "A20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "B20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "C20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "D20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "E20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "F20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "G20"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "A21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "B21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "C21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "D21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "E21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "F21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "cell": "G21"
+      }
+    ],
+    "prior_values_formulas_styles_comments_hyperlinks_preserved": true,
+    "panes_columns_existing_rows_validations_protection_preserved": true,
+    "prior_response_and_rating_sheets_unchanged": true,
+    "expected_table_extensions": [
+      {
+        "sheet": "Fuentes",
+        "feature": "table_range",
+        "before": "A5:F24",
+        "after": "A5:F26"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "feature": "table_range",
+        "before": "A5:G17",
+        "after": "A5:G21"
+      },
+      {
+        "sheet": "Contexto colectivo",
+        "feature": "explicit_default_totalsRowCount",
+        "before": null,
+        "after": 0,
+        "semantic_change": false
+      }
+    ],
+    "formula_errors": [],
+    "literal_preserved": true,
+    "presentation_only_entity_decoding": true,
+    "Q1_responses": 36,
+    "Q1_clarifications": 3,
+    "prior_cards": 20,
+    "pending_hypotheses": 18,
+    "source_unchanged": true
+  },
+  "source_mapping": [
+    {
+      "path": "ai_coach/support/preparation.py",
+      "bytes": 23785,
+      "sha256": "f542ee9b00afe8a816b1dcb9d7fed7acdc1784ea29ae91f8f4b528c4b8349661"
+    },
+    {
+      "path": "ai_coach/support/anchors.py",
+      "bytes": 18671,
+      "sha256": "3cfa48e8ec8c74a5ec861c980017dd1dffcd02c15256348eddb0152105c37db7"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_cut.schema.json",
+      "bytes": 13634,
+      "sha256": "8d1ece0f53e4dfdfdf45e93518477594fe09741e351518c3cfb2a0e6f290eaae"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_pair.schema.json",
+      "bytes": 13713,
+      "sha256": "e41faac76da54a9bc6adbcb8ffb806a2c0ee3c8f28ffb5a07580a9b9d17937c2"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_visual_contact_cut.schema.json",
+      "bytes": 12034,
+      "sha256": "6acbd2013fcb0aae9415e28582bd91b7c720c473c934401d1a36a26ad1bf91af"
+    },
+    {
+      "path": "docs/canonical-support-visual-contact-v1.md",
+      "bytes": 7849,
+      "sha256": "e8609971683e12016f8490347974180f870712b3707262f380389e1e1ff3eba1"
+    },
+    {
+      "path": "docs/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "bytes": 12144,
+      "sha256": "643283870d46c44787faf9c1e5a68bc834012188d6b29df8a171364ca4141233"
+    }
+  ],
+  "graph_access": "Transport closed; scoped direct-source fallback",
+  "closed_snapshots": [
+    {
+      "path": "outputs/stratai-ict-i1-feedback-20260921/closed/docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 148941,
+      "sha256": "940ed9c27b574f8bb23b04aca0991b9ce912d48df48d0af2c8ad904b85558c8c"
+    },
+    {
+      "path": "outputs/stratai-ict-i1-feedback-20260921/closed/docs/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+      "bytes": 9494,
+      "sha256": "6003a7c48ff72cba6b86422be252ff81da2ce32ec47243b07026a729851af47b"
+    },
+    {
+      "path": "outputs/stratai-ict-i1-feedback-20260921/closed/docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 2211,
+      "sha256": "8c98cc68333f7f233887b00ee6f4f29b5472fbc1f18a6a5df58ed051bbef420e"
+    }
+  ],
+  "literal_separate_from_synthesis": true,
+  "new_factual_source": false,
+  "implementation_started": false,
+  "producer_passes": 0,
+  "runtime_changed": false,
+  "tests_required": "Documentary and workbook checks only; no functional tests or smoke for this reception.",
+  "next_action": "ICT-I1.A: implement accredited own/ally prefixes and causal descriptive record within agreed scope",
+  "preservation_checks": "outputs/stratai-ict-i1-feedback-20260921/final-checks.json",
+  "first_workbook_export_retained": {
+    "path": "outputs/stratai-ict-i1-feedback-20260921/StratAI_Plan_del_coach_ICT_I1_v6.xlsx",
+    "bytes": 109469,
+    "sha256": "e12cf7143c04d58bf51c5eb5ef024361d77b61bbfb7fda2f7d0088e5b3b06608"
+  }
+}

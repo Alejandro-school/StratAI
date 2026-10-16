@@ -1,0 +1,10 @@
+title = "StratAI secret detection"
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public HMAC test vector and explicit integration-test secret, only in their fixtures"
+condition = "AND"
+targetRules = ["generic-api-key"]
+regexes = ['''^(test-internal-secret-32-characters-long|0123456789abcdef0123456789abcdef)$''']
+paths = ['''(^|/)(\.github/workflows/quality\.yml|backend/testdata/service_auth_vectors\.json|backend/node-service/test/(serviceAuth|pipeline)\.integration\.test\.js)$''']

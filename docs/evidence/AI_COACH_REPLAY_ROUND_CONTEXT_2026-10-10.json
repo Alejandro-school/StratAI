@@ -1,0 +1,293 @@
+{
+  "date": "2026-10-10",
+  "technical_closure": true,
+  "scope": "CS3 round state, causal native clock and eligibility separation",
+  "versions": {
+    "plan": "3.27",
+    "human_contract": "1.66",
+    "round": "stratai.replay_round_context@1",
+    "projection": "stratai.team_replay_projection@6",
+    "input": "stratai.replay_context_input@4",
+    "runtime_schemas": 116
+  },
+  "user_authorization": "Implementalo; estado de ronda then acontecimientos, interpretation after the pair",
+  "source_alias": "demo-0beb9110ec408f80c39b",
+  "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+  "distinct_matches": 1,
+  "demo_parses": 1,
+  "temp_retained": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-smoke-b273h3d4",
+  "parse_seconds": 41.761,
+  "counts": {
+    "ok": true,
+    "frames": 23398,
+    "phases": {
+      "preplant": 17826,
+      "planted": 3310,
+      "ended": 2262
+    },
+    "clock_statuses": {
+      "observed:": 21136,
+      "not_applicable:round_ended": 2262
+    },
+    "decoded_boolean_variants": {
+      "bool": 214940
+    },
+    "independent_checks": "phase/native planted flag, pause, elapsed, outcome frontier, server clock alignment and countdown arithmetic",
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "examples": [
+      {
+        "round": 1,
+        "first_phase": "preplant",
+        "end_tick": 9539,
+        "winner": "T"
+      },
+      {
+        "round": 2,
+        "first_phase": "preplant",
+        "end_tick": 17292,
+        "winner": "CT"
+      },
+      {
+        "round": 3,
+        "first_phase": "preplant",
+        "end_tick": 23208,
+        "winner": "CT"
+      },
+      {
+        "round": 4,
+        "first_phase": "preplant",
+        "end_tick": 28238,
+        "winner": "CT"
+      },
+      {
+        "round": 5,
+        "first_phase": "preplant",
+        "end_tick": 35969,
+        "winner": "T"
+      },
+      {
+        "round": 6,
+        "first_phase": "preplant",
+        "end_tick": 41351,
+        "winner": "T"
+      },
+      {
+        "round": 7,
+        "first_phase": "preplant",
+        "end_tick": 47236,
+        "winner": "T"
+      },
+      {
+        "round": 8,
+        "first_phase": "preplant",
+        "end_tick": 56324,
+        "winner": "CT"
+      },
+      {
+        "round": 9,
+        "first_phase": "preplant",
+        "end_tick": 63429,
+        "winner": "T"
+      },
+      {
+        "round": 10,
+        "first_phase": "preplant",
+        "end_tick": 69693,
+        "winner": "T"
+      },
+      {
+        "round": 11,
+        "first_phase": "preplant",
+        "end_tick": 75283,
+        "winner": "CT"
+      },
+      {
+        "round": 12,
+        "first_phase": "preplant",
+        "end_tick": 78596,
+        "winner": "CT"
+      },
+      {
+        "round": 13,
+        "first_phase": "preplant",
+        "end_tick": 84007,
+        "winner": "T"
+      },
+      {
+        "round": 14,
+        "first_phase": "preplant",
+        "end_tick": 90440,
+        "winner": "T"
+      },
+      {
+        "round": 15,
+        "first_phase": "preplant",
+        "end_tick": 97181,
+        "winner": "T"
+      },
+      {
+        "round": 16,
+        "first_phase": "preplant",
+        "end_tick": 101379,
+        "winner": "T"
+      },
+      {
+        "round": 17,
+        "first_phase": "preplant",
+        "end_tick": 107222,
+        "winner": "T"
+      },
+      {
+        "round": 18,
+        "first_phase": "preplant",
+        "end_tick": 113074,
+        "winner": "CT"
+      },
+      {
+        "round": 19,
+        "first_phase": "preplant",
+        "end_tick": 121286,
+        "winner": "T"
+      },
+      {
+        "round": 20,
+        "first_phase": "preplant",
+        "end_tick": 130011,
+        "winner": "T"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "case": "N01",
+      "schema_id": "stratai.replay_round_context@1",
+      "round": 1,
+      "observation_tick": 7997,
+      "availability_tick": 7997,
+      "phase": "preplant",
+      "source": {
+        "kind": "demo_round_context",
+        "reference": "round:1:frame:7997:round_context"
+      },
+      "freeze_end_tick": 7037,
+      "elapsed_seconds": 15,
+      "elapsed_kind": "demo_ticks_since_freeze_end_not_active_game_clock",
+      "end_tick": null,
+      "winner": "",
+      "configured_duration_seconds": 115,
+      "pause_state": "running",
+      "clock_status": "observed",
+      "clock_reason": "",
+      "round_remaining_seconds": 100,
+      "bomb_remaining_seconds": null,
+      "eligibility": {
+        "kind": "bomb_objective",
+        "status": "observed",
+        "reason": "causal_objective_evidence",
+        "basis_tick": 7037
+      },
+      "decision_status": "active_round"
+    },
+    {
+      "case": "N04",
+      "schema_id": "stratai.replay_round_context@1",
+      "round": 4,
+      "observation_tick": 28684,
+      "availability_tick": 28684,
+      "phase": "ended",
+      "source": {
+        "kind": "demo_round_context",
+        "reference": "round:4:frame:28684:round_context"
+      },
+      "freeze_end_tick": 24936,
+      "elapsed_seconds": 58.5625,
+      "elapsed_kind": "demo_ticks_since_freeze_end_not_active_game_clock",
+      "end_tick": 28238,
+      "winner": "CT",
+      "configured_duration_seconds": 115,
+      "pause_state": "running",
+      "clock_status": "not_applicable",
+      "clock_reason": "round_ended",
+      "round_remaining_seconds": null,
+      "bomb_remaining_seconds": null,
+      "eligibility": {
+        "kind": "bomb_objective",
+        "status": "observed",
+        "reason": "causal_objective_evidence",
+        "basis_tick": 24936
+      },
+      "decision_status": "round_closed"
+    },
+    {
+      "case": "N05",
+      "schema_id": "stratai.replay_round_context@1",
+      "round": 5,
+      "observation_tick": 36413,
+      "availability_tick": 36413,
+      "phase": "ended",
+      "source": {
+        "kind": "demo_round_context",
+        "reference": "round:5:frame:36413:round_context"
+      },
+      "freeze_end_tick": 33001,
+      "elapsed_seconds": 53.3125,
+      "elapsed_kind": "demo_ticks_since_freeze_end_not_active_game_clock",
+      "end_tick": 35969,
+      "winner": "T",
+      "configured_duration_seconds": 115,
+      "pause_state": "running",
+      "clock_status": "not_applicable",
+      "clock_reason": "round_ended",
+      "round_remaining_seconds": null,
+      "bomb_remaining_seconds": null,
+      "eligibility": {
+        "kind": "bomb_objective",
+        "status": "observed",
+        "reason": "causal_objective_evidence",
+        "basis_tick": 33492
+      },
+      "decision_status": "round_closed"
+    },
+    {
+      "case": "N10",
+      "schema_id": "stratai.replay_round_context@1",
+      "round": 10,
+      "observation_tick": 69957,
+      "availability_tick": 69957,
+      "phase": "ended",
+      "source": {
+        "kind": "demo_round_context",
+        "reference": "round:10:frame:69957:round_context"
+      },
+      "freeze_end_tick": 65157,
+      "elapsed_seconds": 75,
+      "elapsed_kind": "demo_ticks_since_freeze_end_not_active_game_clock",
+      "end_tick": 69693,
+      "winner": "T",
+      "configured_duration_seconds": 115,
+      "pause_state": "running",
+      "clock_status": "not_applicable",
+      "clock_reason": "round_ended",
+      "round_remaining_seconds": null,
+      "bomb_remaining_seconds": null,
+      "eligibility": {
+        "kind": "bomb_objective",
+        "status": "observed",
+        "reason": "causal_objective_evidence",
+        "basis_tick": 65248
+      },
+      "decision_status": "round_closed"
+    }
+  ],
+  "protected_artifacts": 836,
+  "old_readings": 10,
+  "notes": 20,
+  "workbook_version": 42,
+  "automated_checks": "closure-checks.json",
+  "independent_evaluation": false,
+  "training": false,
+  "model_calls": 0,
+  "browser_visual_qa": "pending: existing URL policy prohibition respected; DOM tests/build only",
+  "next_action": "events block already authorized; paired interpretation afterwards"
+}

@@ -1,0 +1,646 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_navigation_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "map_name",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "asset",
+    "limitations",
+    "algorithm",
+    "units",
+    "association_method",
+    "endpoint_tolerance",
+    "endpoint_vertical_tolerance",
+    "anchor_keys",
+    "queries",
+    "graph",
+    "results"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_navigation_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string"
+    },
+    "map_name": {
+      "type": "string",
+      "pattern": "^de_[a-z0-9_]+$"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "physical_source",
+        "support_source",
+        "anchors",
+        "physical_context",
+        "base_manifest",
+        "evaluator"
+      ],
+      "properties": {
+        "physical_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "anchors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "base_manifest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "evaluator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference",
+        "sha256",
+        "bytes",
+        "magic",
+        "format_version",
+        "subversion",
+        "status",
+        "demo_binding"
+      ],
+      "properties": {
+        "reference": {
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bytes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "magic": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "format_version": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "subversion": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "asset_absent",
+            "unsupported_format",
+            "candidate_loaded"
+          ]
+        },
+        "demo_binding": {
+          "const": "not_accredited"
+        }
+      }
+    },
+    "limitations": {
+      "const": [
+        "exact_demo_asset_binding_unavailable",
+        "endpoint_physical_association_unaccredited",
+        "area_attributes_hull_and_mobile_transforms_not_modelled",
+        "ladder_links_not_modelled",
+        "target_edge_geometry_not_retained",
+        "centre_polyline_not_collision_checked"
+      ]
+    },
+    "algorithm": {
+      "const": "directed_dijkstra_stable_ties@1"
+    },
+    "units": {
+      "const": "world_units"
+    },
+    "association_method": {
+      "const": "containing_nav_polygon_xy_then_nearest_center_3d@2"
+    },
+    "endpoint_tolerance": {
+      "const": 96
+    },
+    "endpoint_vertical_tolerance": {
+      "const": 128
+    },
+    "anchor_keys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "actor_alias",
+          "ally_alias",
+          "actor_life",
+          "ally_life",
+          "side",
+          "instance",
+          "round_number",
+          "source_sequence",
+          "epoch",
+          "t0_tick",
+          "t0_frame"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string"
+          },
+          "actor_alias": {
+            "type": "string"
+          },
+          "ally_alias": {
+            "type": "string"
+          },
+          "actor_life": {
+            "type": "string"
+          },
+          "ally_life": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "integer"
+          },
+          "round_number": {
+            "type": "integer"
+          },
+          "source_sequence": {
+            "type": "integer"
+          },
+          "epoch": {
+            "type": "integer"
+          },
+          "t0_tick": {
+            "type": "integer"
+          },
+          "t0_frame": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "origin",
+          "target"
+        ],
+        "properties": {
+          "origin": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "properties": {
+              "X": {
+                "type": "number"
+              },
+              "Y": {
+                "type": "number"
+              },
+              "Z": {
+                "type": "number"
+              }
+            }
+          },
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "X",
+              "Y",
+              "Z"
+            ],
+            "properties": {
+              "X": {
+                "type": "number"
+              },
+              "Y": {
+                "type": "number"
+              },
+              "Z": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "graph": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "Version",
+            "AssetReference",
+            "AssetSHA256",
+            "AvailabilityTick",
+            "Nodes",
+            "Edges"
+          ],
+          "properties": {
+            "Version": {
+              "const": "nav_area_connections_with_polygons@2"
+            },
+            "AssetReference": {
+              "type": "string"
+            },
+            "AssetSHA256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "AvailabilityTick": {
+              "const": 0
+            },
+            "Nodes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ID",
+                  "Position",
+                  "Corners"
+                ],
+                "properties": {
+                  "ID": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "Position": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "X",
+                      "Y",
+                      "Z"
+                    ],
+                    "properties": {
+                      "X": {
+                        "type": "number"
+                      },
+                      "Y": {
+                        "type": "number"
+                      },
+                      "Z": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "Corners": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "X",
+                        "Y",
+                        "Z"
+                      ],
+                      "properties": {
+                        "X": {
+                          "type": "number"
+                        },
+                        "Y": {
+                          "type": "number"
+                        },
+                        "Z": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "Edges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "FromID",
+                  "ToID",
+                  "Weight"
+                ],
+                "properties": {
+                  "FromID": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "ToID": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "Weight": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Measurement",
+          "Points"
+        ],
+        "properties": {
+          "Measurement": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "DirectDistance",
+              "Reachable",
+              "PathDistance",
+              "OriginAssociationDistance",
+              "TargetAssociationDistance",
+              "UnavailableReason"
+            ],
+            "properties": {
+              "DirectDistance": {
+                "type": "number"
+              },
+              "Reachable": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "PathDistance": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "OriginAssociationDistance": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "TargetAssociationDistance": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "UnavailableReason": {
+                "type": "string"
+              }
+            }
+          },
+          "Points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "X",
+                "Y",
+                "Z"
+              ],
+              "properties": {
+                "X": {
+                  "type": "number"
+                },
+                "Y": {
+                  "type": "number"
+                },
+                "Z": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

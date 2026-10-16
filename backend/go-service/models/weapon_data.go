@@ -1,5 +1,9 @@
 package models
 
+import "strings"
+
+const WeaponMaxSpeedContractVersion = "cs2_weapon_max_speed_table@1"
+
 // WeaponMaxSpeed defines the maximum player movement speed (units/s) for each weapon
 // Based on official CS2 game files and community data
 // Source: SlothSquadron CS2 Weapon Spreadsheet + CS2 game files
@@ -57,11 +61,30 @@ var WeaponMaxSpeed = map[string]float64{
 // GetWeaponMaxSpeed returns the MaxPlayerSpeed for a given weapon
 // Returns 250.0 (default running speed) if weapon not found
 func GetWeaponMaxSpeed(weaponName string) float64 {
-	if speed, exists := WeaponMaxSpeed[weaponName]; exists {
+	if speed, exists := LookupWeaponMaxSpeed(weaponName); exists {
 		return speed
 	}
 	// Default to standard running speed if weapon unknown
 	return 250.0
+}
+
+// LookupWeaponMaxSpeed is the fail-closed movement-speed lookup used by
+// navigation timing. Unlike GetWeaponMaxSpeed, it never turns an unknown or
+// unavailable weapon into an invented 250 units/s observation.
+func LookupWeaponMaxSpeed(weaponName string) (float64, bool) {
+	trimmed := strings.TrimSpace(weaponName)
+	if trimmed == "" {
+		return 0, false
+	}
+	if speed, exists := WeaponMaxSpeed[trimmed]; exists {
+		return speed, true
+	}
+	for known, speed := range WeaponMaxSpeed {
+		if strings.EqualFold(known, trimmed) {
+			return speed, true
+		}
+	}
+	return 0, false
 }
 
 // GetAccuracyThreshold returns the speed threshold (34% of MaxSpeed)

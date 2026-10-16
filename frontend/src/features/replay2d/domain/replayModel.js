@@ -91,6 +91,13 @@ function eventLabel(type, subtype) {
     bomb_plant: "Bomba plantada",
     bomb_defuse: "Bomba desactivada",
     bomb_explode: "Bomba detonada",
+    bomb_drop: "C4 soltado",
+    bomb_pickup: "C4 recogido",
+    bomb_carrier_snapshot: "Portador de C4 observado",
+    bomb_plant_start: "Inicio de plantado",
+    bomb_plant_abort: "Plantado cancelado",
+    bomb_defuse_start: "Inicio de desactivación",
+    bomb_defuse_abort: "Desactivación cancelada",
   }[type] || "Objetivo";
   return {
     flashbang: "Flash",
@@ -122,6 +129,9 @@ export function normalizeReplayEvent(event, index = 0) {
     // Some parser versions reuse event ids within the same round. Keeping the
     // source id is useful for diagnostics, while the rendered id must be unique.
     sourceId,
+    victim_position_available: event.victim_position_available ?? (
+      Number.isFinite(event.victim_x) && Number.isFinite(event.victim_y)
+    ),
     id: `${sourceId}-${index}`,
     type,
     originalType,
@@ -166,6 +176,10 @@ function derivePlayerHurtEvents(frames) {
 }
 
 function bombAtTick(source, events, tick) {
+  // Modern frames carry the causal tracker state, independent of coordinates.
+  // Reconstruct only legacy exports: a later plant must never erase an earlier
+  // carrier, nor turn a native round-end resolution back into an active plant.
+  if (source?.objective_phase) return { ...source };
   const plant = events.find((event) => event.type === "bomb_plant");
   if (!plant) return source?.state === "carried" ? null : source;
   if (tick < plant.tick) {

@@ -1,0 +1,45 @@
+{
+  "case": "E01",
+  "date": "2026-09-25",
+  "reviewer": "session_user_expert",
+  "literal": "Es correcto, al ser ronda de cuchillos yo la omitira del analisis. No aporta contexto a la IA y va a ser ruido",
+  "stage": "assisted_contextual_followup",
+  "prediction_seen_before_this_followup": true,
+  "assistant_context_seen": [
+    "five_complete_knife_only_inventories",
+    "no_owned_c4",
+    "four_seconds_after_freeze_end",
+    "possible_knife_round"
+  ],
+  "normalization_author": "assistant",
+  "accepted_scope": "Excluir las rondas de cuchillos del análisis táctico del coach. E01 queda fuera de la evaluación táctica por clasificación y criterio del experto.",
+  "classification_source": "expert_review",
+  "native_round_kind_certified": false,
+  "first_reading_replaced": false,
+  "training_allowed": false,
+  "created_at": "2026-09-25T14:11:58.899518+00:00",
+  "round_key": {
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "epoch": 0,
+    "instance": 1,
+    "round_number": 1
+  },
+  "episode_id": "49238b282e6e7f9e7cf7d0fd2f111fd8844779c4c43e7b9a8709e1de97e7ff0b",
+  "context_id": "b2d196aebaf8f2bbcd9dc5a345f77d014eaf2d0d73b1412a69985b497667750e",
+  "criterion": "IC27",
+  "action_applied": "E01 excluded from active tactical review and scoring, retained in frozen selection/history",
+  "active_scope": "outputs/stratai-knife-exclusion-20260925/active-review-scope.json",
+  "counts": {
+    "original_selected": 36,
+    "excluded_knife_rounds": 1,
+    "remaining_pending_context_and_review": 35,
+    "historical_initial_tactical_readings": 1,
+    "scored_active_readings": 0
+  },
+  "original_manifest_changed": false,
+  "detector_changed": false,
+  "automatic_classifier_implemented": false,
+  "native_remaining_clock_still_pending": true,
+  "new_parsing": 0,
+  "protected_files": 278
+}

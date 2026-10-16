@@ -1,0 +1,1246 @@
+{
+  "phase": "3D.4",
+  "date": "2026-09-06",
+  "status": "documentary_audit_complete",
+  "scope": "joint factual sufficiency by existing opportunity; no runtime eligibility changes",
+  "source_phase_evidence": "AI_COACH_ECONOMY_TRANSACTION_TRACE_SINGLE_DEMO_SMOKE_2026-09-06.json",
+  "source_phase_evidence_sha256": "2b23551909c8bdbea5a68954b14145bb0d25b748057106477aa72562f9a2fb8d",
+  "producer_passes": 0,
+  "source_alias": "demo-a11eb0d600ee702c9edb",
+  "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+  "trace_sha256": "7b7cd4cbcece31df40bda9cc34b80efea25240c4893d6530f76ba01266b71050",
+  "opportunities_sha256": "dca5d53d40d4d5d2b3e8400805be9f754532de6697cc06c368a48f0581622a9b",
+  "summary": {
+    "opportunities": 50,
+    "complete_initial_team": 3,
+    "opportunities_with_trace": 48,
+    "comparison_eligible": 0,
+    "training_allowed": false,
+    "product_supported": false
+  },
+  "opportunities": [
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00001:CT",
+      "instance": 1,
+      "side": "CT",
+      "t0_tick": 1,
+      "freeze_end_tick": 1280,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "competitive_round_unavailable"
+      },
+      "trace_rows": 0,
+      "trace_sequence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "channel_counts": {},
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00001:T",
+      "instance": 1,
+      "side": "T",
+      "t0_tick": 1,
+      "freeze_end_tick": 1280,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "competitive_round_unavailable"
+      },
+      "trace_rows": 0,
+      "trace_sequence_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "channel_counts": {},
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00002:CT",
+      "instance": 2,
+      "side": "CT",
+      "t0_tick": 6061,
+      "freeze_end_tick": 7756,
+      "initial_gate": {
+        "status": "available",
+        "reason": "complete_competitive_initial_team"
+      },
+      "trace_rows": 23,
+      "trace_sequence_sha256": "198430d5ba6e851edb03374ec107834ee29e4782ac28f5beae18994cf1feaf7f",
+      "channel_counts": {
+        "native_event:item_pickup": 5,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 6,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 6,
+        "sdk_callback:ItemPickup": 5,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00002:T",
+      "instance": 2,
+      "side": "T",
+      "t0_tick": 6061,
+      "freeze_end_tick": 7756,
+      "initial_gate": {
+        "status": "available",
+        "reason": "complete_competitive_initial_team"
+      },
+      "trace_rows": 28,
+      "trace_sequence_sha256": "98385cb82a55cb6dcf65b1df4fd61e78f63d462a67669a5a15a45be05e6f473b",
+      "channel_counts": {
+        "native_event:item_pickup": 7,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 7,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 7,
+        "sdk_callback:ItemPickup": 7
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00003:CT",
+      "instance": 3,
+      "side": "CT",
+      "t0_tick": 12516,
+      "freeze_end_tick": 16464,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 64,
+      "trace_sequence_sha256": "d12d2f48a7abe9f3d1d1d1ec828b53cd8c4efc059629dae58494e51eeffad8e0",
+      "channel_counts": {
+        "native_event:item_pickup": 16,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 16,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 16,
+        "sdk_callback:ItemPickup": 16
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00003:T",
+      "instance": 3,
+      "side": "T",
+      "t0_tick": 12516,
+      "freeze_end_tick": 16464,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 122,
+      "trace_sequence_sha256": "62bbb3da1703a7b87b75742b6690d899ed3a07af7bad9ad8917dc54bc58ea070",
+      "channel_counts": {
+        "native_event:item_pickup": 30,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 29,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 29,
+        "sdk_callback:ItemPickup": 30,
+        "sdk_callback:ItemRefund": 4
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00004:CT",
+      "instance": 4,
+      "side": "CT",
+      "t0_tick": 20028,
+      "freeze_end_tick": 21308,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 43,
+      "trace_sequence_sha256": "9c1716721e63e1274699cfcab20c9a1fee193b859cac5aab5e2620287175d3d2",
+      "channel_counts": {
+        "native_event:item_pickup": 10,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 11,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 11,
+        "sdk_callback:ItemPickup": 10,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00004:T",
+      "instance": 4,
+      "side": "T",
+      "t0_tick": 20028,
+      "freeze_end_tick": 21308,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 70,
+      "trace_sequence_sha256": "3e6ccd9cd0896495a154f6c6c007bbcd8041e45684b59a5bad52362bac82ca8a",
+      "channel_counts": {
+        "native_event:item_pickup": 18,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 17,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 17,
+        "sdk_callback:ItemPickup": 18
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00005:CT",
+      "instance": 5,
+      "side": "CT",
+      "t0_tick": 26712,
+      "freeze_end_tick": 27992,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 32,
+      "trace_sequence_sha256": "5615cb3ee821f9e9df0a496a85c3a9ba3c1be870e3c579f8df2e92024e72751a",
+      "channel_counts": {
+        "native_event:item_pickup": 9,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 7,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 7,
+        "sdk_callback:ItemPickup": 9
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00005:T",
+      "instance": 5,
+      "side": "T",
+      "t0_tick": 26712,
+      "freeze_end_tick": 27992,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 82,
+      "trace_sequence_sha256": "624be6a041a713654ca217f7cd71ef5ceedbe2f4faf99012b4f42ecb73d12b52",
+      "channel_counts": {
+        "native_event:item_pickup": 22,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 19,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 19,
+        "sdk_callback:ItemPickup": 22
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00006:CT",
+      "instance": 6,
+      "side": "CT",
+      "t0_tick": 30817,
+      "freeze_end_tick": 32097,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 103,
+      "trace_sequence_sha256": "e35c054c5bd78494409f4fc9984396dcd9dd5a5f39301db47fd01f2d571b927a",
+      "channel_counts": {
+        "native_event:item_pickup": 25,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 26,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 26,
+        "sdk_callback:ItemPickup": 25,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00006:T",
+      "instance": 6,
+      "side": "T",
+      "t0_tick": 30817,
+      "freeze_end_tick": 32097,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 79,
+      "trace_sequence_sha256": "e3e337eda94ec9ab8241e512e72e0b9f96a883746dc8b9d268241bf69abd189b",
+      "channel_counts": {
+        "native_event:item_pickup": 21,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 18,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 18,
+        "sdk_callback:ItemPickup": 21,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00007:CT",
+      "instance": 7,
+      "side": "CT",
+      "t0_tick": 35213,
+      "freeze_end_tick": 36493,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 28,
+      "trace_sequence_sha256": "21da701aece3c4e69fdba1a385d9d6e7bbb82e8c2b98f2d3e1e46a081f244a27",
+      "channel_counts": {
+        "native_event:item_pickup": 7,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 7,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 7,
+        "sdk_callback:ItemPickup": 7
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00007:T",
+      "instance": 7,
+      "side": "T",
+      "t0_tick": 35213,
+      "freeze_end_tick": 36493,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 60,
+      "trace_sequence_sha256": "20aac7f07b94feed2cee243a59d8e992da3d37c4d725a6687d6cc67ae8b234fc",
+      "channel_counts": {
+        "native_event:item_pickup": 16,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 14,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 14,
+        "sdk_callback:ItemPickup": 16
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00008:CT",
+      "instance": 8,
+      "side": "CT",
+      "t0_tick": 40866,
+      "freeze_end_tick": 42146,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 120,
+      "trace_sequence_sha256": "5e7eb06d82a6d5c9f8ed505553cf739dacb1b5e40cbae3e6bf685c70d9fd4219",
+      "channel_counts": {
+        "native_event:item_pickup": 30,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 30,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 30,
+        "sdk_callback:ItemPickup": 30
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00008:T",
+      "instance": 8,
+      "side": "T",
+      "t0_tick": 40866,
+      "freeze_end_tick": 42146,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 74,
+      "trace_sequence_sha256": "a8e71064dbe8597fe8e918bbfebe9487cf84bcefde52752c461533f37d4767c9",
+      "channel_counts": {
+        "native_event:item_pickup": 20,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 17,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 17,
+        "sdk_callback:ItemPickup": 20
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00009:CT",
+      "instance": 9,
+      "side": "CT",
+      "t0_tick": 49200,
+      "freeze_end_tick": 50480,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 107,
+      "trace_sequence_sha256": "0fa278afcdee6eee845ad8b087cb4c7b358ceb2c89a7c12afd9459aa9b7aaa13",
+      "channel_counts": {
+        "native_event:item_pickup": 27,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 26,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 26,
+        "sdk_callback:ItemPickup": 27,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00009:T",
+      "instance": 9,
+      "side": "T",
+      "t0_tick": 49200,
+      "freeze_end_tick": 50480,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 121,
+      "trace_sequence_sha256": "e40ca41f1aa8d19cca23867d1751d4b77ddbe78319daf62fbc4269a8065adcc0",
+      "channel_counts": {
+        "native_event:item_pickup": 30,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 30,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 30,
+        "sdk_callback:ItemPickup": 30,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00010:CT",
+      "instance": 10,
+      "side": "CT",
+      "t0_tick": 59545,
+      "freeze_end_tick": 60825,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 95,
+      "trace_sequence_sha256": "1a92a7453680742d4ab937cd92858428f4f96f9fd94a9c6e6108c08165d966b8",
+      "channel_counts": {
+        "native_event:item_pickup": 23,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 24,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 24,
+        "sdk_callback:ItemPickup": 23,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00010:T",
+      "instance": 10,
+      "side": "T",
+      "t0_tick": 59545,
+      "freeze_end_tick": 60825,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 90,
+      "trace_sequence_sha256": "9b036520c801835cccf06cff0515c341319a604e7f0c8fdf7ab5c25b831ff1a2",
+      "channel_counts": {
+        "native_event:item_pickup": 24,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 21,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 21,
+        "sdk_callback:ItemPickup": 24
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00011:CT",
+      "instance": 11,
+      "side": "CT",
+      "t0_tick": 65901,
+      "freeze_end_tick": 67181,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 68,
+      "trace_sequence_sha256": "3b00a59dba2f92a8fdccaa9c7f344f089ff09b5c2dcbea7f3cde50840525f257",
+      "channel_counts": {
+        "native_event:item_pickup": 17,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 17,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 17,
+        "sdk_callback:ItemPickup": 17
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00011:T",
+      "instance": 11,
+      "side": "T",
+      "t0_tick": 65901,
+      "freeze_end_tick": 67181,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 123,
+      "trace_sequence_sha256": "7efa7459398a5108a3af9f27c5dad63e37070f03755d7ad44e02173dd77ae7bb",
+      "channel_counts": {
+        "native_event:item_pickup": 33,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 28,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 28,
+        "sdk_callback:ItemPickup": 33,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00012:CT",
+      "instance": 12,
+      "side": "CT",
+      "t0_tick": 70705,
+      "freeze_end_tick": 71985,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 70,
+      "trace_sequence_sha256": "baa856dd7fca71f09d74c87567ec12f81328dbe3918a072fa79cf7da94c3f4d4",
+      "channel_counts": {
+        "native_event:item_pickup": 18,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 17,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 17,
+        "sdk_callback:ItemPickup": 18
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00012:T",
+      "instance": 12,
+      "side": "T",
+      "t0_tick": 70705,
+      "freeze_end_tick": 71985,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 98,
+      "trace_sequence_sha256": "f0c4d16ac4e4cb1125857810ea730b7bab6781e955d55f8d7ef82ca0f650a314",
+      "channel_counts": {
+        "native_event:item_pickup": 24,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 24,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 24,
+        "sdk_callback:ItemPickup": 24,
+        "sdk_callback:ItemRefund": 2
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00013:CT",
+      "instance": 13,
+      "side": "CT",
+      "t0_tick": 79666,
+      "freeze_end_tick": 80946,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 133,
+      "trace_sequence_sha256": "46424533992dfbeb5519ddd78deeb5b4ee6626724ff64a847a8c78c2ceb802d3",
+      "channel_counts": {
+        "native_event:item_pickup": 33,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 33,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 33,
+        "sdk_callback:ItemPickup": 33,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00013:T",
+      "instance": 13,
+      "side": "T",
+      "t0_tick": 79666,
+      "freeze_end_tick": 80946,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 105,
+      "trace_sequence_sha256": "7127418672143c89b034af617be204b0df4dd52ab25a54682376a721ded68a7a",
+      "channel_counts": {
+        "native_event:item_pickup": 28,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 24,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 24,
+        "sdk_callback:ItemPickup": 28,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00014:CT",
+      "instance": 14,
+      "side": "CT",
+      "t0_tick": 88419,
+      "freeze_end_tick": 90115,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 20,
+      "trace_sequence_sha256": "e5a907d37e3dc572bf280f662a1e4cb98287ecf4da563358f70cc54425966c54",
+      "channel_counts": {
+        "native_event:item_pickup": 5,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 5,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 5,
+        "sdk_callback:ItemPickup": 5
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00014:T",
+      "instance": 14,
+      "side": "T",
+      "t0_tick": 88419,
+      "freeze_end_tick": 90115,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 43,
+      "trace_sequence_sha256": "fab004d00052edaaa12acbbd93c215652f72948b15aef30df93a91ec57309bd8",
+      "channel_counts": {
+        "native_event:item_pickup": 10,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 11,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 11,
+        "sdk_callback:ItemPickup": 10,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00015:CT",
+      "instance": 15,
+      "side": "CT",
+      "t0_tick": 91889,
+      "freeze_end_tick": 93169,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 78,
+      "trace_sequence_sha256": "70cb38f1c4f4352823c8ae6f9d1537577f7a8379f0cac7dec221f284bab0021e",
+      "channel_counts": {
+        "native_event:item_pickup": 19,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 20,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 20,
+        "sdk_callback:ItemPickup": 19
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00015:T",
+      "instance": 15,
+      "side": "T",
+      "t0_tick": 91889,
+      "freeze_end_tick": 93169,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 18,
+      "trace_sequence_sha256": "d9a88b3e2fdb89c280473bffd51565e92df19cefaaa701065cf5193afa35fad0",
+      "channel_counts": {
+        "native_event:item_pickup": 5,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 4,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 4,
+        "sdk_callback:ItemPickup": 5
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00016:CT",
+      "instance": 16,
+      "side": "CT",
+      "t0_tick": 99015,
+      "freeze_end_tick": 100295,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 77,
+      "trace_sequence_sha256": "36caa65e74af222c8ae886f8ef43219fbe1fd0d79df4d0ba7a0e9874f7e8c22a",
+      "channel_counts": {
+        "native_event:item_pickup": 20,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 18,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 18,
+        "sdk_callback:ItemPickup": 20,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00016:T",
+      "instance": 16,
+      "side": "T",
+      "t0_tick": 99015,
+      "freeze_end_tick": 100295,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 118,
+      "trace_sequence_sha256": "e6cf501761668460f26d289d33a886db03c68cc3e35e3d98e229dc684a483987",
+      "channel_counts": {
+        "native_event:item_pickup": 30,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 29,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 29,
+        "sdk_callback:ItemPickup": 30
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00017:CT",
+      "instance": 17,
+      "side": "CT",
+      "t0_tick": 104107,
+      "freeze_end_tick": 105387,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 53,
+      "trace_sequence_sha256": "2b21bc98d74d5bc825530043b9dc849b6e8b63f7e75351ecb4423338e4524a91",
+      "channel_counts": {
+        "native_event:item_pickup": 13,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 13,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 13,
+        "sdk_callback:ItemPickup": 13,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00017:T",
+      "instance": 17,
+      "side": "T",
+      "t0_tick": 104107,
+      "freeze_end_tick": 105387,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 108,
+      "trace_sequence_sha256": "b47e883b5502c5c33e80e3363219d7207e905bd65079a2341028dd414a244ce4",
+      "channel_counts": {
+        "native_event:item_pickup": 28,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 26,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 26,
+        "sdk_callback:ItemPickup": 28
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00018:CT",
+      "instance": 18,
+      "side": "CT",
+      "t0_tick": 107340,
+      "freeze_end_tick": 108620,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 105,
+      "trace_sequence_sha256": "6c6199db4209ef0f2c486387e80aec2858ae44b76d41f6c6a11f06c30a2cf3b1",
+      "channel_counts": {
+        "native_event:item_pickup": 29,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 23,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 23,
+        "sdk_callback:ItemPickup": 29,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00018:T",
+      "instance": 18,
+      "side": "T",
+      "t0_tick": 107340,
+      "freeze_end_tick": 108620,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 28,
+      "trace_sequence_sha256": "afbc73085975c3418dbbf4a56e36ab8db1389a6dd79f13029f09b3c0902696d1",
+      "channel_counts": {
+        "native_event:item_pickup": 7,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 7,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 7,
+        "sdk_callback:ItemPickup": 7
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00019:CT",
+      "instance": 19,
+      "side": "CT",
+      "t0_tick": 110924,
+      "freeze_end_tick": 112204,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 72,
+      "trace_sequence_sha256": "c129e2aa5c79c4a1cced9042381814fd1c6b61fe3c42495b1a1d02d96e3c19eb",
+      "channel_counts": {
+        "native_event:item_pickup": 18,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 18,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 18,
+        "sdk_callback:ItemPickup": 18
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00019:T",
+      "instance": 19,
+      "side": "T",
+      "t0_tick": 110924,
+      "freeze_end_tick": 112204,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 16,
+      "trace_sequence_sha256": "0b12f4d90d9e444b85a391185f73b3a187443ef7cef9bb9b3ae14755a293e66f",
+      "channel_counts": {
+        "native_event:item_pickup": 4,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 4,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 4,
+        "sdk_callback:ItemPickup": 4
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00020:CT",
+      "instance": 20,
+      "side": "CT",
+      "t0_tick": 116279,
+      "freeze_end_tick": 117559,
+      "initial_gate": {
+        "status": "available",
+        "reason": "complete_competitive_initial_team"
+      },
+      "trace_rows": 60,
+      "trace_sequence_sha256": "cf1f51b5d72ca09ffbeb7fbaf34c21bb67462ee7897aa70e3bd7bc5eb0c0a08d",
+      "channel_counts": {
+        "native_event:item_pickup": 15,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 15,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 15,
+        "sdk_callback:ItemPickup": 15
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00020:T",
+      "instance": 20,
+      "side": "T",
+      "t0_tick": 116279,
+      "freeze_end_tick": 117559,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 97,
+      "trace_sequence_sha256": "2dd345285bfceefbf305a63ecd23f153bb0374f8a963f423c67cda207b0e4128",
+      "channel_counts": {
+        "native_event:item_pickup": 24,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 24,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 24,
+        "sdk_callback:ItemPickup": 24,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00021:CT",
+      "instance": 21,
+      "side": "CT",
+      "t0_tick": 122525,
+      "freeze_end_tick": 123805,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 133,
+      "trace_sequence_sha256": "8613a84351a2f04ba798cadd8d6515e144b179937a88917bb9ebd9de9bc1b41e",
+      "channel_counts": {
+        "native_event:item_pickup": 33,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 33,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 33,
+        "sdk_callback:ItemPickup": 33,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00021:T",
+      "instance": 21,
+      "side": "T",
+      "t0_tick": 122525,
+      "freeze_end_tick": 123805,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 107,
+      "trace_sequence_sha256": "1b7b5e0e47b3ee6eeeb1c6d49142c87d7470dc097923d3b541e21dd5f3192b5c",
+      "channel_counts": {
+        "native_event:item_pickup": 28,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 25,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 25,
+        "sdk_callback:ItemPickup": 28,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00022:CT",
+      "instance": 22,
+      "side": "CT",
+      "t0_tick": 132649,
+      "freeze_end_tick": 133929,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 126,
+      "trace_sequence_sha256": "3abb9901abed6ab6209196a65b06ed2cfd8109b2f938d8e5f51c5dfa0e253959",
+      "channel_counts": {
+        "native_event:item_pickup": 33,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 29,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 29,
+        "sdk_callback:ItemPickup": 33,
+        "sdk_callback:ItemRefund": 2
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00022:T",
+      "instance": 22,
+      "side": "T",
+      "t0_tick": 132649,
+      "freeze_end_tick": 133929,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 101,
+      "trace_sequence_sha256": "271447efa2d0ef1d07ba4f2e719f70d220c9588652641f459ce4c0cd94ebf4c0",
+      "channel_counts": {
+        "native_event:item_pickup": 24,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 25,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 25,
+        "sdk_callback:ItemPickup": 24,
+        "sdk_callback:ItemRefund": 3
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00023:CT",
+      "instance": 23,
+      "side": "CT",
+      "t0_tick": 137465,
+      "freeze_end_tick": 138745,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 97,
+      "trace_sequence_sha256": "6d0a0823aebaa9589cda7f7939e6e945593ec19fecfd4fdb1dae53d75eb770d5",
+      "channel_counts": {
+        "native_event:item_pickup": 26,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 22,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 22,
+        "sdk_callback:ItemPickup": 26,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00023:T",
+      "instance": 23,
+      "side": "T",
+      "t0_tick": 137465,
+      "freeze_end_tick": 138745,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 117,
+      "trace_sequence_sha256": "a3da96386e6abb41833f3df4bad301d31638a8255ed6db4ec8933a426b60dd66",
+      "channel_counts": {
+        "native_event:item_pickup": 25,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 31,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 31,
+        "sdk_callback:ItemPickup": 25,
+        "sdk_callback:ItemRefund": 5
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00024:CT",
+      "instance": 24,
+      "side": "CT",
+      "t0_tick": 143528,
+      "freeze_end_tick": 144808,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 78,
+      "trace_sequence_sha256": "7712af78175c316d64bc9f374c3f0488e1a00a7c32038d3a917d1a3920a4abd2",
+      "channel_counts": {
+        "native_event:item_pickup": 20,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 19,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 19,
+        "sdk_callback:ItemPickup": 20
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00024:T",
+      "instance": 24,
+      "side": "T",
+      "t0_tick": 143528,
+      "freeze_end_tick": 144808,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "complete_initial_team_unavailable"
+      },
+      "trace_rows": 106,
+      "trace_sequence_sha256": "d36ea481b3888d242959c195ea0a4e733e0e70ea88a3e7f6058a724ed429216f",
+      "channel_counts": {
+        "native_event:item_pickup": 24,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 27,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 27,
+        "sdk_callback:ItemPickup": 24,
+        "sdk_callback:ItemRefund": 4
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00025:CT",
+      "instance": 25,
+      "side": "CT",
+      "t0_tick": 153469,
+      "freeze_end_tick": 154749,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "competitive_round_unavailable"
+      },
+      "trace_rows": 169,
+      "trace_sequence_sha256": "fac5f295c98932fa5f934cf0aa503fa485146f417fddba16eb5cf20da736d303",
+      "channel_counts": {
+        "native_event:item_pickup": 42,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 42,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 42,
+        "sdk_callback:ItemPickup": 42,
+        "sdk_callback:ItemRefund": 1
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    },
+    {
+      "opportunity_id": "demo-a11eb0d600ee702c9edb:economy:00025:T",
+      "instance": 25,
+      "side": "T",
+      "t0_tick": 153469,
+      "freeze_end_tick": 154749,
+      "initial_gate": {
+        "status": "unavailable",
+        "reason": "competitive_round_unavailable"
+      },
+      "trace_rows": 112,
+      "trace_sequence_sha256": "d3deae57822ae0c2ee1e6d31db5b544182386114a4772c025b4e31c9b9d6234d",
+      "channel_counts": {
+        "native_event:item_pickup": 26,
+        "property_update:m_pInGameMoneyServices.m_iAccount": 28,
+        "property_update:m_pInGameMoneyServices.m_iCashSpentThisRound": 28,
+        "sdk_callback:ItemPickup": 26,
+        "sdk_callback:ItemRefund": 4
+      },
+      "exact_assets": "not_accredited",
+      "complete_effective_rules": "not_accredited",
+      "itemized_transactions": "not_accredited",
+      "cooperation": "not_observed",
+      "comparison_allowed": false
+    }
+  ],
+  "classification": "No opportunity has all the evidence required for economic comparison; this is an audit, not TaskEligibility materialization.",
+  "closure_verification": {
+    "source_evidence_hash_verified": true,
+    "matrix_rows": 50,
+    "runtime_eligibility_changed": false,
+    "new_parses": 0
+  }
+}

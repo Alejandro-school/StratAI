@@ -1,0 +1,23 @@
+{
+  "id": "ICT-I1B-EXPERT-CORRECTION-20260922",
+  "date": "2026-09-22",
+  "source": "Usuario experto, conversación del proyecto",
+  "literal": "Una persona solamente aparece en el radar cuando hay contacto visual. En forma de punto rojo, y cuando se pierde la visibilidad se pone un interrogante que dura unos segundos. Por tanto, eso que indicas es imposible",
+  "response_type": "correction_of_proposed_premise",
+  "expert_response_received": true,
+  "agent_synthesis": [
+    "Retirar el ejemplo que presenta el radar como información surgida sin contacto visual de origen.",
+    "Separar contacto visual actual y contacto perdido con persistencia del marcador.",
+    "Distinguir observador y receptor sin atribuir al experto una confirmación técnica de su correspondencia.",
+    "No contar visión, radar y persistencia del mismo rival como avistamientos independientes.",
+    "No convertir el interrogante en presencia o posición actual confirmada."
+  ],
+  "exact_persistence_seconds": null,
+  "new_tactical_rule_approved": false,
+  "real_channel_capture_verified": false,
+  "hud_recipients_verified": false,
+  "coordinate_codec_verified": false,
+  "semantic_zone_binding_verified": false,
+  "runtime_changes": false,
+  "demos_processed": 0
+}

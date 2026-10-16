@@ -17,6 +17,7 @@ function MarkerIcon({ event }) {
 
 function markerTitle(event) {
   if (event.type === "kill") {
+    if (event.knowledge === "simulated_team_communication") return `${event.victim_name || "Jugador"} · Muerte comunicada`;
     return `${event.killer_name || "Jugador"} → ${event.victim_name || "Jugador"} · ${event.weapon || "arma"}`;
   }
   return `${event.label}${event.site ? ` · Site ${event.site}` : ""}`;

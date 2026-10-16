@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-10",
+  "blocks": [
+    "round_context",
+    "events"
+  ],
+  "cases": [
+    {
+      "case_id": "N01",
+      "status": "mechanically_valid",
+      "seconds": 54.921,
+      "local_calls": 1,
+      "result_sha256": "91234a44d63352a7380d80649bbec2f178bd67af043ac202ba31e7521b17805e",
+      "receipt": {
+        "input_hash": "ee4a95282ce67a5855f6bc60f545d25e6cf51dadb134dbc6dd6cfe742b3031e3",
+        "projected_packet_hash": "cb65657be7cdc56c47387ee88b949c5fb38995d38a28f44066dd7cd90cba401b",
+        "version": "stratai.replay_context_input@5",
+        "training_allowed": false,
+        "product_supported": false,
+        "independent_evaluation": false
+      },
+      "semantic_truth": "requires_review",
+      "tactical_quality": "requires_review"
+    },
+    {
+      "case_id": "N04",
+      "status": "mechanically_valid",
+      "seconds": 44.387,
+      "local_calls": 1,
+      "result_sha256": "17d3928dcca7584c5f2e3b2815daf3f48d150f5222bf0841aa815aaf53e4f5d3",
+      "receipt": {
+        "input_hash": "adf645af11bf4a9b37f8bd9cd1b3ed969015d77b4cad352381ec44d5c610c2cd",
+        "projected_packet_hash": "5cc5b7e8389175ed4b689aaff21d4c3b7da7f1b3afce521547207411745092ba",
+        "version": "stratai.replay_context_input@5",
+        "training_allowed": false,
+        "product_supported": false,
+        "independent_evaluation": false
+      },
+      "semantic_truth": "requires_review",
+      "tactical_quality": "requires_review"
+    },
+    {
+      "case_id": "N10",
+      "status": "rejected_or_incomplete",
+      "seconds": 134.611,
+      "local_calls": 1,
+      "result_sha256": "2b4e4876cd60edd402c2cd71bc17133bf0dd008b3081b47acaba09e1409e1316",
+      "receipt": {
+        "input_hash": "fc78d0489d9222813f0d4aa2b1a6137ce2d8c696531600998b8fab3cb609c5bd",
+        "projected_packet_hash": "81696f9b1c1443d474320e8d9f9359ed39d1e2fad990afb4b524d9cc8babef26",
+        "version": "stratai.replay_context_input@5",
+        "training_allowed": false,
+        "product_supported": false,
+        "independent_evaluation": false
+      },
+      "semantic_truth": "requires_review",
+      "tactical_quality": "requires_review"
+    }
+  ],
+  "local_calls": 3,
+  "external_calls": 0,
+  "complete_readings": 2,
+  "failed_readings": 1,
+  "failures": {
+    "N10": "generation limit reached;8192 tokens; done_reason length; repeated inventories"
+  },
+  "same_model_configuration_and_prompt_protocol": true,
+  "prechecks": "comparison-prechecks.json",
+  "changed": "versioned factual input and constraints",
+  "independent_evaluation": false,
+  "training": false,
+  "human_expert_review": "pending",
+  "findings": {
+    "N01": {
+      "improvements": [
+        "P06 carrier",
+        "preplant and 100-second clock",
+        "dated smoke launch without active effect",
+        "shots and two 15-damage events"
+      ],
+      "errors": [
+        "invents C4 in P07 inventory",
+        "invents unsupported healing",
+        "claims eliminated status unknown despite alive=true/70HP",
+        "enemy estimates stated as observations",
+        "unaccredited named zones of grenade trajectory"
+      ]
+    },
+    "N04": {
+      "improvements": [
+        "explicit CT win and ended round",
+        "dated combat sequence with killfeed identities"
+      ],
+      "errors": [
+        "bomb_drop25339 described as beginning plant although phase remains preplant",
+        "intent and defensive efficacy inferred without sufficient evidence"
+      ]
+    },
+    "N10": {
+      "factual_input": "plant56.84375s; T win70.875s; cut75s",
+      "new_reading": null
+    }
+  },
+  "report": "../outputs/stratai-replay-events-20261010/COMPARACION.md",
+  "result_hashes": {
+    "N01": "91234a44d63352a7380d80649bbec2f178bd67af043ac202ba31e7521b17805e",
+    "N04": "17d3928dcca7584c5f2e3b2815daf3f48d150f5222bf0841aa815aaf53e4f5d3",
+    "N10": "2b4e4876cd60edd402c2cd71bc17133bf0dd008b3081b47acaba09e1409e1316"
+  },
+  "next_action": "review pair with user and frame available-information phase before implementation"
+}

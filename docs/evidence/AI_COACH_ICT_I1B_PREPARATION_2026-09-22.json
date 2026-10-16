@@ -1,0 +1,191 @@
+{
+  "phase": "ICT-I1.B preparation",
+  "date": "2026-09-22",
+  "status": "concrete_candidate_and_scope_prepared_expert_radar_framing_pending",
+  "discovery": {
+    "graph": "list_projects failed: Transport closed",
+    "fallback": "bounded local source inspection"
+  },
+  "module": "github.com/markus-wa/demoinfocs-golang/v5@v5.2.0",
+  "go_mod_sha256": "dcb385c3d5cb52ff8ac67259205c54c3f72fa37a997447cf150e993f405d3dd3",
+  "sources": [
+    {
+      "path": "C:\\Users\\kerch\\go\\pkg\\mod\\github.com\\markus-wa\\demoinfocs-golang\\v5@v5.2.0\\pkg\\demoinfocs\\common\\player.go",
+      "sha256": "47720eda0294cf37f752541019987b5057af9b54ee486a2b9900ad3ceafe1c09",
+      "claim": "mask_to_player",
+      "locators": [
+        {
+          "symbol_or_literal": "func (p *Player) IsSpottedBy",
+          "first_line": 201
+        },
+        {
+          "symbol_or_literal": "other.EntityID - 1",
+          "first_line": 210
+        },
+        {
+          "symbol_or_literal": "m_bSpottedByMask.0000",
+          "first_line": 216
+        },
+        {
+          "symbol_or_literal": "m_bSpottedByMask.0001",
+          "first_line": 219
+        },
+        {
+          "symbol_or_literal": "May not behave as expected with multiple spotters.",
+          "first_line": 200
+        }
+      ]
+    },
+    {
+      "path": "C:\\Users\\kerch\\go\\pkg\\mod\\github.com\\markus-wa\\demoinfocs-golang\\v5@v5.2.0\\pkg\\demoinfocs\\datatables.go",
+      "sha256": "d8b8a5918e004c994e4ee2dbe35bff78ec606bc2ff513407755603c41504aa76",
+      "claim": "mask_change_event",
+      "locators": [
+        {
+          "symbol_or_literal": "PlayerSpottersChanged{Spotted: pl}",
+          "first_line": 529
+        },
+        {
+          "symbol_or_literal": "spottedByMaskProp.OnUpdate",
+          "first_line": 532
+        }
+      ]
+    },
+    {
+      "path": "C:\\Users\\kerch\\go\\pkg\\mod\\github.com\\markus-wa\\demoinfocs-golang\\v5@v5.2.0\\pkg\\demoinfocs\\common\\player_test.go",
+      "sha256": "0d5b69687fdcaa42711f55b705999908c643704ea25047c5eb2dbc4c35e71cb8",
+      "claim": "mock_bit_tests_not_real_capture",
+      "locators": [
+        {
+          "symbol_or_literal": "TestPlayer_IsSpottedBy_HasSpotted_True",
+          "first_line": 133
+        },
+        {
+          "symbol_or_literal": "TestPlayer_IsSpottedBy_HasSpotted_BitOver32",
+          "first_line": 159
+        }
+      ]
+    },
+    {
+      "path": "C:\\Users\\kerch\\go\\pkg\\mod\\github.com\\markus-wa\\demoinfocs-golang\\v5@v5.2.0\\pkg\\demoinfocs\\s2_commands.go",
+      "sha256": "48979380f6571582ea253ec33e076a8a3b3510c74075bc5fb6b09196ef425d53",
+      "claim": "source2_message_decoder",
+      "locators": [
+        {
+          "symbol_or_literal": "CS_UM_ProcessSpottedEntityUpdate",
+          "first_line": 190
+        },
+        {
+          "symbol_or_literal": "&msg.CCSUsrMsg_ProcessSpottedEntityUpdate{}",
+          "first_line": 190
+        }
+      ]
+    },
+    {
+      "path": "C:\\Users\\kerch\\go\\pkg\\mod\\github.com\\markus-wa\\demoinfocs-golang\\v5@v5.2.0\\pkg\\demoinfocs\\msg\\cstrike15_usermessages.pb.go",
+      "sha256": "3b05a3520df94e9c48e2e731fecce59b56f3945b0412e45ffe019f55eeebbbb3",
+      "claim": "message_shape_only",
+      "locators": [
+        {
+          "symbol_or_literal": "type CCSUsrMsg_ProcessSpottedEntityUpdate struct",
+          "first_line": 1388
+        },
+        {
+          "symbol_or_literal": "type CCSUsrMsg_ProcessSpottedEntityUpdate_SpottedEntityUpdate struct",
+          "first_line": 4726
+        },
+        {
+          "symbol_or_literal": "NewUpdate",
+          "first_line": 1390
+        },
+        {
+          "symbol_or_literal": "OriginX",
+          "first_line": 1545
+        },
+        {
+          "symbol_or_literal": "OriginY",
+          "first_line": 1546
+        },
+        {
+          "symbol_or_literal": "OriginZ",
+          "first_line": 1547
+        }
+      ]
+    },
+    {
+      "path": "C:\\Users\\kerch\\go\\pkg\\mod\\github.com\\markus-wa\\demoinfocs-golang\\v5@v5.2.0\\pkg\\demoinfocs\\msg\\netmessages.pb.go",
+      "sha256": "283a22a4c17d39133b460d2344b17c08dca3d64855f28f2377354bd563d2ddb3",
+      "claim": "generic_envelope_shape_only",
+      "locators": [
+        {
+          "symbol_or_literal": "type CSVCMsg_UserMessage struct",
+          "first_line": 2655
+        },
+        {
+          "symbol_or_literal": "Passthrough",
+          "first_line": 2659
+        }
+      ]
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\combat_ledger.go",
+      "sha256": "7e8ddf0326fb5cde94eeddaf97bfb4aaf073418fd111f709497993b6de083544",
+      "claim": "kill_callback_is_event_not_receipt",
+      "locators": [
+        {
+          "symbol_or_literal": "RegisterEventHandler(func(event events.Kill)",
+          "first_line": 75
+        },
+        {
+          "symbol_or_literal": "ctx.Combat.RecordKill",
+          "first_line": 79
+        }
+      ]
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\tracking.go",
+      "sha256": "46456239d531ac17d20333b360b1df08561f78a450eb27d37692a6c9c467465b",
+      "claim": "area_mixes_sources",
+      "locators": [
+        {
+          "symbol_or_literal": "areaName := player.LastPlaceName()",
+          "first_line": 81
+        },
+        {
+          "symbol_or_literal": "areaName = callout",
+          "first_line": 84
+        }
+      ]
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\support_objective_position.go",
+      "sha256": "ef9cecc60204c5c02a3964c4e5718e5e751bbe484c4e0fd6fcc2e871515bcaf8",
+      "claim": "other_object_nested_path_not_equivalent",
+      "locators": [
+        {
+          "symbol_or_literal": "m_entitySpottedState.m_bSpottedByMask.0000",
+          "first_line": 22
+        }
+      ]
+    }
+  ],
+  "candidate": "spotted masks plus ProcessSpottedEntityUpdate; relation to recipient and spatial information requires proof",
+  "source_code_path_exists": true,
+  "real_channel_capture_verified": false,
+  "hud_recipients_verified": false,
+  "spatial_payload_codec_verified": false,
+  "semantic_zone_binding_verified": false,
+  "new_demo_parses": 0,
+  "new_runtime_schemas": 0,
+  "rules_activated": 0,
+  "trained_models": 0,
+  "training_allowed": false,
+  "question": "Si una señal de radar está técnicamente acreditada para un jugador y zona, ¿puede abrir una hipótesis de mayor oposición sin contacto visual directo acreditado?",
+  "agent_proposal": "Sí como indicio, separado de ver, atención y comunicación; sin ordenar cambio de plan.",
+  "expert_response_received": false,
+  "workbook": "outputs/stratai-ict-i1-feedback-20260921/delivery/StratAI_Plan_del_coach_ICT_I1_v6.xlsx",
+  "workbook_changed": false,
+  "functional_tests_and_smoke": "not applicable: no producer, schema, derived-fact or runtime contract changed",
+  "proposal_sha256": "073c5b100142186b732f195b4039bc7a2a14b221b2edb76acf0fd0c1b4309c19",
+  "protected_snapshot_sha256": "e556bb985fd98f1b1c9bebf58f7584959f961c0b05c299b1b71cd9bb03d66101"
+}

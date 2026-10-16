@@ -1,0 +1,1641 @@
+{
+  "schema_id": "stratai.exposure_angle_map_package@1",
+  "contract_version": "1.0.0",
+  "asset_version": "1.0.0-candidate.1",
+  "map_id": "de_mirage",
+  "geometry_revision": "46924b6e46278ec51ea3dcf69016f15b23ed859be37671c2124e10b074effef1",
+  "coordinates": {
+    "system": "source2_world",
+    "units": "source2_world_units",
+    "axis_convention": "right_handed_z_up_x_forward_y_left",
+    "origin_description": "map package coordinates are preserved in the Source 2 world frame"
+  },
+  "angular_convention": {
+    "units": "degrees",
+    "zero_direction": "+x",
+    "positive_direction": "counter_clockwise_toward_+y",
+    "normalization": "[0,360)",
+    "interval": "start_inclusive_end_exclusive",
+    "sector_encoding": "normalized_start_plus_width"
+  },
+  "resolution": {
+    "azimuth_step_degrees": 15,
+    "maximum_ray_distance": 2048,
+    "minimum_clearance_distance": 512,
+    "sampling_height_units": 64
+  },
+  "bounds": {
+    "min": {
+      "x": -4096,
+      "y": -3456,
+      "z": -368
+    },
+    "max": {
+      "x": 2048,
+      "y": 2048,
+      "z": 1024
+    }
+  },
+  "geometry_provenance": [
+    {
+      "role": "physics_gltf",
+      "reference": "de_mirage/de_mirage_physics.gltf",
+      "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451"
+    },
+    {
+      "role": "physics_buffer",
+      "reference": "de_mirage/de_mirage_physics.bin",
+      "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e"
+    },
+    {
+      "role": "sample_seed_catalog",
+      "reference": "de_mirage/de_mirage_places.json",
+      "sha256": "6ba2ed20019e0bcc0bf7762cebcbd4f84fa0849c2f8d1ddb64e2cb10436e32cf"
+    }
+  ],
+  "geometry_samples": [
+    {
+      "id": "sample-001",
+      "alias": "mirage-reference-001",
+      "origin_world": {
+        "x": 1262.5,
+        "y": 462.5,
+        "z": -208.8199920654
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "TSpawn",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 345.801446,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 179,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 126.572114,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 103.345698,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 92.657218,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 89.5,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 92.657218,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 103.345698,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 126.572114,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 995,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 552.081741,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 1622.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 301.287238,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 1549,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 1050.05357,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 386.24733,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 726.221654,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": null,
+          "clearance_met": true
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-001/sector-001",
+          "start_degrees": 142.5,
+          "width_degrees": 45
+        },
+        {
+          "id": "sample-001/sector-002",
+          "start_degrees": 202.5,
+          "width_degrees": 30
+        },
+        {
+          "id": "sample-001/sector-003",
+          "start_degrees": 247.5,
+          "width_degrees": 120
+        }
+      ]
+    },
+    {
+      "id": "sample-002",
+      "alias": "mirage-reference-002",
+      "origin_world": {
+        "x": 475,
+        "y": -900,
+        "z": -107.0243988037
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "TopofMid",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 44,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 45.552152,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 50.806824,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 62.225397,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 88,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 170.002945,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 1491,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 1867.638229,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 1417.972261,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 1689.985207,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 1172.021046,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 1618.13667,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 345,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 1829.333011,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 92,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 707.106781,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 577.350269,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 525.9203,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": 508,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": 1577.760899,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 62.225397,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 50.806824,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 45.552152,
+          "clearance_met": false
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-002/sector-001",
+          "start_degrees": 82.5,
+          "width_degrees": 90
+        },
+        {
+          "id": "sample-002/sector-002",
+          "start_degrees": 187.5,
+          "width_degrees": 15
+        },
+        {
+          "id": "sample-002/sector-003",
+          "start_degrees": 217.5,
+          "width_degrees": 45
+        },
+        {
+          "id": "sample-002/sector-004",
+          "start_degrees": 277.5,
+          "width_degrees": 30
+        }
+      ]
+    },
+    {
+      "id": "sample-003",
+      "alias": "mirage-reference-003",
+      "origin_world": {
+        "x": -162.5,
+        "y": -887.5,
+        "z": -112.7568511963
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "Middle",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 227,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 705.540717,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 815.79593,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 963.786543,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 1505.152152,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 1399.175758,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 1215.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 591.660337,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 1606.765799,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 1368.251622,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 735,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 307.164413,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 1165.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 1619.689584,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 729,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 515.480843,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 425.507148,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 381.499272,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": 530.579042,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": 591.784026,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 736.098159,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 1148.349685,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 232.419503,
+          "clearance_met": false
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-003/sector-001",
+          "start_degrees": 7.5,
+          "width_degrees": 150
+        },
+        {
+          "id": "sample-003/sector-002",
+          "start_degrees": 172.5,
+          "width_degrees": 60
+        },
+        {
+          "id": "sample-003/sector-003",
+          "start_degrees": 262.5,
+          "width_degrees": 75
+        }
+      ]
+    },
+    {
+      "id": "sample-004",
+      "alias": "mirage-reference-004",
+      "origin_world": {
+        "x": -125,
+        "y": -425,
+        "z": -121.2937469482
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "Catwalk",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 644,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 666.71786,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 743.627147,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 1585.333403,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 121.520434,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 112.845104,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 109,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 101.245576,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 885.655313,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 154.149278,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 218,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 429.639615,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 795,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 1262.001664,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 760,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 537.401154,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 512.854754,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 860.314506,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": 975,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": 1009.394276,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": 1135.070629,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 1353.402379,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 743.627147,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 666.71786,
+          "clearance_met": true
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-004/sector-001",
+          "start_degrees": 112.5,
+          "width_degrees": 15
+        },
+        {
+          "id": "sample-004/sector-002",
+          "start_degrees": 172.5,
+          "width_degrees": 240
+        }
+      ]
+    },
+    {
+      "id": "sample-005",
+      "alias": "mirage-reference-005",
+      "origin_world": {
+        "x": -662.5,
+        "y": -1612.5,
+        "z": -118.7188949585
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "BombsiteA",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 860.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 813.309546,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 275.396078,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 337.289935,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 330.77074,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 1955.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 333.876568,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 372.390924,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 941.159126,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 841,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 651.706356,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 713.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 195.577404,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 239.532422,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 338.75,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 1037.572231,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": 429.122093,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": 928.75,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 805.394624,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 1623,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 751.092869,
+          "clearance_met": true
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-005/sector-001",
+          "start_degrees": 52.5,
+          "width_degrees": 15
+        },
+        {
+          "id": "sample-005/sector-002",
+          "start_degrees": 82.5,
+          "width_degrees": 15
+        },
+        {
+          "id": "sample-005/sector-003",
+          "start_degrees": 127.5,
+          "width_degrees": 75
+        },
+        {
+          "id": "sample-005/sector-004",
+          "start_degrees": 247.5,
+          "width_degrees": 15
+        },
+        {
+          "id": "sample-005/sector-005",
+          "start_degrees": 277.5,
+          "width_degrees": 105
+        }
+      ]
+    },
+    {
+      "id": "sample-006",
+      "alias": "mirage-reference-006",
+      "origin_world": {
+        "x": -2550,
+        "y": 162.5,
+        "z": -110.860748291
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "BombsiteB",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 565,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 1844.918328,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 377,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 425.678282,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 562.452777,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 403.240072,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 389.5,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 371.914193,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 244,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 172.534055,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 140.873466,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 121.275667,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 112.080645,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 111.227438,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 118.39456,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 172.534055,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 1517.853858,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 1360.870539,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": 1314.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": 1360.870539,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": 1545.566671,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 761.554003,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 1935,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 311.61813,
+          "clearance_met": false
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-006/sector-001",
+          "start_degrees": 52.5,
+          "width_degrees": 15
+        },
+        {
+          "id": "sample-006/sector-002",
+          "start_degrees": 232.5,
+          "width_degrees": 105
+        },
+        {
+          "id": "sample-006/sector-003",
+          "start_degrees": 352.5,
+          "width_degrees": 30
+        }
+      ]
+    },
+    {
+      "id": "sample-007",
+      "alias": "mirage-reference-007",
+      "origin_world": {
+        "x": -2012.5,
+        "y": 762.5,
+        "z": 5.28125
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "Apartments",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 1308.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 1354.658882,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 1510.925654,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 146.371104,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 119.511506,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": 107.151085,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 103.5,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 107.151085,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 110.436554,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 120.91526,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 170.893299,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": 279.603832,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": 375.802632,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 403.277661,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 761.525005,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 908.9072,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 322.339783,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 285.656988,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": 273.185185,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": 280.042956,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": 308.842985,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 161.927453,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 197,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 396.029589,
+          "clearance_met": false
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-007/sector-001",
+          "start_degrees": 202.5,
+          "width_degrees": 30
+        },
+        {
+          "id": "sample-007/sector-002",
+          "start_degrees": 352.5,
+          "width_degrees": 45
+        }
+      ]
+    },
+    {
+      "id": "sample-008",
+      "alias": "mirage-reference-008",
+      "origin_world": {
+        "x": -1512.5,
+        "y": -787.5,
+        "z": -114.7188949585
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "CTSpawn",
+        "interpretation": "coordinate seed only; source name is not a tactical label"
+      },
+      "rays": [
+        {
+          "azimuth_degrees": 0,
+          "hit_distance_units": 70.5,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 15,
+          "hit_distance_units": 72.986971,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 30,
+          "hit_distance_units": 79,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 45,
+          "hit_distance_units": 55.861436,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 60,
+          "hit_distance_units": 49.88777,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 75,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 90,
+          "hit_distance_units": 871.5,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 105,
+          "hit_distance_units": 1292.408756,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 120,
+          "hit_distance_units": 68.704682,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 135,
+          "hit_distance_units": 652.659559,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 150,
+          "hit_distance_units": 1000.713454,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 165,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 180,
+          "hit_distance_units": null,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 195,
+          "hit_distance_units": 1408.319855,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 210,
+          "hit_distance_units": 729,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 225,
+          "hit_distance_units": 549.421969,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 240,
+          "hit_distance_units": 423,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 255,
+          "hit_distance_units": 828.764359,
+          "clearance_met": true
+        },
+        {
+          "azimuth_degrees": 270,
+          "hit_distance_units": 424.5,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 285,
+          "hit_distance_units": 416.698663,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 300,
+          "hit_distance_units": 318.551534,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 315,
+          "hit_distance_units": 236.880772,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 330,
+          "hit_distance_units": 81.406388,
+          "clearance_met": false
+        },
+        {
+          "azimuth_degrees": 345,
+          "hit_distance_units": 72.986971,
+          "clearance_met": false
+        }
+      ],
+      "geometry_sectors": [
+        {
+          "id": "sample-008/sector-001",
+          "start_degrees": 67.5,
+          "width_degrees": 45
+        },
+        {
+          "id": "sample-008/sector-002",
+          "start_degrees": 127.5,
+          "width_degrees": 105
+        },
+        {
+          "id": "sample-008/sector-003",
+          "start_degrees": 247.5,
+          "width_degrees": 15
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "declaration": "partial_reference_samples",
+    "full_map_coverage": false,
+    "sample_count": 8,
+    "sector_count": 25
+  },
+  "geometry_validation": {
+    "status": "approved",
+    "author_id": "stratai.geometry-generator@1",
+    "reviewer_id": "stratai.exposure-package-validator@1",
+    "evidence": [
+      "physics_gltf_sha256",
+      "physics_buffer_sha256",
+      "ray_grid_recomputation"
+    ]
+  },
+  "tactical_review": {
+    "status": "pending_review",
+    "author_id": null,
+    "reviewer_id": null,
+    "evidence": []
+  },
+  "tactical_annotations": [
+    {
+      "id": "annotation-001",
+      "geometry_sector_ref": "sample-001/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-001/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-002",
+      "geometry_sector_ref": "sample-001/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-001/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-003",
+      "geometry_sector_ref": "sample-001/sector-003",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-001/sector-003"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-004",
+      "geometry_sector_ref": "sample-002/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-002/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-005",
+      "geometry_sector_ref": "sample-002/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-002/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-006",
+      "geometry_sector_ref": "sample-002/sector-003",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-002/sector-003"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-007",
+      "geometry_sector_ref": "sample-002/sector-004",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-002/sector-004"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-008",
+      "geometry_sector_ref": "sample-003/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-003/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-009",
+      "geometry_sector_ref": "sample-003/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-003/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-010",
+      "geometry_sector_ref": "sample-003/sector-003",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-003/sector-003"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-011",
+      "geometry_sector_ref": "sample-004/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-004/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-012",
+      "geometry_sector_ref": "sample-004/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-004/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-013",
+      "geometry_sector_ref": "sample-005/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-005/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-014",
+      "geometry_sector_ref": "sample-005/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-005/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-015",
+      "geometry_sector_ref": "sample-005/sector-003",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-005/sector-003"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-016",
+      "geometry_sector_ref": "sample-005/sector-004",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-005/sector-004"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-017",
+      "geometry_sector_ref": "sample-005/sector-005",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-005/sector-005"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-018",
+      "geometry_sector_ref": "sample-006/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-006/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-019",
+      "geometry_sector_ref": "sample-006/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-006/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-020",
+      "geometry_sector_ref": "sample-006/sector-003",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-006/sector-003"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-021",
+      "geometry_sector_ref": "sample-007/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-007/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-022",
+      "geometry_sector_ref": "sample-007/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-007/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-023",
+      "geometry_sector_ref": "sample-008/sector-001",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-008/sector-001"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-024",
+      "geometry_sector_ref": "sample-008/sector-002",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-008/sector-002"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "annotation-025",
+      "geometry_sector_ref": "sample-008/sector-003",
+      "classification": null,
+      "provenance": [
+        "geometry_sector:sample-008/sector-003"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    }
+  ],
+  "limitations": [
+    "geometry sectors encode horizontal ray clearance only and are not tactical exposure labels",
+    "sample coverage is partial and must not be extrapolated outside declared selection volumes",
+    "cover and exit-route semantics are outside this package",
+    "tactical use remains unavailable until independently attributable human review is approved"
+  ]
+}

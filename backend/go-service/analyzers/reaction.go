@@ -3,6 +3,7 @@ package analyzers
 import (
 	"cs2-demo-service/models"
 	"cs2-demo-service/pkg/playerstate"
+	"cs2-demo-service/pkg/visualcontact"
 	"math"
 	"sort"
 	"sync"
@@ -16,11 +17,13 @@ const maxWorkers = 6
 
 // Estructura para jobs de visibility check
 type visibilityJob struct {
-	shooterEyes r3.Vector
-	enemyCenter r3.Vector
-	enemyHead   r3.Vector
-	shooterID   uint64
-	enemyID     uint64
+	shooterEyes  r3.Vector
+	enemyCenter  r3.Vector
+	enemyHead    r3.Vector
+	shooterID    uint64
+	enemyID      uint64
+	headAllowed  bool
+	chestAllowed bool
 }
 
 type visibilityResult struct {
@@ -80,6 +83,7 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 			history.clear()
 			if currentTick%visibilitySampleStride == 0 {
 				ctx.VisibilitySkippedTicks++
+				recordCalculatedVision(ctx, currentTick, nil, nil, false)
 			}
 			clear(ctx.EnemyFirstSeenTick)
 			clear(ctx.LastVisibleEnemies)
@@ -142,25 +146,26 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 				enemyCenter.Z += 40
 
 				enemyHead, _ := playerstate.EyePosition(enemy)
-				if !shooterFrustum.contains(shooterEyes, enemyHead) &&
-					!shooterFrustum.contains(shooterEyes, enemyCenter) {
-					ctx.LastVisibleEnemies[shooterID][enemyID] = false
-					continue
-				}
-
-				if smokeBlocksSight(ctx.ActiveSmokes, shooterEyes, enemyHead) &&
-					smokeBlocksSight(ctx.ActiveSmokes, shooterEyes, enemyCenter) {
+				// A single target point must satisfy FOV, smoke and wall checks.
+				// Combining a smoke-free chest with a wall-free head is invalid.
+				headAllowed := shooterFrustum.contains(shooterEyes, enemyHead) &&
+					!smokeBlocksSight(ctx.ActiveSmokes, shooterEyes, enemyHead)
+				chestAllowed := shooterFrustum.contains(shooterEyes, enemyCenter) &&
+					!smokeBlocksSight(ctx.ActiveSmokes, shooterEyes, enemyCenter)
+				if !headAllowed && !chestAllowed {
 					ctx.LastVisibleEnemies[shooterID][enemyID] = false
 					continue
 				}
 
 				// Añadir job a la cola
 				jobs = append(jobs, visibilityJob{
-					shooterEyes: shooterEyes,
-					enemyCenter: enemyCenter,
-					enemyHead:   enemyHead,
-					shooterID:   shooterID,
-					enemyID:     enemyID,
+					shooterEyes:  shooterEyes,
+					enemyCenter:  enemyCenter,
+					enemyHead:    enemyHead,
+					shooterID:    shooterID,
+					enemyID:      enemyID,
+					headAllowed:  headAllowed,
+					chestAllowed: chestAllowed,
 				})
 			}
 		}
@@ -181,15 +186,15 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 			go func() {
 				defer wg.Done()
 				for job := range jobsChan {
-					// DUAL RAYCAST STRATEGY
-					// 1. Check HEAD first (Z+62). This catches head-peeks (common in CS).
-					// 2. If Head is blocked, check CHEST (Z+40).
-					// This ensures we catch all visibility cases.
-
-					isVisibleHead := ctx.MapManager.IsVisible(job.shooterEyes, job.enemyHead)
-					raycasts := 1
+					// Only cast rays whose same endpoint passed FOV and smoke.
+					isVisibleHead := false
+					raycasts := 0
+					if job.headAllowed {
+						isVisibleHead = ctx.MapManager.IsVisible(job.shooterEyes, job.enemyHead)
+						raycasts++
+					}
 					isVisibleChest := false
-					if !isVisibleHead {
+					if !isVisibleHead && job.chestAllowed {
 						isVisibleChest = ctx.MapManager.IsVisible(job.shooterEyes, job.enemyCenter)
 						raycasts++
 					}
@@ -222,6 +227,7 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 			results = append(results, result)
 		}
 		sortVisibilityResults(results)
+		recordCalculatedVision(ctx, currentTick, results, history.frames[len(history.frames)-1].players, true)
 
 		// Procesar resultados y actualizar estado
 		for _, result := range results {
@@ -464,19 +470,7 @@ func RegisterReactionAnalyzer(ctx *models.DemoContext) {
 
 // Helper function
 func distancePointToSegment(p, a, b r3.Vector) float64 {
-	ab := b.Sub(a)
-	if ab.Dot(ab) == 0 {
-		return p.Sub(a).Norm()
-	}
-	ap := p.Sub(a)
-	t := ap.Dot(ab) / ab.Dot(ab)
-	if t < 0.0 {
-		t = 0.0
-	} else if t > 1.0 {
-		t = 1.0
-	}
-	nearest := a.Add(ab.Mul(t))
-	return p.Sub(nearest).Norm()
+	return visualcontact.DistancePointToSegment(p, a, b)
 }
 
 func smokeBlocksSight(smokes map[int64]r3.Vector, from, to r3.Vector) bool {

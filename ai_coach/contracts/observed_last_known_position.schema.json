@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_last_known_position@1",
+  "title": "Observed last-known enemy position and information age candidate",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "identity_semantics",
+    "causal_role",
+    "tick_rate_hz",
+    "rows"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_last_known_position@1"},
+    "contract_version": {"const": "1.0.0"},
+    "identity_semantics": {"const": "local_opaque_aliases"},
+    "causal_role": {"const": "model_input_observation"},
+    "tick_rate_hz": {"type": "number", "exclusiveMinimum": 0},
+    "rows": {"type": "array", "items": {"$ref": "#/$defs/row"}}
+  },
+  "$defs": {
+    "nullable_non_negative_integer": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "nullable_positive_integer": {
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {
+        "x": {"type": "number"},
+        "y": {"type": "number"},
+        "z": {"type": "number"}
+      }
+    },
+    "join_keys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_alias", "round_id", "observer_alias", "subject_alias"],
+      "properties": {
+        "source_alias": {"type": "string", "pattern": "^demo-[0-9a-f]{20}$"},
+        "round_id": {"type": "string", "pattern": "^demo-[0-9a-f]{20}:round:[0-9]{3}$"},
+        "observer_alias": {"type": "string", "pattern": "^participant-[0-9]{3,}$"},
+        "subject_alias": {"type": "string", "pattern": "^participant-[0-9]{3,}$"}
+      }
+    },
+    "contact_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "visual_contact",
+        "availability_tick",
+        "source_frame_tick",
+        "subject_position_at_contact",
+        "observer_life_sequence",
+        "subject_life_sequence",
+        "source"
+      ],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "visual_contact": {"type": ["boolean", "null"]},
+        "availability_tick": {"type": "integer", "minimum": 0},
+        "source_frame_tick": {"type": "integer", "minimum": 0},
+        "subject_position_at_contact": {
+          "oneOf": [{"$ref": "#/$defs/vector"}, {"type": "null"}]
+        },
+        "observer_life_sequence": {"$ref": "#/$defs/nullable_positive_integer"},
+        "subject_life_sequence": {"$ref": "#/$defs/nullable_positive_integer"},
+        "source": {"const": "stratai.observed_visual_contact@1"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}, "required": ["status"]},
+          "then": {
+            "properties": {
+              "visual_contact": {"type": "null"},
+              "subject_position_at_contact": {"type": "null"}
+            }
+          },
+          "else": {"properties": {"visual_contact": {"type": "boolean"}}}
+        },
+        {
+          "if": {"properties": {"visual_contact": {"const": false}}, "required": ["visual_contact"]},
+          "then": {"properties": {"subject_position_at_contact": {"type": "null"}}}
+        }
+      ]
+    },
+    "position_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value",
+        "observed_tick",
+        "availability_tick",
+        "coordinate_frame",
+        "spatial_semantics",
+        "source"
+      ],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "value": {"oneOf": [{"$ref": "#/$defs/vector"}, {"type": "null"}]},
+        "observed_tick": {"$ref": "#/$defs/nullable_non_negative_integer"},
+        "availability_tick": {"$ref": "#/$defs/nullable_non_negative_integer"},
+        "coordinate_frame": {"const": "source2_world_xyz"},
+        "spatial_semantics": {"const": "subject_pawn_origin_at_confirmed_visual_contact"},
+        "source": {"enum": ["confirmed_visual_contact_subject_pawn_origin", "unavailable"]}
+      }
+    },
+    "age_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value_ms", "availability_tick", "units", "source"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "value_ms": {"type": ["number", "null"], "minimum": 0},
+        "availability_tick": {"$ref": "#/$defs/nullable_non_negative_integer"},
+        "units": {"const": "milliseconds"},
+        "source": {"enum": ["tick_delta_from_confirmed_visual_contact", "unavailable"]}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visual_contact_schema_id",
+        "visual_contact_contract_version",
+        "position_source_artifact",
+        "input_fields"
+      ],
+      "properties": {
+        "visual_contact_schema_id": {"const": "stratai.observed_visual_contact@1"},
+        "visual_contact_contract_version": {"const": "1.0.0"},
+        "position_source_artifact": {"const": "replay_data_in_memory"},
+        "input_fields": {
+          "const": [
+            "replay.subject_pawn_origin",
+            "visual_contact.availability_tick",
+            "visual_contact.provenance.source_frame_tick",
+            "visual_contact.status",
+            "visual_contact.value"
+          ]
+        }
+      }
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "round_number",
+        "t0_tick",
+        "join_keys",
+        "contact_observation",
+        "last_known_position",
+        "information_age",
+        "derivation",
+        "abstention_reasons",
+        "provenance"
+      ],
+      "properties": {
+        "row_id": {"type": "string", "pattern": "^last-known-[0-9]{9}$"},
+        "round_number": {"type": "integer", "minimum": 1},
+        "t0_tick": {"type": "integer", "minimum": 0},
+        "join_keys": {"$ref": "#/$defs/join_keys"},
+        "contact_observation": {"$ref": "#/$defs/contact_observation"},
+        "last_known_position": {"$ref": "#/$defs/position_fact"},
+        "information_age": {"$ref": "#/$defs/age_fact"},
+        "derivation": {"enum": ["contact_update", "carry_from_prior_contact", "unavailable"]},
+        "abstention_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "provenance": {"$ref": "#/$defs/provenance"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"last_known_position": {"properties": {"status": {"const": "unavailable"}}}},
+            "required": ["last_known_position"]
+          },
+          "then": {
+            "properties": {
+              "last_known_position": {
+                "properties": {
+                  "value": {"type": "null"},
+                  "observed_tick": {"type": "null"},
+                  "availability_tick": {"type": "null"},
+                  "source": {"const": "unavailable"}
+                }
+              },
+              "information_age": {
+                "properties": {
+                  "status": {"const": "unavailable"},
+                  "value_ms": {"type": "null"},
+                  "availability_tick": {"type": "null"},
+                  "source": {"const": "unavailable"}
+                }
+              },
+              "derivation": {"const": "unavailable"},
+              "abstention_reasons": {"minItems": 1}
+            }
+          },
+          "else": {
+            "properties": {
+              "last_known_position": {
+                "properties": {
+                  "value": {"$ref": "#/$defs/vector"},
+                  "observed_tick": {"type": "integer", "minimum": 0},
+                  "availability_tick": {"type": "integer", "minimum": 0},
+                  "source": {"const": "confirmed_visual_contact_subject_pawn_origin"}
+                }
+              },
+              "information_age": {
+                "properties": {
+                  "status": {"const": "observed"},
+                  "value_ms": {"type": "number", "minimum": 0},
+                  "availability_tick": {"type": "integer", "minimum": 0},
+                  "source": {"const": "tick_delta_from_confirmed_visual_contact"}
+                }
+              },
+              "derivation": {"enum": ["contact_update", "carry_from_prior_contact"]},
+              "abstention_reasons": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"derivation": {"const": "contact_update"}}, "required": ["derivation"]},
+          "then": {
+            "properties": {
+              "contact_observation": {
+                "properties": {
+                  "status": {"const": "observed"},
+                  "visual_contact": {"const": true},
+                  "subject_position_at_contact": {"$ref": "#/$defs/vector"},
+                  "observer_life_sequence": {"type": "integer", "minimum": 1},
+                  "subject_life_sequence": {"type": "integer", "minimum": 1}
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"derivation": {"const": "carry_from_prior_contact"}}, "required": ["derivation"]},
+          "then": {
+            "properties": {
+              "contact_observation": {
+                "properties": {"subject_position_at_contact": {"type": "null"}}
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

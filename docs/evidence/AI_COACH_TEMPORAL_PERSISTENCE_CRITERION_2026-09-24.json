@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-24",
+  "phase": "ICT-I2 temporal persistence",
+  "proposed_by": "assistant",
+  "accepted_by": "user_expert",
+  "question": "Para la actualización temporal del detector queda un caso por concretar: después de avanzar hacia A, todo el grupo permanece parado, con C4 y posiciones verificadas, sin nuevas señales de preparación ni de retirada. ¿Debe mostrar «lectura anterior: posible entrada A; situación actual en revisión», o mantener «posible entrada A» hasta que aparezca una contradicción? Las pausas con apoyo de la trayectoria y el pequeño reajuste de R2 ya están aceptados.",
+  "answer_verbatim": "Mantener posibilidad hasta contradicción",
+  "criterion_status": "provisional",
+  "scope": "La pausa de todo el grupo conserva una posibilidad respaldada mientras los datos actuales sigan verificados y no haya contradicción. No crea una hipótesis nueva a partir de posiciones estáticas.",
+  "limits": ["No confirma intención o ejecución", "No permite puentear pérdida de identidad, C4 o continuidad", "No conserva roles ni recursos históricos como actuales", "No fija segundos o distancias universales de retirada", "No acredita generalización independiente, recomendaciones o entrenamiento"],
+  "workbook": "outputs/stratai-temporal-persistence-20260924/StratAI_Plan_del_coach_ICT_I2_v14.xlsx",
+  "cells": "Contexto colectivo!A29:G29"
+}

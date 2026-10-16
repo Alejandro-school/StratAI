@@ -20,6 +20,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 
 from ..auth.dependencies import SteamUser, require_steam_user
+from ..auth.match_access import require_match_access
 from ..config import PIPELINE_NAMESPACE, REDIS_URL, STEAM_API_KEY
 from ..matches.canonical_repository import (
     CanonicalMatch,
@@ -2195,7 +2196,9 @@ def _stream_match_replay(match: CanonicalMatch):
 
 
 @router.get("/match/{match_id}/replay")
-async def get_match_replay(match_id: str) -> StreamingResponse:
+async def get_match_replay(
+    match_id: str, user: SteamUser = Depends(require_steam_user),
+) -> StreamingResponse:
     """
     Endpoint para obtener datos de replay 2D de una partida.
     
@@ -2203,8 +2206,8 @@ async def get_match_replay(match_id: str) -> StreamingResponse:
     """
     logging.info(f"[get-match-replay] Fetching replay data for {match_id}")
     
-    match_export = find_canonical_match(EXPORTS_PATH, match_id)
-    if match_export is None or not match_export.replay_index():
+    match_export = require_match_access(match_id, user, EXPORTS_PATH)
+    if not match_export.replay_index():
         raise HTTPException(status_code=404, detail="Replay data not found for this match")
     return StreamingResponse(
         _stream_match_replay(match_export),
@@ -2213,7 +2216,9 @@ async def get_match_replay(match_id: str) -> StreamingResponse:
 
 
 @router.get("/match/{match_id}/replay/metadata")
-async def get_match_replay_metadata(match_id: str) -> dict:
+async def get_match_replay_metadata(
+    match_id: str, user: SteamUser = Depends(require_steam_user),
+) -> dict:
     """
     Endpoint para obtener solo los metadatos del replay (carga instantánea).
     
@@ -2221,9 +2226,7 @@ async def get_match_replay_metadata(match_id: str) -> dict:
     """
     logging.info(f"[get-match-replay-metadata] Fetching metadata for {match_id}")
     
-    match_export = find_canonical_match(EXPORTS_PATH, match_id)
-    if match_export is None:
-        raise HTTPException(status_code=404, detail="Replay data not found for this match")
+    match_export = require_match_access(match_id, user, EXPORTS_PATH)
     canonical_index = thaw_json(match_export.replay_index())
     if not canonical_index:
         raise HTTPException(status_code=404, detail="Replay data not found for this match")
@@ -2248,7 +2251,9 @@ async def get_match_replay_metadata(match_id: str) -> dict:
 
 
 @router.get("/match/{match_id}/replay/round/{round_num}")
-async def get_match_replay_round(match_id: str, round_num: int) -> dict:
+async def get_match_replay_round(
+    match_id: str, round_num: int, user: SteamUser = Depends(require_steam_user),
+) -> dict:
     """
     Endpoint para obtener los datos de una ronda específica (carga lazy).
     
@@ -2256,9 +2261,7 @@ async def get_match_replay_round(match_id: str, round_num: int) -> dict:
     """
     logging.info(f"[get-match-replay-round] Fetching round {round_num} for {match_id}")
     
-    match_export = find_canonical_match(EXPORTS_PATH, match_id)
-    if match_export is None:
-        raise HTTPException(status_code=404, detail="Replay data not found for this match")
+    match_export = require_match_access(match_id, user, EXPORTS_PATH)
     try:
         round_data = thaw_json(match_export.replay_round(round_num))
         if not round_data:

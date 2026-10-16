@@ -1,0 +1,633 @@
+{
+  "date": "2026-10-04",
+  "status": "completed_identified_cleanup",
+  "user_execution_request": "Ejecutalo ahora",
+  "previous_audit": "docs/evidence/PROJECT_CLEANUP_2026-10-03.json",
+  "authorization": "Fresh execution request; scoped file and artifact removals accepted by the current automatic approval reviewer after re-verification. No policy bypass.",
+  "removed": {
+    "removed_targets": 142,
+    "removed_files": 1889,
+    "removed_bytes": 906603475,
+    "frontend_files_removed": 26,
+    "completed_prompts_removed": 11,
+    "sandbox_preflight_paths_not_visible": [
+      ".pytest_cache/.gitignore",
+      ".pytest_cache/CACHEDIR.TAG",
+      ".pytest_cache/README.md",
+      ".pytest_cache/v/cache/lastfailed",
+      ".pytest_cache/v/cache/nodeids"
+    ],
+    "authoritative_deletion_preflight": "Escalated PowerShell enumerated and SHA-256 checked all 1,889 original files before deletion. All files, including the five cache paths not visible to the sandbox read, were present."
+  },
+  "source_files": [
+    "frontend/src/components/Performance/StatPill.jsx",
+    "frontend/src/components/Progress/MissionCard.jsx",
+    "frontend/src/components/Progress/MissionsTab.jsx",
+    "frontend/src/components/Progress/ProgressHeader.jsx",
+    "frontend/src/components/Progress/RankBadge.jsx",
+    "frontend/src/components/Progress/RankingTab.jsx",
+    "frontend/src/components/TacticalMap/AdaptiveHotspot.jsx",
+    "frontend/src/components/TacticalMap/CalloutDetailPanel.jsx",
+    "frontend/src/components/TacticalMap/LevelSelector.jsx",
+    "frontend/src/components/TacticalMap/MapStatsSummary.jsx",
+    "frontend/src/components/TacticalMap/MovementHeatmapTab.jsx",
+    "frontend/src/features/performance/scene/StaticFactionModel.jsx",
+    "frontend/src/mocks/progressData.js",
+    "frontend/src/styles/pages/performance.css",
+    "frontend/src/styles/Progress/leaderboard.css",
+    "frontend/src/styles/Progress/missionCard.css",
+    "frontend/src/styles/Progress/missionsTab.css",
+    "frontend/src/styles/Progress/progressHeader.css",
+    "frontend/src/styles/Progress/progressShell.css",
+    "frontend/src/styles/Progress/rankBadge.css",
+    "frontend/src/styles/TacticalMap/adaptiveHotspot.css",
+    "frontend/src/styles/TacticalMap/calloutDetailPanel.css",
+    "frontend/src/styles/TacticalMap/levelSelector.css",
+    "frontend/src/styles/TacticalMap/movementHeatmap.css",
+    "frontend/src/utils/insightEngine.js",
+    "frontend/src/utils/performanceBenchmarks.js",
+    "docs/archive/ai-coach/AI_COACH_CONTEXT_INPUT_COMPLETED_PROMPT_2026-09-23.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1A_EXECUTED_PROMPT_2026-09-21.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1B_PREPARATION_EXECUTED_PROMPT_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1B_PROBE_EXECUTED_PROMPT_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1B_PROMPT_BEFORE_PERFORMANCE_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1B_REVIEW_EXECUTED_PROMPT_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_RADAR_HUD_PREPARATION_EXECUTED_PROMPT_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_RADAR_RECORDING_PROPOSAL_WITHDRAWN_PROMPT_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_COMPLETED_PROMPT_2026-09-23.md",
+    "docs/archive/ai-coach/AI_COACH_REPLAY_INFORMATION_SCOPE_COMPLETED_PROMPT_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_TECHNICAL_EVALUATION_EXECUTED_PROMPT_2026-09-22.md"
+  ],
+  "artifact_targets": [
+    {
+      "relative": "frontend/build",
+      "files": 233,
+      "bytes": 94179359
+    },
+    {
+      "relative": ".pytest_cache",
+      "files": 5,
+      "bytes": 300156
+    },
+    {
+      "relative": ".ruff_cache",
+      "files": 22,
+      "bytes": 29870
+    },
+    {
+      "relative": "outputs/stratai-review-shared-20260925/retained-builds",
+      "files": 798,
+      "bytes": 558087983
+    },
+    {
+      "relative": "outputs/stratai-review-shared-20260925/packaging-stage",
+      "files": 39,
+      "bytes": 120968465
+    },
+    {
+      "relative": "outputs/stratai-full-width-map-20260928/publish-final",
+      "files": 40,
+      "bytes": 11603435
+    },
+    {
+      "relative": "outputs/stratai-full-width-map-20260928/publish-stage",
+      "files": 40,
+      "bytes": 11603434
+    },
+    {
+      "relative": "outputs/stratai-ground-c4-review-20260928/publish-stage",
+      "files": 40,
+      "bytes": 11907895
+    },
+    {
+      "relative": "outputs/stratai-kill-context-20260926/publish-stage",
+      "files": 40,
+      "bytes": 11347928
+    },
+    {
+      "relative": "outputs/stratai-review-information-20260926/publish-stage",
+      "files": 40,
+      "bytes": 11273141
+    },
+    {
+      "relative": "outputs/stratai-review-simple-20260926/packaging-v4",
+      "files": 40,
+      "bytes": 11167138
+    },
+    {
+      "relative": "outputs/stratai-review-web-20260926/packaging-v2",
+      "files": 40,
+      "bytes": 11171261
+    },
+    {
+      "relative": "outputs/stratai-review-web-20260926/packaging-v3",
+      "files": 40,
+      "bytes": 11171695
+    },
+    {
+      "relative": "outputs/stratai-review-workspace-20260928/publish-stage",
+      "files": 40,
+      "bytes": 11526814
+    },
+    {
+      "relative": "outputs/stratai-situation-review-20260926/publish-stage",
+      "files": 40,
+      "bytes": 11413805
+    },
+    {
+      "relative": "outputs/stratai-three-column-review-20260928/publish-stage",
+      "files": 40,
+      "bytes": 11598953
+    },
+    {
+      "relative": "ai_coach/__pycache__",
+      "files": 1,
+      "bytes": 226
+    },
+    {
+      "relative": "ai_coach/audits/__pycache__",
+      "files": 2,
+      "bytes": 37571
+    },
+    {
+      "relative": "ai_coach/contracts/__pycache__",
+      "files": 18,
+      "bytes": 578246
+    },
+    {
+      "relative": "ai_coach/datasets/__pycache__",
+      "files": 5,
+      "bytes": 153558
+    },
+    {
+      "relative": "ai_coach/economy/__pycache__",
+      "files": 17,
+      "bytes": 299930
+    },
+    {
+      "relative": "ai_coach/interpretation/__pycache__",
+      "files": 26,
+      "bytes": 355208
+    },
+    {
+      "relative": "ai_coach/spatial/__pycache__",
+      "files": 1,
+      "bytes": 252
+    },
+    {
+      "relative": "ai_coach/spatial/cover/__pycache__",
+      "files": 2,
+      "bytes": 29434
+    },
+    {
+      "relative": "ai_coach/spatial/exit_route/__pycache__",
+      "files": 2,
+      "bytes": 25004
+    },
+    {
+      "relative": "ai_coach/spatial/exposure/__pycache__",
+      "files": 2,
+      "bytes": 28344
+    },
+    {
+      "relative": "ai_coach/spatial/review/__pycache__",
+      "files": 7,
+      "bytes": 117858
+    },
+    {
+      "relative": "ai_coach/support/__pycache__",
+      "files": 23,
+      "bytes": 601716
+    },
+    {
+      "relative": "ai_coach/tests/__pycache__",
+      "files": 81,
+      "bytes": 2437371
+    },
+    {
+      "relative": "backend/__pycache__",
+      "files": 1,
+      "bytes": 160
+    },
+    {
+      "relative": "backend/app/__pycache__",
+      "files": 2,
+      "bytes": 7014
+    },
+    {
+      "relative": "backend/app/auth/__pycache__",
+      "files": 2,
+      "bytes": 2115
+    },
+    {
+      "relative": "backend/app/matches/__pycache__",
+      "files": 5,
+      "bytes": 79047
+    },
+    {
+      "relative": "backend/app/middleware/__pycache__",
+      "files": 3,
+      "bytes": 15206
+    },
+    {
+      "relative": "backend/app/routes/__pycache__",
+      "files": 5,
+      "bytes": 151157
+    },
+    {
+      "relative": "backend/app/security/__pycache__",
+      "files": 3,
+      "bytes": 5787
+    },
+    {
+      "relative": "backend/app/tactical/__pycache__",
+      "files": 5,
+      "bytes": 22071
+    },
+    {
+      "relative": "backend/app/utils/__pycache__",
+      "files": 6,
+      "bytes": 98367
+    },
+    {
+      "relative": "backend/go-service/scripts/__pycache__",
+      "files": 16,
+      "bytes": 1379586
+    },
+    {
+      "relative": "backend/tests/__pycache__",
+      "files": 12,
+      "bytes": 157288
+    },
+    {
+      "relative": "outputs/stratai-orientation-candidate-20261001/__pycache__",
+      "files": 3,
+      "bytes": 111568
+    },
+    {
+      "relative": "outputs/stratai-review-batch-20260925/__pycache__",
+      "files": 1,
+      "bytes": 16272
+    },
+    {
+      "relative": "outputs/stratai-team-status-20260925/__pycache__",
+      "files": 2,
+      "bytes": 11301
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-23T07-56-00-466Z.log",
+      "files": 1,
+      "bytes": 143
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-23T18-05-13-942Z.log",
+      "files": 1,
+      "bytes": 143
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-23T18-14-10-781Z.log",
+      "files": 1,
+      "bytes": 143
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-24T15-30-09-895Z.log",
+      "files": 1,
+      "bytes": 139
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-24T17-42-35-643Z.log",
+      "files": 1,
+      "bytes": 139
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-28T07-57-47-997Z.log",
+      "files": 1,
+      "bytes": 139
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-28T08-16-54-785Z.log",
+      "files": 1,
+      "bytes": 139
+    },
+    {
+      "relative": ".playwright-cli/console-2026-09-28T08-59-19-738Z.log",
+      "files": 1,
+      "bytes": 139
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-23T18-05-14-129Z.yml",
+      "files": 1,
+      "bytes": 3098
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-23T18-05-59-804Z.yml",
+      "files": 1,
+      "bytes": 3141
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-23T18-06-12-608Z.yml",
+      "files": 1,
+      "bytes": 3210
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-23T18-14-10-882Z.yml",
+      "files": 1,
+      "bytes": 3243
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-24T15-22-40-421Z.yml",
+      "files": 1,
+      "bytes": 0
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-24T15-30-10-145Z.yml",
+      "files": 1,
+      "bytes": 3264
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-24T15-30-55-708Z.yml",
+      "files": 1,
+      "bytes": 3292
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-24T15-32-32-400Z.yml",
+      "files": 1,
+      "bytes": 3408
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-24T17-42-35-870Z.yml",
+      "files": 1,
+      "bytes": 3950
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-24T17-42-59-121Z.yml",
+      "files": 1,
+      "bytes": 3986
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T14-51-07-469Z.yml",
+      "files": 1,
+      "bytes": 3509
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T14-52-08-634Z.yml",
+      "files": 1,
+      "bytes": 3781
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T14-52-58-372Z.yml",
+      "files": 1,
+      "bytes": 3846
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T14-53-35-946Z.yml",
+      "files": 1,
+      "bytes": 3830
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T15-44-51-688Z.yml",
+      "files": 1,
+      "bytes": 3761
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T15-45-18-128Z.yml",
+      "files": 1,
+      "bytes": 4023
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T15-45-42-130Z.yml",
+      "files": 1,
+      "bytes": 4084
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T15-45-59-582Z.yml",
+      "files": 1,
+      "bytes": 4091
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T15-46-02-740Z.yml",
+      "files": 1,
+      "bytes": 4035
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T15-47-02-979Z.yml",
+      "files": 1,
+      "bytes": 3793
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-05-28-727Z.yml",
+      "files": 1,
+      "bytes": 11917
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-06-25-008Z.yml",
+      "files": 1,
+      "bytes": 5289
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-06-43-023Z.yml",
+      "files": 1,
+      "bytes": 5329
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-06-58-061Z.yml",
+      "files": 1,
+      "bytes": 4756
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-07-11-926Z.yml",
+      "files": 1,
+      "bytes": 11917
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-07-32-887Z.yml",
+      "files": 1,
+      "bytes": 4044
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-07-58-370Z.yml",
+      "files": 1,
+      "bytes": 4375
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-08-17-554Z.yml",
+      "files": 1,
+      "bytes": 4231
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-08-53-457Z.yml",
+      "files": 1,
+      "bytes": 4231
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-08-57-368Z.yml",
+      "files": 1,
+      "bytes": 4380
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-09-31-591Z.yml",
+      "files": 1,
+      "bytes": 4231
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-09-49-805Z.yml",
+      "files": 1,
+      "bytes": 4458
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-10-12-930Z.yml",
+      "files": 1,
+      "bytes": 4362
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-10-34-557Z.yml",
+      "files": 1,
+      "bytes": 4307
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-25T18-11-23-003Z.yml",
+      "files": 1,
+      "bytes": 12201
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T07-57-49-085Z.yml",
+      "files": 1,
+      "bytes": 13289
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T07-58-01-419Z.yml",
+      "files": 1,
+      "bytes": 7489
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T07-58-58-159Z.yml",
+      "files": 1,
+      "bytes": 7405
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-00-11-110Z.yml",
+      "files": 1,
+      "bytes": 7134
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-00-59-999Z.yml",
+      "files": 1,
+      "bytes": 7134
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-01-24-897Z.yml",
+      "files": 1,
+      "bytes": 7134
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-02-07-184Z.yml",
+      "files": 1,
+      "bytes": 7130
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-02-09-083Z.yml",
+      "files": 1,
+      "bytes": 7246
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-02-10-963Z.yml",
+      "files": 1,
+      "bytes": 9198
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-02-58-147Z.yml",
+      "files": 1,
+      "bytes": 8956
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-03-29-556Z.yml",
+      "files": 1,
+      "bytes": 9226
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-16-55-885Z.yml",
+      "files": 1,
+      "bytes": 13289
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-16-59-004Z.yml",
+      "files": 1,
+      "bytes": 7125
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-19-11-853Z.yml",
+      "files": 1,
+      "bytes": 7125
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-59-20-838Z.yml",
+      "files": 1,
+      "bytes": 13289
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T08-59-39-846Z.yml",
+      "files": 1,
+      "bytes": 7308
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T09-00-25-142Z.yml",
+      "files": 1,
+      "bytes": 8005
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T09-01-42-375Z.yml",
+      "files": 1,
+      "bytes": 8073
+    },
+    {
+      "relative": ".playwright-cli/page-2026-09-28T09-02-12-833Z.yml",
+      "files": 1,
+      "bytes": 7341
+    }
+  ],
+  "full_original_inventory": ".cache/project-cleanup-20261004/removal-manifest.json",
+  "full_original_inventory_sha256": "af632162b13e8d9827cb4ece7cee3a2d31d003e5340d4b2ad13079109c697dfd",
+  "verification_build_removed": {
+    "path": "frontend/build",
+    "files": 233,
+    "bytes": 94179359,
+    "inventory": ".cache/project-cleanup-20261004/verification-build-inventory.json",
+    "note": "Recreated only for validation and removed afterward; not counted twice in original residue totals."
+  },
+  "verification": {
+    "frontend_tests": {
+      "command": "npm run test:frontend",
+      "exit_code": 0,
+      "test_files": 23,
+      "tests": 88,
+      "duration_seconds": 51.62,
+      "vitest": "4.1.10"
+    },
+    "frontend_build": {
+      "command": "npm run build:frontend",
+      "exit_code": 0,
+      "duration_seconds": 18.61,
+      "vite": "8.1.5"
+    },
+    "sandbox_test_startup": "Both checks initially failed before execution with spawn EPERM. Their escalated retries were approved and passed.",
+    "retained_source_and_contract_files_unchanged": 978,
+    "unexpected_missing_or_changed": [],
+    "links": 1442,
+    "broken": [],
+    "real_demo_smoke": "Not applicable: only unreachable UI modules and regenerable artifacts removed; retained producers, derived-fact logic, schemas and runtime contracts unchanged.",
+    "final_links": 1443,
+    "final_broken_links": [],
+    "final_targets_absent": 142,
+    "git_diff_check": "passed"
+  },
+  "preserved": [
+    "existing user source changes, including untracked AI Coach work",
+    "backend/data and all source demos and 44 approved bundles",
+    "Redis dump, runtime databases and CURRENT pointers",
+    "stratai-go-release and current review site source, generated factual inputs and current site/dist",
+    "expert workbooks, factual cards, readings, frozen predictions and historical evidence JSON",
+    "browser profile, graph index, agent tooling state, dependencies and Python environments",
+    "recent CS1/CS2 documentation, canonical plan v3.08 and current expert-review prompt"
+  ],
+  "documentation": "Four executed proposals archived on 03/10, indices and links updated; cleanup record closed on 04/10. Encoding damage in that earlier index/cleanup appendix repaired. Recent CS1/CS2 work, plan v3.08 and current prompt preserved."
+}

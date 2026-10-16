@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_context_review_protocol@2",
+  "title": "Protocol for situated spatial human review",
+  "x-stratai-status": "deprecated_visual_qa_only",
+  "x-stratai-ground-truth-authorized": false,
+  "x-stratai-evaluation-authorized": false,
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "protocol_version", "handbook",
+    "published_at", "scope", "roles", "question_sets", "evidence_gate",
+    "blinding", "workflow", "privacy", "authorization"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.spatial_context_review_protocol@2"},
+    "contract_version": {"const": "2.0.0"},
+    "protocol_version": {"const": "2.0.0"},
+    "handbook": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "relative_path", "sha256"],
+      "properties": {
+        "version": {"const": "2.0.0"},
+        "relative_path": {"const": "HANDBOOK.md"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "published_at": {"type": "string", "format": "date-time"},
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["map_id", "families", "purpose", "excluded_uses"],
+      "properties": {
+        "map_id": {"const": "de_mirage"},
+        "families": {
+          "type": "array", "prefixItems": [
+            {"const": "exposure"}, {"const": "cover"}, {"const": "exit_route"}
+          ], "items": false, "minItems": 3, "maxItems": 3
+        },
+        "purpose": {"const": "demo_contextual_spatial_human_review"},
+        "excluded_uses": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "roles": {
+      "type": "object", "additionalProperties": false,
+      "required": ["independent_reviewer_count", "reviewer_slots", "adjudicator_required_on_conflict", "adjudicator_must_be_distinct", "identity_policy"],
+      "properties": {
+        "independent_reviewer_count": {"const": 2},
+        "reviewer_slots": {"type": "array", "prefixItems": [{"const": "reviewer_a"}, {"const": "reviewer_b"}], "items": false},
+        "adjudicator_required_on_conflict": {"const": true},
+        "adjudicator_must_be_distinct": {"const": true},
+        "identity_policy": {"const": "opaque_pseudonym_no_public_identity_in_artifact"}
+      }
+    },
+    "question_sets": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/question"}},
+    "evidence_gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observed_demo_context_required", "radar_registration_required", "route_polyline_required", "future_or_outcome_allowed", "unreviewable_units_delivered"],
+      "properties": {
+        "observed_demo_context_required": {"const": true},
+        "radar_registration_required": {"const": true},
+        "route_polyline_required": {"const": true},
+        "future_or_outcome_allowed": {"const": false},
+        "unreviewable_units_delivered": {"const": false}
+      }
+    },
+    "blinding": {"type": "object", "additionalProperties": false, "required": ["reviewer_visible_partition", "audit_partition_visible_to_reviewer", "prior_responses_visible"], "properties": {
+      "reviewer_visible_partition": {"const": "reviewer_view"},
+      "audit_partition_visible_to_reviewer": {"const": false},
+      "prior_responses_visible": {"const": false}
+    }},
+    "workflow": {"type": "object", "additionalProperties": false, "required": ["response_schema_id", "adjudication_schema_id", "two_independent_responses_required"], "properties": {
+      "response_schema_id": {"const": "stratai.spatial_context_review_response@2"},
+      "adjudication_schema_id": {"const": "stratai.spatial_context_review_adjudication@2"},
+      "two_independent_responses_required": {"const": true}
+    }},
+    "privacy": {"type": "object", "additionalProperties": false, "required": ["public_identity_allowed", "absolute_paths_allowed", "oracle_enemy_state_allowed"], "properties": {
+      "public_identity_allowed": {"const": false},
+      "absolute_paths_allowed": {"const": false},
+      "oracle_enemy_state_allowed": {"const": false}
+    }},
+    "authorization": {"$ref": "#/$defs/authorization"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "question": {
+      "type": "object", "additionalProperties": false,
+      "required": ["family", "prompt_id", "question", "claim_boundary", "options"],
+      "properties": {
+        "family": {"enum": ["exposure", "cover", "exit_route"]},
+        "prompt_id": {"type": "string", "pattern": "^spatial-context-question-[0-9]{2}$"},
+        "question": {"type": "string", "minLength": 30},
+        "claim_boundary": {"type": "string", "minLength": 30},
+        "options": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/option"}}
+      }
+    },
+    "option": {"type": "object", "additionalProperties": false, "required": ["answer_id", "label", "description", "requires_reason"], "properties": {
+      "answer_id": {"enum": ["supported", "not_supported", "missing_context", "not_evaluable", "abstain"]},
+      "label": {"type": "string", "minLength": 1},
+      "description": {"type": "string", "minLength": 10},
+      "requires_reason": {"const": true}
+    }},
+    "authorization": {"type": "object", "additionalProperties": false, "required": ["review_execution_authorized", "training_use_authorized", "product_supported", "canonical_materialization", "release_authorized", "corpus_reprocessing_authorized"], "properties": {
+      "review_execution_authorized": {"const": true},
+      "training_use_authorized": {"const": false},
+      "product_supported": {"const": false},
+      "canonical_materialization": {"const": false},
+      "release_authorized": {"const": false},
+      "corpus_reprocessing_authorized": {"const": false}
+    }}
+  }
+}

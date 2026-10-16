@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_cover_diagnostic@1",
+  "title": "Causal objective cover-geometry diagnostic",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "contract_version", "source_alias", "map_id", "round_number", "t0_tick", "availability_tick", "participant_alias", "training_allowed", "position_world", "view_yaw_degrees", "posture_id", "geometry_occlusion", "tactical_cover", "exit_route", "provenance"],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_cover_diagnostic@1"},
+    "contract_version": {"const": "1.0.0"},
+    "source_alias": {"type": "string", "pattern": "^demo-[0-9a-f]{20}$"},
+    "map_id": {"type": "string", "minLength": 1},
+    "round_number": {"type": "integer", "minimum": 1},
+    "t0_tick": {"type": "integer", "minimum": 0},
+    "availability_tick": {"type": "integer", "minimum": 0},
+    "participant_alias": {"type": "string", "pattern": "^participant-[0-9]{3}$"},
+    "training_allowed": {"const": false},
+    "position_world": {"oneOf": [{"$ref": "#/$defs/vector"}, {"type": "null"}]},
+    "view_yaw_degrees": {"type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 360},
+    "posture_id": {"enum": ["standing", "crouching"]},
+    "geometry_occlusion": {"$ref": "#/$defs/geometry_fact"},
+    "tactical_cover": {"$ref": "#/$defs/tactical_fact"},
+    "exit_route": {"$ref": "#/$defs/unavailable_fact"},
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "nullable_string": {"type": ["string", "null"]},
+    "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "vector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+    },
+    "direction": {
+      "type": "object", "additionalProperties": false,
+      "required": ["geometry_direction_ref", "absolute_azimuth_degrees", "view_relative_azimuth_degrees", "probe_count", "occluded_probe_count", "complete_volume_occlusion"],
+      "properties": {
+        "geometry_direction_ref": {"type": "string", "pattern": "^cover-sample-[0-9]{3}/direction-[0-9]{3}$"},
+        "absolute_azimuth_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "view_relative_azimuth_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "probe_count": {"type": "integer", "minimum": 1},
+        "occluded_probe_count": {"type": "integer", "minimum": 0},
+        "complete_volume_occlusion": {"type": "boolean"}
+      }
+    },
+    "geometry_fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason_codes", "sample_id", "sample_alias", "directions"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "reason_codes": {"$ref": "#/$defs/reason_codes"},
+        "sample_id": {"$ref": "#/$defs/nullable_string"},
+        "sample_alias": {"$ref": "#/$defs/nullable_string"},
+        "directions": {"type": "array", "items": {"$ref": "#/$defs/direction"}}
+      }
+    },
+    "tactical_fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason_codes", "annotation_ids", "classifications"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "reason_codes": {"$ref": "#/$defs/reason_codes"},
+        "annotation_ids": {"type": "array", "items": {"type": "string", "pattern": "^cover-annotation-[0-9]{4}$"}},
+        "classifications": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "unavailable_fact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason_codes"],
+      "properties": {
+        "status": {"const": "unavailable"},
+        "reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["position_source", "posture_source", "view_source", "package_schema_id", "package_contract_version", "package_asset_version", "package_sha256", "geometry_revision", "tactical_review_status"],
+      "properties": {
+        "position_source": {"const": "replay_player_state_position_16hz"},
+        "posture_source": {"const": "replay_player_state_is_ducking_16hz"},
+        "view_source": {"const": "replay_player_state_view_yaw_16hz"},
+        "package_schema_id": {"const": "stratai.cover_map_package@1"},
+        "package_contract_version": {"const": "1.0.0"},
+        "package_asset_version": {"$ref": "#/$defs/nullable_string"},
+        "package_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "geometry_revision": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "tactical_review_status": {"type": ["string", "null"], "enum": ["pending_review", "approved", null]}
+      }
+    }
+  }
+}

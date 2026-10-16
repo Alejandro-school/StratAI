@@ -1,0 +1,1053 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_initial_features_or_player_knowledge"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "schema_id": {
+      "const": "stratai.economy_cashflow_reconciliation@1"
+    },
+    "source_observations": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_cashflow_observations.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "intervals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from_cut": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "to_cut": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "from_state": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "to_state": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "pawn_alias": {
+            "type": "string",
+            "pattern": "^native-entity-[0-9]{6}$"
+          },
+          "from_actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^p[0-9]{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "to_actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^p[0-9]{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T",
+              null
+            ]
+          },
+          "controller_alias": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^trace-entity-[0-9]{6}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^demo-[a-f0-9]{20}:economy:[0-9]{5}:(CT|T)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "not_comparable",
+              "no_change",
+              "deliveries_without_net_change",
+              "counter_decreased",
+              "amounts_match_single_entry",
+              "amounts_match_multiple_entries",
+              "amounts_match_without_unique_object",
+              "residuals_present"
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "incompatible_delivery_cuts",
+                "pawn_lifetime_changed",
+                "actor_binding_unavailable",
+                "controller_or_actor_nonunique_or_absent",
+                "controller_lifetime_changed",
+                "controller_claim_nonunique",
+                "entry_change_unavailable",
+                "account:snapshot_unavailable",
+                "account:delivery_binding_unavailable",
+                "account:baseline_or_creation_delivery",
+                "account:delivery_value_unavailable",
+                "account:untracked_snapshot_change",
+                "spent:snapshot_unavailable",
+                "spent:delivery_binding_unavailable",
+                "spent:baseline_or_creation_delivery",
+                "spent:delivery_value_unavailable",
+                "spent:untracked_snapshot_change"
+              ]
+            }
+          },
+          "trace_sequences": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "entries": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "enum": [
+                  "observed",
+                  "unavailable"
+                ]
+              },
+              "added": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "entry_index": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "fields_sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "recorded_cost": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "entity_alias": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^native-entity-[0-9]{6}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "link_status": {
+                      "enum": [
+                        "exact_link",
+                        "reference_unresolved",
+                        "identity_ambiguous",
+                        "special_entry_without_entity",
+                        "ownership_disagreement",
+                        "ownership_unaccredited",
+                        "partial_list",
+                        "invalid_member_value",
+                        "actor_unavailable",
+                        "definition_unavailable",
+                        "definition_disagreement"
+                      ]
+                    },
+                    "multiplicity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "entry_index",
+                    "fields_sha256",
+                    "recorded_cost",
+                    "entity_alias",
+                    "link_status",
+                    "multiplicity"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "removed": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "entry_index": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "fields_sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "recorded_cost": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "entity_alias": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^native-entity-[0-9]{6}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "link_status": {
+                      "enum": [
+                        "exact_link",
+                        "reference_unresolved",
+                        "identity_ambiguous",
+                        "special_entry_without_entity",
+                        "ownership_disagreement",
+                        "ownership_unaccredited",
+                        "partial_list",
+                        "invalid_member_value",
+                        "actor_unavailable",
+                        "definition_unavailable",
+                        "definition_disagreement"
+                      ]
+                    },
+                    "multiplicity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "entry_index",
+                    "fields_sha256",
+                    "recorded_cost",
+                    "entity_alias",
+                    "link_status",
+                    "multiplicity"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "retained": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "reordered_only": {
+                "type": "boolean"
+              },
+              "duplicate_multiplicity": {
+                "type": "boolean"
+              },
+              "added_cost": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "removed_cost": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "cost_net": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "status",
+              "added",
+              "removed",
+              "retained",
+              "reordered_only",
+              "duplicate_multiplicity",
+              "added_cost",
+              "removed_cost",
+              "cost_net"
+            ],
+            "additionalProperties": false
+          },
+          "channels": {
+            "type": "object",
+            "properties": {
+              "account": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "observed",
+                          "snapshot_unavailable",
+                          "delivery_binding_unavailable",
+                          "baseline_or_creation_delivery",
+                          "delivery_value_unavailable",
+                          "untracked_snapshot_change"
+                        ]
+                      },
+                      "from_value": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "to_value": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "snapshot_delta": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "deliveries": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "trace_sequence": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "frame": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "channel": {
+                              "enum": [
+                                "property_baseline",
+                                "property_update"
+                              ]
+                            },
+                            "phase": {
+                              "enum": [
+                                "creation_frame_or_replay",
+                                "later_frame_delivery"
+                              ]
+                            },
+                            "binding_matches": {
+                              "type": "boolean"
+                            },
+                            "before_value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "after_value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "delta": {
+                              "anyOf": [
+                                {
+                                  "type": "integer"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "trace_sequence",
+                            "frame",
+                            "channel",
+                            "phase",
+                            "binding_matches",
+                            "before_value",
+                            "after_value",
+                            "delta"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "positive_total": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "negative_total": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "delivery_net": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "snapshot_residual": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "reasons": {
+                        "type": "array",
+                        "items": {
+                          "enum": [
+                            "snapshot_unavailable",
+                            "delivery_binding_unavailable",
+                            "baseline_or_creation_delivery",
+                            "delivery_value_unavailable",
+                            "untracked_snapshot_change"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "status",
+                      "from_value",
+                      "to_value",
+                      "snapshot_delta",
+                      "deliveries",
+                      "positive_total",
+                      "negative_total",
+                      "delivery_net",
+                      "snapshot_residual",
+                      "reasons"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "spent": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "observed",
+                          "snapshot_unavailable",
+                          "delivery_binding_unavailable",
+                          "baseline_or_creation_delivery",
+                          "delivery_value_unavailable",
+                          "untracked_snapshot_change"
+                        ]
+                      },
+                      "from_value": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "to_value": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "snapshot_delta": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "deliveries": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "trace_sequence": {
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "frame": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "channel": {
+                              "enum": [
+                                "property_baseline",
+                                "property_update"
+                              ]
+                            },
+                            "phase": {
+                              "enum": [
+                                "creation_frame_or_replay",
+                                "later_frame_delivery"
+                              ]
+                            },
+                            "binding_matches": {
+                              "type": "boolean"
+                            },
+                            "before_value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "after_value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "delta": {
+                              "anyOf": [
+                                {
+                                  "type": "integer"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "trace_sequence",
+                            "frame",
+                            "channel",
+                            "phase",
+                            "binding_matches",
+                            "before_value",
+                            "after_value",
+                            "delta"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "positive_total": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "negative_total": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "delivery_net": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "snapshot_residual": {
+                        "anyOf": [
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "reasons": {
+                        "type": "array",
+                        "items": {
+                          "enum": [
+                            "snapshot_unavailable",
+                            "delivery_binding_unavailable",
+                            "baseline_or_creation_delivery",
+                            "delivery_value_unavailable",
+                            "untracked_snapshot_change"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "status",
+                      "from_value",
+                      "to_value",
+                      "snapshot_delta",
+                      "deliveries",
+                      "positive_total",
+                      "negative_total",
+                      "delivery_net",
+                      "snapshot_residual",
+                      "reasons"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "account",
+              "spent"
+            ],
+            "additionalProperties": false
+          },
+          "account_delta_plus_entry_cost_net": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "spent_delta_minus_entry_cost_net": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cause": {
+            "const": "not_accredited"
+          },
+          "refund_amount": {
+            "const": null
+          },
+          "decision_eligible": {
+            "const": false
+          }
+        },
+        "required": [
+          "from_cut",
+          "to_cut",
+          "from_state",
+          "to_state",
+          "instance",
+          "pawn_alias",
+          "from_actor",
+          "to_actor",
+          "side",
+          "controller_alias",
+          "opportunity_id",
+          "status",
+          "reasons",
+          "trace_sequences",
+          "entries",
+          "channels",
+          "account_delta_plus_entry_cost_net",
+          "spent_delta_minus_entry_cost_net",
+          "cause",
+          "refund_amount",
+          "decision_eligible"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string",
+            "pattern": "^demo-[a-f0-9]{20}:economy:[0-9]{5}:(CT|T)$"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T"
+            ]
+          },
+          "retained_intervals": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "comparison_allowed": {
+            "const": false
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "instance",
+          "side",
+          "retained_intervals",
+          "comparison_allowed"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "cuts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "states": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "controllers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "monetary_deliveries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "examined_pawn_pairs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_unchanged_snapshot_pairs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retained_intervals": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_counts": {
+          "type": "object",
+          "properties": {
+            "not_comparable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "no_change": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "deliveries_without_net_change": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "counter_decreased": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "amounts_match_single_entry": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "amounts_match_multiple_entries": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "amounts_match_without_unique_object": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "residuals_present": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "not_comparable",
+            "no_change",
+            "deliveries_without_net_change",
+            "counter_decreased",
+            "amounts_match_single_entry",
+            "amounts_match_multiple_entries",
+            "amounts_match_without_unique_object",
+            "residuals_present"
+          ],
+          "additionalProperties": false
+        },
+        "reason_counts": {
+          "type": "object",
+          "properties": {
+            "incompatible_delivery_cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pawn_lifetime_changed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_binding_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "controller_or_actor_nonunique_or_absent": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "controller_lifetime_changed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "controller_claim_nonunique": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "entry_change_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "account:snapshot_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "account:delivery_binding_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "account:baseline_or_creation_delivery": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "account:delivery_value_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "account:untracked_snapshot_change": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spent:snapshot_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spent:delivery_binding_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spent:baseline_or_creation_delivery": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spent:delivery_value_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spent:untracked_snapshot_change": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "verified_itemized_transactions": {
+          "const": 0
+        }
+      },
+      "required": [
+        "cuts",
+        "states",
+        "controllers",
+        "monetary_deliveries",
+        "examined_pawn_pairs",
+        "omitted_unchanged_snapshot_pairs",
+        "retained_intervals",
+        "status_counts",
+        "reason_counts",
+        "verified_itemized_transactions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "schema_id",
+    "source_observations",
+    "intervals",
+    "opportunities",
+    "summary"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_cashflow_reconciliation@1",
+  "x-stratai-training-authorized": false
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_rule_source_registry@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "repository",
+    "status",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "sources"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_rule_source_registry@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "repository": {
+      "const": "https://github.com/SteamTracking/GameTracking-CS2"
+    },
+    "status": {
+      "const": "historical_reference_only"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "revision",
+          "kind",
+          "repository_path",
+          "url",
+          "file",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "kind": {
+            "enum": [
+              "version",
+              "weapons",
+              "competitive"
+            ]
+          },
+          "repository_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://raw\\.githubusercontent\\.com/SteamTracking/GameTracking-CS2/[a-f0-9]{40}/game/csgo/"
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}-(version|weapons|competitive)\\.txt$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4000000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

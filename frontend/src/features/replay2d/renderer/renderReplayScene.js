@@ -2,7 +2,8 @@ import { worldToScreen } from "./replayViewport";
 import { pathWorld, TAU } from "./canvasPrimitives";
 import { drawBomb, drawKillEffects, drawPlayerHitEffects, drawShots } from "./renderReplayCombat";
 import { drawPlayers } from "./renderReplayPlayers";
-import { drawEffects, drawEventEffects, drawProjectiles, getHeShake } from "./renderReplayUtility";
+import { drawEffects, drawEventEffects, drawProjectiles, getHeShake, drawUtilityInformation } from "./renderReplayUtility";
+import { drawSoundReviewMarkers } from './renderReplaySound';
 
 const drawMap = (context, viewport, images, activeLevel) => {
   const destination = [viewport.originX, viewport.originY, viewport.mapSize, viewport.mapSize];
@@ -93,7 +94,7 @@ const drawTrail = (context, trail, config, viewport) => {
 
 export function renderReplayScene({
   canvas, size, viewport, images, projectileIcons, frame, events, annotations, draft, trail, config,
-  tick, tickRate, layers, activeLevel, hasLevels, zThreshold, focusPlayerId, reducedMotion,
+  tick, tickRate, layers, activeLevel, hasLevels, zThreshold, focusPlayerId, reducedMotion, soundReviewMarkers,
 }) {
   const context = canvas.getContext("2d");
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -116,6 +117,7 @@ export function renderReplayScene({
   if (layers.utility) {
     drawEffects(context, frame, config, sceneViewport, tick, tickRate, reducedMotion);
     drawEventEffects(context, events, tick, tickRate, config, sceneViewport, reducedMotion);
+    drawUtilityInformation(context, frame, config, sceneViewport, tickRate);
   }
   if (layers.shots) drawShots(context, frame, config, sceneViewport, tick, tickRate);
   drawKillEffects(context, events, tick, tickRate, config, sceneViewport);
@@ -123,8 +125,9 @@ export function renderReplayScene({
   if (layers.annotations) drawAnnotations(context, [...(annotations || []), ...(draft ? [draft] : [])], config, sceneViewport);
   drawTrail(context, trail, config, sceneViewport);
   const hitTargets = drawPlayers(context, frame, config, sceneViewport, {
-    layers, activeLevel, hasLevels, zThreshold, focusPlayerId,
+    layers, activeLevel, hasLevels, zThreshold, focusPlayerId, tickRate,
   });
   drawPlayerHitEffects(context, events, frame, tick, tickRate, config, sceneViewport, reducedMotion);
+  if (layers.sound) drawSoundReviewMarkers(context, soundReviewMarkers, config, sceneViewport, {hasLevels,activeLevel,zThreshold});
   return hitTargets;
 }

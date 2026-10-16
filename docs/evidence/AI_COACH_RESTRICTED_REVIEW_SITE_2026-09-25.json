@@ -1,0 +1,357 @@
+{
+  "date": "2026-09-25",
+  "status": "published_owner_private_awaiting_invitee_emails",
+  "user_request": "La página 127.0.0.1 ha rechazado la conexión. Aparte me gustaria compartirlo para recibir mas puntos de vista y no solo el mio.",
+  "chosen_access": "Enlace web con acceso restringido",
+  "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+  "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+  "deployment": {
+    "id": "appgdep_6ab6cc337b6c8191bee3e898b4eed3e9",
+    "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+    "title": "StratAI · Revisión de 34 casos",
+    "version_id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_2a928a35d8ac819190603f6366846538",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+    "screenshot_asset_pointer": "sediment://file_0000000059cc81f59adb2b0f7c150e66",
+    "provider_deployment_id": "site---6ab6ca78f2bc81918ef415064532155d",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-09-25T19:34:53.383625+00:00"
+  },
+  "access": {
+    "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+    "current_live_url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+    "owner_only_verified": true,
+    "access_mode": "custom",
+    "allowed_user_count": 1,
+    "external_visitor_count": 0,
+    "workspace_group_count": 0,
+    "tenant_group_count": 0,
+    "revision": 1,
+    "external_visitor_invites_enabled": true
+  },
+  "http": {
+    "ok": true,
+    "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+    "anonymous_checks": [
+      {
+        "route": "/",
+        "status": 403,
+        "redirect_host": "",
+        "redirect_path": "",
+        "protected_content_not_returned": true
+      },
+      {
+        "route": "/fichas/E03.html",
+        "status": 403,
+        "redirect_host": "",
+        "redirect_path": "",
+        "protected_content_not_returned": true
+      },
+      {
+        "route": "/Respuestas_TP10_34_casos.xlsx",
+        "status": 403,
+        "redirect_host": "",
+        "redirect_path": "",
+        "protected_content_not_returned": true
+      }
+    ],
+    "owner_api_authenticated_files_verified": 38,
+    "cases": 34,
+    "verified": [
+      {
+        "path": "fichas/E03.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "4d975a810814a42bb2f82bcce8e8439fef724d5e359684c322011f03967c2ce2"
+      },
+      {
+        "path": "fichas/E04.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "f86dd09c232f4088b528ba309fe9da3e50abffda0b1dab56e0f4adefed03c3a4"
+      },
+      {
+        "path": "fichas/E05.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "b5dcd8044f737e60613cee2d9ff5a6257f5d418580f213499b64d5678c83cc17"
+      },
+      {
+        "path": "fichas/E06.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "3cf4b85757bf3b0e8472c261771564a63c43f763cbc3925605dc7eef6b7ff657"
+      },
+      {
+        "path": "fichas/E07.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "a9dfe2b24c8ac459985fa36b9eb43cba04f00b206c35da74509af34541eb923c"
+      },
+      {
+        "path": "fichas/E08.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "5d31f72d3cffa4682cf422fe38459eb2918d74eaff398b9e34424e300b503dbb"
+      },
+      {
+        "path": "fichas/E09.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "03d9eab91c8f6e2d342bbdca6c647d344879c7f7e758402dde54f8437c7668d8"
+      },
+      {
+        "path": "fichas/E10.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "eb4ee309688a8bd19bb992fbefa69e72cfb81b3300fc86cf3a3af6d02a80424b"
+      },
+      {
+        "path": "fichas/E11.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "9547e259665add5f2968769cdbe8f748072ca736e71353439f9ea6c10735130d"
+      },
+      {
+        "path": "fichas/E12.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "387165dac557c80600e2eba7636d92db181242d5ef741094ab2c29e1a897f63e"
+      },
+      {
+        "path": "fichas/E13.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "969f6be335493b8c01985efcd3a7e77999fbce26f1665d7b5efb4b3ef5ed6bb6"
+      },
+      {
+        "path": "fichas/E14.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "40325754285e3993bb9cc241db4e0d64fa3c0859d1385248fa4946835651c51c"
+      },
+      {
+        "path": "fichas/E15.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "3da23626b9d32881e89dd714f4b1d855cee256908d31a825dc6ba5e54d5c76ad"
+      },
+      {
+        "path": "fichas/E16.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "745e2b7492d28360727dcccbc1c19afece14da2aadc01fa757f41e7bbf15e1ae"
+      },
+      {
+        "path": "fichas/E17.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "c28b58f9c1ba34d6e1c1f0422f29a9bc0ba906df0d1d962741212b525e766c64"
+      },
+      {
+        "path": "fichas/E18.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "214ab7a077c3d858e3c1772fed48ca04fb077ac19dd101cb3272d54aea8e19c5"
+      },
+      {
+        "path": "fichas/E19.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "3d60bfd94914ae81b8ac1388f5a6f0a94e8022b8d7332d44d3342db5dacfc91a"
+      },
+      {
+        "path": "fichas/E20.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "bd80a411d9d2e8125cab69302c8df4704f9ca0bfd20a1782ca66b6013aaabbe1"
+      },
+      {
+        "path": "fichas/E21.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "21721eaec6c0c8faa5b83ce16ca41f8c52a8299b7e4df85b1e7f24ee66e5e415"
+      },
+      {
+        "path": "fichas/E22.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "c1e3ea0b6adad78991c9ae9557dfe6d776b6925acbd73f457de4f8eb1aa9a14d"
+      },
+      {
+        "path": "fichas/E23.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "e53cda4ec6e9963ad3b51a99697b880f170ca5a813f5d685627a7300bcf5e0ca"
+      },
+      {
+        "path": "fichas/E24.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "1bb0a36006a2bfe31cb0082ea91d7760474ae950ade501fdf1a39b266226c98f"
+      },
+      {
+        "path": "fichas/E25.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "d758b5615c8808615c0b1ca9bb60b856f4189910f330020da79a88d2cbd0cf7d"
+      },
+      {
+        "path": "fichas/E26.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "4f28f5886bc292354e6542696adb52cb4f84f48b01e19f76114be56c2c493c54"
+      },
+      {
+        "path": "fichas/E27.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "015c2610b997f0d10673b191f7979a800b1935fbd7f850fdeec1d0fe95f63ca2"
+      },
+      {
+        "path": "fichas/E28.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "ac9a3db724cb8e40ca45f9f8fc61052e657582ea143c754c5c0022116db33a5b"
+      },
+      {
+        "path": "fichas/E29.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "2a89a0eccebc39fac9f75b2c36e4c0948853b6ebaf5fe0d6b55f8c03a6b5a626"
+      },
+      {
+        "path": "fichas/E30.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "7bb127f10a8d2c2764366949b810c8381483ad3bb7e0f2be82854867dc1b84ed"
+      },
+      {
+        "path": "fichas/E31.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "de489c8ce779a62478907ebb9e5773cba8fb3f359f9cd34a6f99dedd273fa03a"
+      },
+      {
+        "path": "fichas/E32.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "621464c4ea8f3776c019cca4418d3af7632b0173c5db643fa025d02babb9dea8"
+      },
+      {
+        "path": "fichas/E33.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "fc0b7dc69e959b1e45b604742dc028a2024dcac51679e1bdb04f06e8b0439813"
+      },
+      {
+        "path": "fichas/E34.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "a7a3b945caec0d04a577b7297ad34580e5c659a1774dac84346c7a10d1ef525a"
+      },
+      {
+        "path": "fichas/E35.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "7cbbedd63ac6e9d265b3f0b2bf03a0b5736fb1a61a138e6b06923de686fa93eb"
+      },
+      {
+        "path": "fichas/E36.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "321b3568da406c1d1528ab70a68be63b513d6f646627839bb9ce744029c7bdc5"
+      },
+      {
+        "path": "index.html",
+        "source_bytes_match": true,
+        "provider_append_bytes": 938,
+        "provider_append_sha256": "0360c9ab98b857e22d812ad34360f70837b54ed0ae8473bf1fff37043b301985"
+      },
+      {
+        "path": "LEEME.txt",
+        "source_bytes_match": true,
+        "provider_append_bytes": 0,
+        "provider_append_sha256": null
+      },
+      {
+        "path": "Respuestas_por_chat.md",
+        "source_bytes_match": true,
+        "provider_append_bytes": 0,
+        "provider_append_sha256": null
+      },
+      {
+        "path": "Respuestas_TP10_34_casos.xlsx",
+        "source_bytes_match": true,
+        "provider_append_bytes": 0,
+        "provider_append_sha256": null
+      }
+    ],
+    "source_bytes_preserved": true,
+    "provider_appended_html_script": "Cloudflare challenge-platform JSD suffix; validated separately from original source bytes.",
+    "credential_generated_or_rotated": false,
+    "credential_persisted": false
+  },
+  "anonymous_browser_requests": {
+    "results": [
+      {
+        "route": "/",
+        "status": 401,
+        "content_type": "text/html; charset=utf-8",
+        "body_prefix": "<!DOCTYPE html><html lang=\"es-ES\" dir=\"ltr\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/><link rel=\"preload\" as=\"image\" href=\"/_",
+        "redirect_host": "",
+        "redirect_path": ""
+      },
+      {
+        "route": "/fichas/E03",
+        "status": 401,
+        "content_type": "text/html; charset=utf-8",
+        "body_prefix": "<!DOCTYPE html><html lang=\"es-ES\" dir=\"ltr\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/><link rel=\"preload\" as=\"image\" href=\"/_",
+        "redirect_host": "",
+        "redirect_path": ""
+      },
+      {
+        "route": "/Respuestas_TP10_34_casos.xlsx",
+        "status": 401,
+        "content_type": "text/html; charset=utf-8",
+        "body_prefix": "<!DOCTYPE html><html lang=\"es-ES\" dir=\"ltr\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"/><link rel=\"preload\" as=\"image\" href=\"/_",
+        "redirect_host": "",
+        "redirect_path": ""
+      }
+    ]
+  },
+  "archive": {
+    "ok": true,
+    "cases": 34,
+    "files": 39,
+    "committed_source_matches_build": true,
+    "archive_matches_build": true,
+    "retained_packaging_stage": true,
+    "archive_sha256": "ae2e07e3d76c120d63fbf965cd487dd8f197218c301620b3b4c1c1f657d2be1b",
+    "commit_sha": "642fef50aaf342026d35efc8580ee2e46eece119"
+  },
+  "plain_python_client_note": "Plain Python user agent received edge error 1010/403; not used as proof of application authorization. Browser-header requests returned 401 for index, canonical card route and workbook.",
+  "cases": 34,
+  "cards_byte_identical_to_original_delivery": true,
+  "blank_workbook_unchanged": true,
+  "response_collection": "Each reviewer returns a separate file with alias and date; exposure remains per case. No automatic web response submission.",
+  "invitation_emails_received": 0,
+  "external_invitations_sent": 0,
+  "reviews_received_this_change": 0,
+  "runtime_changed": false,
+  "parsing_runs": 0,
+  "new_predictions": 0,
+  "training_allowed": false,
+  "raw_demos_or_prediction_archives_uploaded": false,
+  "main_repository_committed_or_pushed": false,
+  "isolated_site_source_commit": "642fef50aaf342026d35efc8580ee2e46eece119",
+  "packaging": "Official prepare-site-build helper; fresh verified retained stage and native Windows tar. Original shell cleanup omitted to honor retention.",
+  "local_preview": {
+    "http": 200,
+    "original_server_unavailable": true
+  },
+  "browser_handoff": "Unavailable: browser tool could not start its local app-server. Hosted HTTP checks and platform status used; no browser sign-in or screenshot testing.",
+  "retained_inventory_sha256": "1bb0ab1d279ccf4a13078587ad5b3b69913a4d131cb3fc7b0e9908e62d24099c"
+}

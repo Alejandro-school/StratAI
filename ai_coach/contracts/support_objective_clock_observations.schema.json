@@ -1,0 +1,1938 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_objective_clock_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_objective_clock_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "same_support_FrameDone_native_game_clocks@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frames"
+      ],
+      "properties": {
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "objective_order",
+              "c4_state_sequence",
+              "order",
+              "network",
+              "rules",
+              "players",
+              "bombs",
+              "items"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "objective_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "c4_state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "network": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "tick",
+                  "packet_tick",
+                  "interval",
+                  "paused"
+                ],
+                "properties": {
+                  "tick": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "order",
+                          "frame",
+                          "tick",
+                          "value"
+                        ],
+                        "properties": {
+                          "order": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "frame": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "tick": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "packet_tick": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "order",
+                          "frame",
+                          "tick",
+                          "value"
+                        ],
+                        "properties": {
+                          "order": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "frame": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "tick": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "interval": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "order",
+                          "frame",
+                          "tick",
+                          "value"
+                        ],
+                        "properties": {
+                          "order": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "frame": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "tick": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "paused": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "order",
+                          "frame",
+                          "tick",
+                          "value"
+                        ],
+                        "properties": {
+                          "order": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "frame": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "tick": {
+                            "type": "integer"
+                          },
+                          "value": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "rules": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "entity_life",
+                      "handle",
+                      "class_name",
+                      "fields",
+                      "defuser"
+                    ],
+                    "properties": {
+                      "entity_life": {
+                        "type": "string",
+                        "pattern": "^support-clock-object-[0-9]{6,}$"
+                      },
+                      "handle": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 4294967295
+                      },
+                      "class_name": {
+                        "const": "CCSGameRulesProxy"
+                      },
+                      "fields": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "m_fRoundStartTime",
+                          "m_iRoundTime",
+                          "m_flRestartRoundTime",
+                          "m_bFreezePeriod",
+                          "m_bWarmupPeriod",
+                          "m_bMatchWaitingForResume",
+                          "m_bTerroristTimeOutActive",
+                          "m_bCTTimeOutActive",
+                          "m_bTechnicalTimeOut",
+                          "m_bGamePaused",
+                          "m_bGameRestart"
+                        ],
+                        "properties": {
+                          "m_fRoundStartTime": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_iRoundTime": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_flRestartRoundTime": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bFreezePeriod": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bWarmupPeriod": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bMatchWaitingForResume": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bTerroristTimeOutActive": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bCTTimeOutActive": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bTechnicalTimeOut": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bGamePaused": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          },
+                          "m_bGameRestart": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                              "status",
+                              "native_type",
+                              "declared_type",
+                              "value"
+                            ],
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type",
+                                  "nonfinite"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "declared_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "boolean",
+                                  "number",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "defuser": {
+                        "const": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "pawn_life",
+                    "pawn_handle",
+                    "fields"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[a-f0-9]{20}$"
+                    },
+                    "pawn_life": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^support-pawn-[0-9]{6,}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "pawn_handle": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "fields": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_flSimulationTime",
+                        "m_nTickBase"
+                      ],
+                      "properties": {
+                        "m_flSimulationTime": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_nTickBase": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "bombs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "entity_life",
+                    "handle",
+                    "class_name",
+                    "fields",
+                    "defuser"
+                  ],
+                  "properties": {
+                    "entity_life": {
+                      "type": "string",
+                      "pattern": "^support-clock-object-[0-9]{6,}$"
+                    },
+                    "handle": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "class_name": {
+                      "const": "CPlantedC4"
+                    },
+                    "fields": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_flSimulationTime",
+                        "m_flC4Blow",
+                        "m_flTimerLength",
+                        "m_flDefuseCountDown",
+                        "m_flDefuseLength",
+                        "m_bBombTicking",
+                        "m_bBombDefused"
+                      ],
+                      "properties": {
+                        "m_flSimulationTime": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_flC4Blow": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_flTimerLength": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_flDefuseCountDown": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_flDefuseLength": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_bBombTicking": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_bBombDefused": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "defuser": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "status",
+                        "handle",
+                        "target_life"
+                      ],
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "resolved",
+                            "absent",
+                            "unsupported_type",
+                            "invalid_sentinel",
+                            "entity_unavailable",
+                            "serial_mismatch",
+                            "kind_or_life_unavailable",
+                            "destroyed"
+                          ]
+                        },
+                        "handle": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 4294967295
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "target_life": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^support-pawn-[0-9]{6,}$"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "entity_life",
+                    "handle",
+                    "class_name",
+                    "fields",
+                    "defuser"
+                  ],
+                  "properties": {
+                    "entity_life": {
+                      "type": "string",
+                      "pattern": "^support-item-[0-9]{6,}$"
+                    },
+                    "handle": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "class_name": {
+                      "const": "CC4"
+                    },
+                    "fields": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_flSimulationTime",
+                        "m_bStartedArming",
+                        "m_fArmedTime",
+                        "m_flArmingLength"
+                      ],
+                      "properties": {
+                        "m_flSimulationTime": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_bStartedArming": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_fArmedTime": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        },
+                        "m_flArmingLength": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "status",
+                            "native_type",
+                            "declared_type",
+                            "value"
+                          ],
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "absent",
+                                "unsupported_type",
+                                "nonfinite"
+                              ]
+                            },
+                            "native_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "declared_type": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "value": {
+                              "type": [
+                                "boolean",
+                                "number",
+                                "null"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "defuser": {
+                      "const": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

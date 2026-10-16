@@ -1,0 +1,442 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_attempt_origin_cut@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "cut",
+    "provenance",
+    "actors",
+    "candidates"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_attempt_origin_cut@1"
+    },
+    "cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "frame",
+        "tick",
+        "epoch",
+        "instance",
+        "tick_rate",
+        "sample_step"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tick": {
+          "type": "integer"
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_step": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "provenance": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_sequence",
+            "clock_order",
+            "frame_sequence",
+            "delivery_sequence"
+          ],
+          "properties": {
+            "source_sequence": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "clock_order": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "frame_sequence": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "delivery_sequence": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actor_alias",
+          "side",
+          "pawn_handle",
+          "pawn_life",
+          "initial",
+          "origin_reference"
+        ],
+        "properties": {
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[0-9a-f]{20}$"
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T"
+            ]
+          },
+          "pawn_handle": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "pawn_life": {
+            "type": "string",
+            "pattern": "^support-pawn-[0-9]{6,}$"
+          },
+          "initial": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "planting_origin_state",
+              "planting_duration_seconds",
+              "planting_elapsed_seconds",
+              "planting_progress"
+            ],
+            "properties": {
+              "planting_origin_state": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "observed"
+                      },
+                      "value": {
+                        "enum": [
+                          "native_transition",
+                          "expired",
+                          "paused",
+                          "origin_unavailable"
+                        ]
+                      },
+                      "reason": {
+                        "const": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "unavailable",
+                          "not_applicable"
+                        ]
+                      },
+                      "value": {
+                        "const": null
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "planting_duration_seconds": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "observed"
+                      },
+                      "value": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "reason": {
+                        "const": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "unavailable",
+                          "not_applicable"
+                        ]
+                      },
+                      "value": {
+                        "const": null
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "planting_elapsed_seconds": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "observed"
+                      },
+                      "value": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "reason": {
+                        "const": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "unavailable",
+                          "not_applicable"
+                        ]
+                      },
+                      "value": {
+                        "const": null
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              },
+              "planting_progress": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "observed"
+                      },
+                      "value": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "reason": {
+                        "const": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "value",
+                      "reason"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "unavailable",
+                          "not_applicable"
+                        ]
+                      },
+                      "value": {
+                        "const": null
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "origin_reference": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "delivery_sequence",
+                  "frame",
+                  "server_tick",
+                  "interval_seconds",
+                  "start_seconds",
+                  "deadline_seconds",
+                  "duration_seconds",
+                  "entity_life",
+                  "pawn_life",
+                  "pawn_handle"
+                ],
+                "properties": {
+                  "delivery_sequence": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "frame": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "server_tick": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "interval_seconds": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "start_seconds": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "deadline_seconds": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "duration_seconds": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "entity_life": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "pawn_life": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "pawn_handle": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "actor_alias",
+          "ally_alias"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^support-preparation-[0-9a-f]{64}$"
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[0-9a-f]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[0-9a-f]{20}$"
+          }
+        }
+      }
+    }
+  }
+}

@@ -19,6 +19,7 @@ const LAYER_LABELS = {
   names: "Nombres",
   fov: "FOV",
   shots: "Disparos",
+  sound: "Sonido · puntos de demo",
   trajectories: "Trayectorias",
   utility: "Utilidad",
   deaths: "Muertes",
@@ -26,6 +27,7 @@ const LAYER_LABELS = {
 };
 
 export function ReplayToolbar({
+  restricted = false,
   isPlaying,
   playbackRate,
   effectiveRate,
@@ -63,7 +65,7 @@ export function ReplayToolbar({
         <select value={playbackRate} onChange={(event) => onPlaybackRate(Number(event.target.value))} aria-label="Velocidad">
           {[0.25, 0.5, 0.75, 1, 1.5, 2, 4].map((rate) => <option value={rate} key={rate}>{rate}×</option>)}
         </select>
-        <button type="button" className={directorMode ? "active" : ""} onClick={() => onDirectorMode(!directorMode)} aria-pressed={directorMode} title="Acelera pausas y reduce la velocidad cerca de eventos">
+        <button type="button" disabled={restricted} className={directorMode ? "active" : ""} onClick={() => onDirectorMode(!directorMode)} aria-pressed={directorMode} title={restricted ? "Director disponible en vista de observador" : "Acelera pausas y reduce la velocidad cerca de eventos"}>
           <FastForward size={15} /><span>Director</span>
         </button>
         {directorMode && <span className="r2-effective-rate">{effectiveRate.toFixed(2)}×</span>}
@@ -81,7 +83,7 @@ export function ReplayToolbar({
             ["freehand", Pencil, "Trazo libre"],
             ["note", StickyNote, "Nota"],
           ].map(([tool, Icon, label]) => (
-            <button type="button" key={label} className={annotationTool === tool ? "active" : ""} onClick={() => onAnnotationTool(tool)} aria-label={label} aria-pressed={annotationTool === tool}>
+            <button type="button" key={label} disabled={restricted && tool !== null} className={annotationTool === tool ? "active" : ""} onClick={() => onAnnotationTool(tool)} aria-label={label} aria-pressed={annotationTool === tool}>
               <Icon size={15} />
             </button>
           ))}

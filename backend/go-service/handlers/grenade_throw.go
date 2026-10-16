@@ -30,9 +30,12 @@ func registerUtilityThrowHandlers(ctx *models.DemoContext, handler *UtilityHandl
 			return
 		}
 		position, positionStatus := observedProjectilePosition(event.Projectile)
+		entitySerial, entitySerialStatus := projectileEntitySerial(event.Projectile)
 		ctx.Utilities.RecordBounce(
 			handler.state.round,
 			projectileEntityID(event.Projectile),
+			entitySerial,
+			entitySerialStatus,
 			ctx.Parser.GameState().IngameTick(),
 			position,
 			positionStatus,
@@ -49,6 +52,18 @@ func registerUtilityThrowHandlers(ctx *models.DemoContext, handler *UtilityHandl
 			if !observed {
 				continue
 			}
+			entitySerial, entitySerialStatus := projectileEntitySerial(projectile)
+			ctx.Utilities.RecordInitialVelocityPosition(utility.InitialVelocityPositionInput{
+				Round:                     handler.state.round,
+				RuntimeEntityID:           projectileEntityID(projectile),
+				RuntimeEntitySerial:       entitySerial,
+				RuntimeEntitySerialStatus: entitySerialStatus,
+				ActorID:                   utilityActorID(projectile),
+				Type:                      utilityType(projectile.WeaponInstance),
+				Tick:                      ctx.Parser.GameState().IngameTick(),
+				Position:                  position,
+				TickRate:                  ctx.Parser.TickRate(),
+			})
 			ctx.Utilities.RecordTrajectoryPosition(
 				handler.state.round,
 				projectileEntityID(projectile),
@@ -67,16 +82,19 @@ func registerUtilityThrowHandlers(ctx *models.DemoContext, handler *UtilityHandl
 		}
 		recordFinalTrajectory(ctx, handler.state.round, event.Projectile)
 		position, positionStatus := observedProjectilePosition(event.Projectile)
+		entitySerial, entitySerialStatus := projectileEntitySerial(event.Projectile)
 		ctx.Utilities.RecordDestroy(utility.CallbackHint{
-			Round:           handler.state.round,
-			RuntimeEntityID: projectileEntityID(event.Projectile),
-			EntitySource:    utility.SourceProjectileEntity,
-			Type:            utilityType(event.Projectile.WeaponInstance),
-			ActorID:         utilityActorID(event.Projectile),
-			Tick:            ctx.Parser.GameState().IngameTick(),
-			TickRate:        getTickRate(ctx),
-			Position:        position,
-			PositionStatus:  positionStatus,
+			Round:                     handler.state.round,
+			RuntimeEntityID:           projectileEntityID(event.Projectile),
+			RuntimeEntitySerial:       entitySerial,
+			RuntimeEntitySerialStatus: entitySerialStatus,
+			EntitySource:              utility.SourceProjectileEntity,
+			Type:                      utilityType(event.Projectile.WeaponInstance),
+			ActorID:                   utilityActorID(event.Projectile),
+			Tick:                      ctx.Parser.GameState().IngameTick(),
+			TickRate:                  getTickRate(ctx),
+			Position:                  position,
+			PositionStatus:            positionStatus,
 		})
 	})
 }
@@ -89,13 +107,16 @@ func buildUtilityThrowInput(
 	tick := ctx.Parser.GameState().IngameTick()
 	actor, actorSource := utilityActor(projectile)
 	position, positionStatus := observedProjectilePosition(projectile)
+	entitySerial, entitySerialStatus := projectileEntitySerial(projectile)
 	return utility.ThrowInput{
-		Round:           round,
-		RuntimeEntityID: projectileEntityID(projectile),
-		EntitySource:    utility.SourceProjectileEntity,
-		Type:            utilityType(projectile.WeaponInstance),
-		TypeSource:      utilityTypeSource(projectile.WeaponInstance),
-		Actor:           utilityPlayer(actor, actorSource),
+		Round:                     round,
+		RuntimeEntityID:           projectileEntityID(projectile),
+		RuntimeEntitySerial:       entitySerial,
+		RuntimeEntitySerialStatus: entitySerialStatus,
+		EntitySource:              utility.SourceProjectileEntity,
+		Type:                      utilityType(projectile.WeaponInstance),
+		TypeSource:                utilityTypeSource(projectile.WeaponInstance),
+		Actor:                     utilityPlayer(actor, actorSource),
 		Launch: utility.ThrowSnapshot{
 			Tick: utility.TickObservation{
 				Tick: tick, Status: utility.AvailabilityObserved, Source: utility.SourceProjectileThrow,
@@ -144,6 +165,13 @@ func projectileEntityID(projectile *common.GrenadeProjectile) int {
 		return 0
 	}
 	return projectile.Entity.ID()
+}
+
+func projectileEntitySerial(projectile *common.GrenadeProjectile) (int, utility.Availability) {
+	if projectile == nil || projectile.Entity == nil {
+		return 0, utility.AvailabilityUnavailable
+	}
+	return projectile.Entity.SerialNum(), utility.AvailabilityObserved
 }
 
 func utilityActor(projectile *common.GrenadeProjectile) (*common.Player, string) {

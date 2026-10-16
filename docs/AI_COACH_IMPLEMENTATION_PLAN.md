@@ -2,1494 +2,1650 @@
 
 | Campo | Valor |
 |---|---|
-| Estado | Activo |
-| Versión | 1.4 |
-| Fecha | 27 de agosto de 2026 |
-| Producto que implementa | [AI_COACH_PRODUCT_DEFINITION.md](./AI_COACH_PRODUCT_DEFINITION.md) |
-| Equipo | Dos personas |
-| Límite antes del piloto | 1.000 EUR de gasto externo acumulado |
-| Primera entrega | Vertical técnico de Mirage para trade/spacing y peek/hold/reposición; el primer producto publicable será el coach integral de Mirage |
-
-## Cómo mantener este plan
-
-- Este documento contiene orden, tareas, gates y evidencias de implementación.
-- `[x]` significa implementado y verificado en el código o corpus actual.
-- `[ ]` significa pendiente; una implementación parcial continúa pendiente.
-- No se inicia una fase de entrenamiento si el gate de datos anterior no ha pasado.
-- No se descargan miles de demos para descubrir después que el contrato no permite reprocesarlas.
-- Cada cambio de schema debe actualizar versión, manifest, golden corpus y dataset.
-- Los resultados de experimentos se registrarán como artefactos reproducibles, no como afirmaciones en este documento.
-- El catálogo de capacidades se diseña completo antes de entrenar; los especialistas se implementan y promueven por etapas.
-- Objetivo contractual: una demo podrá ser elegible para una familia y no para otra. El flag actual `usable_for_training` sigue existiendo, pero no autoriza por sí solo todos los usos y deberá migrarse a elegibilidad por tarea.
-- Cerrar una fase siempre obliga a actualizar aquí versión, estado, checks verificados, evidencias y una única siguiente acción, aunque no cambie el contrato del producto.
-- El mismo cierre registra comandos y blockers, traslada el resultado al informe y al plan, elimina el prompt ejecutado y enlaza un único prompt vigente desde este plan y el README.
-
-### Jerarquía documental
-
-- [Definición de producto](AI_COACH_PRODUCT_DEFINITION.md): promesa, alcance y límites; sólo cambia si cambia una decisión real de producto.
-- Este plan: única fuente para progreso, tareas pendientes, gates y siguiente acción.
-- [Contrato humano](AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md): significado de capacidades y datos.
-- [Catálogo máquina](../ai_coach/contracts/capability_catalog.json): IDs y referencias consumibles por software.
-- [Arquitectura de modelos](AI_COACH_MODEL_ARCHITECTURE.md): referencia técnica; no mantiene progreso.
-- Auditorías fechadas y `docs/evidence/`: pruebas inmutables del estado observado.
-- Las dependencias técnicas diagnosticadas en Gate 1A se conservan en la sección 19 de este plan, no en un backlog paralelo.
-- `docs/prompts/`: contiene únicamente la siguiente instrucción ejecutable enlazada desde «Próxima acción concreta». Los prompts ejecutados se eliminan tras trasladar su resultado al informe y al plan.
-
----
-
-## 1. Orden de ejecución
-
-```mermaid
-flowchart TD
-    A[0. Proteger las 50 fuentes y 44 bundles válidos] --> B[1. Contrato integral de capacidades, datos y modelos]
-    B --> C[2. Auditar Go y los JSON contra la matriz completa]
-    C --> D[3. Completar solo los hechos objetivos ausentes]
-    D --> E[4. Reprocesar en salida aislada y congelar golden de Mirage]
-    E --> F[5. Construir datasets y elegibilidad por familia]
-    F --> G[6. Medir déficits y adquirir solo el Mirage necesario]
-    G --> H[7. Reconstruir, auditar y congelar el dataset ampliado]
-    H --> I[8. Vertical completo: reglas, modelos, alternativas, ranking y evidencia]
-    I --> J[9. Repetir la cadena para cada especialista restante]
-    J --> K[10. Perfil y priorización conjunta]
-    K --> L[11. Conversación e integración]
-    L --> M[12. Piloto integral de Mirage]
-    M --> N{¿Cada familia supera su gate?}
-    N -- Sí --> O[13. Expandir mapa por mapa]
-    N -- No --> P[Corregir esa familia sin fingir cobertura]
-```
-
-El camino crítico es:
-
-1. catálogo integral de capacidades y límites observables;
-2. contratos de decisiones, acciones, outcomes y abstención por familia;
-3. matriz campo→procedencia→partición causal→cobertura→consumidor;
-4. extractor factual común para demos FACEIT y demos de usuario;
-5. elegibilidad y dataset causal verificables por tarea;
-6. adquisición de Mirage guiada por déficits medidos, nunca por un contador aislado;
-7. cadena completa por especialista: reglas, modelo si aporta valor, alternativas, ranking, evidencia y gate;
-8. integración, personalización y conversación fundamentada;
-9. promoción mapa por mapa.
-
-Las dos familias actuales son el primer vertical técnico porque permiten comprobar la cadena con un coste controlado. No son la definición de terminado del producto.
-
-El chat no debe adelantarse al motor de recomendación. Conversar es relativamente sencillo; fundamentar una corrección es la parte difícil.
-
----
-
-## 2. Punto de partida verificado
-
-Este inventario refleja el cierre reproducible del smoke de Mirage del 26 de agosto de 2026. Antes de una operación futura se volverá a comprobar en modo de solo lectura. Para mantenimiento mandan los manifests, hashes, contratos y release registrados, no un contador escrito en este documento.
-
-### 2.1 Corpus local
-
-| Medida | Estado verificado |
-|---|---:|
-| Demos fuente nuevas en `Faceit-Demos/demos/` | 50 |
-| Mapa | Mirage |
-| Bundles canónicos aprobados | 44 |
-| Exclusiones seguras conservadas | 6 |
-| Formato de los 44 bundles | `3.8.0` |
-| `observed.jsonl.gz` | Presente en 44 de 44 |
-| Decisiones causales | 36.181 |
-| `spacing_or_trade_connection` | 26.648 |
-| `peek_hold_or_reposition` | 9.533 |
-| Release offline verificada | `stratai-2c6db440231d463a` |
-| Staging | Vacío al cierre |
-| Entrenamiento autorizado | No |
-
-Las seis exclusiones no se fuerzan dentro del corpus: cuatro contienen identidad activa no reconciliable de bots y dos atribución no segura de la bomba. Permanecen disponibles para robustez y diagnóstico.
-
-El inventario de cierre contiene 3.113 archivos y 40.853.375.267 bytes, aproximadamente 38,048 GiB, con digest global `1fdf935036ecb52e244b05c8246bdd046d1f40a1cc27720202185d9589850865`. La evidencia completa está en `../../Faceit-Demos/docs/MIRAGE_SMOKE_50_ACCEPTANCE_2026-08-26.md`.
-
-Conclusiones:
-
-- Las 44 partidas sirven para auditar contratos, reconstrucción, cobertura y reglas; no son un corpus suficiente para entrenar el coach integral.
-- El lote es intencionadamente Mirage-only. La diversidad de mapas se añadirá después, con un gate independiente por mapa.
-- El antiguo snapshot local de 296 bundles y `golden-demos-v2` se conserva únicamente como evidencia histórica. Sus fuentes se borraron de forma deliberada al reiniciar el corpus.
-- No se buscarán las antiguas 51 fuentes salvo que el usuario indique expresamente que existe una copia que desea recuperar.
-- Las fuentes actuales formarán el candidato a golden de Mirage. El contrato `3.8.0` todavía fija `golden-demos-v2` en lineage y validación; no se sustituirá su significado en silencio.
-- Gate 1A debe diseñar una migración versionada de registro golden, lineage, validador, tests y release. Solo después podrá promoverse el golden de Mirage y añadirse un golden de transferencia por cada mapa posterior. Se decidirá expresamente si esa migración exige o no cambiar `3.8.0`.
-
-### 2.2 Extractor Go
-
-El export canónico actual contiene una base valiosa:
-
-| Dominio | Fuente actual | Utilidad para el coach |
-|---|---|---|
-| Contexto | `core/match.json`, `participants.json`, `rounds.json` | Joins, mapa, equipos, lados, relojes y resultado |
-| Combate | `events/combat_events.jsonl` | Disparos, daño, kills, arma, reload, switch, reacción y outcomes |
-| Utilidad | `events/utility_events.jsonl` | Lanzamiento, trayectoria, lifecycle, flashes, daño y afectados |
-| Objetivo | `events/objective_events.jsonl` | Plant, defuse, abortos, explosión y carrier |
-| Estado táctico | `states/tactical/observed.jsonl.gz`, `oracle.jsonl.gz`, `gaps.jsonl.gz` | Base causal a 16 Hz con particiones físicas separadas; debe auditarse campo por campo |
-| Estado descriptivo | `states/player_states/round_*.jsonl` | Posición y estado a 2 Hz; útil para agregados, insuficiente para timings finos |
-| Replay | `presentation/replay/round_*.json.gz` | Proyección de interfaz a 16 Hz; no es la entrada causal del modelo |
-| Engagements | `derived/engagements.json` | Outcomes de combate; inseguro como feature causal actual |
-| Trades | `derived/trades.json` | Estadística preliminar; elegibilidad demasiado laxa |
-| Economía | `economy_rounds.json`, `economy_players.json` | Buena base por ronda, aún no particionada causalmente |
-| Mecánica | analyzers de mechanics, reaction y spray | Existe señal preliminar, pero falta contrato canónico completo por disparo |
-| Calidad | manifests y `quality_report.json` | Hashes, schemas, gates fail-closed y publicación inmutable; falta elegibilidad por familia |
-
-Referencias principales:
-
-- [Modelos canónicos](../backend/go-service/models/canonical_models.go).
-- [Modelos causales Block 7](../backend/go-service/models/block7_models.go).
-- [Replay](../backend/go-service/handlers/replay.go).
-- [Tracking a 2 Hz](../backend/go-service/handlers/tracking.go).
-- [Construcción causal](../backend/go-service/parser/block7_causal.go).
-- [Quality gates](../backend/go-service/parser/block7_quality.go).
-
-### 2.3 Bloqueos actuales
-
-La auditoría anterior permitió corregir fugas de futuro, separar `observed`, `oracle` y `outcomes`, endurecer tradeability y publicar el estado táctico a 16 Hz. Esos problemas permanecen como tests de regresión. Los bloqueos vigentes son:
-
-1. No existe todavía un contrato integral que relacione todas las capacidades del coach con decisiones, acciones, campos, outcomes, modelos y abstenciones.
-2. Las acciones causales actuales son demasiado pobres: peek se reduce principalmente a `peek`, `hold` o `engage`, y trade a `connected` o `disconnected`.
-3. `peek_hold_or_reposition` no recibe exposición, LOS, orientación y distancias causales suficientes; los campos quedan correctamente `null/unavailable`.
-4. FOV, bloqueo por humo, contactos observables y última posición conocida necesitan un contrato canónico completo antes de usarse como información disponible.
-5. Counter-strafe, reacción, crosshair y spray tienen cálculos parciales, pero no un ledger canónico por disparo con disponibilidad y precisión verificadas.
-6. Las conexiones del navmesh, rutas, reachability, tiempos de llegada, cobertura y zonas necesitan una auditoría común para peeks, rotaciones, crossfires y objetivos.
-7. La validez del bundle todavía no se traduce en elegibilidad por familia. Un bundle válido puede servir para economía y no para exposición espacial.
-8. No existe aún `ai_coach/`, constructor de datasets, calibración, modelos ni serving. La arquitectura ML está planificada, no implementada.
-9. Falta un conjunto humano pequeño y versionado que mida decisiones, alternativas, desacuerdo y abstención por familia.
-
-### 2.4 Descargador FACEIT
-
-El descargador offline actual:
-
-- toma los primeros jugadores de un ranking regional;
-- usa `EU`, cinco jugadores y diez partidas por jugador como defaults;
-- pide solamente `offset=0` del historial;
-- deduplica por `match_id`;
-- ordena candidatos por fecha reciente;
-- filtra BO1 y disponibilidad de demo;
-- limita el trabajo mediante `--max-demos`;
-- descarga mediante la Downloads API y valida el bundle.
-
-Referencias en `Faceit-Demos/faceit_downloader_api.py`:
-
-- configuración: líneas 126-220;
-- ranking e historial: líneas 496-530;
-- deduplicación: líneas 1162-1204;
-- selección: líneas 1219-1305;
-- CLI: líneas 1788-1808.
-
-Problemas para ML:
-
-- sesgo hacia élite, EU y recencia;
-- solapamiento entre historiales de top players;
-- no hay selección longitudinal planificada;
-- se descartan al publicar roster, skill, región, competición, resultado, seed y motivo de selección;
-- no existen cuotas por skill, mapa o fecha;
-- `--keep-demo` es falso por defecto;
-- no se guarda un manifest de adquisición suficiente para reconstruir el muestreo.
-
-La API oficial permite consultar historia con `from`, `to`, `offset` y `limit`, y el historial incluye roster y `skill_level`. El límite publicado por petición es 100. Véase la [Data API oficial de FACEIT](https://docs.faceit.com/api/data/). La descarga requiere un token con scope específico y una URL firmada mediante `POST /download/v2/demos/download`; véase la [Downloads API oficial](https://docs.faceit.com/getting-started/Guides/download-api/).
-
-### 2.5 Veredicto de partida
-
-No hay que reescribir el extractor ni añadir métricas al azar. Primero hay que cerrar el contrato integral y después comparar sus necesidades con los hechos canónicos existentes.
-
-La decisión arquitectónica es:
-
-1. Go extrae hechos objetivos, geometría y disponibilidad reproducibles.
-2. Python agrupa esos hechos en decisiones, acciones, ventanas, outcomes y datasets por familia.
-3. Reglas, modelos tabulares especialistas y situaciones similares estiman valor y soporte.
-4. Un ranking común aplica incertidumbre, OOD, capacidad personal y abstención.
-5. El LLM explica un Evidence Pack ya aprobado; no juzga la demo.
-
-El corpus actual permite auditar y diseñar. No permite entrenar ni promover todavía un recomendador integral.
-
----
-
-## 3. Organización para dos personas
-
-### Persona A: datos y modelos
-
-- sincronización y auditoría Go;
-- adquisición FACEIT;
-- manifests y dataset;
-- reglas, modelos, calibración y ranking;
-- evaluación cuantitativa.
-
-### Persona B: producto y evidencia
-
-- contratos de recomendaciones;
-- servicio de inferencia;
-- replay y Evidence Pack;
-- interfaz y chat;
-- piloto, feedback y evaluación cualitativa.
-
-### Trabajo compartido
-
-- definir acciones y outcomes;
-- revisar muestras cada semana;
-- aceptar o rechazar cada fase;
-- mantener decisiones y presupuesto;
-- evitar que una persona sea la única capaz de ejecutar el pipeline.
-
-Cada fase debe incluir un comando reproducible, un artefacto inspeccionable y una revisión cruzada.
-
----
-
-## 4. Fase 0 — Proteger el punto de partida actual
-
-**Objetivo:** no perder las 50 fuentes, los 44 bundles válidos, las seis exclusiones ni su evidencia antes de fijar el contrato integral.
-
-### Tareas
-
-- [x] Pausar descargas masivas hasta cerrar contratos y gates.
-- [x] Inventariar y hashear las 50 fuentes Mirage, los 44 bundles aprobados y las seis exclusiones.
-- [x] Relacionar cada demo aprobada con su bundle, release y manifest.
-- [x] Registrar mapa, schema, quality status, espacio y digest del lote.
-- [ ] Marcar `golden-demos-v2` y el snapshot de 296 bundles como históricos, sin borrarlos ni convertirlos en gate activo.
-- [ ] Definir el candidato a golden de Mirage a partir de las fuentes actuales y fixtures mínimos por capacidad.
-- [ ] Diseñar la migración versionada desde la referencia obligatoria `golden-demos-v2`; no modificar lineage, validador ni release en esta fase documental.
-- [ ] Comprobar permisos y uso previsto frente a los [términos de FACEIT Developer Tools](https://developers.faceit.com/terms).
-- [ ] Confirmar que el token de Downloads API tiene el scope correcto sin registrar el secreto.
-- [ ] Si falta acceso, solicitarlo en la primera semana: [FACEIT publica un plazo de respuesta esperado de 30 días](https://docs.faceit.com/getting-started/Guides/download-api/). La espera no bloquea el backfill de metadatos ni el trabajo Go, pero sí nuevas descargas.
-- [ ] Definir retención: demo comprimida, bundle canónico, acquisition manifest y dataset derivado.
-- [ ] Fijar límite de almacenamiento y alarma de capacidad.
-- [ ] Crear una copia de seguridad del corpus actual si todavía no existe una copia verificada.
-
-### Política de retención recomendada
-
-- Conservar la demo en su compresión de origen mientras el schema esté en desarrollo.
-- No conservar por duplicado demo comprimida y `.dem` descomprimida después de validar.
-- Conservar indefinidamente manifests, hashes y bundles que formen parte de un dataset publicado.
-- Permitir borrar derivados reproducibles antes que fuentes no recuperables.
-- No almacenar credenciales o URLs firmadas en manifests.
-
-### Gate 0
-
-- Las 50 fuentes, 44 aprobaciones y seis exclusiones conservan hash, estado y lineage.
-- Sabemos qué bundles se pueden reprocesar y con qué release.
-- Existe espacio para el siguiente lote y una política de parada.
-- El uso de API y demos ha sido revisado.
-- El corpus histórico no bloquea el gate Mirage-first y no se intenta reconstruir sin una decisión explícita del usuario.
-
-Las tareas pendientes de Gate 0 bloquean descargas, reprocesados y mutaciones del corpus. No bloquearon la auditoría documental y de solo lectura ya cerrada en Gate 1A, ni bloquean el siguiente constructor read-only de ejemplos.
-
----
-
-## 5. Fase 1 — Contrato integral y base factual Go
-
-**Objetivo:** definir primero todo lo que el coach debe valorar y después producir los hechos necesarios sin fuga, separados en observed, oracle y outcomes.
-
-### 5.0 Contrato integral antes de cambiar el extractor
-
-La fase documental y de auditoría, cerrada el 27 de agosto de 2026, creó:
-
-- `docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md`, fuente humana de verdad;
-- `ai_coach/contracts/capability_catalog.json`, matriz legible por máquinas y validada por referencias;
-- contratos versionados de decisiones, acciones, outcomes, features, elegibilidad y recomendaciones;
-- una arquitectura de modelos especialistas y un backlog de carencias ordenado.
-
-El catálogo cubre como mínimo:
-
-1. combate y mecánica observable;
-2. peeks, duelos, cobertura y exposición;
-3. spacing, apoyo, trades, crossfires e impacto de entry;
-4. utilidad;
-5. economía;
-6. información disponible;
-7. rotaciones y control del mapa;
-8. bomba, postplant, retake, save y tiempo;
-9. ventaja, riesgo y clutch;
-10. evolución personal como capa transversal.
-
-El contrato no tratará todas estas áreas como el mismo tipo de modelo:
-
-- **proveedores de hechos:** observabilidad, geometría, información y relojes;
-- **especialistas prescriptivos:** trade, peek, combate/mecánica, utilidad, economía, rotación y objetivo;
-- **evaluadores transversales:** ventaja, riesgo, tiempo y clutch;
-- **perfil longitudinal:** patrones construidos con historia anterior;
-- **explicador:** LLM limitado al Evidence Pack.
-
-CatBoost será candidato para cada especialista prescriptivo que necesite aprendizaje, no una obligación para toda capa. Una regla simple puede ser la solución promovida si gana el benchmark.
-
-Cada capacidad debe declarar de forma concreta:
-
-- actor, inicio, `T0`, final y ventanas temporales;
-- acción observada y alternativas comparables;
-- campos `observed` permitidos;
-- campos `oracle` permitidos solo para labels o evaluación;
-- outcomes y factores de confusión;
-- procedencia, unidad, frecuencia, nulabilidad y cobertura;
-- elegibilidad, exclusiones, OOD, confianza y abstención;
-- regla o modelo inicial, métrica y test de promoción;
-- fixtures positivos, negativos y `unavailable`;
-- si añadir el dato obliga a reprocesar la demo.
-
-Cada dato se clasificará como `EXISTE_VERIFICADO`, `DERIVABLE`, `PARCIAL`, `FALTA_EXTRAER`, `REQUIERE_CLASIFICACION`, `NO_OBSERVABLE` o `DESCONOCIDO`. Que un campo exista no demuestra que sea correcto o útil.
-
-Se definirán dos consumidores del mismo extractor:
-
-- **FACEIT:** dataset offline sin jugador focal obligatorio;
-- **usuario:** inferencia sobre un Steam ID reconciliado y perfil construido solo con historia anterior.
-
-Las demos del usuario solo podrán alimentar un entrenamiento global posterior con consentimiento, anonimización, calidad, versionado y retirada.
-
-### Gate 1A — Contrato integral
-
-- Todas las familias del producto están representadas.
-- Cada decisión tiene acciones, datos, outcomes, límites y modelo inicial.
-- Todo campo requerido tiene procedencia y estado; las incógnitas permanecen explícitas.
-- `observed`, `oracle`, `outcomes` y perfil histórico están separados.
-- Existe elegibilidad por tarea, no un permiso global de entrenamiento.
-- El contrato distingue dato que falta en Go, derivación de Python, clasificación espacial y dato imposible de conocer.
-- Existe un plan versionado para migrar la referencia obligatoria `golden-demos-v2` sin alterar silenciosamente el lineage de `3.8.0`.
-- No se ha entrenado, descargado ni reprocesado nada para cerrar este gate.
-
-### Estado verificado de Gate 1A — 27 de agosto de 2026
-
-Gate 1A documental queda **cerrado** por [el contrato humano](AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md), [el catálogo máquina](../ai_coach/contracts/capability_catalog.json), [la arquitectura](AI_COACH_MODEL_ARCHITECTURE.md) y [la auditoría cuantitativa](AI_COACH_MIRAGE_44_DATA_AUDIT_2026-08-27.md). El validador comprueba 17 capacidades, 15 decisiones, 51 acciones, 18 outcomes y 55 campos sin IDs duplicados ni referencias rotas. Esto cierra el contrato, no Gate 1B ni el permiso de entrenamiento.
-
-La auditoría obliga a adelantar cuatro dependencias: `enemy_los` es sólo un proxy geométrico sin FOV/smoke demostrado; ammo/reserve/reload están no disponibles en la muestra tactical observed; la velocidad inicial del proyectil no existe en los 14.759 eventos de utilidad; y mesh/nav/raycast no entregan clasificación táctica, reachability, ruta ni ETA. Ninguna familia afectada puede saltarse esos blockers.
-
-### 5.1 Una sola fuente de verdad Go
-
-- [x] Comparar las dos copias actuales con hashes y tests.
-- [x] Portar a StratAI los filtros/endurecimientos presentes solo en Faceit-Demos.
-- [x] Declarar `StratAI/backend/go-service` como fuente canónica.
-- [x] Publicar desde StratAI un binario offline versionado con commit, schemas y checksum; release verificada `stratai-2c6db440231d463a`.
-- [x] Hacer que Faceit-Demos invoque la release local inmutable mediante `STRATAI_GO_RELEASE_DIR`/`CURRENT` y valide su identidad.
-- [ ] Marcar la copia Go de Faceit-Demos como transitoria y retirarla cuando la integración sea estable.
-- [x] Fallar si versión, schema o provenance no coinciden.
-- [ ] Ejecutar fixtures de integración desde el descargador y comparar sus hashes con la release canónica.
-
-No se usarán symlinks ni copias manuales de fuente entre repositorios. Faceit-Demos consumirá una release local e inmutable del parser; no dependerá de que el servicio web de StratAI esté levantado.
-
-### 5.2 Corregir causalidad
-
-- [x] Construir decisiones desde roster/actor conocidos en `T0`, no desde participantes futuros.
-- [x] Añadir `decision_id`, `actor_player_id`, `t0_tick`, `decision_type` y `action_taken`.
-- [x] Marcar `actor_player_id` como clave de join no entrenable.
-- [x] Separar `observed_state`, `oracle_state` y `outcomes` físicamente.
-- [x] Añadir `availability_tick`, `status`, `source`, `causal_role` y `visibility_scope` donde corresponda.
-- [x] Crear test de invariancia: mutar eventos posteriores a `T0` no modifica las features y sí puede modificar outcomes.
-- [x] Prohibir `match_id`, SteamID y outcomes como features del modelo mediante allowlists fail-closed.
-
-### 5.3 Promover el estado táctico de 16 Hz
-
-- [x] Crear artefactos canónicos observed/oracle/gaps a 16 Hz a partir del replay.
-- [ ] Usar IDs pseudónimos, no nombres.
-- [ ] Publicar posición, vista, velocidad, vida, armadura, arma, ammo, dinero, kit, C4, walking, ducking, scoped, blind y reload.
-- [ ] Publicar smokes, infernos, proyectiles, bomba, clocks y fase objetiva.
-- [x] Añadir disponibilidad y procedencia.
-- [x] Mantener el replay de UI como proyección separada.
-- [x] Versionar los nuevos schemas tácticos.
-
-### 5.4 Observabilidad
-
-- [ ] Publicar contacto visual causal: inicio, fin, jugador observado y observador.
-- [ ] Publicar última posición conocida y edad de la observación.
-- [ ] Incorporar FOV, raycast, humo y disponibilidad de geometría.
-- [x] Devolver `unavailable` cuando falte geometría; nunca “cero enemigos” por ausencia del mapa.
-- [x] Mantener el estado real enemigo exclusivamente en oracle.
-
-El sonido subjetivamente percibido queda fuera de la primera versión integral. No se inferirá audibilidad desde velocidad sin un contrato acústico.
-
-### 5.5 Tradeability y rutas
-
-- [x] Redefinir compañero elegible mediante distancia, LOS, tiempo y orientación.
-- [x] Separar `teammate_alive`, `trade_possible` y `trade_completed`.
-- [x] Para el vertical técnico, abstenerse cuando distancia directa y geometría no basten para validar la conexión.
-- [ ] Para el coach integral, conservar conexiones del navmesh y calcular path distance, reachability y tiempo aproximado de llegada.
-- [x] Publicar motivos de abstención cuando el mapa no permita la evaluación.
-
-### 5.6 Ejecución
-
-- [ ] Para el vertical técnico, publicar eventos mínimos enlazados por `shot_id`: tick, actor, arma, velocidad, blind/smoke y disponibilidad.
-- [x] Distinguir cero observado de valor no disponible en los contratos causal, táctico y de tradeability.
-- [ ] Separar estado en el disparo del resultado posterior del disparo.
-- [ ] Para el especialista de mecánica del coach integral, añadir counter-strafe, reacción, crosshair y spray con su contrato y gate propios.
-
-### 5.7 Quality gates reales
-
-- [x] Exigir el conjunto completo de artefactos.
-- [x] Recontar JSON/JSONL y validar schema embebido.
-- [x] Validar formato, compresión, orden y hashes.
-- [ ] Calcular de verdad future leakage, causal availability, schema compatibility, determinism y corpus quality.
-- [x] Publicar en staging y exigir un commit marker inequívoco antes de considerar visible un bundle.
-- [x] Permitir reintento seguro tras fallo.
-
-### 5.8 Matriz inicial de preparación integral
-
-Esta tabla era el resumen de partida. Gate 1A ya la convirtió en la matriz campo por campo del contrato v1 y demostró su cobertura con la auditoría Mirage 44; se conserva aquí como resumen operativo.
-
-| Familia | Estado actual | Mínimo para construir dataset | Prueba negativa o `unavailable` |
+| Estado | CS1 cerrada documentalmente el 04/10: situación, evolución, interpretación e incertidumbre; suficiencia exige integrar información disponible que cambia el significado, con varias hipótesis justificadas permitidas. CS2 cerrado funcionalmente el 05/10: entrada factual común v1, consultas causales, incertidumbre local y suplementos separados; 132 pruebas, una demo aprobada y siete regresiones. CS3 encuadrado el 05/10 con «Aplica CS3», entrega local A/B verificada con 142 pruebas, una demo aprobada y ocho casos de desarrollo. C local ejecutado: ocho casos de desarrollo y 8 reservados, con 156 pruebas y auditoría factual; evaluación humana independiente pendiente, fase parcial. El 06/10 se corrige el falso contacto humo/pared y se integra el replay profesional T/CT con muerte persistente y proyección causal; fuente positiva de visión aún pendiente. Por nueva instrucción del usuario se habilitan contactos calculados como estimaciones visibles y lectura original junto al mapa, verificados en una demo; esta visualización ya no queda bloqueada por el criterio estricto. Se añade registro local/exportable de correcciones asistidas por frase o lectura, sin modificar respuestas o entrenar. Se corrigen oclusión de paredes/cajas planas y contaminación de muertes previas al reinicio; diez situaciones T con entrada enriquecida se generan para revisión asistida, sin demostrar su calidad táctica. Se corrigen controles de reproducción y acceso a correcciones, con nombres visibles T1–T5/CT1–CT5 y ronda completa para revisión asistida; la IA conserva su entrada al corte. El diagnóstico del 09/10 reproduce pérdida de estado/posición de C4 caído en N03 y otras ventanas por la proyección T; la reparación factual se cierra técnicamente el 09/10 con proyección @4/input @2, una demo aprobada y diez inputs corregidos separados; QA visual de navegador sigue pendiente. Zonas implementadas el 09/10 tras autorización explícita: 23 volúmenes originales recuperados, proyección @5/input @3 y una demo aprobada. El usuario agrupa la revisión de interpretación de dos en dos; primer par C4 + zonas con tres intentos locales nuevos y 2 lecturas completas para revisión asistida. Persisten errores del modelo pese a los hechos corregidos. Estado de ronda y acontecimientos implementados el 10/10 tras «Implementalo». El segundo par añade fase/relojes y acontecimientos causales; comparación asistida completada en tres intentos: N01/N04 con lecturas nuevas y errores persistentes, N10 rechazado al agotar generación. Revisión humana pendiente. El 10/10 el usuario detiene el avance y exige investigar los dos C4 inventados: diagnóstico reproducido, datos sin duplicación, mezcla temporal en la salida y validación factual ausente en aquel contrato. La auditoría factual ampliada del mismo día revisa diez inputs y las 49 afirmaciones completas actuales: zonas/relojes/eventos coherentes en el alcance comprobado, tres contradicciones adicionales de salida, inventarios de muertos sin antigüedad y guardas de entrada insuficientes. Tras «Aplica todas las reparaciones que has encontrado», las reparaciones factuales se implementan y verifican el 10/10: input @6/proyección @8, inventario fechado, guardas de vida/reloj/eventos y texto reconstruido desde referencias; 2.505 pruebas Python, 266 frontend, suites Go/Node y una demo aprobada repetida tras corregir dos incompatibilidades de integración. Diez casos protegidos, originales y notas conservados; no acredita fiabilidad global ni calidad táctica. QA visual interactiva pendiente. Nuevas fases conservan revisión experta. Las correcciones no alimentan automáticamente al modelo. Foco CT recibido: patrones de ataque T, eficacia y adaptación defensiva explicadas; casos y criterios tácticos operativos pendientes. Auditoría, detector, respuestas, predicciones y corpus conservados; sin interpretación general demostrada, entrenamiento, promoción ni tasa de aciertos. Información disponible cerrada técnicamente el 10/10: memoria @1/proyección @9/input @7, receptores posibles y últimos informes directos/compartidos separados. Verificación final: 2.522 Python, 284 frontend, Go/Node, una demo aprobada en tres capturas retenidas, 46.796 vistas T/CT y QA del nuevo visor en Chromium. Se repara además la dependencia previa del orden de callbacks de utilidad: 347/347 lanzamientos contrastados. Excel v44/IC54; interpretación pendiente tras información + granadas y siguiente revisión experta de granadas. Granadas cerradas técnicamente el 11/10, comparación del par ejecutada: N01/N10 rechazados, N04 factual sin interpretación. Entrega compacta cerrada el 11/10: los hechos se reconstruyen byte a byte y N10 entra en el presupuesto original. Nueva tanda completa conservada; revisión de resultados antes de sonido. Detalles debajo. Sonido cerrado técnicamente el 15/10 en el alcance estimado acordado: 1.312 perfiles de eventos, 548 utilizables, recepción nativa 3D, proyección @11/input @9 y una misma demo aprobada verificada. Qwen, presupuestos, diez recibos históricos y veinte notas intactos. Revisión experta recibida el 15/10: punto sonoro nativo sólo para el mapa y utilidad inicial habitual sin reacción demostrada. Marcadores locales verificados en una demo; siete de diez entradas ampliadas no caben todavía en el contexto original. Reparación de capacidad previa a la nueva comparación; interpretación general y evaluación humana pendientes. Capacidad inicial @3 reparada el 15/10 y tanda N01/N04/N10 completada: tres salidas válidas mecánicamente, interpretación vacía. Siguiente acción: revisión experta del contrato de hipótesis tácticas; alcance y límites al final. Encuadre de profundidad B Apps recibido el 15/10: muy avanzado y próximo a entrar puede respaldar ataque; más atrás aporta menos fundamento. Punto 2 y grupo de 2–3 concretados por el usuario; contrato local implementado y repetición reparada. Tanda final: 3/4 lecturas mecánicamente válidas, todas sin interpretación, incluida W01 cercana al punto 2; N10 incompleto por tiempo. Aplicación táctica del criterio no demostrada. Excel v57/IC68–IC69; siguiente acción: revisar y diagnosticar estos límites antes de ampliar hipótesis.  Diagnóstico y reparación @3/1.6 cerrados técnicamente el 16/10: N10 termina en 28.871 s, con 28 tokens en su última respuesta. W01 mantiene interpretación vacía. Lote 4/4 válido mecánicamente; interpretación fiable pendiente. Excel v58/IC70; siguiente acción concreta al final. |
+| Versión | 3.53 |
+| Enfoque vigente | Prototipo contextual optativo @1/1.8 entregado: hipótesis abiertas, consultas con progreso y vista factual legible. Modelo, hechos protegidos y formatos históricos intactos. Tanda final: 3/4 formatos válidos, cuatro borradores con problemas de fundamentación y una salida rechazada. W01 conserva 354 muestras nativas y la variante de dos extremos. Excel v63/IC75–IC76. CS3 parcial: no se aprueba calidad táctica ni se avanza a recomendaciones; siguiente acción al final. |
+| Fecha | 16 de octubre de 2026 |
+| Equipo | Dos personas; enfoque de cada fase revisado con el usuario experto antes de implementarla |
+| Producto | [Coach personalizado pospartida](AI_COACH_PRODUCT_DEFINITION.md) |
+| Primera validación | Piloto privado asistido en Mirage: economía, apoyo y mecánica verificable; perfil y misiones desde el inicio |
+| Primera entrega pública | Coach integral de Mirage, con evaluación por familia |
+| Presupuesto | Ampliable por etapas; 10.000 EUR como escenario de planificación, sin gasto autorizado por este documento |
+
+## 1. Qué vamos a construir y en qué orden
+
+El ciclo que debemos entregar es **partida → análisis respaldado → perfil del jugador → una o dos prioridades → práctica y misiones → comprobación en nuevas oportunidades → ajuste del plan**. El éxito se mide por la utilidad de los consejos y el progreso observado del jugador. La complejidad del modelo es una decisión de implementación.
+
+| Paso | Qué debemos hacer | Resultado para avanzar | Estado |
 |---|---|---|---|
-| Spacing, apoyo y trade | Parcial avanzado | Estado en `T0`, LOS, distancia, tiempo, orientación y ruta cuando sea necesaria | Compañero muerto, lejano, bloqueado o sin tiempo no cuenta como tradeable |
-| Peek, hold, cobertura y exposición | Insuficiente | FOV, LOS, humo, ángulos, orientación, cobertura, salida y separación de oracle | Pared, humo o geometría ausente nunca se convierten en «cero peligro» |
-| Combate y mecánica | Parcial | Ledger por disparo, movimiento, arma, mira, reacción y precisión declarada | Valor desconocido no equivale a jugador parado ni a reacción cero |
-| Entrada y coordinación | Parcial | Acción, timing aliado, utilidad observable, conexión y outcomes 2/5/10 s | Kill sin soporte no convierte automáticamente la decisión en correcta |
-| Utilidad | Consecuencias fuertes; decisión pendiente | Inventario en `T0`, throw→trayectoria→efecto→continuación y alternativas válidas | Granada ausente o intención desconocida no genera una recomendación falsa |
-| Economía | Fuerte por ronda; valor multirronda pendiente | Freeze snapshot, compras, inventario de equipo y outcomes de 1-3 rondas | Warmup, dinero inconsistente o reglas especiales producen exclusión |
-| Información disponible | Parcial | Contactos causales, última posición conocida, edad, objetivo y disponibilidad | Enemigo solo oracle nunca aparece como información del jugador |
-| Rotación y control del mapa | Insuficiente | Zonas, conexiones NAV, rutas, reachability, tiempos y control observable | Ruta inexistente o asset ausente obliga a abstenerse |
-| Bomba, postplant, retake y save | Eventos fuertes; decisiones pendientes | Ledger objetivo, clocks, kit, rutas, utilidad, posiciones y deadlines | Secuencia o actor no reconciliable no se usa para recomendar |
-| Ventaja, riesgo y clutch | Derivable después de las anteriores | Estado causal, valor local, objetivo, economía e incertidumbre | Ganar la ronda no etiqueta por sí solo una mala acción como buena |
-| Perfil longitudinal | Insuficiente en el smoke | Identidad pseudónima estable, orden temporal, contexto y soporte mínimo | El perfil nunca usa partidas futuras ni afirma hábito con pocas muestras |
+| **1. Ordenar y fijar el plan** | Separar documentos activos e históricos; alinear producto, arquitectura y contratos con el ciclo de coaching. | Fuentes claras, evidencias preservadas y una única siguiente acción. | **Completado**; verificación documental registrada al final |
+| **2. Diseñar los primeros consejos** | Con coaches, definir situaciones de economía, apoyo y mecánica, alternativas, límites, explicación y práctica. Mantener peek como prueba espacial. | Diseño revisable del piloto y lista exacta de datos necesarios; 40 situaciones de desarrollo propuestas. | **Diseño entregado**; revisión de coaches y casos reales pendientes |
+| **3. Completar los datos necesarios** | Comprobar qué puede saberse en cada momento y corregir sólo las carencias que impiden las capacidades priorizadas. | Datos verificables y elegibilidad por oportunidad; migraciones aprobadas si hacen falta. | **3A–3C cerrados; fuentes 3D.1, referencias 3D.2, contexto 3D.2B, configuración 3D.2C y manifiesto 3D.2D validados**; traza 3D.3, auditoría 3D.4, identidad/relojes 3D.5, tenencia 3D.6, vínculos 3D.7 y conciliación 3D.8 terminados. Anclaje factual 3E.1 y contexto físico propio/aliado 3E.2 validados; entrada táctica, conexión física y apoyo viable pendientes. 3E.3 añade diagnóstico NAV candidato, con conexión física no acreditada. 3E.4 añade fase pública del objetivo y hechos propios/aliados; 3E.5 acredita tenencia C4 propia/aliada y posición del portador. El apoyo completo sigue pendiente. 3E.6 añade cuentas atrás nativas, tiempo restante de intentos y progreso/margen de defuse. 3E.6B acredita inicio/duración y progreso del plantado. 3E.7 acredita posición mundial del objetivo raíz y disponibilidad legal de plantado/contacto; attachment transportado y observación legal de C4 caída mantienen dependencias. 3E.8 acredita suelo y modo de movimiento nativos; velocidad instantánea mantiene dependencia de fuente positiva. 3E.9 acredita plazos del servicio de armas del pawn; ticks/fracciones del arma mantienen dependencia de codec/dominio. 3E.10 valida entradas visuales y FOV de referencia; contacto legal sigue abstendido por fuentes de oclusión/humo/flash insuficientes. 3E.11 congela el censo prospectivo C0 como diseño documental; entrada física/compromiso siguen sin acreditarse. 3E.12 materializa C0, 3E.13 une contexto físico básico, 3E.14 contexto causal del objetivo y 3E.15 tenencia C4/posición del portador en sus cortes exactos; 3E.16 añade relojes causales del objetivo; 3E.17 añade origen/progreso nativo de plantado; 3E.18 añade posición legal del objetivo; 3E.19 añade movimiento/suelo nativos; 3E.20 añade el plazo del pawn; 3E.21 añade entradas visuales; 3E.22 concilia cobertura conjunta y dependencias C0. Otra implementación dependiente exige material positivo nuevo; segunda fase del bloque anterior no iniciada. Enfoque colectivo incorporado en ICT-D1; conservadas 18 interpretaciones y recibida la lectura del corte real F01-K1 v0.2. Formato suficiente para este caso; Q1 recibido con 36 respuestas y tres aclaraciones. Rúbrica contextual v0.1 preparada y aplicada documentalmente a K1; F01-K2 revisado con continuidad de push B. Encuadre ICT-I1 recibido el 21/09: defensa percibida, oportunidad en medio, fake y pérdida del jugador de información. Literal y límites registrados en Excel v6; alcance v0.2 delimita primero prefijos propios/aliados y registro descriptivo causal. ICT-I1.A implementado y verificado el 21/09: registro descriptivo propio/aliado, recursos físicos y C4; hipótesis dependientes abstendidas y sin nuevas fuentes de percepción o viabilidad. AUD-F01/C01, AUD-D01/D02/D03 y AUD-O01 cerradas en sus alcances el 20/09. Alcance funcional pendiente. Economía parcial. Las declaraciones históricas de retención quedan calificadas por AUD-E01; no se reafirman como conservación íntegra actual |
+| **4. Construir el prototipo completo** | Conectar análisis, comparación, memoria previa, explicación y misiones; combinar reglas, cálculos y revisión humana. | El usuario recorre el ciclo completo y puede comprobar cada consejo. | Pendiente |
+| **5. Probarlo con jugadores** | Revisar decisiones y recomendaciones con expertos y usuarios, recoger desacuerdos y medir utilidad y coste. | Sabemos qué consejos se sostienen, qué falta y qué merece automatizarse. | Pendiente |
+| **6. Automatizar lo que funciona** | Evaluar reglas y modelos pequeños; automatizar sólo si mantienen o mejoran calidad, cobertura y coste. | Cada capacidad conserva evidencia, alternativas viables y abstención. | Pendiente; entrenamiento bloqueado |
+| **7. Comprobar y adaptar el aprendizaje** | Medir práctica, aplicación por oportunidad, retención y transferencia; ajustar dificultad y prioridades. | Plan personal revisable según evidencia longitudinal. | Pendiente; el seguimiento se instrumenta desde el paso 4 |
+| **8. Completar Mirage y ampliar** | Incorporar las familias restantes, evaluar el conjunto y después validar cada nuevo mapa. | Coach integral de Mirage aprobado antes de ampliar la promesa pública. | Pendiente |
 
-### Gate 1B — Base factual y causal
+Los pasos se solapan cuando sus dependencias lo permiten. Diseñar el piloto no exige completar primero toda la geometría. Probar una capacidad requiere acreditar sus propios datos y consejos; una carencia de peek no bloquea automáticamente una comprobación económica independiente. La ayuda humana no convierte hechos ausentes en observados.
 
-No se entrena el recomendador hasta cumplir:
+### Cómo mantener este plan
 
-- features idénticas al mutar eventos futuros;
-- ninguna feature observed lee oracle u outcomes;
-- stream de 16 Hz sin gaps silenciosos;
-- ausencias representadas como `null/unavailable`;
-- joins decisión→actor→estado→acción→outcome completos;
-- fallo del validador ante artefacto ausente, conteo falso o schema incorrecto;
-- hashes deterministas con distinto paralelismo;
-- candidato golden de Mirage basado en las fuentes actuales y fixtures por capacidad aprobado;
-- migración versionada de lineage/validador/tests/release completada antes de llamarlo golden activo;
-- elegibilidad calculada y explicada por familia;
-- ningún campo se declara disponible solo porque exista en el JSON.
+- Este es el único documento de progreso, orden, condiciones de avance —gates—, autorizaciones y siguiente acción. `[x]` exige evidencia; una fase parcialmente implementada sigue pendiente.
+- La [definición de producto](AI_COACH_PRODUCT_DEFINITION.md) fija la promesa; el [contrato humano](AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md) y el [catálogo máquina](../ai_coach/contracts/capability_catalog.json) fijan significado e IDs. La [arquitectura](ai-coach/AI_COACH_MODEL_ARCHITECTURE.md) es referencia de diseño.
+- El [índice documental](README.md) separa fuentes activas, operación e historia. Los informes archivados y los JSON de evidencia describen lo observado; no autorizan trabajo ni implican que todos sus gates estén cerrados.
+- Los nuevos conceptos de perfil, práctica y seguimiento aún deben convertirse en contratos ejecutables. Actualizar prosa no modifica schemas ni habilita runtime.
+- Cada cierre actualiza aquí estado, evidencia y una única siguiente acción. `docs/prompts/` contiene sólo su prompt ejecutable; se retira al trasladar el resultado al plan y al informe correspondiente.
+- No se confunden cuatro permisos: leer/probar de forma aislada, adquirir datos, entrenar y publicar/promover. Las condiciones y autorizaciones de cada operación se comprueban cuando corresponda.
 
-### Estado verificado de Gate 1B — 26 de agosto de 2026
+### Forma de trabajo por fase
 
-Gate 1B permanece **pendiente**. El working tree contiene y prueba los contratos de decisiones, las particiones físicas observed/oracle/outcomes, la invariancia de features ante una mutación posterior a `T0`, el stream táctico 16 Hz con gaps explícitos, tradeability física con abstención y los validadores negativos de artefactos/publicación.
+**Acuerdo con el usuario del 17 de septiembre de 2026:** revisar cada fase en su momento, con una propuesta concreta y el contexto necesario. No se requiere completar de antemano todo el [Excel de revisión del coach](../outputs/stratai-coach-review-20260916-14a1667/StratAI_Plan_del_coach_revision_experta.xlsx). Sus 75 casuísticas y 42 parámetros son un mapa de propuestas revisable; no son criterios tácticos aprobados en bloque.
 
-El smoke reproducible de Mirage queda cerrado con 50 demos originales, 44 bundles aprobados y 6 exclusiones seguras. Las 44 aprobadas usan el contrato 3.8.0, conservan `observed.jsonl.gz` y pasaron auditorías independientes de combate, engagements y las cinco particiones causales. Hay 36.181 decisiones: 26.648 `spacing_or_trade_connection` y 9.533 `peek_hold_or_reposition`, ambas presentes en las 44 partidas.
+**Petición posterior del mismo día:** «Pues venga, crea todas las preguntas y hazlas». Se reúne el [banco Q1](ai-coach/AI_COACH_EXPERT_QUESTIONS.md) para recibir criterios de todas las familias por bloques, sin repetir acuerdos ya recogidos. Esta petición amplía la preparación de preguntas; no aprueba sus respuestas ni una implementación conjunta. No es obligatorio responder todo el banco antes de avanzar en una parte independiente cuyo enfoque y fuentes estén suficientemente acordados.
 
-La revisión determinista de 100 decisiones por familia cubre en conjunto las 44 partidas. `spacing_or_trade_connection` conserva distancia, tiempo, LOS, orientación y tradeability como derivados explícitos. En cambio, las 9.533 decisiones de `peek_hold_or_reposition` carecen de exposición, LOS, orientación y distancias causales; esos campos permanecen correctamente en `null/unavailable`, pero la familia aún no es suficiente para una recomendación prescriptiva. Falta además una firma humana de dominio.
+1. **Preparar la revisión.** El agente lee el estado y las dependencias, presenta qué toca, qué problema resuelve, el alcance propuesto y cómo se verificará. Selecciona sólo las casuísticas y parámetros pertinentes e incluye ejemplos y excepciones que hagan concretas las decisiones.
+2. **Recoger el enfoque experto.** Antes de implementar la nueva fase, preguntar al usuario por su enfoque y los criterios de juego o producto que necesiten decisión. Esperar su respuesta para el trabajo dependiente. La preparación documental y la lectura necesarias para presentar una propuesta concreta pueden avanzar. No interpretar el silencio ni una valoración general positiva del Excel como aprobación de cada criterio.
+3. **Registrar lo acordado.** Incorporar las respuestas a las filas afectadas del Excel y a la documentación de la fase. Conservar IDs, anotaciones y versiones anteriores del libro. Registrar fecha, alcance, criterios, ejemplos/excepciones, verificación prevista y dudas pendientes; distinguir aportación del usuario de propuesta del agente. Este plan conserva estado, orden y siguiente acción, y el único prompt vigente refleja el alcance acordado.
+4. **Implementar con autonomía técnica.** Resolver las decisiones técnicas rutinarias y corregir fallos dentro del alcance acordado sin nuevas confirmaciones. No volver a preguntar por criterios ya resueltos para esa fase. Si aparece una decisión nueva de juego/producto, un cambio material de alcance o información que sólo puede aportar el usuario, documentar el punto y detener únicamente el trabajo dependiente hasta resolverlo.
+5. **Verificar y cerrar.** Aplicar los criterios acordados y los contratos, suites y smoke que correspondan. Comunicar qué se ha demostrado, las limitaciones y las dependencias abiertas, y actualizar evidencia, informe y plan antes de preparar la revisión de la siguiente fase.
 
-`golden-demos-v2` documenta un corpus diverso anterior cuyas fuentes se borraron de forma intencionada al comenzar la descarga limpia de Mirage. Operativamente no se intentará reconstruir salvo decisión expresa del usuario. Sin embargo, el contrato `3.8.0` todavía exige ese identificador en lineage y validación: seguirá vigente hasta que una migración contractual versionada permita promover el candidato Mirage sin engañar al validador.
+Esta forma de trabajo sustituye las autorizaciones anteriores de encadenar implementaciones sin consulta previa de cada fase, salvo una nueva instrucción explícita del usuario. La revisión de diseño con el usuario no sustituye la verificación factual, las respuestas independientes de evaluación ni los gates de promoción. Se mantienen las abstenciones, la retención de artefactos y los permisos separados.
 
-Siguen bloqueando Gate 1B:
+**Acuerdo posterior del 09/10/2026:** «Mejor de 2 en 2, si no va a ser tedioso. Implementa la siguiente función y luego vemos la interpretación». Autoriza implementar la propuesta de zonas tras C4 y revisar la interpretación al completar ese par. Las siguientes comparaciones se agrupan cada dos bloques funcionales. Las pruebas y el cierre técnico siguen haciéndose por bloque; la revisión experta de criterios nuevos permanece. No exige repetir preguntas ya contestadas ni esperar otra confirmación para las zonas aceptadas. No autoriza entrenar ni convertir notas en etiquetas.
 
-1. convertir el lote actual en candidato golden de Mirage y ejecutar, sólo tras autorización, la migración contractual de lineage, validador, tests y release hacia una ubicación nueva;
-2. integrar FOV/smoke/contact age en observed y completar la evidencia espacial causal de `peek_hold_or_reposition` sin leer oracle ni futuro;
-3. materializar ammo/reserve/reload a 16 Hz, normalizar sentinels de arma y resolver el contrato de velocidad inicial de utilidad;
-4. clasificar zonas/sites/chokes/cover/exposure/exits y producir reachability, route/path distance y ETA versionados;
-5. construir `DecisionExample`/`TaskEligibility` read-only y obtener revisión humana registrada, primero para las dos familias del vertical y después para cada especialista.
+**Criterio contextual ya expresado:** una entrada puede desarrollarse en una zona o recorrido —por ejemplo, larga de A o túnel bajo según mapa y situación— y no exige un punto o frontera fija universal. La revisión concretará cómo reconocer el episodio, sus cambios y su relación con el apoyo. Las definiciones geométricas heredadas deben revisarse antes de extender su uso; este acuerdo no modifica automáticamente contratos ejecutables ni acredita entrada o apoyo en los datos existentes.
 
-El cierre detallado y sus hashes están en `../../Faceit-Demos/docs/MIRAGE_SMOKE_50_ACCEPTANCE_2026-08-26.md`. `training_allowed` sigue siendo `false`.
+## 2. Punto de partida comprobado
 
----
+Este resumen conserva resultados de auditorías anteriores. La reorganización documental no vuelve a ejecutar ni acredita nuevas capacidades. La [auditoría integral del 19/09](archive/ai-coach/AI_COACH_INTEGRAL_AUDIT_2026-09-19.md) contrasta esos cierres con su evidencia disponible: las marcas históricas no equivalen a una revalidación exhaustiva actual. Su matriz distingue resultados verificados, contradicciones, límites de alcance/evidencia y pendientes legítimos.
 
-## 6. Fase 2 — Estrategia de corpus FACEIT
-
-**Objetivo:** obtener diversidad para aprender valor, referencias de alto nivel y suficientes secuencias por jugador para personalizar.
-
-### 6.1 Respuesta a qué partidas descargar
-
-No se debe elegir una sola de estas opciones:
-
-| Estrategia única | Problema |
-|---|---|
-| Solo nivel 10 | Aprende contextos y mecánicas poco representativos para usuarios normales; no modela progresión |
-| Solo partidas del mismo jugador | Personaliza, pero carece de alternativas y baselines para saber qué era mejor |
-| Partidas aleatorias de todos los niveles | Aporta diversidad, pero puede aprender hábitos débiles y quedar dominada por mapas/cohortes frecuentes |
-| Solo top ranking reciente | Introduce sesgo élite, regional, temporal y de red social |
-
-La solución es un corpus mixto con cuatro funciones.
-
-### 6.2 Cuatro subconjuntos
-
-#### A. Corpus general de dinámica y valor
-
-- Todos los niveles relevantes.
-- Partidas completas, no solo victorias.
-- Sirve para aprender qué ocurre después de estado+acción.
-- El skill band forma parte del contexto, no de la identidad.
-
-#### B. Corpus de referencia experta
-
-- Nivel 10 y high Elo.
-- Sirve para recuperar alternativas de alta calidad y construir priors.
-- No se utiliza como única verdad ni se recomienda una acción profesional si no es ejecutable para el usuario.
-
-#### C. Panel longitudinal
-
-- Muchas partidas de los mismos jugadores.
-- Sirve para recurrencia, tendencias y adaptación personal.
-- Debe cubrir varios niveles, no solo élite.
-
-#### D. Corpus de evaluación
-
-- Jugadores, partidas y fechas no usados en entrenamiento.
-- Incluye casos revisados por humanos.
-- Nunca se usa para decidir features o thresholds después de mirar resultados.
-
-### 6.2.1 Separación FACEIT y usuario
-
-- Las demos FACEIT alimentan la factoría offline de datasets globales y no tienen jugador focal obligatorio.
-- Las demos del usuario usan el mismo extractor, pero identifican su Steam ID para inferencia y perfil.
-- Los modelos globales no se actualizan durante el análisis de una partida del usuario.
-- El perfil personal puede actualizarse inmediatamente con historia válida del propio usuario.
-- La entrada posterior de demos de usuario en un corpus global requiere consentimiento, pseudonimización, quality gates, dataset versionado y mecanismo de retirada.
-
-### 6.3 Volumen inicial recomendado
-
-No descargar todo de una vez. Usar gates:
-
-| Lote | Tamaño acumulado | Propósito |
-|---|---:|---|
-| Smoke cerrado | 50 fuentes / 44 bundles válidos | Validar schema, retención, calidad y cobertura inicial |
-| Auditoría contractual | Las 44 válidas | Medir qué sirve para cada familia; no entrenar |
-| Golden humano | 100-200 decisiones iniciales por familia priorizada | Validar semántica, alternativas y abstención |
-| Primer lote de modelado | Orientación inicial de 300 Mirage elegibles | Solo después de Gates 1A, 1B y 3; el número no garantiza suficiencia |
-| Expansión condicionada | Lotes de hasta 100 | Cubrir el déficit medido de cada familia, acción, cohorte o outcome |
-| Transferencia | Se decide mapa por mapa | Solo después de validar el coach integral de Mirage |
-
-Los 44 bundles actuales no cuentan automáticamente para todas las familias. Cada partida tendrá `eligible[task]`; por ejemplo, puede servir para economía aunque no tenga geometría suficiente para exposición. El futuro plan de adquisición calculará el déficit por familia y soporte de acciones, no solo `300 - total_de_partidas`.
-
-El cierre actual ocupa aproximadamente 38,048 GiB entre fuentes, bundles y evidencias inventariadas. Antes de cualquier lote se medirá de nuevo el tamaño medio real y se reservará espacio para fuentes, staging, bundles, derivados y rollback.
-
-### 6.3.1 Unidades de muestreo
-
-Para que una partida repetida entre seeds no infle las cuotas:
-
-- **almacenamiento:** `match_id` únicos y causalmente elegibles; 300 es una primera orientación que el contrato de cobertura puede aumentar, reducir o repartir por tarea;
-- **adquisición:** cada match recibe un `primary_focal_player` determinista y una única banda primaria para las cuotas porcentuales;
-- **cohortes secundarias:** otros seeds, panel longitudinal o referencia experta se guardan como tags superpuestos, sin volver a contar la demo;
-- **entrenamiento:** la unidad es la ventana actor-decisión; su distribución por skill se informa aparte y no se confunde con la distribución de matches.
-
-Objetivo orientativo por skill del `primary_focal_player`:
-
-| Banda FACEIT | Cuota orientativa | Uso |
-|---|---:|---|
-| 1-3 | 15 % | Patrones de iniciación y calibración baja |
-| 4-6 | 30 % | Usuarios intermedios |
-| 7-8 | 25 % | Usuarios avanzados |
-| 9-10 | 30 % | Referencia experta y high-skill |
-
-Estas cuotas son mutuamente excluyentes a nivel de adquisición, no una verdad permanente. Deben ajustarse al público real del producto. Se registrará también la distribución de los diez participantes y de las ventanas actor-decisión, no solo el focal.
-
-Panel longitudinal inicial:
-
-- seis jugadores focales como mínimo, repartidos entre bandas;
-- objetivo de 15 partidas por jugador;
-- las partidas pueden solaparse con el corpus general;
-- deduplicación física por `match_id`;
-- el manifest conserva todas las pertenencias a cohortes.
-
-Si una expansión posterior alcanza aproximadamente 600 partidas elegibles, el objetivo orientativo sube a 12 jugadores focales y 20 partidas por jugador.
-
-Referencia experta inicial:
-
-- si el primer plan se fija en 300, al menos 75 partidas de referencia experta;
-- actor nivel 9-10, lobby de mediana al menos 9 y dispersión baja;
-- Elo capturado en el momento de adquisición cuando la fuente lo permita;
-- variedad por mapa, lado, marcador y economía;
-- no seleccionar únicamente ganadores o partidas con alto K/D.
-
-Si la expansión alcanza aproximadamente 600, la referencia experta sube como mínimo a 150 partidas.
-
-Cuota por mapa causalmente elegible para el primer gate:
-
-- al menos 250 partidas de Mirage para el primer recomendador;
-- las restantes cubren diversidad y casos de robustez del parser;
-- el primer modelo que publica «mejor acción» se entrena y valida solo en Mirage.
-
-Después del Gate 9B se elegirá el siguiente mapa y se fijará su cuota según geometría, cobertura y familias. No se mezclarán automáticamente Dust2 o Ancient en el entrenamiento de Mirage solo por alcanzar un contador global.
-
-### 6.4 Cuotas adicionales
-
-- La excepción inicial de Mirage es intencional para reducir geometría, espacio de acciones y QA.
-- En la expansión general, ningún mapa debería superar el 25 % sin una razón documentada.
-- Cada mapa debe tener su propio mínimo y evaluación antes de publicar recomendaciones específicas.
-- Registrar pool y versión de mapa; no mezclar silenciosamente revisiones.
-- Recopilar mediante intervalos explícitos de fecha.
-- Comenzar en una región para reducir variabilidad y añadir regiones como cohortes versionadas.
-- Conservar overtime como flag; no mezclarlo con regulación sin contexto.
-- Mantener casos con desconexiones, bots o demos truncadas en un corpus de robustez, no en train principal.
-
-### 6.5 Criterios de inclusión del train principal
-
-- CS2 5v5 estándar.
-- Partida finalizada.
-- Demo disponible y checksum válido.
-- Diez participantes reconciliables al comenzar, con excepciones explícitas.
-- BO1 durante el primer corpus Mirage.
-- Mapa y assets soportados.
-- Schema y hard gates aprobados.
-- Metadatos de adquisición completos.
-- Patch/cohorte identificables.
-
-### 6.6 Criterios de cuarentena
-
-- forfeit o partida extremadamente corta;
-- corrupción/truncación;
-- sustitución, bot o desconexión prolongada;
-- reglas de hub o torneo no compatibles;
-- mapa sin geometría requerida;
-- roster o skill no reconciliable;
-- schema antiguo no reprocesable;
-- quality warning que afecta la tarea concreta.
-
-No se borran automáticamente. Se etiquetan para robustez o revisión.
-
-### 6.7 Cambios del descargador
-
-- [ ] Añadir `--plan corpus_plan.yaml` y un hash del plan.
-- [ ] Añadir `--seed-file players.csv` y `--match-id-file`.
-- [ ] Añadir `--metadata-only`, `--dry-run` y `--resume`.
-- [ ] Paginar historiales con `offset` y `limit`.
-- [ ] Añadir `--from` y `--to` explícitos.
-- [ ] Añadir cuotas por banda, mapa, fecha y máximo por jugador.
-- [ ] Filtrar modo, estado, roster, región y reglas de competición.
-- [ ] Capturar detalles completos antes de reducirlos a `SelectedDemo`.
-- [ ] Conservar demo comprimida por defecto durante I+D.
-- [ ] Añadir `corpus.sqlite` para estado durable, cuotas, intentos y reanudación.
-- [ ] Registrar errores y motivos de descarte de forma agregable.
-- [ ] Limitar bytes, demos, workers y tiempo por ejecución.
-- [ ] Liberar la reserva de checksum también después de un fallo.
-
-No se añadirá Redis ni BullMQ a la factoría offline. SQLite y workers locales acotados son suficientes para dos personas y una máquina.
-
-Estados mínimos de adquisición:
-
-```text
-discovered
-metadata_ready
-selected
-downloaded
-parsed
-validated
-rejected
-retryable_failed
-permanent_failed
-```
-
-### 6.8 Acquisition manifest
-
-Cada match debe conservar, sin secretos:
-
-```text
-acquisition_schema
-match_id
-source
-selected_at
-metadata_queried_at
-metadata_sha256
-finished_at
-region
-game_mode
-match_type
-competition_id / competition_type
-best_of
-status
-map
-result
-roster[]:
-  faceit_player_id_pseudonymous
-  steam_id_pseudonymous
-  team
-  skill_level_at_history
-  elo_if_available
-seed_players[]
-primary_focal_player
-primary_skill_band
-selection_cohorts[]
-selection_reason
-history_query_from / to / offset
-resource_checksum
-demo_checksum
-parser_version
-canonical_schema
-quality_status
-```
-
-No se guardan API keys, access tokens ni signed URLs.
-
-El skill/Elo se almacena como valor devuelto por el endpoint y con su `metadata_queried_at`; no se afirmará que representa el valor histórico exacto de la fecha del match sin verificar esa semántica en el contrato de la fuente.
-
-### 6.9 Sesgo y uso por modelo
-
-- El modelo de dinámica puede usar todas las bandas con skill como contexto.
-- La biblioteca de alternativas prioriza la misma banda y bandas superiores.
-- Los casos nivel 10 actúan como referencia aspiracional, no como acción automáticamente óptima.
-- El modelo de personalización usa únicamente el pasado del jugador.
-- La evaluación se publica por banda; una media global no es suficiente.
-
-### Gate 2
-
-- El planificador alcanza cuotas sin descargar.
-- Dos ejecuciones del mismo plan producen la misma selección.
-- Los matches duplicados conservan varias cohortes pero una sola demo.
-- Cada demo tiene acquisition manifest y checksum.
-- Se puede reconstruir por qué fue elegida.
-- El inventario y metadata de las 50 fuentes actuales informa la distribución real antes de adquirir nuevas.
-- El smoke limpio de 50 ya está cerrado y se usa como evidencia de entrada, no como autorización de entrenamiento.
-- No se adquiere ningún lote nuevo hasta superar Gates 1A, 1B y 3 y conocer el déficit por familia.
-
----
-
-## 7. Fase 3 — Constructor del dataset causal
-
-**Objetivo:** convertir artefactos canónicos en ventanas reproducibles de decisión, sin etiquetar manualmente bueno/malo.
-
-Aquí «causal» significa temporalmente legal y libre de fuga posterior a `T0`. No demuestra por sí solo el efecto de intervenir con una acción alternativa. Los modelos observacionales estiman valor condicional y deben declarar su base de comparación, soporte, overlap e incertidumbre.
-
-### 7.1 Responsabilidad
-
-Go publica observaciones y eventos. Python:
-
-- detecta candidatos de decisión;
-- crea ventanas;
-- abstrae acciones;
-- construye outcomes;
-- genera candidatos;
-- calcula features tabulares;
-- divide datasets.
-
-No se incorporará lógica de entrenamiento a rutas FastAPI ni al extractor Go.
-
-### 7.2 Tipos de decisión por entrega
-
-El catálogo completo se congela antes de implementar los datasets. El orden de construcción es:
-
-Vertical técnico:
-
-1. `spacing_or_trade_connection`;
-2. `peek_hold_or_reposition`, incluyendo la decisión inmediatamente posterior al contacto.
-
-Especialistas del coach integral de Mirage:
-
-3. `duel_take_avoid_or_delay`;
-4. `shoot_stop_reset_or_reload` y diagnósticos de ejecución enlazados;
-5. `utility_use_delay_coordinate_or_save`;
-6. `buy_partial_eco_drop_or_save`;
-7. `hold_take_or_cede_map_control`;
-8. `rotate_delay_cancel_or_regroup`;
-9. `respond_hold_reposition_or_rotate_on_information`;
-10. `plant_delay_or_protect`;
-11. `retake_defuse_or_save`;
-12. `preserve_advantage_or_take_risk`;
-13. decisiones condicionadas de clutch cuando exista soporte.
-
-El perfil longitudinal no es una acción: consume las decisiones anteriores usando únicamente el pasado del jugador.
-
-Sonido subjetivo, voz, intención y entrada exacta de teclado/ratón se marcan `NO_OBSERVABLE` mientras no exista un contrato fiable. Una familia no se activa por existir en el schema: necesita cobertura, candidatas, test negativo, revisión humana y gate propios.
-
-### 7.3 Ventana
-
-Cada ejemplo contendrá:
-
-```text
-history:       T0 - 10 s hasta T0
-action_label:  T0 hasta T0 + 0,25/2 s según tipo
-short_outcome: T0 + 2 s
-mid_outcome:   T0 + 5/10 s
-round_outcome: fin de ronda
-economy:       una a tres rondas posteriores
-match_outcome: final de partido
-```
-
-La entrada de estado solo utiliza history y estado en `T0`. `action_label` observa un tramo posterior únicamente para identificar y parametrizar la acción que el jugador realizó; ninguno de sus eventos se convierte en feature de estado. Los horizontes restantes son outcomes o evidencia posterior.
-
-Durante entrenamiento, el valor recibe `estado_en_T0 + acción_observada_abstraída`. Durante inferencia recibe `estado_en_T0 + action_candidate` generada desde información legal. Los parámetros de una candidata se calculan sin copiar hechos futuros de la acción observada. Las pruebas deben verificar por separado invariancia del estado en `T0`, etiquetado de acción y outcomes.
-
-### 7.4 Contrato de ejemplo
-
-```text
-dataset_version
-example_id
-match_id_join_only
-round_id
-actor_id_join_only
-t0_tick
-decision_type
-observed_state_ref
-belief_state_ref
-oracle_state_ref_teacher_only
-action_taken
-candidate_actions[]
-candidate_action_parameters[]
-outcomes_by_horizon
-execution_outcomes
-availability_mask
-support_metadata
-support_by_action
-effective_sample_size
-lineage
-split
-```
-
-### 7.5 Acciones
-
-- Detectar acciones desde transiciones observables, no desde labels bueno/malo.
-- Mantener una taxonomía pequeña versionada.
-- Parametrizar zona, objetivo y timing.
-- Conservar acción cruda y acción abstraída.
-- Registrar por qué una candidata es válida o inválida.
-
-### 7.6 Outcomes automáticos
-
-- supervivencia;
-- daño y kill;
-- trade posible/completado;
-- cambio de exposición;
-- ocupación y avance aliado;
-- plant/defuse;
-- equipo vivo;
-- inventario conservado;
-- resultado de ronda;
-- economía posterior;
-- resultado de partido.
-
-No son por sí solos una definición de acción correcta. Alimentan el modelo de valor y deben analizarse a varios horizontes.
-
-### 7.7 Splits
-
-- Mantener todas las ventanas de un `match_id` en el mismo split.
-- Test posterior en el tiempo.
-- Holdout por jugador focal para medir generalización; informar por separado el solapamiento de compañeros y rivales.
-- Holdout longitudinal: el perfil solo ve el pasado del jugador y se evalúa en sus partidas posteriores.
-- Medir el tamaño de componentes conectados como diagnóstico, sin exigir una partición imposible si la red FACEIT forma un componente gigante.
-- Agrupar y ponderar ventanas solapadas del mismo episodio para que no aparenten decisiones independientes.
-- Normalizar o limitar el peso por partida para que una demo larga no domine el entrenamiento.
-- Publicar slices por mapa, banda, lado, arma, decisión y disponibilidad.
-- Publicar número efectivo de partidas, jugadores, episodios y acciones, no solo filas.
-- No calcular normalizadores con validación o test.
-- IDs se usan para joins y splits, nunca como features.
-
-### 7.8 Formato
-
-- Parquet particionado para ventanas y features.
-- DuckDB para consultas y auditorías locales.
-- JSON pequeño únicamente para contracts, manifests y fixtures.
-- Dataset manifest con hashes, schemas, filtros, cuotas y código.
-
-### Gate 3
-
-- 100 % de ejemplos tienen lineage.
-- El test de futuro pasa.
-- Las distribuciones antes/después de filtros están documentadas.
-- Duplicados exactos y casi duplicados están controlados.
-- Se pueden reconstruir 100 ejemplos del vertical y una muestra acordada de cada nueva familia desde la demo.
-- Ninguna feature prohibida aparece en la matriz final.
-- Una fila no aparece en un dataset si su `task_eligibility` no autoriza esa familia.
-- Solo después de pasar estas pruebas se adquiere en lotes de hasta 100 para cubrir el plan de corpus aprobado.
-- Cada lote se reconstruye y audita antes de autorizar el siguiente; no se salta de 300 a 600 o 1.000 por inercia.
-
----
-
-## 8. Fase 4 — Reglas y benchmark mínimo
-
-**Objetivo:** conseguir valor de producto y una referencia antes de entrenar ML.
-
-### Reglas iniciales
-
-- distancia/tiempo de conexión al trade;
-- doble exposición verificable;
-- repetición de peek tras contacto;
-- muerte sin impacto a horizontes definidos como evidencia, no como veredicto aislado.
-
-Estas reglas inician el vertical técnico. Después, cada especialista del catálogo integral añadirá su propio baseline, fixtures y Evidence Packs antes de entrenar su modelo. El coach integral no se promueve mientras alguna familia carezca de benchmark o gate.
-
-### Tareas
-
-- [ ] Cada regla produce un candidato de revisión con Evidence Pack y alternativa, no solo un flag.
-- [ ] Crear fixtures positivos, negativos y unavailable.
-- [ ] Medir precisión y cobertura por cohorte.
-- [ ] Revisar manualmente una muestra estratificada.
-- [ ] Registrar falsos positivos y reglas que requieren contexto adicional.
-- [ ] Crear un informe HTML/Markdown por partida antes de integrar UI.
-- [ ] Crear el contrato de refuerzo positivo y publicar hasta dos acciones positivas solo cuando la evidencia sea suficiente.
-
-Antes del Gate 6, estos resultados se llaman «riesgos» o «candidatos de revisión», no errores. Solo una regla de dominancia verificable puede ser prescriptiva por sí sola, y debe tener margen, soporte y test negativo explícitos.
-
-### Gate 4
-
-- Las reglas analizan las 44 demos válidas de extremo a extremo y las seis exclusiones se rechazan o abstienen de forma fail-closed; no cuentan como ejemplos seguros.
-- Cada candidato abre el momento correcto del replay.
-- No existe candidato sin una hipótesis de alternativa verificable.
-- Los casos unavailable se abstienen.
-- Existe un baseline cuantitativo contra el que comparar modelos.
-
----
-
-## 9. Fase 5 — Modelos tabulares especialistas
-
-**Objetivo:** estimar outcomes y valor contextual por familia mejor que reglas o promedios simples, sin crear una etiqueta universal y opaca de «jugada correcta».
-
-### Modelos a comparar
-
-Para cada familia se comparan:
-
-1. media o frecuencia por contexto;
-2. reglas verificables;
-3. regresión logística/lineal regularizada;
-4. CatBoost.
-
-CatBoost es la primera opción práctica porque el estado contiene números, categorías y valores ausentes, y debe entrenar e inferir en CPU. LightGBM o XGBoost solo se prueban si CatBoost presenta una limitación medible. No se promueve deep learning si un modelo tabular resuelve el benchmark.
-
-### Outputs iniciales
-
-- probabilidades de supervivencia, muerte, daño y trade a horizontes explícitos;
-- cambio de exposición, control y apoyo;
-- efecto y continuación de utilidad;
-- objetivo, plantado, defuse, retake y save;
-- valor económico posterior;
-- probabilidad de victoria de ronda;
-- outcomes específicos que defina el contrato de cada decisión.
-
-No todas las salidas se predicen con el mismo modelo. Cada especialista tendrá los targets que pueda aprender de forma válida y un bundle versionado con preprocesador, modelos, calibradores, schema y elegibilidad.
-
-Para valorar `V(s,a,p)`, `action_candidate` y sus parámetros físicos forman parte explícita de la entrada de valoración, o existe un modelo separado por acción. Cada acción necesita soporte y overlap en contextos comparables. Cambiar solo la etiqueta de acción sin reconstruir zona, ruta, timing, exposición, coste y demás consecuencias físicas no crea un contrafactual válido; en ese caso se abstiene.
-
-### Definición de valor
-
-No se entrenará una única etiqueta opaca de «jugada correcta». El modelo predecirá primero un vector de consecuencias y el comparador lo transformará en valor según el tipo de decisión:
-
-- victoria de ronda como señal central, sin convertirla en la única señal;
-- supervivencia, daño, trade, control y objetivo en horizontes explícitos;
-- economía futura para decisiones de compra o save;
-- coste de ejecución personal, incertidumbre y cobertura del dataset;
-- restricciones duras de viabilidad antes de comparar valor.
-
-Las ponderaciones y thresholds se versionarán por tipo de decisión, se fijarán antes de abrir el test y pasarán análisis de sensibilidad. Si cambiar razonablemente una ponderación cambia la acción ganadora, el resultado será «alternativas equivalentes» o abstención, no una falsa mejor jugada.
-
-### Entrenamiento
-
-- [ ] Baselines reproducibles con seed.
-- [ ] Missing values conservan su semántica.
-- [ ] Calibración isotónica o Platt en validación separada.
-- [ ] Métricas por cohorte.
-- [ ] Curvas de aprendizaje por número de demos.
-- [ ] Ablation de features oracle/prohibidas para detectar leakage.
-- [ ] Export conjunto de preprocesador, modelo, calibrador y schema.
-- [ ] Evaluar cada familia por separado y también dentro del ranking común.
-- [ ] Impedir que una familia sin modelo aprobado quede silenciosamente cubierta por otra.
-
-### Gate 5
-
-- Supera el baseline simple en la métrica primaria del test temporal y el intervalo bootstrap agrupado por `match_id` del 95 % de la mejora no cruza cero; si no, se conserva el baseline.
-- Publica además sensibilidad agrupada por jugador y el tamaño efectivo de muestra; las decisiones de una misma partida no se tratan como independientes.
-- Mantiene error esperado de calibración (`ECE`) `<= 0,05` en la probabilidad primaria y `<= 0,10` en slices con al menos 100 ejemplos, o se recalibra/abstiene en ese slice.
-- No depende de IDs ni features futuras.
-- Inferencia completa en CPU.
-- Puede explicar qué evidencia factual alimenta cada resultado, sin usar importancia de features como causalidad.
-- Cada familia pasa su gate de forma independiente; una media global no oculta un especialista débil.
-
-### Escalado temporal opcional
-
-Si el error del modelo tabular se atribuye de forma demostrable al orden temporal, se comparará primero una TCN o GRU pequeña sobre ventanas cortas. Un Transformer temporal compacto solo se estudiará si esas alternativas no bastan. El modelo temporal debe mejorar un test congelado, conservar causalidad, funcionar dentro del presupuesto y justificar su mantenimiento.
-
----
-
-## 10. Fase 6 — Generador de alternativas y ranking
-
-**Objetivo:** producir la mejor acción estimada respaldada, no limitarse a detectar riesgo.
-
-### 10.1 Generación
-
-Para cada decisión:
-
-1. acción observada;
-2. acciones recuperadas de vecinos similares;
-3. acciones permitidas por el playbook;
-4. acciones válidas por inventario, tiempo y navmesh;
-5. máximo de tres a cinco candidatas finales.
-
-### 10.2 Restricciones
-
-- reachable antes del deadline;
-- utilidad/arma realmente disponible;
-- no depende de posición enemiga desconocida;
-- observada suficientes veces en contextos similares;
-- compatible con capacidad del jugador;
-- no contradice una condición objetiva conocida.
-
-### 10.3 Scoring
-
-```text
-score = valor_esperado
-        - penalización_incertidumbre
-        - penalización_OOD
-        - penalización_ejecución_no_realista
-```
-
-El primer ranking será esta fórmula versionada y auditable. Un ranker aprendido, como `CatBoostRanker`, solo se probará cuando exista un conjunto suficiente de candidatas comparadas por humanos y deberá superar la fórmula congelada.
-
-### 10.4 Decisión de publicación
-
-- Si `delta >= threshold` y soporte/confianza pasan: recomendar una acción.
-- Si dos acciones están dentro del margen: presentar ambas con condiciones.
-- Si no hay soporte: abstenerse y no llamar error.
-
-### 10.5 Evaluación
-
-- pairwise accuracy sobre casos revisados;
-- NDCG/ranking de candidatas;
-- calibración del delta;
-- cobertura de acciones y overlap entre candidatas comparables;
-- evaluación off-policy (OPE) con cross-fitting únicamente en slices con soporte suficiente;
-- cobertura y abstención;
-- tasa OOD;
-- estabilidad al variar vecinos;
-- revisión de alternativas imposibles;
-- comparación ciega de candidatas por al menos dos revisores y adjudicación de desacuerdos.
-
-Una demo solo muestra la acción realizada. Por ello, la evaluación offline no puede demostrar por sí sola qué habría ocurrido con una alternativa. En slices con overlap se usarán estimadores off-policy y sensibilidad; fuera de ellos, la evidencia válida será soporte observacional, coherencia del modelo, revisión humana y abstención. Nunca se presentará el uplift estimado como un contrafactual observado.
-
-OPE es evidencia secundaria y análisis de sensibilidad. Nunca será la única prueba para promover una recomendación.
-
-### Gate 6
-
-- El 100 % de findings prescriptivos incluye candidata realizable.
-- Ninguna candidata usa información oracle en `T0`.
-- Los casos similares son inspeccionables.
-- El ranking supera baselines de no cambio, frecuencia contextual y nearest-neighbour en slices held-out con overlap.
-- La revisión humana ciega prefiere sus primeras candidatas frente a los baselines con el umbral acordado.
-- Donde overlap o acuerdo humano no sean suficientes, el sistema se abstiene; no se afirma uplift contrafactual.
-
----
-
-## 11. Fase 7 — Personalización lean
-
-**Objetivo:** ajustar el consejo sin entrenar un modelo por usuario.
-
-### Perfil
-
-- contadores y rates por contexto;
-- posterior regularizado frente a población comparable;
-- recencia con decay;
-- decisión y ejecución separadas;
-- tamaño de muestra e intervalo;
-- tendencias y cambios.
-
-### Tareas
-
-- [ ] Definir prior global y constante de shrinkage.
-- [ ] Crear perfil solo con partidas anteriores al finding.
-- [ ] Comparar mismo jugador, peers y referencia experta.
-- [ ] No afirmar recurrencia antes del mínimo de soporte.
-- [ ] Priorizar findings por frecuencia, impacto y entrenabilidad.
-- [ ] Evaluar cold start y jugadores con 5/15/30 partidas.
-
-### Gate 7
-
-- Ningún perfil usa partidas futuras.
-- Con pocas partidas converge al baseline global.
-- Con más historial identifica patrones estables y no IDs memorizados.
-- El ranking personalizado mejora la evaluación frente al global o queda desactivado.
-
----
-
-## 12. Fase 8 — Evidence Pack y coach conversacional
-
-**Objetivo:** conversar sobre resultados estructurados sin delegar el juicio al LLM.
-
-### Evidence Pack
-
-```text
-claim
-observed_action
-recommended_action
-where / when / conditions
-estimated_value_delta / confidence / support
-comparison_basis / counterfactual_status
-effective_sample_size / support_by_action
-decision_score / execution_score
-facts_available_at_t0
-future_consequences
-similar_cases
-replay_refs
-personal_pattern
-limitations
-versions
-```
-
-### Herramientas del chat
-
-- `get_match_summary`
-- `get_round_state`
-- `get_recommendation`
-- `get_evidence_window`
-- `find_similar_situations`
-- `compare_player_baseline`
-- `get_player_trend`
-- `explain_metric`
-
-### Guardrails
-
-- [ ] El LLM no recibe demos crudas.
-- [ ] Toda afirmación específica de la partida debe citar Evidence Pack.
-- [ ] Conocimiento general y datos personales se distinguen.
-- [ ] Las respuestas conservan incertidumbre.
-- [ ] El usuario puede impugnar una recomendación y forzar reconsulta.
-- [ ] La conversación no modifica el perfil sin un evento explícito.
-- [ ] Prompts, modelo, temperatura y costes están versionados.
-- [ ] Existe fallback por plantillas si la API falla.
-- [ ] Conversación y perfil táctico tienen borrado independiente, verificable e idempotente.
-- [ ] El contrato de acciones positivas distingue refuerzo observado de una recomendación contrafactual.
-
-### Gate 8
-
-- Cero claims específicos inventados en el benchmark.
-- Respuestas de seguimiento recuperan la evidencia correcta.
-- El coach puede reconocer y explicar una abstención.
-- Coste y latencia permanecen bajo el límite configurado.
-- Las pruebas de borrado confirman que conversación y perfil desaparecen por separado conforme a la política de retención.
-
----
-
-## 13. Fase 9 — Integración y pilotos
-
-### Experiencia mínima
-
-- resumen de partida;
-- hasta tres correcciones;
-- hasta dos acciones positivas cuando tengan soporte;
-- un patrón longitudinal cuando exista;
-- acción tomada frente a recomendada;
-- replay en el momento correcto;
-- chat contextual;
-- feedback útil/no útil/incorrecto;
-- opción de reportar contexto ausente.
-
-### Piloto técnico
-
-- se limita a las dos primeras familias;
-- prueba datos, alternativas, ranking, replay, Evidence Pack y abstención;
-- no autoriza a presentar el sistema como coach integral;
-- sus fallos corrigen la arquitectura común antes de añadir especialistas.
-
-### Piloto integral de Mirage
-
-- 10-20 jugadores inicialmente;
-- varias bandas de nivel;
-- cohorte amplia con al menos 5 partidas por jugador para evaluar cold start, interfaz y utilidad;
-- núcleo longitudinal de al menos 6 jugadores con 15-20 partidas para evaluar personalización;
-- revisión profunda de findings de confianza alta;
-- al menos una persona con criterio competitivo externo al desarrollo;
-- sesiones cualitativas sobre utilidad y claridad.
-
-### Métricas
-
-- precisión humana de findings;
-- alternativa considerada viable;
-- utilidad accionable;
-- cobertura;
-- abstención correcta;
-- recurrencia confirmada;
-- uso del replay y chat;
-- seguimiento del consejo;
-- cambio posterior del patrón;
-- coste y tiempo de proceso.
-
-### Contrato cuantitativo inicial de promoción
-
-Los umbrales siguientes son el mínimo del vertical técnico y se congelan antes de abrir su test. Antes del piloto integral se publica un anexo por cada especialista; podrá exigir más, pero no rebajar silenciosamente seguridad, fidelidad o abstención. Cualquier cambio posterior crea una nueva versión y un nuevo test.
-
-| Métrica | Umbral inicial |
-|---|---:|
-| Test humano por familia | Al menos 100 casos prescriptivos para cada familia frecuente; una familia rara necesita un tamaño justificado y challenge set de abstención. Dos revisores ciegos, al menos uno externo |
-| Fidelidad factual y replay | Al menos 95 %; cero uso de oracle o futuro en `T0` |
-| Corrección del finding | Estimación puntual al menos 80 % y límite inferior Wilson 95 % al menos 70 % |
-| Alternativa realizable | Estimación puntual al menos 85 % y límite inferior Wilson 95 % al menos 75 % |
-| Preferencia frente a acción/baseline | Más de 60 % y límite inferior Wilson 95 % superior a 50 %, solo en casos con soporte |
-| Cobertura no trivial | Al menos 20 % de partidas Mirage elegibles tienen un finding de alta confianza en el vertical; el coach integral congela cobertura mínima propia por familia según su frecuencia real |
-| Abstención en challenge set | Al menos 90 % de 50 casos por familia donde falta soporte o información |
-| Evidencia positiva, si se publica | Al menos 90 % correcta en revisión humana |
-| Utilidad declarada | Al menos 70 % de usuarios piloto califican algún finding como útil y accionable |
-| Inferencia tras bundle | `p95 <= 2 min` en la CPU de referencia documentada |
-| Coste del resumen inicial | `<= 0,10 EUR` por partida y hard cap mensual; el chat adicional se mide aparte |
-
-Si el volumen no alcanza el tamaño de test, el gate queda inconcluso: no se sustituye por una muestra más pequeña sin versionar el contrato.
-
-### Gate 9A — Vertical técnico
-
-Solo se amplía inversión si:
-
-- todos los umbrales del contrato cuantitativo pasan en el test congelado;
-- datos, alternativas, ranking, abstención, replay y Evidence Pack pasan sus pruebas del vertical;
-- el 100 % de los errores reportados puede trazarse a datos, modelo, regla o explicación versionados;
-- el coste acumulado y los hard caps permanecen dentro del presupuesto.
-
-### Gate 9B — Coach integral de Mirage
-
-- Todas las familias de la definición del producto tienen contrato, elegibilidad, baseline, especialista o regla aprobada, alternativas y abstención.
-- Cada especialista supera su anexo cuantitativo y revisión humana; no se usa una media global para ocultar fallos.
-- El informe común prioriza hallazgos de familias distintas sin duplicar la misma causa.
-- Una familia sin soporte se abstiene de forma visible y queda contabilizada, no se marca como cubierta.
-- Las demos del usuario solo afectan a su perfil inmediato; cualquier reutilización global cumple consentimiento y versionado.
-- En el núcleo longitudinal, al menos 4 de 6 jugadores prefieren el orden personalizado en comparación ciega y la precisión no cae más de 5 puntos porcentuales frente al global.
-- Al menos 60 % de los participantes invitados envían una partida posterior durante el piloto integral.
-- Solo después de este gate StratAI puede presentarse como coach integral de Mirage y comenzar la expansión mapa por mapa.
-
----
-
-## 14. Calendario orientativo
-
-El calendario anterior de 16 semanas solo cubría dos familias y ya no representa el alcance integral. No se fijará una fecha fiable hasta que la matriz de datos muestre cuántos hechos faltan y qué familias necesitan más corpus.
-
-| Etapa | Entrega | Condición de salida |
+| Área | Evidencia disponible | Límite vigente |
 |---|---|---|
-| A — actual | Contrato integral y matriz de datos/modelos | Gate 1A |
-| B | Auditoría cuantitativa de los 44 bundles por familia | Cada campo clasificado y trazado |
-| C | Cambios mínimos de hechos Go y pruebas | Gate 1B |
-| D | Reprocesado aislado, validación y golden Mirage | Ningún resultado válido reemplazado sin promoción |
-| E | Constructor genérico de datasets y elegibilidad | Gate 3 |
-| F | Adquisición Mirage según déficits por familia y acción | Lotes de hasta 100, cada uno auditado |
-| G | Reconstrucción y auditoría del dataset ampliado | Manifest congelado antes de entrenar |
-| H | Vertical técnico completo: trade/spacing y peek/hold/reposición | Gates 4-6 y 9A |
-| I | Combate, mecánica y utilidad | Cadena completa y gate propio por especialista |
-| J | Economía, bomba, postplant, retake, save y tiempo | Cadena completa y gate propio por especialista |
-| K | Información, control, rotaciones, ventaja, riesgo y clutch | Cadena completa y gate propio por especialista |
-| L | Perfil, priorización, Evidence Pack, conversación e interfaz | Gates 7-8 |
-| M | Piloto integral de Mirage | Gate 9B |
-| N | Expansión mapa por mapa | Gate independiente por mapa y familia |
+| Corpus Mirage | 50 fuentes: 44 bundles aprobados y 6 exclusiones. Parser `v16`, export `3.8.0`, quality `12`, manifest `stratai.canonical_manifest@3`; release `stratai-2c6db440231d463a`. | Fuentes, bundles y release protegidos. No hay autorización de reproceso por lote. |
+| Catálogo `1.7.0` | 17 capacidades, 15 decisiones, 51 acciones, 18 outcomes y 58 campos. Economía vincula su protocolo y ventana de freeze completos; IDs conservados. | 26 campos verificados, 11 derivables, 7 parciales, 5 por extraer, 5 requieren clasificación y 4 no observables. No equivale a 17 capacidades disponibles. |
+| Ejemplos | 36.181 `DecisionExample`: 26.648 trade/spacing y 9.533 peek/hold/reposición sobre 44 partidas. | Son ejemplos correlacionados de 44 partidas; no 36.181 observaciones independientes. No constituyen un conjunto de consejos correctos. |
+| Elegibilidad actual | 0 capacidades elegibles, 3 inelegibles y 14 no materializadas. | `training_allowed=false`; ningún mapa está soportado como producto. |
+| Productores candidatos | Subfases 1B.2–1B.11 verificaron visión observada, NAV/ETA, arma, velocidad inicial de utilidad, última posición conocida y hechos espaciales parciales. | Gran parte sigue fuera de los 44 bundles base. Geometría válida no acredita superioridad táctica. |
+| Materialización 1B.12 | `3.9.0-candidate.1`, manifest y joins propios, `DecisionExample@2`. En una demo: 918 decisiones, 2.754 joins, 0 violaciones temporales. | Implementada, validada y cerrada operativamente. No se ha promovido el candidato. |
+| Observación económica 3A | `1.0.0-candidate.1`, dos schemas propios; 250 estados iniciales, 77 precompra acreditados y 460 comparaciones recalculadas en una demo. Cierre operativo verificado. | 173 estados excluidos por actividad anterior. Cinco equipos completos, cuatro con número de ronda repetido. Ninguna decisión económica elegible ni recomendación. |
+| Frontera económica y rondas 3B | `1.0.0-candidate.2`; 25 sondas, 23 enlaces competitivos y 3 equipos completos acreditados. Los 77/250 estados precompra de control se mantienen; 64 pertenecen a rondas enlazadas. | 173 estados ambiguos; inicio preliminar y ronda final excluidos por falta de cierre oficial. Implementado, validado y cerrado operativamente; rechazos de limpieza conservados como historia. |
+| Contrato de oportunidades económicas 3C | `1.0.0-candidate.1`: 50 fichas por instancia/lado, tres estados iniciales completos, 60 diferencias numéricas y 15 transiciones de inventario recalculadas. | 47 fichas sin estado inicial completo; ejecución parcial, cero acciones clasificadas y cero reglas acreditadas para comparar compras. |
+| Fuentes económicas nativas 3D.1 | Identidad nativa, 1.467 capturas y 1.215 intervalos de listas por objeto recalculados en la misma demo. | Costes limitados a entradas observadas; contadores ausentes en las propiedades consultadas. Sin reglas compatibles ni historial completo de transacciones; limpieza pendiente. |
+| Referencias y comprobación 3D.2 | Dos compilaciones históricas, 72 definiciones y 36 defaults por compilación; 3.700 contrastes de coste y 925 de configuración recalculados. | Paquete y comprobador validados; vínculo exacto de build y configuración efectiva pendientes. Cero paquetes aprobados para recomendar; limpieza pendiente. |
+| Cobertura espacial en esa demo | De 918 decisiones —246 peek y 672 trade—, 1 tiene los tres hechos, 9 ausencia física acreditada y 908 no tienen muestra exacta. | 0 peek elegibles. Resolver el muestreo temporal no sustituye ampliar o acreditar cobertura geométrica. |
+| Revisión humana | Existen instrumentos espaciales v1/v2. | Sus ocho schemas están bloqueados como ground truth táctico; no hay respuestas humanas válidas que entrenen o evalúen un recomendador. |
+| Coaching completo | Contratos y diseño de referencia. | Comparador prescriptivo, perfil longitudinal, misiones, seguimiento, Evidence Pack servido y chat conectado siguen pendientes. |
 
-Las etapas son secuenciales por sus dependencias, aunque dentro de cada una puedan paralelizarse documentos, fixtures y auditorías. No se descarga ni entrena para cumplir una fecha: manda el gate.
+Fuentes: [auditoría Mirage 44](archive/ai-coach/AI_COACH_MIRAGE_44_DATA_AUDIT_2026-08-27.md), [DecisionExample](archive/ai-coach/AI_COACH_DECISION_EXAMPLE_PHASE_2026-08-27.md), [frontera factual](archive/ai-coach/AI_COACH_SPATIAL_FACT_BOUNDARY_PHASE_2026-09-04.md) y [materialización 1B.12](archive/ai-coach/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_PHASE_2026-09-05.md). El último informe registra 256 pruebas del AI Coach, `npm run check:all` y validación semántica canónica; son comprobaciones de ese cierre funcional, no pruebas repetidas por esta limpieza.
 
----
+### Cierre operativo de 1B.12
 
-## 15. Presupuesto
+- [x] Verificar el 6 de septiembre la ausencia de las carpetas `stratai-1b12-smoke-hwelcj03` y `stratai-1b12-control-qj5etbed` bajo TEMP y en su directorio padre accesible, después de la comunicación del usuario. No hubo borrado ni repetición de productores por el agente.
+- Se conservan rechazos históricos y hashes. El inventario del smoke contiene 83 archivos / 746.944.298 bytes; el control separado tenía 14 archivos / 8.400.818 bytes. La cifra anterior del plan agrupaba incorrectamente ambos destinos bajo el total del smoke.
+- La limpieza no amplía cobertura geométrica ni acredita decisiones tácticas. El siguiente trabajo espacial se seleccionará por su carencia factual; 3D continúa economía.
 
-| Concepto | Antes del piloto |
-|---|---:|
-| Software open source | 0 EUR |
-| Entrenamiento CPU local | 0 EUR |
-| Backup/almacenamiento | 0-100 EUR |
-| GPU puntual, solo si hace falta | 0-100 EUR |
-| API conversacional | 20-50 EUR/mes con hard cap |
-| Evaluación/piloto | Prioridad del presupuesto restante |
-| Límite acumulado | 1.000 EUR |
+## 3. Paso 2: diseñar un piloto que ya parezca coaching
 
-No comprar:
+- [x] Diseñar una primera selección de situaciones en Mirage de **economía**, **apoyo/trade** y **mecánica verificable**. Peek/hold/reposición se conserva como prueba de datos y decisiones espaciales, sin imponer su automatización a las otras familias.
+- [x] Para cada situación definir: instante de decisión T0, información disponible, acción observada, opciones viables, dependencia de compañeros, criterio de comparación, contexto ausente, abstención y evidencia de replay.
+- [x] Incluir buenas decisiones, opciones equivalentes y situaciones en las que no debe intervenir el coach. Morir, perder una ronda o repetir una posición no bastan para etiquetar un error.
+- [x] En economía comparar compras y drops legales del equipo, recursos conservados y escenarios de rondas posteriores. Una compra conjunta requiere cooperación: no se atribuye al jugador control sobre decisiones ajenas.
+- [x] Diseñar desde el inicio el perfil previo, una o dos prioridades y misiones vinculadas al hallazgo. Diferenciar primera observación de hábito sostenido y práctica declarada de práctica verificada.
+- [x] Definir para cada misión oportunidad de aplicación, conducta buscada, dificultad, seguimiento y condición para mantener, cambiar o retirar. Evitar cuotas de kills o tareas que premien perjudicar al equipo.
+- [x] Preparar el formato de un conjunto de **30–50 situaciones de desarrollo** y su matriz de cobertura. Es un objetivo de diseño inicial, no un dataset existente, un tamaño suficiente para entrenar ni el test final.
+- [x] Preparar rúbrica, roles de coaches y revisión independiente; dejar claramente pendientes las respuestas humanas reales. No sustituirlas por juicios generados por IA.
+- [x] Traducir lo anterior en una lista de datos imprescindibles, disponibles o ausentes, y en un coste estimado por revisión y jugador. Elegir la primera capacidad implementable por evidencia y utilidad.
 
-- GPU;
-- servidor de inferencia GPU permanente;
-- Kubernetes;
-- plataforma MLOps gestionada;
-- base vectorial gestionada;
-- herramienta de etiquetado empresarial;
-- LLM propio.
+**Entregado:** [diseño del piloto v1.0](ai-coach/AI_COACH_INITIAL_PILOT_DESIGN.md): 40 situaciones propuestas —16 economía, 12 apoyo, 8 mecánica y 4 pruebas espaciales—, 25 % de control aleatorio estratificado, rúbrica de dos coaches, cinco misiones, perfil previo, evaluación y supuestos de coste. El diseño documental del paso 2 está completo; los checks anteriores acreditan diseño, no revisión humana ni ejecución del piloto.
 
-Como referencia, Cloudflare R2 publica `0,015 USD/GB-mes`, 10 GB gratuitos y sin egress directo; véase su [tarifa oficial](https://developers.cloudflare.com/r2/pricing/). RunPod publica GPUs de 24-48 GB por horas, con opciones inferiores a un dólar por hora; véase su [tarifa oficial](https://www.runpod.io/pricing). Son alternativas de respaldo, no dependencias obligatorias.
+Pendientes de realización y aprobación:
 
----
+- [ ] Revisar rúbrica, situaciones y misiones con coaches; obtener respuestas independientes y resolver desacuerdos. No hay respuestas humanas nuevas.
+- [ ] Seleccionar y materializar los 40 casos sólo cuando sus datos permitan la revisión; no existe todavía el lote ni un test formal nuevo.
+- [ ] Preparar la prueba exploratoria propuesta de seis jugadores y tres sesiones, con alcance y evidencia adecuados. No se ha reclutado ni contactado a nadie.
+- [ ] Medir y presupuestar la revisión real: estimación de diseño de unas 27 horas de coaches; escenario ilustrativo de 2.150 EUR con compensaciones y margen, sin cotización ni gasto aprobado.
+- [x] Versionar la ventana específica de economía en 3C: freeze observado completo, con ticks límite separados, frente a la ventana genérica de 0,25–2 s.
+- [ ] Versionar apoyo anterior a la entrada —no `DeathTick`— y perfil entre partidas —no diez segundos de historia— antes de implementar sus consumidores.
 
-## 16. Verificación
+**Primera implementación elegida:** candidato factual económico para `CAP-ECONOMY-001`: estado disponible antes de comprar, ejecución durante freeze y reconciliación posterior separados. La evidencia agregada actual no prueba por sí sola disponibilidad en T0. La primera fase no implementa ranking, misiones runtime ni un nuevo `DecisionExample`.
 
-### StratAI
 
-- `npm run lint:python`
-- `npm run test:python`
-- `npm run test:node`
-- `npm run test:go`
-- `npm run test:frontend`
-- `npm run build:frontend`
-- `npm run check:all`
+## 4. Paso 3: completar datos y decisiones sin inventar contexto
 
-### Faceit-Demos
+### Implementación económica 3A y continuación
 
-- suite Python del descargador;
-- `go test ./...`;
-- `go vet ./...`;
-- build aislado;
-- corpus golden;
-- validador de publicación;
-- prueba real limitada por `--max-demos`.
+- [x] Implementar observador optativo, candidato versionado y validador independiente. Separar estado previo, ejecución y reconciliación; conservar disponibilidad, origen y alias opacos. [Contrato económico v1](contracts/economy/canonical-economy-candidate-v1.md).
+- [x] Mantener export/lectores `3.8.0`, catálogo `1.6.0` y elegibilidad histórica. El registro runtime pasa de 33 a 35 schemas; no se modifica `DecisionExample` ni se habilitan ventanas o decisiones económicas nuevas.
+- [x] Ejecutar `npm run check:all`, 276 pruebas del AI Coach y 39 pruebas pertinentes después de la corrección final del validador. Smoke de una demo aprobada: una pasada del productor, 0 errores semánticos canónicos y 460 comparaciones económicas verificadas. [Informe](archive/ai-coach/AI_COACH_ECONOMY_CAUSAL_STATE_PHASE_2026-09-05.md) y [evidencia](evidence/AI_COACH_ECONOMY_CAUSAL_STATE_SINGLE_DEMO_SMOKE_2026-09-05.json).
+- [x] Registrar 25 instancias para 24 rondas canónicas, 250 estados iniciales, 77 precompra acreditados, 173 excluidos, 1.044 callbacks de ejecución y 547 de límites/posteriores. Las 1.547 recogidas no se convierten en compras; hay 44 refunds y ningún drop capturado. `mp_maxmoney` continúa ausente y no se infiere.
+- [x] Comprobar invariancia de metadatos de 4.356 archivos y hashes de 181 controles, incluidas fuentes/manifests/releases; conservar catálogo y 15 evidencias previas.
+- [x] Transferir resultado y pendiente al plan, informe y evidencia; sustituir el prompt ejecutado por el de limpieza. Verificación documental: 207 enlaces locales sin destinos ausentes, un único prompt activo y `git diff --check` correcto.
+- [x] **Cerrar la limpieza de 3A.** Tras los rechazos automáticos previos, el 5 de septiembre a las 13:29 UTC se verificó que `C:/Users/kerch/AppData/Local/Temp/stratai-3a-smoke-04feac4db16b4a529ce3d804247665f8` ya no existe y no figura en su directorio padre accesible. La eliminación ocurrió fuera de las acciones ejecutadas por el agente; no se atribuye autor ni momento exacto. Se conservan evidencia, inventario y hashes de los 75 archivos / 736.832.581 bytes originales. No se repitió parser, demo ni suites.
 
-### Tests específicos de ML
+### Implementación económica 3B: implementada, validada y cerrada
 
-- invariancia al futuro;
-- modificar el resultado mecánico posterior no cambia `decision_score` y sí puede cambiar `execution_score`;
-- IDs prohibidos;
-- split leakage;
-- determinismo;
-- calibración;
-- OOD y abstención;
-- reconstrucción desde lineage;
-- paridad offline/serving;
-- fidelidad del Evidence Pack;
-- claims del LLM.
+- [x] Versionar la sonda `RoundStart`, el control `FrameDone`, las propiedades nativas de fase y los callbacks anteriores al reinicio. El [contrato v2](contracts/economy/canonical-economy-candidate-v2.md) conserva v1 y `3.8.0`; registro runtime de 37 schemas. El orden de callbacks no acredita orden de subtick.
+- [x] Recalcular enlaces por identidad, inicio exacto, final oficial exacto y diez participantes con lados coherentes. 23 de 24 rondas canónicas enlazadas; las instancias preliminar y final carecen de `RoundEndOfficial` y se excluyen. No se une por número visible ni se sustituye un final ausente.
+- [x] Medir sin relajar causalidad: 250 sondas de actor; sus 2.000 propiedades coinciden con las de `FrameDone`. Se mantienen 77 estados acreditados y 173 bloqueados por 353 recogidas en el tick inicial. De los 77, 64 corresponden a rondas verificadas y 13 quedan fuera por el enlace. El lector propio acredita **3 equipos completos**: ambos lados de la ronda 1 y CT de la ronda 19. Son oportunidades factuales de desarrollo, no decisiones elegibles ni consejos.
+- [x] Pasar `npm run check:all`, 312 pruebas del AI Coach y 78 pruebas finales pertinentes tras reforzar el gate de registros competitivos no vacíos y la selección de v2 en el acceso común. Una pasada de la misma demo aprobada, 86,414 s; 0 errores semánticos canónicos, 460 comparaciones monetarias y 25 correspondencias recalculadas. Tres validaciones económicas del mismo artefacto, sin repetir productor. [Informe](archive/ai-coach/AI_COACH_ECONOMY_INITIAL_COVERAGE_AND_ROUND_LINK_PHASE_2026-09-05.md) y [evidencia](evidence/AI_COACH_ECONOMY_INITIAL_COVERAGE_AND_ROUND_LINK_SINGLE_DEMO_SMOKE_2026-09-05.json).
+- [x] Conservar corpus, catálogo y 16 evidencias previas; inventario de 4.356 archivos y hashes de 181 controles sin cambios. Verificar invariancia de futuro y rival en las tres oportunidades reales. No tocar temporales ni productores espaciales.
+- [x] **Cerrar limpieza 3B.** Tras los rechazos previos, el 6 de septiembre se verificó la ausencia de `C:/Users/kerch/AppData/Local/Temp/stratai-3b-smoke-h3466t8c` y de su entrada en el padre accesible, después de la comunicación del usuario. Se conserva evidencia de 75 archivos / 737.214.875 bytes y el rechazo histórico; no se repitió parser, smoke ni suites.
 
----
+### Implementación económica 3C: contrato de oportunidad y ejecución factual
 
-## 17. Estructura prevista
+- [x] Entregar [contrato humano](contracts/economy/canonical-economy-opportunities-v1.md), protocolo ejecutable, productor Python sobre v2, schemas de datos/manifest y validador independiente. Catálogo `1.7.0` y 40 schemas runtime; export base, lectores v1/v2, IDs y elegibilidad conservados.
+- [x] Separar T0, todo el freeze observado, callbacks límite, captura exacta de fin de freeze y resultados posteriores. El fin del freeze no se presenta como fin de la tienda; la duración nominal no recorta la observada. El acceso a features devuelve exclusivamente el estado inicial propio y aliado.
+- [x] Reconstruir diferencias de dinero, gasto nativo, armadura y valor de equipo, booleanos y pertenencia de entidades de inventario. Desconexión, captura tardía, cambio de lado e identidad reutilizada invalidan los datos afectados. No inferir compras, cantidades, eco ni ahorro desde recogidas o gasto cero.
+- [x] Implementar comprobación de compatibilidad y causas de bloqueo: variables nativas ausentes, precios sin vínculo acreditado a la versión del juego, recompensas/bonus previo, loadout/límites de objetos, refunds y cooperación. **Se entrega el comprobador; las reglas compatibles y las compras itemizadas siguen sin acreditarse.** No hay cestas ni clasificación prescriptiva.
+- [x] Pasar `npm run check:all`, las 347 pruebas del AI Coach —32 nuevas—, Ruff y contrato global. Una pasada de la misma demo aprobada y una del materializador cambiado: 83,748 s y 4,548 s respectivamente. Las 50 fichas conservan tres equipos iniciales completos y 47 abstenciones; se recalcularon 60 diferencias y 15 transiciones. Los 77/250 estados individuales y 173 ambiguos no cambian.
+- [x] Validación semántica canónica completa: 0 errores, 306,392 s. Verificar invariancia de futuro y rival en los tres equipos reales; preservar inventario de 4.356 archivos, 181 hashes de control y las 17 evidencias anteriores. [Informe 3C](archive/ai-coach/AI_COACH_ECONOMY_OPPORTUNITY_CONTRACT_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_OPPORTUNITY_CONTRACT_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] Transferir resultado y pendientes a contrato, informe, índices y un único prompt. Verificar 242 enlaces locales de 51 documentos sin destinos ausentes, 901 archivos previos sin cambios fuera de los 12 afectados y `git diff --check` correcto.
+- [x] **Cerrar limpieza 3C.** El 6 de septiembre se verificó la ausencia de `C:/Users/kerch/AppData/Local/Temp/stratai-3c-smoke-_v1_3msj` y de su entrada en el padre accesible, después de la comunicación del usuario. Se conservan los 77 hashes, 738.029.806 bytes inventariados y el rechazo histórico. No hubo borrado ni repetición de productores por el agente.
 
-No crearla completa por adelantado. Cada directorio aparecerá cuando su primera pieza sea necesaria.
+### Implementación económica 3D: fuentes nativas, reglas y transacciones
 
-```text
-ai_coach/
-  contracts/
-    capability_catalog.json
-    validate_contract.py
-    decision_types.yaml
-    action_taxonomy.yaml
-    outcome_registry.yaml
-    task_eligibility.yaml
-    recommendation.schema.json
-    feature_registry.yaml
-    dataset.schema.json
-    model_bundle.schema.json
-  datasets/
-    build_dataset.py
-    manifests/
-    validators/
-  baselines/
-    rules/
-    contextual/
-  training/
-    train_value.py
-    calibrate.py
-    evaluate.py
-    families/
-  retrieval/
-    build_index.py
-    candidate_generator.py
-  personalization/
-    profile.py
-  evidence/
-    build_pack.py
-  serving/
-    inference.py
-  evaluation/
-    gold/
-    reports/
-```
+**3D permanece parcial.** La primera entrega, **3D.1**, acredita fuentes observables y diferencias por objeto. No acredita todavía reglas compatibles ni un historial completo de compras, drops y devoluciones.
 
-Los datos grandes vivirán fuera de Git. Solo se versionan código, contracts, manifests sin datos sensibles y fixtures pequeños.
+- [x] Extraer de forma optativa identidad nativa del juego, listas por objeto y costes con presencia, alias, tick y hashes. Selector económico `3`: v2 más fuentes separadas; tres schemas nuevos, **43 runtime**, catálogo `1.7.0` y export `3.8.0` conservados. [Contrato](contracts/economy/canonical-economy-native-sources-v1.md).
+- [x] En una demo: build `10896`, patch/protocolo `14177`; **1.467 capturas** retenidas tras 355.360 comprobaciones de actor por fotograma. 1.465 listas de devolución completas y dos ausentes por desconexión; contadores de compra no disponibles en las propiedades consultadas y cero eventos nativos `item_purchase` observados.
+- [x] Recalcular **1.215 intervalos**, con 930 entradas añadidas y 54 retiradas. Son cambios de registros, no 930 compras completas ni 54 reembolsos probados. Se conserva el metadato nativo de armadura `-1` sin interpretarlo como cantidad física. Cero acciones clasificadas y cero paquetes de reglas compatibles.
+- [x] Pasar `npm run check:all`, **376 pruebas del AI Coach**, Ruff y contrato global. El primer intento real fue rechazado por 27 capturas posteriores al freeze; se corrigió el límite entre rondas y se repitió **la misma demo**, tras volver a pasar las suites. Segundo parser: 83,826 s; reconstrucción: 5,482 s. Validación canónica: cero errores en 353.503 s. [Informe](archive/ai-coach/AI_COACH_ECONOMY_NATIVE_SOURCES_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_NATIVE_SOURCES_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] Verificar de nuevo v2 y 3C: se conservan **77/250 estados iniciales**, 173 ambiguos, tres equipos competitivos completos, 50 fichas, 60 diferencias numéricas y 15 transiciones. Las capturas nativas posteriores no rellenan T0. Inventario de 4.356 archivos y 181 hashes de control sin cambios; 15 evidencias anteriores intactas y tres actualizadas sólo para cerrar las limpiezas comunicadas por el usuario.
+- [ ] **Limpieza 3D.1:** limpieza pendiente por rechazo automático. Las dos salidas aisladas están inventariadas y sus hashes retenidos en la evidencia; el intento fallido se conserva como tal. Fuentes, corpus, releases y otros temporales quedan fuera del alcance.
+- [x] Cierre documental: 255 enlaces locales de 45 documentos sin destinos ausentes; un único prompt activo; catálogo y fuentes funcionales iguales a la build validada. De 925 archivos previos inventariados, 905 permanecen sin cambios y 20 corresponden al alcance de esta fase y los cierres operativos anteriores. `git diff --check` correcto.
+- [x] **Entrega de referencias 3D.2:** registro de seis fuentes con URL inmutable y hash, paquete y comprobador independientes. Dos compilaciones comparten `1.41.7.7`: `2000888` y `2000891`. Por compilación: 72 definiciones, 71 precios explícitos y 36 defaults; 358 valores recontrastados con las fuentes. [Contrato](contracts/economy/canonical-economy-rule-references-v1.md); runtime **46 schemas**, catálogo `1.7.0` intacto.
+- [x] **Validación real 3D.2:** `npm run check:all`, **416 pruebas del AI Coach** —40 nuevas—, Ruff y contrato global. Una pasada de la misma demo aprobada: parser 88,152 s, paquete 0,601 s, comprobador 6,044 s; revisión canónica sin errores en 300.284 s. Se recalcularon **3.700 contrastes de coste** y **925 de configuración**. [Informe](archive/ai-coach/AI_COACH_ECONOMY_RULE_REFERENCES_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_RULE_REFERENCES_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] Registrar **3.599 coincidencias y 101 diferencias** de precio: objeto 51, coste observado 350 frente a referencia 1.000. Son entradas repetidas en capturas, no compras independientes ni errores del jugador. Configuración: 125 valores nativos observados, 775 casos de variables no capturadas por el contrato de origen y 25 valores capturados pero ausentes. Las 26 discrepancias con defaults son 25 instancias de freeze `20` frente a `15` y una de dinero inicial `0` frente a `800`; no se convierten en errores.
+- [x] Conservar **77/250 estados iniciales**, 173 ambiguos, tres equipos completos, 50 fichas y límites de v2/3C/3D.1. Inventario de 4.356 archivos, 181 hashes de control, catálogo y 19 evidencias previas sin cambios.
+- [x] Cierre documental 3D.2: 273 enlaces locales de 47 documentos sin destinos ausentes; un único prompt funcional; 930 de los 939 archivos previos inventariados sin cambios y nueve modificaciones dentro del alcance. Fuentes funcionales iguales a la build validada y `git diff --check` correcto.
+- [ ] **Limpieza 3D.2:** pendiente por rechazo automático; salida exclusiva `C:/Users/kerch/AppData/Local/Temp/stratai-3d2-smoke-_ko8hcsb`, inventario retenido en la evidencia. Los dos temporales 3D.1 permanecen como deuda separada y no se ha repetido su borrado rechazado. Su limpieza no bloquea el siguiente trabajo funcional autorizado.
+- [x] **Entrega 3D.2B:** selector optativo 4, registro nativo de mensajes, fronteras de ronda/freeze, lector e informe con validación independiente. Sonda de 56 variables y cuatro propiedades nativas de `GameRules`; tres schemas nuevos llevan el registro a **49**, con catálogo `1.7.0` y export `3.8.0` conservados. [Contrato](contracts/economy/canonical-economy-rule-context-v1.md).
+- [x] **Datos reales nuevos 3D.2B:** 19 mensajes, 29 asignaciones económicas, 50 fronteras y una sonda de sesión. Se observan **22 variables**, frente a cinco valores que capturaba v2: 550 valores iniciales y 550 al terminar freeze. Las otras 34 no aparecen en los prefijos consultados; 1.700 ausencias de prefijo no demuestran ausencia en toda la demo. Se observan las cuatro propiedades consultadas en las 50 fronteras: 200 valores, incluidos contadores de pérdidas CT/T y restricciones de compra.
+- [x] **Pruebas 3D.2B:** `npm run check:all`, **453 pruebas del AI Coach** —37 nuevas—, Ruff y contrato global. Una pasada del productor cambiado sobre la misma demo aprobada, en TEMP nuevo y vacío: parser 103,497 s e informe de contexto 8,154 s. El informe recalcula 2.800 comprobaciones de configuración y 200 de propiedades. La [evidencia](evidence/AI_COACH_ECONOMY_NATIVE_RULE_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-06.json) y el [informe](archive/ai-coach/AI_COACH_ECONOMY_NATIVE_RULE_CONTEXT_PHASE_2026-09-06.md) registran la validación canónica completa y el cierre operativo.
+- [x] **Fuente observada en 3D.2B:** `game_session_manifest`, 7.160 bytes, y `game_session_config.data`, 570 bytes, ambos en tick 0 con sus hashes. En 3D.2B sólo se retuvieron fingerprints. 3D.2C interpreta la configuración; 3D.2D acredita el codec del manifiesto sobre el fixture observado. Su presencia no acredita un vínculo con contenido de assets ni reglas económicas completas.
+- [x] **Gate real 3D.2B:** validación semántica canónica completa con cero errores en 354,686 s. Se conservan 77/250 actores iniciales, 173 ambiguos y tres equipos competitivos completos; las 50 fichas de oportunidad y sus 60 diferencias/15 transiciones no cambian. Inventario protegido de 4.356 archivos, 181 hashes de control, catálogo y 20 evidencias previas sin cambios.
+- [x] **Cierre documental 3D.2B:** 291 enlaces locales de 49 documentos sin destinos ausentes, un único prompt vigente y `git diff --check` correcto. De 950 archivos previos inventariados, 936 permanecen sin cambios y 14 corresponden al alcance de la fase. Las fuentes funcionales coinciden con la build validada.
+- [ ] **Limpieza 3D.2B:** pendiente por rechazo automático de `Remove-Item`, motivo `blocked by policy`. La salida exclusiva `C:/Users/kerch/AppData/Local/Temp/stratai-3d2b-smoke-cpq92n1q` conserva 85 archivos / 745.825.698 bytes, inventariados y recontrastados por SHA-256 antes del intento. No se repitió ni eludió el rechazo; los borrados anteriores tampoco se reintentaron. Esta deuda no bloquea 3D.2C.
+- [x] **Extracción verificable 3D.2C:** selector optativo **5**, `economy_session_payload@1`, sonda versionada, lector y validación. Configuración VBKV de 570 bytes con CRC32 correcto: **30 nodos, 27 escalares, cinco enteros y doce referencias de modelos**. Las claves vacías CT/T repetidas conservan sus cinco apariciones por lista. Los hashes son de nombres, no del contenido del asset. **50 schemas runtime**, catálogo `1.7.0` y export `3.8.0` conservados. [Contrato](contracts/economy/canonical-economy-rule-context-v1.md).
+- [x] **Límite de la auditoría 3D.2C:** cero coincidencias de las 56 claves económicas en el árbol decodificado; no se acreditan nuevas reglas monetarias. El manifiesto de 7.160 bytes mantiene fingerprint, formato y compresión no acreditados. La prueba Snappy del bloque completo falla; no se adivinan offsets ni se afirma ausencia de datos en su interior. Build nativa `10896`, patch/protocolo `14177` y las dos referencias históricas siguen sin vínculo exacto demo–assets.
+- [x] **Pruebas y gate real 3D.2C:** `npm run check:all`, **483 pruebas del AI Coach** —30 nuevas—, Ruff de archivos afectados y contrato global. Una pasada completa de la misma demo aprobada a TEMP nuevo y vacío: parser **106,439 s**, reconstrucción **7,460 s**, validación de candidatos y recálculo **32,232 s**; validación semántica canónica completa con **cero errores en 379,582 s**. Un lector independiente preserva duplicados, reproduce los 570 bytes y coincide en los 17 campos. [Informe](archive/ai-coach/AI_COACH_ECONOMY_SESSION_PAYLOAD_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_SESSION_PAYLOAD_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] **Conservación 3D.2C:** 77 actores inicialmente acreditados, 173 abstenciones, tres equipos competitivos completos y 50 fichas de oportunidad; 60 diferencias y 15 transiciones. Inventario protegido de 4.356 archivos/181 hashes, 21 evidencias previas y 301 archivos de fuentes de la build sin cambios. Sin promoción, entrenamiento ni ampliación de elegibilidad.
+- [x] **Cierre documental 3D.2C:** 301 enlaces locales de 50 documentos sin destinos ausentes; un único prompt vigente para 3D.2D; `git diff --check` correcto. De 966 archivos previos, 951 conservan su hash y 15 cambios pertenecen al alcance documentado. Fuentes funcionales iguales a la build validada.
+- [ ] **Limpieza 3D.2C:** pendiente por rechazo automático de `Remove-Item`, motivo `blocked by policy`, antes de crear el proceso. Salida exclusiva `C:/Users/kerch/AppData/Local/Temp/stratai-3d2c-smoke-cvhglvjh`: **83 archivos / 743.837.378 bytes**, inventariados antes del intento y recontrastados por SHA-256 después. Sigue presente; sin reintento ni elusión. Los temporales anteriores no se tocaron.
+- [x] **Dependencia del codec resuelta 3D.2D:** lector público de Clarity fijado por revisión y SHA-256, con soporte explícito CSGO_S2. Framing de bits y LZSS contrastados con el bloque de build nativa 10896: 7.156 bytes codificados, 13.146 descomprimidos, cinco tipos, 119 directorios y **463 referencias**; consumo completo salvo relleno cero. No contiene versión de formato ni hashes del contenido de assets. [Contrato](contracts/economy/canonical-economy-resource-manifest-v1.md).
+- [x] **Implementación 3D.2D:** selector optativo **6**, `economy_resource_manifest@1`, lector acotado, validación de schema/procedencia/causalidad y preservación de orden e índices. Sólo se publican hashes de nombres. Registro runtime **51 schemas**, catálogo y export base conservados. Pasan `npm run check:all`, **510 pruebas del AI Coach**, 27 nuevas, y 102.148 entradas de fuzz del lector.
+- [x] **Cierre real 3D.2D:** una pasada de una demo aprobada hacia TEMP nuevo: parser **85,655 s**, reconstrucción **5,528 s**, recálculo/validación **30,983 s** y validación semántica canónica completa con **cero errores en 292,764 s**. Las 463 referencias coinciden con el lector independiente. Se conservan 77 actores iniciales acreditados, 173 abstenciones, tres equipos completos, 50 fichas, 60 diferencias y 15 transiciones. Inventario protegido de 4.356 archivos/181 hashes, 22 evidencias previas y 308 fuentes de la build sin cambios. [Informe](archive/ai-coach/AI_COACH_ECONOMY_RESOURCE_MANIFEST_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_RESOURCE_MANIFEST_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] **Cierre documental 3D.2D:** 317 enlaces locales en 52 documentos sin destinos ausentes; un único prompt para 3D.2E y `git diff --check` correcto. De 977 archivos previos, 962 mantienen su hash; los 15 cambios restantes pertenecen al alcance registrado. Las fuentes funcionales coinciden con la build validada.
+- [ ] **Limpieza 3D.2D:** revisión automática rechazó `Remove-Item` antes de crear el proceso, motivo `blocked by policy`. La salida exclusiva `C:/Users/kerch/AppData/Local/Temp/stratai-3d2d-smoke-sm09pvug` conserva **84 archivos / 743.913.051 bytes**; todos sus SHA-256 se recontrastaron de sólo lectura tras el rechazo. No hubo reintento ni elusión. Los temporales anteriores no se tocaron.
+- [x] **Auditoría 3D.2E terminada:** dos revisiones históricas y sus árboles completos, `steam.inf`, marcadores, selección de depots, extracción y exclusiones contrastados. El tracker cita las actualizaciones 24916958/24934554; no son un enlace con la demo ni manifests de depot. El proceso descompila VPK y excluye originales: hashes de textos y recursos compilados son distintos. Cinco hashes locales anteriores coinciden. Se precisó que la build de cabecera necesita acreditar su componente emisor y su relación con el servidor. [Informe](archive/ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_BINDING_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_EXACT_ASSET_BINDING_AUDIT_2026-09-06.json).
+- [x] **Dependencia concreta 3D.2E entregada:** [material, fuentes posibles y nueve criterios de aceptación/rechazo](ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md). Cierre documental, sin cambios de productor/schema/comprobador ni nuevas pruebas funcionales o smoke: cero demos procesadas. Contrato global válido con 51 schemas/19 motivos, catálogo intacto e inventario protegido de 4.356 archivos/181 hashes sin cambios.
+- [x] **Conservación y cierre documental 3D.2E:** 334 enlaces locales en 54 documentos sin destinos ausentes; un único prompt para 3D.3 y `git diff --check` correcto. Las 23 evidencias anteriores y las 308 fuentes de la build validada conservan sus hashes. De 989 archivos previos, 982 permanecen iguales y siete cambios son documentales dentro del alcance. No se reintentó ninguna limpieza rechazada.
+- [ ] **Completar 3D.2 — condicionado a material externo:** falta la cadena build observada → distribución exacta → originales → representación reproducible. Reabrir sólo al disponer del registro de procedencia, componente emisor, manifests históricos, archivos y transformación especificados. Las referencias 2000888/2000891 siguen candidatas y la instalación 2000899/patch 1.41.7.8 no se selecciona. No repetir automáticamente búsquedas del codec, defaults o una demo para confirmar el mismo bloqueo. Reglas efectivas, precios condicionados, bonus, recompensas, loadout, límites y devoluciones conservan sus requisitos propios; cero paquetes aprobados.
+- [x] **Entrega 3D.3:** selector optativo 7, `economy_transaction_trace@1`, lector y comprobación por instancia/lado. Conserva eventos nativos con ordinal y presencia, avisos SDK y actualizaciones de cuenta/contador; cero/falso/ausencia y repetición no se colapsan. Aliases de actor disponibles al observar y entidades por vida del objeto SDK; no se rellena T0. **52 schemas**, catálogo `1.7.0` y base `3.8.0` conservados. [Contrato](contracts/economy/canonical-economy-transaction-trace-v1.md).
+- [x] **Validación 3D.3:** `npm run check:all`, **527 pruebas del AI Coach**, Ruff y `go mod verify`. Una única partida aprobada en dos pasadas: el lector inicial usó un nombre de campo v2 incorrecto; se corrigió y se añadió el userid tipo 9 real según `ValShort` del SDK. Se repitió esa misma partida tras las pruebas, en otro TEMP vacío. Parser final **84.765 s**, validación canónica **268.779 s**, cero errores. [Informe](archive/ai-coach/AI_COACH_ECONOMY_TRANSACTION_TRACE_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_TRANSACTION_TRACE_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] **Cobertura real 3D.3:** 7.918 filas; 1.564 cambios de cuenta y 1.235 de contador; 1.683 eventos nativos `item_pickup`, con sus controles genéricos y callbacks. Los 44 `ItemRefund` del SDK son heurísticos: subida de dinero y destrucción coincidentes en zona de compra. No son reembolsos itemizados acreditados. No se observan actualizaciones de cuenta repetidas en el mismo fotograma/tick; compensación sólo cubierta por fixtures. El `server_tick` nativo difiere del tick del parser en los 1.683 eventos: se conservan ambos sin adivinar correspondencia. Capturas v2/3D.1–3D.2D iguales salvo identidad de build y hashes de procedencia.
+- [x] **Auditoría 3D.4:** revisar la suficiencia conjunta de las 50 oportunidades existentes leyendo los artefactos validados, sin otro productor ni cambio de elegibilidad runtime. **48 tienen entregas de traza en ventana estricta; sólo tres tienen equipo inicial completo; cero permiten comparación económica**. Matriz por oportunidad, con hashes e incertidumbres, en [evidencia](evidence/AI_COACH_ECONOMY_OPPORTUNITY_SUFFICIENCY_AUDIT_2026-09-06.json) e [informe](archive/ai-coach/AI_COACH_ECONOMY_OPPORTUNITY_SUFFICIENCY_PHASE_2026-09-06.md). Este cierre cumple la auditoría económica de cobertura; no cierra la auditoría de todas las capacidades.
+- [x] **Conservación y cierre 3D.3–3D.4:** 352 enlaces locales en 57 documentos, un único prompt, 315 archivos funcionales iguales a la build validada y `git diff --check` correcto. Las 24 evidencias anteriores y el catálogo mantienen sus hashes; de 992 archivos previos, 978 siguen intactos y los otros 14 corresponden al alcance. Corpus: 4.356 archivos y 181 hashes de control sin cambios.
+- [ ] **Limpieza 3D.3:** pendiente por rechazo automático de `Remove-Item`, motivo `blocked by policy`. Las dos salidas nuevas conservan 171 archivos / 1.492.545.217 bytes, inventariados y recontrastados tras el rechazo. No se repite ni elude el intento; deuda operativa separada de la suficiencia económica.
+- [x] **Entrega 3D.5:** selector optativo 8, `economy_native_identity@1`, productor y lector con serie completa, vida de entidad, dueño, slots/longitud de inventario, mensajes de usuario y relojes separados. **53 schemas**, 19 razones, catálogo `1.7.0` y base `3.8.0` conservados. [Contrato](contracts/economy/canonical-economy-native-identity-v1.md).
+- [x] **Validación 3D.5:** `npm run check:all`, **549 pruebas del AI Coach**, seis nuevas pruebas Go, Ruff y `go mod verify`. Una única partida en dos pasadas: la primera perdió 25 sondas de inicio por orden no garantizado de callbacks del SDK. Se corrigió el orden de consumidores en el selector 8, se repitieron las pruebas y la misma partida en otro TEMP vacío. Parser final **77,585 s**, lector **35,386 s**, validación canónica **263,920 s**, cero errores. [Informe](archive/ai-coach/AI_COACH_ECONOMY_NATIVE_IDENTITY_AND_TIME_PHASE_2026-09-06.md) y [evidencia](evidence/AI_COACH_ECONOMY_NATIVE_IDENTITY_SINGLE_DEMO_SMOKE_2026-09-06.json).
+- [x] **Cobertura real 3D.5:** 158.371 muestras de reloj y 16.706 filas; 1.642 eventos coinciden con red y 41 tienen un tick menos, sin offset aplicado. Se observan 1.208 vidas, 617 reutilizaciones de índice y 109 sustituciones sin destrucción. Hay 1.173 referencias a equipo y 2.567 a pawn resueltas; 67 series distintas se rechazan. Cero mensajes pickup/drop en los cuatro canales consultados. Las 3.172 entregas de propiedades en el fotograma de creación son potencial reenvío del SDK; no todas son cambios nativos nuevos. No se acredita ejecución subtick, conocimiento del jugador ni causa transaccional.
+- [x] **Controles 3D.5:** recálculo independiente de relojes, referencias, series, vidas y 73 fronteras por instancia. Las seis salidas históricas conservan todas sus observaciones salvo build/procedencia. Se mantienen 77 estados iniciales, 173 abstenciones, tres equipos completos, 50 oportunidades y cero comparaciones. Inventario protegido de 4.356 archivos/181 hashes sin cambios; verificaciones documentales y de alcance en la evidencia.
+- [ ] **Limpieza 3D.5:** rechazo automático de `Remove-Item`, motivo `blocked by policy`; 171 archivos / 1.536.981.476 bytes en las dos nuevas salidas, inventariados y recontrastados. No repetir ni eludir el intento.
+- [x] **Entrega 3D.6:** selector optativo 9, lectura fresca al cerrar cada fotograma seleccionado y reconciliación de dueño con slots activos por serie y vida. Dos contratos `@1` propios: observaciones e informe; **55 schemas**, 19 razones, catálogo `1.7.0` y base `3.8.0` conservados. [Contrato](contracts/economy/canonical-economy-ownership-v1.md).
+- [x] **Validación 3D.6:** `npm run check:all`, **577 pruebas del AI Coach** —28 nuevas—, cuatro pruebas Go nuevas, Ruff y `go mod verify`. Una única partida aprobada en una pasada hacia TEMP nuevo: parser **97,187 s**, materializador **65,779 s**, validación del informe **67,991 s** y canónico completo **309,461 s**, cero errores. [Informe](archive/ai-coach/AI_COACH_ECONOMY_OWNERSHIP_PHASE_2026-09-08.md) y [evidencia](evidence/AI_COACH_ECONOMY_OWNERSHIP_SINGLE_DEMO_SMOKE_2026-09-08.json).
+- [x] **Cobertura real 3D.6:** 35.485 cortes y 885 estados; 60.517 registros equipo/estado, con 37.842 coincidencias, 6.825 casos sólo con dueño y 15.850 sin asignación en el ámbito observado. Se recalculan **213 cambios: 85 apariciones y 128 desapariciones de tenencia**, sin causa atribuida ni cambios directos entre dos tenedores observados. Hay evidencia de ejecución en 46 de 50 oportunidades; las instancias 1 y 25 siguen sin enlace competitivo verificado. Cero recomendaciones o transacciones itemizadas acreditadas.
+- [x] **Controles 3D.6:** recálculo independiente de todos los registros y transiciones, referencias por serie, cortes y matriz. Las siete salidas anteriores conservan exactamente sus observaciones salvo build/procedencia; los 77 estados iniciales, 173 abstenciones y tres equipos completos no cambian. Corpus: 4.356 archivos y 181 hashes de control intactos; 27 evidencias anteriores preservadas y cierre documental en la evidencia.
+- [ ] **Limpieza 3D.6:** rechazo automático de `Remove-Item`, motivo `blocked by policy`; 88 archivos / 798.029.328 bytes en la única salida nueva, inventariados y recontrastados. No repetir ni eludir el intento.
+- [x] **Entrega 3D.7:** selector optativo 10, entradas nativas leídas en el mismo callback de tenencia, tipos/valores originales y vínculo por serie completa, vida, definición, pawn y actor. Dos contratos propios llevan el registro a **57 schemas/19 razones**, con catálogo y base conservados. [Contrato](contracts/economy/canonical-economy-entry-identity-v1.md).
+- [x] **Cobertura 3D.7:** 35.485 cortes, 1.114 estados y 25.255 registros de entrada/estado; **4.010 vínculos exactos, 165 vidas de objeto y 41/50 oportunidades**. Matriz completa de abstenciones en [evidencia](evidence/AI_COACH_ECONOMY_ENTRY_IDENTITY_SINGLE_DEMO_SMOKE_2026-09-08.json) e [informe](archive/ai-coach/AI_COACH_ECONOMY_ENTRY_IDENTITY_LINK_PHASE_2026-09-08.md). Los registros repetidos y costes nativos no prueban compras, reembolsos efectivos ni cooperación.
+- [x] **Validación 3D.7:** `npm run check:all`, **619 pruebas del AI Coach** —42 nuevas—, cinco pruebas Go nuevas, Ruff y `go mod verify`. Una única partida en una pasada a TEMP nuevo: parser **100.204 s**, materializador **83.034 s**, validación del informe **83.983 s** y canónico completo **317.201 s**, cero errores. Recálculo independiente de todas las entradas, 60.517 registros de tenencia y 213 cambios.
+- [x] **Conservación 3D.7:** ocho salidas previas iguales salvo build/procedencia; 77 estados iniciales, 173 abstenciones, tres equipos completos y 50 oportunidades conservados. Inventario protegido de 4.356 archivos/181 hashes y 28 evidencias anteriores intactos. Cero comparaciones económicas, transacciones itemizadas verificadas, entrenamiento o ampliación del producto.
+- [x] **Retención 3D.7 por indicación del usuario:** 90 archivos / 824.621.174 bytes inventariados bajo TEMP. Cero intentos de borrado y cero solicitudes de revisión de limpieza. `AGENTS.md` y este plan conservan esa instrucción; los temporales anteriores y rechazos históricos quedan de sólo lectura.
+- [x] **Entrega 3D.8:** selector optativo 11, cuentas frescas en el corte de entradas, vida de controlador, handle de pawn por entrega y prefijo completo de traza. Dos schemas propios llevan el registro a **59 schemas/19 razones**. Multiconjuntos, movimientos individuales, baselines, ceros, multiplicidad, descensos y residuos conservan su significado. [Contrato](contracts/economy/canonical-economy-cashflow-v1.md).
+- [x] **Cobertura 3D.8:** 13 controladores, 2.825 entregas, 35.485 cortes y 1.365 intervalos: **153 igualdades con una entrada exacta, 759 sin objeto único, 54 descensos de contador, 156 sin cambios y 243 no comparables**. Cero residuos en los 1.122 comparables; los otros conservan residuos `null`. 46/50 oportunidades con intervalos retenidos, sin nueva elegibilidad. [Informe](archive/ai-coach/AI_COACH_ECONOMY_CASHFLOW_RECONCILIATION_PHASE_2026-09-08.md) y [evidencia](evidence/AI_COACH_ECONOMY_CASHFLOW_SINGLE_DEMO_SMOKE_2026-09-08.json) incluyen matriz y variantes ausentes.
+- [x] **Validación 3D.8:** `npm run check:all`, **659 pruebas AI Coach —40 nuevas—**, seis pruebas Go nuevas, Ruff y `go mod verify`. Se corrigió una prueba inestable de alteración Base64, conservando el cifrado de producción; repetición completa antes del smoke. Una única partida y una pasada a TEMP nuevo: parser **84.012 s**, materializador **77.586 s**, lector **77.635 s**, canónico completo **269.215 s**, cero errores. Recálculo independiente de todos los intervalos, 1.932 deltas completos, 983 cambios de entrada y omisiones.
+- [x] **Conservación y retención 3D.8:** nueve salidas previas iguales salvo build/procedencia; 77 estados iniciales, 173 abstenciones y tres equipos completos conservados. 4.356 archivos/181 hashes protegidos y 29 evidencias anteriores intactos. TEMP: **92 archivos / 833.331.996 bytes**, inventariados sin intento ni revisión de borrado.
+- [x] **Cierre documental 3D.8:** 348 archivos funcionales iguales a la build validada, 403 enlaces locales en 65 documentos sin destinos ausentes, catálogo intacto, un único prompt y `git diff --check` correcto. De 1.042 archivos previos, 1.024 mantienen su hash; los otros 18 corresponden al alcance documentado. Grafo final no disponible (`Transport closed`); revisión localizada y hashes conservados.
+- [ ] **Dependencia transaccional económica:** siguen faltando operación, importe efectivo, actor y objeto/vida enlazados causalmente mediante una fuente transaccional positiva. Igualdad contable, recogidas, entradas retiradas y refunds heurísticos no bastan. Reabrir sólo con material nuevo y procedencia; no repetir otro inventario del mismo bloqueo. Assets/reglas exactos conservan su dependencia separada; economía y 3D siguen parciales.
+- [x] **Entrega 3E.1:** selector optativo `--ai-coach-support-candidate`, captura fresca del mismo callback de replay, identidad por handle completo/vida de objeto y presencia nativa. Protocolo, observaciones e informe propios llevan el registro a **62 schemas/19 razones**. Selección con tres muestras propias/aliadas: inicio de aumento tras un paso no creciente; T0 después del aumento observado. No se acredita entrada previa; `DEC-TRADE-001`, catálogo e IDs conservan su significado. [Contrato](contracts/support/canonical-support-anchors-v1.md).
+- [x] **Cobertura 3E.1:** 30.716 muestras, 306.740 estados, 250 filas actor/instancia, 660.686 pares examinados y **32.340 anclajes**. Matriz completa de exclusiones; 32.024 horizontes de dos segundos completos, 264 excluidos por frontera y 52 por cambio/ausencia del par. Auditoría posterior independiente: **29.162 ventanas sin muerte registrada del par**, 26.346 sin ninguna kill; el resultado no interviene en la selección. Las 1.196 muestras sin unión al replay y sus 1.662 anclajes son preliminares, sin ronda competitiva acreditada. [Informe](archive/ai-coach/AI_COACH_SUPPORT_CAUSAL_ANCHOR_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_CAUSAL_ANCHOR_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.1:** `npm run check:all`, **706 pruebas AI Coach —47 nuevas—**, cinco funciones nuevas de prueba Go, Ruff y `go mod verify`. Una única partida y una pasada a TEMP nuevo: parser **80.226 s**, materializador **144.484 s**, relectura **116.211 s**, recálculo independiente **18.991 s** y canónico completo **436.607 s**, cero errores. Prefijos de 1.000/15.358 muestras conservan 1.406/16.490 anclajes; mutaciones futuras/enemigas no contaminan el acceso inicial.
+- [x] **Conservación y retención 3E.1:** los **72 artefactos canónicos base** tienen hashes y conteos iguales al control 3D.8. 4.356 archivos/181 hashes protegidos, 30 evidencias previas y catálogo intactos; 362 archivos funcionales iguales a la build. TEMP: **75 archivos / 881.206.999 bytes**, inventariados; cero intentos de borrado o revisión de limpieza. Cierre documental y cobertura del grafo registrados en la evidencia.
+- [ ] **Decisión completa S2–S3:** los 32.340 anclajes son candidatos de investigación. 3E.2 añade componentes físicos propios/aliados, 3E.3 diagnósticos NAV candidatos, 3E.4 contexto público del objetivo, 3E.5 tenencia C4 propia/aliada, 3E.6 relojes/márgenes nativos y 3E.6B origen/progreso de plantado. 3E.7 añade posición legal del objetivo con prueba positiva y 3E.8 suelo/modo de movimiento nativos; 3E.9 incorpora plazos del servicio de armas del pawn; 3E.10 añade entradas visuales y FOV de referencia, manteniendo contacto legal indisponible. 3E.11 congela el censo prospectivo C0 y 3E.12 lo materializa sin acreditar entrada física; 3E.13 une contexto físico básico y 3E.14 contexto público/propio/aliado del objetivo en sus T0 exactos; 3E.15 añade tenencia C4 propia/aliada y posición del portador; 3E.16 une relojes nativos exactos en C0; 3E.17 une el origen/progreso nativo de plantado. 3E.18 une posición legal del objetivo en C0; 3E.19 une movimiento/suelo nativos; 3E.20 une temporización nativa; 3E.21 une entradas visuales, conservando contacto legal abstendido. 3E.22 consolida cobertura conjunta y requisitos de S2–S3 sin inferir elegibilidad; no acredita una nueva fuente positiva para continuar. Siguen pendientes entrada/compromiso previo, ruta/LOS/contacto, transformación del objetivo transportado, observación legal de C4 caída, cooperación, intención, velocidad instantánea y readiness completa. Cero decisiones elegibles o recomendaciones; no cerrar la familia por estos hechos.
+- [x] **Entrega 3E.2:** selector `--ai-coach-support-physical-candidate`, fuente física en el mismo callback support/replay, dos schemas propios y acceso inicial por prefijo. **64 schemas/19 razones**. Orientación/postura nativas, arma por handle completo/vida, munición contrastada con codificado y recarga con seed original separado. Movimiento medio derivado de dos posiciones del prefijo; no velocidad instantánea. [Contrato](contracts/support/canonical-support-physical-v1.md).
+- [x] **Cobertura 3E.2:** 213.897 contextos presentes, 935 vidas de arma y **32.340 anclajes conservados**, con 998 filas actor/aliado/instancia. **31.862** tienen los siete componentes para ambos, incluyendo no aplicables; **478** conservan ausencias. **30.264 de 30.678** filas con intervalo canónico tienen todos esos componentes; los **1.662** anclajes preliminares no se promueven. Los 336 cargadores codificados cero y 1.608 estados sin señal de recarga mantienen ausencia. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PHYSICAL_CONTEXT_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_PHYSICAL_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.2:** `npm run check:all`, **743 pruebas AI Coach —37 nuevas—**, cinco funciones nuevas de prueba Go, Ruff y `go mod verify`. Una demo y una pasada: parser **72.382 s**, materializador **394.378 s**, relectura **359.02 s**, recálculo independiente **16.128 s**, canónico completo **343.267 s**, cero errores. Se recalculan 64.680 movimientos y toda la matriz; 203.030 estados de cada componente de orientación/postura/arma coinciden con replay. Mutaciones futuras/enemigas no cambian el acceso inicial.
+- [x] **Conservación y retención 3E.2:** observaciones/anclajes/matriz/resumen v1 idénticos al control; **72 artefactos canónicos** iguales por SHA-256 y conteos. 4.356 archivos/181 hashes protegidos, 31 evidencias previas y catálogo intactos; 371 archivos funcionales iguales a la build. TEMP: **77 archivos / 1,136,710,346 bytes**, inventariados sin intento ni revisión de borrado. Cierre documental y cobertura del grafo en la evidencia.
+- [x] **Entrega 3E.3:** productor optativo `cmd/support-navigation` y materializador/lector `ai_coach.support.navigation`, reutilizando grafo dirigido y extremos exactos. Dos schemas propios: **66 schemas/19 razones**. Se conservan selección, IDs, T0, vidas y hechos 3E.1–3E.2; no cambian `DEC-TRADE-001`, catálogo ni elegibilidad. [Contrato](contracts/support/canonical-support-navigation-v1.md).
+- [x] **Cobertura 3E.3:** **31.949** caminos candidatos, **239** casos sin conexión en el subgrafo y **152** fuera de cobertura, sobre **32.340 anclajes/998 filas de matriz**. En intervalos canónicos: 30.391/201/86; los 1.662 preliminares no se promueven. Hay 854 casos de mismo polígono y 6.048 asociaciones por centro cercano en cada rol. **Cero conexiones físicas o ausencias físicas acreditadas**: el acceso inicial conserva abstención, sin ETA ni apoyo viable. [Informe](archive/ai-coach/AI_COACH_SUPPORT_NAVIGATION_CONTEXT_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_NAVIGATION_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.3:** `npm run check:all`, **775 pruebas AI Coach —32 nuevas—**, tres funciones nuevas Go, Ruff, vet y `go mod verify`. Una demo/una pasada: parser **71.462 s**, materializador **418.195 s**, relectura **465.031 s**, canónico completo **256.637 s**, cero errores. Recálculo independiente de caminos, asociaciones, segmentos y matriz, y lectura nativa de 2.544 áreas/6.381 enlaces. Se preservan los 64.680 movimientos de 3E.2 y la exclusión de futuro/oracle.
+- [x] **Conservación y retención 3E.3:** observaciones/anclajes/contexto físico/matrices/resúmenes anteriores idénticos; **72 artefactos canónicos** iguales por hash y conteo. Inventario protegido de 4.356 archivos/181 hashes intacto; catálogo, interfaz temporal y evidencias previas conservados. **79 archivos/1,365,465,380 bytes** de smoke retenidos con inventario; cero intentos de borrado o revisión de limpieza. Fuentes de build, comandos y cierre documental registrados en la evidencia.
+- [ ] **Dependencia física NAV tras 3E.3:** el archivo local v35/1 tiene hash acreditado como input del productor, pero falta vínculo con el recurso exacto de la demo. El grafo omite siete referencias de escalera, atributos/hull, bordes destino y un sufijo de 209.157 bytes; la asociación por centro no acredita superficie/portal transitable. Reabrir sólo con material original, cadena demo–distribución–manifest–hash–extracción y soporte físico de enlaces/asociaciones especificados en el contrato. No repetir otro inventario del mismo bloqueo ni presentar el diagnóstico como ruta física o segura.
+- [x] **Entrega factual 3E.4:** selector optativo `--ai-coach-support-objective-candidate`, observaciones, materializador/lector y dos schemas: **68 schemas/19 razones**. Reglas Source 2 frescas, prefijo público por orden de entrega, fase del objetivo, tiempos transcurridos del parser y zona de bomba/desactivación/kit propios y aliados. Sin identidades ni futuro como features. [Contrato](contracts/support/canonical-support-objective-v1.md).
+- [x] **Cobertura 3E.4:** **30.716 muestras, 94 eventos públicos y 32.340 anclajes/998 filas**. **31.546 fases observadas** —29.802 preplant/1.744 plantadas— y **794 conflictos preliminares** con abstención. Los 30.678 anclajes con intervalo canónico tienen fase observada; 1.662 preliminares separados. Cuatro reglas presentes en todas las muestras; 32.340 tiempos transcurridos de ronda y 1.744 de bomba. No son cuenta atrás efectiva ni conocimiento subjetivo. [Informe](archive/ai-coach/AI_COACH_SUPPORT_OBJECTIVE_CONTEXT_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_OBJECTIVE_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.4:** `npm run check:all`, **812 pruebas AI Coach —37 nuevas—**, cinco funciones Go nuevas, Ruff, vet, módulos y contrato global. Una única partida en tres pasadas a TEMP nuevos: se corrigieron el prefijo nativo de reglas y el arrastre de fase terminal en una instancia preliminar, con regresiones y suites finales antes de repetir. Parser final **72.355 s**, materialización **611.697 s**, relectura **545.353 s**, canónico completo **251.746 s**, cero errores. Recálculo independiente de prefijos, tiempos, hechos y matriz; mutaciones reales de futuro/enemigos invariantes.
+- [x] **Conservación y retención 3E.4:** 72 artefactos canónicos iguales por hash y conteo; observaciones, anclajes, contexto físico y consultas/grafo/resultados NAV anteriores iguales. Inventario protegido de 4.356 archivos/181 hashes, catálogo, interfaz temporal y evidencias anteriores intactos. Salida aceptada: **81 archivos/1532803303 bytes**; dos intentos rechazados y trabajo retenidos con inventario. Cero borrados, solicitudes de limpieza, promoción o ampliación de elegibilidad.
+- [ ] **Objetivo y apoyo completos tras 3E.7:** tenencia propia/aliada, posición del portador, relojes y progreso de intentos conservados; se añade posición legal del objetivo plantado con prueba propia o contacto actual. El objetivo transportado requiere una transformación de attachment actual y acreditada; la geometría de C4 caída necesita observación legal atribuible. No se declara ausencia de todas sus fuentes ni se cierra S2–S3. NAV físico y economía mantienen sus dependencias separadas.
+- [x] **Entrega factual 3E.5:** selector optativo `--ai-coach-support-c4-candidate`, captura fresca de inventario/propietario, handles/series/vidas, estados por corte, materializador/lector y dos schemas: **70 schemas/19 razones**. Tenencia positiva bilateral, ausencia con cobertura completa y conflictos explícitos; posición del portador separada de C4 física. [Contrato](contracts/support/canonical-support-c4-v1.md).
+- [x] **Cobertura 3E.5:** **30716 cortes/857 estados**, **32340 anclajes/998 filas** conservados. Propia: **2057 positivas/30283 ausencias/0 insuficientes**; aliada: **2057/30283/0**. 213897 inventarios observados y 92843 muestras con pawn no utilizable. 1662 anclajes preliminares sin promoción; cero decisiones elegibles. [Informe](archive/ai-coach/AI_COACH_SUPPORT_C4_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_C4_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.5:** `npm run check:all`, **860 pruebas AI Coach —48 nuevas—**, seis funciones Go nuevas, Ruff, vet, módulos y contrato global. Una pasada de la misma demo aprobada después de las suites: parser **83.208 s**, materialización **1012.457 s**, relectura **771.071 s**, canónico **402.824 s**, cero errores. **194040 hechos** recalculados independientemente, matrices y controles de futuro/enemigos reales.
+- [x] **Conservación 3E.5:** 72 artefactos canónicos iguales por hash/conteo y hechos 3E.1–3E.4 idénticos. 4356 archivos protegidos/181 hashes, 44 bundles y 50 fuentes intactos; catálogo, interfaz, evidencias anteriores y cambios ajenos preservados. **83 archivos/1591228791 bytes** de salida, más el directorio de trabajo, retenidos con inventario; sin borrados de datos o temporales, promoción ni ampliación de elegibilidad.
+- [x] **Entrega factual 3E.6:** selector optativo `--ai-coach-support-objective-clock-candidate`, captura de relojes/deadlines, tipos nativos declarados, pausas, vidas y referencias; materializador/lector, dos schemas, **72 schemas/19 razones**. Prueba de origen causal sin backfill; cuentas atrás y margen firmado propios/aliados. [Contrato](contracts/support/canonical-support-objective-clock-v1.md).
+- [x] **Cobertura 3E.6:** **30716 cortes/32340 anclajes/998 filas**, 25 pruebas de origen. Por rol: **29802 relojes de ronda/1744 de bomba/88 tiempos de intento/25 progresos y márgenes de defuse**. 14 plazos de bomba expirados por rol; 794 conflictos preliminares preservados. [Informe](archive/ai-coach/AI_COACH_SUPPORT_OBJECTIVE_CLOCK_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_OBJECTIVE_CLOCK_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.6:** `npm run check:all`, **904 pruebas AI Coach —44 nuevas—**, cinco funciones Go nuevas, Ruff, vet, módulos y contrato. Dos pasadas de una única demo distinta, con suites repetidas tras corregir la dependencia del simtime ausente del pawn. Parser final **88.437 s**, materialización **1466.326 s**, lector **1340.571 s**, canónico **385.914 s**, cero errores. **646800 hechos/estados** contrastados, todos los valores numéricos recalculados y controles reales de futuro/enemigos.
+- [x] **Conservación 3E.6:** 72 artefactos canónicos iguales por hash/conteo; observaciones, IDs/T0, selección, contextos y matrices 3E.1–3E.5 conservados. 4356 archivos protegidos/181 hashes, 44 bundles y 50 fuentes intactos. Salida final **85 archivos/1848790531 bytes**, primer intento y trabajo retenidos con inventario. Sin borrados de datos/temporales, promoción, entrenamiento ni ampliación de elegibilidad.
+- [x] **Entrega factual 3E.6B:** selector optativo `--ai-coach-support-attempt-origin-candidate`, entregas nativas separadas de creación/replay, captura en cada frame activo, correspondencia temporal y continuidad de vida/propietario/inventario. Materializador/lector y dos schemas: **74 schemas/19 razones**. Duración y progreso derivados de transición y deadline, sin defaults. [Contrato](contracts/support/canonical-support-attempt-origin-v1.md).
+- [x] **Cobertura 3E.6B:** **277 entregas/2331 frames/30716 cortes**, **12 inicios nativos** con horizonte medido de 3 s; una transición de fin de actividad y 21 destrucciones separadas. **63 progresos por rol** en 32340 anclajes/998 filas, correspondientes a **11 orígenes** en los anclajes. 794 conflictos preliminares conservados; cero decisiones elegibles. [Informe](archive/ai-coach/AI_COACH_SUPPORT_ATTEMPT_ORIGIN_PHASE_2026-09-09.md) y [evidencia](evidence/AI_COACH_SUPPORT_ATTEMPT_ORIGIN_SINGLE_DEMO_SMOKE_2026-09-09.json).
+- [x] **Validación 3E.6B:** `npm run check:all`, **944 pruebas AI Coach —40 nuevas—**, cinco funciones Go nuevas, Ruff, vet, módulos y contrato. Una pasada de la única demo aprobada después de las suites finales: parser **94.802 s**, materializador **1962.097 s**, lector **1643.246 s**, canónico **384.472 s**, cero errores. **258720 hechos/estados y 378 valores numéricos** contrastados independientemente; continuidad y controles reales de futuro/enemigos correctos.
+- [x] **Conservación 3E.6B:** 72 artefactos canónicos iguales por hash/conteo y 12 artefactos de fuentes/contextos 3E.1–3E.6 idénticos en hechos, IDs/T0, selección y matrices. 4356 archivos protegidos/181 hashes, 44 bundles y 50 fuentes intactos. **87 archivos/1925297865 bytes** de salida retenidos con inventario; trabajo y temporales anteriores conservados, sin limpieza ni promoción.
+- [x] **Entrega factual 3E.7:** selector `--ai-coach-support-objective-position-candidate`, coordenadas nativas, parent/attachment, nacimiento, entregas y corte común; posición mundial y disponibilidad del rol separadas. Dos schemas y materializador/lector propios: **76 schemas/19 razones**. [Contrato](contracts/support/canonical-support-objective-position-v1.md).
+- [x] **Cobertura 3E.7:** **13633 entregas/36 nacimientos/658 estados/30716 cortes**, 25 vidas CC4 y 11 CPlantedC4. 657 registros geométricos: **547 raíces mundiales y 110 objetos parentados**. **426 posiciones legales por rol**: 401 por plantado propio corroborado y 25 por contacto actual de desactivación; **11 plantados** probados. 32340 anclajes/998 filas, con 794 conflictos preliminares y 2056 abstenciones por transformación de parent por rol; cero decisiones elegibles. [Informe](archive/ai-coach/AI_COACH_SUPPORT_OBJECTIVE_POSITION_PHASE_2026-09-10.md) y [evidencia](evidence/AI_COACH_SUPPORT_OBJECTIVE_POSITION_SINGLE_DEMO_SMOKE_2026-09-10.json).
+- [x] **Validación 3E.7:** `npm run check:all`, **1001 pruebas AI Coach —57 nuevas—**, seis funciones Go nuevas, Ruff, vet y módulos. La misma única demo, cuatro intentos retenidos: dos fallos de consulta SDK antes de exportar, una extracción sustituida tras corregir variantes reales y una final. Parser final **91.65 s**, materializador **9823.31 s**, lector **1405.972 s**, canónico **7433.934 s**, cero errores. Los tiempos de materialización y validación canónica incluyen la suspensión del equipo registrada en la evidencia. Recálculo independiente de **3612 componentes, 1804807 campos, 852 posiciones legales y 194040 hechos/estados**; 2201 frames de continuidad y controles reales de futuro/información ajena.
+- [x] **Conservación 3E.7:** 72 artefactos canónicos iguales por hash/conteo y 14 fuentes/contextos 3E.1–3E.6B conservados en hechos, IDs/T0, selección y matrices. Corpus de 44 bundles/50 fuentes intacto. Salida final **89 archivos/2006632100 bytes**, salida sustituida de 80 archivos/1326056412 bytes y dos destinos fallidos vacíos, todos retenidos con inventarios; sin limpieza, promoción ni migración.
+- [ ] **Dependencias de posición pendientes:** el parent coincide nativamente con el pawn actual y hay un token de attachment; origen local y offsets de hueso raíz son cero en los 110 registros transportados. Falta transformación actual del attachment, con modelo/pose y procedencia compatibles; handles y colecciones presentes no son esa transformación. La C4 sin dueño tiene 525 registros mundiales sobre 20 vidas, pero falta observación legal atribuible. No convertirlos en información de todos ni repetir el mismo inventario como avance. NAV físico conserva su gate separado.
+- [x] **Entrega factual 3E.8:** selector `--ai-coach-support-native-motion-candidate`, tipos/presencia, entregas, pawn actual, suelo/parent y corte común; materializador/lector y dos schemas: **78 schemas/19 razones**. Contacto nativo corroborado y código de movimiento; la velocidad instantánea ausente conserva abstención. [Contrato](contracts/support/canonical-support-native-motion-v1.md).
+- [x] **Cobertura 3E.8:** **91998 entregas/19888 estados/30716 cortes**, 12 vidas creadas y 11 capturadas. **32340 anclajes/998 filas** conservados. Por rol: **30357 contactos positivos/1983 negativos**, con **30206 referencias mundiales/151 a otra entidad**; **32246 códigos `2`/94 códigos `9`** sin etiquetas semánticas supuestas. Los tres hechos de velocidad actual tienen **32340 abstenciones cada uno**. [Informe](archive/ai-coach/AI_COACH_SUPPORT_NATIVE_MOTION_PHASE_2026-09-10.md) y [evidencia](evidence/AI_COACH_SUPPORT_NATIVE_MOTION_SINGLE_DEMO_SMOKE_2026-09-10.json).
+- [x] **Validación 3E.8:** `npm run check:all`, **1049 pruebas AI Coach —48 nuevas—**, cinco funciones Go nuevas, Ruff, vet y módulos. Una pasada completa de la misma demo tras las suites; parser **95.381 s**, materializador **2403.695 s**, lector **1684.585 s**, canónico **252.778 s**, cero errores. Recálculo independiente de **7058601 campos y 388080 hechos**, **427794** contrastes con relojes y siete controles reales de acceso inicial. Dos inspecciones previas de cabecera, canceladas tras declaraciones, se distinguen del smoke funcional.
+- [x] **Conservación 3E.8:** 72 artefactos canónicos iguales por hash/conteo y **16 fuentes/contextos previos** conservados en hechos, IDs/T0, selección y matrices. Corpus 44 bundles/50 fuentes y salida/trabajo/evidencia 3E.7 intactos. **91 archivos/2274326444 bytes** retenidos con inventarios; sin limpieza, promoción ni migración.
+- [ ] **Dependencia de velocidad instantánea tras 3E.8:** las propiedades actuales consultadas no se declaran en el pawn de esta demo y están ausentes en sus 19888 estados capturados. Velocidad base e históricos presentes no la sustituyen; magnitudes `VectorWS` positivas se prueban sólo con fixtures. Resolver exige fuente positiva actual con referencia espacial, vida y disponibilidad causal acreditadas; no repetir el mismo inventario sin nueva evidencia.
+- [x] **Entrega factual 3E.9:** selector `--ai-coach-support-weapon-timing-candidate`, entregas tipadas, pawn/arma actuales, serie/vida/propietario, corte físico común y prueba causal de reloj; consumidor, materializador/lector y dos schemas: **80 schemas/19 razones**. [Contrato](contracts/support/canonical-support-weapon-timing-v1.md).
+- [x] **Cobertura 3E.9:** **67162 entregas/12640 estados/30716 cortes**, 946 vidas capturadas y 3728 cambios de arma activa. **32340 anclajes/998 filas** conservados. Por rol: **31546 plazos del pawn observados —5952 pendientes/25594 vencidos— y 794 abstenciones**. Primario/secundario/aplazamiento: 20092 abstenciones de semántica, 12218 no aplicables y 30 sin arma actual por hecho. Cero readiness completa o decisiones elegibles. [Informe](archive/ai-coach/AI_COACH_SUPPORT_WEAPON_TIMING_PHASE_2026-09-11.md) y [evidencia](evidence/AI_COACH_SUPPORT_WEAPON_TIMING_SINGLE_DEMO_SMOKE_2026-09-11.json).
+- [x] **Validación 3E.9:** `npm run check:all`, **1092 pruebas AI Coach —43 nuevas—**, cinco funciones Go nuevas, Ruff, vet y módulos. Dos pasadas de la misma única demo; R2 final tras las suites finales: parser **139.626 s**, canónico **388.996 s** y fuentes **545.96 s**. Materializador R1 **4732.174 s** y lector completo R1 **3220.993 s**, retenidos y aplicables por identidad exacta de las nueve fuentes salvo build/referencias; consumidor sin cambios. Cero errores en las verificaciones finales. Recálculo independiente de **2349080 campos**, 25 testigos y **63092 plazos numéricos**; matriz y cuatro controles reales de acceso inicial correctos.
+- [x] **Conservación 3E.9:** 72 artefactos canónicos iguales por hash/conteo y **18 fuentes/artefactos de contexto previos** conservados en hechos, IDs/T0, selección y matrices. Corpus 44 bundles/50 fuentes y salida/trabajo/evidencia 3E.8 intactos. **175 archivos/4125990959 bytes** de las salidas R1/R2 retenidos con inventarios; sin limpieza, promoción ni migración.
+- [x] **Corrección de identidad 3E.9:** regresión reproducida y corregida para handle completo reutilizado con vida física anterior; R2 exige que la vida física pertenezca a la entidad nativa actual. R1 permanece retenido.
+- [ ] **Dependencia temporal del arma tras 3E.9:** el SDK entrega `GameTick_t` como `uint32` mediante su decoder por defecto; el aplazamiento conserva `4294967294`. Falta fuente positiva del codec del wrapper, dominio/referencia temporal, composición/actualización de fracciones y sentinels por arma en la build correspondiente. No aplicar divisiones ajustadas, reinterpretaciones de signo ni fórmulas de otra build; no repetir este inventario sin nueva fuente. Un plazo del pawn vencido no acredita `can_fire`.
+- [x] **Entrega factual 3E.10:** selector `--ai-coach-support-visual-contact-candidate`, entregas tipadas de ojos/cámara/flash/scoped, coordenadas actuales y rayos internos en el mismo corte support; consumidor, materializador/lector y dos schemas: **82 schemas/19 razones**. Los schemas mantienen `flash_clear`, `smoke_clear` y `visual_contact` en `unavailable/null`; no se acredita contacto positivo ni negativo. [Contrato](canonical-support-visual-contact-v1.md).
+- [x] **Cobertura 3E.10:** **275567 entregas/89402 estados/30716 cortes**, 213897 referencias actuales de pawn; 12 vidas creadas, 2 destrucciones, 11 capturadas. **32340 anclajes/998 filas** conservados. Por rol: 32340 offsets nativos y **370 FOV de referencia observados**; 29397 dependencias de default/rango y 2573 de transición. Humo/flash/contacto: 32340 abstenciones por hecho y rol. [Informe](archive/ai-coach/AI_COACH_SUPPORT_VISUAL_CONTACT_PHASE_2026-09-12.md) y [evidencia](evidence/AI_COACH_SUPPORT_VISUAL_CONTACT_SINGLE_DEMO_SMOKE_2026-09-12.json).
+- [x] **Validación 3E.10:** `npm run check:all`, **1133 pruebas AI Coach —41 nuevas—**, seis funciones Go nuevas, Ruff, vet, módulos y contrato. Una pasada de la misma única demo después de las suites: parser **132.087 s**, canónico **403.714 s**, materializador completo **5738.573 s** y lector completo **3826.178 s**, cero errores. Recálculo independiente de **2138970 campos/1283382 componentes** y **2144 pares FOV**; **827122 rayos** recompuestos con endpoints independientes y el mismo motor de intersección. Hechos iniciales/matriz y seis controles reales correctos, invariancia futura/enemiga preservada.
+- [x] **Conservación 3E.10:** 72 artefactos canónicos iguales por hash/conteo y **nueve fuentes/once contextos previos** conservados en hechos, IDs/T0, selección y matrices. Se usan fuentes 3E.9 R2 y contextos 3E.9 R1 con procedencias originales intactas. Corpus 44 bundles/50 demos, 318 archivos previos y 40 evidencias anteriores preservados; 487 archivos funcionales iguales a la build. **95 archivos/3111724212 bytes** de salida retenidos con inventarios, sin limpieza, promoción ni migración.
+- [ ] **Dependencia de contacto visual tras 3E.10:** falta material positivo enlazado a la demo que acredite oclusión visual/materiales/transformaciones y obstáculos dinámicos, volumen evolutivo de humo y cobertura de entregas, deterioro actual por flash y FOV/óptica efectivos ante default/transición. La malla seleccionada y el ledger histórico son proxies insuficientes; ni rayo libre, duración/alpha cero o ausencia de eventos acreditan contacto o ausencia de contacto. No repetir el mismo inventario sin esa fuente; conservar geometría enemiga fuera de features.
+- [x] **Diseño 3E.11:** `support_preparation_census/0.1.0-design.1` congela C0 por corte actual y par propio/aliado, claves estables, denominadores/exclusiones y ventana de ejecución separada. Sin selección por avance futuro, distancia táctica o muerte. T0 anterior a ejecución posterior no equivale a anterior a entrada física. [Protocolo documental](ai-coach/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL.md) y [31 casos](references/support-preparation-selection-cases-v1.json); runtime conserva 82 schemas/19 razones.
+- [x] **Ensayo 3E.11:** dos selectores independientes coinciden sobre 30716 cortes retenidos, 27948 admisibles y **1117576 pares examinados/660686 seleccionados**, 199454 actor/cortes y 1040 filas de matriz. Incluye **32340/32340 anclajes anteriores**. Por rol: 597847 ventanas con cambio muestreado, **40390 sin cambio** y 22449 censuradas. No son etiquetas de espera o ausencia de entrada. Cinco prefijos, controles de enemigo/futuro/copia y contraejemplo de retroceso T0 correctos; 31 casos sintéticos, ensayo final **22.487 s**. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_2026-09-12.md) y [evidencia](evidence/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_DESIGN_2026-09-12.json).
+- [x] **Conservación 3E.11:** fase documental/de selección, **cero parses nuevos** y ninguna modificación del código funcional, schemas, catálogo, protocolo 3E.1, DecisionExample o interfaz temporal. Salida/trabajo 3E.10 y corpus 44 bundles/50 demos preservados, con nuevo trabajo temporal inventariado y retenido. No se repiten suites runtime ni smokes para un cambio documental; verificación contractual, enlaces y hashes en la evidencia.
+- [ ] **Entrada/compromiso específicos tras 3E.11:** falta una frontera espacial orientada fijada antes de seleccionar y vinculada a la demo, más fuentes temporales/de continuidad que acrediten estar antes del cruce o inicio en la resolución declarada. Una resta de muestras, cambio posicional cuantizado o futuro de muerte no lo sustituyen. Compromiso táctico exige contexto y alternativas acreditadas; no equivale a intención observada. C0 no cierra S2–S3.
+- [x] **Entrega factual 3E.12:** censo C0 optativo en `ai_coach.support.preparation`, cuatro schemas estrictos y protocolo `support_preparation_census/1.0.0-candidate.1`: **86 schemas/19 razones**. Reutiliza la captura Go sin cambios; materializa cortes/actores/exclusiones y pares JSONL, IDs estables, matriz, acceso inicial por prefijo y descriptores posteriores. [Contrato](contracts/support/canonical-support-preparation-v1.md).
+- [x] **Cobertura 3E.12:** 30716 cortes, 27948 admisibles, 1117576 pares examinados y **660686 seleccionados**, 199454 actor/cortes y 1040 filas de matriz. Conserva **32340/32340 anclajes anteriores**. Por rol: 597847 ventanas con cambio, 40390 sin cambio y 22449 censuradas; no son etiquetas de espera ni entrada. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_CENSUS_PHASE_2026-09-13.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_CENSUS_SINGLE_DEMO_SMOKE_2026-09-13.json).
+- [x] **Validación 3E.12:** `npm run check:all`, **1202 pruebas AI Coach —69 nuevas—**, Ruff y contrato. Una pasada de la misma demo después de las suites: parser **111.966 s**, materializador **849.209 s**, lector **862.538 s**; canónico sin errores. Recálculo independiente de todos los cortes/pares, 3964116 componentes XYZ, **1321372 descriptores posteriores**, IDs, referencias y matriz. Cinco prefijos de selección y controles reales de features/enemigos/futuro/copia correctos.
+- [x] **Conservación 3E.12:** 72 artefactos canónicos iguales por hash/conteo; observaciones support idénticas salvo build/manifest de procedencia y anclajes anteriores iguales en filas, selección, matriz y resumen. Corpus 44 bundles/50 demos y 202 archivos temporales anteriores preservados. Salida nueva de **79 archivos/1757279216 bytes** retenida e inventariada, sin cambios durante el lector, limpieza, promoción ni migración.
+- [x] **Entrega factual 3E.13:** contexto físico C0 optativo, materializador/lector y dos schemas estrictos: **88 schemas/19 razones**. Conserva **30716 cortes, 199454 actor/cortes y 660686 candidatos**, IDs/T0, exclusiones y ejecución. Une hechos 3E.2 exactos y velocidad media sólo con continuidad; primera muestra mantiene ausencia. [Contrato](contracts/support/canonical-support-preparation-physical-v1.md).
+- [x] **Validación 3E.13:** `npm run check:all`, **1252 pruebas AI Coach —50 nuevas—**, Ruff y contrato; una pasada de la misma demo a TEMP nuevo. Recálculo independiente de 1396178 hechos, 597525 componentes de velocidad y 1040 filas de matriz; controles de prefijo/enemigo/futuro/copia, munición/señal y replay. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_PHYSICAL_CONTEXT_PHASE_2026-09-14.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_PHYSICAL_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-14.json).
+- [x] **Conservación 3E.13:** 72 artefactos canónicos iguales por hash/conteo, 32340/32340 anclajes y contexto físico anterior recompuestos; C0 previo leído completo y preservado, 44 bundles/50 demos y 321 archivos previos inventariados sin cambios. Salida TEMP nueva retenida, sin limpieza, promoción ni migración. Cero decisiones elegibles; S2–S3 no cerrados.
+- [x] **Entrega factual 3E.14:** contexto objetivo C0 optativo, materializador/lector y dos schemas estrictos: **90 schemas/19 razones**. Une los siete hechos públicos y los tres por actor de 3E.4 con entrega/vida/handle/prefijo exactos. Conserva **30716 cortes, 199454 actor/cortes y 660686 candidatos**, IDs/T0, exclusiones, ejecución y contexto físico. [Contrato](contracts/support/canonical-support-preparation-objective-v1.md).
+- [x] **Validación 3E.14:** `npm run check:all`, **1306 pruebas AI Coach —54 nuevas—**, Ruff y contrato; una sola pasada de la misma demo a TEMP nuevo. Recálculo independiente de 192430 hechos globales y 598362 hechos de actor, más 1040 filas de matriz, controles de prefijo/futuro/enemigo/copia y lector completo. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CONTEXT_PHASE_2026-09-14.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-14.json).
+- [x] **Conservación 3E.14:** 72 artefactos canónicos iguales por hash/conteo; fuentes support/física/objetivo iguales a controles anteriores. C0 previo completo y contexto físico leídos, con 1396178 hechos físicos y 597525 componentes XYZ recalculados. 44 bundles/50 demos y 404 archivos previos conservados; TEMP retenido sin limpieza/promoción/migración. Cero decisiones elegibles; S2–S3 no cerrados.
+- [x] **Entrega factual 3E.15:** tenencia C4 C0 optativa, materializador/lector y dos schemas estrictos: **92 schemas/19 razones**. Reutiliza 3E.5 con inventario/propietario, corte/estado/objetivo y vida/handle exactos. Conserva **30716 cortes, 199454 actor/cortes y 660686 candidatos**, contexto físico/objetivo, IDs/T0, exclusiones y ejecución. [Contrato](contracts/support/canonical-support-preparation-c4-v1.md).
+- [x] **Validación 3E.15:** `npm run check:all`, **1378 pruebas AI Coach —72 nuevas—**, Ruff y contrato; una sola pasada de la misma demo a TEMP nuevo. Recálculo independiente de 598362 hechos C4, 35742 componentes XYZ del portador y 1040 filas de matriz; lector completo y controles de prefijo/futuro/enemigo/copia. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_C4_CONTEXT_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_C4_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.15:** 72 artefactos canónicos iguales por hash/conteo; fuentes support/física/objetivo/C4 iguales a controles previos. C0 completo y contextos físico/objetivo leídos y recalculados independientemente. 44 bundles/50 demos y 486 archivos previos conservados; TEMP retenido sin limpieza/promoción/migración. Cero decisiones elegibles; S2–S3 no cerrados.
+- [x] **Entrega factual 3E.16:** relojes causales C0 optativos, materializador/lector y dos schemas: **94 schemas/19 razones**. Reutiliza 3E.6 sin modificar Go; exige entrega exacta, vida/handle/estado, origen temporal, tipos/dominio/intervalo y pausas acreditados. Conserva 30716 cortes, 199454 actor/cortes, 660686 candidatos y los contextos previos. [Contrato](contracts/support/canonical-support-preparation-objective-clock-v1.md).
+- [x] **Validación 3E.16:** `npm run check:all`, **1455 pruebas AI Coach —77 nuevas—**, Ruff y contrato. Una pasada de la misma demo en TEMP nuevo; lector completo y 1994540 hechos recalculados independientemente, 25 orígenes, 1040 filas de matriz y controles reales de prefijo/futuro/enemigo/copia. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CLOCK_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CLOCK_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.16:** 72 artefactos canónicos iguales; C0 físico/objetivo/C4 y ejecución leídos y recalculados frente a las fuentes nuevas. 44 bundles/50 demos y 569 archivos previos conservados; TEMP retenido sin limpieza/promoción/migración. Cero decisiones elegibles; S2–S3 abiertos.
+- [x] **Entrega factual 3E.17:** origen/duración/tiempo transcurrido/progreso de plantado unidos a C0, con materializador/lector y dos schemas: **96 schemas/19 razones**. Reutiliza 3E.6B sin cambios Go; exige transición y deadline nativos, origen temporal causal, continuidad de cada frame y de actor/lado/pawn C0. Conserva todos los candidatos C0 y sus cuatro contextos previos. [Contrato](contracts/support/canonical-support-preparation-attempt-origin-v1.md).
+- [x] **Validación 3E.17:** `npm run check:all`, **1523 pruebas AI Coach —68 nuevas—**, Ruff y contrato. Una pasada nueva de la misma demo a otro TEMP después de suites; lector completo y auditoría independiente de 797816 hechos/estados, 550 duraciones/tiempos/progresos, 11 orígenes y 1040 filas de matriz. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_ATTEMPT_ORIGIN_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_ATTEMPT_ORIGIN_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.17:** 72 artefactos canónicos iguales; C0 físico/objetivo/C4/reloj y ejecución leídos/recalculados con la fuente nueva; 44 bundles/50 demos y 653 archivos previos intactos. TEMP retenidos; sin limpieza/promoción/migración. Cero decisiones elegibles; S2–S3 abiertos. Segunda fase cerrada después de 3E.16; no ejecutar una tercera dentro del bloque.
+- [x] **Entrega factual 3E.18:** posición/estado/disponibilidad legal del objetivo unidos a C0, con materializador/lector y dos schemas: **98 schemas/19 razones**. Reutiliza 3E.7 sin cambios Go; exige geometría mundial y prueba legal actual o de plantado, continuidad desde origen y recorte exacto de seis fuentes. Conserva C0 y sus cinco contextos previos. [Contrato](contracts/support/canonical-support-preparation-objective-position-v1.md).
+- [x] **Validación 3E.18:** `npm run check:all`, **1581 pruebas AI Coach —58 nuevas—**, Ruff y contrato. Una pasada nueva de la misma demo tras suites; lector completo y auditoría independiente de 598362 hechos/estados, 4131 posiciones legales, 11 plantados y 1040 filas de matriz. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_POSITION_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_POSITION_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.18:** 72 artefactos canónicos iguales; cinco contextos C0 previos y ejecución recalculados frente a la captura nueva. 44 bundles/50 demos y 738 archivos previos intactos. Salidas/inventarios retenidos; sin limpieza/promoción/migración. Cero decisiones elegibles; S2–S3 abiertos.
+- [x] **Entrega factual 3E.19:** seis hechos de movimiento nativo unidos al corte C0 exacto, con materializador/lector y dos schemas: **100 schemas/19 razones**. Captura 3E.8 intacta; prefijos exactos y continuidad actor/lado/pawn/vida nativa/handle/serie/instancia/época. Conserva C0 y seis contextos previos. [Contrato](contracts/support/canonical-support-preparation-native-motion-v1.md).
+- [x] **Validación 3E.19:** `npm run check:all`, **1665 pruebas AI Coach —84 nuevas—**, Ruff del alcance y contrato. Dos pasadas de la misma demo; R2 final tras corrección del patrón de motivo C0 y nuevas suites; lector y recálculo independiente de 1196724 hechos, 183842 contactos positivos/15302 negativos por actor-corte, códigos nativos y 1040 filas de matriz. Velocidad instantánea real ausente. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_NATIVE_MOTION_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_NATIVE_MOTION_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.19:** 72 artefactos canónicos iguales; seis contextos C0 y ejecución recalculados frente a captura nueva. 44 bundles/50 demos y 906 archivos previos intactos. TEMP/inventarios retenidos; sin limpieza/promoción/migración. S2–S3 abiertos y cero decisiones elegibles. Segunda fase cerrada; tercera no ejecutada.
+- [x] **Entrega factual 3E.20:** ocho hechos de temporización nativa unidos a C0, con acceso inicial/materializador/lector y dos schemas: **102 schemas/19 razones**. Captura 3E.9 intacta; siete prefijos exactos, reloj causal, identidad/vida/serie/propiedad y físico actual; conserva C0 y siete contextos. [Contrato](contracts/support/canonical-support-preparation-weapon-timing-v1.md).
+- [x] **Validación 3E.20:** `npm run check:all`, **1759 pruebas AI Coach, 94 nuevas**, Ruff del alcance y contrato. Una pasada de la demo aprobada a TEMP nuevo, materializador/lector y recálculo de 1595632 hechos/abstenciones; 193225 plazos numéricos; estados {"elapsed": 152161, "pending": 41064}; 1040 filas de matriz. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_WEAPON_TIMING_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_WEAPON_TIMING_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.20:** siete contextos y ejecución recalculados, 72 artefactos canónicos iguales; 44 bundles/50 demos y 993 archivos previos intactos. TEMP/inventarios retenidos. S2–S3 abiertos y cero decisiones elegibles. Primera fase del bloque cerrada antes de la segunda.
+- [x] **Entrega factual 3E.21:** cinco hechos visuales unidos a C0, acceso inicial/materializador/lector y dos schemas: **104 schemas/19 razones**. Captura/verificador 3E.10 intactos; tres prefijos exactos, pawn/vida/serie/continuidad y diagnóstico interno separado. Conserva C0 y ocho contextos. [Contrato](contracts/support/canonical-support-preparation-visual-contact-v1.md).
+- [x] **Validación 3E.21:** `npm run check:all`, **1840 pruebas AI Coach, 81 nuevas**, Ruff del alcance y contrato. Una nueva pasada de la misma demo a otro TEMP; materializador/lector y recálculo de 997270 hechos/abstenciones; 199423 offsets y 3625 FOV por actor-corte, 1040 filas de matriz. 827122 segmentos comprobados, cero discrepancias; motor compartido no acredita suficiencia visual. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_PHASE_2026-09-15.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_SINGLE_DEMO_SMOKE_2026-09-15.json).
+- [x] **Conservación 3E.21:** ocho contextos y ejecución recalculados; 72 artefactos canónicos iguales; 44 bundles/50 demos y 1081 archivos previos intactos. TEMP/inventarios retenidos. S2–S3 abiertos y cero decisiones elegibles. Segunda fase cerrada; tercera preparada y no ejecutada.
+- [x] **Análisis 3E.22:** lectura de C0 y sus nueve contextos originales, sin productor/demo/rematerialización ni cambio runtime. 810 archivos contrastados contra sus inventarios históricos; fuentes/protocolos/builds conservados por separado. Igualdad completa del contenido support y unión exacta de 30.716 cortes, 199.454 actor-cortes y 660.686 candidatos. [Informe](archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_PHASE_2026-09-16.md) y [evidencia](evidence/AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_AUDIT_2026-09-16.json).
+- [x] **Cobertura y verificación 3E.22:** 10.400 filas de matriz recompuestas; 57 componentes, 42 patrones conjuntos por actor-corte y 166 por par. Segunda vía: 168 contrastes agregados y 660.686 IDs únicos recalculados. FOV de referencia en ambos roles: 214 candidatos; coincidencia con físico básico completo: 24. Posición legal: 4.131 actor-cortes, cero candidatos con ambos roles disponibles. Ninguna intersección acredita elegibilidad. Se conservan 40.390 ventanas sin cambio y 22.449 censuras por rol.
+- [x] **Conservación y cierre 3E.22:** 1.170 archivos previos por SHA-256 intactos; corpus de 44 bundles/50 demos, 4.356 metadatos y 181 hashes seleccionados sin cambios. TEMP nuevo, scripts/resultados/inventario/sello retenidos. Contrato, enlaces y prompt único verificados; producto, interfaz, catálogo y runtime intactos. Sin suites funcionales ni smoke nuevo en esta acción documental prescrita.
+- [ ] **Continuación dependiente bloqueada:** no se halló defecto funcional ni fuente nueva que justifique otra extensión. Recibir material positivo verificable para uno de los requisitos de la [matriz de dependencias S2–S3](ai-coach/AI_COACH_SUPPORT_C0_DEPENDENCIES.md), comprobarlo y acotar la intervención antes de implementar. Para anterioridad S2 faltan frontera orientada previa, vínculo demo–geometría/transformaciones y prueba temporal suficiente. Segunda fase del bloque no iniciada/completada; no se inventa alcance para rellenarla. S2–S3 permanecen abiertos.
 
----
 
-## 18. Criterios para escalar
+### Base factual y contratos
 
-### Descargar más demos
+- [ ] Cerrar protección e inventario del corpus antes de cualquier lote: fuentes, checksums, exclusiones, backups, releases, retención y rollback. El inventario existente no acredita por sí solo toda la política de protección.
+- [ ] Mantener Go de StratAI como productor canónico; verificar y retirar la dependencia del extractor legado de `Faceit-Demos` cuando se migre, sin crear dos fuentes de verdad.
+- [ ] Auditar por capacidad la presencia conjunta de hechos en **cada oportunidad**, su tiempo de disponibilidad, procedencia, resolución y soporte. `TaskEligibility@1` es un resumen agregado; que haya algún valor en una partida no habilita cada fila ni una prescripción.
+- [ ] Materializar los candidatos necesarios con versiones, lectores, schemas, validadores y pruebas compatibles. Preservar el significado histórico de `3.8.0`, incluido `enemy_los`; decidir y documentar expresamente cualquier nueva versión.
+- [ ] Resolver por separado cobertura temporal en T0 y cobertura espacial. Evaluar cálculo en T0 o muestreo adecuado antes de subir todos los streams a 16 Hz. No rellenar huecos con el futuro, otro lugar o una muestra arrastrada sin contrato causal válido.
+- [ ] Conservar ausencia física, dato ausente y juicio táctico incierto como estados distintos. Los paquetes espaciales parciales de ocho muestras no cubren Mirage entero.
+- [ ] Separar línea geométrica despejada de contacto visual, camino NAV de trayecto seguro y ETA física de tiempo real entre combates. No mostrar al jugador segundos exactos que la evidencia no sostiene.
+- [ ] Probar invariancia de features cuando cambia información posterior a T0. Excluir IDs de identidad como atajo, datos oracle y desenlaces de las entradas del recomendador.
+- [ ] Validar selección de episodios, arma/movimiento/contacto, utilidad e información antigua sólo con su resolución acreditada. La demo no registra automáticamente atención, intención, todas las teclas ni comunicaciones externas.
 
-Solo si:
+### Ejemplos, etiquetas y pruebas
 
-- el pipeline actual pasa sus gates;
-- las curvas de aprendizaje siguen mejorando;
-- conocemos la cohorte que falta;
-- existe capacidad de almacenamiento y reprocesado.
+- [ ] Revisar los anclajes de decisión: un ejemplo en `DeathTick` no representa automáticamente la elección anterior de apoyar. Una respuesta posterior a una baja necesita su propio T0 y acciones correspondientes.
+- [ ] Muestrear oportunidades con y sin evento final; incluir acciones positivas y abstenciones. No construir toda la evidencia de errores a partir de muertes o highlights.
+- [ ] Reconstruir y validar también la acción observada. Si no pasa el filtro físico, bloquear el ejemplo y revisar extracción. Sus resultados posteriores pueden ser etiquetas; no proporcionan parámetros futuros a alternativas hipotéticas.
+- [ ] Separar hechos disponibles, resultados observados, preferencias tácticas humanas y práctica/progreso. Registrar horizonte, censura, soporte y versión; una preferencia experta no es un futuro alternativo observado.
+- [ ] Separar desarrollo, calibración y test por partidas, con evaluación temporal y de jugadores nuevos; medir dependencia por equipos y jugadores compartidos sin suponer independencia por fila.
+- [ ] Ajustar referencias, normalización, recuperación de casos, perfiles, calibradores y umbrales sólo con el pasado y el conjunto permitido. El test no selecciona adquisiciones, prompts ni umbrales.
+- [ ] Considerar la demo repetida en smokes como desarrollo. Un test usado adaptativamente para elegir versiones deja de ser test final sellado; definir su renovación antes de promover.
 
-### Añadir un pequeño modelo temporal
+### Migración y adquisición condicionadas
 
-Solo si:
+- [ ] Formalizar registro golden, lineage, validadores, tests y release antes de migrar. El histórico `golden-demos-v2` —296 bundles cuyas fuentes se retiraron— no se restaura automáticamente ni se sustituye en silencio.
+- [ ] Proponer y autorizar una migración aislada **44/44** sólo cuando estén listos los productores y contratos afectados; validar conteos, semántica, hashes y lectura antes de cualquier promoción. El smoke de una demo no la sustituye.
+- [ ] Medir déficits por familia, acción, contexto, nivel y jugador. El recolector actual —cinco semillas del top europeo y diez partidas de primera página— no representa la población objetivo.
+- [ ] Diseñar subconjuntos general, experto, longitudinal y de evaluación, con selección persistente, deduplicación, checksums, cuarentena, privacidad, términos aplicables, retención y coste. No almacenar tokens en manifests.
+- [ ] Adquirir únicamente tras Gates 0, 1A, 1B, 2 y 3, y un conjunto inicial de comparación táctica y test bloqueado de Gate 4. Proponer lotes de hasta 100 según déficit; no hay obligación de llegar primero a 300 demos ni de descargar miles.
+- [ ] Separar coaching personal de reutilización global: consentimiento y retirada, anonimización y versionado para esta última. El chat no es automáticamente memoria factual ni dato de entrenamiento.
 
-- el tabular tiene un error atribuible a secuencia;
-- las ventanas contienen señal suficiente;
-- supera al baseline en test y piloto;
-- sigue siendo mantenible por dos personas.
+## 5. Pasos 4–6: prototipo, revisión y automatización
 
-### Añadir embeddings de jugador
+### Prototipo completo
 
-Solo si:
+- [ ] Conectar observador, especialistas, comparador, memoria previa, planificador de práctica y explicación dentro de la arquitectura existente. No se requieren seis servicios nuevos.
+- [ ] Empezar por reglas, cálculos y casos revisados. Para cada consejo conservar alternativa parametrizada, filtro de viabilidad, ventajas, costes, incertidumbre y opción de equivalencia o abstención.
+- [ ] Usar el historial estrictamente anterior para estimar capacidad de ejecución **antes de comparar**; agrupar recurrencias y priorizar después. Actualizar la memoria al cerrar la partida, sin convertir esa misma partida en su pasado.
+- [ ] Entregar Evidence Pack y referencia de replay: hechos de T0, alternativas, filtros, comparaciones, fuentes, resultado observado separado y misión asociada. El LLM explica y usa herramientas; no inventa la decisión ni cambia una abstención.
+- [ ] Permitir contexto aportado por el usuario con procedencia explícita. Si cambia una premisa, revisar el análisis; no aceptar una afirmación como hecho de demo sin verificar.
+- [ ] Mostrar fortalezas respaldadas y como máximo las correcciones del contrato de producto, centrando la práctica en una o dos prioridades. Distinguir ejecución de decisión y agrupar causas para evitar consejos repetidos.
 
-- hay suficiente historial longitudinal;
-- superan al perfil regularizado;
-- generalizan a jugadores nuevos;
-- no memorizan identidad.
+### Revisión humana y pilotos
 
-### Investigar offline RL o world models
+- [ ] Construir un nuevo instrumento de decisiones completas: información legal hasta T0, acción observada y alternativas viables, sin mostrar primero desenlace, identidad del sistema ni orden sesgado de opciones.
+- [ ] Permitir preferencia, equivalencia, rechazo de todas y contexto insuficiente, con razones y confianza. En una parte del lote pedir propuestas antes de mostrar candidatas para medir omisiones del generador.
+- [ ] Para entrenamiento, revisión inicial con control de calidad; para calibración/test, dos revisores ciegos, al menos uno independiente externo. Un tercero distinto adjudica conflictos; conservar el desacuerdo legítimo.
+- [ ] Separar diseño asistido y exploración privada de la aprobación formal de consejos. La participación de coaches no permite dispensar hechos críticos ni presentar candidatos no evaluados como errores seguros.
+- [ ] Revisar casos dudosos y una muestra aleatoria de control para evitar aprender sólo de los fallos seleccionados. Las respuestas no actualizan modelos en producción automáticamente.
 
-No antes de:
+### Automatización que debe ganarse su lugar
 
-- miles de partidas diversas;
-- acción y belief state estables;
-- cobertura contrafactual medida;
-- ranking conservador validado;
-- evaluación humana y OPE fiables;
-- presupuesto y equipo ampliados.
+- [ ] Comparar primero reglas, frecuencias y regresión regularizada; probar modelos tabulares o de preferencias sólo con datos y autorización suficientes. Mantener una fórmula de comparación auditable como referencia.
+- [ ] Evaluar consecuencias por separado: objetivo, supervivencia, daño, apoyo, espacio, recursos, tiempo y dificultad. Ganar o imitar a expertos no demuestra por sí solo calidad de decisión.
+- [ ] Declarar soporte por acción, partidas y jugadores. Como mínimo inicial de evaluación estadística conservar 200 decisiones, 30 partidas y ESS de 100 por acción; especificar cómo se calcula ESS y su unidad, sin confundirlo con filas ni tratar el mínimo como suficiencia causal.
+- [ ] Comparar en datos separados con intervalos agrupados por partida y sensibilidad por jugador. Para promover un modelo, la mejora relevante frente a la referencia debe tener intervalo del 95 % que excluya cero y mantener calidad, cobertura y coste.
+- [ ] Exigir ECE <= 0,05 en la probabilidad primaria y <= 0,10 en cortes con al menos 100 ejemplos; revisar diagramas de calibración, Brier/log loss y abstener o recalibrar fuera de soporte. Esto no calibra una mejora causal individual.
+- [ ] Probar un modelo temporal pequeño sólo si el orden de contactos o movimientos aporta mejora estable. CPU inicialmente; GPU y arquitecturas mayores necesitan una comparación medida.
+- [ ] Mantener límites de la observación: ni la ausencia de fuga futura ni una evaluación off-policy prueban qué habría ocurrido al cambiar una jugada. No presentar diferencias estimadas como efecto causal demostrado.
 
----
+## 6. Pasos 7–8: progreso personal, Mirage integral y expansión
 
-## 19. Primer backlog ejecutable
+- [ ] Instrumentar desde el prototipo objetivo, habilidad, razón, dificultad, práctica propuesta, cumplimiento declarado/verificado y oportunidades posteriores. No esperar a entrenar todos los especialistas para empezar a seguir al jugador.
+- [ ] Medir conductas por oportunidad comparable, con volumen e incertidumbre. Si no aparece la situación, el resultado es «sin oportunidad», no misión fallida ni mejora demostrada.
+- [ ] Comparar ejecución inicial, aplicación posterior, retención y transferencia. Ajustar misiones por dificultad, carga, preferencias y respuesta; distinguir completar práctica de aprender.
+- [ ] Congelar antes del piloto de eficacia cómo se medirá el efecto de la práctica, incluyendo comparación apropiada, exposición real y factores alternativos. La mejoría posterior sin ese diseño sólo acredita asociación.
+- [ ] Validar el perfil frente a priorización genérica sin personalización, con historial legal y soporte suficiente. No crear un modelo global nuevo por cada jugador.
+- [ ] Completar economía, posición, rotación, apoyo, duelos, movimiento, mira, disparo, utilidad, objetivo/tiempo y evaluación longitudinal según el catálogo. Todas las familias deben estar diseñadas y evaluadas; una abstención por caso no justifica omitir una familia entera.
+- [ ] Superar Gate 9B para Mirage antes de ampliar la promesa pública. Elegir después el siguiente mapa con paquete espacial, datos, cobertura, pruebas de transferencia y evaluación por familia propios.
 
-Orden exacto para comenzar:
+## 7. Condiciones de avance y calidad
 
-1. [x] Cerrar e inventariar el smoke limpio de 50 demos Mirage: 44 aprobadas y seis exclusiones seguras.
-2. [x] Corregir la definición del producto y este plan para separar vertical técnico de coach integral.
-3. [x] Crear el contrato humano integral de capacidades y datos.
-4. [x] Crear el catálogo legible por máquinas con decisiones, acciones, outcomes y elegibilidad por familia.
-5. [x] Trazar el flujo real de cada dato desde Go hasta Python, servicios y futura recomendación.
-6. [x] Construir la matriz campo→procedencia→partición→cobertura→consumidor para todas las familias.
-7. [x] Auditar cuantitativamente los 44 bundles sin modificarlos: presencia, nulos, frecuencia, unidades y ejemplos.
-8. [x] Verificar en la versión concreta de demoinfocs qué hechos existen directamente y cuáles debe derivar o clasificar StratAI.
-9. [x] Congelar unidad de decisión, taxonomía de acciones y reglas para no duplicar ticks del mismo evento.
-10. [x] Congelar outcomes y ground truth por familia, incluida revisión humana e incertidumbre.
-11. [x] Definir el contrato de `task_eligibility` y dejar explícito que el `usable_for_training` global actual no autoriza todas las tareas.
-12. [x] Separar el backlog en carencias de Go, derivaciones Python, clasificación espacial, modelos y producto.
-13. [ ] Construir el contrato ejecutable y el constructor read-only de `DecisionExample`/`TaskEligibility`; recorrer 44/44 sin crear un dataset de entrenamiento.
-14. [ ] Implementar únicamente los hechos objetivos ausentes con el cambio mínimo, elegidos según los blockers medidos en el paso 13.
-15. [ ] Añadir pruebas positivas, negativas, `unavailable`, causalidad, determinismo y schema.
-16. [ ] Construir una nueva release inmutable del procesador cuando los cambios pasen las pruebas.
-17. [ ] Reprocesar las 44 demos una a una en una ubicación nueva y aislada; no sustituir resultados válidos.
-18. [ ] Validar por familia, revisar regresiones y promover el golden activo de Mirage solo después de la migración contractual de lineage/validador/tests/release.
-19. [ ] Construir el generador común de datasets Python y una tabla independiente por especialista.
-20. [ ] Crear el conjunto humano versionado, primero para el vertical y después para todas las familias.
-21. [ ] Diseñar el plan de corpus FACEIT según déficits medidos de cobertura y acciones.
-22. [ ] Descargar en lotes acotados solo después de los gates y conservar manifests de adquisición.
-23. [ ] Reconstruir, auditar y congelar el dataset ampliado antes de cualquier entrenamiento.
-24. [ ] Comparar reglas, frecuencia contextual, regresión y CatBoost por especialista; calibrar y abstenerse.
-25. [ ] Construir situaciones similares, alternativas viables y ranking conservador común.
-26. [ ] Integrar perfil regularizado, Evidence Pack, LLM explicador, interfaz y pilotos 9A/9B.
-27. [ ] Repetir geometría, corpus, modelos y gates mapa por mapa.
+Los IDs históricos se conservan para interpretar contratos e informes. **Su numeración no obliga a posponer memoria o misiones hasta después de entrenar.** Cada capacidad necesita tres comprobaciones separadas: hechos elegibles por oportunidad, soporte para comparar sus acciones y aprobación de su uso prescriptivo.
 
-### Dependencias técnicas verificadas en Gate 1A
+| Gate | Qué exige | Estado actual |
+|---|---|---|
+| 0 — Protección | Inventario, fuentes, backups, retención y permisos de operación. | Inventario disponible; protección completa pendiente |
+| 1A — Contrato | Capacidades, datos, acciones, resultados y compatibilidad versionados. | Base histórica cerrada; extensiones de perfil/práctica y nuevas migraciones pendientes |
+| 1B — Hechos | Causalidad, disponibilidad, cobertura, materialización y validación factual por capacidad. | Pendiente; candidatos parciales; limpieza 1B.12 cerrada |
+| 2 — Adquisición | Plan de déficits y lotes con selección, deduplicación, privacidad y coste. | Pendiente; sin nueva adquisición |
+| 3 — Dataset | Lineage completo, aislamiento de futuro/oracle, ejemplos reconstruibles y splits sin fuga. | Constructor y auditoría parciales; no habilita entrenamiento |
+| 4 — Comparaciones humanas | Alternativas válidas, rúbrica, respuestas reales y test inicial bloqueado. | Pendiente; formularios espaciales v1/v2 no sirven como ground truth táctico |
+| 5 — Modelos, si aportan | Mejora frente a referencia, soporte, calibración, estabilidad y coste. | Pendiente; se omite entrenamiento en capacidades resueltas con reglas evaluadas |
+| 6 — Comparador | Alternativa viable y mejor respaldada en cada prescripción; equivalencia/abstención y prioridades auditables. | Pendiente |
+| 7 — Perfil y práctica | Historial previo, misiones trazables y seguimiento por oportunidad. | Pendiente; se construye desde el prototipo |
+| 8 — Evidencia y conversación | Replay, explicación fiel, herramientas y límites verificables. | Pendiente |
+| 9A — Validación acotada | Calidad formal del alcance concreto del piloto; sin extrapolar a todo Mirage. | Pendiente; exploración asistida no equivale a promoción |
+| 9B — Mirage integral | Todas las familias evaluadas más personalización, práctica y uso longitudinal. | Pendiente |
 
-Esta tabla conserva el diagnóstico detallado sin crear una segunda lista de progreso. El orden autorizado continúa siendo el numerado arriba.
+### Umbrales iniciales de promoción
 
-| Área | Cambio necesario | Riesgo que evita | Prueba o gate | Reproceso |
-| --- | --- | --- | --- | --- |
-| Contratos Python | Congelar `DecisionExample`, outcomes, elegibilidad y referencias mínimas | Fuga y deriva semántica | Schemas, IDs, referencias y compatibilidad | No |
-| Dataset read-only | Resolver manifests y joins en T0 por streaming | Join erróneo o futuro | 44 manifests, ausente, duplicado e invariancia | No |
-| `TaskEligibility` | Reason codes y campos ausentes por capacidad | Entrenar filas inválidas | Fixture por blocker y separación oracle | No |
-| Percepción Go | Ledger observed con raycast, FOV, humo/flash, last-known y edad | Confundir geometría con percepción | Fixtures FOV/humo, no-oracle y determinismo | Sí, a destino nuevo |
-| Arma a 16 Hz | Ammo, reserva, reload, procedencia y sentinel normalizado | Ceros o estados de arma falsos | Reconciliación tactical/eventos | Sí, a destino nuevo |
-| Semántica espacial | Zonas, sites, chokes, cover, exposición y salidas Mirage | Etiquetas tácticas subjetivas | Cobertura del mapa y dos revisores | Asset no; materialización sí |
-| Rutas | Reachability, distancia de camino, nodos y ETA | Alternativas físicamente imposibles | Rutas bloqueadas, simetría y deadline | Por decidir |
-| Episodios | Detectores versionados, T0, final, dedup y peso | Duplicar ticks como decisiones | Positivos, negativos y boundaries | No para trade/peek |
-| Ground truth humano | Factualidad, utilidad, prudencia y adjudicación | Convertir outcome en «correcto» | Handbook, casos frecuentes y challenge | No |
-| Golden y lineage | Migración versionada desde la referencia anterior | Mezclar schemas o reinterpretar 3.8.0 | Dry-run, checksums y rollback | Sí cuando se autorice |
-| Candidatos | Generadores deterministas y filtro físico | Recomendar acciones imposibles | Acción observada incluida y property tests | No |
-| Utilidad | Inventario, trayectoria, efecto e initial velocity | Reconstrucción de granada falsa | Reconciliación y missing explícito | Probablemente |
-| Economía | Snapshot freeze, compras/drops y legalidad | Valor o side incorrectos | Sumas, precio, reglas y boundary | No si basta el canónico |
-| Objetivo | Plant/defuse/tap/retake/save, kit, ruta y deadline | Fase o reloj incorrectos | Lifecycle, kit, reachability y censoring | No si bastan rutas |
-| Outcomes | Horizontes, censoring y proxies de espacio/control | Presentar proxy como verdad | Límites, oracle-only y no round-win shortcut | No |
-| Perfil | Historia estrictamente anterior, identidad y privacidad | Fuga temporal o identidad mezclada | Strict-before, colisión y abstención | No |
-| Evaluación/modelos | Reglas, frecuencia y regresión con splits agrupados | Evaluación optimista | Leakage, soporte, ESS, calibración y OOD | No |
-| Ranking/Evidence Pack | Margen de equivalencia, abstención y LLM aislado | Sobreconfianza o texto inventado | Thresholds, candidatos cercanos y fidelidad | No |
-| Adquisición | Diversidad, dedupe, licencia, privacidad y cobertura | Sesgo, coste y duplicados | Acquisition manifest y cuotas | Sí |
-| Training/serving | Challengers, revisión humana, cards, shadow y rollback | Publicar consejo inseguro | Todos los gates y autorización explícita | Usa corpus nuevo |
+Estos compromisos se conservan del plan anterior. Cualquier cambio debe justificarse y congelarse **antes** de mirar el test final; el paso 2 debe concretar definiciones, unidades e intervalos para su alcance. El pequeño lote de diseño no permite declarar estos umbrales cumplidos.
 
-### Próxima acción concreta
+| Medida | Condición inicial |
+|---|---|
+| Revisión por familia frecuente | Al menos 100 casos prescriptivos; dos revisores ciegos, uno externo. Familias raras: tamaño justificado y conjunto de abstención. |
+| Fidelidad factual y del replay | >= 95 %; cero uso de información oracle o futura. Toda alternativa publicada pasa el filtro físico. |
+| Correcciones válidas | >= 80 %, con límite inferior del intervalo del 95 % >= 70 %. |
+| Ejecutabilidad contextual humana | >= 85 %, con límite inferior >= 75 %. No sustituye el requisito físico del 100 %. |
+| Preferencia frente a referencia | > 60 %, con límite inferior > 50 %. |
+| Cobertura | Al menos 20 % de partidas elegibles con un hallazgo de confianza alta; declarar también cobertura y abstención por oportunidad. |
+| Abstención | >= 90 % en un conjunto de al menos 50 casos por familia cuya respuesta esperada sea abstenerse por falta de soporte o información. |
+| Acciones positivas | >= 90 % correctas según revisión. |
+| Utilidad percibida | >= 70 % de usuarios del piloto considera al menos un consejo útil y accionable; informar tamaño de muestra y límites. |
+| Latencia inicial | Inferencia CPU p95 <= 2 minutos desde bundle disponible. Medir por separado extracción y tiempo humano. |
+| Coste inicial | Resumen <= 0,10 EUR por partida y límite mensual fijado antes del piloto; chat, revisión, extracción y almacenamiento se contabilizan aparte. |
 
-Ejecutar el paso 13 mediante el [prompt vigente de Fase 1B.1](./prompts/AI_COACH_DECISION_DATASET_CONTRACT_PHASE_PROMPT.md): crear contratos de `DecisionExample`/`TaskEligibility`, unir las dos familias actuales contra observed T0 y medir blockers en los 44 bundles. No entrena, no descarga, no reprocesa ni modifica Go; entrega la evidencia necesaria antes de elegir el primer hecho objetivo que falte.
+Los intervalos no tratarán filas correlacionadas como muestras independientes: agrupación por partida y análisis de sensibilidad por jugador. La calibración probabilística se aplica a resultados observables definidos, no a un supuesto delta causal individual.
 
----
+Gate 9B conserva como orientación un panel de 10–20 jugadores con al menos 5 partidas cada uno y un núcleo de al menos 6 jugadores con 15–20 partidas. Al menos 4 de esos 6 deben preferir la priorización personalizada en comparación ciega, sin caída de exactitud superior a 5 puntos porcentuales frente a la referencia global. Al menos el 60 % de los participantes invitados debe enviar una partida posterior durante el piloto integral. Estos tamaños no prueban por sí solos eficacia. Antes de afirmar aprendizaje se añade y congela la evaluación de práctica, retención y transferencia del paso 7.
 
-## 20. Definiciones de terminado
+## 8. Recursos, responsabilidades y coste
 
-### 20.1 Vertical técnico
+| Responsable | Trabajo principal |
+|---|---|
+| Persona A | Productores, contratos, datos, causalidad, comparaciones y evaluación automática. |
+| Persona B | Flujo de usuario, memoria, práctica, evidencia, conversación y seguimiento del piloto. |
+| Ambos y coaches | Selección de situaciones, rúbricas, revisión de consejos, priorización e interpretación de progreso. |
 
-El vertical de las dos primeras familias se considera promovible para pruebas controladas cuando:
+El anterior techo de 1.000 EUR deja de regir la planificación. Se considera un escenario ampliable de **10.000 EUR de gasto externo** para validar datos y producto, excluyendo trabajo de los fundadores. No es una cotización ni una autorización para gastarlo. El paso 2 estimará opciones concretas antes de fijar partidas presupuestarias.
 
-- [ ] Go y sus datasets pasan los gates causales y espaciales.
-- [ ] El corpus, elegibilidad y splits tienen manifests reproducibles.
-- [x] Ambas familias tienen cobertura medida; peek continúa insuficiente por ausencia espacial causal.
-- [ ] Reglas, regresión y CatBoost se comparan en el mismo benchmark.
-- [ ] Cada corrección tiene una alternativa viable superior o se abstiene.
-- [ ] El ranking penaliza incertidumbre y OOD.
-- [ ] Decisión y ejecución se presentan por separado.
-- [ ] Cada finding abre evidencia correcta.
-- [ ] Pasa Gate 9A.
+Prioridad de inversión: revisión experta y jugadores, calidad y cobertura de datos, funcionamiento del prototipo y medición; después automatización demostrada. Contabilizar horas humanas, almacenamiento, extracción e inferencia. CPU es el punto de partida y GPU una opción condicionada al beneficio. No fijar fechas de entrega ni costes de escala sin medir primero revisión por caso y procesamiento por partida.
 
-Completar esta lista demuestra la arquitectura, pero no termina el producto integral.
+## 9. Verificación y disciplina de ejecución
 
-### 20.2 Coach integral de Mirage
+Para cambios funcionales usar los scripts públicos pertinentes del repositorio: `npm run lint:python`, `npm run test:python`, `npm run test:node`, `npm run test:go`, `npm run test:frontend`, `npm run build:frontend` y `npm run check:all` cuando corresponda al cierre integral. Seguir la [guía de validación](operations/ai-coach-validation.md) y los contratos de export.
 
-El producto se considera promovible cuando, además:
+Todo cierre que cambie parsing, exportadores, hechos derivados, schemas o contratos runtime exige, **después de pasar tests, exactamente una demo aprobada** hacia una salida temporal nueva, vacía y aislada. Si falla, corregir y repetir la misma partida. Comprobar antes los destinos, rechazar enlaces, escapes y sobrescrituras; fuente y 44 bundles son de sólo lectura.
 
-- [ ] El catálogo completo de la definición del producto está implementado.
-- [ ] Cada familia tiene contrato, datos, elegibilidad, baseline, modelo o regla, calibración y abstención propios.
-- [ ] Mecánica, peeks, posicionamiento, equipo, utilidad, economía, información, rotaciones, objetivo, tiempo, riesgo y clutch pasan evaluación humana.
-- [ ] Ninguna familia usa oracle o futuro como información disponible en `T0`.
-- [ ] El perfil personal usa solo historia anterior y regularización.
-- [ ] El Evidence Pack reúne especialistas sin duplicar causas ni alterar evidencia.
-- [ ] El LLM no inventa claims específicos ni decide qué acción era mejor.
-- [ ] El piloto confirma corrección, utilidad y límites por familia.
-- [ ] Pasa Gate 9B y todos sus anexos cuantitativos congelados.
-- [ ] El coste acumulado permanece bajo el límite.
-- [ ] Existe rollback de dataset, modelo, prompt y contracts.
+El smoke ejecuta el productor cambiado y valida schema, disponibilidad causal, semántica, procedencia, registros afectados no vacíos y conteos relevantes, cubriendo las variantes reales afectadas. Recalcular derivados de forma independiente cuando sea práctico. Registrar alias opacos, SHA-256, comando exacto, versiones, duración, conteos, abstenciones y hashes. Por indicación del usuario de 2026-09-08, conservar la salida TEMP inventariada sin intentar borrados ni solicitar revisión de limpieza, salvo nueva petición explícita. La retención no bloquea el cierre funcional. Un código cero no es evidencia suficiente.
 
-Hasta completar 20.1, el sistema es una herramienta de investigación. Después de 20.1 sigue siendo un vertical técnico. Solo al completar 20.2 puede presentarse como coach integral de Mirage.
+Este procedimiento no autoriza descargas, entrenamiento, reproceso 44/44, publicación, promoción, cambio de release ni `CURRENT`. La [publicación y rollback](operations/canonical-publication-rollback.md) conserva su procedimiento separado. Preservar los datos runtime y los cambios existentes del usuario, así como el [flujo de adquisición de demos](../backend/README.md#acceso-al-historial-y-descarga-de-demos).
+
+Para el paso 1, que sólo reorganiza documentación y rutas documentales de evidencia, comprobar enlaces locales, integridad del catálogo, hashes de evidencia, un único prompt activo y `git diff --check`. No corresponde repetir smokes ni suites funcionales.
+
+## 10. Próxima acción concreta
+
+La petición del 23/09 autoriza avanzar en las cinco partes del recorrido. El usuario
+acepta el [criterio provisional ICT-I2](evidence/AI_COACH_CONTEXTUAL_CRITERION_ACCEPTANCE_2026-09-23.json),
+conservado en IC19 del [Excel v9](../outputs/stratai-contextual-20260923/StratAI_Plan_del_coach_ICT_I2_v9.xlsx).
+El [cierre funcional](archive/ai-coach/AI_COACH_CONTEXTUAL_INTERPRETER_PHASE_2026-09-23.md)
+verifica secuencia completa, referencias del mapa local e interpretación automática.
+El [contrato](contracts/context/canonical-contextual-interpreter-v1.md) delimita su significado y CLI.
+K1/K2 proponen B y continuidad con posible preparación de utilidad; son desarrollo
+conocido, no evaluación independiente. No hay zonas/build, ruta ni cobertura acreditadas.
+
+La [evaluación posterior](archive/ai-coach/AI_COACH_CONTEXTUAL_MULTIMATCH_PHASE_2026-09-23.md)
+ejecuta la versión congelada en cinco capturas de desarrollo y dos partidas de
+reserva distintas. Conserva 84 episodios, predicciones, abstenciones y fichas
+neutrales. No hay respuestas humanas del lote, por lo que aciertos, errores y
+generalización quedan pendientes. No se confunde procesamiento con entrenamiento.
+
+La [auditoría de separación](archive/ai-coach/AI_COACH_CONTEXTUAL_SEPARATION_PHASE_2026-09-23.md)
+une las fechas originales por SHA-256 y contrasta las identidades de las capturas.
+R1 comparte dos jugadores con desarrollo y R2 comparte tres. Ambas son anteriores
+a la partida más reciente de desarrollo y constan en la auditoría agregada del
+27 de agosto. No acreditan generalización temporal posterior ni a jugadores nuevos.
+La exposición privada o táctica del revisor sigue desconocida; no repetir el
+inventario de estos hechos ya comprobados.
+
+El experto objeta la información de R1. Se [corrige la presentación](archive/ai-coach/AI_COACH_CONTEXTUAL_REVIEW_PRESENTATION_2026-09-23.md)
+y se conserva su respuesta literal en IC20 del
+[Excel v10](../outputs/stratai-review-presentation-20260923/StratAI_Plan_del_coach_ICT_I2_v10.xlsx).
+T1/T2/T4 están muertos; las nuevas fichas lo indican, incluyen mapa rotulado y
+tipos de utilidad listados. El export puede conservar inventario anterior:
+su vigencia no estaba acreditada en esa ficha histórica. La reparación posterior se documenta abajo. La objeción no es una etiqueta táctica ni
+una abstención correcta del detector. [R1 corregida](../outputs/stratai-review-presentation-20260923/R1.md),
+[R2 corregida](../outputs/stratai-review-presentation-20260923/R2.md).
+
+Se recibe después la [primera lectura táctica de R1](archive/ai-coach/AI_COACH_R1_EXPERT_READING_2026-09-23.md):
+dos vivos, estrategia no identificable y B como destino posible por su distribución.
+Literal en IC21 del [Excel v11](../outputs/stratai-r1-expert-review-20260923/StratAI_Plan_del_coach_ICT_I2_v11.xlsx).
+Fue registrada como revisión cualitativa, sin puntuación: el evaluador v1 no representaba
+ambos matices a la vez. El contraste v2 posterior los conserva sin convertir ir a B en preparar una entrada. No se modifica
+el detector ni se usa la respuesta como entrada. No volver a pedir esta lectura.
+
+La [reparación de inventario y revisión está cerrada](archive/ai-coach/AI_COACH_CONTEXTUAL_REVIEW_COMPLETION_2026-09-23.md).
+Lectura nativa actual, cantidades cuando se capturan y lista anterior están
+separadas. R1 confirma tipos, con cantidades desconocidas en su fuente antigua;
+R2 usa el nuevo sidecar. Las fichas recorren 65 muestras con mapa, vivos/muertos,
+recursos y C4. El contraste v2 conserva R1: estrategia indeterminada y B posible;
+la predicción congelada se abstuvo. Una revisión contrastada, sin precisión global.
+IC22 del [Excel v12](../outputs/stratai-review-completion-20260923/StratAI_Plan_del_coach_ICT_I2_v12.xlsx)
+registra el alcance técnico y conserva las respuestas previas.
+
+Se recibe la [lectura experta de R2](archive/ai-coach/AI_COACH_R2_EXPERT_READING_2026-09-24.md):
+ejecución hacia A y posible vuelta de T5 para reunirse. La muerte en medio, el
+motivo del regreso y los ejemplos de tres rivales en B/medio permanecen como
+hipótesis, no hechos. La información obtenida/transmitida por el fallecido y la
+justificación de elegir A quedan desconocidas. IC23 del
+[Excel v13](../outputs/stratai-r2-expert-review-20260924/StratAI_Plan_del_coach_ICT_I2_v13.xlsx)
+conserva el literal. La normalización representa compatibilidad con preparar
+esa ejecución. El detector congelado se abstuvo por no reconocer aproximación
+conjunta continua con C4: lectura compatible no emitida, sin ajuste de reglas.
+Hay dos lecturas humanas contrastadas, sin precisión global. La ficha R2 añade
+inventario respecto a la entrada congelada; ambos contextos quedan vinculados
+con sus límites explícitos. No volver a pedir R1/R2/K1/K2.
+
+El [diagnóstico de R2 está cerrado](archive/ai-coach/AI_COACH_R2_DETECTOR_DIAGNOSIS_2026-09-24.md).
+T1 conserva C4 y 65 muestras continuas. Se acerca ampliamente a A, pero el último
+movimiento no nulo aumenta algo su distancia. `progression()` lo excluye y la
+exigencia de que el portador avance descarta A; T2/T5 sí cumplen. T3 muerto no
+interrumpe las trayectorias de los vivos. A 0,25 s del corte final la misma regla
+propone A; después del pequeño ajuste se abstiene. Desactivar sólo ese veto en
+una prueba aislada recupera A. Fuente, detector y predicciones permanecen intactos.
+Ampliar historial por sí solo no cambia el signo final que provoca el bloqueo.
+
+**Siguiente acción única: resolver el alcance de recepción sonora antes de integrar sonido 3D.** La extracción nativa ya está implementada y auditada en la partida aprobada: 1.062 pasos —502 CT—, 2.714 mensajes sonoros de arma y 23.181 inicios SOS, sin radio explícito recuperado; `player_sound` tiene definición pero cero emisiones. [Resultado y límites](../outputs/stratai-sound-20261012/RESULTADO.md). Se conserva el [alcance v0.2 recibido](ai-coach/AI_COACH_SOUND_INFORMATION_SCOPE_v0.2.md): posiciones reales, 3D, todas las direcciones/alturas, sin FOV ni bloqueo visual y comunicación posible. No volver a consultar estos criterios. Está preparada una [propuesta de perfil aproximado por familia](ai-coach/AI_COACH_SOUND_RANGE_PROFILE_PROPOSAL_v0.1.md), comenzando por pasos y recargas, con radios sin fijar: este nuevo criterio de juego/fuente requiere encuadre experto antes de implementación dependiente. Un perfil no se acreditará como alcance nativo ni como escucha real; su validez requiere contraste propio. Sonido sigue abierto y no hay recepción nueva en el coach. [Excel v51/IC61](../outputs/stratai-sound-20261012/StratAI_Plan_del_coach_TP10_v51.xlsx), [respuestas recibidas intactas](../outputs/stratai-sound-framing-20261012/expert-review.json). Qwen, presupuesto, N01/N04/N10, notas e interpretación vacía conservados. Interpretación general y evaluación independiente mantienen sus gates; sin entrenamiento, promoción o migración.
+
+**Encuadre recibido y ejecutado para información disponible — 10/10/2026.** Tras «Perfecto. Vamos con la siguiente fase», se prepara el [alcance v0.1](ai-coach/AI_COACH_AVAILABLE_INFORMATION_SCOPE_v0.1.md): memoria individual/equipo, procedencia, última observación y antigüedad, ejemplos, excepciones y verificación. El usuario responde: «Manten el modelo inicial. Eso si, ten en cuenta el que es posible que tenga la información.» Acepta comunicación inmediata simulada y exige representar quién puede disponer de cada dato. La implementación distingue observador y posibles receptores presentes, incluidos muertos sin afirmar escucha, atención ni recuerdo. Revelar contactos al bando, conservar historia sin atribuir posición actual y separar observación/comunicación ya están acordados y no se reabren. Preparación y ejecución conservadas; cierre técnico verificado en esta entrega. Literal y criterios registrados en Excel v44 conservando v43. No volver a pedir este encuadre. Plan y prompt anteriores conservados en [copia previa](../outputs/stratai-information-framing-20261010/baseline/AI_COACH_IMPLEMENTATION_PLAN.md). Las reparaciones de C4, zonas, ronda, acontecimientos, vida e inventarios quedan verificadas dentro de su alcance: referencias fechadas, invariantes y redacción factual cerrada impiden que prosa libre contradiga los hechos admitidos. [Resultado y límites](../outputs/stratai-factual-repair-20261010/RESULTADO.md) · [Comparación conservada](../outputs/stratai-factual-repair-20261010/COMPARACION.md). Mantener después granadas, sonido e interpretación, con revisión de interpretación por pares y cierre de cada fase. Las lecturas originales y fallos de ambos pares permanecen intactos; fidelidad factual no acredita calidad táctica, percepción humana real ni evaluación independiente. CS3 sigue parcial y no autoriza entrenamiento o promoción.
+
+**Zonas y primer par de interpretación — 09/10/2026.** La instrucción literal «Mejor de 2 en 2, si no va a ser tedioso. Implementa la siguiente función y luego vemos la interpretación» acepta la propuesta preparada de zonas. Se recuperan 23 entidades/volúmenes env_cs_place del VMAP Source 2 conservado, se validan enlaces, jerarquía, transformaciones y mallas cerradas/convexas, y se calcula pertenencia XYZ usando caras reales. No se usa punto cercano ni caja como pertenencia. Apartments corresponde a apartamentos B y Catwalk a corta B. Coincidencia exacta demo–build del mapa sin acreditar: zonas como referencia local estimada. Frontend calcula después de filtrar perspectiva; Python recalcula posición, precisión, fechas y referencia. Fronteras/solapes/huecos conservan incertidumbre y no se asigna zona viva a muertos. Go, módulo de puntos, bundle 3.8, catálogo 1.7.0 y 116 schemas conservados. Proyección @5/input @3 optativas, con semántica y recibos @1/@2 históricos iguales. [Contrato](contracts/context/replay-places-v1.md).
+
+`npm run check:all` pasa: 178 frontend, Node 18/3 omitidas, Go, 43 Python, lint y build. Suite focal ampliada: 109 pasadas. Dos pruebas antiguas rechazaron correctamente un basetemp de workspace; se conserva ese intento y las mismas 109 pruebas pasan al usar TEMP, sin cambiar producción. Mutación de pertenencia detectada y restaurada; revisión independiente con 761 puntos, cero discrepancias. Una demo aprobada, un parseo posterior a pruebas, 20 rondas/23398 frames/94 eventos C4; el nuevo extractor también se ejecuta en TEMP y coincide byte por byte con el paquete de referencia. En 6840 vistas, 29017 posiciones vivas contrastadas desde caras/vértices: 24467 mapped, 214 boundary, 1632 ambiguous y 2704 unavailable. Son cobertura, no aciertos tácticos. 5542 muestras muertas sin zona viva, 359 contactos calculados y 28658 snapshots propios comprobados. Cuatro guardas rechazan destinos/sobrescritura antes de leer fuentes o parsear. [Verificación](../outputs/stratai-zones-20261009/place-verification.json), [smoke](../outputs/stratai-zones-20261009/smoke-summary.json).
+
+Tres intentos locales separados (N01/N03/N10), 2 lecturas completas, 3 llamadas y cero llamadas externas, con Qwen 3.5 9B/configuración previa y selección fijada antes de generar. N03 agota 240 segundos y conserva respuesta incompleta sin texto inventado. Se retienen todos los resultados y errores; no se repite para escoger una respuesta mejor. Las notas humanas no se incorporan al modelo. El [informe comparativo](../outputs/stratai-zones-20261009/COMPARACION.md) separa datos corregidos de afirmaciones del modelo: una salida con citas válidas no demuestra verdad. Evaluación asistida, sin reserva, entrenamiento o tasa de aciertos. **CS3 sigue parcial** y la fase final de interpretación no se adelanta.
+
+678 artefactos previos conservados por hash, diez lecturas originales intactas y veinte notas literales. [Excel v41, IC51](../outputs/stratai-zones-20261009/StratAI_Plan_del_coach_TP10_v41.xlsx): sólo A56:G56 nueva, 14 hojas y 5562 celdas anteriores con estilos/comentarios conservadas; fila revisada visualmente. TEMP retenido con inventario y 44 manifiestos intactos. [Visor nuevo](../outputs/stratai-zones-20261009/viewer/index.html): C4/zonas corregidos, originales rotulados y nuevas lecturas separadas. QA visual de navegador pendiente por política local de URL; compilación/DOM no la sustituyen. [Cierre](../outputs/stratai-zones-20261009/RESULTADO.txt).
+
+**Reparación factual C4 — 09/10/2026.** Se corrige la cadena productor Go → normalización → proyección por bando → entrada Python → visor. La extensión de objetivo `stratai.replay_objective@2` conserva estado/fase, tick nativo y diez tipos de transición con orden causal. Proyección `stratai.team_replay_projection@4` e input optativo `stratai.replay_context_input@2` distinguen tenencia propia única, ubicación actual acreditada y última posición explícitamente histórica. Las coordenadas del actor de un evento no se usan como posición de bomba. CT no recibe ubicaciones ocultas T; intentos CT ocultos no se revelan a T. La vía histórica input @1/proyección @3 conserva significado y sellos; el tracker canónico compartido no cambia. Replay base 5, contactos calculados @2, productor `go.reaction.world_occlusion_v2`, bundle 3.8, catálogo 1.7.0 y registro de 116 schemas se conservan. [Contrato acotado](contracts/context/replay-objective-v2.md).
+
+Se verifican 6840 vistas nuevas y se recuperan los 3365 fotogramas dropped omitidos. N03 a 45 s conserva caída y posición nativa; N01/N02 conservan portador. N10 pasa de planted reconstruido a resolved, con plantado previo y sin inventar desactivación o explosión. N04/N05 también conservan resolved; su elegibilidad y la selección de cortes corresponden a la fase de ronda pendiente. Se preservan veinte notas, diez respuestas completas y 222 artefactos históricos comprobados por hash. El [visor nuevo](../outputs/stratai-c4-repair-20261009/viewer/index.html) rotula las lecturas como originales que no recibieron la reparación. Cero llamadas nuevas al modelo; entradas corregidas y suplementos separados. [Datos](../outputs/stratai-c4-repair-20261009/data-verification.json), [compatibilidad del consumidor](../outputs/stratai-c4-repair-20261009/input-verification.json).
+
+`npm run check:all` pasa: 151 pruebas frontend, Node 18 pasadas/3 omitidas, todos los paquetes Go, 43 Python, lint y build. Suite focal de contexto: 85 pasadas. La suite ampliada AI Coach produjo 2228 pasadas y una expectativa antigua fallida (115 schemas frente a los 116 ya existentes); la expectativa corregida pasa en rerun focal. No se declara una ejecución ampliada íntegramente verde. Revisión independiente de código y mutación negativa detectada. Una sola demo aprobada, un solo parseo, después de pruebas: 20 rondas, 23398 muestras, 94 transiciones C4, 33 caídas y 24 recogidas; comparación independiente contra ledger, posesión y causalidad. Tres guardas rechazan destinos antes de parsear. Las variantes ausentes en la demo conservan sólo cobertura de regresión. [Pruebas](../outputs/stratai-c4-repair-20261009/automated-checks.json), [fe de comando](../outputs/stratai-c4-repair-20261009/automated-checks-command-correction.json), [smoke](../outputs/stratai-c4-repair-20261009/smoke-summary.json).
+
+[Excel v40, IC50](../outputs/stratai-c4-repair-20261009/StratAI_Plan_del_coach_TP10_v40.xlsx) añade sólo A55:G55; las 14 hojas y 5555 celdas previas, estilos, comentarios y literal N03 se verifican, con revisión visual de la fila. TEMP retenido con inventario; 44 manifests y demo intactos, sin promover, limpiar ni reprocesar corpus. QA visual de navegador no realizada: el navegador conectado rechaza file: por política de URL; build/pruebas de DOM/canvas no la sustituyen. **CS3 sigue parcial**, evaluación independiente y calidad táctica general pendientes; no entrenamiento ni aprendizaje automático de notas. [Resultado completo](../outputs/stratai-c4-repair-20261009/RESULTADO.txt).
+
+
+**Diagnóstico C4 y carga de revisión — 09/10/2026.** El usuario pregunta cómo mejorar sin corregir todas las partidas y señala C4 caído/plantado no reconocido; identifica N03. Se reproduce la pérdida en la ruta factual: estado nativo dropped y posición observada sobreviven normalización pero se eliminan en proyección; la entrada efectiva lo declara unknown. 3365 fotogramas dropped dentro de los diez prefijos sufren esa omisión, sin que esto constituya una tasa de aciertos. También se constata supresión de carried por el normalizador y omisión de has_c4 en el adaptador del modelo. El tracker Go posee drops/recogidas que esta ruta no expone como secuencia C4; N10 requiere conciliar snapshot resolved con state planted reconstruido. La igualdad mapa/input de la entrega anterior compartía pérdidas y no acreditaba suficiencia del C4. No se repara aún ni se reejecuta productor/modelo: diagnóstico sobre bytes retenidos y fuentes coincidentes con el sello. Grafo indisponible, consulta directa. CS3 parcial.
+
+**Prioridades revisadas y prompt preparado — 09/10/2026.** El usuario prioriza los hechos fijos y pide un prompt para aplicar la lista actualizada. La orientación recibida se registra en este orden: (1) estado, portador y ubicación causal del C4; (2) posiciones y zonas desde las geometrías originales de Source 2; (3) marco y estado de ronda; (4) acontecimientos y evolución factual; (5) información disponible por jugador y equipo; (6) deducciones justificadas desde utilidad enemiga; (7) sonido orientativo; (8) interpretación táctica pertinente sobre esa base. C4 → zonas → ronda forman el primer tramo. En esa preparación, C4 era la siguiente acción; su cierre posterior se registra arriba. Los demás bloques continúan dependientes, sin capacidades implementadas ni fases cerradas. El prompt de reparación original se conserva en la [copia previa](../outputs/stratai-c4-repair-20261009/baseline/docs/prompts/AI_COACH_CONTEXT_COMPARISON_PHASE_PROMPT.md); el prompt de aquel cierre pasó a zonas y se conserva en la copia previa de esta entrega. Aquella preparación fue documental, sin ejecutar demos/modelo ni demostrar mejora.
+
+Las veinte notas de `StratAI_10_correcciones.json` son correcciones asistidas de desarrollo: SHA-256 `f34a3094c70cfbc8a34d3d27c979760352c81eec76bbdf6900380ccb586fe617`. Tres HE al inicio de un rush B son una señal pertinente, pero la certeza de tres jugadores en B necesita acreditar lanzadores distintos, simultaneidad y orígenes compatibles, sin confundir impacto y origen ni ignorar recogidas. El sonido debe aportar orientación útil con procedencia e incertidumbre; emisión, audición posible y región deducible son niveles distintos. Los volúmenes originales de Source 2 se reutilizan y validan antes de reemplazar la aproximación por puntos; no se pide reconstruir manualmente los callouts ya obtenidos. No se reabren criterios acordados; la concreción de una nueva fase o un juicio material pendiente conserva la revisión experta de AGENTS.md.
+
+La orientación de mejorar con comprobaciones factuales, agrupación de errores y revisión selectiva está recibida; su método operativo y los ciclos de aprendizaje siguen pendientes del encuadre de la fase correspondiente. Guardar notas no actualiza el modelo; analizar partidas o generar sus propias respuestas no acredita aprendizaje táctico. No se autoriza ingesta automática de comentarios, etiquetas, entrenamiento, CS4 o promoción. La revisión de N01–N10 se retoma con versiones e información diferenciadas.
+
+**Controles y nombres del replay — 06/10/2026.** El usuario pide T1–T5/CT1–CT5, señala dos botones poco útiles y no puede reproducir la ronda. El objeto de replay se recreaba al actualizar el tiempo, disparando recarga y parada; además el fragmento terminaba en el corte donde abría el visor. La carga se estabiliza, se añade reproducir desde el inicio y reiniciar al final, se explicita el botón de volver al corte y se enfoca el editor de correcciones. Se oculta el selector cuando sólo hay una lectura. Los alias son una transformación de presentación con correspondencia estable por bando/ronda; se conservan IDs, respuestas y frases originales en las notas, con acceso al texto literal.
+
+Se reutiliza el replay TEMP acreditado anterior, sin parseos, para reproducir las diez rondas completas registradas: 11710 fotogramas. El contexto hasta el corte mantiene igualdad en las 6840 vistas con la entrada sellada del modelo. Los datos posteriores llevan aviso y no se añaden a esa entrada ni autorizan evaluación independiente. El suplemento de notas conserva el mapa de nombres y la disponibilidad de la ronda completa; cada nota conserva el momento revisado. No se cambia el cálculo de contactos ni la proyección factual. `npm run test:frontend` pasa 125 pruebas, con reproducción/pausa/retorno/reinicio usando controlador real y canvas sustituido; `npm run build:frontend` y build offline pasan. QA visual de navegador pendiente. Gate de nueva demo no aplicable: interfaz/empaquetado sin productor/schema/contrato runtime nuevo. CS3 parcial, sin generación, entrenamiento, promoción o aciertos. [Datos y correspondencia causal](../outputs/stratai-replay-controls-20261006/data-verification.json), [cierre y conservación](../outputs/stratai-replay-controls-20261006/verification.json), [Excel v39, IC49](../outputs/stratai-replay-controls-20261006/StratAI_Plan_del_coach_TP10_v39.xlsx).
+
+**Replay corregido y diez lecturas T — 06/10/2026.** El usuario informa CT imposibles en spawn y posiciones incorrectas; pide unos diez análisis actualizados y acepta «Sí, diez situaciones T con ese formato». El perfil de raytracing anterior omitía paredes normales; se introduce un perfil de superficies opacas optativo para el replay, manteniendo el perfil canónico histórico. Se corrige también AABB de espesor cero/rayos paralelos, compartido por consumidores de geometría, y la proyección excluye muertes/contactos previos al inicio cuando un reinicio reutiliza número de ronda. Tres contactos tempranos se bloquean por el cálculo corregido y por intersección independiente. No se acredita visión exacta ni se declara resuelto todo posible fallo de posición. [Reproducción](../outputs/stratai-replay-refinement-20261006/reproduction.json), [verificación real](../outputs/stratai-replay-refinement-20261006/real-verification.json).
+
+`stratai.calculated_vision@2` y proyección `stratai.team_replay_projection@3` alimentan el nuevo instrumento optativo `stratai.replay_context_input@1`, separado de @5/@9 y del catálogo runtime. Diez rondas conocidas, cortes fijos 15/30/45/60/75 s repetidos y limitados al último fotograma, 6840 vistas proyectadas. La IA recibe corte final, inicio, muertes fechadas y consultas causales intermedias; el mapa usa el mismo archivo y termina en el corte. Alias P01–P10 comunes. Contactos estimados, puntos de muerte como comunicación simulada; recursos/posiciones rivales ocultos, zonas nativas, elegibilidad e historial entre rondas no suministrados. Disponibilidad de consultas no demuestra uso por el modelo.
+
+Diez respuestas locales se conservan literalmente, incluidos fallos; sólo validez mecánica comprobada. Hay errores visibles en N01 sobre zonas/elegibilidad e inferencias de C4 que requieren contraste. No se adjudican frases o aciertos. La navegación permite correcciones por caso y descarga conjunta de notas guardadas. **CS3 parcial**: desarrollo asistido, evaluación independiente original pendiente, sin entrenamiento, promoción o intérprete general demostrado. [Resultados del modelo](../outputs/stratai-replay-refinement-20261006/readings-summary.json), [Excel v38, IC47/IC48](../outputs/stratai-replay-refinement-20261006/StratAI_Plan_del_coach_TP10_v38.xlsx).
+
+`npm run check:all` y 49 pruebas Python con el instrumento nuevo pasan. Una misma demo aprobada en dos TEMP nuevos retenidos —intento inicial y repetición tras ajuste de proyección/pruebas finales—, un único match distinto; 20 rondas, 23398 fotogramas, 148 bajas brutas, 251 reacciones, 5495 contactos, 1008 posiciones recalculadas. Las dos salidas replay coinciden; eventos brutos previos al inicio se conservan en fuente y se excluyen del contexto. Guardas previos al parseo y fuentes/corpus/respuestas preservados. QA visual del navegador pendiente por bloqueo local. [Comprobaciones](../outputs/stratai-replay-refinement-20261006/automated-checks.json), [smoke final](../outputs/stratai-replay-refinement-20261006/final-smoke-summary.json), [conservación y cierre](../outputs/stratai-replay-refinement-20261006/verification.json).
+
+**Lectura completa y correcciones asistidas — 06/10/2026.** Ante «Todo esto es lo que interpreta la IA? o solo lo que pone “Que interpreta la IA?”» y la petición de una sección de correcciones, se aclara que situación, evolución, inferencias e incertidumbre forman la salida completa del modelo. Las etiquetas observed/inferred no verifican verdad. El visor usa «Descripción de la IA», «Inferencia de la IA» y «Qué deduce la IA», manteniendo los textos originales. Cada frase permite una nota; también se admite lectura general y motivo opcional. Referencia de caso/variante/frase, original completo, instrumento/hashes, corte y punto del replay al guardar acompañan el texto literal. El suplemento posterior tiene procedencia separada; las notas son revisión asistida de desarrollo conocido, no evaluación independiente ni etiquetas de entrenamiento.
+
+El registro `stratai.coach_review_notes@1` se guarda localmente en el navegador y se descarga como JSON; no hay backend, importación automática, cambio de respuestas o consumo por el modelo. Borradores por destino, restauración de notas, registros corruptos y fallos de cuota/acceso se verifican. IC46 del [Excel v37](../outputs/stratai-coach-corrections-20261006/StratAI_Plan_del_coach_TP10_v37.xlsx) conserva literal y alcance, con 14 hojas intactas. **116 pruebas frontend y compilación pasan**, incluidos seis controles de notas/DOM. [Comprobaciones](../outputs/stratai-coach-corrections-20261006/automated-checks.json), [preservación y verificación final](../outputs/stratai-coach-corrections-20261006/verification.json). Cero demos o llamadas nuevas al modelo: extracción, exportación de demos, proyección de contacto y contratos runtime sin cambios; payload anterior conservado byte por byte. Se añade sólo un formato local de revisión, fuera del catálogo/registro runtime. QA visual de navegador pendiente por bloqueo local. **CS3 sigue parcial** y mantiene la evaluación independiente original pendiente; comentarios aún no revisados, sin entrenamiento, promoción o aciertos.
+
+**Contactos visibles y análisis junto al replay — 06/10/2026.** El encuadre nuevo permite mostrar los contactos calculados de Go como estimaciones. IC45 del [Excel v36](../outputs/stratai-team-replay-contacts-20261006/StratAI_Plan_del_coach_TP10_v36.xlsx) conserva el literal y sustituye el criterio de visualización de IC43/IC44; los libros anteriores no se modifican. Go captura sólo resultados actuales del detector corregido, con muestras vacías, posición, observador/sujeto y disponibilidad: extensión optativa `stratai.calculated_vision@1` por ronda. La vía runtime incorpora contactos; las vías canónicas/support/economy conservan su entrada. La proyección `stratai.team_replay_projection@2` revela rivales por contacto actual, los oculta al perderlo y excluye recursos y capas sin proyección. No se implementa caducidad táctica de última posición. Las fuentes físicas exactas siguen pendientes y las estimaciones no se promueven a hechos acreditados del coach.
+
+El ejemplo profesional abre en un contacto calculado real y muestra a la derecha la lectura original V2 de E06; permite «Ver un contacto» e «Ir al momento analizado», con avisos de corte, bando e información posterior. Conserva las tres variantes de desarrollo literalmente, sin reserva, clave de cegado ni llamada nueva al modelo. [Procedencia y conciliación del corte](../outputs/stratai-team-replay-contacts-20261006/reading-provenance.json). No se presenta la lectura T como análisis de defensa CT ni como respuesta al nuevo contexto.
+
+`npm run check:all` pasa: **110 frontend, 43 Python, 18 Node y tres omitidas**, lint, Go y build; nueve regresiones verifican también captura causal. Una sola demo aprobada a TEMP nuevo retenido: alias `demo-0beb9110ec408f80c39b`, 20 rondas, 23.398 fotogramas, 148 bajas, 331 reacciones, 34,119 s. 26.701 contactos calculados en 30.252 muestras; 8.949 posiciones recompuestas independientemente. [Comando/versiones](../outputs/stratai-team-replay-contacts-20261006/smoke-command.json), [inventario y conteos](../outputs/stratai-team-replay-contacts-20261006/smoke-summary.json), [42.254 vistas T/CT, aparición y pérdida](../outputs/stratai-team-replay-contacts-20261006/real-verification.json). El primer comprobador confundió redondeo con truncamiento: se corrigió el verificador sobre la misma salida, sin segundo parseo. El replay base producido es schema **5**; la constante «2» de la evidencia anterior era errónea y se califica aquí sin modificar el registro histórico. Compilación y DOM verificados; QA visual de navegador pendiente por bloqueo de protocolo local. Fuente, 44 manifiestos, libros, detector, predicciones, respuestas y @5/@9 conservados. [Verificación final](../outputs/stratai-team-replay-contacts-20261006/verification.json). **CS3 sigue parcial**, sin evaluación humana independiente completada, entrenamiento, promoción, aciertos o intérprete general demostrado.
+
+**Corrección y replay por bando — 06/10/2026.** Ante «Corrige el fallo y luego implementa la replay», Go exige orientación, humo y pared en el mismo punto; nueve regresiones del callback real pasan. El replay profesional incorpora selector Observador/T/CT, snapshots propios causales, puntos de muerte persistentes como comunicación simulada, objetivo propio observado y filtrado de capas, recursos, inspectores y futuro. El mapa y contexto exportado comparten `stratai.team_replay_projection@1`, candidato de UI sin conexión nueva al modelo. La vía de visión separada se prueba positivamente con fixtures; no hay fuente positiva conectada en datos reales, por lo que los rivales vivos permanecen desconocidos en el modo estricto. No se implementa memoria de última posición ni criterio táctico CT nuevo.
+
+`npm run check:all` pasa: **107 frontend, 43 Python, 18 Node y tres omitidas**, lint, Go y build. Tras las pruebas se procesa **una sola demo aprobada** a TEMP nuevo: alias `demo-0beb9110ec408f80c39b`, 20 rondas, 23.398 fotogramas, 148 bajas, 331 reacciones, 37,752 s. [Comando y versiones](../outputs/stratai-team-replay-20261006/smoke-command.json), [inventario y hashes](../outputs/stratai-team-replay-20261006/smoke-summary.json), [verificación de 46.796 vistas](../outputs/stratai-team-replay-20261006/real-projection-verification-final.json). Se recomponen reacciones y puntos de muerte; 40 mutaciones de enemigo/futuro no cambian la vista actual. Los destinos inválidos se rechazan antes de abrir la demo; fuente, 44 manifiestos y TEMP retenido intactos. [Pruebas automatizadas](../outputs/stratai-team-replay-20261006/automated-checks.json), [preservación](../outputs/stratai-team-replay-20261006/protected-verification.json).
+
+IC44 del [Excel v35](../outputs/stratai-team-replay-20261006/StratAI_Plan_del_coach_TP10_v35.xlsx) registra el literal, resultado y límites, conservando v34 y sus 14 hojas. [Verificación del libro](../outputs/stratai-team-replay-20261006/workbook-verification.json). El [ejemplo local profesional](../outputs/stratai-team-replay-20261006/viewer/index.html) y sus [instrucciones](../outputs/stratai-team-replay-20261006/COMO_PROBAR.txt) permiten revisar una ronda conocida, como suplemento posterior. Compilación y pruebas DOM verificadas; QA visual de navegador no realizada por bloqueo de protocolo local. Detector, lecturas originales, @5/@9, predicciones, catálogo 1.7.0, 116 schemas y contrato canónico 3.8 conservados. **CS3 parcial**: visión positiva y evaluación independiente pendientes; no hay entrenamiento, promoción, tasa de aciertos ni intérprete general demostrado.
+
+**Comprobación del cálculo existente — 06/10/2026.** Ante «En teoria ya debería registrarse. Tenemos raytracing integrado. Validalo si quieres. Se tiene en cuenta humos y demas», se verifica el callback original de Go con una prueba aislada por overlay: siete controles pasan y dos combinaciones humo/pared producen contacto incorrecto. La suite pública `npm run test:go` pasa; los casos adicionales no estaban cubiertos. [Comandos, logs y hashes de diez fuentes intactas](../outputs/stratai-contact-validation-20261006/validation.json). Las escenas son sintéticas y no miden incidencia real. `LastVisibleEnemies`/`EnemyFirstSeenTick` conservan contacto durante el análisis; las métricas de reacción exportadas no forman una serie completa por observador, y el replay actual no exporta esa lista para la nueva proyección. Cero demos nuevas, llamadas al modelo o cambios funcionales. No se cierra la dependencia física de 3E.10/3E.21 ni CS3; no hay criterios expertos nuevos que sustituyan IC43/Excel v34.
+
+**Encuadre de revisión por bando — 06/10/2026.** El usuario señala falta de información para una lectura semejante a una partida real y pide reutilizar el replay existente: revelar rivales al contacto con el bando analizado y mantener puntos de muerte T/CT para simular información comunicada. Ante la distinción entre cálculo aproximado y visión acreditada responde «Exigir visión acreditada; los contactos sin respaldo quedan desconocidos». IC43 registra los literales en [Excel v34](../outputs/stratai-context-team-replay-framing-20261006/StratAI_Plan_del_coach_TP10_v34.xlsx), conservando v33 y las 14 hojas. [Verificación del registro](../outputs/stratai-context-team-replay-framing-20261006/verification.json). El replay ya dispone de renderer de vivos/muertos y otras capas; ocultar sólo jugadores dejaría vías de información en disparos, líneas de baja, utilidades e inspectores. La proyección común debe separar hechos de la demo, conocimiento visual y comunicación simulada, con fuentes, referencias y disponibilidad. La memoria de última posición con antigüedad es propuesta del agente, sin fijar caducidad táctica universal. El criterio estricto no acredita por sí solo malla/render, humo, flash o FOV efectivos: persiste la dependencia factual de 3E.10/3E.21. Registro documental y lectura de código; cero nuevas demos, llamadas al modelo o cambios funcionales. No se atribuyen comunicaciones reales ni suplementos a @5/@9; no se reaceptan CS1/CS2, E06/E17/E24, unknown o foco CT.
+
+La **evaluación independiente de la comparación original A/B/C continúa pendiente**, con su misma evidencia, presupuesto y exposición declarada. Su reserva y presentación permanecen intactas. La futura entrada enriquecida exige versión y experimento separados: no puntuar lecturas antiguas contra contactos o recursos que no recibieron ni reajustar métodos/presentación con la reserva. Qwen 3.5 9B local ya está ejecutado; proveedor, datos y coste siguen encuadrados. [Resultado original](../outputs/stratai-context-comparison-ollama-20261005/RESULTADO.md), [fichas originales](../outputs/stratai-context-comparison-ollama-20261005/review/REVISION.md), [evidencia](evidence/AI_COACH_CONTEXT_COMPARISON_OLLAMA_2026-10-06.json). Las 15 lecturas de formato/citas válidos no miden calidad táctica. No fabricar etiquetas, entrenar, promover o presentar CS4 antes de cerrar CS3.
+
+**Continuación local C de CS3 — 05–06/10/2026, fase parcial.** «Listo. Lo tenemos. Implementa CS» concreta la alternativa gratuita ya instalada: Qwen 3.5 9B Q4_K_M en Ollama local, digest fijado. **156 pruebas**, una demo aprobada y replay; dos comprobaciones T/CT, ocho casos de desarrollo y 8 reservados ejecutados. El primer smoke con razonamiento extendido agotó la generación; se retiene y se fija `think=false` antes de desarrollo/reserva, usando una opción existente sin cambiar productor/prompt/banco. Configuración, métodos y presentación sellados antes de gameplay reservado. Auditoría fuente directa; 116 schemas/19 razones sin cambios. IC42 en [Excel v33](../outputs/stratai-context-comparison-ollama-20261005/StratAI_Plan_del_coach_TP10_v33.xlsx). 15 lecturas verificadas sólo estructuralmente; cero revisiones humanas independientes, cero gasto de API o llamadas externas. Markdown es la entrega revisable; QA visual HTML bloqueado por política de archivos locales. [Resultado y límites](../outputs/stratai-context-comparison-ollama-20261005/RESULTADO.md).
+
+**Entrega local CS3 — 05/10/2026, fase parcial.** «Aplica CS3» acepta comparación A/B/C, 16 episodios previstos —8 desarrollo y 8 reserva— y máximo dos iteraciones. Implementadas referencias A/B, archivo causal consultable con alias locales, fuentes privadas y verificación mecánica de citas. A/B no producen interpretación táctica nueva ni satisfacen por sí solas CS1. **142 pruebas** y lint; exactamente una demo aprobada distinta, repetida tras aliasar vidas de objetos, con ambos intentos retenidos. Ocho ventanas técnicas T/CT: 1040 muestras y 38 eventos; ocho casos de desarrollo: 3380 muestras y 101 eventos. Contraste directo independiente de valores; 116 schemas/19 razones sin cambios. [Resultado y límites](../outputs/stratai-context-comparison-20261005/RESULTADO.md), [evidencia](evidence/AI_COACH_CONTEXT_COMPARISON_LOCAL_2026-10-05.json) e IC41 en [Excel v32](../outputs/stratai-context-comparison-20261005/StratAI_Plan_del_coach_TP10_v32.xlsx).
+
+**Ayuda de lectura CS3 — 06/10/2026.** El usuario señala que las fichas sin mapa y con campos técnicos no son comprensibles. Se añade una [vista asistida de los ocho casos conocidos](../outputs/stratai-context-readable-view-20261006/viewer/index.html): radar local de referencia, reproducción exclusivamente hasta el corte, selección de compañeros, traducción factual a español, acontecimientos con antigüedad y lecturas literales en su orden original. E03 mantiene @5 y los demás @9; el radar es una ayuda posterior de presentación y no se atribuye a la entrada del modelo. La correspondencia exacta con la geometría de la build sigue pendiente. No se incorporan posiciones actuales rivales, zonas nativas posteriores, salud/armadura, historial ni datos futuros. Las notas descargadas se conservan como revisión asistida, sin etiquetas ni evaluación independiente; el replay libre de desarrollo no sustituye el presupuesto del instrumento sellado. Las ocho fichas reservadas, métodos y salidas originales permanecen intactos. [Alcance, uso y límites](../outputs/stratai-context-readable-view-20261006/RESULTADO.txt), [verificación](../outputs/stratai-context-readable-view-20261006/verification.json). Comprobación de datos, proyección y controles mediante simulación DOM en Node; no se acredita QA visual en navegador. Cambio de presentación, sin productor/runtime modificado ni nueva llamada al modelo; no requiere parsing de otra demo. No recibe criterios tácticos nuevos ni cambia el gate o la siguiente acción.
+
+**Gates pendientes CS3:** revisión humana independiente de afirmaciones, inferencias, omisiones relevantes, alternativas e incertidumbre en las salidas reales, con exposición del revisor recogida. Proveedor local, coste cero de API, sellado completo y extracción seleccionada de reserva están verificados. No hay comparación táctica adjudicada, ganador o intérprete general demostrado. CT operativo e historial entre rondas siguen pendientes; no certificar patrones/adaptación ni corregir por derrota. No entrenar, promover, publicar o conectar al coach; no abrir CS4.
+
+**Cierre funcional CS2 — 05/10/2026.** Implementada `stratai.common_factual_context@1`/1.0.0 sobre el candidato conservado: situación, evolución con referencias, eventos causales, incertidumbre local y consultas de muestras/evidencia hasta el corte. @5/@9 y nombres nativos posteriores separados. Salud/armadura actuales e historial entre rondas quedan explícitamente no suministrados; no se rellenan desde daño ni futuro. Misma estructura T/CT, sin criterios tácticos nuevos. [Contrato](canonical-common-factual-context-v1.md), [cierre y límites](../outputs/stratai-common-context-20261005/RESULTADO.md).
+
+**Verificación:** 132 pruebas Python (backend y módulos afectados), lint y contrato 116 schemas/19 razones. Exactamente una demo aprobada distinta, repetida tras eliminar validaciones redundantes del nuevo materializador; ambas capturas y outputs parciales retenidos. Ocho ventanas técnicas T/CT de 130 muestras, contraste independiente de hechos/objetivo/cambios/eventos y validación canónica. Siete regresiones completas E03/E06/E17/E24/E13/E25/E30, sin repetir los 34 casos. [Recibo](evidence/AI_COACH_COMMON_FACTUAL_CONTEXT_2026-10-05.json). IC40 conserva su literal; sólo F45:G45 documentan ejecución en [Excel v31](../outputs/stratai-common-context-20261005/StratAI_Plan_del_coach_TP10_v31.xlsx). Originales, detector y predicciones preservados; sin interpretación general demostrada, tasas de acierto, entrenamiento o promoción.
+
+**Encuadre CS2 y foco CT recibidos — 05/10/2026.** El usuario indica «El resto de información lo veo todo correcto» y pide avanzar. Para CT solicita interpretar patrones T, explicar si la defensa está dando efecto y si se adapta a los ataques, y corregirla cuando corresponda. [Mensaje completo, hash, atribución y límites](evidence/AI_COACH_CONTEXT_INPUT_FRAMING_2026-10-05.json). IC40 añade sólo A45:G45 al [Excel v30](../outputs/stratai-context-input-framing-20261005/StratAI_Plan_del_coach_TP10_v30.xlsx), conservando v29 y las 14 hojas.
+
+El [alcance CS2 aceptado](ai-coach/AI_COACH_CONTEXT_INPUT_PHASE.md) concreta datos, ejemplos/excepciones, base existente, dependencias y verificación. El foco general CT queda recibido; no se transforma su texto libre en etiquetas ni en una taxonomía que elimine decisiones CT. Aplicación del agente bajo el contrato vigente: resultado de ronda no basta para acreditar buena/mala defensa; corregir exige una alternativa viable mejor respaldada; repetición de ataques y adaptación requieren antecedentes comparables disponibles, sin fijar ahora un número universal de rondas. Los casos tácticos CT operativos se encuadrarán sobre material real, sin volver a preguntar el foco general.
+
+[Registro documental](../outputs/stratai-context-input-framing-20261005/RESULTADO.md), [conservación del libro](../outputs/stratai-context-input-framing-20261005/workbook-verification.json) y [verificación final](../outputs/stratai-context-input-framing-20261005/final-verification.json). Esta recepción no cierra funcionalmente CS2: no se ejecutan parsing, inferencias, entrenamiento ni smoke; productores, contratos runtime, respuestas y predicciones permanecen intactos. Se registran las ausencias previas del inventario tras la limpieza del 04/10, sin restaurar ni eliminar archivos. El prompt vigente pasa de revisión a ejecución del alcance acordado.
+
+**Aceptación y cierre documental CS1 — 04/10/2026.** El usuario responde «Si, me parece bien.» al criterio: una lectura que acierta el destino resulta insuficiente si omite información disponible que cambia el significado de la situación; varias hipótesis justificadas son admisibles. La propuesta presentada organiza la lectura en situación, evolución, interpretación e incertidumbre. [Literal, propuesta, hashes y alcance](evidence/AI_COACH_CONTEXTUAL_SUFFICIENCY_ACCEPTANCE_2026-10-04.json). IC39 añade sólo A44:G44 al [Excel v29](../outputs/stratai-context-criterion-20261004/StratAI_Plan_del_coach_TP10_v29.xlsx), conservando v28 y las 14 hojas.
+
+El [criterio documental](AI_COACH_CONTEXTUAL_REPRESENTATION_CRITERION.md) concreta presentación, rúbrica por afirmación, correspondencia técnica de las nueve dimensiones, ejemplos/excepciones, datos y verificación. Separa dato pertinente omitido, dato ausente declarado y dato irrelevante: esa distinción operativa es del agente, no nueve nuevas citas del experto. E06/E17 y los restantes criterios recibidos no se vuelven a preguntar ni se convierten en etiquetas automáticas. La aceptación no implica conocer una intención, elegir una acción mejor o acreditar información rival ausente.
+
+[Cierre CS1](../outputs/stratai-context-criterion-20261004/RESULTADO.md), [conservación del libro](../outputs/stratai-context-criterion-20261004/workbook-verification.json) y [verificación final](../outputs/stratai-context-criterion-20261004/final-verification.json). Se preservan 1.281 archivos del inventario protegido, incluidos código, lecturas, fichas y predicciones. No se ejecutan parser, inferencias, suites funcionales o smoke por este registro documental. No se cambia runtime, catálogo, schemas, detector o corpus. La validación documental no acredita rendimiento táctico ni habilita entrenamiento/producto.
+
+**Alcance CS2 preparado el 04/10 y encuadrado el 05/10:** reunir marco, objetivo, equipo, recursos, información e historial mediante referencias verificables; conservar situación/evolución observadas y desconocidos, sin emitir nuevas hipótesis tácticas. Reutilizar @5/@9 respetando lo que cada respuesta recibió; el nombre nativo posterior mantiene un suplemento separado. Misma estructura T/CT sólo donde haya fuente y perspectiva acreditadas, declarando cobertura faltante. No agregar ahora clustering, umbrales de grupos, apoyo eficaz o clasificación automática de movilización/execute/fake. Verificar hashes, causalidad, identidad, desconocidos, conflictos, versiones y separación de respuestas/predicciones; pruebas y exactamente una demo aprobada si cambia productor/hechos/contrato. [Alcance y dependencias](AI_COACH_CONTEXTUAL_REPRESENTATION_CRITERION.md#propuesta-preparada-para-la-siguiente-fase-cs2). Implementación y cierre funcional CS2 completados en el alcance documentado; conservar las aceptaciones recibidas.
+
+El foco general CT se recibe el 05/10; sus criterios tácticos operativos se revisarán sobre material causal real, sin invertir etiquetas de T. El alcance experimental A/B/C queda aceptado el 05/10; C usa Qwen local con datos anonimizados y cero coste de API. Las salidas reales y reserva seleccionada están materializadas; revisión humana independiente pendiente. La respuesta breve no aprueba adquisición, entrenamiento, publicación, promoción ni todas las fases en bloque. El [único prompt vigente](prompts/AI_COACH_CONTEXT_COMPARISON_PHASE_PROMPT.md) recoge la ejecución CS3 en el alcance aceptado.
+
+**Nuevo encuadre y cierre de auditoría — 03/10/2026.** El usuario señala que las casuísticas actuales son de T, que la movilización varía y que busca comprender el contexto completo, más allá de preparar entrada o identificar destinos. Pide auditoría, debilidades, dirección y plan, evitando dedicar un año a enseñar todas las combinaciones. [Literal y límites](evidence/AI_COACH_CONTEXT_STRATEGY_FRAMING_2026-10-03.json), IC38 del [Excel v28](../outputs/stratai-context-strategy-audit-20261003/StratAI_Plan_del_coach_TP10_v28.xlsx). Este encuadre sustituye la prioridad de revisar E17 de manera aislada; sus criterios recibidos siguen vigentes y no se vuelve a solicitar un mínimo universal de segundos.
+
+La [auditoría del enfoque](../outputs/stratai-context-strategy-audit-20261003/AUDITORIA_Y_PLAN.md) contrasta datos, consumidores, aprendizaje, evaluación e integración. [Verificación](../outputs/stratai-context-strategy-audit-20261003/evidence-verification.json): 465 hashes coinciden, incluidos los vínculos de 34 respuestas/fichas/predicciones, artefactos candidatos, 27 fuentes del productor verificado, sello primario y 44 manifiestos. También se reprodujeron los hashes canónicos y de campos de las respuestas. Fuente humana: instantánea web del 01/10, no nueva consulta en vivo del 03/10. No se reejecutaron suites, parser, smoke o inferencias ni se certificaron de nuevo todos los bytes del corpus. [Comprobación final](../outputs/stratai-context-strategy-audit-20261003/final-verification.json): inventario protegido, libro y enlaces preservados.
+
+**Observado:** `contextual_io` ejecuta reglas de aproximación/persistencia, no un modelo que haya aprendido los textos expertos. El contexto candidato contiene más dimensiones de las que utilizan esas reglas. La orientación enriquecida emite 1 hipótesis, 30 abstenciones y 3 fuera de alcance; 26 abstenciones son por configuración no cubierta. Son cobertura, no aciertos/errores. Los 34 cortes son de T y tres partidas, con 27 preplant, 3 postplant y 4 fases desconocidas; dos recuentos rivales son parciales. El recorrido de coaching devuelve recomendaciones/prioridades/misiones vacías; el hook de chat inspeccionado utiliza respuestas locales de demostración. La evaluación independiente del software no acredita comprensión táctica ni producto conectado.
+
+**Diagnóstico del agente:** el siguiente avance debe comprobar integración de objetivo, distribución, recursos, información e historia, además de hipótesis y cambios. Seguir agregando patrones específicos no demuestra transferencia. La capa factual se conserva; las carencias de percepción o viabilidad limitan afirmaciones concretas, sin bloquear por defecto toda descripción contextual. La interpretación retrospectiva y la información legal del equipo/jugador permanecen separadas.
+
+| Fase propuesta | Alcance y dependencia | Estado |
+|---|---|---|
+| CS1 — representación y rúbrica | Cuatro partes de lectura y criterio experto de insuficiencia por omisión pertinente. Correspondencia técnica de nueve dimensiones, soporte por afirmación, ejemplos/excepciones y perspectiva. CT específico y especialista semántico se revisan en sus fases | Cerrada documentalmente el 04/10; sin intérprete nuevo ni evaluación táctica |
+| CS2 — contexto común | Entrada factual con fuentes/referencias y resumen causal; desconocidos e instrumentos conservados. Sin nuevas hipótesis, umbrales de grupos o apoyo eficaz. CS1 previo cerrado | Cerrado funcionalmente el 05/10: entrada común v1, 132 pruebas, una demo aprobada y siete regresiones. Foco CT recibido; criterio táctico operativo y patrones entre rondas pendientes |
+| CS3 — viabilidad comparada | Referencia factual A, recuperación de principios/ejemplos B e intérprete preentrenado C aislado. Mismas entradas, cortes y consultas; selección y salidas selladas | Encuadre aceptado 05/10. A/B/C local ejecutado y reserva materializada; revisión humana independiente pendiente. Fase parcial. 16 episodios previstos, 8 desarrollo y 8 reserva, máximo dos iteraciones. No son suficiencia estadística ni autorización de gasto o entrenamiento |
+| CS4 — evaluación independiente | Nuevas lecturas y particiones por partida/jugador, información igual, exposición y coste. Reserva técnica sólo metadata: seis candidatos, cinco mutuamente separados, ninguno futuro | Pendiente; fijar selección y presupuesto antes de prueba. Nuevas adquisiciones requieren su gate |
+| CS5 — coach acotado conectado | Una familia con interpretación, alternativa viable, comparación, evidencia y seguimiento | Pendiente; mantiene los gates y umbrales prescriptivos del producto |
+| CS6 — automatización/expansión | Mejorar también a partir de demos importadas por usuarios con reutilización autorizada, señales verificables y evaluación independiente. Entrenar sólo ante mejora medida, dataset adjudicado y autorización; después ampliar familias/mapas | Objetivo ampliado el 09/10; implementación pendiente. Sin aprendizaje automático por comentarios ni actualización del modelo al importar |
+
+**Aprendizaje desde partidas importadas — requisito de producto recibido el 09/10/2026.** El usuario pide que la IA aprenda «ya no solo de las demos utilizadas para entrenar, si no de las que los usuarios importen». El objetivo incluye mejorar la interpretación general con nuevas partidas, además de actualizar el perfil personal. Es un requisito futuro explícito; no demuestra una capacidad disponible ni autoriza ejecutar entrenamiento o reutilizar ahora partidas de otros usuarios.
+
+- [ ] Mantener dos recorridos separados: análisis y perfil del jugador, y reutilización de partidas para mejora global. Esta última requiere consentimiento, anonimización, calidad, versionado y retirada, conforme a la definición de producto. Importar para coaching no equivale a consentir entrenamiento.
+- [ ] Diseñar un ciclo que aproveche partidas autorizadas sin exigir corrección humana de cada análisis: extracción factual validada, señales automáticas comprobables, agrupación de errores y revisión experta selectiva para juicios que no puedan verificarse automáticamente. Las respuestas del modelo y los comentarios libres no se convierten automáticamente en verdad o etiquetas.
+- [ ] Separar hechos disponibles al corte de resultados posteriores usados como objetivos de aprendizaje o comprobación. Un desenlace no acredita por sí solo intención previa o buena decisión. No filtrar información posterior a la entrada histórica ni reutilizar reservas de evaluación para ajustar el método.
+- [ ] Preparar candidatos de mejora por versiones y ciclos offline; concretar método, señales, selección, frecuencia y recursos en el encuadre de la fase correspondiente. El aprendizaje no exige entrenar desde cero ni un modelo por usuario; los hechos fijos se resuelven mediante código y fuentes.
+- [ ] Demostrar mejora transferible en partidas independientes antes de promover una versión, con igualdad de información, control de regresiones, procedencia y posibilidad de volver a la anterior. Mantener separados datos de desarrollo, calibración y evaluación, incluidas partidas importadas duplicadas o relacionadas.
+
+En aquel registro, la reparación factual de C4 era la siguiente acción única de CS3; su cierre posterior figura arriba. Las prioridades factuales y perceptivas revisadas preceden a la interpretación dependiente; los gates de CS4–CS6 y la revisión por fase siguen vigentes. Este registro añade el objetivo de aprendizaje desde demos importadas, sin implementar ingesta, entrenamiento, actualización online o promoción.
+
+La carga experta propuesta se concentra en principios, contraejemplos y grupos de fallos, manteniendo 25 % de control aleatorio estratificado. Tras dos iteraciones de viabilidad sin mejora transferible, revisar representación/fuentes/modelo antes de solicitar más etiquetas. El límite de tres horas se refiere al primer experimento, no a toda la evaluación formal. Medir fidelidad, integración, relaciones, suficiencia, actualización temporal, transferencia y utilidad/coste; abstención local puede coexistir con descripción factual útil. No calcular una precisión global con información desigual.
+
+CS1 permite representar qué pasa y qué cambió, conservar hipótesis alternativas y citar evidencia/ausencias sin elegir todavía la acción mejor; su cierre actual es documental. CT tiene foco general recibido y requiere casos/criterios operativos sobre fichas reales; no se invierten etiquetas de T. El LLM conversacional conserva su contrato vigente; el especialista semántico experimental C forma parte del alcance CS3 aceptado y se ejecuta mediante Qwen/Ollama local, con datos anonimizados y cero coste de API; verdad y suficiencia táctica siguen pendientes de revisión independiente. No se autoriza entrenar, adquirir, publicar o promover. El [único prompt vigente](prompts/AI_COACH_CONTEXT_COMPARISON_PHASE_PROMPT.md) concreta la ejecución CS3 y sus dependencias pendientes. Los cierres y criterios previos de las siguientes líneas se conservan como historia y regresiones, no como una segunda siguiente acción.
+La [revisión de Alex del 01/10](../outputs/stratai-alex-review-20261001/REVISION_ALEX_TP10.md)
+entrega los 34 casos con literal, instrumento, contexto, hash, salida congelada,
+paridad factual y conclusión manual del agente, sin convertir textos en etiquetas.
+Se verificaron 37 versiones de Alex y se seleccionaron sus 34 lecturas actuales:
+E03 @5 y 33 @9. El conjunto humano reproduce el hash del triaje; los nueve archivos
+del sello primario, el detector y las 34 fichas exactas coinciden con sus hashes.
+E06 conserva B por geometría y filtro temporal pese a la orientación A/conector
+de Alex; E17 propone B desde 1,25 s con un paso del portador, sin resolver si eso
+basta para interpretar preparación. E24 queda fuera por posplantado: la planta
+estaba en la ficha original pero fuera del input del detector, y su abstención
+no acredita reconocimiento de fase. El contador CT de esa ficha es parcial;
+no certificar el 1v1 de la lectura. E13, E25 y también E30 tienen elegibilidad
+`unknown`, sin prueba suficiente para declararlas cuchillos.
+La propuesta incluye criterio, ejemplos/excepciones, datos y verificación.
+El usuario pide después «Haz todas las fases. Se pulcro y revisa al detalle todo
+lo que haces. Si tienes dudas, para y pregunta.» Se aplica a las tres fases
+propuestas: igualar información, concretar el criterio y hacer ajustes controlados
+con evaluación posterior independiente. [Literal, alcance y límites](evidence/AI_COACH_CONTEXT_ITERATION_ACCEPTANCE_2026-10-01.json).
+No se exige movimiento continuo durante una pausa ya sustentada ni se propone
+un veto universal de 4 s. Las dos precisiones se han recibido en el
+[recibo del 01/10](evidence/AI_COACH_E06_E17_CRITERION_2026-10-01.json):
+E17 necesita más observación porque aún se movilizan desde spawn; en E06 el
+usuario corrige la premisa sobre C4 y deduce presión hacia A por el otro T ya
+situado allí, con reunirse para apoyarse como principio general. No volver a
+solicitar esas lecturas ni un número de segundos por costumbre. La expectativa
+de presión hacia A se conserva separada de una afirmación de preparación de
+entrada, de intención confirmada y de apoyo físicamente viable.
+La [recepción y propuesta concreta](../outputs/stratai-criteria-followup-20261001/CRITERIO_Y_SIGUIENTE_PASO.md)
+registra criterio, ejemplos, excepciones, dependencias y verificación.
+**Decisión de alcance recibida:** «Añadelo también ya que es posible que vaya hacia B. Aunque es mas propable A».
+El [recibo](evidence/AI_COACH_ORIENTATION_SCOPE_ACCEPTANCE_2026-10-01.json) conserva
+el literal y su SHA-256. Queda aceptada la orientación probable separada, con
+preferencia ordinal y alternativa no excluida, sin porcentaje ni afirmación de
+preparación. La pregunta de alcance está respondida. El C4 no fundamenta esa
+preferencia en E06.
+
+La [auditoría espacial previa](../outputs/stratai-criteria-followup-20261001/spatial-source-audit.json)
+verifica posiciones/reloj pero no pertenencia nominal acreditada en la entrada
+candidata. Los nombres heredados mezclan propiedades nativas, semillas y NAV;
+`m_bInBombZone` tampoco define el espacio táctico de estos casos. La dependencia
+entonces pendiente era factual; la nueva captura se describe debajo. No suplir
+fuentes con respuestas humanas, radios inventados o nombres de casos.
+Una [sonda nativa aislada](../outputs/stratai-criteria-followup-20261001/native-place-probe-work/run-receipt.json)
+lee sólo el prefijo de la demo aprobada de E06 y confirma `BombsiteA` para T1 y
+`Middle` para T4 en el corte exacto, sin MapManager. Cuatro pruebas previas,
+195 registros y 12.958 lecturas, identidades/posiciones exactas y SHA de demo
+antes/después. La entrega de esos valores ocurrió 10,125 y 20,421875 s antes;
+no confundir esa edad con antigüedad de una posición ni con invalidez demostrada.
+Aquella sonda no capturó E17, incorporó un campo al contexto ni acreditó una región
+táctica. Se conserva como diagnóstico histórico de fuente. La implementación
+posterior añade la propiedad nativa en un archivo separado para cada corte, con
+identidad/serial, posición, vida, lado, conexión, reloj, mapa/build y hashes.
+Conserva entrega y lectura actual diferenciadas, sin acreditar una zona geométrica.
+El callback síncrono de registrar OnUpdate no cuenta como nueva entrega.
+[Contrato de captura](contracts/context/canonical-native-place-context-v1.md). Los 34 contextos
+anteriores conservan sus bytes; la capa nativa se declara como información
+añadida y se compara por separado de las ejecuciones sin ella.
+
+- [x] **Fase 1, contexto candidato:** entrada `stratai.candidate_context@1` separada,
+  con paquetes y suplementos completos, E03 @5 y 33 @9, hashes, incertidumbre y
+  eventos fechados. [Contrato](contracts/context/canonical-candidate-context-v1.md). **34 contextos,
+  25.025 muestras, 611 eventos y 102 artefactos** contrastados por un comprobador
+  que no importa el productor. **2.150 pruebas** generales y **81** repetidas tras
+  retirar validación duplicada; lint y contratos correctos. Exactamente **una demo
+  aprobada** procesada a TEMP nuevo: parser 81,504 s, smoke completo 1.425,714 s,
+  11 contextos técnicos, validación canónica sin errores y 16.510 recuentos de equipo
+  recalculados. Conservados 109 archivos protegidos, los 44 manifiestos y el intento
+  parcial previo a la optimización. El nuevo contexto aún no sustituye la entrada
+  del detector congelado ni emite interpretaciones tácticas.
+  [Cierre y límites](../outputs/stratai-context-iteration-20261001/RESULTADO.md),
+  [contraste del lote](../outputs/stratai-context-iteration-20261001/batch-independent-verification.json),
+  [smoke](../outputs/stratai-context-iteration-20261001/smoke-summary.json).
+- [ ] **Fase 2, criterio ejecutable — parcial:** implementada la orientación
+  separada `ally_site_middle_orientation@1-provisional` según el
+  [contrato](contracts/context/canonical-destination-orientation-v1.md). Mirage, perspectiva T,
+  preplant y elegibilidad positiva, recuento completo de dos vivos y tres muertos,
+  identidad/conexión/posición actuales de los vivos: un nombre nativo
+  `BombsiteA`/`BombsiteB` y otro `Middle` favorecen el site del compañero, manteniendo
+  el opuesto posible. El límite de dos vivos y la simetría son codificación acotada
+  del agente para desarrollo, no nuevas citas del experto. El C4 no elige destino.
+  Las carencias y configuraciones no cubiertas conservan abstención motivada;
+  posplantado queda fuera. **Pendiente:** suficiencia/madurez para afirmar
+  preparación y reconocer movilización inicial; «más tiempo» no fija segundos.
+- [ ] **Fase 3, ajustes y evaluación — parcial:** candidato de orientación
+  implementado y contrastado; detector de preparación congelado sin cambios.
+  **2.219 pruebas Python**, suite Go y lint correctos, vinculados a **27 hashes**
+  de productor. [Recibo](../outputs/stratai-orientation-candidate-20261001/automated-tests.json).
+  El [cierre funcional](../outputs/stratai-orientation-candidate-20261001/functional-closure.json)
+  procesa exactamente **una demo aprobada** después de las pruebas: captura
+  17.0 s, 10 cortes,
+  305 entregas y 326 cambios.
+  Contraste independiente de fuente y **44 salidas**: 34 sin enriquecimiento y
+  diez con él. Después del cierre, el
+  [lote separado](../outputs/stratai-orientation-candidate-20261001/remaining-application.json)
+  aplica el mismo ejecutable y código a las otras dos demos/cortes TP10, creando
+  las **24** salidas enriquecidas restantes, sin retocar la regla. Se conservan
+  TEMP/inventarios, 420 archivos protegidos y 44
+  manifiestos aprobados. No es migración 44/44 ni otro smoke funcional.
+  Las 34 salidas enriquecidas contienen **1 hipótesis,
+  30 abstenciones y 3 fuera de alcance**;
+  son recuentos de desarrollo, sin tasa de acierto. [Tabla, diagnóstico y siguiente
+  revisión](../outputs/stratai-orientation-candidate-20261001/RESULTADO.md).
+  **Pendiente:** evaluación táctica independiente con nuevas lecturas y separación
+  por partida/jugadores. La [reserva técnica](../outputs/stratai-context-iteration-20261001/independent-reserve-plan.json)
+  sigue siendo propuesta sin evaluación realizada. El contraste técnico no
+  sustituye el juicio experto ni acredita generalización. Sin entrenamiento,
+  publicación ni promoción.
+
+**Casos prioritarios:** E06 emite `preferred_site=A`, `more_likely`, con B
+`possible_not_excluded`; acompaña a la B congelada, que responde a otra pregunta
+y utiliza otra información. No demuestra `prepare_entry A`. E17 se abstiene por
+`configuration_not_covered_more_observation_required`: cinco vivos quedan fuera
+del patrón. No acredita detección de spawn ni corrige el B temprano original.
+E24 conserva posplantado fuera del alcance; E13/E25/E30 mantienen `unknown`, sin
+inferir cuchillos. El informe distingue observación e inferencia en cada caso.
+
+IC34 conserva la autorización y los pendientes históricos en
+[Excel v25](../outputs/stratai-context-iteration-20261001/StratAI_Plan_del_coach_TP10_v25.xlsx).
+IC35 e IC36 registran las nuevas respuestas de E17/E06, literales y síntesis
+separadas, en [Excel v26](../outputs/stratai-criteria-followup-20261001/StratAI_Plan_del_coach_TP10_v26.xlsx).
+IC37 añade el literal de aceptación y la propuesta técnica separada en
+[Excel v27](../outputs/stratai-orientation-candidate-20261001/StratAI_Plan_del_coach_TP10_v27.xlsx),
+sólo A42:G42 de «Contexto colectivo»; 14 hojas y contenido anterior preservados,
+sin errores de fórmula. [Verificación](../outputs/stratai-orientation-candidate-20261001/workbook-verification.json).
+v25/v26 conservan sus hashes/valores. Segunda lectura
+en E25–E32 y E34–E36 y evaluación
+independiente siguen pendientes; no se han contactado revisores.
+[Verificación de la revisión anterior](../outputs/stratai-alex-review-20261001/source-verification.json).
+
+Antecedente del triaje del 30/09, conservado y confirmado por la consulta del 01/10:
+las 34 fichas tienen al menos una lectura. Hay 73 versiones humanas,
+67 pares actuales revisor/caso y 6 correcciones; 18 envíos técnicos se excluyen.
+23 casos tienen varias lecturas y 11 sólo una. El
+[triaje por caso](../outputs/stratai-human-review-triage-20260930/triage.json)
+conserva hashes de las respuestas y las predicciones selladas sin copiar el texto
+privado. El [diagnóstico factual](../outputs/stratai-human-review-triage-20260930/technical-diagnosis.json)
+señala E06 (B provisional frente a tres lecturas A), E17 (B provisional frente
+a una lectura B y una abstención a los 4 s) y E24 (postplant confirmado y lectura
+humana contradictoria). E13/E25 tienen elegibilidad de ronda `unknown` en su
+corte; no declararlas cuchillo ni puntuarlas tácticamente sin evidencia adicional.
+Las 34 fichas enriquecidas preservan episodio e intervalo originales pero cambian
+`context_id` respecto a la entrada congelada del detector. Por ello este triaje
+no produce precisión ni convierte los textos libres en etiquetas. La revisión
+del 01/10 separa la paridad factual del juicio experto antes de otra regla. Cualquier
+ajuste informado por este piloto requerirá una nueva evaluación independiente.
+La web @9 presenta cada situación fija y deja el recorrido anterior como contexto
+opcional. El formulario recuerda el corte y exige volver a él antes de enviar;
+la respuesta conserva su vínculo fijo al episodio/contexto y hash de la ficha.
+Es una corrección de presentación, no un nuevo criterio táctico ni entrenamiento.
+[Cierre de la presentación](archive/ai-coach/AI_COACH_SITUATION_REVIEW_2026-09-26.md).
+Mapa, estado/eventos y formulario comparten altura en tres columnas de escritorio.
+El último evento C4 se destaca junto al estado actual; E04 muestra el drop de T4
+a 00:02. Presentación comprobada en navegador de escritorio/móvil, cinco bloques
+factuales y 34 respuestas anteriores preservados.
+[Corrección de distribución](archive/ai-coach/AI_COACH_THREE_COLUMN_REVIEW_2026-09-28.md).
+La [ampliación del mapa](archive/ai-coach/AI_COACH_FULL_WIDTH_MAP_2026-09-28.md)
+elimina el contenedor centrado de ancho máximo, aprovecha la ventana completa y
+dimensiona la columna del radar según el espacio de pantalla. @8 conserva los
+datos y pide recarga a pestañas anteriores para mantener el vínculo al HTML visto.
+La [ampliación factual del C4](archive/ai-coach/AI_COACH_GROUND_C4_REVIEW_2026-09-28.md)
+añade en @9 un sexto bloque con posiciones nativas de la bomba, unidas al tick
+exacto mostrado. La marca sólo aparece en fichas T con C4 caído, sin portador ni
+planta y con procedencia verificada. No se usa la posición del jugador al soltarla.
+«Ver contexto anterior» queda al principio de Estado y eventos. 34 fichas,
+25.025 cortes, 7.064 posiciones dibujables; una demo aprobada contrastada en TEMP
+nuevo con 8.255 cortes y 2.445 posiciones, incluyendo retirada por recogida/planta
+y 73 cortes excluidos. Los cinco bloques anteriores y 36 respuestas permanecen
+intactos. IC33 en [Excel v24](../outputs/stratai-ground-c4-review-20260928/StratAI_Plan_del_coach_TP10_v24.xlsx).
+Las marcas CT se reducen
+al alias y conservan la baja como cruz. @6 añade 448 eventos de daño positivo entre
+equipos y 59 eventos nativos del C4 (32 drops, 27 recogidas); seis drops coinciden
+con una muerte en el mismo tick. No se infiere drop por falta de portador ni se
+muestran posiciones por disparos sin daño. Solicitud literal y alcance en IC32,
+Excel v23. [Cierre y verificación](archive/ai-coach/AI_COACH_REVIEW_WORKSPACE_2026-09-28.md).
+El usuario concretó que una baja aporta atacante, posición y arma relevante.
+La fuente canónica ya lo registraba y está conectada desde `stratai.review_web@4`:
+muestra feed y posiciones del evento, sin esperar la validación de avistamientos.
+Conservar las lecturas con su instrumento/hash, desacuerdos e información faltante;
+excluir `is_test=1` y no asumir lectura ciega (`not_collected`). No añadir más
+campos al formulario ni pedir notas aparte. El detector congelado no consume aún
+los suplementos de combate/C4; no atribuir a su generalización juicios que dependen del contexto
+nuevo. Evaluar esa diferencia antes de decidir una nueva regla o fase.
+
+**Contexto por bajas implementado.** 118 ocurrencias en 34 fichas, 63 aliadas:
+atacante, víctima, arma causante, reloj y posiciones del Kill. Marcadores desde
+el evento, antigüedad, actualización por otra baja y retirada al morir el atacante.
+No hay trayectoria global continua ni garantía de percepción/comunicación.
+Las rondas de cuchillos y los huecos conservan sus límites. El [alcance recibido](archive/ai-coach/AI_COACH_KILL_CONTEXT_SCOPE.md)
+está registrado en IC31 del libro
+`outputs/stratai-kill-context-20260926/StratAI_Plan_del_coach_TP10_v22.xlsx`.
+[Cierre](archive/ai-coach/AI_COACH_KILL_CONTEXT_2026-09-26.md) y
+[evidencia](evidence/AI_COACH_KILL_CONTEXT_2026-09-26.json). Pruebas y exactamente
+una demo aprobada verificadas; no se reprocesó el corpus. La dependencia de
+avistamiento continuo sigue abierta y es distinta de estos hechos por bajas.
+
+**Formulario de tres campos ya publicado.** El usuario limita la recogida a alias,
+interpretación e información faltante. La simplificación introdujo `stratai.review_web@2`;
+la versión vigente @9 conserva esos datos en tres columnas de ancho completo, destaca el evento C4 y marca la bomba caída. Estas versiones preservan respuestas
+anteriores y registran exposición como `not_collected`. Mismo sitio e invitaciones,
+sin login, 34 fichas verificadas y relojes mm:ss. [Cierre](archive/ai-coach/AI_COACH_SIMPLE_REVIEW_FORM_2026-09-26.md)
+y [evidencia](evidence/AI_COACH_SIMPLE_REVIEW_FORM_2026-09-26.json). La revisión puede
+continuar, registrando las limitaciones del contexto mostrado. No presumir lectura
+ciega, completar ausencias ni modificar predicciones/reglas con las respuestas.
+Excluir `is_test=1`; actualizar filas del Excel al recibir nuevos juicios expertos.
+
+**Lote de revisión ya disponible.**
+El [lote completo](../outputs/stratai-review-batch-20260925/paquete/index.html)
+incluye 34 fichas v3, agrupadas en 10 + 12 + 12, con hoja de respuestas y
+[ZIP portable](../outputs/stratai-review-batch-20260925/StratAI_34_casos_TP10.zip).
+Preparación y auditoría cerradas: [informe](archive/ai-coach/AI_COACH_REVIEW_BATCH_PREPARATION_2026-09-25.md)
+y [evidencia](evidence/AI_COACH_REVIEW_BATCH_PREPARATION_2026-09-25.json).
+Los 34 mantienen selección y hechos originales; se incorporan relojes y vivos
+con productores ya verificados. Una captura reutilizada y dos recapturas locales,
+sin cambiar runtime, reglas, corpus ni predicciones. Todos los temporales retenidos.
+La [petición](../outputs/stratai-review-batch-20260925/request.json) sustituye la
+entrega uno a uno por revisión conjunta. La recogida vigente es el formulario web;
+conservar literal/exposición por caso y contrastar sólo los respondidos.
+No rellenar ni puntuar lecturas ausentes. No volver a pedir E01/E02 ni entregar
+E03 aisladamente. La revisión por fases se conserva para nuevas reglas.
+Estos 34 completan la revisión pendiente del piloto; no garantizan generalización.
+El [contador de vivos y resumen factual están implementados](archive/ai-coach/AI_COACH_TEAM_STATUS_REVIEW_2026-09-25.md).
+La [ficha E02 v3](../outputs/stratai-team-status-20260925/review/E02.html) muestra
+plantado, vivos de ambos equipos y reloj según el corte seleccionado. Recuento
+final: **2 aliados contra 1 rival y 39,27 s de bomba**. Un estado ausente no cuenta
+como muerto. Contrato 5v5; otras composiciones o datos incompletos conservan incertidumbre.
+115 pruebas afectadas, 43 del backend y un smoke de exactamente una demo aprobada
+verificados: 1.170 muestras y 2.340 recuentos contrastados con bajas públicas.
+[Contrato](contracts/context/canonical-team-status-review-v1.md) y [evidencia](evidence/AI_COACH_TEAM_STATUS_REVIEW_2026-09-25.json).
+El [Excel v20](../outputs/stratai-team-status-20260925/StratAI_Plan_del_coach_TP10_v20.xlsx)
+actualiza IC28 y añade IC29 con el literal del usuario: los datos disponibles
+deben mostrarse aunque la interpretación táctica se abstenga.
+La lectura de E02, fichas v1/v2 y predicciones originales permanecen intactas.
+El [recibo v3](../outputs/stratai-team-status-20260925/E02-delivery.json) enlaza IDs;
+TP10 v0.6 declara el cambio de presentación posterior a esa lectura. No es un
+test independiente nuevo ni una recalibración del detector.
+La [cola activa](../outputs/stratai-e02-review-20260925/active-review-scope.json)
+mantiene 36 casos históricos, E01 excluida, E02 contrastada descriptivamente,
+34 pendientes y cero puntuaciones de precisión. Exposición privada E02 desconocida.
+No volver a pedir E01/E02, R1/R2/K1/K2 ni IC19/IC24/IC27/IC28/IC29.
+Las fichas originales E03–E36 v1 permanecen archivadas; el lote entregado usa
+v3, con relojes y contador rival, según el manifiesto de entrega y TP10 v0.7.
+La defensa posplantado automática requiere un encuadre de fase propio: el
+detector actual de preparación de entrada no la interpreta. Las ubicaciones
+y buena colocación de E02 siguen atribuidas al experto, sin convertirlas en
+consejos. Los hechos del resumen no son predicciones y no habilitan entrenamiento.
+La identificación nativa positiva real de cuchillos sigue pendiente; E01
+conserva exclusión experta y contexto automático desconocido.
+La [propuesta concreta](ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_PROPOSAL.md) ya contiene
+alcance, criterios recibidos, ejemplos/excepciones, dependencias y diez controles.
+La consulta fue respondida: «Mantener posibilidad hasta contradicción».
+El [recibo del criterio](evidence/AI_COACH_TEMPORAL_PERSISTENCE_CRITERION_2026-09-24.json)
+y IC24 del [Excel v14](../outputs/stratai-temporal-persistence-20260924/StratAI_Plan_del_coach_ICT_I2_v14.xlsx)
+conservan literal y límites; v13 y las otras 14 hojas se preservan. La pausa no
+crea una hipótesis inicial ni permite puentear datos ausentes. No volver a pedir
+este criterio ni R1/R2/K1/K2. La [actualización está cerrada en su alcance](archive/ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_2026-09-24.md),
+con [evidencia de pruebas y una demo real](evidence/AI_COACH_TEMPORAL_PERSISTENCE_2026-09-24.json).
+El filtro técnico conserva sensibilidad: R2 se abstiene con 0,5 s y propone A
+con 1/2 s. No convertir esta comparación de desarrollo en calibración validada.
+El [protocolo TP10 v0.5](ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PROTOCOL.md) y el
+[censo completo](../outputs/stratai-independent-evaluation-20260924/cohort-audit.json)
+ya están preparados. Hay 13 candidatas sin jugadores compartidos con las siete
+de desarrollo, nueve pares con cruces dentro de esas candidatas y ninguna
+partida posterior a la última de desarrollo. Todas las 44 tienen exposición
+agregada previa; la exposición táctica privada no registrada es desconocida.
+La selección técnica de tres partidas evita cruces entre ellas. Los 36 cortes
+quedaron congelados antes de ejecutar el detector y ya están materializados y
+verificados. La primera ficha se entrega sin revelar las predicciones.
+
+El usuario responde «Hazlo» a evaluar primero otros jugadores del mismo periodo.
+El [recibo de alcance](evidence/AI_COACH_TP10_SCOPE_ACCEPTANCE_2026-09-24.json)
+conserva literal y contexto. Las tres partidas quedan [congeladas](../outputs/stratai-tp10-pilot-20260924/frozen-selection.json)
+antes de parsing, predicciones y etiquetas nuevas. IC25 del
+[Excel v15](../outputs/stratai-tp10-pilot-20260924/StratAI_Plan_del_coach_TP10_v15.xlsx)
+registra el acuerdo y conserva v14 y sus 14 hojas. El
+[cierre técnico del lote](archive/ai-coach/AI_COACH_TP10_PILOT_2026-09-24.md)
+y su [evidencia](evidence/AI_COACH_TP10_PILOT_2026-09-24.json) acreditan fuentes,
+fichas y trazabilidad. Tras aquel cierre se recibe la primera lectura de E01; 35 casos siguen sin revisar. La validación hacia
+partidas posteriores queda pendiente y no se declara independencia absoluta.
+No repetir el censo ni pedir otra vez IC19/IC24 o R1/R2/K1/K2. El
+[cierre de preparación](archive/ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PREPARATION_2026-09-24.md)
+conserva evidencia y límites históricos. La respuesta actual autoriza este lote
+acotado de tres partidas retenidas, sin adquisición, migración 44/44 ni entrenamiento.
+
+El paso hacia consejos queda condicionado a alternativas parametrizadas físicamente
+viables y comparación respaldada. El prototipo devuelve abstención prescriptiva
+con esas dependencias. No se han implementado ni habilitado el comparador, el perfil
+personal o las misiones. Los gates 4/6/7/9 y el entrenamiento mantienen su estado.
+
+La [salida descriptiva ICT-I1.R1 está cerrada](archive/ai-coach/AI_COACH_REPLAY_DESCRIPTION_REPORT_2026-09-22.md): CLI reproducible, informe en español y evidencia de dos cortes reales; cinco actores por corte, posiciones, recursos, C4 y cambios adyacentes. Su comprobación del 22/09 conserva una demo aprobada: parsing 77,346 s e informe con validación de fuentes 14,316 s; `check:all` y 262 pruebas afectadas correctas. [Evidencia y ubicación retenida](evidence/AI_COACH_REPLAY_DESCRIPTION_REPORT_2026-09-22.json). Son resultados de R1, no suites repetidas en esta preparación documental.
+
+La propuesta R2 distingue observaciones, hipótesis y hechos ausentes. Mantiene la lectura de entrada B en este caso sin convertir la pausa de T1 en abandono ni el rol de T5 en lanzamiento observado. No establece umbrales tácticos, roles universales o una política de persistencia indefinida. No volver a pedir el criterio general de K1/K2 ni presentar estas referencias como evaluación independiente.
+
+El usuario ha rechazado generar partidas/muestras, sesiones grabadas o captura web: la fuente es la replay real. [Literal y alcance](evidence/AI_COACH_REPLAY_ONLY_SCOPE_CORRECTION_2026-09-22.json). La .dem conocida conserva el SHA-256 aprobado; no hace falta descargarla de nuevo. El [Excel v8](../outputs/stratai-replay-scope-20260922/StratAI_Plan_del_coach_ICT_I1_v8.xlsx), IC18, conserva el criterio y todas las respuestas previas; aquella corrección conservó el libro y las respuestas previas; ICT-I2 añade el nuevo criterio IC19 en v9.
+
+La salida descriptiva mantiene separados hechos y conocimiento atribuible. No reabrir la elección radar/visión, pedir vídeos, proponer sesiones para generarlos ni bloquear todo el coach por el icono exacto del HUD. La ausencia de esa prueba limita esa afirmación concreta; no autoriza convertir una máscara en visión directa o conocimiento del equipo. La [nota de dependencia](ai-coach/AI_COACH_ICT_I1B_RADAR_STATE_DEPENDENCY.md) conserva los límites factuales y retira la vía de grabaciones personales.
+
+La [sonda ICT-I1.B1 está cerrada](archive/ai-coach/AI_COACH_ICT_I1B_SPOTTING_PROBE_2026-09-22.md): una demo aprobada, **21,177 s**, 4.205 registros, 1.762 callbacks de propiedades y 27.352 máscaras recalculadas. Hay spotting nativo en las tres rutas directas de `CCSPlayerPawn`; las tres rutas anidadas consultadas están ausentes. `is_hltv=true`; cero mensajes `ProcessSpottedEntityUpdate` en los caminos instrumentados. No se ha demostrado correspondencia con punto rojo/interrogante, receptores de HUD, codec, vigencia o zona. [Evidencia](evidence/AI_COACH_ICT_I1B_SPOTTING_PROBE_2026-09-22.json).
+
+La [propuesta corregida](ai-coach/AI_COACH_ICT_I1B_INFORMATION_ATTRIBUTION_PROPOSAL.md), el [recibo literal](evidence/AI_COACH_ICT_I1B_EXPERT_CORRECTION_2026-09-22.json) e IC17 del [Excel v7](../outputs/stratai-ict-i1b-feedback-20260922/delivery/StratAI_Plan_del_coach_ICT_I1_v7.xlsx) conservan origen visual, contacto actual/perdido y prohibición de duplicar el mismo rival. La sonda no habilita E01. El siguiente avance exige la evidencia nueva especificada; no volver a parsear otras demos ni repetir inventarios negativos para buscar un positivo. Un `false` o máscara cero no distingue por sí solo interrogante persistente de marcador retirado.
+
+E01–E04, Q1/Q18/Q26 y K1/K2 ya están recibidos; no preguntar de nuevo por su criterio general. El criterio experto sobre el radar no verifica hechos ni sustituye las dependencias. No hay autorización nueva de entrenamiento, adquisición, promoción o reproceso 44/44.
+
+ICT-I1.A queda cerrado en su alcance: prefijos propios/aliados, vida/identidad, posiciones, siete hechos físicos, C4, diferencias muestreadas, procedencia y ausencias. No habilita interpretación táctica, percepción, rutas, recomendaciones ni evaluación independiente. Su [evidencia](evidence/AI_COACH_ICT_I1A_SINGLE_DEMO_SMOKE_2026-09-21.json) conserva una demo aprobada, validación causal/semántica, recálculo independiente y temporales retenidos. La revisión posterior de otras partidas y la separación de evaluación siguen el plan canónico, sin repetir K1/K2, la sonda o la solicitud de vídeo.
+
+**Reparaciones técnicas y documentales de la auditoría cerradas:** [AUD-F01/T01](archive/ai-coach/AI_COACH_PIPELINE_VERSION_REPAIR_2026-09-20.md), [AUD-C01](archive/ai-coach/AI_COACH_NAV_BOUNDARY_REPAIR_2026-09-20.md), [AUD-D01/D02/D03](archive/ai-coach/AI_COACH_DOCUMENTARY_REPAIR_2026-09-20.md) y [AUD-O01](archive/ai-coach/AI_COACH_STYLE_REQUIREMENT_REPAIR_2026-09-20.md). E01/E02 siguen sin recuperar originales; no se fabrican evidencias ni se repiten búsquedas negativas. Permanecen las dependencias físicas, percepción legal, elegibilidad y evaluación independiente.
+
+**Dependencias factuales conservadas:** 3E.22 cerró la conciliación de los nueve contextos retenidos sin discrepancias funcionales y sin una nueva fuente que resuelva entrada previa, alternativas viables o las dependencias físicas/tácticas. La segunda fase del bloque anterior no se inició. Para implementar una afirmación dependiente sigue haciendo falta material positivo identificable, procedencia, alcance de uso y comprobación independiente conforme a la [matriz de dependencias](ai-coach/AI_COACH_SUPPORT_C0_DEPENDENCIES.md). La frontera orientada pertenece al diseño heredado de S2, cuyo uso universal se revisará con el enfoque contextual; no se impone para poder discutir el diseño. Cualquier criterio resultante conservará causalidad, verificación temporal y la prueba física que su afirmación necesite. Un paquete exacto de assets no acredita por sí solo contacto, compromiso ni apoyo. No se ha autorizado adquirir material ni contactar a terceros. Sin fuente suficiente, detener la implementación dependiente sin repetir inventarios negativos, codecs/defaults o smokes de la misma ausencia ni crear una extensión para completar un bloque. S2–S3, cero elegibles y todos los demás gates conservan su estado.
+
+**Economía tras 3D.8:** la conciliación contable está validada, pero cero transacciones itemizadas o recomendaciones quedan acreditadas. Reabrir la causa económica sólo con una fuente positiva que explicite operación, importe efectivo, actor y vida del objeto, con reloj/procedencia enlazables a la demo. No repetir inventarios, netos ni proxies para confirmar la misma ausencia. Los 173 estados iniciales ambiguos y la falta de cesta/cooperación conservan su límite.
+
+**Dependencia externa separada:** 3D.2E terminó su auditoría y entregó la especificación. La compatibilidad exacta demo–assets sólo se reabre cuando exista el material indicado en la [dependencia de identidad](ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md). La prueba debe enlazar componente emisor/build observada, distribución, manifests, archivos originales y transformación reproducible. No repetir búsquedas de codecs/defaults ni otro smoke para reconfirmar el mismo bloqueo. Incluso al acreditarse, las reglas efectivas y transacciones conservarán sus propias comprobaciones.
+
+**Instrucción de retención vigente (2026-09-08):** conservar inventarios y rechazos históricos de 3D.1–3D.6, con sus salidas de sólo lectura. Sus marcas históricas de limpieza pendiente no autorizan ni exigen nuevas operaciones. No intentar borrados ni solicitar revisión de limpieza de temporales actuales o anteriores salvo nueva petición explícita del usuario. La retención no bloquea el avance funcional. Cestas, ranking, recomendaciones, entrenamiento y migración 44/44 siguen pendientes.
+
+### Preparación documental ICT-D1 — 17 de septiembre de 2026
+
+- [x] Entregar [especificación v0.1](ai-coach/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md), método de interpretación/actualización, perspectivas y criterios de revisión. Integración en los especialistas existentes, con hechos e hipótesis separados.
+- [x] Preparar seis situaciones ficticias de Mirage y 18 cortes F01–F06. Propuestas del agente separadas de respuestas humanas vacías. Son desarrollo abierto, sin datos nuevos de demo ni evaluación ciega acreditada.
+- [x] Incorporar el enfoque del usuario a una [nueva versión del Excel](../outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx), conservando el [original anotado](../outputs/stratai-coach-review-20260916-14a1667/StratAI_Plan_del_coach_revision_experta.xlsx), sus IDs, notas, valoraciones y prioridades. Las valoraciones anteriores no aprueban las propuestas ICT-D1.
+- [x] Recibir 18 interpretaciones libres del experto en la versión de Excel actualizada por el usuario. Conservar texto literal, estructura simplificada y desconocimiento de exposición previa.
+- [ ] Corregir formato y premisas, revisar hipótesis/vocabulario/rúbrica y delimitar después una implementación con fuentes suficientes. No hay inferencia de plan ejecutada, capacidad prescriptiva ni entrenamiento nuevos.
+- Verificación y alcance del cierre en el [informe documental](archive/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_DESIGN_PHASE_2026-09-17.md) y su [evidencia](evidence/AI_COACH_COLLECTIVE_TACTICAL_DESIGN_2026-09-17.json).
+
+### Recepción de revisión experta ICT-D1 — 17 de septiembre de 2026
+
+- [x] Registrar 18 interpretaciones y 18 entradas de información faltante, con SHA-256 y referencias de celdas, en el [informe](archive/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_EXPERT_REVIEW_2026-09-17.md) y la [evidencia](evidence/AI_COACH_COLLECTIVE_TACTICAL_EXPERT_REVIEW_2026-09-17.json). Excel recibido y cuaderno v0.1 conservados sin modificación.
+- [x] Incorporar al diseño posiciones por actor, reloj y continuidad, resultados previos, C4, recursos y economía, y distinguir comunicación desconocida de conocimiento exclusivo.
+- [x] Registrar objeciones a F04-K3 y F05-K3 como problemas del material. No se convierten en errores del revisor, imposibilidad física demostrada ni estadísticas. Las 18 valoraciones de Hipótesis de diseño siguen pendientes.
+- [x] Comprobar una única ficha F01-K1 v0.2 suficientemente concreta: el usuario confirma que puede identificar a los cinco y mejora la presentación. Es suficiencia para este caso, no aprobación del conjunto ni de una implementación. Véase la recepción específica siguiente; S2–S3 y gates intactos.
+
+### Preparación de F01-K1 v0.2 — 17 de septiembre de 2026
+
+- [x] Sustituir únicamente F01-K1 ficticia por una nueva versión real de desarrollo: ronda 1, tick 8524 de la partida aprobada `demo-a11eb0d600ee702c9edb`, con cinco actores individualizados, recursos y gráfico del movimiento anterior. No se modifica la ficha v0.1 ni el Excel recibido.
+- [x] Corroborar posiciones y orientación con replay/estados/sidecars retenidos; 103 segundos restantes con el contexto 3E.16 y recálculo nativo; C4 en T4 con el contexto 3E.15. Sin nuevo parsing ni productor ejecutado. Detalle en [informe](archive/ai-coach/AI_COACH_F01_K1_PREPARATION_PHASE_2026-09-17.md) y [evidencia](evidence/AI_COACH_F01_K1_REVIEW_PREPARATION_2026-09-17.json).
+- [x] Delimitar radar orientativo, callouts automáticos no adoptados, comunicación/contacto desconocidos y munición exacta no usada. No se rellenan ausencias ni se muestra el desenlace.
+- [x] Recibir la interpretación del usuario y comprobar suficiencia de localización/formato para este caso, según el registro siguiente. No se da por aprobada la conveniencia táctica, la rúbrica ni una implementación. S2–S3 y cero capacidades elegibles se mantienen.
+
+### Recepción de F01-K1 v0.2 — 17 de septiembre de 2026
+
+- [x] Registrar literalmente la respuesta del usuario y su vínculo con el corte presentado en el [informe](archive/ai-coach/AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.md) y la [evidencia](evidence/AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.json). La localización de todos los jugadores y el formato resultan suficientes para este caso.
+- [x] Conservar entrada B, T5 encargado de utilidad y entrada del grupo protegiendo a T4 como interpretación experta contextual. C4 en T4 mantiene su procedencia factual separada; la lectura no acredita ejecución posterior, roles permanentes, comunicación ni apoyo físicamente viable.
+- [x] Incorporar la respuesta a una [nueva versión del Excel](../outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx), en una fila propia de F01-K1 v0.2 (`Fichas tácticas`, A24:I24). Libro recibido, nueve columnas, 18 respuestas previas y ficha presentada conservados. Las 18 valoraciones de Hipótesis de diseño v0.1 siguen en Pendiente; no se completa información faltante con «ninguna» por ausencia de objeción.
+- [x] F01-K2 se difirió al reunir Q1 y se preparó y revisó después, según los registros específicos siguientes. Aporta continuidad experta en desarrollo; S2–S3, elegibilidad y todos los gates mantienen su estado.
+
+### Banco de preguntas Q1 — 17 de septiembre de 2026
+
+- [x] Preparar y plantear [36 preguntas en nueve bloques](ai-coach/AI_COACH_EXPERT_QUESTIONS.md), relacionadas con las 17 familias del catálogo y las casuísticas previstas. Esto acredita organización del diseño, no cobertura empírica ni aprobación táctica.
+- [x] Conservar criterios ya expresados, lectura F01-K1, anotaciones del Excel y las 18 valoraciones de hipótesis pendientes. No se modifica el libro ni se añaden respuestas humanas en esta preparación.
+- [x] Alinear plan, índice y único prompt. Integridad y alcance registrados en la [evidencia Q1](evidence/AI_COACH_EXPERT_QUESTIONS_2026-09-17.json). Actualización exclusivamente documental; suites funcionales y smoke no aplican.
+- [x] Recibir las 36 respuestas y las tres aclaraciones Q1, Q18 y Q26, según el registro siguiente. La petición de todas las preguntas no autoriza ejecutar todas las fases.
+
+### Recepción Q1 y aclaraciones — 17 de septiembre de 2026
+
+- [x] Conservar 36 respuestas originales y tres aclaraciones literales en el [recibo](evidence/AI_COACH_Q1_EXPERT_RESPONSES_2026-09-17.json), con síntesis y límites separados. Q1, Q18 y Q26 aclaradas; no se considera resuelto todo el diseño.
+- [x] Incorporar criterios al [informe](archive/ai-coach/AI_COACH_Q1_EXPERT_REVIEW_2026-09-17.md), especificación ICT-D1 v0.5 y [Excel v4](../outputs/stratai-q1-feedback-20260917-df08ccc/StratAI_Plan_del_coach_Q1_v4.xlsx), preservando notas, respuestas anteriores y 18 hipótesis pendientes.
+- [x] Verificar integridad documental y del libro; detalle en la [evidencia de recepción](evidence/AI_COACH_Q1_EXPERT_REVIEW_2026-09-17.json). Sin cambios funcionales ni nuevos hechos: suites y smoke no aplican.
+- [x] Preparar la rúbrica acotada, según el cierre siguiente. Delimitar una implementación sigue pendiente de enfoque y fuentes suficientes; S2–S3, elegibilidad y permisos se conservan.
+
+### Rúbrica documental de entrada y apoyo — 17 de septiembre de 2026
+
+- [x] Entregar [ocho criterios R1–R8](ai-coach/AI_COACH_ENTRY_SUPPORT_REVIEW_RUBRIC.md) con señales, contexto, alternativas, abstención y verificación. Propuesta documental del agente basada en Q1, sin nuevas respuestas atribuidas al usuario ni aprobación de hipótesis anteriores.
+- [x] Aplicar documentalmente a F01-K1: conservar plan de entrada B y funciones como lectura experta; no acreditar cobertura física, error, alternativa superior o misión correctiva. K2 no necesario para esta preparación y no reconstruido.
+- [x] Definir doce comprobaciones futuras V01–V12 y el formato de explicación/misión. No son pruebas ejecutadas de un motor ni resultados empíricos.
+- [x] Verificar coherencia, fuentes, enlaces, IDs, integridad y único prompt. [Informe](archive/ai-coach/AI_COACH_ENTRY_SUPPORT_RUBRIC_PHASE_2026-09-17.md) y [evidencia](evidence/AI_COACH_ENTRY_SUPPORT_RUBRIC_2026-09-17.json). Excel v4, respuestas y artefactos anteriores preservados; suites funcionales y smoke no aplican.
+- [x] Preparar F01-K2 para contrastar actualización, según el cierre siguiente.
+- [x] Recibir la nueva lectura de K2, según el registro siguiente. No se cierra S2–S3 ni se modifican gates por entregar esta rúbrica.
+- [ ] Concretar la aplicación sustentada mediante la propuesta del intérprete descriptivo temporal; implementación y evaluación general pendientes.
+
+### Preparación de F01-K2 v0.2 — 17 de septiembre de 2026
+
+- [x] Preparar [ficha neutral](ai-coach/AI_COACH_F01_K2_REVIEW_v0.2.md) y [minimapa comparativo](../outputs/stratai-f01-k2-review-20260917-75f20cf/F01-K2_v0.2_mapa.png) de la misma ronda/alias: tick8636,frame8654,secuencia1417,101,25s restantes. K1 y su lectura se conservan.
+- [x] Registrar política previa, selección operacional, giros anteriores y exposición acotada hasta8652; el material mostrado termina en8636. No se selecciona por desenlace ni se fuerza un lanzamiento. Interrupción de XY muestreadas, no inmovilidad física o espera.
+- [x] Contrastar fuentes/reloj/C4/identidad y revisar gráfico y documentación; [informe](archive/ai-coach/AI_COACH_F01_K2_PREPARATION_PHASE_2026-09-17.md) y [evidencia](evidence/AI_COACH_F01_K2_REVIEW_PREPARATION_2026-09-17.json). Ausencia de player_states exacto preservada, sin extrapolación. Aplicación R1–R7 del agente separada de ficha y respuesta humana.
+- [x] Preservar libros y artefactos anteriores, retener nuevas salidas/inventarios y dejar único prompt. Sin cambio funcional: suites/smoke no aplican. S2–S3 y elegibilidad intactos.
+- [x] Recibir interpretación del usuario, según el registro siguiente; no se ha preparado K3.
+
+### Recepción de F01-K2 v0.2 — 17 de septiembre de 2026
+
+- [x] Conservar el [literal](evidence/AI_COACH_F01_K2_EXPERT_RESPONSE_2026-09-17.json): mantiene la lectura anterior, «Parece un push hacia B» y cita el avance colectivo. [Informe de recepción](archive/ai-coach/AI_COACH_F01_K2_EXPERT_REVIEW_2026-09-17.md), con autoría, versión y contraste separados.
+- [x] Registrar continuidad K1–K2 sin imponer un cambio, nuevas funciones o una regla universal. Mantener el literal separado del movimiento muestreado de T1/T5; no acredita movimiento simultáneo de cinco, cobertura, eficacia de utilidad ni corrección táctica.
+- [x] Incorporar la respuesta en el [Excel v5](../outputs/stratai-f01-k2-feedback-20260917-66faa56/StratAI_Plan_del_coach_F01_K2_v5.xlsx), conservando libros, Q1, tres aclaraciones, K1 y 18 hipótesis pendientes. Integridad, celdas, presentación, enlaces y único prompt en la [evidencia de recepción](evidence/AI_COACH_F01_K2_EXPERT_REVIEW_2026-09-17.json).
+- [x] Documentar la siguiente acción mínima: preparar la propuesta de alcance del intérprete descriptivo temporal. No se ejecuta en esta recepción ni se prepara K3. Sin cambios funcionales, suites y smoke no aplican; artefactos retenidos, S2–S3 y gates intactos.
+- [ ] Presentar esa propuesta concreta, recoger el enfoque experto necesario y después delimitar la implementación y su verificación. Un par de cortes conocidos no acredita generalización ni responde cómo actualizar ante contradicción.
+
+### Acuerdo de colaboración — 17 de septiembre de 2026
+
+- Registrado el ciclo de propuesta, enfoque experto, actualización gradual del Excel, implementación, verificación y cierre por fase.
+- Alineados `AGENTS.md`, este plan y el único prompt vigente. El índice documental enlaza el procedimiento.
+- El libro entregado conserva sus propuestas y anotaciones sin modificación en esta actualización documental. No se han aprobado sus criterios en bloque ni iniciado una nueva fase funcional. Los cierres previos, S2–S3 y las dependencias de datos conservan su alcance.
+
+### Cierre documental del paso 2 — 5 de septiembre de 2026
+
+- [x] Entregar el diseño, la matriz de datos y los instrumentos propuestos, sin fabricar casos ni respuestas humanas.
+- [x] Contrastar el diseño con catálogo/evidencia y leer los productores económicos para detectar límites de disponibilidad. El grafo devolvió `Transport closed`; se usó lectura localizada.
+- [x] Trasladar decisiones y pendientes a este plan y sustituir el prompt ejecutado por el de 3A.
+- [x] Verificar enlaces locales sin destinos ausentes, 45 IDs citados válidos, hashes de las 15 evidencias y catálogo sin cambios, un único prompt y `git diff --check` sin errores. Resultado en el [informe de cierre documental](archive/ai-coach/AI_COACH_INITIAL_PILOT_DESIGN_PHASE_2026-09-05.md).
+
+### Registro de esta reorganización
+
+- [x] Reorientar producto y arquitectura al ciclo completo, con perfil/misiones iniciales y presupuesto flexible.
+- [x] Archivar 18 informes fechados; preservar los 15 JSON de evidencia en `docs/evidence/`.
+- [x] Conservar el [plan v1.18](archive/ai-coach/AI_COACH_IMPLEMENTATION_PLAN_v1.18_2026-09-05.md) y el prompt anterior como referencias históricas, sin instrucciones activas.
+- [x] Consolidar orden y pendientes en este plan; retirar la cronología del README y conservar comandos en una guía operativa.
+- [x] Comprobar enlaces locales de Markdown y las 37 referencias documentales de evidencia del catálogo, sin destinos ausentes; conservar un único prompt activo.
+- [x] Ejecutar `backend\venv\Scripts\python.exe -B -m ai_coach.contracts.validate_contract`: `ok=true`, 17 capacidades, 15 decisiones, 51 acciones, 18 outcomes, 58 campos y 33 schemas runtime.
+- [x] Comparar antes/después los SHA-256 de los 15 JSON de `docs/evidence/`: sin cambios. Comprobar `git diff --check`: sin errores de whitespace.
+- [x] Revisar de forma independiente alcance, estados y umbrales frente al plan anterior; conservar el bloqueo factual y de entrenamiento. No se ejecutaron smokes ni suites funcionales en esta fase documental.
+
+El [archivo AI Coach](archive/ai-coach/README.md) conserva cifras, comandos y detalles de fases anteriores. Sus antiguas prioridades y presupuestos están sustituidos por este plan; sus resultados técnicos mantienen el alcance y las limitaciones originales.
+
+
+### Auditoría integral — 19 de septiembre de 2026
+
+- [x] Ejecutar la petición de auditoría de los fundamentos, economía 3A–3D, apoyo/C0 3E.1–3E.22, producto, ICT-D1, Q1, rúbrica, K1/K2 y cinco versiones recibidas del Excel. [Informe](archive/ai-coach/AI_COACH_INTEGRAL_AUDIT_2026-09-19.md), [evidencia](evidence/AI_COACH_INTEGRAL_AUDIT_2026-09-19.json) y [matriz](../outputs/stratai-integral-audit-20260917/coverage-matrix.md): 168 requisitos con límites explícitos, no una certificación de todas las funciones.
+- [x] Ejecutar `npm run check:all` (88 frontend, 14 Node, tres omitidas, 22 paquetes Go, 43 FastAPI) y complementar AI Coach (1.840) y scripts Python de Go (186); contrato 104 schemas/19 razones. Ruff amplio suplementario devuelve dos hallazgos de estilo preexistentes; Redis/Steam/pipeline real no ejecutados. Código fuente sin cambios entre las suites del 17/09 y el smoke del 19/09.
+- [x] Validar exactamente una partida aprobada, `demo-a11eb0d600ee702c9edb`, SHA `a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262`, en dos modos standalone del productor real y destinos TEMP nuevos. Canonical, materializadores, lectores y recálculos pasan: C0 30.716 cortes/199.454 actor-cuts/660.686 candidatos; economía 1.365 intervalos, 243 no comparables y cero transacciones itemizadas. Salidas/inventarios retenidos. No sustituye los smokes históricos ni prueba el pipeline normal.
+- [x] Registrar AUD-F01 (v11/v16), AUD-C01/D01 (frontera NAV/visual), AUD-T01 (prueba omitida con expectativa v3), AUD-D02/D03 (estado temporal/ruta oracle) y AUD-E01/E02 (retención histórica/exportación v2 no localizable). La pérdida observada de archivos en siete raíces entre sesiones queda documentada sin atribuir causa ni autor. Los cierres antiguos se evalúan con sus requisitos de entonces; no se inventan gates retrospectivos.
+- [x] Preservar respuestas expertas, 18 hipótesis pendientes, cinco libros, corpus/release/exports y cambios preexistentes. Las únicas fuentes/documentos existentes editados son plan y prompt; informe y evidencia nuevos. Sin código funcional, intérprete, K3, adquisición, limpieza, publicación, migración 44/44, entrenamiento ni cambios de CURRENT.
+- [x] Reparar y verificar AUD-F01/T01: cierre del 20/09 registrado debajo. Esta antigua siguiente acción queda completada; el estado vigente y los gates figuran en la sección 10.
+
+**Continuidad del historial:** la recepción F01-K2 del 17/09 estableció preparar la propuesta del intérprete; esa acción no se ejecutó y queda precedida por la reparación anterior debido a esta auditoría solicitada por el usuario. Se conservan la recepción, sus criterios y el prompt previo en la referencia de auditoría, sin convertir la revisión experta en prueba física o permiso de implementación.
+
+
+### Reparación AUD-F01 — 20 de septiembre de 2026
+
+- [x] Alinear Node en v16, incluidos trabajos antiguos ya encolados, registrando la versión del intento antes del envío; rechazar explícitamente otra versión al entrar en Go, antes de parsing/locks/salida. La versión omitida conserva el default. No se relaja el validador ni se activa el pipeline del modo temporal.
+- [x] Corregir la expectativa v3 de recuperación y ejecutar regresiones de alta/default/recuperación contra Go y el validador Python real sin Redis. Fallaron antes de la reparación y pasan después. AUD-T01 corregida en su alcance contractual; los tres tests con Redis real siguen sin ejecución local acreditada.
+- [x] `npm run check:all` final: 88 frontend, 18 Node aprobados/3 omitidos, 22 paquetes Go, 43 FastAPI, lint y build. Complemento: 187 pruebas de scripts Python; contrato 104 schemas/19 razones intacto; comprobaciones Go/Python finales aprobadas.
+- [x] Procesar una única demo aprobada (alias `demo-a11eb0d600ee702c9edb`, SHA `a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262`) con la petición Node y el handler/productor reales y el validador de publicación real. Dos ejecuciones de la misma partida: se conservó la primera y se repitió en otro TEMP tras corregir y probar el caso de trabajo antiguo en cola; el cierre usa la segunda. Redis aislado y barrera intencional antes de publicar; overlay de retención sólo desactiva el borrado de esas salidas. 73 artefactos raíz/72 de datos, 24 rondas y 918 filas por partición causal; hashes de datos iguales a la auditoría y controles causales independientes aprobados.
+- [x] Conservar corpus, bundles, archivos históricos, libros, interfaz temporal y cambios del usuario. Sin publicación, limpieza, adquisición, lote 44/44, entrenamiento, commits ni cambios de CURRENT. [Informe](archive/ai-coach/AI_COACH_PIPELINE_VERSION_REPAIR_2026-09-20.md) y [evidencia](evidence/AI_COACH_PIPELINE_VERSION_REPAIR_2026-09-20.json).
+- [x] Corregir y verificar AUD-C01: cierre del 20/09 registrado debajo. Esta antigua siguiente acción queda completada, sin cambios de criterio táctico.
+
+
+### Reparación AUD-C01 — 20 de septiembre de 2026
+
+- [x] Separar diagnóstico NAV de tránsito físico en catálogo, contrato humano y consumidor. Conservar cálculos, IDs, filas y procedencia, con abstención física para true/false/unavailable y missing. Sin cambios tácticos ni nuevas fuentes físicas.
+- [x] Versionar candidato .2, manifest @2 y DecisionExample@3; conservar schemas anteriores. Registro: 106 schemas y 19 razones.
+- [x] Suite pública aprobada. AI Coach: 1.844 aprobadas y dos expectativas de conteo corregidas; 70 pruebas afectadas pasan tras el último cambio. Regresiones negativas previas y recibos conservados, sin afirmar una segunda pasada completa verde.
+- [x] Una demo aprobada, una ejecución real del productor, materializador y lector actuales: 918 ejemplos, 2.754 joins y cero cobertura física NAV. Validación semántica y contraste independiente; salida TEMP e inventario retenidos. [Informe](archive/ai-coach/AI_COACH_NAV_BOUNDARY_REPAIR_2026-09-20.md) y [evidencia](evidence/AI_COACH_NAV_BOUNDARY_REPAIR_2026-09-20.json).
+- [x] Alinear AUD-D01/D02/D03: cierre documental del 20/09 registrado debajo.
+
+
+### Alineación AUD-D01/D02/D03 — 20 de septiembre de 2026
+
+- [x] Calificar proxies visuales históricos y mantener abstención de contacto legal support/C0; alinear CAP-TIME con rutas acreditadas; corregir oracle.jsonl en la tabla humana. Contrato humano v1.50.
+- [x] Verificar cambios sólo en meaning/evidence_ref de tres campos, texto y referencias; contrato 106 schemas/19 razones válido. Sin cambios runtime ni parsing nuevo. [Informe](archive/ai-coach/AI_COACH_DOCUMENTARY_REPAIR_2026-09-20.md) y [evidencia](evidence/AI_COACH_DOCUMENTARY_REPAIR_2026-09-20.json).
+- [x] Resolver AUD-O01: cierre del 20/09 registrado debajo; E01/E02 conservan su límite histórico.
+
+
+### Reparación AUD-O01 — 20 de septiembre de 2026
+
+- [x] Sustituir cache equivalente, ordenar imports y alinear README con Go 1.24.0 de go.mod. Comparación de fuente/AST/texto acotada, Ruff ai_coach completo y 70 pruebas afectadas aprobadas. No se modifica runtime ni se repite parsing por estilo. [Informe](archive/ai-coach/AI_COACH_STYLE_REQUIREMENT_REPAIR_2026-09-20.md) y [evidencia](evidence/AI_COACH_STYLE_REQUIREMENT_REPAIR_2026-09-20.json).
+- [x] Preparar la propuesta del intérprete para revisión experta: ICT-I1 v0.1, registrada debajo. Implementación pendiente de encuadre y fuentes; E01/E02 conservan su estado.
+
+
+### Preparación ICT-I1 — 20 de septiembre de 2026
+
+- [x] Concretar [propuesta v0.1](archive/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md): entradas causales y límites de perspectiva, registro descriptivo, actualización, ubicación técnica, continuidad conocida, excepciones y verificación. Identificar material que falta para contrastar ambigüedad/cambio antes de seleccionar un caso nuevo. [Evidencia documental](evidence/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL_2026-09-20.json).
+- [x] Conservar K1/K2 y respuestas humanas como referencia de desarrollo separada, libros intactos y gates vigentes. No se implementa motor, se prepara K3 ni se parsea otra demo por esta propuesta.
+- [x] Recibir el encuadre experto el 21/09 y trasladarlo a Excel v6 y alcance v0.2, como se registra debajo. Los criterios no acreditan por sí solos fuentes ni implementación.
+
+
+### Recepción experta ICT-I1 — 21 de septiembre de 2026
+
+- [x] Conservar el [literal del usuario](evidence/AI_COACH_ICT_I1_EXPERT_RESPONSE_2026-09-21.json) y registrar cuatro factores: más defensa percibida, oportunidad de una baja en medio con su excepción, posible fake y pérdida de quien busca información. Son criterios generales contextuales, sin umbrales universales ni nuevos sucesos atribuidos a K2.
+- [x] Incorporar IC13–IC16 al [Excel v6](../outputs/stratai-ict-i1-feedback-20260921/delivery/StratAI_Plan_del_coach_ICT_I1_v6.xlsx), con literal, síntesis y límites separados. Conservar los cinco libros anteriores, 36 respuestas Q1, tres aclaraciones, 20 fichas, 75 valoraciones y 18 hipótesis pendientes. Comparación de las 14 hojas y revisión visual acotada aprobadas.
+- [x] Delimitar el [alcance v0.2](ai-coach/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md) contra los contratos: registro factual propio/aliado independiente y requisitos específicos de las hipótesis. Contacto legal, comunicación, tránsito físico e intención no reciben prueba nueva. [Informe](archive/ai-coach/AI_COACH_ICT_I1_EXPERT_REVIEW_2026-09-21.md) y [evidencia](evidence/AI_COACH_ICT_I1_EXPERT_REVIEW_2026-09-21.json).
+- [x] Implementar y verificar ICT-I1.A dentro de ese alcance: cierre funcional posterior del 21/09 registrado debajo. La recepción documental inicial no creó un motor ni ejecutó parsing; las reglas dependientes y gates de evaluación siguen abiertos.
+
+### Cierre funcional ICT-I1.A — 21 de septiembre de 2026
+
+- [x] Implementar adaptador causal y registro descriptivo versionado en `ai_coach/interpretation/`, con posiciones/vida, siete hechos físicos y tenencia C4; identidad, exclusiones, desconocidos y cadena de registros preservados.
+- [x] Aprobar checks públicos, 1.888 pruebas del AI Coach y 62 pruebas finales afectadas; 107 schemas/19 razones. Controles de futuro, rivales ocultos, respuestas humanas, discontinuidad e integridad aprobados.
+- [x] Procesar exactamente una demo aprobada en TEMP nuevo: 61432 registros CT/T, 306740 estados actor/corte y 205045 diferencias recalculadas; validación canónica, lector y auditor independiente aprobados. K1/K2 conservados como desarrollo conocido, sin respuestas como entrada.
+- [x] Retener salidas e inventario. Hipótesis positivas, recomendaciones y nuevas capacidades elegibles: 0. El encuadre existente y Excel v6 se conservan, sin nuevos criterios tácticos.
+- [Informe](archive/ai-coach/AI_COACH_ICT_I1A_PHASE_2026-09-21.md), [contrato](contracts/context/canonical-temporal-description-v1.md) y [evidencia](evidence/AI_COACH_ICT_I1A_SINGLE_DEMO_SMOKE_2026-09-21.json). Cierre del componente descriptivo; las dependencias de percepción, atribución, espacio, función y viabilidad permanecen.
+
+### Recorrido solicitado y cierre de rendimiento — 22 de septiembre de 2026
+
+- [x] Aplicar el primer tramo del recorrido solicitado: rendimiento, equivalencia y un smoke técnico posterior a tests. [Informe](archive/ai-coach/AI_COACH_TEMPORAL_PERFORMANCE_2026-09-22.md), [evidencia](evidence/AI_COACH_TEMPORAL_PERFORMANCE_SMOKE_2026-09-22.json).
+- [x] Congelar selección técnica de cinco partidas antes de sus nuevos outputs; mantener las otras 39 como reserva no certificada como test independiente.
+- [x] Completar y documentar el lote técnico congelado: cinco partidas verificadas, sin diferencias en los recálculos. [Informe](archive/ai-coach/AI_COACH_TEMPORAL_MULTIDEMO_EVALUATION_2026-09-22.md) y [evidencia](evidence/AI_COACH_TEMPORAL_MULTIDEMO_EVALUATION_2026-09-22.json).
+- [ ] Completar ICT-I1.B con fuente positiva, revisión de nuevos criterios cuando proceda, etiquetas y separación adecuadas antes de entrenar. El protocolo está preparado; las dependencias no se dan por satisfechas con más filas.
+
+### Cierre del primer lote técnico — 22 de septiembre de 2026
+
+- [x] Cinco demos distintas aprobadas: 272006 registros; 886310 desplazamientos y 5245131 hechos físicos recalculados/contrastados de forma independiente. Cero diferencias detectadas en esos controles.
+- [x] Separar el smoke de exactamente una demo del lote posterior de cuatro. Código/binary sellados, selección previa y salidas nuevas TEMP; 44 manifests sin cambios y 44 checksums originales verificados.
+- [x] Documentar tiempos por etapa, conteos y desconocidos. Conservar todos los outputs e inventarios. Las mejoras medidas no acreditan precisión táctica, elegibilidad ni entrenamiento.
+
+### Preparación de atribución ICT-I1.B — 22 de septiembre de 2026
+
+- [x] Localizar y documentar una vía candidata concreta de spotting/radar en la dependencia fijada: función, callback, decoder Source 2 y formato de mensaje, con hashes y límites. [Evidencia](evidence/AI_COACH_ICT_I1B_PREPARATION_2026-09-22.json).
+- [x] Preparar alcance, ejemplos/excepciones, requisitos de receptor/tiempo/espacio y verificación de B1. [Propuesta](ai-coach/AI_COACH_ICT_I1B_INFORMATION_ATTRIBUTION_PROPOSAL.md), [cierre](archive/ai-coach/AI_COACH_ICT_I1B_PREPARATION_2026-09-22.md).
+- [x] Recibir y registrar la corrección del origen visual y la persistencia del radar. IC17 en Excel v7 conserva literal, síntesis y límites; v6 permanece intacto. Se retira la pregunta mal planteada, sin aprobar nuevas reglas. [Cierre documental](archive/ai-coach/AI_COACH_ICT_I1B_EXPERT_CORRECTION_2026-09-22.md).
+- [x] Acreditar presencia real de las propiedades nativas de spotting con la sonda B1. Esto no acredita estado de HUD ni receptores.
+- [ ] Acreditar semántica de contacto actual/perdido, receptores y vigencia antes de usar el canal. Las hipótesis siguen unavailable y no se entrena.
+
+### Sonda de spotting ICT-I1.B1 — 22 de septiembre de 2026
+
+- [x] Implementar un comando diagnóstico aislado, sin integrar sus resultados en el coach ni modificar contratos canónicos. Conserva presencia/tipos, aliases, entidad/serie, relojes del SDK, callbacks e instantáneas al final de fotograma. No extrae posición global rival ni nombres/Steam IDs.
+- [x] Pasar `npm run check:all` (71,541 s), ocho pruebas específicas y comprobación adicional de rechazo de una junction real. La prueba de symlink se omitió por privilegios de Windows; su límite está documentado.
+- [x] Procesar exactamente una demo aprobada después de las pruebas: 21,177 s, 158.386 fotogramas, 4.205 registros y 1.762 callbacks de propiedades. Cero mensajes de radar por los caminos instrumentados. TEMP nuevo retenido; cuatro archivos/367.520.337 bytes inventariados.
+- [x] Validar todas las filas y recalcular 27.352 máscaras y 41.028 valores frente a callbacks previos. 599 archivos protegidos y 44 hashes de manifests conservados; demo original con checksum idéntico antes/después. [Informe](archive/ai-coach/AI_COACH_ICT_I1B_SPOTTING_PROBE_2026-09-22.md) y [evidencia](evidence/AI_COACH_ICT_I1B_SPOTTING_PROBE_2026-09-22.json).
+- [x] Delimitar el [contraste factual pendiente](ai-coach/AI_COACH_ICT_I1B_RADAR_STATE_DEPENDENCY.md). No convertir máscaras, booleanos o sus transiciones en punto/interrogante, contacto visual actual ni conocimiento del equipo. Excel v7 sin cambios; no hay nueva respuesta experta que incorporar.
+- [ ] Completar el vínculo con HUD/receptor/tiempo y, cuando proceda, espacio antes de habilitar una hipótesis táctica. No entrenar, promover ni reprocesar el corpus.
+
+### Preparación del contraste HUD — 22 de septiembre de 2026
+
+- [x] Comprobar la instalación actual y consultar de forma acotada layout/estilos de radar en una referencia histórica fijada. Distinguir referencias candidatas de cliente exacto. [Evidencia](evidence/AI_COACH_RADAR_HUD_CONTRAST_PREPARATION_2026-09-22.json).
+- [x] Seleccionar seis cortes de revisión desde las observaciones retenidas, antes de ver el HUD, con ticks, aliases, filas y callbacks previos. [Paquete de cortes](../outputs/stratai-radar-hud-binding-20260922/Cortes_para_contrastar_el_radar.md). No son etiquetas de contacto ni estados visuales.
+- [x] Conservar 599 archivos protegidos, fuentes de la sonda, captura original y hashes de los 44 manifests aprobados. Sin cambios funcionales, nuevo smoke, demos procesadas ni Excel nuevo.
+- [x] Recibir la respuesta de disponibilidad: «No tenemos acceso a las grabaciones de los jugadores. Sería buena idea implementarlo?». No volver a pedir la ruta de esas grabaciones. Es una consulta de conveniencia, no aprobación de captura o adquisición.
+- [x] Retirar la propuesta de prueba controlada con vídeo y captura opcional: el usuario la rechaza y reitera análisis desde la replay. No es una tarea pendiente de aprobación ni se vuelve a proponer.
+- [ ] Acreditar cualquier afirmación concreta de HUD/receptor sólo con fuentes admisibles. Su ausencia conserva incertidumbre local y no exige vídeos al jugador ni bloquea las capacidades independientes del coach.
+
+### Corrección de alcance: replay como fuente — 22 de septiembre de 2026
+
+- [x] Registrar literalmente la corrección del usuario en IC18/Excel v8 y en la definición de producto v1.3. Retiradas la captura web, generación de partidas/muestras para obtener vídeo y solicitud/importación de vídeos personales en este recorrido.
+- [x] Confirmar la replay original aprobada y su copia retenida mediante SHA-256. Cero descargas nuevas y cero parsing; corpus y versiones anteriores del Excel conservados. Comparación de las 14 hojas, literal y formato verificados. [Cierre](archive/ai-coach/AI_COACH_REPLAY_ONLY_SCOPE_CORRECTION_2026-09-22.md).
+- [ ] Delimitar la interpretación basada en replay que puede entregarse con los hechos disponibles. Mantener los criterios E01–E04 y distinguir diagnóstico nativo de conocimiento del jugador; resolver sólo decisiones técnicas dentro del alcance recibido.
+
+### ICT-I2: contexto, mapa de desarrollo e interpretación — 23 de septiembre de 2026
+
+- [x] Recibir el encuadre provisional, conservar literal, ejemplos y límites en [evidencia](evidence/AI_COACH_CONTEXTUAL_CRITERION_ACCEPTANCE_2026-09-23.json) y Excel v9. Sus 14 hojas, valores, fórmulas, estilos y controles anteriores se preservan; sólo se añaden A24:G24 a Contexto colectivo.
+- [x] Implementar secuencia causal completa, referencias VMAP con alcance explícito y detector provisional con señales, funciones posibles, continuidad, revisión y abstención. Schema 108 y 19 razones; contratos/catálogo anteriores conservados.
+- [x] Verificar pruebas y exactamente una demo aprobada después de ellas: [informe](archive/ai-coach/AI_COACH_CONTEXTUAL_INTERPRETER_PHASE_2026-09-23.md), [evidencia](evidence/AI_COACH_CONTEXTUAL_INTERPRETER_SMOKE_2026-09-23.json). Recalcular hechos y señales e invariancia real a futuro/oracle/respuestas. Retener salidas e inventario.
+- [x] Evaluar técnicamente siete partidas reales con código congelado, 84 episodios, 12 emisiones y 72 abstenciones. [Informe](archive/ai-coach/AI_COACH_CONTEXTUAL_MULTIMATCH_PHASE_2026-09-23.md), [evidencia](evidence/AI_COACH_CONTEXTUAL_MULTIMATCH_EVALUATION_2026-09-23.json). Cero revisiones del lote, sin precisión/generalización acreditada ni ajuste posterior.
+- [ ] Acreditar límites semánticos de zonas y compatibilidad del asset con la build; las referencias actuales no certifican apartamentos ocupados, rutas ni contacto.
+- [x] Auditar fechas, cruces e inclusión en auditorías previas de las siete partidas: [informe](archive/ai-coach/AI_COACH_CONTEXTUAL_SEPARATION_PHASE_2026-09-23.md), [evidencia](evidence/AI_COACH_CONTEXTUAL_SEPARATION_2026-09-23.json). R1/R2 comparten dos/tres jugadores con desarrollo, no son posteriores a todas sus partidas y ambas tienen exposición agregada previa. No se acredita generalización a jugadores nuevos o al futuro; detector y corpus conservados, cero parsing nuevo.
+- [x] Tras reparar la información de las fichas, continuar el contraste y registrar exposición previa del revisor; después diseñar y acreditar evaluación independiente. Hay dos lecturas cualitativas recibidas y contrastadas, R1/R2, sin precisión global. Los 84 templates v1 permanecen intactos; el contraste v2 se conserva por separado. La evaluación independiente sigue pendiente.
+- [ ] Implementar consejo, perfil, práctica y seguimiento cuando haya alternativas viables, comparación respaldada y criterios correspondientes. La frontera de abstención implementada no cierra estas capacidades. Cero recomendaciones y entrenamiento.
+
+### Corrección de las fichas R1/R2 — 23 de septiembre de 2026
+
+- [x] Registrar literalmente la objeción del usuario en IC20/Excel v10, preservando v9. Es una respuesta sobre información y legibilidad, sin etiqueta táctica ni puntuación de abstención.
+- [x] Mostrar muerto/vivo, mapa con nombres y tipos de utilidad listados con vigencia incierta. Contrastar 650 estados con la replay retenida y revisar visualmente ambas fichas. [Informe](archive/ai-coach/AI_COACH_CONTEXTUAL_REVIEW_PRESENTATION_2026-09-23.md) y [evidencia](evidence/AI_COACH_CONTEXTUAL_REVIEW_PRESENTATION_2026-09-23.json).
+- [x] Acreditar inventario nativo vigente y reparar la ficha temporal en ICT-I2.R3. No se consume `weapons` conservado. R1 tiene tipos actuales y cantidades ausentes; R2 tiene cantidades capturadas. Cierre y límites documentados al final.
+
+### Lectura táctica cualitativa de R1 — 23 de septiembre de 2026
+
+- [x] Conservar literal y normalización separada en IC21/Excel v11: dos supervivientes, estrategia no identificable, B posible por la distribución descrita. Sin funciones asignadas, recomendación ni regla universal para dos vivos. [Informe](archive/ai-coach/AI_COACH_R1_EXPERT_READING_2026-09-23.md) y [evidencia](evidence/AI_COACH_R1_EXPERT_READING_2026-09-23.json).
+- [x] Mantener detector, fuentes, métricas y templates anteriores intactos. Una lectura cualitativa recibida, cero puntuadas; la respuesta no entra en el detector. Verificar literal, 14 hojas conservadas y siete celdas nuevas, con revisión visual.
+
+### Inventario y contraste contextual ICT-I2.R3 — 23 de septiembre de 2026
+
+- [x] Implementar reservas nativas, posesión actual corroborada y listas anteriores con límites de vida/continuidad. Añadir tres schemas, hasta 111 y 19 razones.
+- [x] Entregar fichas temporales R1/R2 con mapa rotulado, vivos/muertos, arma, munición, granadas y C4. R1 se reconstruye de captura retenida; R2 procede del único smoke nuevo.
+- [x] Contrastar literalmente R1 con dimensiones separadas. La abstención del detector y la estrategia indeterminada coexisten con B posible. Cero precisión global, respuestas dentro del detector o ajuste de reglas.
+- [x] Verificar `check:all`, 1.969 pruebas AI Coach, 294 del alcance, contrato y una demo aprobada posterior a las pruebas. Recalcular cantidades, relojes, posesión y conservación factual. Revisar HTML en escritorio/móvil y Excel v12 conservando las 14 hojas.
+- [x] Retener TEMP e inventarios, 44 manifiestos y contratos previos. [Informe](archive/ai-coach/AI_COACH_CONTEXTUAL_REVIEW_COMPLETION_2026-09-23.md) y [evidencia](evidence/AI_COACH_CONTEXTUAL_REVIEW_COMPLETION_2026-09-23.json).
+- [x] Recibir y contrastar lectura experta de R2 el 24/09, documentada abajo. Zonas/build, generalización independiente y alternativas viables para consejos/perfil/práctica continúan pendientes.
+
+### Lectura táctica de R2 — 24 de septiembre de 2026
+
+- [x] Conservar literal y normalización separada en IC23/Excel v13: ejecución hacia A, posible reunión de T5, información rival y motivo de elegir A desconocidos. La posible muerte en medio y los tres rivales en B/medio no se convierten en hechos. [Recibo](evidence/AI_COACH_R2_EXPERT_READING_2026-09-24.json) e [informe](archive/ai-coach/AI_COACH_R2_EXPERT_READING_2026-09-24.md).
+- [x] Contrastar con la predicción congelada: abstención por ausencia de aproximación conjunta continua con C4; lectura compatible no emitida. Ficha ampliada e IDs de contexto diferenciados, 65 estados factuales enlazados y exposición privada desconocida. Sin precisión independiente ni modificación del detector.
+- [x] Verificar literal, esquema de revisión, hashes, vínculo de contexto y preservación de 14 hojas y 71 archivos protegidos. Sin cambios runtime ni parsing nuevo. Predicciones y 84 templates anteriores conservados.
+- [x] Diagnosticar la condición exacta que excluye R2 sin alterar el detector: cierre del 24/09 documentado abajo. La corrección temporal se encuadra y verifica en el bloque posterior; la evaluación independiente sigue pendiente. No repetir R1/R2.
+
+### Diagnóstico de la abstención en R2 — 24 de septiembre de 2026
+
+- [x] Reproducir exactamente la predicción congelada y recalcular distancias/condiciones por actor. C4 y trayectorias están disponibles; primer bloqueo A: T1 excluido por el último incremento no nulo de distancia. T2/T5 aceptados; muerte T3 no reinicia a los vivos.
+- [x] Verificar 65 prefijos causales, 65 historias más cortas al mismo T0 y una intervención aislada sobre el veto del portador. A aparece 0,25 s antes del corte y se pierde 0,1875 s antes; la intervención recupera A, y restaurar la función reproduce la abstención. No es un ajuste aprobado.
+- [x] Conservar 77 archivos protegidos, incluidos detector, predicciones, manifiestos, corpus y libro. Sin nuevos criterios expertos: IC23/Excel v13 permanecen sin modificar. Cero parsing, runtime nuevo o entrenamiento. [Informe](archive/ai-coach/AI_COACH_R2_DETECTOR_DIAGNOSIS_2026-09-24.md) y [evidencia](evidence/AI_COACH_R2_DETECTOR_DIAGNOSIS_2026-09-24.json).
+- [x] Encuadrar persistencia/revisión temporal con casos y controles antes de v2, según el bloque posterior. Motivo de A, información del muerto y viabilidad de alternativas siguen desconocidos.
+
+### Propuesta de persistencia y revisión temporal — 24 de septiembre de 2026
+
+- [x] Preparar [alcance, criterios, ejemplos/excepciones, dependencias y diez controles](ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_PROPOSAL.md). Distinguir creación de hipótesis y mantenimiento/revisión; preservar los acuerdos IC19 y R2. Propuesta documental, sin nueva versión del detector.
+- [x] Presentar la consulta experta sobre el grupo parado sin renovación de señales, con datos actuales completos: lectura histórica en revisión o posibilidad hasta contradicción. El silencio no acepta ninguna opción.
+- [x] Recibir «Mantener posibilidad hasta contradicción», registrar literal y límites en IC24/Excel v14 y en el [recibo](evidence/AI_COACH_TEMPORAL_PERSISTENCE_CRITERION_2026-09-24.json). Sólo cambia A29:G29 de Contexto colectivo; 14 hojas, contenido y controles previos conservados. Verificación visual y de alcance completada.
+- [x] Implementar `collective_c4_approach@2-temporal-provisional` y `stratai.contextual_interpretation@2`. Pausas sin caducidad, revisión por contradicción, datos actuales y continuidad exigidos, recursos/roles recalculados. V1 conservada y seleccionable; v2 por defecto en el CLI. **112 schemas/19 razones**, catálogo `1.7.0` intacto.
+- [x] Verificar `check:all` (113,742 s), 26 controles nuevos y 320 pruebas afectadas (43,321 s). La suite completa dio 1.994 correctas y un fallo por esperar 111 schemas; se actualizó esa aserción a 112 y pasó en la repetición afectada, sin cambios funcionales tras el sello. Log fallido conservado; no se declara una ejecución completa limpia.
+- [x] Ejecutar exactamente una demo aprobada R2 en TEMP nuevo después de las pruebas: parser 79 s, materialización 25,375 s, lector 24,105 s, validación canónica 266,166 s y auditoría 2,048 s. Dos cortes compatibles A, 126 muestras de intervalos solapados, 942 referencias, ocho señales de aproximación y ocho contadores recalculados. Las 65 muestras factuales del intervalo final coinciden con la fuente anterior. Retenidos 83 archivos/1.113.810.560 bytes; 77 archivos protegidos intactos.
+- [x] Reproducir 84 predicciones v1 y contrastar v2 en siete partidas ya expuestas: 19 compatibles/65 abstenciones; nueve emisiones nuevas y dos emisiones retiradas requieren revisión. R1 abstención y R2 A; 65 prefijos causales consistentes. Sensibilidad 0,5/1/2 s documentada, sin precisión independiente. [Informe](archive/ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_2026-09-24.md) y [evidencia](evidence/AI_COACH_TEMPORAL_PERSISTENCE_2026-09-24.json).
+- [ ] TP10: evaluación independiente, con auditoría de exposición/solapamiento y revisión ciega. Alternativas viables, consejo, perfil, práctica, seguimiento y entrenamiento mantienen sus dependencias.
+
+### Preparación de evaluación TP10 — 24 de septiembre de 2026
+
+- [x] Auditar metadatos de los 44 bundles aprobados: 311 participantes, siete partidas de desarrollo y 37 de reserva. Trece candidatas no comparten jugadores con desarrollo; nueve pares de candidatas sí comparten jugadores entre ellas. Ninguna de las 37 es posterior a la última partida de desarrollo. Las 44 constan en la auditoría agregada previa; exposición táctica privada desconocida.
+- [x] Verificar identidad, fechas, checksums de metadatos y procedencia; recalcular los 946 cruces de partidas mediante pertenencia por participante. Conservar 179 fuentes y 159 archivos protegidos, incluidos código temporal y Excel v14. No se leen jugadas ni predicciones para seleccionar; cero parsing nuevo, etiquetas, cambios runtime o entrenamiento.
+- [x] Preparar [protocolo de alcance, selección y revisión ciega](ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PROTOCOL.md), formulario vacío y selección condicional de tres partidas con 30 participantes distintos entre sí y de desarrollo. En aquel cierre la selección aún era condicional; su ejecución aceptada se documenta debajo, sin certificar independencia absoluta. [Informe](archive/ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PREPARATION_2026-09-24.md) y [evidencia](evidence/AI_COACH_INDEPENDENT_EVALUATION_PREPARATION_2026-09-24.json).
+- [x] Recibir «Hazlo» para evaluar primero otros jugadores del mismo periodo; literal y contexto en el [recibo de alcance](evidence/AI_COACH_TP10_SCOPE_ACCEPTANCE_2026-09-24.json) e IC25/Excel v15. El lote acotado queda autorizado; la evaluación hacia partidas posteriores sigue pendiente.
+
+
+### Lote TP10 del mismo periodo — 24 de septiembre de 2026
+
+- [x] Congelar tres partidas y 30 participantes distintos entre sí y de las siete partidas de desarrollo antes del procesamiento. Excluir de nuevos ajustes las siete partidas seleccionadas o con jugadores compartidos con ellas. Muestreo por reloj, sin posiciones, resultados ni predicciones.
+- [x] Procesar las tres demos aprobadas con el productor ya verificado, sin cambios runtime. Materializar 36 prefijos y fichas: 12 por partida, 26.195 muestras y 36 rondas distintas. Predicciones principales selladas antes de las sondas secundarias y de las lecturas; filtro de 1 s conservado.
+- [x] Pasar los tres validadores canónicos y los lectores de las 36 interpretaciones y fichas. Recalcular 328.109 referencias causales, estados de vida, posiciones, utilidad, C4 y señales. Revisar E01 en escritorio/móvil; otras fichas verificadas mediante lectores y auditoría factual. [Informe](archive/ai-coach/AI_COACH_TP10_PILOT_2026-09-24.md) y [evidencia](evidence/AI_COACH_TP10_PILOT_2026-09-24.json).
+- [x] Conservar 161 archivos sellados, los 44 manifiestos, las tres demos originales y las versiones anteriores del Excel. Retener todos los outputs TEMP con inventario; entregar sólo E01 con instrucciones para responder por chat. Sin adquisición, promoción, migración 44/44 ni entrenamiento.
+- [ ] Recibir exposición previa y lecturas reales, conservar literal y normalización separados y contrastar sin incorporarlas al detector. E01 tiene una primera lectura histórica y una exclusión de alcance recibida el 25/09; 35 casos siguen pendientes de contexto/revisión y cero lecturas activas puntuadas. Precisión táctica sin calcular; TP10 sigue abierto. La muestra no incluye cortes sucesivos de una misma ronda para contraste humano de cambios. No acredita generalización futura ni independencia de organizaciones; zonas/build, alternativas viables, consejo, perfil, práctica y seguimiento conservan sus dependencias.
+
+
+### Primera lectura E01 y contexto omitido — 24 de septiembre de 2026
+
+- [x] Conservar literal y autoría: el usuario no ha visto la partida, interpreta execute A por la dirección de los cinco y cuestiona C4/reloj. IC26 añade sólo A31:G31 a Excel v16, conservando v15 y las 14 hojas. Sin funciones no expresadas.
+- [x] Contrastar la abstención congelada por falta de portador C4. El comparador registra plan compatible no emitido según el revisor; no demuestra un falso negativo ni un acierto de abstención con este contexto insuficiente.
+- [x] Auditar 325 inventarios propios completos: un cuchillo con slot/entidad/dueño corroborados por jugador y muestra, sin C4. Recalcular 65 tiempos causales: fin de freeze tick 1280, corte final 1536, 64 ticks/s, 4 s transcurridos y duración configurada 120 s. Cuenta atrás/pausas nativas ausentes; no afirmar 1:56 restante como observado.
+- [x] Entregar una vista complementaria de E01 con contexto y tiempo transcurrido; controlar extremos 0/4 s y escritorio/móvil. Ficha original, otras 35 fichas, renderer y detector intactos. Sin cambios runtime, contrato, parsing o entrenamiento. [Informe](archive/ai-coach/AI_COACH_E01_EXPERT_READING_2026-09-24.md) y [recibo](evidence/AI_COACH_E01_EXPERT_READING_2026-09-24.json).
+- [x] Recibir la aclaración del 25/09: el experto identifica E01 como cuchillos y pide excluir ese tipo de ronda del análisis. Conservarla aparte con exposición posterior a la abstención. Aplicación de alcance documentada debajo; reloj y clasificación automáticos siguen pendientes.
+
+
+### Exclusión de rondas de cuchillos IC27 — 25 de septiembre de 2026
+
+- [x] Registrar literalmente «Es correcto, al ser ronda de cuchillos yo la omitira del analisis. No aporta contexto a la IA y va a ser ruido». Respuesta contextual asistida y criterio de alcance; no nueva etiqueta de plan ni segunda revisión ciega. IC27/Excel v17 añade sólo A32:G32 y preserva v16 y las 14 hojas.
+- [x] Aplicar la exclusión de E01 por clave de partida/epoch/instancia/ronda en la cola activa. Conservar selección original de 36, ficha, predicción, primera lectura y comparación histórica; 1 excluido y 35 pendientes. E01 no cuenta como error, acierto, abstención correcta ni lectura activa puntuable. Sin reemplazo por otro episodio ni recálculo de precisión.
+- [x] Conservar fuentes y 278 archivos protegidos por hash. Detector, renderer, contratos y corpus intactos; cero parsing o entrenamiento. [Informe](archive/ai-coach/AI_COACH_KNIFE_ROUND_EXCLUSION_2026-09-25.md) y [evidencia](evidence/AI_COACH_KNIFE_ROUND_EXCLUSION_2026-09-25.json).
+- [x] Implementar el filtro conservador de tipo de ronda y reloj nativo para el instrumento general; cierre técnico abajo. Identificación positiva real de cuchillos aún no acreditada. La aceptación experta de E01 no equivale a un clasificador automático. No excluir otras rondas por falta de C4 o arma activa. Mantener el criterio acordado y resolver decisiones técnicas sin volver a pedirlo; documentar exposición del piloto y reservar otro test para cualquier versión ajustada.
+
+### Elegibilidad conservadora y reloj de fichas v2 — 25 de septiembre de 2026
+
+- [x] Ejecutar IC27 tras «Hazlo», sin cambiar el criterio experto ni el detector táctico. Captura pública con fronteras, sesiones y presencia; `knife` requiere configuración completa e inventarios corroborados, `unknown` bloquea análisis, C4/plantado en el prefijo identifica objetivo C4. Reloj nativo por muestra, separado de transcurrido y tramo.
+- [x] Validar `check:all`, 2.014 pruebas completas previas a ajustes finales y 141 afectadas finales; contrato de 114 schemas/19 razones. Una demo aprobada distinta, dos pasadas de la misma por variante booleana. 23.777 cortes, 1.170 muestras contrastadas, 1.158 cuentas de ronda y 12 de bomba recalculadas; corpus original intacto.
+- [x] Preservar 36 fichas/predicciones originales y preparar E02 v2 sin predicción, con vínculo a IDs originales. QA escritorio/móvil y Excel v18, sólo F32/G32, 14 hojas y literales intactos. Actualizar protocolo v0.5 por cambio posterior de instrumento.
+- [ ] Acreditar clasificación positiva nativa de cuchillos con evidencia real suficiente. En E01 faltan seis convars y prohibición de compra; se mantiene `unknown` automático y exclusión experta. Los positivos sintéticos no acreditan cobertura o generalización.
+- [x] Recibir y contrastar la lectura experta de E02: cierre del 25/09 debajo. La evaluación restante sigue pendiente, sin precisión independiente ni consejos/perfil/práctica habilitados.
+
+[Cierre](archive/ai-coach/AI_COACH_ROUND_CONTEXT_AND_CLOCK_2026-09-25.md) · [Evidencia](evidence/AI_COACH_ROUND_CONTEXT_AND_CLOCK_2026-09-25.json).
+
+### E02: defensa de bomba y recuento de vivos — 25 de septiembre de 2026
+
+- [x] Conservar literal IC28, normalización atribuida al agente y exposición privada desconocida. Defensa de bomba como plan; ubicaciones tentativas y buena colocación atribuidas al experto, sin asignar funciones individuales.
+- [x] Contrastar la predicción original: abstención y `compatible_plan_not_emitted`. Registrar cobertura posplantado pendiente, sin ajustar detector ni convertir este contraste en precisión.
+- [x] Comprobar 2 T frente a 1 CT y 39,265625 s de bomba al corte final. Diez estados disponibles, fuentes original/nueva coincidentes, siete bajas públicas anteriores como contraste. Cero parsing nuevo.
+- [x] Actualizar Excel v19 sólo en IC28, conservar 14 hojas y literales. Cola activa: E01 excluida, E02 contrastada, 34 pendientes, cero puntuaciones de precisión.
+- [x] Incorporar el contador factual y resumen al instrumento: cierre v3 del 25/09 debajo. Continúan pendientes las lecturas E03–E36 agrupadas y el encuadre propio de nuevas reglas posplantado.
+
+[Cierre](archive/ai-coach/AI_COACH_E02_EXPERT_READING_2026-09-25.md) · [Evidencia](evidence/AI_COACH_E02_EXPERT_READING_2026-09-25.json).
+
+### Contador de vivos y resumen de hechos v3 — 25 de septiembre de 2026
+
+- [x] Registrar IC29 y conectar el dato disponible a la ficha: recuento por lado y resumen de plantado/reloj sincronizados, con incertidumbre ante ausencias/conflictos. Sin nueva regla táctica.
+- [x] Verificar 115 pruebas afectadas, 43 del backend, lint y contrato 115/19. Un pase de una demo aprobada en TEMP nuevo, materializador/lector v3 y 2.340 recuentos contrastados con bajas públicas en 1.170 cortes.
+- [x] Preservar lectura E02, fichas y predicciones originales. Entregar E02 v3, validar escritorio/móvil y Excel v20 con IC28/IC29. Declarar cambio de instrumento posterior en TP10 v0.6.
+- [ ] Recibir revisión E03–E36 por lotes sin regenerar predicciones. Defensa posplantado, calidad de posiciones y consejos mantienen su encuadre y dependencias.
+
+[Cierre](archive/ai-coach/AI_COACH_TEAM_STATUS_REVIEW_2026-09-25.md) · [Evidencia](evidence/AI_COACH_TEAM_STATUS_REVIEW_2026-09-25.json).
+
+### Preparación conjunta de 34 casos TP10 — 25 de septiembre de 2026
+
+- [x] Registrar sustitución del flujo uno a uno: preparar E03–E36 juntos; E01 excluida y E02 revisada no se repiten.
+- [x] Materializar/validar 34 fichas v3, auditar hechos congelados y recalcular vivos/relojes causales. Una captura reutilizada, dos recapturas con productor intacto y salidas retenidas.
+- [x] Entregar índice, hoja de respuestas vacía, plantilla por chat y ZIP. Verificar enlaces, filtros, escritorio/móvil, una ficha por partida e integridad del archivo.
+- [ ] Recibir lecturas agrupadas y exposición por caso; contrastar con predicciones congeladas sin ajustar reglas ni inferir precisión independiente.
+
+[Cierre](archive/ai-coach/AI_COACH_REVIEW_BATCH_PREPARATION_2026-09-25.md) · [Evidencia](evidence/AI_COACH_REVIEW_BATCH_PREPARATION_2026-09-25.json).
+
+### Cierre de recogida web sin cuenta — 26/09/2026
+
+- [x] Reutilizar el sitio existente; enlaces de invitación y organizador separados, sin cuentas para los revisores.
+- [x] Formularios en 34 casos, guardado D1, versiones inmutables, reintentos y aislamiento por sesión.
+- [x] Tiempos mm:ss; 102 JSON factuales intactos. Predicciones, corpus y Excel v20 conservados.
+- [x] Build, seis pruebas y verificación HTTP de 34 fichas en producción sin sesión de plataforma; persistencia tras redespliegue. Cero nuevas lecturas expertas; seis registros técnicos marcados y ocultos.
+- [x] Cierre y evidencia enlazados en la siguiente acción; temporales retenidos. Sin parsing, nuevas reglas ni entrenamiento.
+
+### Simplificación del formulario y propuesta de información — 26/09/2026
+
+- [x] Publicar tres campos en los 34 casos; conservar guardado, versiones, invitaciones y mm:ss.
+- [x] Conservar exposición antigua declarada; nuevas lecturas registran `not_collected`, sin asumir independencia.
+- [x] Seis pruebas y comprobación alojada 34/34, datos originales y registros existentes intactos.
+- [x] Auditar la pérdida de contexto al morir un aliado; localizar posiciones anteriores y ruta candidata de eventos. Preparar perspectiva, fuentes y verificación de la siguiente capa.
+- [x] Perspectiva del equipo aceptada el 26/09 con «Implementalo por favor.», registrada en IC30. No inventar contacto, información transmitida ni posición actual de un rival perdido.
+
+### Contexto disponible de bajas — 26/09/2026
+
+- [x] Incorporar historial causal, marcas de última posición con vida y salto previo; preservar tres campos, invitaciones, mm:ss y respuestas anteriores.
+- [x] Validar once pruebas y exactamente una demo aprobada en TEMP: fuente, contratos, causalidad, semántica y recomputación independiente.
+- [x] Verificar 34/34 fichas alojadas, guardar nuevas lecturas como instrumento @3 y registrar IC30 en Excel v21 sin alterar las 14 hojas anteriores.
+- [ ] Acreditar una fuente atribuida de avistamientos/contactos perdidos. La ampliación rival no queda cerrada por mostrar honestamente su ausencia.
+
+### Información por bajas y arma causante — 26/09/2026
+
+- [x] Registrar la corrección del usuario en IC31/v22 y delimitar feed, posiciones del evento y percepción.
+- [x] Conectar la fuente canónica existente sin modificar Go: 118 bajas en 34 fichas, con 63 bajas aliadas conciliadas.
+- [x] Añadir posiciones fechadas, antigüedad, arma causante y retirada al morir; publicar y verificar 34/34 con instrumento @4.
+- [x] Pruebas y una demo real en TEMP, datos previos y respuestas preservados, sin entrenamiento.
+- [ ] Recibir revisión independiente y conservar diferencias de información entre @1/@2/@3/@4 y el detector congelado.
+
+
+### Organización documental y limpieza solicitada — 3 de octubre de 2026
+
+- [x] Revisar el estado local sin descartar cambios existentes. Separar residuos regenerables de código, datos y evidencia todavía necesarios.
+- [x] Trasladar cuatro propuestas ejecutadas al archivo del AI Coach y actualizar sus enlaces. Simplificar el índice por fuentes canónicas, diseño/revisión, contratos, operación y archivo; corregir el enlace al único prompt vigente del README raíz.
+- [x] Retirar reglas duplicadas de `.gitignore` y excluir capturas automáticas y directorios locales de compilación/publicación. Ignorar un archivo no equivale a eliminarlo.
+- [x] Eliminar los 142 destinos identificados: 26 archivos frontend sin uso, 11 prompts terminados y cachés/copias regenerables. El intento del 03/10 fue rechazado con `blocked by policy` y no eliminó archivos. Tras «Ejecutalo ahora» del 04/10 y la nueva verificación de hashes, se autorizaron dos operaciones acotadas: **1.889 archivos / 906.603.475 bytes eliminados**. El cierre se registra debajo.
+- [x] Conservar datos, demos, bundles, bases de datos, releases, fuentes del sitio de revisión, fichas, libros, respuestas y predicciones. Los inventarios históricos no se reescriben. Esta organización no cambia el detector, el criterio experto ni la siguiente acción de madurez de entrada.
+
+[Inventario y verificación](evidence/PROJECT_CLEANUP_2026-10-03.json). El manifiesto completo con hashes y el estado inicial se conservan en el directorio de auditoría indicado en esa evidencia. La limpieza de copias antiguas no sustituye validación funcional ni evaluación independiente.
+
+
+### Ejecución y cierre de limpieza — 4 de octubre de 2026
+
+- [x] Recibir «Ejecutalo ahora», recuperar el inventario original y contrastar hashes y código antes de borrar. La lectura restringida omitió cinco rutas de caché; la enumeración autorizada posterior verificó por SHA-256 los 1.889 archivos originales completos.
+- [x] Eliminar individualmente 26 archivos frontend sin consumidores y 11 prompts ejecutados/retirados. Eliminar 105 destinos de cachés, trazas y copias antiguas con comprobación de pertenencia, hashes, límites del workspace y ausencia de enlaces de sistema. Total original: **142 destinos, 1.889 archivos y 906.603.475 bytes**.
+- [x] Pasar `npm run test:frontend`: **23 archivos / 88 pruebas**; `npm run build:frontend`: compilación correcta. El primer intento de ambas comprobaciones falló antes de arrancar por `spawn EPERM` del sandbox; los reintentos autorizados pasaron. Retirar después la build de verificación y dos directorios fuente antiguos vacíos.
+- [x] Contrastar 978 archivos retenidos de código/contratos con la auditoría previa: sin cambios inesperados. Comprobar enlaces documentales y `git diff --check`. Productores, esquemas y contratos runtime intactos; no corresponde smoke de demo a esta retirada de UI inalcanzable y artefactos regenerables.
+- [x] Corregir los caracteres dañados del índice y del registro de limpieza del 03/10. Preservar los avances documentales recientes de CS1/CS2, el plan v3.08 y su prompt vigente.
+- [x] Preservar demos, 44 bundles, datos y bases de datos, releases, sitio actual, respuestas, libros, fichas, predicciones, evidencias históricas y cambios previos del usuario. La limpieza identificada queda cerrada; la revisión experta CS2 conserva su alcance y dependencias.
+
+[Inventario ejecutado y verificaciones](evidence/PROJECT_CLEANUP_2026-10-04.json). El recibo del 03/10 se conserva como registro del intento inicialmente bloqueado.
+
+
+### Estado de ronda en replay — 10/10/2026
+
+- [x] Aplicar IC52 tras «Implementalo»: primer bloque del par autorizado con acontecimientos. Fase y elegibilidad separadas, ganador sólo tras final y relojes nativos sin defaults.
+- [x] Verificar check:all, 85 pruebas ampliadas, Go final y una demo aprobada en TEMP retenido. 21.136 relojes activos y 2.262 cierres contrastados independientemente. N04/N05/N10 son cortes ya finalizados.
+- [x] Conservar originales y añadir diez inputs @4, proyección @6, contrato de ronda @1 y Excel v42/IC52. Cero llamadas al modelo en este bloque; comparación tras acontecimientos.
+
+[Resultado](../outputs/stratai-round-context-20261010/RESULTADO.txt) · [Evidencia](evidence/AI_COACH_REPLAY_ROUND_CONTEXT_2026-10-10.json).
+
+
+### Acontecimientos en replay — 10/10/2026
+
+- [x] Aplicar IC53 tras «Implementalo», segundo bloque del par autorizado. Callback causal, redacción por perspectiva y enlaces positivos de utilidad; geometría propia simulada y feed público sin posiciones del atacante.
+- [x] check:all, 99 pruebas ampliadas, revisión/mutación y una demo aprobada en TEMP retenido. Los datos anteriores y las veinte notas se conservan. Diez inputs @5, proyección @7 y Excel v43.
+- [x] Generar comparación asistida N01/N04/N10 con el modelo fijado: N01 y N04 completos, N10 agotó 8.192 tokens y permanece como fallo. Hay mejoras factuales y errores de interpretación documentados.
+- [x] Tras reparar y verificar la salida factual de C4, retomar la revisión de los ejemplos y concretar información disponible con el usuario experto antes de implementarla.
+
+[Resultado](../outputs/stratai-replay-events-20261010/RESULTADO.txt) · [Contrato](contracts/context/replay-events-v1.md) · [Evidencia](evidence/AI_COACH_REPLAY_EVENTS_2026-10-10.json).
+
+La comparación del segundo par se conserva en [COMPARACION.md](../outputs/stratai-replay-events-20261010/COMPARACION.md). N01 usa disparos, daño y humo fechado, pero inventa C4 en P07; N04 reconoce victoria CT, pero confunde drop con plantado; N10 repite inventarios hasta agotar generación. No se cambia el modelo para ocultarlo, ni se considera calidad táctica acreditada. Tres llamadas locales, cero externas, sin entrenamiento.
+
+### Diagnóstico de C4 inventado en la salida — 10/10/2026
+
+- [x] Atender la instrucción de detener el avance y localizar el fallo. Cuatro capturas conservadas de la misma demo: 964 muestras N01 y 2.952 de R1 completa sin dos inventarios C4 ni portadores simultáneos. Reejecución JS/Python y recibo/petición exactos; el texto falso ya procede del modelo, no de la función de alias.
+- [x] Reproducir byte por byte la respuesta N01 con la petición original. Cinco variantes locales predeclaradas, una llamada por variante, sin sustituir lecturas: permitir S0 corrige citas pero no la posesión falsa; omitir la foto inicial o sólo su inventario P07 elimina esa falsa posesión en las pruebas; extraer campos C4 sobre la entrada completa devuelve los valores correctos. Sensibilidad temporal localizada, no garantía general ni explicación del mecanismo interno del modelo.
+- [x] Acreditar dos defectos de contrato: 17 citas iniciales entregadas quedan fuera del enum; el validador sólo comprueba estructura y existencia de citas. Veinte probes y tres regresiones RED reproducen cita verdadera rechazada, posesión falsa aceptada y contradicción aceptada. El contrato actual declara semantic_truth=not_evaluated y no implementa una garantía factual de prosa libre.
+- [x] Conservar 1.514 artefactos sellados, veinte notas, diez lecturas originales y análisis anteriores. Sin cambios de producción ni runtime, nuevo parseo, entrenamiento, promoción o fases nuevas. Excel v43 permanece como último libro; este diagnóstico no añade criterios de juego.
+- [x] Reparar el registro causal de hechos entregados y la representación/validación/presentación factual de C4. Las cláusulas factuales no deben quedar a una redacción libre sin verificación; los campos estructurados adjuntos por sí solos tampoco garantizan la verdad del texto. Cerrar con regresiones y verificaciones pertinentes antes de retomar el orden acordado.
+
+[Informe completo](../outputs/stratai-c4-root-cause-20261010/RESULTADO.md) · [Experimentos](../outputs/stratai-c4-root-cause-20261010/experiment-verification.json) · [Evidencia](evidence/AI_COACH_C4_OUTPUT_ROOT_CAUSE_2026-10-10.json).
+
+### Auditoría de las facetas factuales implementadas — 10/10/2026
+
+- [x] Atender «Y de las otras facetas que no requieren interpretación y que ya hemos realizado, Lo resuelve bien? Haz una comprobación y busca fallos». Revisar los diez inputs @5/proyección @7, 6.840 muestras, 49 afirmaciones de las dos lecturas completas y el intento N10 agotado. Cero llamadas nuevas al modelo y cero parseos.
+- [x] Recalcular 29.017 posiciones vivas desde vértices/caras y 6.549 cuentas atrás nativas sin discrepancias. Contrastar 394 tiros, 83 daños, 38 muertes y utilidad existente; comprobar causalidad y límites en los datos retenidos. Son verificaciones acotadas de una demo, no validación de visión humana, de todo el corpus o calidad táctica.
+- [x] Acreditar tres contradicciones de salida: humo que no cruza Apartments, P09 vivo con 70 presentado como muerte desconocida y caída de C4 convertida en inicio de plantado. Confirmar citas de otro instante y pérdida de incertidumbre/procedencia. Segunda revisión independiente de las 49 afirmaciones y sus hechos, sin nuevas inferencias.
+- [x] Localizar una omisión presente: 17 inventarios finales de muertos heredan el último equipo vivo sin fecha/condición histórica por campo. El estado muerto sí se conserva. Reproducir por separado guardas faltantes de identidad/salud, reloj/fase/ciclo y posición de evento futura: siete regresiones RED; estos estados sintéticos no se encontraron en los diez inputs reales.
+- [x] Probar el consumidor de salida: acepta 19 afirmaciones sintéticas falsas o no respaldadas con citas admitidas; acepta el control verdadero y rechaza la cita inexistente. El contrato declara semantic_truth=not_evaluated; la integridad de citas no garantiza la verdad del texto.
+- [x] Conservar 1.571 archivos de los cinco cierres anteriores, 222 controles históricos sin dependencias, diez lecturas originales, veinte notas, fuentes y capturas auditadas. Recuentos solapados, no sumarlos como artefactos únicos. Plan/prompt actualizados con copias previas; Excel v43 sin cambios. Sin producción/runtime ni nueva fase; diagnóstico cerrado, no reparación funcional.
+- [x] Reparar estas garantías dentro de las facetas acordadas, empezando por C4. Verificar cada cambio con sus regresiones y, si modifica productor/hechos derivados/runtime, exactamente una demo aprobada en TEMP nuevo y retenido. Después retomar ejemplos y encuadre experto de información disponible.
+
+[Informe y ejemplos](../outputs/stratai-factual-facets-audit-20261010/RESULTADO.md) · [Revisión de afirmaciones](../outputs/stratai-factual-facets-audit-20261010/claim-by-claim-review.json) · [Evidencia](evidence/AI_COACH_FACTUAL_FACETS_AUDIT_2026-10-10.json).
+
+### Reparación de las facetas factuales y de su salida — 10/10/2026
+
+- [x] Aplicar «Aplica todas las reparaciones que has encontrado» sobre el alcance ya acordado, sin iniciar fases nuevas. Este cierre resuelve las tareas de reparación pendientes de los dos diagnósticos anteriores, que se conservan como historia.
+- [x] Registrar S0 entregado; conciliar un único portador de C4; conservar inventarios con fuente/fecha anteriores a la caché visual; separar vida por kill entre muestras. Validar identidad, salud/recursos, fases, relojes nativos, resultado causal y posiciones de acontecimientos. Zonas, contactos y seguimiento simulado conservan su incertidumbre.
+- [x] Sustituir la redacción factual libre por selección de referencias y representación cerrada comprobada. El texto y sus hechos deben coincidir, no sólo las citas. Criterios tácticos existentes únicamente condicionales; `checked_reference_rendering` no acredita calidad táctica ni visión humana real. Entrada @6, proyección @8, ronda @2, inventario/vida @1 y lectura factual @1; vistas y recibos históricos @1–@5 conservados.
+- [x] Reproducir y corregir guardas y casos extremos con regresiones, revisión adversarial y prueba de mutación. La integración real añadió dos reparaciones: fecha de posición de la víctima distinta del contacto del atacante, y finales de fuego sin coordenadas ni fecha de posición inventadas. Intentos previos conservados.
+- [x] Pasar `npm run check:all` —266 frontend, Go, 18 Node con tres skips preexistentes, Python backend, lint y build— y la suite ampliada de **2.505 pruebas Python**, que ya incluye los 43 backend. Fuente estable antes/después. Tras ello repetir exclusivamente la misma demo aprobada a un TEMP nuevo, vacío y retenido: **20 rondas, 23.398 fotogramas, 233.183 registros de inventario, 21.136 relojes activos y 3.149 acontecimientos contrastados con combate**. Dos capturas de una única partida distinta; sin sobrescribir la primera.
+- [x] Verificar los diez inputs: 6.840 vistas, 29.017 posiciones vivas, 17 inventarios finales históricos; 20.490 cortes intermedios y 16 casos de muerte. Rechazar diez textos falsificados; comparar las cinco versiones históricas con la copia anterior y reproducir los tres intentos conservados del segundo par.
+- [x] Conservar 1.620 artefactos sellados, diez lecturas originales, veinte notas, Excel v43 y cambios previos; 44 manifiestos aprobados sin cambios. Inventarios de 16 TEMP retenidos. Sin criterio de juego nuevo que requiera otra versión de Excel, ni entrenamiento, ingesta automática de correcciones, adquisición, promoción o publicación.
+- [x] Ejecutar una vez cada caso fijado N01/N04/N10 con qwen3.5:9b: N01 y N10 pasan la representación factual; N04 se rechaza por `finish` con índices de consulta no vacíos. Los dos aceptados dejan interpretación vacía: no se presenta como mejora táctica. Tres llamadas locales, ninguna externa, todos los intentos/trazas conservados. Visor con F1 para diez casos y C-F1 para los tres intentos; originales, H-C4Z y H-RE permanecen separados, incluido N10 antiguo agotado.
+- [x] Revisar los ejemplos y encuadrar información disponible con el usuario experto antes de implementar esa fase. Encuadre recibido el 10/10 y ejecutado en el cierre de información; QA interactiva del nuevo visor verificada en Chromium, sin atribuirla retroactivamente a aquel visor histórico. CS3 continúa parcial por evaluación humana y dependencias pendientes.
+
+[Resultado y ejemplos](../outputs/stratai-factual-repair-20261010/RESULTADO.md) · [Comparación](../outputs/stratai-factual-repair-20261010/COMPARACION.md) · [Contrato](contracts/context/replay-factual-reading-v1.md) · [Evidencia](evidence/AI_COACH_FACTUAL_REPAIR_SINGLE_DEMO_SMOKE_2026-10-10.json).
+
+
+### Información disponible por jugador y equipo — 10/10/2026
+
+- [x] Implementar IC54 tras «Manten el modelo inicial. Eso si, ten en cuenta el que es posible que tenga la información.» Mantener comunicación inmediata simulada con receptores posibles presentes, incluidos muertos; observador vivo, fuente, fecha y posiciones históricas con antigüedad. Conservar últimos informes directos y compartidos por separado, sin atribuir voz, escucha, atención, recuerdo, reconocimiento de una persona ni rotación percibida sólo por su ID.
+- [x] Compartir proyección @9/input @7/información @1 entre mapa y texto protegido; opción antigua @8 y recibos @1–@6 conservados. Vista de recursos aliados colectiva, no conocimiento individual. Un rival con observadores simultáneos conserva varias procedencias sin duplicar contactos. Muerte, reinicio, ausencia de muestras y retroceso mantienen causalidad e historia. Proyección T/CT; consumidor contextual especializado en T.
+- [x] Pasar 2.522 pruebas Python —incluidos 43 backend—, 284 frontend, Go, 18 Node con tres skips preexistentes, lint y build, con fuente estable. Una única demo aprobada en tres capturas TEMP nuevas, vacías, aisladas y retenidas: 20 rondas/23.398 fotogramas; 46.796 vistas T/CT, 217.422 apariciones de observaciones, 1.086.189 controles de receptores, 58.348 recuerdos y 40 retrocesos contrastados independientemente. Son controles por vista, no observaciones únicas o comunicaciones reales. Diez inputs/6.840 vistas, cero llamadas nuevas al modelo.
+- [x] Corregir la suposición inicial del agente que excluía receptores muertos, conservando aquella evidencia; no era criterio del usuario. La revisión visual detectó etiquetas de memoria solapadas y edades ilegibles: regresiones y Chromium confirman la reparación sin mover posiciones ni modificar ticks. El servidor de prueba entrega SVG con MIME correcto; iconos cargados, apertura con Space sin reproducción y exportación idéntica al input. QA del nuevo visor, no aceptación retroactiva de visores históricos.
+- [x] Comparar capturas y reparar una dependencia previa del orden de callbacks: creación y registro de lanzamientos/humo/fuego se realizan en un solo callback. Expirar fuego no reobserva su centro histórico. Pruebas de ambos órdenes y contraste con observador nativo separado: 347/347 lanzamientos y posiciones, 375 enlaces positivos, 75 inicios de fuego y 74 expiraciones sin nueva posición; tres enlaces abstendidos. Es una reparación factual rutinaria de acontecimientos, sin implementar deducciones desde granadas enemigas.
+- [x] Conservar los 386 archivos sellados del cierre factual anterior, originales, variantes, rechazos, análisis y veinte notas; fuente demo y 44 manifiestos intactos. Excel v44/IC54 añade sólo A59:G59 y conserva v43, catorce hojas, filas/estilos/comentarios. Inventarios de 22 TEMP, sin borrado o promoción. No se regenera interpretación hasta cerrar granadas con su revisión experta; CS3 sigue parcial.
+
+[Resultado](../outputs/stratai-information-20261010/RESULTADO.md) · [Visor](../outputs/stratai-information-20261010/viewer/index.html) · [Excel v44](../outputs/stratai-information-20261010/StratAI_Plan_del_coach_TP10_v44.xlsx) · [Evidencia](evidence/AI_COACH_INFORMATION_SINGLE_DEMO_SMOKE_2026-10-10.json).
+
+### Preparación de revisión experta de granadas — 11/10/2026
+
+- [x] Ejecutar la preparación tras «Aplica el siguiente paso»: [alcance propuesto v0.1](ai-coach/AI_COACH_GRENADE_INFORMATION_SCOPE_v0.1.md), criterios de juego, ejemplos/excepciones, dependencias y verificación. Separar objeto, tipo/bando identificable, trayectoria observada, efecto, origen compatible y mínimo de lanzadores respaldado. Mantener comunicaciones posibles y memorias ya acordadas; no añadir contactos personales desde utilidad anónima.
+- [x] Contrastar grafo y código actual por cobertura desactualizada. Releer la captura final retenida, sin parsear: 347 lanzamientos causales —92 humo, 106 flash, 72 HE, 36 molotov, 40 incendiarias y un decoy— frente a 348 registros nativos sin filtrar; R9/tick 0 fuera del intervalo se excluye explícitamente. R1/P01 lanza dos flashes separadas 1,296875 s; R11/P08, dos HE separadas 21,65625 s. Son hechos nativos, no percepciones acreditadas. Las fuentes de visión inspeccionadas publican sujetos jugadores, sin observaciones positivas de proyectiles/efectos por observador; la nueva evidencia visual estimada requiere productor y gate real tras el encuadre. [Conteos, fuentes y hashes](../outputs/stratai-grenades-framing-20261011/retained-capture-survey.json).
+- [x] Presentar la propuesta y solicitar sólo el encuadre nuevo: alcance visual estimado y criterios para el caso de tres HE al inicio de un rush B, con excepciones de tipo, secuencia, recogidas, rebotes y origen/impacto. Conservar plan/prompt previos y propuesta presentada, originales, comentarios, análisis y Excel v44. Preparación documental inicial sin código funcional, nuevas demos o llamadas al modelo; las respuestas posteriores se registran por separado.
+- [x] Recibir las respuestas: «Sí, con esas estimaciones y límites»; «Cuando se lanzan en un lapso de tiempo muy corto 3 granadas del mismo tipo. 3 humos, 3 molotovs, 3 HE...»; «5 segundos»; «Sí, dejar flashes fuera». [Alcance v0.2](ai-coach/AI_COACH_GRENADE_INFORMATION_SCOPE_v0.2.md) y Excel v46/IC56 conservan v44/v45, catorce hojas y los literales. Cinco segundos entre primer y tercer lanzamiento, por tipo, sin flashes. No repetir la propuesta de dos segundos rechazada. Gates factuales y evaluación independiente conservados; autorización para implementación dentro del alcance acordado.
+- [x] Implementar y cerrar granadas en el alcance recibido: cierre técnico del 11/10 registrado debajo. La comparación de información + granadas en N01/N04/N10 conserva modelo/configuración y todos los intentos. Sonido e interpretación general siguen sus fases posteriores.
+
+[Resultado de preparación](../outputs/stratai-grenades-framing-20261011/RESULTADO.md) · [Alcance presentado](ai-coach/AI_COACH_GRENADE_INFORMATION_SCOPE_v0.1.md).
+
+
+### Granadas observables — cierre técnico 11/10/2026
+
+- [x] Implementar IC55/IC56: utilidad visual estimada y comunicación inmediata posible, manteniendo memorias y receptores. Tres objetos del mismo tipo con lanzamiento observable en cinco segundos inclusivos: indicio estimado de tres lanzadores; HE/humo/molotov/incendiaria separados, flashes excluidas. Explosiones no recuperan relojes ocultos; bando/origen/posición actual desconocidos, recogidas no descartadas y grupos solapados sin suma.
+- [x] Productor opt-in @1/proyección @10/input T @8. Reparar muerte en el mismo tick, flash ambigua sin duplicar objeto, humo sin identidad, orden de segmentos compactados y panel que reducía el mapa a 84 px. Chromium final: 421/409 px, teclado, iconos, exportación igual al input y cero errores. Contratos anteriores conservados.
+- [x] Suites públicas finales: 299 frontend, 43 backend Python, Go, 18 Node aprobadas/3 skips previos, lint/build. Dos snapshots completos de 2.537 Python retenidos; última comprobación afectada/backend de 92 pruebas, sin inventar un total completo actualizado. Una partida en cinco capturas TEMP retenidas; fuente y 44 manifiestos intactos. 21.142 observaciones estimadas, 347 lanzamientos, 46.796 vistas T/CT y 6.840 vistas de diez inputs. Cero ternas naturales elegibles; regla cubierta por regresiones, sin prueba positiva real de ese supuesto.
+- [x] 763 artefactos sellados anteriores y veinte notas intactos; Excel v47/IC57 conserva catorce hojas y v44–v46. Preview derivado, no Excel nativo. Visor de cuarta captura, productor final de quinta con mismos 369 archivos Go; referencias dentro de cada captura. IDs nativos de fuego/orden local pueden variar entre parseos: sonda byte a byte fallida retenida, sin garantía de identidad persistente.
+- [x] Ejecutar y registrar el par información + granadas en N01/N04/N10 con Qwen/configuración anteriores. Cierre técnico previo con cero llamadas nuevas. Sonido e interpretación general requieren sus siguientes encuadres; evaluación humana pendiente.
+
+[Resultado y ejemplos](../outputs/stratai-grenades-20261011/RESULTADO.md) · [Revisión técnica](../outputs/stratai-grenades-20261011/REVISION_TECNICA.md) · [Visor](../outputs/stratai-grenades-20261011/viewer/index.html) · [Contrato](contracts/context/replay-utility-information-v1.md).
+
+
+### Comparación del par información + granadas — 11/10/2026
+
+- [x] Tres intentos predeclarados N01/N04/N10 con qwen3.5:9b, digest/configuración anteriores y think=false; tres llamadas locales, cero externas, sin reintentos selectivos. N01: final inválido con índice de consulta; N04: 55 frases de situación, 6 de evolución, 47 de incertidumbre, interpretación vacía; N10: entrada de 66.150 tokens sobrepasa contexto 65.536 antes de generar. No se declara mejora táctica o evaluación independiente.
+- [x] Comparar con C-F1 protegido anterior y las variantes deterministas INFO/GRANADAS; conservar originales, H-C4Z/H-RE, intentos agotados, respuestas/trazas y veinte notas. C-IG añadido como variante separada; GRANADAS permanece predeterminada. Excel v48/IC58 añade sólo A63:G63 a v47, con catorce hojas y partes previas intactas; preview derivado, no render nativo Excel.
+- [x] Revisar el par y reparar la entrega que excedía el contexto: cierre de transporte compacto registrado debajo. Tanda completa N01/N04/N10 con mismo modelo, hechos y presupuesto; resultados y fallos previos conservados. Revisión de resultados y encuadre de sonido pendientes.
+
+[Comparación y ejemplos](../outputs/stratai-grenades-20261011/COMPARACION.md) · [Visor](../outputs/stratai-grenades-20261011/viewer/index.html) · [Excel v48](../outputs/stratai-grenades-20261011/StratAI_Plan_del_coach_TP10_v48.xlsx).
+
+Verificación de presentación posterior al par: se corrige la atribución de entrada de C-IG rechazado; no se etiqueta como original sin correcciones. Gate final de entrega: 300 frontend y suites públicas/92 Python afectados aprobados; productor y hechos intactos. Chromium abre los tres intentos y conserva sus resultados. [Cierre de entrega](../outputs/stratai-grenades-20261011/delivery-closure.json).
+
+[Evidencia canónica del cierre de granadas y comparación](evidence/AI_COACH_GRENADES_SINGLE_DEMO_SMOKE_2026-10-11.json).
+
+
+### Entrega compacta del contexto — 11/10/2026
+
+- [x] Aplicar «Que hay que hacer ahora? Aplicalo.»: diagnosticar repetición de informes/receptores y estructuras de acontecimientos. Compartir contenedores JSON idénticos y claves ordenadas repetidas mediante diccionario/columnas @2; reconstrucción byte a byte previa al envío. Fuentes, fechas, antigüedad, observadores, receptores posibles, identidad, incertidumbre y archivo causal intactos. Consultas y contabilidad original sin ampliar límites. Experimento 1.2.0-local.1; recibos 1.0.0-local.1 y 1.1.0-local.1 reproducidos con su formato original.
+- [x] Dieciséis regresiones nuevas. check:all aprobado —300 frontend, Go, 18 Node/3 skips previos, 43 backend, lint/build— y snapshot completo de 2.552 Python incluidos backend antes de columnas; comprobación final de 108 afectados/backend tras columnas. Mutación detectada; fuente restaurada y 73 pruebas afectadas/backend aprobadas. Diez inputs anteriores: 6.840 cortes y 406.174 apariciones de hechos reconstruidas.
+- [x] Una demo aprobada en dos capturas TEMP nuevas y retenidas: 20 rondas, 23.398 fotogramas, 148 muertes, 347 lanzamientos y 21.142 observaciones estimadas. Productor de mensajes ejecutado sobre diez ventanas nuevas: otros 6.840 cortes/406.174 apariciones sin pérdida. Intento de verificación vacío por permisos rechazado y conservado; repetición sobre la misma captura con controles explícitos de no-vacío, sin otro parseo para aquel rechazo. Segundo parseo de la misma partida tras columnas y pruebas finales. Fuente y 44 manifiestos intactos.
+- [x] Primera tanda de diccionario v1 conservada —N01/N04 válidos, N10 timeout de 240 s— y segunda tanda predeclarada completa, tres casos sin reintentos selectivos y mismo Qwen/configuración: N01: mechanically_valid; N04: mechanically_valid; N10: mechanically_valid. N10 reduce 166.727 a 120.942 bytes; tokens reales [54389] frente a 66.150 antes, dentro del contexto 65.536. La admisión y representación factual no acreditan comprensión táctica. Selecciones, respuestas, consultas y fallos retenidos.
+- [x] 1.220 archivos de cuatro entregas anteriores y veinte notas intactos. Excel v49/IC59 añade sólo A64:G64, con catorce hojas y partes previas byte a byte. Autoría/preview con Artifact Tool y merge estrecho del paquete original; no se presenta como render de Excel nativo. Comparación HTML separada, verificada en Chromium ancho/estrecho. TEMP inventariados sin borrado ni promoción.
+- [ ] Revisar las tres lecturas con el usuario; después preparar el encuadre experto de sonido. Interpretación general y evaluación humana independiente siguen pendientes.
+
+[Resultado](../outputs/stratai-context-packing-20261011/RESULTADO.md) · [Comparación](../outputs/stratai-context-packing-20261011/COMPARACION.md) · [Revisión técnica](../outputs/stratai-context-packing-20261011/REVISION_TECNICA.md) · [Contrato](contracts/context/replay-model-context-v2.md) · [Evidencia](evidence/AI_COACH_CONTEXT_PACKING_SINGLE_DEMO_SMOKE_2026-10-11.json).
+
+
+### Encuadre experto de sonido espacial — 12/10/2026
+
+- [x] Tras «Vamos a ello», revisar N01/N04/N10 con ejemplos fechados de C4/ronda; tres lecturas factuales válidas, interpretación vacía, N04 idéntico. Revisión del agente, sin atribuir aceptación humana o evaluación independiente. Sin llamadas nuevas al modelo.
+- [x] Preparar alcance v0.1 y comprobar fuentes: captura anterior leída sin parsear, 2.660 disparos/347 lanzamientos, sin recepción auditiva en las colecciones inspeccionadas. Fuente primaria demoinfocs v5.2.0 y archivos vigentes contrastados con grafo desactualizado. No afirmar ausencia de sonido en la demo.
+- [x] Recibir «Sí, con esas estimaciones y límites» y criterio espacial: aprovechar posiciones reales, sonidos arriba/abajo/detrás/lados; marcar emisiones CT que entren en alcance T. Literal conservado. Alcance v0.2: distancia 3D, estimación, fuente/rango verificables y abstención donde falten; no aplicar bloqueo visual ni FOV. Bando nativo permitido como procedencia estimada de demo, sin reconocimiento real, número de rivales o posición percibida exacta.
+- [x] Excel v50/IC60 añade A65:G65 con criterios recibidos; catorce hojas y partes previas conservadas. Render Artifact Tool y merge estrecho, sin atribuirlo a Excel nativo. Plan/prompt anteriores, fuentes, notas, intentos y entregas preservados. Preparación documental, cero demos/modelos nuevos y sin cambio funcional.
+- [x] Implementar sonido dentro del encuadre recibido y verificar fuente/rangos/causalidad: cierre local del 15/10 registrado al final. Interpretación general y evaluación humana conservan sus gates.
+
+[Preparación](../outputs/stratai-sound-framing-20261012/RESULTADO.md) · [Alcance](ai-coach/AI_COACH_SOUND_INFORMATION_SCOPE_v0.2.md).
+
+### Extracción nativa de sonido y dependencia de alcance — 12/10/2026
+
+- [x] Implementar observador opt-in y comando aislado `stratai.native_sound_source_audit@1`, con emisor/posición donde hay fuente positiva, radios ausentes o no verificados explícitos y acciones separadas. No cambia los productores/contratos históricos ni concede escucha.
+- [x] Verificar siete pruebas Go nuevas rojo/verde, suites públicas y batería Python completa de 2.556 pruebas. Corregir por regresión el caso de lista interna de eventos de respaldo; repetir suites públicas y 108 consumidores Python sobre los hashes finales. Fuentes AI/frontend/backend Python intactas entre ambas baterías.
+- [x] Procesar exactamente una partida aprobada y una pasada a TEMP nuevo retenido tras las pruebas. 26.957 registros nativos: 1.062 pasos —560 T/502 CT, todas sus posiciones disponibles—, 2.714 mensajes `WeaponSound` —también cuchillo/utilidad/recarga, no conteo de disparos— y 23.181 inicios SOS sin clase/radio acreditados. `PlayerSound`/`CSVCMsg_Sounds` cero; ningún radio explícito recuperado. Recomputar conteos y contrastar callbacks con eventos resueltos/crudos; cero avisos/IDs desconocidos, sin extrapolar cobertura completa del motor. Diez alias locales, fuente y 44 manifiestos intactos, comandos/hashes/inventarios retenidos.
+- [x] Registrar evidencia y propuesta de perfil pendiente, Excel v51/IC61 —sólo A66:G66, anteriores intactos— y plan v3.41. Conservar encuadre, originales, notas, análisis, Qwen y presupuesto; cero nuevas llamadas al modelo. Auditoría técnica de fuente terminada, sin cierre funcional de sonido.
+- [x] Resolver alcance: instrucción explícita del usuario del 15/10 para buscar e implementar los valores fijos del juego; fuentes y cierre debajo. Se conserva como historia el pendiente del 12/10: criterio experto para una aproximación por perfiles y sus valores/calibración, o una fuente de rango verificable. No adivinar parámetros SOS, radio universal, identidad percibida o número de rivales. Verificar el productor de recepción 3D y sus consumidores después de resolver esta dependencia; sonido/interpretación general continúan pendientes.
+
+[Resultado](../outputs/stratai-sound-20261012/RESULTADO.md) · [Auditoría de fuente](../outputs/stratai-sound-20261012/source-verification.json) · [Contrato](ai-coach/AI_COACH_SOUND_NATIVE_SOURCE_AUDIT_v0.1.md) · [Propuesta pendiente](ai-coach/AI_COACH_SOUND_RANGE_PROFILE_PROPOSAL_v0.1.md).
+
+### Sonido: perfiles fijos y recepción 3D estimada — 15/10/2026
+
+- [x] Recibir la instrucción explícita de buscar en internet los radios fijos del círculo del radar e implementarlos. Resuelve la consulta anterior de alcance. No se vuelven a pedir radios o criterios espaciales ya acordados. Literal, límites y decisiones técnicas conservados.
+- [x] Fijar archivos extraídos del juego por commit y SHA-256: 1.312 eventos, 548 perfiles utilizables. Override de difusión positivo o final de curva de ganancia cero. Sin radio universal; perfiles locales/silenciosos o sin evidencia utilizable abstienen. Tabla completa y recomputación de todos los valores conservadas.
+- [x] Integrar emisor/posición nativos y observador vivo al callback, distancia 3D en todas las direcciones/alturas sin FOV ni bloqueo visual. Procedencia de bando nativo estimada, sin reconocimiento, identidad percibida, coordenadas percibidas exactas o número de rivales. Comunicación inmediata posible, incluidos muertos como receptores compartidos; memoria individual/compartida fechada por categoría y región.
+- [x] Conectar productor opt-in, proyección @11 y entrada @9 con validación independiente y texto construido desde referencias. Mantener versiones históricas y defaults, C4 único, zonas, ronda, acontecimientos, información visual, granadas y regla de cinco segundos/flashes.
+- [x] Reparar por regresión los perfiles silenciosos y el propio emisor como receptor. La primera captura real detecta otra carencia: el entero source_soundscape era rechazado como parámetro desconocido. Identificar clave/tipo en los archivos primarios y una sonda de la misma partida; reparar con bytes reales. Reconocer impact_speed_input y abstener su ganancia dinámica no modelada. Corregir también la retención separada de variantes nativas que el contexto presenta como el mismo tipo de señal. Resultados anteriores e inventarios retenidos.
+- [x] Verificar 2.569 pruebas Python completas antes de los últimos ajustes, y tras ellos suites públicas completas —314 frontend en el snapshot de sonido, 18 Node con tres omisiones históricas, Go, 43 backend, lint/build— más 124 consumidores/backend afectados. Una comprobación posterior del árbol compartido detecta ocho fallos en test_steam_onboarding.py, tras cambios concurrentes de autenticación conservados y ajenos a sonido. No se declara verde la suite global actual. Fuentes del productor/proyección/lector intactas respecto al smoke. Once pruebas Go, catorce frontend y dieciséis Python nuevas. No se afirma una batería completa final de un total inferido.
+- [x] Procesar una sola partida distinta, repetida sólo esa misma: tres capturas completas y una sonda de parámetros, todas en TEMP nuevos retenidos. Captura final: 20 rondas, 23.398 frames, 148 muertes, 251 reacciones. 21.987 registros de emisión y 29.124 registros de recepción posible; 5.197 CT para T. Recalcular independientemente 101.297 distancias, perfiles, fuentes, parámetros, vida y causalidad. No equivalen a personas, sonidos físicos únicos ni escucha confirmada. Fuente demo y 44 manifiestos intactos.
+- [x] Verificar Chromium sobre 655 vistas T/CT y las diez entradas nuevas con reconstrucción sin pérdida de 6.840 cortes. Diez recibos anteriores y veinte notas conservan sus hashes. Excel v52/IC62 sólo añade A67:G67; catorce hojas y partes previas intactas. Cero llamadas nuevas a Qwen, configuración y presupuesto originales.
+
+**Alcance cerrado:** información sonora local estimada con referencia fija del juego. Compatibilidad exacta de build, audición efectiva, enmascaramiento, transformaciones exactas de origen/oído y ganancia física dinámica siguen sin acreditar. No se promueve al corpus o producto ni se prueba mejora táctica.
+
+**Siguiente acción única:** presentar la revisión experta de interpretación general a partir de la información ya incorporada, con ejemplos de qué cambia y qué permanece desconocido. Conservar Qwen inicial, límites y lecturas previas; medir la entrada antes de una nueva tanda. Esperar el encuadre de esa nueva fase sin volver a preguntar por los radios o criterios espaciales resueltos.
+
+[Resultado y evidencias](../outputs/stratai-sound-ranges-20261015/RESULTADO.md) · [Contrato de sonido](ai-coach/AI_COACH_SOUND_INFORMATION_IMPLEMENTATION_v0.1.md) · [Catálogo completo](../outputs/stratai-sound-ranges-20261015/RADIOS.md) · [Verificación real](../outputs/stratai-sound-ranges-20261015/retry-2-sound-source-verification.json).
+
+### Revisión experta de interpretación y puntos sonoros de demo — 15/10/2026
+
+- [x] Recibir «Vamos a seguir este orden. haz lo que haga falta-» y presentar dos casos. El usuario corrige el alcance: aprovechar la posición real del CT para marcar el punto cuando produce sonido dentro del alcance T, sin usar esa posición oculta para interpretar o valorar el ataque. Conservar la distinción entre emisores nativos y eventos de pasos; no introducir una heurística universal de cadencia ni identidad reconocida.
+- [x] Reformular el segundo caso y recibir que la utilidad inicial suele ser habitual para frenar posibles rushes; la coincidencia con recarga/entrada T no demuestra una reacción. Literal y aplicación técnica separados, sin atribuir nuevas etiquetas de los diez casos al usuario. Excel v53 añade sólo IC63/IC64 en A68:G69; catorce hojas, filas y partes anteriores intactas.
+- [x] Implementar el punto fechado de la posición del actor en el callback. Validación de fuente/rango/observador reutilizada, emisores distintos separados, un punto por emisor, actualización sólo por otra emisión admitida y 1,5 s como ventana de dibujo. Capa independiente del canvas: sus coordenadas no entran al contexto factual, exportación o modelo. Proyección @11/input @9 conservan sus valores.
+- [x] Doce regresiones nuevas con rojo/verde. Comandos públicos aprobados —362 frontend, 51 Node y tres omisiones históricas, Go, backend, lint y build a TEMP nuevo—; batería conjunta coach/backend de 2.683 pruebas. El build compartido falló por permisos y se conserva; se verificó una salida aislada. Quince cambios concurrentes ajenos se conservan. Las 740 fuentes del alcance del replay coinciden con el snapshot probado; no se declara verde el árbol completo cambiante.
+- [x] Procesar exactamente una demo aprobada, una pasada nueva a TEMP retenido: 20 rondas, 23.398 frames, 148 muertes y 251 reacciones, Go 1.26.9 ya instalado, parse 66,35 s. Fuente y 44 manifiestos intactos. Recalcular posiciones de emisor en 46.796 vistas T/CT; 35.820 apariciones de puntos, no personas únicas. Paridad exacta del contexto del modelo con el consumidor anterior en 1.284 cortes. Chromium comprueba cuatro puntos, el interruptor de capa y ambas perspectivas, sin errores finales.
+- [x] Medir las diez entradas con el renderizador real del Qwen original. Reproducir exactamente los conteos de tres controles históricos; Ollama cambió externamente de 0.40.2 a 0.40.4, digest igual. Siete entradas actuales superan 65.536 tokens; sólo N01 reserva además la salida máxima de 8.192. Cero generaciones nuevas. Pruebas offline de compresión sin pérdida retenidas, todavía sin cambio de codec runtime o garantía de capacidad/comprensión.
+
+**Cierre acotado:** punto sonoro de demo implementado y verificado en el mapa, separado de los hechos del modelo. Encuadre experto recibido para esos dos casos. La interpretación general y su evaluación no quedan acreditadas por este cierre. Las veinte notas y las entregas anteriores conservan sus hashes; AGENTS.md y el plan recibieron cambios concurrentes preservados.
+
+**Siguiente acción única vigente:** reparar la capacidad de entrega del contexto antes de generar, conservando Qwen/digest, límites, hechos, fechas, consultas y formatos históricos. Resolver esa dependencia técnica con reconstrucción exacta y medición de las peticiones finales; después aplicar los criterios recibidos y ejecutar la comparación fijada, sin reintentos selectivos. No volver a pedir radios, criterio espacial, permiso del punto de demo o criterio de utilidad inicial ya resueltos. Una nueva decisión de juego o de producto conserva revisión experta.
+
+[Resultado](../outputs/stratai-interpretation-framing-20261015/RESULTADO.md) · [Contrato de la capa](ai-coach/AI_COACH_SOUND_MAP_REVIEW_v0.1.md) · [Criterios recibidos](../outputs/stratai-interpretation-framing-20261015/expert-criteria.json) · [Medición definitiva](../outputs/stratai-interpretation-framing-20261015/api-rendered/measurement.json).
+
+### Capacidad sin pérdida y comparación tras sonido — 15/10/2026
+
+- [x] Resolver la dependencia técnica con formato opcional `stratai.replay_model_context@3` y adaptador 1.3 explícito. Se comparten estructuras/prefijos conservando registros, IDs, orden, tipos, precisión, fechas y receptores. El valor por defecto 1.2 y las lecturas históricas permanecen reproducibles. No se cambia Qwen, digest, configuración o presupuestos.
+- [x] Medir las diez peticiones finales con el renderizador Qwen3.5 y el tokenizador nativo. Todas caben; nueve reservan la salida máxima completa. N05 pasa de 131.932 a 61.420 tokens y deja 4.116 para salida, no 8.192. Las consultas posteriores conservan sus límites explícitos. Los tres controles históricos coinciden exactamente.
+- [x] Veinticinco regresiones nuevas con rojo/verde, mutación detectada y restaurada, y doscientos documentos de colisiones/Unicode/precisión. Controles públicos aprobados: 368 frontend, 54 Node con tres omisiones históricas, Go 1.26.9, backend, lint y build a TEMP. Batería conjunta de 2.708 pruebas; 742 fuentes del alcance probado estables. Sin declaración de árbol completo verde durante trabajo concurrente.
+- [x] Auditar el codec @3 sobre 6.840 muestras y 943.460 registros factuales conservados, y reproducir las tres lecturas históricas. Sin ampliar el acceso causal o el presupuesto del modelo.
+- [x] Procesar exactamente una demo aprobada tras las pruebas, una pasada nueva a TEMP retenido: 56,295 s, 20 rondas, 23.398 frames, 148 muertes y 251 reacciones. Fuente y 44 manifiestos intactos. Ejecutar el productor cambiado sobre diez ventanas nuevas y consultas causales; 28 aceptadas, dos límites de bytes explícitos. Las diez entradas nuevas también caben; N05 mantiene la excepción de reserva máxima.
+- [x] Investigar la guarda que exigía igualdad entre extracciones: IDs aleatorios nativos de proyectiles/incendios y orden de muestreo impiden reutilizar por hash una captura distinta. N01 coincide byte a byte; no se afirma igualdad global de las demás. Fallo retenido y comprobación corregida para verificar cada fuente contra sus propios datos. La generación conserva las entradas sonoras @9 ya medidas; no se normalizan ni reemplazan IDs para pasar el control.
+- [x] Ejecutar la tanda completa N01/N04/N10 con una llamada por caso, sin reparaciones o repeticiones selectivas: tres salidas válidas mecánicamente, reproducción causal correcta y 17.068 / 35.250 / 54.051 tokens reales, idénticos a la medición. La interpretación queda vacía en los tres. El presentador y las selecciones expresas de Qwen se muestran separados; incluir hechos obligatorios no demuestra comprensión del modelo. El esquema actual sólo expresa hechos y ocho principios condicionales, sin hipótesis tácticas nuevas. Ollama cambió externamente de 0.40.2 a 0.40.4; no se atribuye un efecto aislado a sonido, formato o criterio experto.
+- [x] Conservar 17.343 archivos protegidos, 364 artefactos del cierre anterior y las veinte notas por hash. Excel v54 añade sólo IC65/IC66 en A70:G71; catorce hojas, filas previas y demás partes ZIP intactas. Temporales, fallos e inventarios retenidos; sin limpieza, entrenamiento, adquisición, publicación, promoción o migración del corpus.
+
+**Cierre acotado:** capacidad inicial reparada y comparación fijada completada. Se conserva el criterio experto: utilidad inicial habitual puede frenar posibles rushes; su coincidencia con recarga y entrada T no acredita una reacción. Los puntos nativos del mapa siguen separados del modelo. La interpretación táctica general y su evaluación independiente continúan pendientes.
+
+**Siguiente acción única vigente:** presentar un alcance concreto para el contrato de hipótesis tácticas, con dos ejemplos ilustrativos, criterios propuestos, alternativas, excepciones, dependencias y verificación; recibir el encuadre experto y esperar antes de implementarlo. Conservar C4 único, datos numéricos reconstruidos desde hechos, causalidad, incertidumbre y modelo original. No volver a preguntar por radios, criterio espacial, uso del punto nativo en el mapa, tres lanzamientos en cinco segundos con flashes excluidas o utilidad inicial ya resueltos. No introducir etiquetas para llenar la interpretación vacía ni convertir respuestas humanas en evaluación independiente.
+
+[Resultado](../outputs/stratai-context-budget-20261015/RESULTADO.md) · [Comparación con ejemplos](../outputs/stratai-context-budget-20261015/COMPARACION.md) · [Contrato @3](contracts/context/replay-model-context-v3.md) · [Medición](../outputs/stratai-context-budget-20261015/measurement.json) · [Auditoría completa](../outputs/stratai-context-budget-20261015/archive-verification.json).
+
+### Encuadre de profundidad en B Apps — 15/10/2026
+
+- [x] Recibir el criterio experto: «Si estan muy dentro de B apps, es decir, apunto de entrar a B, si se podria acreditar como ataque, si estan mas atrás, no tanto». La profundidad dentro de una zona importa; una posición adelantada próxima a la entrada puede respaldar ataque, una retrasada aporta menos fundamento. No se atribuye al usuario un umbral numérico, mínimo universal de jugadores o intención de plantar confirmada.
+- [x] Comprobar la referencia espacial utilizada: 23 volúmenes con nombre y un único hull Apartments, sin subdivisión de profundidad en ese paquete. Preparar mapa de revisión con contornos existentes y tres puntos de orientación, sin modificar geometría, clasificar jugadores o elegir una distancia arbitraria. La vista 2D conserva las limitaciones de referencia, altura y transitabilidad.
+- [x] Registrar literal, interpretación técnica y dependencia pendiente en Excel v55, sólo IC67/A72:G72; catorce hojas y partes/filas anteriores preservadas. Chromium renderiza el mapa local sin errores. Verificación documental y de integridad retenida; cero procesamientos de demo y cero llamadas nuevas al modelo. La intervención es documental, no un cierre funcional nuevo.
+
+**Estado:** encuadre cualitativo parcial recibido. No se implementa todavía la clasificación de ataque ni el contrato de hipótesis. Ataque, intención de plantar y plantado confirmado permanecen distintos. Recomendaciones, datos numéricos protegidos y posiciones ocultas conservan sus límites.
+
+**Siguiente acción única vigente:** recibir en el mapa de revisión el tramo que concreta «a punto de entrar en B», conservando sin volver a preguntar el criterio cualitativo ya dado. Después completar el encuadre de las hipótesis necesarias; resolver los detalles técnicos rutinarios con autonomía y verificar la implementación cuando sus dependencias estén resueltas. No reemplazar un límite pendiente por distancia a cualquier pared o solape 2D de zonas.
+
+[Alcance y dependencias](ai-coach/AI_COACH_ATTACK_DEPTH_SCOPE_v0.1.md) · [Mapa numerado](../outputs/stratai-attack-depth-framing-20261015/revision-b-apps.html) · [Criterio literal](../outputs/stratai-attack-depth-framing-20261015/expert-criteria.json).
+
+
+### Primer contrato de hipótesis: punto 2 de B Apps — 15/10/2026
+
+- [x] Recibir «En el punto 2 se puede considerar si hay 2-3 jugadores en esa zona». Resuelve la referencia y el grupo del encuadre anterior; no volver a pedir esos criterios. La cercanía queda como estimación explícita sin inventar radio métrico.
+- [x] Implementar `replay_attack_hypothesis@2`, sesión y adaptador optativos. Posible ataque B con exactamente dos o tres referencias actuales propias, apoyadas por zona, ronda y objetivo. Conteo, C4, fechas y texto factual protegidos; alternativas abiertas, sin inferir plantado, apoyo o reacción defensiva.
+- [x] Pasar 34 pruebas nuevas y mutación; 2.742 combinadas backend/AI Coach, 368 frontend, Node/Go, lint y build aislado. Procesar una demo aprobada en TEMP nuevo después de las suites; ejecutar el productor cambiado y recalcular geometría, causalidad y soportes no vacíos.
+- [x] Medir las diez entradas completas sin recorte: todas caben y nueve reservan salida máxima; N05 conserva su margen limitado. Ejecutar N01/N04/N10 más W01 preseleccionado por geometría, con el Qwen/digest/configuración originales y un intento por caso. Conservar abstenciones y fallos; no atribuir calidad táctica a integridad mecánica.
+- [x] Conservar la primera tanda completa: N01/W01 rechazados por repetición hasta agotar salida; N04/N10 válidos. Alinear esquema y verificador con combinaciones canónicas de identidades, una hipótesis opcional y sobres coherentes de consulta/fin. Repetir todas las pruebas, la misma demo y el lote completo; ningún reintento selectivo o aumento de presupuestos.
+- [x] Actualizar Excel v57 sólo IC69/A74:G74, conservando IC68 del v56, catorce hojas y partes anteriores intactas. Verificar 17.343 archivos anteriores, 580 de cierres recientes, notas originales y replay de tres lecturas históricas. Retener todos los temporales e inventarios, sin promoción o entrenamiento.
+
+**Cierre técnico acotado, resultado táctico pendiente:** la primera hipótesis es expresable y protegida, pero Qwen no la selecciona en las tres lecturas válidas, incluida W01. N10 alcanza 240 segundos. El render de cobertura con datos reales prueba la representación y no se atribuye a inferencia del modelo. El apartado de encuadre previo conserva su estado histórico y queda sucedido por este resultado. Las coordenadas nativas del mapa sonoro siguen fuera del modelo.
+
+**Siguiente acción única vigente:** revisar con el usuario las lecturas y abstenciones de esta comparación y diagnosticar W01/N10 dentro del criterio acordado. No dar por resuelta la interpretación ni ampliar familias todavía. Una nueva familia necesita encuadre experto conforme a «Forma de trabajo por fase». No volver a preguntar por punto 2, grupo de 2–3, radios de sonido, utilidad inicial o tres granadas en cinco segundos con flashes excluidas. No entrenar ni promover.
+
+[Resultado](../outputs/stratai-attack-hypothesis-20261015/RESULTADO.md) · [Comparación con ejemplos](../outputs/stratai-attack-hypothesis-20261015/COMPARACION.md) · [Contrato](contracts/context/replay-attack-hypothesis-v2.md) · [Criterio literal](../outputs/stratai-attack-hypothesis-20261015/expert-criteria.json).
+
+
+### Diagnóstico de W01/N10 y selección breve — 15–16/10/2026
+
+- [x] Localizar la copia redundante de hechos ya obligatorios en el timeout de N10; conservar streaming, controles y las dieciséis llamadas de desarrollo, sin atribuir sus explicaciones a verdad factual o razonamiento interno demostrado.
+- [x] Implementar `replay_attack_hypothesis@3`/adaptador optativo `1.6.0-local.1`: referencias adicionales limitadas y filtradas, hechos protegidos completos, copia legible de jugadores/zonas actuales y versiones anteriores reproducibles. Sin radio nuevo ni etiquetas automáticas.
+- [x] Verificar 18 regresiones nuevas, mutación, 2.760 pruebas backend/AI Coach, 402 frontend, Node/Go/lint/build y 746 fuentes estables. Procesar una sola demo aprobada después de las suites; tres entradas frescas, cinco registros elegibles y seis consultas causales verificadas.
+- [x] Medir diez entradas completas y la nueva W01 sin recorte; nueve reservan salida máxima. Conservar el intento interrumpido del 15/10 y repetir los cuatro casos completos el 16/10, una vez cada uno. Qwen/digest/presupuestos intactos; Ollama actualizado externamente a 0.40.5, sin atribución temporal aislada.
+- [x] Corregir la clasificación inicial de N01: está hacia el punto 3, no junto al 1. Borrador anterior retenido. Los controles ilustrativos punto 1/2 reciben ambos «cercano»; no se usan para etiquetar ataque o afirmar calidad independiente.
+- [x] Añadir únicamente IC70/A75:G75 en Excel v58, con catorce hojas y anotaciones previas intactas. Rehash de 17.343 + 580 + 221 archivos y replay de ocho lecturas previas/de desarrollo. Temporales y fallos retenidos, sin limpieza, entrenamiento o promoción.
+
+**Cierre técnico y diagnóstico, interpretación pendiente:** N10 termina en 28.871 s, con 28 tokens en su última respuesta. W01 mantiene interpretación vacía. Lote final: 4/4 lecturas mecánicamente válidas, 0 casos con hipótesis de ataque. El dato disponible y el render son comprobables; la aplicación táctica fiable no queda acreditada.
+
+**Siguiente acción única vigente:** preparar una propuesta concreta de representación espacial de «junto al punto 2» y revisarla con el usuario antes de sustituir la estimación por un contorno o regla determinista. Incluir alcance, ejemplos/excepciones, dependencias y verificación; no ampliar familias ni forzar una etiqueta. Punto 2, grupo de 2–3, comunicación posible, sonido y granadas ya están resueltos y no se vuelven a preguntar. La revisión experta no sustituye la evaluación independiente.
+
+[Resultado](../outputs/stratai-attack-diagnosis-20261015/RESULTADO.md) · [Comparación](../outputs/stratai-attack-diagnosis-20261015/COMPARACION.md) · [Diagnóstico](../outputs/stratai-attack-diagnosis-20261015/DIAGNOSTICO.md) · [Contrato v3](contracts/context/replay-attack-hypothesis-v3.md).
+
+### Propuesta del tramo avanzado de B Apps — 16/10/2026
+
+- [x] Preparar una representación revisable: habitación/pasillo final desde el paso del tabique junto al punto 2 hasta la salida B, incluido el codo junto a 3. Verde para el contorno propuesto y amarillo para el corte trasero. Son trazos aproximados de presentación apoyados en elementos visibles; no un radio, bisectriz, volumen aprobado o nueva regla runtime.
+- [x] Mostrar W01 y N01 en vistas separadas con alias opacos. En el dibujo W01 deja P04 antes del paso y P03/P05 después: no se ajusta el límite para aceptar la pareja más cercana. N01 sigue hacia 3 y tiene un punto muy próximo al borde; no es un control retrasado ni aporta etiqueta táctica independiente.
+- [x] Documentar alcance, ejemplos, alternativas, excepciones de borde/altura/causalidad, dependencia de referencia y verificación posterior. Se preservan punto 2, grupo de 2–3, C4, comunicación posible, sonido, granadas y modelo original.
+- [x] Comprobar las tres vistas en Chromium, radar cargado, controles, ausencia de errores/red externa y adaptación sin desbordamiento en móvil. Añadir sólo IC71/A76:G76 en Excel v59, conservando catorce hojas, comentarios, filas previas y otras partes ZIP. Conservar fuentes y análisis anteriores; detalle de integridad en el informe.
+
+**Estado: encuadre espacial preparado, pendiente de respuesta experta.** La extensión desde el paso hasta la salida y el límite concreto son propuestas nuevas. No se sustituye la estimación vigente, no se genera otra lectura y no se procesa ninguna demo en esta intervención documental. La evaluación independiente sigue pendiente.
+
+**Siguiente acción única vigente:** recibir la revisión experta del verde y el corte amarillo en el mapa concreto; ajustar la propuesta si procede y esperar ese encuadre antes de implementar pertenencia determinista. Después resolver su referencia, altura y fronteras con verificaciones independientes y el smoke de una demo si cambia el productor. No volver a preguntar punto 2 o grupo de 2–3, ni ampliar familias o forzar etiquetas para llenar interpretación.
+
+[Propuesta y ejemplos](../outputs/stratai-attack-region-framing-20261016/PROPUESTA.md) · [Mapa revisable](../outputs/stratai-attack-region-framing-20261016/revision-region-b-apps.html) · [Imagen](../outputs/stratai-attack-region-framing-20261016/revision-region-b-apps.png) · [Resultado documental](../outputs/stratai-attack-region-framing-20261016/RESULTADO.md).
+
+### Región aprobada y pertenencia calculada — 16/10/2026
+
+- [x] Recibir «Sí, ese tramo completo». Quedan aprobados corte y extensión desde el paso junto a 2 hasta la salida B, incluido el codo junto a 3. Punto y grupo de 2–3 se conservan; la aprobación del tramo no acredita precisión física del radar o build exacta.
+- [x] Implementar lectura optativa @4/adaptador 1.7 y región versionada, con transformación y hashes de procedencia, intersección con el hull 3D original, fronteras protegidas por precisión de fuente y guardas causales existentes. Sólo interiores forman combinaciones de dos/tres; no se añade radio ni se convierte pertenencia en ataque automático. Contratos históricos y modelo por defecto intactos.
+- [x] Verificar 32 regresiones nuevas y mutación; 2.792 pruebas combinadas backend/AI Coach, 417 frontend, Node/Go/lint/build. Las 749 fuentes del alcance permanecen estables. Procesar una única demo aprobada después de las suites: 42,047 s, 20 rondas y 23.398 frames; tres entradas frescas, cuatro interiores, un exterior y seis consultas recalculados independientemente.
+- [x] Medir diez entradas completas y W01 nueva sin recorte: todas caben, nueve reservan la salida máxima, N05 mantiene margen limitado. Ejecutar N01/N04/N10/W01 una vez por caso con Qwen/digest/límites originales y Ollama 0.40.5. Los cuatro recibos y conteos de tokens reales coinciden; 4/4 lecturas mecánicamente válidas, interpretación vacía en las cuatro.
+- [x] Rehash de 17.343 + 580 + 221 + 241 archivos previos, notas originales y doce recibos históricos reproducibles. Excel v60 añade sólo IC72/A77:G77; catorce hojas, comentarios y partes anteriores intactos. Temporales, errores y análisis conservados; sin entrenamiento, adquisición, limpieza o promoción.
+
+**Cierre funcional acotado; interpretación pendiente:** W01 entrega la pareja P03/P05 dentro y P04 fuera; el tercero no veta la pareja. N01 permanece hacia 3/salida B. Qwen no selecciona ninguna hipótesis en la tanda. El cálculo geométrico ya no depende de su estimación de cercanía; eso no demuestra aplicación táctica fiable ni causa interna exacta de la abstención. Los apartados de propuesta conservan su estado histórico y quedan sucedidos por la aprobación y este resultado.
+
+**Siguiente acción única vigente:** revisar con el usuario la comparación y las abstenciones con la pertenencia ya calculada antes de ampliar familias. Mantener el criterio recibido y no forzar etiquetas. Una nueva decisión de juego o producto conserva encuadre experto; las reparaciones técnicas del alcance acordado se resuelven con autonomía. No volver a preguntar contorno, punto 2, grupo de 2–3, radios sonoros, granadas o utilidad inicial ya resueltos. La evaluación independiente sigue pendiente.
+
+[Resultado](../outputs/stratai-attack-region-20261016/RESULTADO.md) · [Comparación con ejemplos](../outputs/stratai-attack-region-20261016/COMPARACION.md) · [Contrato v4](contracts/context/replay-attack-hypothesis-v4.md) · [Criterio aceptado](../outputs/stratai-attack-region-20261016/expert-criteria.json).
+
+### Diagnóstico de abstención y caso completo — 16/10/2026
+
+- [x] Auditar petición, contexto, esquema, respuesta y presentador de W01: pareja interior entregada y expresable; el JSON original ya viene sin interpretación. Control exacto y cambio de orden de ramas mantienen la omisión. La copia de cobertura expresa la hipótesis, sin acreditarla tácticamente.
+- [x] Ejecutar ocho pruebas de desarrollo predeclaradas, una llamada por intervención y sin tocar la comparación anterior. La valoración explícita apoya P05/P03 y rechaza P04/P03 por su miembro exterior. Un recordatorio con el esquema de lectura original no corrige la omisión. Valoración obligatoria antes/después produce apoyo y lectura vacía en la misma respuesta: incoherencia de representación observable, sin afirmar una causa neural interna exacta.
+- [x] Localizar el defecto de control: el contrato actual permite abstención sin registrar valoración; no se puede comprobar la coherencia entre valorar y seleccionar. Los sobres diagnósticos son distintos del contrato vigente, no lecturas aceptadas ni evaluación independiente.
+- [x] Entregar W01 completo con mapa sólo propio, C4 único con P02 en BackAlley, P08 en Catwalk, pareja interior y P04 antes del paso; relojes, contexto entregado exacto y lectura original completa. Separar la propuesta del asistente y las respuestas de desarrollo. Verificar el artefacto en Chromium y Excel v61/IC73, conservando catorce hojas y contenido anterior.
+- [x] Preservar runtime, contorno, modelo/digest/límites y evidencias previas. Intervención de diagnóstico/documentación: ocho generaciones de desarrollo, cero parseos nuevos y cero cambios de productores/contratos runtime. Enlaces e integridad verificados; temporales retenidos. No se repiten suites funcionales ni se declara una reparación que aún no está implementada.
+
+**Cierre diagnóstico:** el modelo puede valorar esta candidatura con los mismos hechos, pero esa valoración no se convierte de forma fiable en la selección opcional de la lectura. No basta con otro recordatorio. La representación debe tener una única decisión explícita y verificable, manteniendo no apoyo e incertidumbre como resultados válidos. No derivar una etiqueta de ataque sólo de la geometría.
+
+**Siguiente acción única vigente:** reparar técnicamente el contrato optativo de salida para unificar valoración y selección de la hipótesis actual, con soporte cerrado, texto protegido, abstención explícita y versiones históricas reproducibles. Mantener criterio, modelo y presupuestos; verificar pruebas, una demo aprobada si cambia contrato runtime, medición y comparación completa predeclarada sin reintentos selectivos. La revisión asistida del caso W01 acompaña el trabajo y no sustituye evaluación independiente. No pedir otra vez contorno, grupo, C4, sonido, granadas o condiciones ya acordadas ni abrir una nueva familia.
+
+[Resultado](../outputs/stratai-abstention-diagnosis-20261016/RESULTADO.md) · [Diagnóstico y controles](../outputs/stratai-abstention-diagnosis-20261016/DIAGNOSTICO.md) · [Caso W01](../outputs/stratai-abstention-diagnosis-20261016/caso-W01.html) · [Imagen](../outputs/stratai-abstention-diagnosis-20261016/caso-W01.png).
+
+### Reorientación hacia comprensión contextual — 16/10/2026
+
+- [x] Recibir la corrección del usuario: situaciones similares pueden admitir interpretaciones distintas; comprender antes de decidir mediante probabilidad. «Hazlo mejor así si» acepta conservar hechos y modelo, recuperar contexto/evolución e hipótesis justificadas y abordar después el valor esperado de acciones. No requiere volver a aprobar esa dirección.
+- [x] Preparar [alcance contextual v0.1](ai-coach/AI_COACH_CONTEXTUAL_INTERPRETATION_SCOPE_v0.1.md), alineado con producto y CS1: una capacidad de interpretación, antecedentes hasta el corte, evidencia/contraevidencia, alternativas compatibles e insuficiencia local. El tramo aprobado pasa a servir como medición; emitir `possible_attack_b_advanced_apps` deja de ser el objetivo de éxito. El prototipo y el diagnóstico históricos siguen intactos.
+- [x] Concretar dos casos ilustrativos con igual distribución final y antecedentes distintos: avance hacia el acceso frente a permanencia observada. Sus lecturas son propuestas para revisión, no etiquetas expertas, extracciones reales nuevas ni evaluación independiente. No se inventa un umbral temporal ni se identifica quietud con fake.
+- [x] Actualizar Excel v62/IC74, conservando catorce hojas, filas, comentarios y partes anteriores; separar acuerdo general recibido y encuadre A/B pendiente. Verificación documental y preservación en el [resultado](../outputs/stratai-contextual-reframing-20261016/RESULTADO.md).
+- [ ] Recibir el criterio experto sobre las diferencias propuestas entre A/B antes de la implementación dependiente. La revisión se limita a esas lecturas y excepciones: no reabrir contorno, punto 2, grupo, C4, granadas, sonido o utilidad inicial.
+- [ ] Implementar y verificar la capacidad contextual tras ese encuadre. Conservar coherencia entre valoración y expresión, protección factual y versiones optativas; definir formato técnico entonces, sin convertir cada interpretación en otra regla de posiciones. Comparación de acciones, calibración numérica y evaluación táctica independiente no están implementadas por esta reorientación.
+
+**Cierre documental del cambio de dirección; nueva capacidad pendiente:** no se cambia runtime, no se procesa otra demo ni se genera una nueva lectura. No se declara comprensión mejorada por escribir el diseño. Las limitaciones factuales y tácticas anteriores siguen visibles; no se reemplazan por porcentajes del LLM.
+
+**Siguiente acción única vigente:** recoger la revisión experta del contraste A/B en el alcance v0.1 —qué cambia al observar avance previo frente a espera con la misma fotografía actual, y qué impediría preferir preparación de entrada—. Registrar la respuesta y preparar la implementación contextual dentro de lo acordado. Esta acción sustituye la reparación aislada de la candidatura espacial indicada en el apartado diagnóstico anterior, que queda como historia. No añadir otra confirmación del enfoque general ni ejecutar esa antigua tarea por inercia.
+
+[Alcance y casos A/B](ai-coach/AI_COACH_CONTEXTUAL_INTERPRETATION_SCOPE_v0.1.md#casos-concretos-para-revisión-experta) · [Criterio CS1](AI_COACH_CONTEXTUAL_REPRESENTATION_CRITERION.md) · [Resultado y límites](../outputs/stratai-contextual-reframing-20261016/RESULTADO.md).
+
+### Implementación de interpretación contextual — 16/10/2026
+
+**Encuadre recibido:** tras aclarar que «salida» es la puerta/ventana desde B Apps al punto B y que las letras eran ejemplos, el usuario responde «Me parece correcto ese enfoque». Se denominan situación 1 (avance observado) y situación 2 (espera observada). El movimiento anterior puede cambiar la lectura, sin intención automática ni un umbral nuevo. No se repite la revisión ya contestada.
+
+Orden técnico de esta capacidad, sin otra hoja de ruta:
+
+1. **Contrato y entrada causal**: instrumento optativo que mantiene hechos protegidos y ofrece el historial propio realmente disponible, sus fechas y cobertura discreta; la pertenencia espacial es una medición y no filtra hipótesis. Aceptación: sin futuro ni datos ocultos, versiones previas reproducibles y prueba de posiciones finales iguales con antecedentes distintos. Archivos: nuevo módulo/contexto, contrato y pruebas. Verificación: pruebas focalizadas de entrada y causalidad.
+2. **Salida y adaptación local**, dependiente de 1: una única decisión explícita permite hipótesis abiertas compatibles o insuficiencia con motivo; evidencia, contraevidencia, límites y condiciones de revisión. Mantener hechos reconstruidos por referencias; el texto contextual nuevo queda identificado como inferencia no validada semánticamente, con guardas de cantidades y sin equiparar integridad de citas a verdad. Aceptación: apoyo mostrado sin lista paralela vacía, ninguna etiqueta espacial obligatoria y verificador reproducible. Archivos: módulo nuevo, adaptador local y pruebas. Verificación: rojo/verde, límites/contradicciones y compatibilidad histórica.
+3. **Integración y comparación**, dependiente de 1/2: suites pertinentes, una sola demo aprobada en TEMP aislado, ejecución del productor nuevo sobre su captura y recomputación independiente. Medir entrada sin recortar y comparar N01/N04/N10/W01 con una tentativa por caso y el Qwen original. Aceptación: recibos causales, fallos conservados, hechos intactos y explicaciones comprensibles de lo emitido y lo que no se puede concluir. No convertir estos casos de desarrollo en evaluación independiente.
+
+- [x] Recibir encuadre y conservar fuentes/artefactos anteriores antes de editar.
+- [x] Completar 1/2 con pruebas y revisión técnica del cambio; la nueva prosa conserva condición de borrador sin validación semántica.
+- [x] Completar 3 y Excel v63 con criterio/resultado separados; cierre técnico experimental y calidad contextual pendiente, detallados debajo.
+
+**Siguiente acción única vigente:** implementar y verificar esta capacidad contextual dentro del encuadre recibido. La selección de formato, módulos y pruebas es técnica; no requiere otra aprobación del enfoque. Comparar acciones y presentar probabilidades calibradas siguen fuera de este incremento.
+
+### Resultado del prototipo contextual — 16/10/2026
+
+- [x] Implementar sesión optativa `stratai.replay_contextual_reading@1` y adaptador 1.8: hipótesis sin catálogo táctico ni filtro geométrico, alternativas compatibles y una decisión explícita de insuficiencia o hipótesis. La región conserva su carácter de medición aproximada. Modelo inicial, límites, versiones históricas y adaptador por defecto preservados.
+- [x] Mantener hechos reconstruidos por referencias y marcar toda prosa nueva como borrador sin garantía semántica. Añadir guarda de cantidades, incluida «dos C4»; es parcial y no valida el resto del lenguaje. Una vista factual legible copia textos canónicos y un catálogo completo de evidencias además del contexto íntegro, sin insertar una respuesta experta.
+- [x] Corregir entrega inicial de todo el historial (N01 234.956 tokens), incompatibilidad de gramática, consultas repetidas y agotamiento de contexto. Conservar todos los datos consultables por alcance, rechazos de entrega explícitos y una llamada final de respuesta sin conclusión táctica obligatoria. W01 mantiene corte y ahora 354 muestras nativas; la variante antigua de dos extremos sigue retenida.
+- [x] Verificar treinta regresiones nuevas y consumidores históricos: batería combinada inicial 2.814, servicios públicos, 435 frontend y 346 pruebas afectadas sobre la última fuente Python; lint y compilación aislada. La batería AI completa inicial no se presenta como ejecutada sobre la última revisión. Repetir la misma demo aprobada cinco veces durante las reparaciones, en cinco TEMP nuevos; un único SHA/match, 20 rondas y 23.398 frames por pasada. Productor final, fechas, hechos y mediciones contrastados; sin corpus reescrito o promovido.
+- [x] Medir peticiones finales completas y reservar salida máxima en los cuatro casos. Comparar N01/N04/N10/W01 una tentativa por caso en cada tanda completa, con el Qwen original. Última tanda: N01 termina pero se rechaza por un tick en texto libre; N04 insuficiencia explícita; N10 y W01 dos hipótesis cada uno. Catorce llamadas y 3/4 formatos válidos, sin aprobación de sus conclusiones.
+- [x] Auditar resultados: N10 deriva momento/causa/ubicación desde estados de muerte insuficientes; W01 atribuye destino de plantado, seguridad y reacción no acreditados y mezcla antecedentes lejanos con el corte actual. Son fallos, no criterios nuevos. No equiparar referencias válidas o texto en español con comprensión de CS2.
+- [x] Preservar comentarios y análisis originales: rehash amplio y 225 artefactos inmediatos, notas con SHA original y dieciséis recibos históricos reproducidos con el adaptador final. Excel v63 añade sólo IC75/IC76/A80:G81 y conserva catorce hojas y contenido anterior. Todas las capturas, errores, respuestas y temporales retenidos.
+
+**Cierre del incremento experimental; CS3 sigue parcial.** El cambio de enfoque está implementado y se puede estudiar con lecturas completas, pero la calidad contextual y la fundamentación factual de la nueva prosa no están acreditadas. Las cuatro hipótesis no se aprueban para aconsejar al jugador. Las cifras y estado del carril factual siguen protegidos; esa garantía no se extiende automáticamente al borrador libre.
+
+**Siguiente acción única vigente:** diagnosticar y preparar la reparación de fundamentación contextual sobre N10/W01, contrastando cada afirmación con hechos actuales, acontecimientos, fechas y mapa. Distinguir ausencia de dato, dato no consultado, estimación y conclusión no respaldada; no resolverlo forzando ataque B o añadiendo otro recordatorio a ciegas. Conservar modelo, guardas y criterios ya aceptados. Una nueva decisión de juego/producto mantiene revisión experta; las reparaciones técnicas dentro del alcance se resuelven con autonomía. No abrir todavía comparación de acciones, probabilidades numéricas o entrenamiento.
+
+[Resultado y límites](../outputs/stratai-contextual-reading-20261016/RESULTADO.md) · [Comparación íntegra](../outputs/stratai-contextual-reading-20261016/COMPARACION.md) · [Revisión asistida de fallos](../outputs/stratai-contextual-reading-20261016/AUDITORIA_DE_SALIDAS.md) · [Contrato contextual](contracts/context/replay-contextual-reading-v1.md).

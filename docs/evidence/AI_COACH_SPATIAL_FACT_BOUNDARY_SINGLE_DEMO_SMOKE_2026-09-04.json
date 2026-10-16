@@ -1,0 +1,193 @@
+{
+  "schema_id": "stratai.ai_coach_spatial_fact_boundary_single_demo_evidence@1",
+  "date": "2026-09-04",
+  "status": "passed",
+  "phase": "1B.11",
+  "gate_1b": "pending",
+  "training_allowed": false,
+  "scope": "versioned separation of automatically verifiable spatial facts from tactical judgment",
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "specialized_passes_over_same_match": 3,
+    "producer_attempts_per_pass": 1,
+    "source_read_only": true,
+    "approved_bundles_read_only": 44,
+    "outputs_only_under_temp": true,
+    "downloads": 0,
+    "corpus_reprocessing": false,
+    "published_or_promoted": false,
+    "temporary_outputs_removed_after_evidence_recorded": true
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "map_id": "de_mirage",
+    "rounds": 24,
+    "input_frames": 29520,
+    "parser_schema_version": "v16",
+    "canonical_export_format_version": "3.8.0"
+  },
+  "contracts": {
+    "spatial_fact_contract_version": "2.0.0",
+    "legacy_package_contract_version": "1.0.0",
+    "canonical_bundle_changed": false,
+    "objective_fields": {
+      "exposure": "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+      "cover": "FLD-GEOMETRIC-OCCLUSION",
+      "exit_route": "FLD-NAV-EXIT-PATH"
+    },
+    "diagnostic_schema_ids": {
+      "exposure": "stratai.observed_exposure_angle_diagnostic@2",
+      "cover": "stratai.observed_cover_diagnostic@2",
+      "exit_route": "stratai.observed_exit_route_diagnostic@2"
+    },
+    "tactical_assessment": {
+      "status": "unavailable",
+      "reason_code": "tactical_decision_context_required",
+      "independent_of_objective_fact_availability": true
+    },
+    "legacy_review_schemas": {
+      "count": 8,
+      "status": "deprecated_visual_qa_only",
+      "ground_truth_authorized": false,
+      "evaluation_authorized": false,
+      "training_authorized": false,
+      "ingestion_policy": "fail_closed_empty_allowlist"
+    }
+  },
+  "producer_runs": {
+    "exposure": {
+      "build_id": "working-tree-spatial-facts-1b11-exposure-20260904-r1",
+      "mode": "--ai-coach-exposure-angle-validation",
+      "duration_seconds": 92.382,
+      "temporary_export_files": 75,
+      "temporary_export_bytes": 735722136,
+      "report_sha256": "4b18a9dddee1953edabc59b475a02a585312d2a650159d478687dfc487ef850c",
+      "rows_sha256": "6c0f55376a27dfa5f2de4e54217aaa9046756e6e432fc9f2a042564840bf9b9e",
+      "logical_rows_sha256": "f570777e87281507c2a4addbb0c59290f4eed287c65b03360a51bfc17caad2fc",
+      "records": 12802,
+      "geometry_observed": 883,
+      "geometry_unavailable": 11919,
+      "physical_absence_reason_counts": {
+        "outside_declared_sample_coverage": 11919
+      },
+      "tactical_judgment_unavailable": 12802,
+      "tactical_judgment_reason_counts": {
+        "tactical_decision_context_required": 12802
+      },
+      "validator_status": "passed",
+      "validator_duration_seconds": 5.957
+    },
+    "cover": {
+      "build_id": "working-tree-spatial-facts-1b11-cover-20260904-r1",
+      "mode": "--ai-coach-cover-validation",
+      "duration_seconds": 89.799,
+      "temporary_export_files": 75,
+      "temporary_export_bytes": 735833433,
+      "report_sha256": "e99e3b316cc9fb65155d948af2204376616f89cd2f667978d07e043ba505a706",
+      "rows_sha256": "05193ff8ee32512826ef6542d5401968421d3ba690f3bfbb0fbe69869a5bf334",
+      "logical_rows_sha256": "c1796d393163ba320056ba3668cb23c5559fcb29770a60db4b8e77236b13676a",
+      "records": 12802,
+      "geometry_observed": 883,
+      "geometry_unavailable": 11919,
+      "directions_observed": 21192,
+      "physical_absence_reason_counts": {
+        "outside_declared_sample_coverage": 11919
+      },
+      "tactical_judgment_unavailable": 12802,
+      "tactical_judgment_reason_counts": {
+        "tactical_decision_context_required": 12802
+      },
+      "validator_status": "passed",
+      "validator_duration_seconds": 8.236
+    },
+    "exit_route": {
+      "build_id": "working-tree-spatial-facts-1b11-exit-route-20260904-r1",
+      "mode": "--ai-coach-exit-route-validation",
+      "duration_seconds": 87.788,
+      "temporary_export_files": 75,
+      "temporary_export_bytes": 735911391,
+      "report_sha256": "7998eee2bfdb827d9fe3cdf469bbc51ed2316c3e141de6219ccbf0a1f6f7f2b6",
+      "rows_sha256": "e9b2a8e5012fd7f8035541f371edf1466133fdb39ac5f073ce09e432452e7c57",
+      "logical_rows_sha256": "8ed379ab78c794fce6cc7bdfb77e013fd80ce39cfaa26da17cc79ee55e0d14f9",
+      "records": 12802,
+      "samples_observed": 883,
+      "samples_unavailable": 11919,
+      "candidate_evaluations": 883,
+      "reachable": 878,
+      "unreachable": 0,
+      "reachability_unavailable": 5,
+      "physical_path_available": 878,
+      "physical_path_unavailable": 5,
+      "sample_absence_reason_counts": {
+        "outside_declared_sample_coverage": 11919
+      },
+      "objective_unavailability_reason_counts": {
+        "origin_outside_nav_tolerance": 5
+      },
+      "tactical_judgment_unavailable": 883,
+      "tactical_judgment_reason_counts": {
+        "tactical_decision_context_required": 883
+      },
+      "validator_status": "passed",
+      "validator_duration_seconds": 7.622
+    }
+  },
+  "canonical_bundle_semantic_validation": {
+    "status": "passed",
+    "errors": 0,
+    "duration_seconds": 316.835,
+    "validated_pass": "exposure",
+    "interpretation": "the unchanged canonical 3.8.0 bundle remained valid while the v2 fact sidecar stayed outside its manifest"
+  },
+  "protected_asset_audit": {
+    "before_after_equal": true,
+    "assets": [
+      {"path": "ai_coach/spatial/exposure/support_manifest.json", "bytes": 607, "sha256": "45aae8d770b956e8a9a94a6a68a66d027aa7ec1eef425112737c329d7b584e15"},
+      {"path": "ai_coach/spatial/exposure/packages/de_mirage/1.0.0-candidate.1/package.json", "bytes": 43328, "sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94"},
+      {"path": "ai_coach/spatial/cover/support_manifest.json", "bytes": 598, "sha256": "d7037898cd579827fa57ee681b2f17859cc8403236a709d56688170e73e5e7ed"},
+      {"path": "ai_coach/spatial/cover/packages/de_mirage/1.0.0-candidate.1/package.json", "bytes": 1090654, "sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c"},
+      {"path": "ai_coach/spatial/exit_route/support_manifest.json", "bytes": 604, "sha256": "dc180bf6e2840a300adda02a559f4a01c79a8e819ea182d8ef3d2ca664bf0650"},
+      {"path": "ai_coach/spatial/exit_route/packages/de_mirage/1.0.0-candidate.1/package.json", "bytes": 19945, "sha256": "6007fb5680eb331b2433e3a0377e613a1e6a219f96c4ed3fbf37260ee8440200"},
+      {"path": "backend/data/maps/de_mirage/de_mirage.nav", "bytes": 471905, "sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e"},
+      {"path": "backend/data/maps/de_mirage/de_mirage_physics.gltf", "bytes": 60726, "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451"},
+      {"path": "backend/data/maps/de_mirage/de_mirage_physics.bin", "bytes": 14378364, "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e"}
+    ],
+    "demo_sha256_after": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "source_demo_modified": false,
+    "approved_bundles_modified": false,
+    "current_pointer_modified": false,
+    "release_modified": false
+  },
+  "verification": {
+    "npm_run_check_all": "passed",
+    "ai_coach_pytest": "passed",
+    "go_spatial_packages_parser_and_exporter": "passed",
+    "contract_catalog_counts": {
+      "capabilities": 17,
+      "decisions": 15,
+      "actions": 51,
+      "outcomes": 18,
+      "fields": 58,
+      "runtime_schemas": 28,
+      "reason_codes": 19
+    }
+  },
+  "commands": {
+    "producer_template": "go run ./cmd/canonical-export --demo <approved-demo> --output <new-empty-temp-dir> --alias demo-a11eb0d600ee702c9edb --checksum a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --maps-root ../data/maps --<family>-packages-root ../../ai_coach/spatial/<family> --build-id <recorded-build-id> --ai-coach-<family>-validation",
+    "exposure_validator": "backend/venv/Scripts/python.exe -m ai_coach.contracts.validate_exposure_angle_full_demo <report> --registry-root ai_coach/spatial/exposure --maps-root backend/data/maps --expected-source-alias demo-a11eb0d600ee702c9edb --expected-source-sha256 a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --expected-map-id de_mirage --require-geometry-observed --require-geometry-unavailable --require-tactical-unavailable",
+    "cover_validator": "backend/venv/Scripts/python.exe -m ai_coach.contracts.validate_cover_full_demo <report> --registry-root ai_coach/spatial/cover --maps-root backend/data/maps --expected-source-alias demo-a11eb0d600ee702c9edb --expected-source-sha256 a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --expected-map-id de_mirage --require-observed",
+    "exit_route_validator": "backend/venv/Scripts/python.exe -m ai_coach.contracts.validate_exit_route_full_demo <report> --registry-root ai_coach/spatial/exit_route --maps-root backend/data/maps --expected-source-alias demo-a11eb0d600ee702c9edb --expected-source-sha256 a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --expected-map-id de_mirage --require-observed",
+    "suite": "npm run check:all"
+  },
+  "non_authorizations": [
+    "no Faceit demo download",
+    "no model training",
+    "no 44/44 reprocessing",
+    "no canonical schema 3.8.0 reinterpretation",
+    "no staging, CURRENT or release mutation",
+    "no product support promotion",
+    "no human review execution or response collection"
+  ]
+}

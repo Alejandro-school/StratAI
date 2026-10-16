@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "base_manifest",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "base_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "fresh_replay_16hz_FrameDone_with_full_pawn_life@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frames"
+      ],
+      "properties": {
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "frame",
+              "instance",
+              "round_number",
+              "tick",
+              "epoch",
+              "sample_step",
+              "tick_rate",
+              "phase",
+              "players"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "round_number": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "tick": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sample_step": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick_rate": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 16,
+                    "maximum": 256
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "phase": {
+                "enum": [
+                  "playing",
+                  "postround"
+                ]
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "side",
+                    "connected",
+                    "pawn_handle",
+                    "pawn_life",
+                    "identity_status",
+                    "position",
+                    "alive",
+                    "position_status",
+                    "alive_status"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[0-9a-f]{20}$"
+                    },
+                    "side": {
+                      "type": "string"
+                    },
+                    "connected": {
+                      "type": "boolean"
+                    },
+                    "pawn_handle": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 4294967295
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "pawn_life": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^support-pawn-[0-9]{6,}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "identity_status": {
+                      "enum": [
+                        "observed",
+                        "unavailable",
+                        "pawn_reference_unresolved"
+                      ]
+                    },
+                    "position": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "x",
+                            "y",
+                            "z"
+                          ],
+                          "properties": {
+                            "x": {
+                              "type": "integer"
+                            },
+                            "y": {
+                              "type": "integer"
+                            },
+                            "z": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "alive": {
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "position_status": {
+                      "enum": [
+                        "observed",
+                        "identity_unavailable",
+                        "native_fields_absent",
+                        "nonfinite"
+                      ]
+                    },
+                    "alive_status": {
+                      "enum": [
+                        "observed",
+                        "identity_unavailable",
+                        "native_fields_absent"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-09",
+  "scope": "CS3 opt-in replay places, paired C4 + zones assisted interpretation review",
+  "user_instruction": "Mejor de 2 en 2, si no va a ser tedioso. Implementa la siguiente función y luego vemos la interpretación",
+  "technical_closure": true,
+  "cs3": "partial",
+  "independent_evaluation": false,
+  "training": false,
+  "versions": {
+    "plan": "3.26",
+    "human_contract": "1.65",
+    "place_package": "stratai.replay_place_volumes@1",
+    "place": "stratai.replay_place@1",
+    "projection": "stratai.team_replay_projection@5",
+    "input": "stratai.replay_context_input@3",
+    "canonical_bundle": "3.8",
+    "catalog": "1.7.0",
+    "runtime_schema_count": 116
+  },
+  "reference": {
+    "argv": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-m",
+      "ai_coach.interpretation.vmap_place_extract",
+      "--source",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap",
+      "--map",
+      "de_mirage",
+      "--output",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-zones-smoke-uw2cqzqx\\places.json"
+    ],
+    "seconds": 2.765,
+    "sha256": "a973bdcc48dd07c15c7aee42a6d857e248d67f02890f478f55df26c6b85ca125",
+    "reference_id": "a0b0d249fe7fafcbfdf4f51b14dcc1ca6859441e34a6c2bb4a6b6fdbd06602f7",
+    "regions": 23,
+    "hulls": 23
+  },
+  "geometry_counts": {
+    "mapped": 24467,
+    "boundary": 214,
+    "unavailable": 2704,
+    "ambiguous": 1632
+  },
+  "independent_player_checks": 29017,
+  "source_alias": "demo-0beb9110ec408f80c39b",
+  "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+  "distinct_demos": 1,
+  "demo_parses": 1,
+  "temp_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-zones-smoke-uw2cqzqx",
+  "retention": "all outputs retained, no deletion or promotion",
+  "map_build_compatibility": "unverified",
+  "automated": {
+    "public_check_all": true,
+    "frontend_tests": 178,
+    "python_context_suite": 109,
+    "mutation_caught": true
+  },
+  "model_attempts": 3,
+  "model_readings_mechanically_valid": 2,
+  "model_local_calls": 3,
+  "model_statuses": [
+    {
+      "case_id": "N01",
+      "status": "mechanically_valid",
+      "seconds": 56.65
+    },
+    {
+      "case_id": "N03",
+      "status": "rejected_or_incomplete",
+      "seconds": 240.047
+    },
+    {
+      "case_id": "N10",
+      "status": "mechanically_valid",
+      "seconds": 124.914
+    }
+  ],
+  "preserved_artifacts": 678,
+  "preserved_notes": 20,
+  "preserved_original_readings": 10,
+  "workbook": {
+    "version": 41,
+    "sheets": 14,
+    "previous_cells": 5562,
+    "new_row": "IC51"
+  },
+  "browser_visual_qa": "pending, existing URL policy rejection respected",
+  "report": "outputs/stratai-zones-20261009/RESULTADO.txt",
+  "comparison": "outputs/stratai-zones-20261009/COMPARACION.md"
+}

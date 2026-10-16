@@ -153,6 +153,55 @@ describe("player presentation", () => {
   });
 });
 
+describe("native C4 normalization", () => {
+  const carried = {
+    state: "carried", objective_phase: "preplant", carrier_id: "1",
+    is_planted_now: false, was_planted_this_round: false,
+    position_status: "observed", position_source: "demoinfocs_native_snapshot",
+    x: 12, y: 24,
+  };
+
+  it("preserves a native carried snapshot when the causal prefix has no plant event", () => {
+    const round = normalizeRound({ frames: [{ tick: 100, bomb: carried }], events: [] });
+    expect(round.frames[0].bomb).toEqual(carried);
+  });
+
+  it("does not change an earlier native carrier when a future plant is added", () => {
+    const prefix = { frames: [{ tick: 100, bomb: carried }], events: [] };
+    const complete = { ...prefix, events: [{ type: "bomb_plant", tick: 200, x: 999, y: 888, site: "B" }] };
+    expect(normalizeRound(complete).frames[0].bomb).toEqual(carried);
+    expect(normalizeRound(complete).frames[0].bomb).toEqual(normalizeRound(prefix).frames[0].bomb);
+  });
+
+  it("keeps N10 resolved instead of reviving its earlier planted state or plant coordinates", () => {
+    const resolved = {
+      state: "resolved", objective_phase: "resolved", is_planted_now: false,
+      was_planted_this_round: true, carrier_id: null, defuser_id: null,
+      position_status: "observed", position_source: "demoinfocs_native_snapshot",
+      x: -1897.59375, y: 242.0625, site: "B", plant_tick: 68795,
+    };
+    const round = normalizeRound({
+      frames: [{ tick: 69957, bomb: resolved }],
+      events: [{ type: "bomb_plant", tick: 68795, x: -1897.58935546875, y: 242.04856872558594, site: "B" }],
+    });
+    expect(round.frames[0].bomb).toEqual(resolved);
+  });
+
+  it("preserves known native state without substituting historical plant coordinates for missing current position", () => {
+    const planted = {
+      state: "planted", objective_phase: "postplant", is_planted_now: true,
+      was_planted_this_round: true, position_status: "unknown", plant_tick: 100,
+    };
+    const round = normalizeRound({
+      frames: [{ tick: 200, bomb: planted }],
+      events: [{ type: "bomb_plant", tick: 100, x: 700, y: 800 }],
+    });
+    expect(round.frames[0].bomb).toMatchObject(planted);
+    expect(round.frames[0].bomb.x).toBeUndefined();
+    expect(round.frames[0].bomb.y).toBeUndefined();
+  });
+});
+
 describe("replay viewport", () => {
   const config = { pos_x: -1000, pos_y: 1000, scale: 2 };
 

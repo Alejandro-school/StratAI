@@ -42,8 +42,12 @@ func main() {
 
 	handler := middleware.WithSecurityHeaders(router)
 
+	serviceAddr := os.Getenv("GO_SERVICE_ADDR")
+	if serviceAddr == "" {
+		serviceAddr = "127.0.0.1:8080"
+	}
 	server := &http.Server{
-		Addr:              ":8080",
+		Addr:              serviceAddr,
 		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       30 * time.Second,
@@ -76,7 +80,7 @@ func main() {
 		}
 	}()
 
-	log.Println("🚀 Servicio de análisis de demos CS2 iniciado en puerto :8080")
+	log.Printf("Servicio de análisis de demos CS2 iniciado en %s", serviceAddr)
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("HTTP server failed: %v", err)

@@ -242,15 +242,15 @@ func TestProjectReplayObjectiveMarkersDropsRawExtrasAndUsesLedger(t *testing.T) 
 
 	actual := projectReplayObjectiveMarkers(rawEvents, ledger, 4)
 
-	if len(actual) != 3 {
-		t.Fatalf("expected two non-objective events and one ledger marker, got %+v", actual)
+	if len(actual) != 4 {
+		t.Fatalf("expected two non-objective events and two ledger markers, got %+v", actual)
 	}
-	if actual[0].ID != "hurt-1" || actual[1].ID != "objective-plant" || actual[2].ID != "kill-2" {
+	if actual[0].ID != "hurt-1" || actual[1].ID != "objective-start" || actual[2].ID != "objective-plant" || actual[3].ID != "kill-2" {
 		t.Fatalf("events are not totally ordered by tick, type and ID: %+v", actual)
 	}
-	marker := actual[1]
+	marker := actual[2]
 	if marker.Type != "bomb_plant" || marker.PlayerID != 42 || marker.Site != "A" ||
-		marker.X != 10 || marker.Y != 20 || marker.Z != 30 {
+		marker.X != 0 || marker.Y != 0 || marker.Z != 0 || marker.PositionStatus != objective.PositionUnavailable {
 		t.Fatalf("replay marker was not projected from the ledger: %+v", marker)
 	}
 	for _, event := range actual {
@@ -289,15 +289,16 @@ func TestReplayObjectiveMarkerProjectsSupportedTerminalEvents(t *testing.T) {
 				t.Fatal("supported objective event was not projected")
 			}
 			if marker.ID != source.ID || marker.Tick != source.Tick || marker.Type != test.replayType ||
-				marker.PlayerID != 88 || marker.Site != "B" || marker.X != 1 || marker.Y != 2 || marker.Z != 3 ||
+				marker.PlayerID != 88 || marker.Site != "B" || marker.X != 0 || marker.Y != 0 || marker.Z != 0 ||
+				marker.PositionStatus != objective.PositionUnavailable ||
 				marker.DurationMS != test.durationMS {
 				t.Fatalf("incorrect objective projection: %+v", marker)
 			}
 		})
 	}
 
-	if _, ok := replayObjectiveMarker(objective.Event{Type: objective.EventPlantStart}); ok {
-		t.Fatal("non-terminal objective event produced a replay marker")
+	if _, ok := replayObjectiveMarker(objective.Event{Type: "unsupported"}); ok {
+		t.Fatal("unsupported objective event produced a replay marker")
 	}
 }
 

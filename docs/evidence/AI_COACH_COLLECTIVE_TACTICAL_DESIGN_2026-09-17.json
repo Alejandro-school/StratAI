@@ -1,0 +1,298 @@
+{
+  "kind": "documentary_design_evidence",
+  "id": "ICT-D1",
+  "date": "2026-09-17",
+  "status": "documentary_preparation_complete",
+  "functional_implementation": false,
+  "expert_case_review": "pending",
+  "next_action": "Review F01-K1 progressively with the user",
+  "counts": {
+    "fictional_situations": 6,
+    "progressive_cuts": 18,
+    "context_aspects": 12,
+    "new_human_answers": 0
+  },
+  "workbook": {
+    "saved_cells_compared": 3221,
+    "unexpected_cell_changes": 0,
+    "original_sheets": 10,
+    "final_sheets": 13,
+    "original_tables_preserved": 9,
+    "new_tables": 3,
+    "style_difference_count": 0,
+    "feature_differences": [],
+    "new_human_answers": 0,
+    "original_sha256": "6977A11D8D1D2174DC4B829885524974AF4D130C9EB6769E63E3F3F2B90B542D",
+    "original_ratings": {
+      "Pendiente": 0,
+      "De acuerdo": 71,
+      "Matizar": 4,
+      "Rechazar": 0
+    },
+    "explicitly_modified_cells": 88,
+    "formula_adjustment": "Four equivalent COUNTIF formulas quote the accented sheet name for import-evaluator compatibility; source file unchanged.",
+    "feature_normalization": "Compare effective formats, merge refs, validation semantics, pane splits and row heights to 0.0001 pt. Ignore serialization IDs/count metadata and scroll position."
+  },
+  "checks": {
+    "local_links": 226,
+    "missing_local_links": 0,
+    "active_prompts": 1,
+    "protected_files_unchanged": 57,
+    "previous_evidence_files_unchanged": 53,
+    "visual_review": "All new sheets and changed views inspected",
+    "independent_design_review": "Four findings corrected: future clues, role-as-fact, stale status, clock inheritance.",
+    "whitespace": "checked by retained verification command"
+  },
+  "functional_suites": {
+    "executed": false,
+    "reason": "Only documentary design and versioned workbook edits"
+  },
+  "single_demo_smoke": {
+    "executed": false,
+    "reason": "No producer, schema, derived fact or runtime change"
+  },
+  "gates": {
+    "S2_S3": "open",
+    "eligible_capabilities": 0,
+    "training_allowed": false,
+    "corpus_migration_44_44": "pending"
+  },
+  "commands": [
+    "node edit-workbook.mjs --inspect",
+    "node prepare-docs.mjs",
+    "node prepare-docs.mjs --cards-only",
+    "node mark_artifact_operation_started.mjs --operation-kind edit --expected-output-count 1 --output-format xlsx",
+    "node edit-workbook.mjs",
+    "backend/venv/Scripts/python.exe -B verify-preservation.py",
+    "git diff --check (scoped to changed documents)",
+    "node finalize-evidence.mjs"
+  ],
+  "artifacts": [
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 126083,
+      "sha256": "608FCFE65BE0B2E0D4EF538EAEF9025E5C1DE8D0CFF6386275AFE65D5170D4F3"
+    },
+    {
+      "path": "docs/AI_COACH_MODEL_ARCHITECTURE.md",
+      "bytes": 16266,
+      "sha256": "65C7124EFB41B023371C54A9247D3DA4A63EE07ABA613FDC71CFCD5784A1FC4F"
+    },
+    {
+      "path": "docs/README.md",
+      "bytes": 8420,
+      "sha256": "430D5357520FD79F286417B470F62F0307D82C7D565B23120FCA31BDA6785957"
+    },
+    {
+      "path": "docs/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "bytes": 12144,
+      "sha256": "643283870D46C44787FAF9C1E5A68BC834012188D6B29DF8A171364CA4141233"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 2913,
+      "sha256": "2B8DA939E143DA1142000D9292428205AFB402BFC42D8F19A16C160A1099D0F9"
+    },
+    {
+      "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "bytes": 18229,
+      "sha256": "A8B40405A8B464287ADBB874003310249E14208F207945A6510A979E1BE02543"
+    },
+    {
+      "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_REVIEW_CARDS.md",
+      "bytes": 23746,
+      "sha256": "FD001FC048346E773EEB36FFD0A1BD9B1DDAC21B3E5C87D2A618B1D31AEFE246"
+    },
+    {
+      "path": "docs/archive/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_DESIGN_PHASE_2026-09-17.md",
+      "bytes": 4675,
+      "sha256": "E35E34CADA2A2B3A4413A00C57F1FFF843804D66DB3AE557300445E44E046192"
+    },
+    {
+      "path": "outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+      "bytes": 88161,
+      "sha256": "AC511F42EA6BE9D546C83C581994D354CAD2208530B89EEECD4E1EBB03A5A26C"
+    }
+  ],
+  "retained_temporary_workspace": {
+    "path": "C:/Users/kerch/AppData/Local/Temp/stratai-tactical-design-7ed3f25ded43452cb2d8141407e696ad",
+    "excluded_from_inventory": [
+      "node_modules dependency junction"
+    ],
+    "files": [
+      {
+        "path": "before/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "bytes": 124406,
+        "sha256": "F7B1DD33049F06656000AD958C6E8919716853EB9AE68DF09229429CD5ACF1A6"
+      },
+      {
+        "path": "before/AI_COACH_MODEL_ARCHITECTURE.md",
+        "bytes": 15056,
+        "sha256": "144A54F3FEADB93EE190BF0B6B6D1BAF7E3358DC33F99ED4C0AB77317679A20F"
+      },
+      {
+        "path": "before/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+        "bytes": 11631,
+        "sha256": "6CAF7F629700EF33CE989089D9D928F72886E644DCF489820FA0E3F3ADC4F9C6"
+      },
+      {
+        "path": "before/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "bytes": 5465,
+        "sha256": "AA73B4E76C2023D27F6A0F48CCE2C4D82B2CD81F8A9FE0918AADE479C626C66F"
+      },
+      {
+        "path": "before/README.md",
+        "bytes": 8204,
+        "sha256": "68F4C92EE15346CB05378660AF56184576A8ADBDC098804B0D2DD11F4323A430"
+      },
+      {
+        "path": "before-case.png",
+        "bytes": 55772,
+        "sha256": "410FBDFC8A9978EE3923A41ED74006B6DC11481B824FBC24DF2920D42DB59594"
+      },
+      {
+        "path": "before-guide.png",
+        "bytes": 90906,
+        "sha256": "82D7833A6FF1760114A5088FF8546770373953B992219AB6C6686591CF6CCBA0"
+      },
+      {
+        "path": "before-values.json",
+        "bytes": 266935,
+        "sha256": "CCE37064F8C8841F070FD247130387BF39888FB2781F7B0B76EF9040B5C4C5F0"
+      },
+      {
+        "path": "cards-answer.png",
+        "bytes": 18126,
+        "sha256": "0B439513E8F790283919B562CE28863531D5B40000DE8E628BD9F8AE3B545F86"
+      },
+      {
+        "path": "cards.mjs",
+        "bytes": 18529,
+        "sha256": "E9C038B2DE515D29AA926E05ACA1026F4DE5AB7ACB88EB6A55E2C6E4D7B9047A"
+      },
+      {
+        "path": "cards.png",
+        "bytes": 97921,
+        "sha256": "6E7FB26D0B0EF58F49FE769A7FEBA17F53FA46BB87933A7B692DB3C115DCB805"
+      },
+      {
+        "path": "case.png",
+        "bytes": 112453,
+        "sha256": "46891A7D6980B32A2780E0B666B7D5FF03A9615FD2EC67DF839D66CD3AB4A5A5"
+      },
+      {
+        "path": "context.png",
+        "bytes": 51125,
+        "sha256": "FBC5E9A441480556D9E82BD5A911FE3EA6191F0710D97DC9629636904E444267"
+      },
+      {
+        "path": "development.png",
+        "bytes": 26035,
+        "sha256": "B06767ADFAF9CC5F1C9F9E06100CF156E265744D3305E049EC8C88591D2355BB"
+      },
+      {
+        "path": "edit-workbook.mjs",
+        "bytes": 16423,
+        "sha256": "40BECEA7D2BC78351E81CB77D87E0CCA6409DCD30FD3BED07312FD206E3C9A32"
+      },
+      {
+        "path": "edits.json",
+        "bytes": 18480,
+        "sha256": "2F9C2B35FD6395BA67EE047714811DEECD2835A036A278327DAE30E6F19F8A70"
+      },
+      {
+        "path": "final-cards.png",
+        "bytes": 77590,
+        "sha256": "C76B25F13D7C0414072B510BD28CFC860C1070C2DCCD6659C63E59A060A7D836"
+      },
+      {
+        "path": "final-guide.png",
+        "bytes": 34051,
+        "sha256": "B2D4495A59FF9743130C91AA49D776E99DC57A02A9A053918753A761DCBB7D3C"
+      },
+      {
+        "path": "final-perspectives.png",
+        "bytes": 104854,
+        "sha256": "DD81AEB28D213797EFD57BBAC333EB1A50AF51034B74989F11467C6602B99F5A"
+      },
+      {
+        "path": "final-sources.png",
+        "bytes": 29725,
+        "sha256": "1885CCCF98370A9647E7826220E97E9110EF77AE7AC885C25BC1D08BDF68E743"
+      },
+      {
+        "path": "finalize-evidence.mjs",
+        "bytes": 5803,
+        "sha256": "C118814D7CA1E61D678946FEF4ED83EADD5B118D0675DEB92194660394928941"
+      },
+      {
+        "path": "guide.png",
+        "bytes": 150309,
+        "sha256": "1F08B82557900896C3ED842692266B47C711BE954FB2CE986D9941CCF5085351"
+      },
+      {
+        "path": "hypotheses-answer.png",
+        "bytes": 17958,
+        "sha256": "C7B1059B9E930EF77E5FFBD18CBF98CF1FF4DE340EE084ED74B8E9482B30EE46"
+      },
+      {
+        "path": "hypotheses.png",
+        "bytes": 69405,
+        "sha256": "D6504BD170F00847C166BF48B69D10EC12243D037855E12D66EF0B861EAD94A8"
+      },
+      {
+        "path": "parameter.png",
+        "bytes": 18018,
+        "sha256": "72D231D8A9CED669DE7E4A794B6C72FC30DDE4343FF1EC97978D1C8BF19B8ED3"
+      },
+      {
+        "path": "prepare-docs.mjs",
+        "bytes": 12303,
+        "sha256": "211ADF3838134EEB87A2182A67B82A60C0DD2B67D80C877382AFBC96E78783BF"
+      },
+      {
+        "path": "preservation-result.json",
+        "bytes": 262,
+        "sha256": "6D8D0F455611C5A4EB4D5735B1BB6DBA8189912813D64C39D22EBA3ACC9E742A"
+      },
+      {
+        "path": "protected.json",
+        "bytes": 14135,
+        "sha256": "B2C1D49C8CAE8983ACF76F60CAB3E342EBFBAD19C26FC8E08D266C0269C778BA"
+      },
+      {
+        "path": "row-differences.json",
+        "bytes": 232,
+        "sha256": "BA2FDE2DC6E8A8B49BC596A2976C044D40D9681180AAEB66E60BA92605A3046E"
+      },
+      {
+        "path": "sources.png",
+        "bytes": 40873,
+        "sha256": "D1896AEF39A86790BE0B9A597B3C740A778A3CF507992CDF5B99909B2119CDCA"
+      },
+      {
+        "path": "style-differences.json",
+        "bytes": 2,
+        "sha256": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"
+      },
+      {
+        "path": "verify-preservation.py",
+        "bytes": 7586,
+        "sha256": "7E94B2ABB0841CBF58C0AEC7A305E1EDB6C48F58303340473834151B3E95058F"
+      },
+      {
+        "path": "whitespace-result.txt",
+        "bytes": 31,
+        "sha256": "25A622A3AE9E6C387A6BECB88D5AC19AFCF15ED479B1ED498229E78EA7BE939D"
+      }
+    ]
+  },
+  "preserved": {
+    "source_workbook": true,
+    "original_notes_ratings_priorities": true,
+    "catalog": true,
+    "temporary_interface": true,
+    "previous_evidence": true,
+    "corpus_bundles_releases_CURRENT": "not modified; no processing/promotion operations performed"
+  }
+}

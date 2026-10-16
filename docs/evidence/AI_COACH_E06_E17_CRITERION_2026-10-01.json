@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-01",
+  "source": "user message in this conversation; supplementary expert criterion, not a web submission",
+  "source_timestamp": null,
+  "recorded_at_utc": "2026-10-01T13:50:12.548203+00:00",
+  "case_reading_questions_answered": true,
+  "criteria": [
+    {
+      "case": "E17",
+      "question_verbatim": "¿qué disposición o acción adicional te permitiría afirmar que ya preparan B, superando la distribución inicial?",
+      "answer_verbatim": "Mas tiempo, acaba de empezar la ronda y aún estan en el spawn movilizandose.",
+      "agent_interpretation": "En este corte, la movilización inicial todavía no basta para proponer B. Seguir observando. El experto no ha fijado un mínimo universal de segundos ni ha dicho que abandonar spawn baste para preparar una entrada.",
+      "not_inferred": [
+        "universal four-second veto",
+        "universal minimum observation duration",
+        "spawn exit implies preparation"
+      ],
+      "existing_review_binding": {
+        "source": "factual-parity.json",
+        "response_id": 71,
+        "instrument": "stratai.review_web@9",
+        "response_created_at": "2026-09-30T07:28:21.533Z",
+        "review_context_id": "fd71d991bf3b01f71fb107c520342b778de84dcb624824ae98a7a540ef3a57d1",
+        "episode_id": "9c06dc1fa6f958d2f260c1b6852b00f037fe813fcaa7832c9c4fd5e6abd772e4",
+        "card_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-alex-review-20261001\\verified-cards\\E17-9.html",
+        "card_sha256": "c9856cdd51246efd279eacbbc372371617ff222518f7e6efd9bc1b11d65bb477"
+      },
+      "answer_utf8_sha256": "fe57eb3a36d372ab453c099f834004557d224f45539e8336cd8416d74f2b0ab0"
+    },
+    {
+      "case": "E06",
+      "question_verbatim": "¿qué cambio concreto del C4 y sus apoyos te haría revisar la lectura de A? ¿Qué movimientos locales seguirían siendo compatibles con A?",
+      "answer_verbatim": "Del c4? Nada. El jugador del medio es quien tiene el C4. Deduzco que se va a presionar en A porque el otro T esta en el punto de A. No por nada mas. Y por norma general lo idonea siempre es juntarse con el compañero para tener mas apoyo.",
+      "agent_interpretation": "El experto corrige la premisa de la pregunta: su expectativa de presión hacia A se apoya en el otro T ya situado allí, no en un cambio o progreso del C4. Reunirse para apoyarse es el principio general que explica la inferencia, no una intención observada ni una orden universal. Orientación probable A y compatibilidad con preparar una entrada se deben contrastar por separado.",
+      "not_inferred": [
+        "C4 determines this destination reading",
+        "observed commitment to A",
+        "automatic prepare_entry A label",
+        "universal regrouping recommendation",
+        "verified route or effective support"
+      ],
+      "existing_review_binding": {
+        "source": "factual-parity.json",
+        "response_id": 51,
+        "instrument": "stratai.review_web@9",
+        "response_created_at": "2026-09-30T07:10:56.611Z",
+        "review_context_id": "6e8a5248eb5489458fc41b42047c87d9be00e67d300a6fa42e11d566560327b2",
+        "episode_id": "90604446724bb719710e1a5bbe2c951c83d178213b49c91cf8a7349dd9082fe5",
+        "card_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-alex-review-20261001\\verified-cards\\E06-9.html",
+        "card_sha256": "0308090f7b674cf1378e4303cb34e950750c5ec4fe621ed675b10cd45c2eb270"
+      },
+      "answer_utf8_sha256": "895428e35319e604540d8239057576b074eb2946293fcefbe178b701f3921346"
+    }
+  ],
+  "status": {
+    "expert_case_readings_received": true,
+    "executable_criterion_completed": false,
+    "new_game_thresholds_approved": false,
+    "spatial_dependency_under_verification": true,
+    "human_answers_as_detector_input": false,
+    "automatic_free_text_labels": false,
+    "originals_modified": false,
+    "detector_changed": false,
+    "new_predictions": 0,
+    "training": false,
+    "independent_evaluation_completed": false
+  }
+}

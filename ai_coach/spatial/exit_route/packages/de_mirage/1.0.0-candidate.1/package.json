@@ -1,0 +1,573 @@
+{
+  "schema_id": "stratai.exit_route_map_package@1",
+  "contract_version": "1.0.0",
+  "asset_version": "1.0.0-candidate.1",
+  "map_id": "de_mirage",
+  "geometry_revision": "f02deca7d5d4a2f4f2aee448f976831aa12a1465e39410e8fff1046a455f8ca7",
+  "coordinates": {
+    "system": "source2_world",
+    "units": "source2_world_units",
+    "axis_convention": "right_handed_z_up_x_forward_y_left",
+    "origin_description": "candidate endpoints preserve the Source 2 world frame",
+    "route_direction": "directed_origin_to_destination"
+  },
+  "navigation_contract": {
+    "graph_contract_version": "nav_area_connections_with_polygons@2",
+    "shortest_path_algorithm": "directed_dijkstra_stable_ties@1",
+    "endpoint_association_method": "containing_nav_polygon_xy_then_nearest_center_3d@2",
+    "edge_weight_method": "nav_area_center_euclidean_world_units@1",
+    "endpoint_tolerance_world_units": 96,
+    "endpoint_vertical_tolerance_world_units": 128
+  },
+  "bounds": {
+    "min": {
+      "x": -2653,
+      "y": -2601.9951171875,
+      "z": -364
+    },
+    "max": {
+      "x": 1452.5001220703125,
+      "y": 887.0050048828125,
+      "z": 15.99998950958252
+    }
+  },
+  "source_assets": [
+    {
+      "role": "nav_mesh",
+      "reference": "de_mirage/de_mirage.nav",
+      "sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e",
+      "use": "objective_navigation"
+    },
+    {
+      "role": "physics_gltf",
+      "reference": "de_mirage/de_mirage_physics.gltf",
+      "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451",
+      "use": "audited_collision_only_not_route_truth"
+    },
+    {
+      "role": "physics_buffer",
+      "reference": "de_mirage/de_mirage_physics.bin",
+      "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e",
+      "use": "audited_collision_only_not_route_truth"
+    },
+    {
+      "role": "sample_seed_catalog",
+      "reference": "de_mirage/de_mirage_places.json",
+      "sha256": "6ba2ed20019e0bcc0bf7762cebcbd4f84fa0849c2f8d1ddb64e2cb10436e32cf",
+      "use": "coordinate_seeds_only"
+    }
+  ],
+  "related_geometry_audit": [
+    {
+      "role": "exposure_package",
+      "schema_id": "stratai.exposure_angle_map_package@1",
+      "artifact_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+      "semantic_use": "audited_separate_geometry_not_used_as_exit_route_truth"
+    },
+    {
+      "role": "cover_package",
+      "schema_id": "stratai.cover_map_package@1",
+      "artifact_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "semantic_use": "audited_separate_geometry_not_used_as_exit_route_truth"
+    }
+  ],
+  "route_samples": [
+    {
+      "id": "exit-sample-001",
+      "alias": "mirage-exit-reference-001",
+      "origin_world": {
+        "x": 1262.5,
+        "y": 462.5,
+        "z": -208.8199920654
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "TSpawn",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-001/candidate-001",
+          "alias": "mirage-exit-candidate-001",
+          "destination_world": {
+            "x": 475,
+            "y": -900,
+            "z": -107.0243988037
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "TopofMid",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 1576.9986819295384,
+            "reachable": true,
+            "path_distance_world_units": 2821.198929693434,
+            "origin_association_world_units": 54.88902579410145,
+            "destination_association_world_units": 69.5310519282377
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-002",
+      "alias": "mirage-exit-reference-002",
+      "origin_world": {
+        "x": 475,
+        "y": -900,
+        "z": -107.0243988037
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "TopofMid",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-002/candidate-001",
+          "alias": "mirage-exit-candidate-002",
+          "destination_world": {
+            "x": -125,
+            "y": -425,
+            "z": -121.2937469482
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "Catwalk",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 765.3944174714557,
+            "reachable": true,
+            "path_distance_world_units": 1132.0753022149054,
+            "origin_association_world_units": 69.5310519282377,
+            "destination_association_world_units": 66.71874223408435
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-003",
+      "alias": "mirage-exit-reference-003",
+      "origin_world": {
+        "x": -162.5,
+        "y": -887.5,
+        "z": -112.7568511963
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "Middle",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-003/candidate-001",
+          "alias": "mirage-exit-candidate-003",
+          "destination_world": {
+            "x": -662.5,
+            "y": -1612.5,
+            "z": -118.7188949585
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "BombsiteA",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 880.715928075462,
+            "reachable": true,
+            "path_distance_world_units": 2030.0020487255747,
+            "origin_association_world_units": 63.209767549145035,
+            "destination_association_world_units": 68.16906844658928
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-004",
+      "alias": "mirage-exit-reference-004",
+      "origin_world": {
+        "x": -125,
+        "y": -425,
+        "z": -121.2937469482
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "Catwalk",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-004/candidate-001",
+          "alias": "mirage-exit-candidate-004",
+          "destination_world": {
+            "x": -2550,
+            "y": 162.5,
+            "z": -110.860748291
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "BombsiteB",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 2495.173360201848,
+            "reachable": true,
+            "path_distance_world_units": 3637.5862383656936,
+            "origin_association_world_units": 66.71874223408435,
+            "destination_association_world_units": 71.51868161314218
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-005",
+      "alias": "mirage-exit-reference-005",
+      "origin_world": {
+        "x": -662.5,
+        "y": -1612.5,
+        "z": -118.7188949585
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "BombsiteA",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-005/candidate-001",
+          "alias": "mirage-exit-candidate-005",
+          "destination_world": {
+            "x": -1512.5,
+            "y": -787.5,
+            "z": -114.7188949585
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "CTSpawn",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 1184.5425277295872,
+            "reachable": true,
+            "path_distance_world_units": 1805.5096518017006,
+            "origin_association_world_units": 68.16906844658928,
+            "destination_association_world_units": 50.008751861777185
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-006",
+      "alias": "mirage-exit-reference-006",
+      "origin_world": {
+        "x": -2550,
+        "y": 162.5,
+        "z": -110.860748291
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "BombsiteB",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-006/candidate-001",
+          "alias": "mirage-exit-candidate-006",
+          "destination_world": {
+            "x": -2012.5,
+            "y": 762.5,
+            "z": 5.28125
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "Apartments",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 813.8766575882531,
+            "reachable": true,
+            "path_distance_world_units": 8086.618578394748,
+            "origin_association_world_units": 71.51868161314218,
+            "destination_association_world_units": 60.47883492526088
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-007",
+      "alias": "mirage-exit-reference-007",
+      "origin_world": {
+        "x": -2012.5,
+        "y": 762.5,
+        "z": 5.28125
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "Apartments",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-007/candidate-001",
+          "alias": "mirage-exit-candidate-007",
+          "destination_world": {
+            "x": -2550,
+            "y": 162.5,
+            "z": -110.860748291
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "BombsiteB",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 813.8766575882531,
+            "reachable": true,
+            "path_distance_world_units": 1047.4403860909106,
+            "origin_association_world_units": 60.47883492526088,
+            "destination_association_world_units": 71.51868161314218
+          }
+        }
+      ]
+    },
+    {
+      "id": "exit-sample-008",
+      "alias": "mirage-exit-reference-008",
+      "origin_world": {
+        "x": -1512.5,
+        "y": -787.5,
+        "z": -114.7188949585
+      },
+      "selection_radius_units": 192,
+      "vertical_tolerance_units": 96,
+      "origin_provenance": {
+        "source_role": "sample_seed_catalog",
+        "source_reference": "de_mirage/de_mirage_places.json",
+        "source_coordinate": "CTSpawn",
+        "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+      },
+      "candidates": [
+        {
+          "id": "exit-sample-008/candidate-001",
+          "alias": "mirage-exit-candidate-008",
+          "destination_world": {
+            "x": -662.5,
+            "y": -1612.5,
+            "z": -118.7188949585
+          },
+          "destination_provenance": {
+            "source_role": "sample_seed_catalog",
+            "source_reference": "de_mirage/de_mirage_places.json",
+            "source_coordinate": "BombsiteA",
+            "interpretation": "coordinate_seed_only_source_name_is_not_a_tactical_label"
+          },
+          "direction": "origin_to_destination",
+          "objective_connectivity": {
+            "status": "derived",
+            "reason_codes": [],
+            "direct_distance_world_units": 1184.5425277295872,
+            "reachable": true,
+            "path_distance_world_units": 1805.5096518017006,
+            "origin_association_world_units": 50.008751861777185,
+            "destination_association_world_units": 68.16906844658928
+          }
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "declaration": "partial_reference_samples",
+    "full_map_coverage": false,
+    "sample_count": 8,
+    "candidate_count": 8,
+    "minimum_observed_candidates": 1
+  },
+  "objective_validation": {
+    "status": "approved",
+    "author_id": "stratai.exit-route-generator@1",
+    "reviewer_id": "stratai.exit-route-package-validator@1",
+    "evidence": [
+      "exact_nav_asset_sha256",
+      "directed_endpoint_association_and_shortest_path_recomputation",
+      "bounds_and_non_overlap_validation"
+    ]
+  },
+  "tactical_review": {
+    "status": "pending_review",
+    "author_id": null,
+    "reviewer_id": null,
+    "evidence": []
+  },
+  "tactical_annotations": [
+    {
+      "id": "exit-annotation-0001",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-001/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-001/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0002",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-002/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-002/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0003",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-003/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-003/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0004",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-004/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-004/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0005",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-005/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-005/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0006",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-006/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-006/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0007",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-007/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-007/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    },
+    {
+      "id": "exit-annotation-0008",
+      "annotation_version": "1.0.0-candidate.1",
+      "candidate_ref": "exit-sample-008/candidate-001",
+      "classification": null,
+      "provenance": [
+        "objective_candidate:exit-sample-008/candidate-001",
+        "human_tactical_review_required"
+      ],
+      "evidence": [],
+      "author_id": null,
+      "reviewer_id": null,
+      "review_status": "pending_review"
+    }
+  ],
+  "limitations": [
+    "NAV proves only polygon association, directed connectivity and path cost under its encoded graph",
+    "the physics mesh is audited as collision geometry but is not accepted as navigability or tactical truth",
+    "callout names are coordinate seeds only and are not labels of exits, safety or recommendations",
+    "exposure and cover packages remain separate geometry and do not classify candidate routes",
+    "partial reference volumes must not be extrapolated to full-map support",
+    "all tactical classification remains unavailable until attributable human review"
+  ]
+}

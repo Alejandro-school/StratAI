@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.ai_coach_task_eligibility@1",
+  "title": "TaskEligibility",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "catalog_schema_id",
+    "catalog_version",
+    "capability_id",
+    "status",
+    "reason_codes",
+    "missing_required_fields",
+    "materialized_decision_types",
+    "blockers",
+    "evidence_used"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.ai_coach_task_eligibility@1"},
+    "contract_version": {"const": "1.0.0"},
+    "catalog_schema_id": {"const": "stratai.ai_coach_capability_catalog@1"},
+    "catalog_version": {"type": "string", "minLength": 1},
+    "capability_id": {"type": "string", "pattern": "^CAP-[A-Z-]+-[0-9]{3}$"},
+    "status": {"enum": ["eligible", "ineligible", "not_materialized"]},
+    "reason_codes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "BUNDLE_VALIDATION_FAILED",
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "DUPLICATE_IDENTIFIER",
+          "ELIGIBLE_REQUIRED_EVIDENCE_PRESENT",
+          "GZIP_STREAM_CORRUPT",
+          "INVALID_FIELD_TYPE",
+          "INVALID_IDENTIFIER_TYPE",
+          "JOIN_REFERENCE_MISSING",
+          "ORACLE_IN_OBSERVED",
+          "OUTCOME_BEFORE_T0",
+          "PARTIAL_PROXY_ONLY",
+          "PARTITION_KEY_MISMATCH",
+          "REQUIRED_ARTIFACT_MISSING",
+          "REQUIRED_FIELD_MISSING",
+          "REQUIRED_FIELD_UNAVAILABLE",
+          "T0_AVAILABILITY_VIOLATION",
+          "TACTICAL_GROUND_TRUTH_SOURCE_FORBIDDEN",
+          "UNKNOWN_REASON_CODE",
+          "UNSUPPORTED_SCHEMA"
+        ]
+      }
+    },
+    "missing_required_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^FLD-"}
+    },
+    "materialized_decision_types": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^DEC-"}
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason_code", "field_id", "detail"],
+        "properties": {
+          "reason_code": {"type": "string", "minLength": 1},
+          "field_id": {"type": ["string", "null"]},
+          "detail": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "evidence_used": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "reference", "count"],
+        "properties": {
+          "kind": {"enum": ["catalog", "decision_family", "field_coverage", "bundle_validation"]},
+          "reference": {"type": "string", "minLength": 1},
+          "count": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  }
+}

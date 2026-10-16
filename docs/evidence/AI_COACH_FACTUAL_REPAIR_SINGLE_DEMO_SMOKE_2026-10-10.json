@@ -1,0 +1,450 @@
+{
+  "schema_id": "stratai.factual_repair_single_demo_smoke@1",
+  "date": "2026-10-10",
+  "status": "functional_factual_repairs_verified",
+  "instruction": "Aplica todas las reparaciones que has encontrado",
+  "scope": [
+    "C4 temporal possession and delivered S0 references",
+    "reference-bound factual rendering and verification",
+    "inventory temporal provenance",
+    "identity, life, health and resources",
+    "zone certainty preservation",
+    "round clock proof, phase and terminal outcome",
+    "event position provenance and certainty",
+    "UI factual guarantee labels and preserved historical variants"
+  ],
+  "versions": {
+    "parser": "v16",
+    "replay_schema": 5,
+    "calculated_contact_schema": "stratai.calculated_vision@2",
+    "projection_schema": "stratai.team_replay_projection@8",
+    "objective_schema": "stratai.replay_objective@2",
+    "input_schema": "stratai.replay_context_input@6",
+    "round_context_schema": "stratai.replay_round_context@2",
+    "inventory_schema": "stratai.replay_inventory@1",
+    "factual_reading_schema": "stratai.replay_factual_reading@1",
+    "go_version": "go version go1.26.2 windows/amd64"
+  },
+  "automated": {
+    "public_commands": [
+      [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "test:python",
+        "--",
+        "ai_coach/tests",
+        "-p",
+        "no:cacheprovider"
+      ]
+    ],
+    "python_passed": 2505,
+    "backend_43_included_not_additional": true,
+    "frontend_passed": 266,
+    "node_passed": 18,
+    "node_preexisting_skips": 3,
+    "go_suite_passed": true,
+    "lint_and_build_passed": true,
+    "stable_source_hashes": true
+  },
+  "smoke": {
+    "alias": "demo-0beb9110ec408f80c39b",
+    "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_matches": 1,
+    "parse_attempts": 2,
+    "first_capture_retained": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-factual-smoke-r2l8zldm",
+    "final_capture_retained": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-factual-smoke-q35mgtre",
+    "seconds": 37.201,
+    "command": {
+      "argv": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-factual-smoke-q35mgtre\\team-replay-smoke.exe",
+        "--demo",
+        "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-1283ff87-ce52-4330-8828-de5e8ffb13e0.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-factual-smoke-q35mgtre\\capture",
+        "--checksum",
+        "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "build": [
+        "go",
+        "build",
+        "-o",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-factual-smoke-q35mgtre\\team-replay-smoke.exe",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-factual-repair-20261010\\smoke_producer.go"
+      ],
+      "binary_sha256": "45849bd56ec1a60ba27d7cb6faa961930165cfb3c84ca79a536fc949f1a93f29",
+      "producer_sha256": "366329c667d43d8ef03cf0f10660052bc8464a4f189442fc59ff2152f6c168f9",
+      "exit_code": 0,
+      "seconds": 37.201,
+      "parser": "v16",
+      "replay_schema": 5,
+      "calculated_contact_schema": "stratai.calculated_vision@2",
+      "projection_schema": "stratai.team_replay_projection@8",
+      "objective_schema": "stratai.replay_objective@2",
+      "input_schema": "stratai.replay_context_input@6",
+      "round_context_schema": "stratai.replay_round_context@2",
+      "inventory_schema": "stratai.replay_inventory@1",
+      "factual_reading_schema": "stratai.replay_factual_reading@1",
+      "go_version": "go version go1.26.2 windows/amd64",
+      "retained_temp": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-factual-smoke-q35mgtre",
+      "inventory_after_parse": [
+        {
+          "path": "build.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "capture\\combat-audit.json",
+          "bytes": 488177,
+          "sha256": "74440f3333fa103db4c47e5e555613c1d7b646500cd46615033c54335e6e1570"
+        },
+        {
+          "path": "capture\\inventory-audit.json",
+          "bytes": 37646121,
+          "sha256": "f3f62d0ddd963fb6fd83503c42bc05541da63fa6bf6b8daec89be00100987e87"
+        },
+        {
+          "path": "capture\\metrics.json",
+          "bytes": 40139,
+          "sha256": "73074347853e023bab47efe99178cf22d55f8969a90e41313ef7aa403d83481c"
+        },
+        {
+          "path": "capture\\objective-ledger.json",
+          "bytes": 55731,
+          "sha256": "77e69d89a96d71c5a319b401a1e1c36f41b37f61c6f16a40be4283636937aab4"
+        },
+        {
+          "path": "capture\\replay.json",
+          "bytes": 267854755,
+          "sha256": "c03682ad8d415fd7fd201da0322c52a0385622746a562cb72d123e9f58c4d6be"
+        },
+        {
+          "path": "parse.log",
+          "bytes": 5678,
+          "sha256": "cf5fc94f5dc5eb80362b6ad31368ff531777c07aef27a447c17007f8854d167d"
+        },
+        {
+          "path": "team-replay-smoke.exe",
+          "bytes": 18737664,
+          "sha256": "45849bd56ec1a60ba27d7cb6faa961930165cfb3c84ca79a536fc949f1a93f29"
+        }
+      ]
+    },
+    "rounds": 20,
+    "frames": 23398,
+    "inventory_checks": {
+      "frames": 23398,
+      "player_rows": 233183,
+      "native_active_weapon_cross_checks": 153568,
+      "fresh_snapshots_checked": 153568,
+      "historical_snapshots_recomputed": 79615,
+      "dead_history_checked": 79615
+    },
+    "current_and_historical_dead_variants_nonempty": true,
+    "unavailable_and_alive_historical_variants": "synthetic tests only; absent in this real demo",
+    "manifest_hashes_44_unchanged": true,
+    "not_promoted": true
+  },
+  "coverage": {
+    "factual": {
+      "zone_mapped": 24467,
+      "views": 6840,
+      "own_rows": 34200,
+      "zone_boundary": 214,
+      "zone_unavailable": 2704,
+      "text_tamper_rejected": 10,
+      "final_historical_inventories": 17,
+      "dead_rows": 5542,
+      "zone_ambiguous": 1632
+    },
+    "round": {
+      "frames": 23398,
+      "phases": {
+        "preplant": 17826,
+        "planted": 3310,
+        "ended": 2262
+      },
+      "clock_statuses": {
+        "observed:": 21136,
+        "not_applicable:round_ended": 2262
+      }
+    },
+    "events": {
+      "atomic_counts": {
+        "weapon_fire": 2660,
+        "grenade_throw": 347,
+        "player_hurt": 489,
+        "utility_start": 450,
+        "utility_end": 164
+      },
+      "links": {
+        "equipment": 465,
+        "frame_effects_checked": 51859,
+        "native_effect_owner": 149
+      },
+      "producer_abstentions": {
+        "launch_link_unavailable:demoinfocs_event:FlashExplode": 2,
+        "launch_link_unavailable:demoinfocs_event:SmokeExpired": 1
+      },
+      "independent_combat_ledger_matches": 3149
+    },
+    "between_frames": {
+      "ok": true,
+      "intermediate_views": 20490,
+      "life_overrides": 30,
+      "native_death_cases": 16,
+      "unknown_intermediate_clocks": true,
+      "reverse_seek_preserves_inputs": true
+    },
+    "between_consumer": {
+      "ok": true,
+      "cases": 16,
+      "life_facts": 27,
+      "model_calls": 0
+    }
+  },
+  "comparison": {
+    "cases": [
+      {
+        "case_id": "N01",
+        "status": "mechanically_valid",
+        "seconds": 38.715,
+        "local_calls": 1,
+        "result_sha256": "2eb66ee59c95ae8cdf97e032e9fd7ad71437fbfb944fc87ae8017c741a3034f3",
+        "receipt": {
+          "input_hash": "11316089f0bf41775dc119c275ce530e9a973cdd51cc4820e98e67517b79f77f",
+          "projected_packet_hash": "abcfd53f8883a1af7aa682c70d63a69e90f4d3fdd7a62d33891f936e8e00204f",
+          "version": "stratai.replay_context_input@6",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N04",
+        "status": "rejected_or_incomplete",
+        "seconds": 48.393,
+        "local_calls": 1,
+        "result_sha256": "d42492a62e51c56e4a9466d526b250c77b10053ccb63edece931335516fa8f26",
+        "receipt": {
+          "input_hash": "4bc4d139cf6cc2f4fdf32db17e6ac41259878bd8df40d140b9876633041b211b",
+          "projected_packet_hash": "67b9616161bac3e0058df76bf2db0462d970a321fc777e56551dc1f903c1b973",
+          "version": "stratai.replay_context_input@6",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": "invalid finish envelope",
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": false,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": null,
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N10",
+        "status": "mechanically_valid",
+        "seconds": 98.875,
+        "local_calls": 1,
+        "result_sha256": "36b11b03a9378f0e6fda42fd9624d2baecabd6daf23e5c0cc1d8f3692d0a93f7",
+        "receipt": {
+          "input_hash": "1622c1c6917c2fd08e386bc240b038a37048f7c5e259adc9089d74599f2b1a15",
+          "projected_packet_hash": "4357a36346fd4ab88570e8139a6dfb2ac4aed3e139098477e8f42ae782ca0398",
+          "version": "stratai.replay_context_input@6",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      }
+    ],
+    "local_calls": 3,
+    "external_calls": 0,
+    "provider_cost_usd": 0,
+    "training": false,
+    "independent_evaluation": false
+  },
+  "accepted_interpretation_claims": 0,
+  "model_rejection": "N04 finish action includes non-empty consultation indices; retained, no retry, deterministic F1 available.",
+  "preservation": {
+    "ok": true,
+    "sealed_artifacts": [
+      {
+        "folder": "stratai-c4-repair-20261009",
+        "files": 456,
+        "unchanged": true,
+        "manifest_sha256": "c4d01d6dff56796ced9f3f7dc1488aadb2de029a06db507ecdb65a87bc4236cb"
+      },
+      {
+        "folder": "stratai-zones-20261009",
+        "files": 380,
+        "unchanged": true,
+        "manifest_sha256": "045e90b96ef68d0e832893358fdaad0686cd4e1c45217cad59d5c327adf09616"
+      },
+      {
+        "folder": "stratai-round-context-20261010",
+        "files": 180,
+        "unchanged": true,
+        "manifest_sha256": "fe1241cceb0d9d92e40b07aabde1554b74b2b90b687921941f94a3622e3423fc"
+      },
+      {
+        "folder": "stratai-replay-events-20261010",
+        "files": 498,
+        "unchanged": true,
+        "manifest_sha256": "ddfdc3eb1ba036ba5b9745df23ac9a62ccb4aebfa6f948cf6e51e26f0de4817b"
+      },
+      {
+        "folder": "stratai-c4-root-cause-20261010",
+        "files": 57,
+        "unchanged": true,
+        "manifest_sha256": "8935e0a9d7b8556f9714493634916025a019fd5456aea4c6350a0e0f5acc61a8"
+      },
+      {
+        "folder": "stratai-factual-facets-audit-20261010",
+        "files": 49,
+        "unchanged": true,
+        "manifest_sha256": "0b5d46e0a789fb23dd5e374465b802568c3deb13a2d4a1f7c601c9308ea8e843"
+      }
+    ],
+    "sealed_files": 1620,
+    "baseline_copies": 101,
+    "notes_sha256": "f34a3094c70cfbc8a34d3d27c979760352c81eec76bbdf6900380ccb586fe617",
+    "workbook_v43_sha256": "94ea1c4ce514dfc5493c613fb6a028ce84cc743b5cf602206a607a4f5ebb26d6",
+    "original_notes_and_readings": "Included in sealed evidence; historical controls overlap and are not summed as unique artifacts."
+  },
+  "retained_temp_roots": 16,
+  "limits": [
+    "Fidelity to admitted referenced facts is checked; tactical quality and semantic truth remain not_evaluated.",
+    "Calculated contacts and map build compatibility remain estimated; team utility/death communication remains simulated.",
+    "One development match does not validate the corpus or global model reliability.",
+    "Interactive browser visual QA pending; component tests and build passed.",
+    "CS3 remains partial; available-information phase needs expert framing before implementation."
+  ],
+  "new_phase": false,
+  "training": false,
+  "acquisition": false,
+  "promotion": false,
+  "publication": false,
+  "artifacts": [
+    {
+      "path": "outputs/stratai-factual-repair-20261010/closure-automated-checks.json",
+      "sha256": "1540c9907817173f5c970cd7ea8599417323a65f29f7128c3e6bacecb1e7d176"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/smoke-summary.json",
+      "sha256": "dbba20b55bdc1199d6431b12ad629a902c04bb3e35ed81e58c48621693782f66"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/inventory-verification.json",
+      "sha256": "73286e9f506c973eea337de1aad93979c8937d783372df8b528abb57f37283cf"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/data-verification.json",
+      "sha256": "3cb4897e6bedf243d28c480b39c8f21708d1274bc064e74d7fc8af5849117ed6"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/round-verification.json",
+      "sha256": "782ff769a1385b053a974afd27c9448b2f12ed0f427b01e9186bce714cc38d40"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/events-verification.json",
+      "sha256": "88a380edb2c4e1022bfc1be385148b5e3ce44c694cdf7c75dc788f101b323a5e"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/projection-verification.json",
+      "sha256": "d26f023665b07e5118aa3483c0dd3835123c64156dc00f544c1ae6fc5b3e939b"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/input-verification.json",
+      "sha256": "98f14b6f9ba763f98a7758e4e69c6d11792353ce08d81470082c7ac0311eca02"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/factual-verification.json",
+      "sha256": "e76fbf75aec310a2c7188dc05c2c7286f4b901efc75ca887bcd772724f326593"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/between-projection-verification.json",
+      "sha256": "efca7942c3a5cc6d2d758292ba382fd7b228f9550d1894112068a8555ba50002"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/between-input-verification.json",
+      "sha256": "5f1aa4ea415f60a602a8c52986cc515db577891bca2c8678e4ae69375df06d6b"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/mutation-verification.json",
+      "sha256": "f300d5d257d776b4732a7a580f3b74ecbeb76e9fbbf537d0a790ab82de782e70"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/destination-guards.json",
+      "sha256": "dda1b237e4db64bf6d870806db31b3d4d892b00ed9b6c3c24a58c082452c2130"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/final-preservation-verification.json",
+      "sha256": "055de379037d026c298a5f2851a6dcb430077d6976e16afc21e17830f56713ad"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/viewer-installation.json",
+      "sha256": "2ba0e99387da7dd2730a197d2a83f797fdfeb65fff1ecccbabf43ace6c2ad9bd"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/generation-seal.json",
+      "sha256": "1e8a9853100a813e4b4860248fe861e00ad39659e8cc43e3c1101433309c834b"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/paired-readings-summary.json",
+      "sha256": "c8635dfdb3499ed0448523a2433bad14ccb71424613dc6103da971b798ab128c"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/retained-temp-inventory.json",
+      "sha256": "f116ba56158ae1ad4333e43766b4469f347f46c6726521f5cb859798e7483ed8"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/retained-temp-targeted-inventory.json",
+      "sha256": "d7c5c9e80c552d681302ab32a13002de116a3198e01ed9fb1a59f6e574388b0e"
+    },
+    {
+      "path": "outputs/stratai-factual-repair-20261010/closure-verification.json",
+      "sha256": "8f200e583a82ae648b9f5332f5f11a3ed3020defe8d62e1d0cda1d7e1fa935ad"
+    }
+  ],
+  "report": "outputs/stratai-factual-repair-20261010/RESULTADO.md",
+  "comparison_report": "outputs/stratai-factual-repair-20261010/COMPARACION.md",
+  "viewer": "outputs/stratai-factual-repair-20261010/viewer/index.html",
+  "report_sha256": "a23da4b12d5eba32448588b3d444245d3168620b67f98de2fb0ca9eb984eb8d1",
+  "comparison_sha256": "38c8a0684b761fc219f33ee68e1c3fbdca69a0c5717a438b5458d24722cd0531",
+  "plan_version": "3.31"
+}

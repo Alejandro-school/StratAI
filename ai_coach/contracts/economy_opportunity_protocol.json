@@ -1,0 +1,46 @@
+{
+  "schema_id": "stratai.economy_opportunity_protocol@1",
+  "contract_version": "1.0.0",
+  "status": "development_candidate",
+  "capability_id": "CAP-ECONOMY-001",
+  "decision_id": "DEC-ECONOMY-001",
+  "source_contract_version": "1.0.0-candidate.2",
+  "scope": "one_record_per_observed_round_instance_and_side",
+  "window": {
+    "anchor": "exact_round_start_with_v2_competitive_initial_team_gate",
+    "execution": "strictly_after_t0_and_strictly_before_observed_freeze_end",
+    "boundary_callbacks": "retained_separately_never_assigned_subtick_order",
+    "checkpoint": "exact_freeze_end_frame_observation_only",
+    "post_freeze": "excluded_freeze_end_is_not_asserted_to_be_buytime_end",
+    "nominal_duration": "do_not_replace_observed_ticks_with_convar_duration"
+  },
+  "information": {
+    "initial": "self_and_same_side_observed_at_t0_only",
+    "execution": "label_only_never_initial_features",
+    "future_results": "excluded",
+    "initial_roster": "five_reconciled_allies_required",
+    "history": "no_future_or_next_round_imputation"
+  },
+  "rules": {
+    "server_convars": ["mp_buytime", "mp_freezetime", "mp_maxmoney", "mp_startmoney", "mp_maxrounds", "mp_overtime_enable"],
+    "prices": "legacy_hash_is_provenance_not_game_build_compatibility",
+    "rewards": "require_versioned_schedule_and_prior_bonus_state_before_projection",
+    "loadout": "inventory_does_not_prove_purchasable_loadout_or_item_limits",
+    "refunds": "callback_is_not_refund_amount_or_rule_compatibility",
+    "cooperation": "teammate_acceptance_not_observed"
+  },
+  "observed_action": {
+    "status": "partial_or_unavailable",
+    "action_id": null,
+    "basket": null,
+    "checkpoint_differences": "diagnostic_not_itemized_transactions_or_transaction_timing",
+    "inventory_changes": "entity_membership_not_quantities_or_purchases",
+    "zero_spend": "not_an_eco_or_save_label",
+    "callbacks": "pickup_drop_refund_only_no_purchase_imputation"
+  },
+  "future_action_ids": ["ACT-FULL-BUY", "ACT-PARTIAL-BUY", "ACT-ECO", "ACT-SAVE-EQUIPMENT", "ACT-DROP-EQUIPMENT"],
+  "future_action_requirements": ["money_before", "items_to_buy_or_drop", "total_cost", "team_buy_band", "rounds_horizon", "minimum_money_next_round"],
+  "comparison_allowed": false,
+  "training_allowed": false,
+  "product_supported": false
+}

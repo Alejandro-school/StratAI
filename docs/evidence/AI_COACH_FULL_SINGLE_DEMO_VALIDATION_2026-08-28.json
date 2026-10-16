@@ -1,0 +1,322 @@
+{
+  "schema_id": "stratai.ai_coach_full_single_demo_validation_evidence@1",
+  "date": "2026-08-28",
+  "status": "passed",
+  "scope": "integrated_canonical_navigation_visual_contact_decision_example_task_eligibility_smoke",
+  "single_demo_policy": {
+    "approved_bundle_count": 44,
+    "distinct_demo_count": 1,
+    "demo_processing_attempt_count": 2,
+    "all_attempts_used_same_sha256": true,
+    "retry_rule": "fix_and_retry_same_match",
+    "corpus_wide_reprocessing": false
+  },
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "file_name": "1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem",
+    "bytes": 330945844,
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "approved_bundle_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "approved_manifest_count_at_preflight": 44,
+    "approved_export_format_version": "3.8.0",
+    "approved_parser_schema_version": "v16",
+    "read_only": true
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "producer_status": "passed",
+      "downstream_gate_status": "failed_closed",
+      "failed_stage": "decision_example_direct_bundle_discovery",
+      "reason": "the_corpus_auditor_required_a_publication_root_manifest_and_correctly_found_zero_manifest_backed_bundles_in_the_unpublished_direct_smoke_output",
+      "processing_duration_ms_reported": 70583,
+      "build_identifier": "working-tree-ai-coach-full-smoke-20260828",
+      "temporary_output_created": true,
+      "command": "go run ./cmd/canonical-export --demo E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem --output C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ai-coach-smoke-4653034243114d95890f1b1ec153f723 --alias demo-a11eb0d600ee702c9edb --checksum a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --maps-root E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps --build-id working-tree-ai-coach-full-smoke-20260828 --ai-coach-smoke --navigation-smoke-queries 64 --visual-contact-smoke-frames 256",
+      "exit_code": 0
+    },
+    {
+      "attempt": 2,
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "producer_status": "passed",
+      "downstream_gate_status": "passed",
+      "processing_duration_ms_reported": 68884,
+      "build_identifier": "working-tree-ai-coach-full-smoke-20260828-r2",
+      "command": "go run ./cmd/canonical-export --demo E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem --output C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ai-coach-smoke-ab2b92bccb764be09a7205a73a7153ab --alias demo-a11eb0d600ee702c9edb --checksum a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --maps-root E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps --build-id working-tree-ai-coach-full-smoke-20260828-r2 --ai-coach-smoke --navigation-smoke-queries 64 --visual-contact-smoke-frames 256",
+      "exit_code": 0
+    }
+  ],
+  "contracts": {
+    "canonical_bundle_export_format_version": "3.8.0",
+    "canonical_parser_version": "v16",
+    "navigation_candidate_schema_id": "stratai.observed_navigation_path@2",
+    "navigation_candidate_contract_version": "2.0.0",
+    "visual_contact_candidate_schema_id": "stratai.observed_visual_contact@1",
+    "visual_contact_candidate_contract_version": "1.0.0",
+    "decision_example_schema_id": "stratai.ai_coach_decision_example@1",
+    "task_eligibility_schema_id": "stratai.ai_coach_task_eligibility@1",
+    "runtime_contract_version": "1.0.0",
+    "training_allowed": false
+  },
+  "automated_verification_before_final_attempt": {
+    "ai_coach_pytest": "47 passed",
+    "ai_coach_ruff": "passed",
+    "contract_validator": "17 capabilities, 15 decisions, 51 actions, 18 outcomes, 55 fields, 5 runtime schemas, 18 reason codes",
+    "targeted_go_tests": "passed: cmd/canonical-export, parser, pkg/maps, pkg/navigation",
+    "targeted_go_vet": "passed",
+    "npm_run_check_all": "passed: frontend 88, node 14 passed/3 skipped, all Go packages, backend Python 43, frontend build"
+  },
+  "final_temporary_output": {
+    "files": 75,
+    "bytes": 761403527,
+    "bundle_files": 73,
+    "bundle_bytes": 735286364,
+    "navigation_report_bytes": 297388,
+    "visual_contact_report_bytes": 25819775,
+    "navigation_report_sha256": "1847fc433cf09002f4c396db4ba01a70d50a8c6a9ae7cbd7a5931c4dd2723aa9",
+    "visual_contact_report_sha256": "4462ef3c77c95b70340760f94d3c4e3690179431051a4cc56377ba256d5a42fe",
+    "canonical_manifest_sha256": "e37f0fa0cb6b139b0dbbf2d84b4b5a7a691dcca7aac982645ac2af7b4cf8ef0c",
+    "publication_entries": [
+      "match_demo-a11eb0d600ee702c9edb",
+      "observed_navigation_smoke.json",
+      "observed_visual_contact_smoke.json"
+    ],
+    "published_or_promoted": false
+  },
+  "navigation_smoke": {
+    "report_schema_id": "stratai.observed_navigation_single_demo_smoke@1",
+    "status": "passed",
+    "map_name": "de_mirage",
+    "processing_duration_ms": 68881,
+    "graph_contract_version": "nav_area_connections_with_polygons@2",
+    "graph_asset_reference": "de_mirage/de_mirage.nav",
+    "graph_asset_sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e",
+    "graph_nodes": 2544,
+    "graph_edges": 6381,
+    "query_limit": 64,
+    "rows": 64,
+    "reachable_rows": 64,
+    "unavailable_rows": 0,
+    "ideal_baseline_rows": 64,
+    "active_weapon_baseline_rows": 60,
+    "observed_pace_projection_rows": 51,
+    "walking_contexts": 13,
+    "non_walking_moving_contexts": 39,
+    "ducking_contexts": 4,
+    "scoped_contexts": 2,
+    "knife_contexts": 19,
+    "active_weapons": [
+      "AK-47",
+      "AWP",
+      "Desert Eagle",
+      "Five-SeveN",
+      "Galil AR",
+      "Glock-18",
+      "Knife",
+      "M4A1",
+      "M4A4",
+      "MAC-10",
+      "MP7",
+      "MP9",
+      "SSG 08",
+      "Tec-9",
+      "USP-S"
+    ],
+    "weapon_baseline_speeds_world_units_per_second": [
+      200,
+      215,
+      220,
+      225,
+      230,
+      240,
+      250
+    ],
+    "timing_unavailability_reasons": {
+      "active_weapon_speed_unknown": 4,
+      "observed_stationary_not_projectable": 13
+    },
+    "abstention_reasons": {},
+    "exact_user_facing_time_violations": 0
+  },
+  "visual_contact_smoke": {
+    "report_schema_id": "stratai.observed_visual_contact_single_demo_smoke@1",
+    "status": "passed",
+    "map_name": "de_mirage",
+    "processing_duration_ms": 68884,
+    "selection": {
+      "contract": "causal_round_prefix_with_smoke@1",
+      "round_number": 2,
+      "start_tick": 16464,
+      "end_tick": 17484,
+      "t0_tick": 17484,
+      "input_round_frames": 891,
+      "selected_frames": 256,
+      "frame_limit": 256
+    },
+    "metric_scope": "bounded_256_sample_round_prefix_not_complete_match",
+    "smoke_occluded_semantics": "directional_observer_subject_pair_samples_whose_line_crossed_active_smoke_not_unique_human_events_or_final_blocker_count",
+    "episodes_semantics": "continuous_directional_contact_streaks_inside_the_bounded_window_not_unique_enemies_seen",
+    "evaluations": 12800,
+    "observed_evaluations": 12800,
+    "unavailable_evaluations": 0,
+    "line_of_sight_clear": 48,
+    "line_of_sight_blocked": 12752,
+    "fov_inside": 5878,
+    "fov_outside": 6922,
+    "smoke_occluded": 1796,
+    "smoke_clear": 11004,
+    "active_smoke_evaluations": 7000,
+    "visual_contact_true": 16,
+    "visual_contact_false": 12784,
+    "episodes": 10,
+    "closed_episodes": 10,
+    "open_episodes": 0,
+    "participant_aliases": 10,
+    "abstention_reasons": {},
+    "raw_steam_id_violations": 0,
+    "geometry_assets": [
+      {
+        "reference": "de_mirage/de_mirage_physics.bin",
+        "bytes": 14378364,
+        "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e",
+        "independent_hash_match": true
+      },
+      {
+        "reference": "de_mirage/de_mirage_physics.gltf",
+        "bytes": 60726,
+        "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451",
+        "independent_hash_match": true
+      }
+    ]
+  },
+  "canonical_bundle_validation": {
+    "schema_id": "stratai.canonical_manifest@3",
+    "artifacts": 72,
+    "validator": "golden_demo_semantic_runner.validate_direct_bundle",
+    "status": "passed",
+    "error_count": 0,
+    "duration_ms": 254116
+  },
+  "decision_example_and_task_eligibility": {
+    "direct_audit_status": "passed",
+    "direct_audit_sha256": "5792eb3ec3248461db8166224ac6f0a1445cc743f976645f77095f26a7b56491",
+    "deterministic_two_runs": true,
+    "durations_ms": [
+      6868,
+      6850
+    ],
+    "bundles_processed": 1,
+    "approved_output_bundles": 0,
+    "temporary_direct_bundles_validated": 1,
+    "decision_examples_total": 918,
+    "decision_examples_by_family": {
+      "peek_hold_or_reposition": 246,
+      "spacing_or_trade_connection": 672
+    },
+    "actions_by_family": {
+      "peek_hold_or_reposition": {
+        "hold": 131,
+        "peek": 115
+      },
+      "spacing_or_trade_connection": {
+        "connected": 34,
+        "disconnected": 638
+      }
+    },
+    "joins_succeeded": 918,
+    "joins_failed": 0,
+    "availability_tick_after_t0": 0,
+    "outcome_before_t0": 0,
+    "oracle_fields_in_observed": 0,
+    "persisted_individual_examples": 0,
+    "gzip_rows_streamed": 1614231,
+    "gzip_rows_json_decoded": 917,
+    "jsonl_rows_streamed": 38240,
+    "task_eligibility": {
+      "capabilities_evaluated": 17,
+      "eligible": 0,
+      "ineligible": 3,
+      "not_materialized": 14
+    },
+    "raw_identity_violations": 0,
+    "training_allowed": false
+  },
+  "retry_reproducibility": {
+    "navigation_summary_equal": true,
+    "navigation_rows_equal": true,
+    "visual_selection_equal": true,
+    "visual_summary_equal": true,
+    "visual_ledger_equal": true,
+    "canonical_artifact_descriptors_equal": true
+  },
+  "defects_found_and_closed": [
+    "visual_contact_smoke_now_uses_a_causal_round_prefix_instead_of_a_mid_round_crop",
+    "visual_contact_smoke_tests_candidate_rounds_until_required_real_coverage_is_found",
+    "smoke_occluded_true_requires_at_least_one_active_smoke",
+    "visual_geometry_assets_are_always_rehashed_from_a_mandatory_maps_root",
+    "visual_geometry_status_cannot_claim_not_loaded_in_a_loaded_geometry_smoke",
+    "temporary_output_rejects_symlinks_junctions_and_reparse_points_before_parsing",
+    "direct_unpublished_bundles_have_a_separate_strict_decision_audit_API",
+    "direct_audit_requires_nonempty_both_decision_families_and_one_successful_join_per_example",
+    "direct_audit_rejects_unordered_descriptors_extra_files_and_false_publication_provenance"
+  ],
+  "pre_post_invariants": {
+    "source_demo_files": {
+      "before": 100,
+      "after": 100
+    },
+    "source_demo_bytes": {
+      "before": 13589310951,
+      "after": 13589310951
+    },
+    "approved_bundle_tree_files": {
+      "before": 3013,
+      "after": 3013
+    },
+    "approved_bundle_tree_bytes": {
+      "before": 27264064316,
+      "after": 27264064316
+    },
+    "failed_tree_files": {
+      "before": 727,
+      "after": 727
+    },
+    "failed_tree_bytes": {
+      "before": 5245908800,
+      "after": 5245908800
+    },
+    "staging_files": {
+      "before": 0,
+      "after": 0
+    },
+    "staging_bytes": {
+      "before": 0,
+      "after": 0
+    },
+    "selected_source_sha256_unchanged": true,
+    "selected_approved_manifest_sha256_unchanged": true,
+    "faceit_demos_git_status_clean_before_and_after": true
+  },
+  "cleanup": {
+    "status": "removed_after_evidence_write",
+    "temporary_root_count": 2,
+    "temporary_roots_exist_after_cleanup": false,
+    "method": "validated direct recursive removal from physical TEMP",
+    "recoverable": false
+  },
+  "prohibited_actions": {
+    "models_trained": false,
+    "demos_downloaded": false,
+    "distinct_demos_processed": 1,
+    "corpus_reprocessed": false,
+    "canonical_bundles_replaced": false,
+    "backend_data_exports_written": false,
+    "staging_written": false,
+    "release_created": false,
+    "current_pointer_changed": false,
+    "published_or_promoted": false
+  }
+}

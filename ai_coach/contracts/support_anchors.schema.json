@@ -1,0 +1,580 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_anchors@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "protocol",
+    "source_observations",
+    "anchors",
+    "matrix",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_anchors@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "source_observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "anchors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "instance",
+          "round_number",
+          "actor_alias",
+          "ally_alias",
+          "side",
+          "actor_life",
+          "ally_life",
+          "t0_tick",
+          "t0_frame",
+          "source_sequence",
+          "epoch",
+          "kind",
+          "decision_id",
+          "observed",
+          "missing_context",
+          "physical_entry_status",
+          "decision_eligible",
+          "later_observation"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string",
+            "pattern": "^demo-[0-9a-f]{20}:support:[0-9]{5,}:[0-9]{7,}:support-actor-[0-9a-f]{20}:support-actor-[0-9a-f]{20}$"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "round_number": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[0-9a-f]{20}$"
+          },
+          "ally_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[0-9a-f]{20}$"
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T"
+            ]
+          },
+          "actor_life": {
+            "type": "string",
+            "pattern": "^support-pawn-[0-9]{6,}$"
+          },
+          "ally_life": {
+            "type": "string",
+            "pattern": "^support-pawn-[0-9]{6,}$"
+          },
+          "t0_tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "t0_frame": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "kind": {
+            "const": "sampled_separation_increase_onset"
+          },
+          "decision_id": {
+            "const": null
+          },
+          "observed": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "history",
+              "distance_squared_world_units",
+              "availability_tick",
+              "availability_frame"
+            ],
+            "properties": {
+              "history": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "source_sequence",
+                    "frame",
+                    "tick",
+                    "self_position",
+                    "ally_position",
+                    "self_alive",
+                    "ally_alive"
+                  ],
+                  "properties": {
+                    "source_sequence": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "frame": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "tick": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "self_position": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "x",
+                        "y",
+                        "z"
+                      ],
+                      "properties": {
+                        "x": {
+                          "type": "integer"
+                        },
+                        "y": {
+                          "type": "integer"
+                        },
+                        "z": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "ally_position": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "x",
+                        "y",
+                        "z"
+                      ],
+                      "properties": {
+                        "x": {
+                          "type": "integer"
+                        },
+                        "y": {
+                          "type": "integer"
+                        },
+                        "z": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "self_alive": {
+                      "const": true
+                    },
+                    "ally_alive": {
+                      "const": true
+                    }
+                  }
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "distance_squared_world_units": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "availability_tick": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "availability_frame": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "missing_context": {
+            "const": [
+              "physical_entry",
+              "tactical_commitment",
+              "navigation_path",
+              "line_of_sight",
+              "legal_contact",
+              "objective_context",
+              "cooperation",
+              "intent",
+              "orientation",
+              "weapon_readiness"
+            ]
+          },
+          "physical_entry_status": {
+            "const": "not_accredited"
+          },
+          "decision_eligible": {
+            "const": false
+          },
+          "later_observation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "reason",
+              "end_tick",
+              "availability_sequence",
+              "actor_alive_at_end",
+              "ally_alive_at_end",
+              "not_alive_sample_observed"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "observed",
+                  "unavailable"
+                ]
+              },
+              "reason": {
+                "enum": [
+                  null,
+                  "missing_exact_horizon_sample",
+                  "horizon_gap_or_boundary",
+                  "horizon_pair_unavailable_or_changed"
+                ]
+              },
+              "end_tick": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "availability_sequence": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "actor_alive_at_end": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ally_alive_at_end": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "not_alive_sample_observed": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance",
+          "actor_alias",
+          "sampled_frames",
+          "pairs_examined",
+          "reason_counts"
+        ],
+        "properties": {
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^support-actor-[0-9a-f]{20}$"
+          },
+          "sampled_frames": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pairs_examined": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reason_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "actor_unavailable",
+              "no_live_ally",
+              "insufficient_history",
+              "incompatible_sample_window",
+              "pair_history_unavailable",
+              "pair_life_or_side_changed",
+              "no_increase_onset",
+              "observed_onset"
+            ],
+            "properties": {
+              "actor_unavailable": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "no_live_ally": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "insufficient_history": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "incompatible_sample_window": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pair_history_unavailable": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pair_life_or_side_changed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "no_increase_onset": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "observed_onset": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_frames",
+        "playing_frames",
+        "anchors",
+        "actor_instances",
+        "pairs_examined",
+        "reason_counts",
+        "later_observation_counts",
+        "complete_horizons_without_not_alive_samples",
+        "physical_entries_accredited",
+        "eligible_decisions"
+      ],
+      "properties": {
+        "source_frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "playing_frames": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "anchors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actor_instances": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pairs_examined": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reason_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "actor_unavailable",
+            "no_live_ally",
+            "insufficient_history",
+            "incompatible_sample_window",
+            "pair_history_unavailable",
+            "pair_life_or_side_changed",
+            "no_increase_onset",
+            "observed_onset"
+          ],
+          "properties": {
+            "actor_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "no_live_ally": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "insufficient_history": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "incompatible_sample_window": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pair_history_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pair_life_or_side_changed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "no_increase_onset": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "observed_onset": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "later_observation_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "observed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "missing_exact_horizon_sample": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "horizon_gap_or_boundary": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "horizon_pair_unavailable_or_changed": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "complete_horizons_without_not_alive_samples": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "physical_entries_accredited": {
+          "const": 0
+        },
+        "eligible_decisions": {
+          "const": 0
+        }
+      }
+    }
+  }
+}

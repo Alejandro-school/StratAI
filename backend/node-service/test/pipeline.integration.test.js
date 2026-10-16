@@ -190,7 +190,7 @@ test(
       assert.equal(recoveredDownloadData.downloaderVersion, 2);
       assert.equal(
         recoveredDownloadData.demoUrl,
-        'http://replay196.valve.net/demo.dem.bz2',
+        'https://replay196.valve.net/demo.dem.bz2',
       );
       assert.equal(downloadRetried, true);
 
@@ -234,7 +234,7 @@ test(
         },
       }];
       assert.equal(await testHooks.recoverParserUpgradeFailures(), 1);
-      assert.equal(recoveredParserData.parserSchemaVersion, 'v3');
+      assert.equal(recoveredParserData.parserSchemaVersion, 'v16');
       assert.equal(parserRetried, true);
     } finally {
       axios.get = originalAxiosGet;

@@ -1,0 +1,1836 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T11:56:48Z",
+  "title": "Design System: StratAI Mirage official landing",
+  "extensions": {
+    "scope": {
+      "entry": "frontend/index.html",
+      "sourceDirectory": "frontend/src/features/landing-world",
+      "surfaceBrief": "SURFACE.md",
+      "authority": "Official root landing replacing the former root landing. Feature-local visual reference only; does not define styles for authenticated application screens or AI Coach delivery status. SURFACE.md records direction; canonical product definition and implementation plan retain product/status authority. Source integration does not assert remote deployment.",
+      "sourceFiles": [
+        "main.jsx",
+        "LandingWorld.jsx",
+        "WorldScene.jsx",
+        "SceneRendering.jsx",
+        "ScenePerformance.jsx",
+        "cameraNavigation.js",
+        "useExplorationInput.js",
+        "ProductPanel.jsx",
+        "LandingDemo.jsx",
+        "SceneStatus.jsx",
+        "WorldPins.jsx",
+        "content.css",
+        "world.css",
+        "exploration.css",
+        "sceneLayout.js",
+        "journey.js",
+        "pinsLayout.js",
+        "landingContent.js",
+        "productPresentation.css",
+        "useSteamEntry.js",
+        "sceneTransitions.js",
+        "transitions.css",
+        "index.js",
+        "copy.es.json",
+        "copy.en.json",
+        "replayDemoData.js"
+      ],
+      "truth": "Original Spanish product copy, screenshots and Dust2 video are reused; the entry headline and camera instructions are presentation copy. The replay restores scripted pauses, progressive comments, automatic continuation and prepared questions from the original landing. Utility is illustrative. Coach IA is in development and evaluation; challenges and plans remain proposals. No automatic recommendation or real-time coaching capability is demonstrated.",
+      "provenance": [
+        "frontend/public/landing-world/ATTRIBUTION.md",
+        "output/landing-world-assets-20261015/PROVENANCE.json",
+        "output/landing-world-optimization-20261015/OPTIMIZATION.json",
+        "output/landing-world-exploration-20261015/PROVENANCE.json",
+        "output/landing-world-replay-20261016/VALIDATION.json",
+        "output/landing-official-20261016/before-migration.zip"
+      ],
+      "rasterPolicy": "Existing screenshots, CT/T GLBs and video remain unmodified. No images were generated.",
+      "limitations": "Source-derived documentation of the official root integration. Final post-loading verification belongs to REVIEW.md. No remote launch, external Steam login, WCAG certification or low-end hardware benchmark is asserted.",
+      "productDefinition": "docs/AI_COACH_PRODUCT_DEFINITION.md",
+      "officialRoute": "/",
+      "featureEntry": "frontend/src/features/landing-world/index.js",
+      "standaloneEntry": "frontend/landing-world.html"
+    },
+    "colorMeta": {
+      "mint": {
+        "role": "primary",
+        "displayName": "Journey Mint",
+        "tonalRamp": [
+          "oklch(15% 0.0731 168.60)",
+          "oklch(26.43% 0.0731 168.60)",
+          "oklch(37.86% 0.0731 168.60)",
+          "oklch(49.29% 0.0731 168.60)",
+          "oklch(60.71% 0.0731 168.60)",
+          "oklch(72.14% 0.0731 168.60)",
+          "oklch(83.57% 0.0731 168.60)",
+          "oklch(95% 0.0731 168.60)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "mint-hover": {
+        "role": "primary",
+        "displayName": "Journey Mint Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0467 165.79)",
+          "oklch(26.43% 0.0467 165.79)",
+          "oklch(37.86% 0.0467 165.79)",
+          "oklch(49.29% 0.0467 165.79)",
+          "oklch(60.71% 0.0467 165.79)",
+          "oklch(72.14% 0.0467 165.79)",
+          "oklch(83.57% 0.0467 165.79)",
+          "oklch(95% 0.0467 165.79)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "primary-ink": {
+        "role": "neutral",
+        "displayName": "Primary Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0336 179.46)",
+          "oklch(26.43% 0.0336 179.46)",
+          "oklch(37.86% 0.0336 179.46)",
+          "oklch(49.29% 0.0336 179.46)",
+          "oklch(60.71% 0.0336 179.46)",
+          "oklch(72.14% 0.0336 179.46)",
+          "oklch(83.57% 0.0336 179.46)",
+          "oklch(95% 0.0336 179.46)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "action-ink": {
+        "role": "neutral",
+        "displayName": "Action Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0323 171.66)",
+          "oklch(26.43% 0.0323 171.66)",
+          "oklch(37.86% 0.0323 171.66)",
+          "oklch(49.29% 0.0323 171.66)",
+          "oklch(60.71% 0.0323 171.66)",
+          "oklch(72.14% 0.0323 171.66)",
+          "oklch(83.57% 0.0323 171.66)",
+          "oklch(95% 0.0323 171.66)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "replay": {
+        "role": "secondary",
+        "displayName": "Replay Mint",
+        "tonalRamp": [
+          "oklch(15% 0.0795 169.70)",
+          "oklch(26.43% 0.0795 169.70)",
+          "oklch(37.86% 0.0795 169.70)",
+          "oklch(49.29% 0.0795 169.70)",
+          "oklch(60.71% 0.0795 169.70)",
+          "oklch(72.14% 0.0795 169.70)",
+          "oklch(83.57% 0.0795 169.70)",
+          "oklch(95% 0.0795 169.70)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "utility": {
+        "role": "secondary",
+        "displayName": "Map Amber",
+        "tonalRamp": [
+          "oklch(15% 0.1125 66.16)",
+          "oklch(26.43% 0.1125 66.16)",
+          "oklch(37.86% 0.1125 66.16)",
+          "oklch(49.29% 0.1125 66.16)",
+          "oklch(60.71% 0.1125 66.16)",
+          "oklch(72.14% 0.1125 66.16)",
+          "oklch(83.57% 0.1125 66.16)",
+          "oklch(95% 0.1125 66.16)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "stats": {
+        "role": "secondary",
+        "displayName": "Statistics Lavender",
+        "tonalRamp": [
+          "oklch(15% 0.0810 281.42)",
+          "oklch(26.43% 0.0810 281.42)",
+          "oklch(37.86% 0.0810 281.42)",
+          "oklch(49.29% 0.0810 281.42)",
+          "oklch(60.71% 0.0810 281.42)",
+          "oklch(72.14% 0.0810 281.42)",
+          "oklch(83.57% 0.0810 281.42)",
+          "oklch(95% 0.0810 281.42)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "coach": {
+        "role": "secondary",
+        "displayName": "Coach Sky",
+        "tonalRamp": [
+          "oklch(15% 0.0874 234.36)",
+          "oklch(26.43% 0.0874 234.36)",
+          "oklch(37.86% 0.0874 234.36)",
+          "oklch(49.29% 0.0874 234.36)",
+          "oklch(60.71% 0.0874 234.36)",
+          "oklch(72.14% 0.0874 234.36)",
+          "oklch(83.57% 0.0874 234.36)",
+          "oklch(95% 0.0874 234.36)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "challenges": {
+        "role": "secondary",
+        "displayName": "Challenges Sand",
+        "tonalRamp": [
+          "oklch(15% 0.0945 78.51)",
+          "oklch(26.43% 0.0945 78.51)",
+          "oklch(37.86% 0.0945 78.51)",
+          "oklch(49.29% 0.0945 78.51)",
+          "oklch(60.71% 0.0945 78.51)",
+          "oklch(72.14% 0.0945 78.51)",
+          "oklch(83.57% 0.0945 78.51)",
+          "oklch(95% 0.0945 78.51)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Mineral White",
+        "tonalRamp": [
+          "oklch(15% 0.0143 128.63)",
+          "oklch(26.43% 0.0143 128.63)",
+          "oklch(37.86% 0.0143 128.63)",
+          "oklch(49.29% 0.0143 128.63)",
+          "oklch(60.71% 0.0143 128.63)",
+          "oklch(72.14% 0.0143 128.63)",
+          "oklch(83.57% 0.0143 128.63)",
+          "oklch(95% 0.0143 128.63)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "description": {
+        "role": "neutral",
+        "displayName": "Muted Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0284 150.35)",
+          "oklch(26.43% 0.0284 150.35)",
+          "oklch(37.86% 0.0284 150.35)",
+          "oklch(49.29% 0.0284 150.35)",
+          "oklch(60.71% 0.0284 150.35)",
+          "oklch(72.14% 0.0284 150.35)",
+          "oklch(83.57% 0.0284 150.35)",
+          "oklch(95% 0.0284 150.35)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "content-description": {
+        "role": "neutral",
+        "displayName": "Content Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0335 149.48)",
+          "oklch(26.43% 0.0335 149.48)",
+          "oklch(37.86% 0.0335 149.48)",
+          "oklch(49.29% 0.0335 149.48)",
+          "oklch(60.71% 0.0335 149.48)",
+          "oklch(72.14% 0.0335 149.48)",
+          "oklch(83.57% 0.0335 149.48)",
+          "oklch(95% 0.0335 149.48)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "disclosure": {
+        "role": "neutral",
+        "displayName": "Disclosure Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0301 163.04)",
+          "oklch(26.43% 0.0301 163.04)",
+          "oklch(37.86% 0.0301 163.04)",
+          "oklch(49.29% 0.0301 163.04)",
+          "oklch(60.71% 0.0301 163.04)",
+          "oklch(72.14% 0.0301 163.04)",
+          "oklch(83.57% 0.0301 163.04)",
+          "oklch(95% 0.0301 163.04)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "capability": {
+        "role": "neutral",
+        "displayName": "Capability Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0327 155.32)",
+          "oklch(26.43% 0.0327 155.32)",
+          "oklch(37.86% 0.0327 155.32)",
+          "oklch(49.29% 0.0327 155.32)",
+          "oklch(60.71% 0.0327 155.32)",
+          "oklch(72.14% 0.0327 155.32)",
+          "oklch(83.57% 0.0327 155.32)",
+          "oklch(95% 0.0327 155.32)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "media-caption": {
+        "role": "neutral",
+        "displayName": "Media Caption Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0319 157.11)",
+          "oklch(26.43% 0.0319 157.11)",
+          "oklch(37.86% 0.0319 157.11)",
+          "oklch(49.29% 0.0319 157.11)",
+          "oklch(60.71% 0.0319 157.11)",
+          "oklch(72.14% 0.0319 157.11)",
+          "oklch(83.57% 0.0319 157.11)",
+          "oklch(95% 0.0319 157.11)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "media-prompt": {
+        "role": "neutral",
+        "displayName": "Media Prompt Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0324 151.10)",
+          "oklch(26.43% 0.0324 151.10)",
+          "oklch(37.86% 0.0324 151.10)",
+          "oklch(49.29% 0.0324 151.10)",
+          "oklch(60.71% 0.0324 151.10)",
+          "oklch(72.14% 0.0324 151.10)",
+          "oklch(83.57% 0.0324 151.10)",
+          "oklch(95% 0.0324 151.10)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "demo-chapter": {
+        "role": "neutral",
+        "displayName": "Demo Chapter Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0354 153.17)",
+          "oklch(26.43% 0.0354 153.17)",
+          "oklch(37.86% 0.0354 153.17)",
+          "oklch(49.29% 0.0354 153.17)",
+          "oklch(60.71% 0.0354 153.17)",
+          "oklch(72.14% 0.0354 153.17)",
+          "oklch(83.57% 0.0354 153.17)",
+          "oklch(95% 0.0354 153.17)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "demo-insight": {
+        "role": "neutral",
+        "displayName": "Demo Insight Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0298 150.05)",
+          "oklch(26.43% 0.0298 150.05)",
+          "oklch(37.86% 0.0298 150.05)",
+          "oklch(49.29% 0.0298 150.05)",
+          "oklch(60.71% 0.0298 150.05)",
+          "oklch(72.14% 0.0298 150.05)",
+          "oklch(83.57% 0.0298 150.05)",
+          "oklch(95% 0.0298 150.05)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "demo-error": {
+        "role": "secondary",
+        "displayName": "Demo Error Peach",
+        "tonalRamp": [
+          "oklch(15% 0.0674 48.87)",
+          "oklch(26.43% 0.0674 48.87)",
+          "oklch(37.86% 0.0674 48.87)",
+          "oklch(49.29% 0.0674 48.87)",
+          "oklch(60.71% 0.0674 48.87)",
+          "oklch(72.14% 0.0674 48.87)",
+          "oklch(83.57% 0.0674 48.87)",
+          "oklch(95% 0.0674 48.87)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "question": {
+        "role": "neutral",
+        "displayName": "Question Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0279 141.98)",
+          "oklch(26.43% 0.0279 141.98)",
+          "oklch(37.86% 0.0279 141.98)",
+          "oklch(49.29% 0.0279 141.98)",
+          "oklch(60.71% 0.0279 141.98)",
+          "oklch(72.14% 0.0279 141.98)",
+          "oklch(83.57% 0.0279 141.98)",
+          "oklch(95% 0.0279 141.98)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "outcome": {
+        "role": "neutral",
+        "displayName": "Outcome Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0301 146.87)",
+          "oklch(26.43% 0.0301 146.87)",
+          "oklch(37.86% 0.0301 146.87)",
+          "oklch(49.29% 0.0301 146.87)",
+          "oklch(60.71% 0.0301 146.87)",
+          "oklch(72.14% 0.0301 146.87)",
+          "oklch(83.57% 0.0301 146.87)",
+          "oklch(95% 0.0301 146.87)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "plan-feature": {
+        "role": "neutral",
+        "displayName": "Plan Feature Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0279 141.98)",
+          "oklch(26.43% 0.0279 141.98)",
+          "oklch(37.86% 0.0279 141.98)",
+          "oklch(49.29% 0.0279 141.98)",
+          "oklch(60.71% 0.0279 141.98)",
+          "oklch(72.14% 0.0279 141.98)",
+          "oklch(83.57% 0.0279 141.98)",
+          "oklch(95% 0.0279 141.98)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "footer-action": {
+        "role": "neutral",
+        "displayName": "Footer Action Mineral",
+        "tonalRamp": [
+          "oklch(15% 0.0267 143.60)",
+          "oklch(26.43% 0.0267 143.60)",
+          "oklch(37.86% 0.0267 143.60)",
+          "oklch(49.29% 0.0267 143.60)",
+          "oklch(60.71% 0.0267 143.60)",
+          "oklch(72.14% 0.0267 143.60)",
+          "oklch(83.57% 0.0267 143.60)",
+          "oklch(95% 0.0267 143.60)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "world": {
+        "role": "neutral",
+        "displayName": "World Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0203 212.84)",
+          "oklch(26.43% 0.0203 212.84)",
+          "oklch(37.86% 0.0203 212.84)",
+          "oklch(49.29% 0.0203 212.84)",
+          "oklch(60.71% 0.0203 212.84)",
+          "oklch(72.14% 0.0203 212.84)",
+          "oklch(83.57% 0.0203 212.84)",
+          "oklch(95% 0.0203 212.84)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0274 207.67 / 0.9882)",
+          "oklch(26.43% 0.0274 207.67 / 0.9882)",
+          "oklch(37.86% 0.0274 207.67 / 0.9882)",
+          "oklch(49.29% 0.0274 207.67 / 0.9882)",
+          "oklch(60.71% 0.0274 207.67 / 0.9882)",
+          "oklch(72.14% 0.0274 207.67 / 0.9882)",
+          "oklch(83.57% 0.0274 207.67 / 0.9882)",
+          "oklch(95% 0.0274 207.67 / 0.9882)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "media": {
+        "role": "neutral",
+        "displayName": "Media Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0234 215.75)",
+          "oklch(26.43% 0.0234 215.75)",
+          "oklch(37.86% 0.0234 215.75)",
+          "oklch(49.29% 0.0234 215.75)",
+          "oklch(60.71% 0.0234 215.75)",
+          "oklch(72.14% 0.0234 215.75)",
+          "oklch(83.57% 0.0234 215.75)",
+          "oklch(95% 0.0234 215.75)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "media-caption-bg": {
+        "role": "neutral",
+        "displayName": "Media Caption Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0336 208.02)",
+          "oklch(26.43% 0.0336 208.02)",
+          "oklch(37.86% 0.0336 208.02)",
+          "oklch(49.29% 0.0336 208.02)",
+          "oklch(60.71% 0.0336 208.02)",
+          "oklch(72.14% 0.0336 208.02)",
+          "oklch(83.57% 0.0336 208.02)",
+          "oklch(95% 0.0336 208.02)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "dock": {
+        "role": "neutral",
+        "displayName": "Dock Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0252 204.34 / 0.9333)",
+          "oklch(26.43% 0.0252 204.34 / 0.9333)",
+          "oklch(37.86% 0.0252 204.34 / 0.9333)",
+          "oklch(49.29% 0.0252 204.34 / 0.9333)",
+          "oklch(60.71% 0.0252 204.34 / 0.9333)",
+          "oklch(72.14% 0.0252 204.34 / 0.9333)",
+          "oklch(83.57% 0.0252 204.34 / 0.9333)",
+          "oklch(95% 0.0252 204.34 / 0.9333)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "pin": {
+        "role": "neutral",
+        "displayName": "Pin Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0282 203.24 / 0.9294)",
+          "oklch(26.43% 0.0282 203.24 / 0.9294)",
+          "oklch(37.86% 0.0282 203.24 / 0.9294)",
+          "oklch(49.29% 0.0282 203.24 / 0.9294)",
+          "oklch(60.71% 0.0282 203.24 / 0.9294)",
+          "oklch(72.14% 0.0282 203.24 / 0.9294)",
+          "oklch(83.57% 0.0282 203.24 / 0.9294)",
+          "oklch(95% 0.0282 203.24 / 0.9294)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "pin-selected": {
+        "role": "neutral",
+        "displayName": "Selected Pin Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0381 182.62 / 0.9608)",
+          "oklch(26.43% 0.0381 182.62 / 0.9608)",
+          "oklch(37.86% 0.0381 182.62 / 0.9608)",
+          "oklch(49.29% 0.0381 182.62 / 0.9608)",
+          "oklch(60.71% 0.0381 182.62 / 0.9608)",
+          "oklch(72.14% 0.0381 182.62 / 0.9608)",
+          "oklch(83.57% 0.0381 182.62 / 0.9608)",
+          "oklch(95% 0.0381 182.62 / 0.9608)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Quiet Divider",
+        "tonalRamp": [
+          "oklch(15% 0.0308 157.73 / 0.1647)",
+          "oklch(26.43% 0.0308 157.73 / 0.1647)",
+          "oklch(37.86% 0.0308 157.73 / 0.1647)",
+          "oklch(49.29% 0.0308 157.73 / 0.1647)",
+          "oklch(60.71% 0.0308 157.73 / 0.1647)",
+          "oklch(72.14% 0.0308 157.73 / 0.1647)",
+          "oklch(83.57% 0.0308 157.73 / 0.1647)",
+          "oklch(95% 0.0308 157.73 / 0.1647)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "panel-border": {
+        "role": "neutral",
+        "displayName": "Panel Border",
+        "tonalRamp": [
+          "oklch(15% 0.0375 163.58 / 0.4667)",
+          "oklch(26.43% 0.0375 163.58 / 0.4667)",
+          "oklch(37.86% 0.0375 163.58 / 0.4667)",
+          "oklch(49.29% 0.0375 163.58 / 0.4667)",
+          "oklch(60.71% 0.0375 163.58 / 0.4667)",
+          "oklch(72.14% 0.0375 163.58 / 0.4667)",
+          "oklch(83.57% 0.0375 163.58 / 0.4667)",
+          "oklch(95% 0.0375 163.58 / 0.4667)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "dock-border": {
+        "role": "neutral",
+        "displayName": "Dock Border",
+        "tonalRamp": [
+          "oklch(15% 0.0405 161.89 / 0.4000)",
+          "oklch(26.43% 0.0405 161.89 / 0.4000)",
+          "oklch(37.86% 0.0405 161.89 / 0.4000)",
+          "oklch(49.29% 0.0405 161.89 / 0.4000)",
+          "oklch(60.71% 0.0405 161.89 / 0.4000)",
+          "oklch(72.14% 0.0405 161.89 / 0.4000)",
+          "oklch(83.57% 0.0405 161.89 / 0.4000)",
+          "oklch(95% 0.0405 161.89 / 0.4000)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "link-border": {
+        "role": "neutral",
+        "displayName": "Link Border",
+        "tonalRamp": [
+          "oklch(15% 0.0313 162.08 / 0.4000)",
+          "oklch(26.43% 0.0313 162.08 / 0.4000)",
+          "oklch(37.86% 0.0313 162.08 / 0.4000)",
+          "oklch(49.29% 0.0313 162.08 / 0.4000)",
+          "oklch(60.71% 0.0313 162.08 / 0.4000)",
+          "oklch(72.14% 0.0313 162.08 / 0.4000)",
+          "oklch(83.57% 0.0313 162.08 / 0.4000)",
+          "oklch(95% 0.0313 162.08 / 0.4000)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "plan-border": {
+        "role": "neutral",
+        "displayName": "Plan Border",
+        "tonalRamp": [
+          "oklch(15% 0.0485 169.15 / 0.4000)",
+          "oklch(26.43% 0.0485 169.15 / 0.4000)",
+          "oklch(37.86% 0.0485 169.15 / 0.4000)",
+          "oklch(49.29% 0.0485 169.15 / 0.4000)",
+          "oklch(60.71% 0.0485 169.15 / 0.4000)",
+          "oklch(72.14% 0.0485 169.15 / 0.4000)",
+          "oklch(83.57% 0.0485 169.15 / 0.4000)",
+          "oklch(95% 0.0485 169.15 / 0.4000)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "plan-divider": {
+        "role": "neutral",
+        "displayName": "Plan Divider",
+        "tonalRamp": [
+          "oklch(15% 0.0485 169.15 / 0.2667)",
+          "oklch(26.43% 0.0485 169.15 / 0.2667)",
+          "oklch(37.86% 0.0485 169.15 / 0.2667)",
+          "oklch(49.29% 0.0485 169.15 / 0.2667)",
+          "oklch(60.71% 0.0485 169.15 / 0.2667)",
+          "oklch(72.14% 0.0485 169.15 / 0.2667)",
+          "oklch(83.57% 0.0485 169.15 / 0.2667)",
+          "oklch(95% 0.0485 169.15 / 0.2667)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "flight-description": {
+        "role": "neutral",
+        "displayName": "Flight Subtitle Mineral",
+        "tonalRamp": [
+          "oklch(15.00% 0.0214 147.61)",
+          "oklch(26.43% 0.0214 147.61)",
+          "oklch(37.86% 0.0214 147.61)",
+          "oklch(49.29% 0.0214 147.61)",
+          "oklch(60.71% 0.0214 147.61)",
+          "oklch(72.14% 0.0214 147.61)",
+          "oklch(83.57% 0.0214 147.61)",
+          "oklch(95.00% 0.0214 147.61)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "camera-guidance": {
+        "role": "neutral",
+        "displayName": "Camera Guidance Mineral",
+        "tonalRamp": [
+          "oklch(15.00% 0.0227 134.95)",
+          "oklch(26.43% 0.0227 134.95)",
+          "oklch(37.86% 0.0227 134.95)",
+          "oklch(49.29% 0.0227 134.95)",
+          "oklch(60.71% 0.0227 134.95)",
+          "oklch(72.14% 0.0227 134.95)",
+          "oklch(83.57% 0.0227 134.95)",
+          "oklch(95.00% 0.0227 134.95)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "camera-hint": {
+        "role": "neutral",
+        "displayName": "Camera Hint Mineral",
+        "tonalRamp": [
+          "oklch(15.00% 0.0302 146.87)",
+          "oklch(26.43% 0.0302 146.87)",
+          "oklch(37.86% 0.0302 146.87)",
+          "oklch(49.29% 0.0302 146.87)",
+          "oklch(60.71% 0.0302 146.87)",
+          "oklch(72.14% 0.0302 146.87)",
+          "oklch(83.57% 0.0302 146.87)",
+          "oklch(95.00% 0.0302 146.87)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "camera-tools": {
+        "role": "neutral",
+        "displayName": "Camera Control Teal",
+        "tonalRamp": [
+          "oklch(15.00% 0.0252 204.34)",
+          "oklch(26.43% 0.0252 204.34)",
+          "oklch(37.86% 0.0252 204.34)",
+          "oklch(49.29% 0.0252 204.34)",
+          "oklch(60.71% 0.0252 204.34)",
+          "oklch(72.14% 0.0252 204.34)",
+          "oklch(83.57% 0.0252 204.34)",
+          "oklch(95.00% 0.0252 204.34)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "camera-hover": {
+        "role": "neutral",
+        "displayName": "Camera Hover Teal",
+        "tonalRamp": [
+          "oklch(15.00% 0.0478 160.02)",
+          "oklch(26.43% 0.0478 160.02)",
+          "oklch(37.86% 0.0478 160.02)",
+          "oklch(49.29% 0.0478 160.02)",
+          "oklch(60.71% 0.0478 160.02)",
+          "oklch(72.14% 0.0478 160.02)",
+          "oklch(83.57% 0.0478 160.02)",
+          "oklch(95.00% 0.0478 160.02)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "demo-coach": {
+        "role": "neutral",
+        "displayName": "Replay Coach Teal",
+        "tonalRamp": [
+          "oklch(15.00% 0.0313 205.75)",
+          "oklch(26.43% 0.0313 205.75)",
+          "oklch(37.86% 0.0313 205.75)",
+          "oklch(49.29% 0.0313 205.75)",
+          "oklch(60.71% 0.0313 205.75)",
+          "oklch(72.14% 0.0313 205.75)",
+          "oklch(83.57% 0.0313 205.75)",
+          "oklch(95.00% 0.0313 205.75)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight OKLCH samples are not implementation tokens."
+      },
+      "replay-player": {
+        "role": "secondary",
+        "displayName": "Original Player Red",
+        "tonalRamp": [
+          "oklch(15.00% 0.2078 25.33)",
+          "oklch(26.43% 0.2078 25.33)",
+          "oklch(37.86% 0.2078 25.33)",
+          "oklch(49.29% 0.2078 25.33)",
+          "oklch(60.71% 0.2078 25.33)",
+          "oklch(72.14% 0.2078 25.33)",
+          "oklch(83.57% 0.2078 25.33)",
+          "oklch(95.00% 0.2078 25.33)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-player-label": {
+        "role": "secondary",
+        "displayName": "Original Player Label",
+        "tonalRamp": [
+          "oklch(15.00% 0.1035 19.57)",
+          "oklch(26.43% 0.1035 19.57)",
+          "oklch(37.86% 0.1035 19.57)",
+          "oklch(49.29% 0.1035 19.57)",
+          "oklch(60.71% 0.1035 19.57)",
+          "oklch(72.14% 0.1035 19.57)",
+          "oklch(83.57% 0.1035 19.57)",
+          "oklch(95.00% 0.1035 19.57)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-player-label-bg": {
+        "role": "secondary",
+        "displayName": "Original Player Label Background",
+        "tonalRamp": [
+          "oklch(15.00% 0.2078 25.33)",
+          "oklch(26.43% 0.2078 25.33)",
+          "oklch(37.86% 0.2078 25.33)",
+          "oklch(49.29% 0.2078 25.33)",
+          "oklch(60.71% 0.2078 25.33)",
+          "oklch(72.14% 0.2078 25.33)",
+          "oklch(83.57% 0.2078 25.33)",
+          "oklch(95.00% 0.2078 25.33)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-player-outline": {
+        "role": "secondary",
+        "displayName": "Original Player Outline",
+        "tonalRamp": [
+          "oklch(15.00% 0.2078 25.33)",
+          "oklch(26.43% 0.2078 25.33)",
+          "oklch(37.86% 0.2078 25.33)",
+          "oklch(49.29% 0.2078 25.33)",
+          "oklch(60.71% 0.2078 25.33)",
+          "oklch(72.14% 0.2078 25.33)",
+          "oklch(83.57% 0.2078 25.33)",
+          "oklch(95.00% 0.2078 25.33)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-teammate": {
+        "role": "secondary",
+        "displayName": "Original Teammate Yellow",
+        "tonalRamp": [
+          "oklch(15.00% 0.1617 86.05)",
+          "oklch(26.43% 0.1617 86.05)",
+          "oklch(37.86% 0.1617 86.05)",
+          "oklch(49.29% 0.1617 86.05)",
+          "oklch(60.71% 0.1617 86.05)",
+          "oklch(72.14% 0.1617 86.05)",
+          "oklch(83.57% 0.1617 86.05)",
+          "oklch(95.00% 0.1617 86.05)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-teammate-label": {
+        "role": "secondary",
+        "displayName": "Original Teammate Label",
+        "tonalRamp": [
+          "oklch(15.00% 0.1657 98.11)",
+          "oklch(26.43% 0.1657 98.11)",
+          "oklch(37.86% 0.1657 98.11)",
+          "oklch(49.29% 0.1657 98.11)",
+          "oklch(60.71% 0.1657 98.11)",
+          "oklch(72.14% 0.1657 98.11)",
+          "oklch(83.57% 0.1657 98.11)",
+          "oklch(95.00% 0.1657 98.11)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-teammate-label-bg": {
+        "role": "secondary",
+        "displayName": "Original Teammate Label Background",
+        "tonalRamp": [
+          "oklch(15.00% 0.1617 86.05)",
+          "oklch(26.43% 0.1617 86.05)",
+          "oklch(37.86% 0.1617 86.05)",
+          "oklch(49.29% 0.1617 86.05)",
+          "oklch(60.71% 0.1617 86.05)",
+          "oklch(72.14% 0.1617 86.05)",
+          "oklch(83.57% 0.1617 86.05)",
+          "oklch(95.00% 0.1617 86.05)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      },
+      "replay-teammate-outline": {
+        "role": "secondary",
+        "displayName": "Original Teammate Outline",
+        "tonalRamp": [
+          "oklch(15.00% 0.1617 86.05)",
+          "oklch(26.43% 0.1617 86.05)",
+          "oklch(37.86% 0.1617 86.05)",
+          "oklch(49.29% 0.1617 86.05)",
+          "oklch(60.71% 0.1617 86.05)",
+          "oklch(72.14% 0.1617 86.05)",
+          "oklch(83.57% 0.1617 86.05)",
+          "oklch(95.00% 0.1617 86.05)"
+        ],
+        "rampPurpose": "Synthesized panel preview only; these eight opaque OKLCH samples are not implementation tokens. Source alpha, where present, remains in DESIGN.md frontmatter."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Entry headline",
+        "purpose": "Tu partida, desde dentro. Balanced two-line copy; content.css and final exploration.css responsive overrides apply after world.css."
+      },
+      "headline": {
+        "displayName": "Product panel headline",
+        "purpose": "Product, guide, plans and FAQ headings; maximum line width 24ch."
+      },
+      "title": {
+        "displayName": "Panel subsection title",
+        "purpose": "Guide steps, demo subsections and plan names."
+      },
+      "body": {
+        "displayName": "Product introduction",
+        "purpose": "Larger product introductions at 15px with line-height 1.8; replay mobile description uses 13px."
+      },
+      "supporting": {
+        "displayName": "Supporting content",
+        "purpose": "Guide, demo and FAQ explanations."
+      },
+      "label": {
+        "displayName": "Interface label",
+        "purpose": "Dock, callouts, controls and disclosure labels."
+      },
+      "micro": {
+        "displayName": "Dense metadata",
+        "purpose": "Plan details, mobile metadata and panel end matter."
+      },
+      "hero-body": {
+        "displayName": "Hero introduction",
+        "purpose": "Original Spanish landing subtitle."
+      },
+      "plan-price": {
+        "displayName": "Proposed plan price",
+        "purpose": "Tabular numeric commercial proposal; does not activate billing."
+      },
+      "currency": {
+        "displayName": "Plan currency",
+        "purpose": "Smaller unit adjacent to plan price."
+      },
+      "brand": {
+        "displayName": "Preview wordmark",
+        "purpose": "Existing StratAI identity."
+      },
+      "flight": {
+        "displayName": "Flight status heading",
+        "purpose": "Entrando en A / Volviendo al aire; clamp(38px, 4vw, 60px), with a 13px Inter subtitle at line-height 1.8."
+      },
+      "camera-guidance": {
+        "displayName": "Camera guidance",
+        "purpose": "12px Inter instructions at line-height 1.8; 10px secondary instructions and 11px action labels. Mobile guidance uses 11px."
+      },
+      "replay-body": {
+        "displayName": "Replay commentary",
+        "purpose": "14px Inter commentary at line-height 1.85; 13px at and below 1100px."
+      },
+      "replay-clock": {
+        "displayName": "Replay media clock",
+        "purpose": "18px Rajdhani with tabular numerals in the custom transport."
+      },
+      "replay-coach-title": {
+        "displayName": "Replay Coach heading",
+        "purpose": "23px Rajdhani at weight 600 in the adjacent analysis column."
+      },
+      "capability": {
+        "displayName": "Product capability list",
+        "purpose": "14px Inter at line-height 1.6; 13px in the single-column mobile list."
+      },
+      "replay-marker": {
+        "displayName": "Original Replay Marker",
+        "purpose": "Bold compact original player/teammate annotation labels, fixed at the prior preview equivalent size to preserve appearance under the app mobile root font."
+      },
+      "steam-entry-brand": {
+        "displayName": "Steam Departure Brand",
+        "purpose": "Centered StratAI mark on the connection veil."
+      },
+      "steam-entry-status": {
+        "displayName": "Steam Connection Status",
+        "purpose": "Connection status under the departure wordmark."
+      }
+    },
+    "shadows": [
+      {
+        "name": "beacon-label",
+        "value": "0 8px 24px #0003",
+        "purpose": "Separate callout text from map geometry."
+      },
+      {
+        "name": "product-panel",
+        "value": "0 18px 65px #0004",
+        "purpose": "Separate readable product content from the scene."
+      },
+      {
+        "name": "screenshot-dialog",
+        "value": "0 22px 80px #0009",
+        "purpose": "Lift the native screenshot dialog above its dark backdrop."
+      },
+      {
+        "name": "camera-copy",
+        "value": "0 2px 8px #071519",
+        "purpose": "Keep the camera guidance legible over map geometry."
+      },
+      {
+        "name": "replay-player-ring",
+        "value": "0 0 20px #ef444480, inset 0 0 15px #ef444433",
+        "purpose": "Original red player annotation glow."
+      },
+      {
+        "name": "replay-teammate-ring",
+        "value": "0 0 20px #eab30880, inset 0 0 15px #eab30833",
+        "purpose": "Original yellow teammate annotation glow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-flight",
+        "value": "3.4s cubic ease-in/out; smooth camera/target/lens join over first 24% of travel",
+        "purpose": "Enter A from the aerial view or return to the aerial view through explicit actions."
+      },
+      {
+        "name": "camera-convergence",
+        "value": "1 - Math.exp(-animationDelta(delta) * 3.5); animationDelta clamps to 0–0.05s",
+        "purpose": "Free camera position, look target and lens-zoom convergence, excluding long demand-loop idle pauses."
+      },
+      {
+        "name": "scene-demand-loop",
+        "value": "Wake on travel actions, drag, wheel/pinch, keyboard camera input, pointer movement, selection, resize and utility playback; continue through flight/convergence/playback, restore initial sharp DPR, then stop; Steam departure and tool-camera arcs also wake and sustain the existing demand loop until settled.",
+        "purpose": "Beacon breathing and dust rotation update only during active frames. Starting or resuming playback excludes the initial idle interval."
+      },
+      {
+        "name": "panel-entry",
+        "value": "360ms cubic-bezier(.16,1,.3,1); opacity .3 to 1; perspective 1200px; translate3d(22px,0,-22px) rotateY(-2deg) to identity; origin 85% 50%",
+        "purpose": "Incoming tool content begins after the 120ms outgoing exit; reduced motion is immediate."
+      },
+      {
+        "name": "aerial-copy-entry",
+        "value": "0.65s ease-out; translateY(12px) to 0",
+        "purpose": "Introduce the aerial headline and entry action."
+      },
+      {
+        "name": "inside-copy-entry",
+        "value": "0.7s ease-out; translateY(12px) to 0",
+        "purpose": "Introduce arrival copy."
+      },
+      {
+        "name": "primary-hover",
+        "value": "background .25s, transform .3s; translateY(-2px)",
+        "purpose": "Confirm the entry action."
+      },
+      {
+        "name": "callout-hover",
+        "value": "background .25s, transform .25s; translate(-50%,calc(-50% - 3px))",
+        "purpose": "Lift the callout while retaining viewport centering."
+      },
+      {
+        "name": "agents",
+        "value": "Static end-pose samples, then paused",
+        "purpose": "Natural CT/T placements without a moving replay agent."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "Immediate travel, tool panels and camera convergence; no parallax, beacon breathing, dust rotation or marker pulse. Steam veil/mark retain a 180ms opacity-only fade with a still camera.",
+        "purpose": "Preserve every destination. Explicit utility and replay transport remain available. Replay comments appear immediately; checkpoint pauses and reading/resume timing remain."
+      },
+      {
+        "name": "illustrative-utility",
+        "value": "5s",
+        "purpose": "User-controlled illustrative arc and smoke volume."
+      },
+      {
+        "name": "original-video",
+        "value": "Muted autoplay attempt; playsInline; preload auto; custom pause/play, early continuation, restart and chapter controls",
+        "purpose": "Original Dust2 clip pauses when a timeupdate reaches 1.3s or 6s, then seeks exactly to that checkpoint for the calibrated annotation frame. Chapter selection uses the same operation; original reading delays and automatic continuation remain. Manual playback remains available when autoplay is rejected."
+      },
+      {
+        "name": "replay-commentary",
+        "value": "2 characters / 25ms (80 characters/s); 500ms first-message and 1500ms subsequent-message lead-ins; 6000ms context and 8000ms decision reading windows; 3000ms automatic resume delay",
+        "purpose": "Original Spanish script and timing constants. Chapter reselection refreshes analysis timers; closure and restart cancel pending work. End state retains the original summary and three prepared questions, with a 1s response delay."
+      },
+      {
+        "name": "original-replay-marker-pulse",
+        "value": "1.5s infinite ease-out; scale(1) / opacity 1 to scale(1.5) / opacity 0",
+        "purpose": "Original annotation ring pulse. OS preference and the existing footer reduced-motion toggle disable animation, leaving the ring and label visible."
+      },
+      {
+        "name": "tool-exit",
+        "value": "120ms ease-in; opacity to 0; perspective(1200px) translate3d(-12px,0,-16px) rotateY(1deg)",
+        "purpose": "Outgoing panel is inert and pointer-disabled; latest request replaces pending switch, outside closure/Escape cancels it."
+      },
+      {
+        "name": "transition-ease",
+        "value": "1 - (1 - clamp(progress,0,1))^3",
+        "purpose": "Shared cubic-out camera deceleration for Steam departure and tool transitions."
+      },
+      {
+        "name": "tool-camera",
+        "value": "560ms; live pose to existing tool endpoint, side arc sin(pi*ease)*.85*direction and Y lift sin(pi*ease)*.35; zoom and utility view offset interpolate",
+        "purpose": "Camera changes immediately on destination selection, before incoming content mounts; existing authored endpoints and final utility projection are preserved."
+      },
+      {
+        "name": "steam-entry-camera",
+        "value": "1100ms; live pose to [-1,17,31], look target [4.5,.35,25], zoom 1.8; X arc -1.2*sin(pi*ease), Y arc +1.4*sin(pi*ease); projection offset to zero",
+        "purpose": "Primary same-tab Steam activation departs through the current scene, then navigates once to the existing Steam endpoint."
+      },
+      {
+        "name": "steam-ui-fade",
+        "value": "opacity 180ms ease-out",
+        "purpose": "Fade header, overlays, footer and camera controls; disable them and hide 3D destination beacons during entry."
+      },
+      {
+        "name": "steam-veil",
+        "value": "1100ms ease-out; opacity 0 at 0%, .08 at 35%, .86 at 75%, 1 at 100%; wordmark hidden through 30%, visible from 60%",
+        "purpose": "Existing World Teal veil and centered StratAI connection status cover the handoff."
+      },
+      {
+        "name": "steam-soft-entry",
+        "value": "180ms ease-out opacity-only; no camera movement",
+        "purpose": "Reduced motion, unavailable 3D or active normal flight; direct native fallback link remains at handoff."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "min-width:1900px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "max-width:1100px"
+      },
+      {
+        "name": "mobile",
+        "value": "max-width:760px"
+      },
+      {
+        "name": "narrow",
+        "value": "max-width:390px"
+      },
+      {
+        "name": "short-mobile",
+        "value": "max-height:740px and max-width:760px"
+      }
+    ],
+    "accessibility": {
+      "focus": "2px solid var(--mint), offset 5px; native FAQ summaries use offset 2px; stage uses inset offset -4px.",
+      "panel": "Labelled nonmodal aside. Close button receives focus; close button, Escape or an outside pointerdown closes; captured connected trigger regains focus, with first dock button as fallback. Capture-phase document pointerdown listener is removed on cleanup; interior controls and direct dock switching remain available. Direct dock/header/pin destinations bypass outside dismissal for one-click switching; outgoing panels are inert and aria-hidden. Escape/outside close cancels pending switches; selecting the same tool preserves the mounted replay.",
+      "screenshot": "Native showModal dialog with labelled original screenshot, focused close button and Escape handling that does not close the underlying panel.",
+      "navigation": "Skip link; five labelled dock destinations and world callouts; aria-pressed selection; journey and flight status regions. Information navigation uses pressed-state buttons. No journey rail is mounted.",
+      "media": "Named custom play/pause, continue, restart and chapter controls; muted inline autoplay with manual fallback and retry on load error. Status region and polite additions-only message log; static replay reference uses native details/summary. Prepared follow-up questions are available at clip end. Original annotation rings and labels are decorative, aria-hidden and pointer-events none; the current script commentary supplies their context.",
+      "motion": "OS preference initializes and updates the footer-controlled reduced-motion state. Tool panels/camera are immediate in reduced motion; Steam retains a 180ms opacity-only connection fade.",
+      "fallback": "Existing Mirage radar, reload and feature-access actions after a scene exception.",
+      "limitations": "Implemented mechanisms documented from source; not WCAG certification.",
+      "camera": "Focusable named stage: arrows pan, Shift-arrows rotate, +/minus zoom and R resets. On-screen zoom/reset/aerial actions have names. Arrival focuses the stage if no panel is open. Panel close restores the captured connected trigger.",
+      "steamEntry": "Normal same-tab primary activation only; native modifier/middle/new-tab links remain. Named connection section receives focus; underlying stage/UI are inert and aria-hidden. Escape cancels before handoff and restores trigger focus. Persisted pageshow clears state on Back; unmount clears timer. Blocked navigation leaves the same direct Steam href and a return button.",
+      "loading": "Full-screen status and progress with native existing-href Steam link, same onLogin handler, feature access while loading and retry on load errors. Underlying stage/UI inert and aria-hidden until ready or explicit feature access; loading controls inert/aria-hidden during Steam handoff."
+    },
+    "responsiveTypography": {
+      "source": "world.css, content.css and exploration.css, with higher-specificity scoped productPresentation.css rules for tool and replay presentation",
+      "display": {
+        "wide": "78px",
+        "compact": "61px",
+        "mobile": "clamp(43px,8.5vw,61px)",
+        "narrow": "60px",
+        "shortMobile": "40px",
+        "shortNarrowMobile": "60px; final narrow override wins over the earlier 40px short-mobile rule"
+      },
+      "headline": {
+        "wide": "46px",
+        "compact": "38px",
+        "mobile": "36px",
+        "narrow": "33px"
+      },
+      "title": {
+        "mobile": "23px"
+      },
+      "brand": {
+        "mobile": "24px",
+        "narrow": "23px"
+      },
+      "planPrice": {
+        "compact": "32px",
+        "mobile": "38px"
+      },
+      "insideHeading": {
+        "default": "38px",
+        "mobile": "29px"
+      },
+      "cameraGuidance": {
+        "default": "12px",
+        "mobile": "11px",
+        "secondary": "10px"
+      },
+      "flight": {
+        "default": "clamp(38px,4vw,60px)",
+        "subtitle": "13px"
+      },
+      "replayHeadline": {
+        "compact": "36px",
+        "mobile": "34px"
+      },
+      "replayCommentary": {
+        "default": "14px",
+        "compactAndMobile": "13px"
+      },
+      "productIntroduction": {
+        "default": "15px",
+        "replayMobile": "13px"
+      },
+      "capabilityList": {
+        "default": "14px",
+        "mobile": "13px"
+      }
+    },
+    "scene": {
+      "map": "/landing-world/mirage-exploration.glb",
+      "benchmarkMap": "/landing-world/mirage-textured.glb",
+      "overview": {
+        "camera": [
+          -6,
+          17,
+          34
+        ],
+        "target": [
+          3,
+          0,
+          26
+        ],
+        "arrival": "End of 3.4-second button-led flight; reduced motion arrives immediately."
+      },
+      "rendering": {
+        "fovLandscape": 55,
+        "fovPortrait": 80,
+        "dpr": [
+          1,
+          1.5
+        ],
+        "adaptiveDpr": {
+          "initial": "Device pixel ratio bounded by dpr [1, 1.5]",
+          "steps": [
+            1,
+            0.8
+          ],
+          "condition": "Below 30 FPS across at least 30 sustained active frames and 2 seconds; idle time and isolated interactions do not lower resolution.",
+          "settled": "Restore initial sharp DPR on transition out of motion/playback, render the final sharp frame, then sleep. Reuse the measured moving DPR on the next interaction."
+        },
+        "frameloop": "demand; explicit baseline benchmark uses always",
+        "exposure": 0.95,
+        "shadowMap": 2048,
+        "shadowUpdates": "Cached static map; automatic updates disabled, refreshed when the map is ready or LOD switches.",
+        "decoderWorkers": {
+          "draco": 2,
+          "ktx": 2,
+          "ownership": "KTX worker pool is owned above Suspense and disposed on unmount.",
+          "meshopt": "Existing decoder supplied by Drei; current map uses Meshopt, not Draco. Existing agent Draco decoding is unchanged."
+        },
+        "lighting": "Own web lighting; native geometry, UV and textures. CS2 shaders/blends/lightmaps are not fully reproduced."
+      },
+      "agents": {
+        "ct": {
+          "height": 1.38,
+          "position": [
+            4.5,
+            -0.4,
+            25
+          ],
+          "rotation": 3.141592653589793,
+          "clip": "ct_loadout_pistol01_walkup",
+          "pose": 0.995,
+          "location": "A",
+          "motion": "paused"
+        },
+        "t": {
+          "height": 1.38,
+          "position": [
+            4.15,
+            2.4,
+            14.56
+          ],
+          "rotation": 0.03,
+          "clip": "Animacion",
+          "pose": 0.99,
+          "location": "stairs",
+          "motion": "paused"
+        }
+      },
+      "callouts": {
+        "count": 5,
+        "desktop": "Projected anchors with separated candidate slots and SVG leaders; centers clamp x100 to width-100. Coach prefers 130px drop, others 65px. Label bounds avoid the complete camera-guidance/control exclusion region and the introduction.",
+        "mobile": "Stats/Replay paired at lowerRow=min(455,height-355); Coach left at min(315,lowerRow-62); Mapa right at min(245,coachRow-65); Retos centered at min(530,height-307). Rows reserve the static T silhouette and camera guidance at short narrow sizes.",
+        "limitations": "Specific to these five callouts; not a generic collision solver.",
+        "cameraControlsExclusion": {
+          "left": 0,
+          "desktopRight": 452,
+          "wideRight": 468,
+          "wideCondition": "width >= 1900",
+          "mobileRight": "full viewport width when width <= 760",
+          "top": "height - 270px",
+          "purpose": "Reserve the complete guidance, controls and surrounding gap; check full label bounds, not centers only."
+        }
+      },
+      "asset": {
+        "bytes": 71413376,
+        "sha256": "0cfac0bf467566cf764784b827316deb9b00771ad971ced112383c02dfdb90be",
+        "trianglesByRegion": {
+          "site_high": 277445,
+          "site_distant": 97467,
+          "background": 376044
+        },
+        "geometry": "Native A rendered attributes, every face and winding preserved through lossless Meshopt. Only distant/background geometry is simplified and distant attributes have reduced precision.",
+        "lod": "Shared-texture site_high/site_distant alternatives; enter high below 68 scene units, remain high until 78. Full A remains active throughout close exploration.",
+        "foliage": "Wind/variation COLOR_0 is excluded from PBR tint to avoid red/black foliage. Native image content, alpha masks and materials remain.",
+        "textureFormat": "KTX2; ETC1S color/emissive, UASTC normal/ORM",
+        "textureMaximumPixels": 1024,
+        "distantExclusiveTextureMaximumPixels": 256,
+        "textureMipmaps": true,
+        "meshes": 3,
+        "primitives": 749,
+        "images": 500,
+        "extensionsRequired": [
+          "EXT_meshopt_compression",
+          "KHR_texture_basisu"
+        ],
+        "transcoder": "Local Basis Embind closures with unchanged WASM preserve existing CSP without unsafe-eval; 500 images, 14,163 mip/BC1/BC3/BC7 comparisons and 359,024,480 decoded bytes match stock codec.",
+        "localPreviewBudgetBytes": 75000000,
+        "productionGate": "Real low-end/mobile hardware, compression-format fallback and slow-network testing remain unverified. No faster initial-load or universal FPS claim."
+      },
+      "performance": {
+        "evidence": "EXPLORATION.md and output/landing-world-exploration-20261015/{A-performance.json,aerial-performance.json,PROVENANCE.json}",
+        "measurement": "Retained local Brave exploration resource snapshots. Format/buffer estimates and draw counters, not driver-reported total VRAM or low-end hardware FPS. Frame-timing sample count is zero.",
+        "baseline": {
+          "sceneTextureStorageWithMipmapsMB": 558.1,
+          "sceneGeometryBuffersMB": 97.54,
+          "drawnTriangles": 1195098,
+          "drawCalls": 313,
+          "mapBytes": 25506088
+        },
+        "current": {
+          "sceneTextureStorageWithMipmapsMB": 190.53,
+          "sceneGeometryBuffersMB": 69.12,
+          "drawnTrianglesA": 632820,
+          "drawCallsA": 421,
+          "drawnTrianglesAerial": 536892,
+          "drawCallsAerial": 599,
+          "mapBytes": 71413376
+        },
+        "tradeoff": "Native A and larger near textures increase download from rejected 31,839,476 bytes to 71,413,376 bytes. Lower estimated storage than the original baseline; not a faster initial-load claim. GPU format fallback can change memory savings.",
+        "historicalOptimization": {
+          "evidence": "PERFORMANCE.md",
+          "map": "/landing-world/mirage-lowpc.glb",
+          "status": "Rejected globally simplified pass; EXPLORATION.md supersedes its current-behavior and budget statements.",
+          "metrics": {
+            "sceneTextureStorageWithMipmapsMB": 131.27,
+            "sceneGeometryBuffersMB": 57.72,
+            "drawnTriangles": 606709,
+            "drawCalls": 339,
+            "mapBytes": 31839476
+          }
+        }
+      },
+      "featureFraming": {
+        "camera": "Reuse the overview camera position.",
+        "nonUtilityDesktop": {
+          "targetSidewaysOffsetSceneUnits": 3,
+          "condition": "width > 760 and selected is not utility"
+        },
+        "utility": {
+          "target": [
+            8,
+            2,
+            25
+          ],
+          "desktopProjection": "PerspectiveCamera.setViewOffset(size.width, size.height, utilityPanelOcclusion(size.width) / 2, 0, size.width, size.height)",
+          "purpose": "Frame the full illustrative arc and smoke in the remaining left scene area.",
+          "occlusionSource": "sceneLayout.js: utilityPanelOcclusion(width), mirroring productPresentation.css panel widths and content.css right gutters.",
+          "occlusionRules": [
+            {
+              "condition": "width <= 760",
+              "value": "0"
+            },
+            {
+              "condition": "width >= 1900",
+              "value": "Math.min(1200, width * .62) + 60"
+            },
+            {
+              "condition": "width <= 1100",
+              "value": "width * .64 + 26"
+            },
+            {
+              "condition": "otherwise",
+              "value": "Math.min(1080, width * .68) + 34"
+            }
+          ],
+          "clear": "clearViewOffset on leaving utility, or when utilityPanelOcclusion returns zero in mobile layout.",
+          "fixedTargetOffset": "The +3 sideways target offset does not apply to utility."
+        },
+        "restore": "Manual navigation values stay saved while a feature uses authored framing; close returns to that exploration view.",
+        "transition": "Immediate destination-camera change over a 560ms cubic-out short arc, with live start pose and interpolated zoom/projection offset; reduced motion is immediate. Endpoints and utility final offset remain as documented."
+      },
+      "navigation": {
+        "targetX": [
+          0,
+          4.8
+        ],
+        "targetZ": [
+          22.5,
+          26.8
+        ],
+        "distance": [
+          19,
+          26
+        ],
+        "elevationRadians": [
+          0.9045022131117588,
+          1.034502213111759
+        ],
+        "yaw": "Original overview yaw offset -0.2 to +0.06 radians",
+        "lensZoom": [
+          0.8,
+          2.1
+        ],
+        "minimumCameraHeight": 17,
+        "pointerOffsetRadians": {
+          "yaw": 0.025,
+          "elevation": 0.012
+        },
+        "safetyCheck": {
+          "evidence": "output/landing-world-exploration-20261015/camera-volume-validation.json",
+          "samples": 972,
+          "belowOpaqueRoofCount": 0,
+          "roofMarginSceneUnits": 0.6,
+          "limitation": "Sampled source-geometry check including cursor offsets; not a general-purpose runtime collision engine."
+        },
+        "originalYawRadians": -0.844153986113171,
+        "originalElevationRadians": 0.9545022131117589,
+        "envelope": {
+          "type": "Coupled asymmetric ellipsoid: target X/Z, yaw, elevation and spare dolly distance share one norm. Independent extrema cannot combine; actual range is smaller than absolute limits.",
+          "targetXRadii": {
+            "negative": 3,
+            "positive": 1.8
+          },
+          "targetZRadii": {
+            "negative": 3.5,
+            "positive": 0.8
+          },
+          "yawRadiiRadians": {
+            "negative": 0.2,
+            "positive": 0.06
+          },
+          "elevationRadiiRadians": {
+            "negative": 0.05,
+            "positive": 0.08
+          },
+          "distanceBase": "17 / sin(elevation)",
+          "spareDollyRadius": 2.5,
+          "normalization": "Scale offsets and nonnegative spare distance by 1 / max(1, hypot(normalized offsets, spareDistance / 2.5))",
+          "lensZoomIndependent": true
+        },
+        "framingCheck": {
+          "samples": 2916,
+          "raysPerSample": 209,
+          "viewport": [
+            2560,
+            1221
+          ],
+          "coverage": "90% horizontal / 80% vertical; opaque source geometry, both faces",
+          "byZoom": [
+            {
+              "zoom": 0.8,
+              "samples": 972,
+              "maxMisses": 7
+            },
+            {
+              "zoom": 1.4,
+              "samples": 972,
+              "maxMisses": 2
+            },
+            {
+              "zoom": 2.1,
+              "samples": 972,
+              "maxMisses": 0
+            }
+          ],
+          "evidence": "output/landing-world-exploration-20261015/camera-framing-validation.json",
+          "limitation": "Opaque double-sided source-ray proxy, not a rendered-image verdict. Small source gaps remain at wide zoom."
+        }
+      },
+      "steamDeparture": {
+        "position": [
+          -1,
+          17,
+          31
+        ],
+        "target": [
+          4.5,
+          0.35,
+          25
+        ],
+        "zoom": 1.8,
+        "offset": "eased to zero",
+        "durationMs": 1100,
+        "beacons": "Hidden while entry is active."
+      }
+    },
+    "review": {
+      "report": "output/landing-world-motion-20261016/detector.json",
+      "findings": {
+        "advisories": 52,
+        "typeAdvisories": 39,
+        "colorAdvisories": 13,
+        "pinnedInterWarnings": 1,
+        "primaryViolations": 0
+      },
+      "interpretation": "One pre-documentation motion detector run retained. Entry typography/motion are intentional scoped additions; existing font identity, marker colors and unrelated advisories retained. No suppression, threshold change or replacement detector run.",
+      "historicalReport": "output/landing-world-review-20261015/refinement/detector.json",
+      "automatedVerification": "Official root source integration and loading access are documented here. Final post-loading frontend/build and API/browser verification are owned by REVIEW.md and output/landing-official-20261016; pending results are not declared by this pass.",
+      "visualVerdict": "Not asserted by this source-derived documentation; runtime captures and finish verdict are recorded separately in review evidence.",
+      "readiness": "Official application root landing integrated in source. Remote deployment, actual external Steam authentication and low-end hardware validation are not asserted.",
+      "verificationLogs": [
+        "output/landing-world-exploration-20261015/all-frontend-tests.log",
+        "output/landing-world-exploration-20261015/finite-focused-final.log",
+        "output/landing-world-exploration-20261015/root-build.log",
+        "output/landing-world-exploration-20261015/finite-build.log",
+        "output/landing-world-replay-20261016/focused-final.log",
+        "output/landing-world-replay-20261016/root-build.log",
+        "output/landing-world-replay-20261016/preview-build.log",
+        "output/landing-world-replay-20261016/player-marker-tests.log",
+        "output/landing-world-replay-20261016/player-marker-validation.json",
+        "output/landing-world-replay-20261016/alignment-tests.log",
+        "output/landing-world-replay-20261016/alignment-build.log",
+        "output/landing-world-replay-20261016/alignment-final-build.log",
+        "output/landing-world-motion-20261016/focused-final.log",
+        "output/landing-world-motion-20261016/root-build.log",
+        "output/landing-world-motion-20261016/preview-build-final.log"
+      ],
+      "explorationReport": "output/landing-world-exploration-20261015/detector.json",
+      "explorationFindings": {
+        "colorAdvisories": 2,
+        "typeAdvisories": 2,
+        "primaryViolations": 0
+      },
+      "historicalAutomatedVerification": "Full frontend before the finite camera/layout correction: 65 files / 402 tests passed. After that correction: focused 10 files / 46 tests passed, including coupled-camera and five-size exclusion regressions. Root build and final isolated build passed. Existing 800 kB standalone chunk advisory retained.",
+      "playbackVerification": {
+        "evidence": "output/playwright/landing-world-replay-20261016/browser-playback-evidence.json",
+        "browser": "Chrome 155.0.8059.80",
+        "pausedMediaTimesSeconds": [
+          1.485868,
+          6.185971
+        ],
+        "observations": "Media time remains unchanged during commentary; both checkpoints automatically continue; clip ends at 10.9s; no recorded browser errors. Prepared follow-up response and cleanup were exercised.",
+        "limitation": "Late pause times belong to the previous implementation and are superseded by exact 1.3s/6s seeking. Layout observations also predate the final height-budget adjustment. Does not establish current alignment, final visual verdict or current source-hash match.",
+        "status": "Historical, before exact checkpoint seeking and blue-ball coordinate calibration."
+      },
+      "historicalReplayReport": "output/landing-world-replay-20261016/detector.json",
+      "historicalReplayFindings": {
+        "advisories": 38,
+        "colorAdvisories": 13,
+        "typeAdvisories": 25,
+        "pinnedInterWarnings": 1,
+        "primaryViolations": 0
+      },
+      "historicalReplayAutomatedVerification": "Preceding replay refinement: focused 11 files / 54 tests passed. Root and isolated preview builds passed. Preview entry 853.10 kB (232.37 kB gzip); existing 800 kB chunk advisory retained. Historical full/focused frontend results remain separately recorded.",
+      "currentReviewEvidence": "REVIEW.md records current runtime captures, source hashes and independent visual verdict separately from this source-derived documentation pass.",
+      "historicalMarkerAutomatedVerification": "Marker restoration and outside-pointer regression: focused 11 files / 55 tests passed in player-marker-tests.log. Preceding isolated preview build passed: entry 853.39 kB (232.43 kB gzip), CSS 41.26 kB; the existing 800 kB chunk advisory remains. Metrics are retained in player-marker-validation.json. The prior root build remains historical; no root-build rerun is claimed. Historical frontend and replay checks remain separately recorded.",
+      "alignmentVerification": {
+        "sourceCalibration": "output/playwright/landing-world-replay-20261016/alignment/source-ball-measurements.json",
+        "tests": "output/landing-world-replay-20261016/alignment-tests.log",
+        "build": "output/landing-world-replay-20261016/alignment-final-build.log",
+        "pauseContractSeconds": [
+          1.3,
+          6
+        ],
+        "browserEvidenceExpected": "output/playwright/landing-world-replay-20261016/alignment-evidence.json",
+        "browserStatus": "Not asserted by this documentation pass; main review owns runtime verification."
+      },
+      "historicalAlignmentAutomatedVerification": "Current ball alignment: focused 11 files / 55 tests passed in alignment-tests.log; two assertions extended to prove exact checkpoint seeks. Isolated preview build passed in alignment-final-build.log: entry 853.40 kB (232.43 kB gzip), CSS 41.49 kB. Existing 800 kB chunk advisory retained. Root build was not rerun.",
+      "historicalMarkerReport": "output/landing-world-replay-20261016/player-marker-detector.json",
+      "historicalMarkerFindings": {
+        "advisories": 62,
+        "colorAdvisories": 23,
+        "typeAdvisories": 38,
+        "radiusAdvisories": 1,
+        "pinnedInterWarnings": 1,
+        "primaryViolations": 0
+      },
+      "motionBrowserEvidence": {
+        "evidence": "output/landing-world-motion-20261016/browser-evidence.json",
+        "observations": "Normal/reduced entry requests reach the same existing auth href; mobile cancellation before request and browser Back reset exercised; no recorded errors. The retained run samples the camera 37 times; observed handoffs are 1128ms normal and 194ms reduced, not timing guarantees.",
+        "limitation": "Only the existing auth URL was intercepted and fulfilled by a local test response. No real user Steam login authenticated. Not a production login film or independent final visual verdict.",
+        "observedHandoffMs": {
+          "normal": 1128,
+          "reduced": 194
+        }
+      },
+      "historicalMotionAutomatedVerification": "Pre-migration standalone motion focused suite passed 13 files / 68 tests; root and final isolated preview builds passed. Preview entry 857.34 kB (233.51 kB gzip), CSS 43.83 kB; existing 800 kB chunk advisory retained.",
+      "reportStatus": "Historical standalone motion detector report retained; current migration findings are recorded separately in REVIEW.md.",
+      "officialMigration": {
+        "evidenceDirectory": "output/landing-official-20261016",
+        "archive": "output/landing-official-20261016/before-migration.zip",
+        "status": "Final post-loading checks and runtime review are recorded by main REVIEW.md; no final counts asserted here.",
+        "limits": "No remote production launch, real external Steam authentication or low-end hardware benchmark asserted."
+      }
+    },
+    "implementation": {
+      "entryComponent": "App.jsx lazy-imports ./features/landing-world at public route /. Feature index.js owns ordered scoped styles and exports LandingWorld. Optional standalone main.jsx imports that same index.",
+      "styles": [
+        "world.css",
+        "content.css",
+        "exploration.css",
+        "productPresentation.css",
+        "transitions.css"
+      ],
+      "modes": [
+        "aerial",
+        "entering",
+        "exploring",
+        "leaving"
+      ],
+      "entryHeadline": "Tu partida, desde dentro.",
+      "entryAction": "Estoy listo",
+      "travel": "Explicit actions start flight. Feature actions can enter A before opening a panel. No document-scroll journey, scroll spacer, scroll hint or rail is mounted.",
+      "inputs": {
+        "pan": "drag; focused-stage arrows",
+        "rotate": "right-drag or Shift-drag; focused-stage Shift-arrows",
+        "zoom": "wheel or pinch; focused-stage +/minus; on-screen zoom buttons",
+        "reset": "R or on-screen reset",
+        "aerial": "brand, header return or Volver al aire"
+      },
+      "gestureOwnership": "Stage touch-action none; wheel over stage zooms. Open panels disable stage gestures and keep native body scrolling.",
+      "panelState": "Keep manual navigation while a product feature temporarily uses authored framing; closing restores the manual exploration view. Reset restores authored A navigation. Outside pointerdown uses a capture-phase document listener with cleanup; close-button/Escape, direct tool switching, focus restoration and replay teardown remain available.",
+      "scope": "Official application root landing replaces the former root landing; optional standalone remains secondary. No remote deployment is implied. Auth backend, callback, protected routing, AI Coach contracts, app dependencies and complete demo pipeline are preserved.",
+      "cameraEnvelope": "Coupled asymmetric ellipsoid across pan/yaw/elevation/spare distance with a 17-unit floor and 2.5 spare-dolly radius; lens zoom remains 0.8 to 2.1.",
+      "calloutClearance": "Complete camera-guidance/control exclusion area, including mobile and short narrow layouts; retains world-anchor leaders.",
+      "header": "Global header has no lower border. Local panel, Coach and disclosure dividers remain.",
+      "productPresentation": {
+        "genericPanel": "Base width is the feature-panel frontmatter component token; desktop top 109px, right 34px, bottom 118px. At >=1900px: min(1200px,62vw), top 120px, right 60px. At 761..1100px: 64vw, right 26px.",
+        "screenshot": "Original proportions with object-fit contain; desktop max-height min(55svh,620px); mobile no height cap. Native enlargement retained.",
+        "replayPanel": "Centered; base width is the replay-panel frontmatter component token; max-width 1960px; left/right 48px, top 96px, bottom 98px; edges 24px at <=1100px.",
+        "replayDesktop": "Video/Coach grid; video width capped by max(220px,100svh - 535px) times original 16/9 ratio, maximum 66%; Coach minimum 300px, maximum height max(340px,100svh - 451px). At <=1100px: minimum Coach 260px and gap 16px.",
+        "mobile": "At <=760px all panels left/right 10px, top 86px, bottom 126px. Video then Coach in ordinary scroll flow; no sticky video. Coach min-height 330px with no overall max-height; message log max-height 330px.",
+        "reference": "Original replay screenshot and capability list remain reachable in native details below the live demo.",
+        "replayMarkers": {
+          "source": "Current LandingDemo.jsx and productPresentation.css retain original ring/label styling. Former chatDemo.css and ChatDemoSection.jsx are historical sources preserved in before-migration.zip. Fixed coordinates remain calibrated from blue-ball centroids in the native 1920x1080 source clip.",
+          "authority": "User-pinned restoration of the original red player circle and yellow teammate treatment; not a new destination palette.",
+          "sizeRef": "{components.replay-marker}",
+          "playerLabelRef": "{components.replay-player-label}",
+          "teammateLabelRef": "{components.replay-teammate-label}",
+          "ringBorder": "3px solid, circular; exact player/teammate color primitives live in DESIGN.md frontmatter.",
+          "coordinatesPercent": {
+            "first": {
+              "corta": {
+                "left": 50.46875,
+                "top": 60.37037
+              },
+              "b": {
+                "left": 16.82292,
+                "top": 44.44444
+              }
+            },
+            "critical": {
+              "corta": {
+                "left": 50.41667,
+                "top": 57.87037
+              },
+              "b-critical": {
+                "left": 15.67708,
+                "top": 59.35185
+              }
+            }
+          },
+          "alignment": "60px anchor translated -50% on each axis; ring fills anchor; label bottom -28px, left 50%, translated -50% horizontally.",
+          "behavior": "Shown for the active scripted analysis insight only; original labels and Eye icon. Decorative and pointer-transparent. beginAnalysis pauses and seeks exactly to the 1.3s or 6s calibration frame, including chapter selection. Critical corta has a phase-scoped position. Original 16:9 media, reading delays, automatic continuation and layout remain.",
+          "reducedMotion": "Existing OS and footer-toggle rules disable the ring pulse.",
+          "limitation": "Fixed annotations calibrated for two scripted pause frames, not continuous gameplay tracking or player identity. Pulse is defined by source CSS; static screenshots do not demonstrate animation.",
+          "sourcePixelAnchors": {
+            "frameSize": [
+              1920,
+              1080
+            ],
+            "first": {
+              "timeSeconds": 1.3,
+              "corta": [
+                969,
+                652
+              ],
+              "b": [
+                323,
+                480
+              ]
+            },
+            "critical": {
+              "timeSeconds": 6,
+              "corta": [
+                968,
+                625
+              ],
+              "b-critical": [
+                301,
+                641
+              ]
+            }
+          },
+          "calibrationEvidence": "output/playwright/landing-world-replay-20261016/alignment/source-ball-measurements.json",
+          "mobileLabel": "At max-width 760px, B and critical-B labels use left:0; transform:none relative to their 60px anchor, keeping the full label within the video. Desktop labels stay horizontally centered; circle coordinates do not change."
+        }
+      },
+      "toolTransitions": {
+        "source": "LandingWorld.jsx, ProductPanel.jsx, sceneTransitions.js, transitions.css and WorldScene.jsx",
+        "state": "Requested destination drives the camera immediately; visible selected content is separate. Outgoing exit 120ms, incoming entrance 360ms, tool-camera arc 560ms. Latest request clears stale timer; Escape/outside close cancels pending switches; same-tool activation preserves mounted replay.",
+        "dismissal": "Dock/header/pin destination buttons bypass outside pointer dismissal; ordinary outside close remains. Outgoing panels inert/aria-hidden/pointer-disabled.",
+        "reducedMotion": "Immediate panel and camera changes.",
+        "camera": "Existing tool endpoints and final utility projection offset preserved; interpolate zoom/offset along the short authored arc.",
+        "runtime": "Existing Fiber camera/useFrame/demand loop, memoized vectors; no new renderer or application dependency."
+      },
+      "steamEntry": {
+        "source": "useSteamEntry.js, sceneTransitions.js, transitions.css, LandingWorld.jsx and WorldScene.jsx",
+        "href": "Existing STEAM_LOGIN = API_URL + /auth/steam/login; root landing is replaced, while authentication endpoint/callback/pipeline are unchanged.",
+        "activation": "Normal same-tab primary link click starts one 1100ms departure, or 180ms opacity-only when reduced motion/3D unavailable/normal flight active. Native modifiers, middle button and target=_blank bypass interception.",
+        "camera": {
+          "position": [
+            -1,
+            17,
+            31
+          ],
+          "target": [
+            4.5,
+            0.35,
+            25
+          ],
+          "zoom": 1.8,
+          "offset": "eased to zero"
+        },
+        "visibility": "UI fades 180ms and becomes inert/aria-hidden; destination callouts disabled, 3D beacons hidden.",
+        "lifecycle": "Escape cancels before handoff and restores trigger focus; persisted pageshow resets Back state; unmount clears timer; repeated activation cannot queue multiple navigation calls.",
+        "handoff": "Navigate existing href once after duration. Blocked navigation retains an ordinary same-href link and return button.",
+        "verificationLimit": "Auth route intercepted with local test response; no real user Steam session authenticated.",
+        "phases": [
+          "idle",
+          "moving",
+          "handoff"
+        ]
+      },
+      "styleIsolation": {
+        "root": ".landing-world fixed full-viewport root, 100svh, overflow hidden, own 16px font base.",
+        "selectors": "Feature CSS, former root resets, focus/scrollbar styles and reduced-motion rules mechanically scoped to .landing-world. No global html/body scroll lock; styles do not affect later routes after SPA unmount.",
+        "owner": "index.js imports world.css, content.css, exploration.css, productPresentation.css, transitions.css in that order. ProductPanel no longer imports CSS independently.",
+        "markerLabel": "Fixed 10.4px preserves the original .65rem appearance at the prior standalone 16px root, including when the app mobile root is 14px."
+      },
+      "contentSources": {
+        "spanish": "copy.es.json",
+        "english": "copy.en.json",
+        "replayScript": "replayDemoData.js",
+        "migration": "Original content/script moved unchanged; former components/Landing and styles/Landing removed after output/landing-official-20261016/before-migration.zip. Actual media and 3D files remain."
+      },
+      "loading": {
+        "source": "SceneStatus.jsx and LandingWorld.jsx",
+        "actions": "Conectar Steam uses existing native href and onLogin; Ver funciones mientras carga opens product access without waiting for 3D; errors add retry.",
+        "inputState": "Underlying controls inert while loading or sign-in; loading controls inert during handoff.",
+        "camera": "Unavailable 3D retains existing 180ms opacity-only Steam handoff."
+      },
+      "authentication": "Public root performs no session check. STEAM_LOGIN remains API_URL + /auth/steam/login. Existing SteamLoginSuccess chooses /history-code or /dashboard; RequireAuth still guards protected routes. No backend/session/pipeline contract change.",
+      "footer": "ANALIZA TU PARTIDA replaces the former prototype label in the footer only."
+    }
+  },
+  "components": [
+    {
+      "name": "Entry action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Mint button starts the 3.4-second flight to A; waits for scene readiness. Source hover and focus are preserved.",
+      "html": "<button class=\"ds-primary\">Estoy listo<svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12l7 7 7-7\"/></svg></button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;gap:27px;min-height:52px;padding:0 20px;border:0;border-radius:0;background:var(--mint,#b1f1d8);color:#112b26;font:600 12px Inter,sans-serif;cursor:pointer;transition:background .25s,transform .3s}.ds-primary:hover{background:#d8ffed;transform:translateY(-2px)}.ds-primary:disabled{opacity:.5;cursor:default}.ds-primary:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(max-width:760px){.ds-primary{min-height:47px;gap:14px;font-size:11px}}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none;transform:none}}"
+    },
+    {
+      "name": "Header entry",
+      "kind": "button",
+      "refersTo": "header-explore",
+      "description": "Outlined aerial entry/return action. Label changes to En vuelo or Vista aérea; disabled in flight. Mobile source uses the icon alone.",
+      "html": "<button class=\"ds-header\">Entrar a A<svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12l7 7 7-7\"/></svg></button>",
+      "css": ".ds-header{display:flex;align-items:center;gap:13px;min-height:44px;padding:12px 16px;border:1px solid #bfd9c766;border-radius:0;background:transparent;color:#edf2e8;font:400 11px Inter,sans-serif;cursor:pointer}.ds-header:hover{color:var(--mint,#b1f1d8)}.ds-header:disabled{opacity:.5;cursor:default}.ds-header:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}"
+    },
+    {
+      "name": "Five-destination dock",
+      "kind": "nav",
+      "refersTo": "product-navigation",
+      "description": "Text-label specimen of the five-button dock. Source also includes an icon per destination.",
+      "html": "<nav class=\"ds-dock\" aria-label=\"Funciones de StratAI\"><button aria-pressed=\"true\">Replay</button><button aria-pressed=\"false\">Mapa</button><button aria-pressed=\"false\">Stats</button><button aria-pressed=\"false\">Coach</button><button aria-pressed=\"false\">Retos</button></nav>",
+      "css": ".ds-dock{display:flex;justify-content:center;border:1px solid #89a79766;background:#102325ee}.ds-dock button{border:0;border-radius:0;background:transparent;min-height:49px;padding:15px 18px;color:#d5e4d4;font:400 11px Inter,sans-serif;cursor:pointer;transition:background .25s,color .25s}.ds-dock button+button{border-left:1px solid #89a79733}.ds-dock button:hover,.ds-dock button[aria-pressed=true]{color:var(--mint,#b1f1d8);background:#30503f70}.ds-dock button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(max-width:760px){.ds-dock button{flex:1;padding:12px 8px}}@media(max-width:390px){.ds-dock button{min-width:0;padding-inline:4px}}@media(prefers-reduced-motion:reduce){.ds-dock button{transition:none}}"
+    },
+    {
+      "name": "World callout",
+      "kind": "button",
+      "refersTo": "world-pin",
+      "description": "Standalone label specimen; positioning transform, SVG leader and world geometry belong to the scene.",
+      "html": "<button class=\"ds-pin\" aria-label=\"Explorar Replay táctico\" aria-pressed=\"false\"><span class=\"ds-dot\"></span><span>Replay táctico</span><span class=\"ds-plus\" aria-hidden=\"true\">+</span></button>",
+      "css": ".ds-pin{--pin-color:#a8efd5;display:flex;align-items:center;justify-content:center;gap:10px;width:170px;min-height:46px;padding:0 13px;border:1px solid #aac4b580;border-radius:0;background:#0e2426ed;color:#edf3e8;font:400 11px Inter,sans-serif;box-shadow:0 8px 24px #0003;cursor:pointer;transition:background .25s,transform .25s}.ds-dot{width:5px;height:5px;background:var(--pin-color);border-radius:50%}.ds-plus{font:400 19px Rajdhani,sans-serif;color:var(--pin-color);margin-left:6px}.ds-pin:hover,.ds-pin[aria-pressed=true]{background:#24433ef5;transform:translateY(-3px);border-color:var(--pin-color)}.ds-pin[aria-pressed=true] .ds-plus{transform:rotate(45deg)}.ds-pin:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(prefers-reduced-motion:reduce){.ds-pin{transition:none;transform:none}}"
+    },
+    {
+      "name": "Product reading panel",
+      "kind": "card",
+      "refersTo": "feature-panel",
+      "description": "Larger persistent chrome/body/footer specimen. Source uses broad tool panels and original media; replay has its own centered workspace. Source-driven tool motion specimen: 360ms entry and 120ms inert exit; camera timing and state orchestration live in the React/Fiber implementation.",
+      "html": "<aside class=\"ds-panel\" aria-label=\"Información del producto\"><div class=\"ds-chrome\"><span>Coach IA</span><button aria-label=\"Cerrar información\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></div><div class=\"ds-body\"><h2>Coach IA</h2><p>Coach IA en desarrollo y evaluación</p><button class=\"ds-action\">Ver la demo táctica</button></div><footer>En desarrollo</footer></aside>",
+      "css": ".ds-panel{width:min(1080px,68vw);display:flex;flex-direction:column;overflow:hidden;background:#0b2023fc;color:#edf2e8;border:1px solid #819d8f77;box-shadow:0 18px 65px #0004}.ds-chrome{min-height:58px;padding:9px 14px 9px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #81a18e44;font:400 12px Inter,sans-serif;color:#94d8ff}.ds-chrome button{min-width:38px;min-height:38px;border:0;border-radius:0;background:transparent;color:#d5e3d4;display:flex;align-items:center;justify-content:center;cursor:pointer}.ds-chrome button:hover{background:#59726244}.ds-body{padding:28px 32px;overflow-y:auto;flex:1}.ds-body h2{margin:0;max-width:24ch;font:600 42px/1.06 Rajdhani,sans-serif;letter-spacing:-.02em}.ds-body p{font:400 11px/1.6 Inter,sans-serif;color:#a9d9ff;padding:9px 11px;background:#80b7dd17}.ds-action{display:flex;align-items:center;justify-content:center;min-height:46px;width:100%;margin-top:19px;padding:10px 13px;border:0;border-radius:0;background:#94d8ff;color:#102720;font:600 12px Inter,sans-serif;cursor:pointer}.ds-action:hover{filter:brightness(1.12)}.ds-panel footer{padding:15px 23px;border-top:1px solid #81a18e44;color:#94d8ff;font:400 11px Rajdhani,sans-serif}.ds-chrome button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}.ds-action:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(max-width:760px){.ds-panel{width:100%}.ds-body{padding:22px 20px}.ds-body h2{font-size:36px}}@media(min-width:1900px){.ds-panel{width:min(1200px,62vw)}}@media(min-width:761px) and (max-width:1100px){.ds-panel{width:64vw}}.ds-panel{animation:ds-tool-in 360ms cubic-bezier(.16,1,.3,1) both;transform-origin:85% 50%}.ds-panel.ds-is-leaving{animation:ds-tool-out 120ms ease-in both;pointer-events:none}.ds-panel.ds-is-leaving *{pointer-events:none!important}@keyframes ds-tool-in{from{opacity:.3;transform:perspective(1200px) translate3d(22px,0,-22px) rotateY(-2deg)}to{opacity:1;transform:perspective(1200px) translate3d(0,0,0) rotateY(0)}}@keyframes ds-tool-out{to{opacity:0;transform:perspective(1200px) translate3d(-12px,0,-16px) rotateY(1deg)}}@media(prefers-reduced-motion:reduce){.ds-panel,.ds-panel.ds-is-leaving{animation:none!important}}.ds-motion-reduced .ds-panel,.ds-motion-reduced .ds-panel.ds-is-leaving{animation:none!important}"
+    },
+    {
+      "name": "Original screenshot caption action",
+      "kind": "button",
+      "refersTo": "screenshot-caption",
+      "description": "Caption action below the original screenshot; source opens the native screenshot dialog.",
+      "html": "<button class=\"ds-screenshot\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3\"/></svg>Ampliar captura original</button>",
+      "css": ".ds-screenshot{display:flex;align-items:center;gap:8px;width:100%;min-height:42px;padding:12px 14px;border:0;border-radius:0;background:#153034;color:#c8dfd0;font:400 11px Inter,sans-serif;cursor:pointer}.ds-screenshot:hover{color:var(--mint,#b1f1d8);background:#203f3e}.ds-screenshot:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}"
+    },
+    {
+      "name": "Product information navigation",
+      "kind": "nav",
+      "refersTo": "information-tab",
+      "description": "Pressed-state guide, plans and FAQ buttons; source does not claim an ARIA tablist.",
+      "html": "<nav class=\"ds-tabs\" aria-label=\"Información de StratAI\"><button aria-pressed=\"true\">Cómo funciona</button><button aria-pressed=\"false\">Planes</button><button aria-pressed=\"false\">Preguntas frecuentes</button></nav>",
+      "css": ".ds-tabs{display:flex;border-bottom:1px solid #b0c6b82a;padding-inline:23px;background:#0b2023fc}.ds-tabs button{border:0;border-radius:0;border-bottom:2px solid transparent;background:transparent;min-height:49px;padding:10px 12px;color:#b9d0be;font:400 11px Inter,sans-serif;cursor:pointer}.ds-tabs button[aria-pressed=true]{border-bottom-color:var(--mint,#b1f1d8);color:var(--mint,#b1f1d8)}.ds-tabs button:hover{color:#edf2e8}.ds-tabs button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(max-width:760px){.ds-tabs{padding-inline:10px;justify-content:space-between}.ds-tabs button{min-height:44px;padding-inline:9px;font-size:10px}}"
+    },
+    {
+      "name": "Proposed billing period",
+      "kind": "custom",
+      "refersTo": "billing-selected",
+      "description": "Monthly/yearly display selection only; does not activate a subscription.",
+      "html": "<div class=\"ds-billing\" aria-label=\"Periodo del plan\"><button aria-pressed=\"true\">Mensual</button><button aria-pressed=\"false\">Anual</button></div>",
+      "css": ".ds-billing{display:inline-flex;border:1px solid #89a79766;background:#0b2023fc}.ds-billing button{border:0;border-radius:0;background:transparent;color:#bed3c1;padding:11px 20px;min-height:44px;font:400 12px Inter,sans-serif;cursor:pointer}.ds-billing button[aria-pressed=true]{background:var(--mint,#b1f1d8);color:#102720}.ds-billing button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}"
+    },
+    {
+      "name": "Motion preference",
+      "kind": "button",
+      "description": "Footer motion control, shown with reduced motion selected.",
+      "html": "<button class=\"ds-motion\" aria-pressed=\"true\">Movimiento reducido<span aria-hidden=\"true\"></span></button>",
+      "css": ".ds-motion{display:flex;align-items:center;gap:10px;min-height:44px;padding:12px 0;border:0;border-radius:0;background:transparent;color:#bbcfbc;font:400 11px Inter,sans-serif;white-space:nowrap;cursor:pointer}.ds-motion:hover{color:#bbcfbc}.ds-motion>span{width:25px;height:12px;border:1px solid #96ae9c;border-radius:10px;position:relative}.ds-motion>span:after{content:\"\";position:absolute;left:3px;top:3px;width:4px;height:4px;border-radius:50%;background:var(--mint,#b1f1d8);transition:transform .2s;transform:translateX(13px)}.ds-motion[aria-pressed=true]>span:after{transform:none}.ds-motion:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(prefers-reduced-motion:reduce){.ds-motion>span:after{transition:none}}"
+    },
+    {
+      "name": "Coach development disclosure",
+      "kind": "chip",
+      "refersTo": "development-status",
+      "description": "Noninteractive product-truth label retained beside original Coach content.",
+      "html": "<p class=\"ds-development\">Coach IA en desarrollo y evaluación</p>",
+      "css": ".ds-development{display:inline-block;margin:17px 0 0;padding:9px 11px;background:#80b7dd17;color:#a9d9ff;font:400 11px/1.6 Inter,sans-serif}"
+    },
+    {
+      "name": "Bounded camera controls",
+      "kind": "custom",
+      "refersTo": "camera-tools",
+      "description": "Exploration-only zoom, reset and aerial-return controls, with scoped guidance. Hidden while a panel is open.",
+      "html": "<aside class=\"ds-camera\" aria-label=\"Controles de la cámara\"><p>Arrastra para explorar<span>Rueda o pellizco para acercarte · Giro con botón derecho</span></p><div><button aria-label=\"Acercar cámara\">+</button><button aria-label=\"Alejar cámara\">−</button><button aria-label=\"Restablecer vista de A\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M3 12a9 9 0 1 0 2.6-6.4L3 8\"/><path d=\"M3 3v5h5\"/></svg></button><button><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M7 17V7h10M7 7l10 10\"/></svg>Volver al aire</button></div></aside>",
+      "css": ".ds-camera{max-width:390px;color:#e0eadb;font:400 12px/1.8 Inter,sans-serif}.ds-camera p{margin:0;text-shadow:0 2px 8px #071519}.ds-camera p>span{display:block;font-size:10px;color:#c6d8c7;margin-bottom:12px}.ds-camera>div{display:flex;gap:1px;border:1px solid #89a79766;width:fit-content;background:#102325f5}.ds-camera button{display:flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:0;background:transparent;min-width:44px;min-height:44px;padding:10px 13px;color:#d5e4d4;font:400 11px Inter,sans-serif;cursor:pointer}.ds-camera button+button{border-left:1px solid #89a79733}.ds-camera button:hover{background:#30503f;color:var(--mint,#b1f1d8)}.ds-camera button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@media(max-width:760px){.ds-camera{max-width:none;font-size:11px}.ds-camera p>span{max-width:290px;margin-bottom:8px}.ds-camera button{padding-inline:11px}}@media(max-width:390px){.ds-camera p>span{max-width:240px}.ds-camera button{min-width:42px;min-height:42px;padding-inline:9px}}"
+    },
+    {
+      "name": "Replay analysis workspace",
+      "kind": "custom",
+      "refersTo": "replay-coach",
+      "description": "Paused-state design specimen of the scripted Dust2 replay and adjacent Coach column. This snippet represents the layout; actual video, timing, annotations and controls live in LandingDemo.jsx.",
+      "html": "<section class=\"ds-replay\" aria-label=\"Demo guionizada\"><div class=\"ds-viewer\"><div class=\"ds-frame\">Dust2 ? V?deo original</div><div class=\"ds-transport\"><button>Continuar jugada</button><span>00:01</span><button>Reiniciar</button></div></div><aside class=\"ds-coach\"><header>Coach IA<span>An?lisis inicial...</span></header><article><span>Coach IA</span><p>Tu peek por corta para buscar informaci?n fue una buena decisi?n.</p></article><footer>La jugada continuar? autom?ticamente tras el an?lisis.</footer></aside></section>",
+      "css": ".ds-replay{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:22px;color:#edf2e8;font:400 12px Inter,sans-serif}.ds-frame{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:#07171b;color:#c8dfd0}.ds-transport{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:5px 12px;min-height:49px;background:#153034}.ds-transport button{display:flex;align-items:center;min-height:39px;border:0;background:transparent;color:var(--ink,#edf2e8);font:400 12px Inter,sans-serif;cursor:pointer}.ds-transport button:hover{color:var(--mint,#b1f1d8)}.ds-transport button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}.ds-transport>span{font:400 18px Rajdhani,sans-serif;font-variant-numeric:tabular-nums;color:#c8dfd0}.ds-coach{display:flex;flex-direction:column;min-width:0;background:#10292c}.ds-coach header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;min-height:58px;padding:14px 20px;border-bottom:1px solid var(--line,#b0c6b82a);font:600 23px Rajdhani,sans-serif;color:var(--mint,#b1f1d8)}.ds-coach header>span{font:400 11px/1.6 Inter,sans-serif;color:#c8dfd0}.ds-coach article{padding:20px 22px;flex:1}.ds-coach article>span{font-size:11px;color:var(--mint,#b1f1d8)}.ds-coach p{font:400 14px/1.85 Inter,sans-serif;color:#d6e5d4}.ds-coach footer{padding:12px 20px;border-top:1px solid var(--line,#b0c6b82a);font-size:11px;line-height:1.8;color:#c8dfd0}@media(max-width:760px){.ds-replay{display:block}.ds-coach{margin-top:16px}.ds-coach p{font-size:13px}}"
+    },
+    {
+      "name": "Original replay player markers",
+      "kind": "custom",
+      "refersTo": "replay-marker",
+      "description": "Original red player and yellow teammate styling, positioned at calibrated blue-ball centers for the first exact pause frame. Both are shown together only for this design reference; the running replay selects the active insight marker. The phase-scoped critical rule carries the second pause position.",
+      "html": "<div class=\"ds-marker-frame\" data-replay-phase=\"first\" aria-label=\"Anotaciones originales del replay\"><div class=\"ds-player-focus ds-focus-corta\" aria-hidden=\"true\"><span class=\"ds-highlight-ring\"></span><span class=\"ds-highlight-label\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>TÚ</span></div><div class=\"ds-player-focus ds-focus-b\" aria-hidden=\"true\"><span class=\"ds-highlight-ring\"></span><span class=\"ds-highlight-label\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>COMPAÑERO</span></div></div>",
+      "css": ".ds-marker-frame{position:relative;aspect-ratio:16/9;background:#07171b;overflow:hidden;font-family:Inter,sans-serif}.ds-player-focus{position:absolute;width:60px;height:60px;transform:translate(-50%,-50%);pointer-events:none}.ds-highlight-ring{position:absolute;inset:0;border-radius:50%;border:3px solid #ef4444;box-shadow:0 0 20px #ef444480,inset 0 0 15px #ef444433;animation:ds-highlight-pulse 1.5s infinite ease-out}.ds-highlight-label{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:12px;font-size:10.4px;font-weight:700;letter-spacing:.05em;white-space:nowrap;background:#ef44444d;border:1px solid #ef444480;color:#fca5a5}.ds-focus-b .ds-highlight-ring,.ds-focus-b-critical .ds-highlight-ring{border-color:#eab308;box-shadow:0 0 20px #eab30880,inset 0 0 15px #eab30833}.ds-focus-b .ds-highlight-label,.ds-focus-b-critical .ds-highlight-label{background:#eab3084d;border-color:#eab30880;color:#fde047}.ds-focus-corta{left:50.46875%;top:60.37037%}.ds-focus-b{left:16.82292%;top:44.44444%}.ds-focus-b-critical{left:15.67708%;top:59.35185%}.ds-marker-frame[data-replay-phase=critical] .ds-focus-corta{left:50.41667%;top:57.87037%}@keyframes ds-highlight-pulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}@media(prefers-reduced-motion:reduce){.ds-highlight-ring{animation:none}}.ds-motion-reduced .ds-highlight-ring{animation:none}@media(max-width:760px){.ds-focus-b .ds-highlight-label,.ds-focus-b-critical .ds-highlight-label{left:0;transform:none}}"
+    },
+    {
+      "name": "Steam connection handoff",
+      "kind": "custom",
+      "refersTo": "steam-entry",
+      "description": "Static source-derived handoff specimen with the existing palette, brand, connection status, same-path direct link and return button. Design-specimen containing wrapper replaces the app full-viewport fixed positioning. Actual auth href uses API_URL; hook timing, camera travel and cancellation live in useSteamEntry and WorldScene.",
+      "html": "<section class=\"ds-steam-entry\" aria-labelledby=\"ds-steam-status\"><div class=\"ds-steam-mark\"><div class=\"ds-steam-brand\" aria-hidden=\"true\">Strat<span>AI</span><span class=\"ds-brand-pixel\"></span></div><p id=\"ds-steam-status\" role=\"status\">Conectando con Steam</p><div class=\"ds-steam-actions\"><a href=\"/auth/steam/login\">Continuar a Steam<svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\"/></svg></a><button>Volver a Mirage</button></div></div></section>",
+      "css": ".ds-steam-entry{position:relative;min-height:300px;display:grid;place-items:center;color:var(--ink,#edf2e8);font-family:Inter,sans-serif}.ds-steam-entry::before{content:\"\";position:absolute;inset:0;background:#0b191c;animation:ds-steam-veil 1100ms ease-out both}.ds-steam-mark{position:relative;text-align:center;animation:ds-steam-mark 1100ms ease-out both;padding:24px}.ds-steam-brand{display:flex;align-items:baseline;justify-content:center;font-size:clamp(42px,5vw,64px);font-weight:800;letter-spacing:-.035em;line-height:1}.ds-steam-brand>span:first-child{color:var(--mint,#b1f1d8)}.ds-brand-pixel{height:5px;width:5px;background:var(--mint,#b1f1d8);margin-left:5px}.ds-steam-mark>p{font-size:14px;color:#c8dfd0;line-height:1.8;margin:22px 0 0}.ds-steam-actions{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:28px;font-size:12px}.ds-steam-actions>a{display:flex;align-items:center;gap:8px;color:var(--mint,#b1f1d8);padding-block:12px;text-decoration:none}.ds-steam-actions>button{background:transparent;border:0;padding-block:12px;color:#c8dfd0;font:inherit;cursor:pointer}.ds-steam-actions>a:hover,.ds-steam-actions>button:hover{color:var(--ink,#edf2e8)}.ds-steam-actions>a:focus-visible,.ds-steam-actions>button:focus-visible{outline:2px solid var(--mint,#b1f1d8);outline-offset:5px}@keyframes ds-steam-veil{0%{opacity:0}35%{opacity:.08}75%{opacity:.86}100%{opacity:1}}@keyframes ds-steam-mark{0%,30%{opacity:0}60%,100%{opacity:1}}@keyframes ds-steam-soft{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){.ds-steam-entry::before,.ds-steam-mark{animation:ds-steam-soft 180ms ease-out both!important}}.ds-motion-reduced .ds-steam-entry::before,.ds-motion-reduced .ds-steam-mark{animation:ds-steam-soft 180ms ease-out both!important}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Entrar en la ronda",
+    "overview": "This reference records the official StratAI landing at the public application route `/`, entered through `frontend/index.html` and the lazy feature import in `App.jsx`. It replaces the former root landing; `frontend/landing-world.html` remains an optional standalone entry. Native Mirage geometry, UVs and textures provide warm stone, blue and salmon facades against a deep teal horizon with web lighting. Compact dark navigation leaves the map visible; opening a tool gives its content a broad reading surface. Rajdhani retains the condensed game identity; Inter carries the original Spanish landing copy and product information.\n\nThe direction and composition remain in [SURFACE.md](SURFACE.md). This reference governs the landing feature, without extending its styles to authenticated application screens. The official root integration is a source change, not a remote deployment. The [canonical product definition](../../../../docs/AI_COACH_PRODUCT_DEFINITION.md) governs product promises; the [implementation plan](../../../../docs/AI_COACH_IMPLEMENTATION_PLAN.md) governs delivery status. Screenshots and the scripted demo do not establish automatic coaching availability or production readiness.",
+    "keyCharacteristics": [
+      "Native textured Mirage and web lighting provide real scene depth.",
+      "Five labeled destinations also remain available in the bottom dock.",
+      "Larger tool panels reuse original Spanish copy and screenshots; a wide replay pairs the original Dust2 video with its scripted, progressive Coach commentary.",
+      "A static CT on A and T on stairs ground the final open camera view.",
+      "Button-led flight hands over to bounded pan, rotation and zoom in native-detail A.",
+      "Demand rendering restores the initial sharp pixel ratio after movement settles.",
+      "Tool changes coordinate a short camera arc with panel exit and entry; Steam sign-in departs through the existing Mirage scene before the existing authentication handoff.",
+      "Coach IA remains in development and evaluation; challenges and plans remain proposals."
+    ],
+    "rules": [
+      {
+        "name": "The Destination Rule",
+        "body": "Preserve the five destination colors together with text labels, icons and explicit selection states.",
+        "section": "colors"
+      },
+      {
+        "name": "The Replay Marker Rule",
+        "body": "Preserve the original red player ring and yellow teammate ring and their labels; center them on the calibrated blue-ball positions at the exact 1.3s and 6s pause frames.",
+        "section": "colors"
+      },
+      {
+        "name": "The User-Controlled Motion Rule",
+        "body": "Keep every destination available with reduced motion and preserve explicit playback controls for media and illustrative utility.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Cancellable Handoff Rule",
+        "body": "Keep Steam entry cancellable before handoff, preserve the native sign-in href and modifier-click behavior, and keep reduced-motion tool changes immediate.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do apply this reference to the official root landing feature and keep its styling scoped to that feature.",
+      "Do preserve the five destination colors together with labels, icons and explicit selection states.",
+      "Do keep the bottom feature controls, keyboard focus path and reduced-motion destinations available.",
+      "Do retain original Spanish copy and media with the Coach development, retos proposal and scripted-demo disclosures.",
+      "Do preserve the recorded native-map provenance and original media hashes.",
+      "Do preserve the original red/yellow marker styling and the calibrated coordinates at the exact scripted pause frames.",
+      "Do keep Steam entry cancellable before handoff and preserve native links and reduced-motion alternatives."
+    ],
+    "donts": [
+      "Don't extend landing-specific styles to other application routes or treat this reference as AI Coach delivery-status evidence.",
+      "Don't present screenshots or scripted comments as demonstrated automatic coaching.",
+      "Don't imply that illustrative utility validates gameplay physics.",
+      "Don't require pointer parallax or ambient animation to understand or operate the landing.",
+      "Don't replace native map depth with a generated background while claiming the implemented 3D behavior.",
+      "Don't infer production readiness from local rendering or the compressed GLB size."
+    ]
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_ownership_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_initial_features_or_player_knowledge"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "source_identity": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_native_identity.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "cut_contract": {
+      "const": "fresh_FrameDone_after_queued_messages_and_frame_events_native_freeze_strict_instance_window"
+    },
+    "observations": {
+      "type": "object",
+      "properties": {
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "demo_tick": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "identity_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "clock_sequence": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "sequence",
+              "frame",
+              "demo_tick",
+              "instance",
+              "identity_sequence",
+              "clock_sequence",
+              "state_sequence"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "pawns": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "entity_alias": {
+                      "type": "string",
+                      "pattern": "^native-entity-[0-9]{6}$"
+                    },
+                    "actor_alias": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^p[0-9]{4}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "side": {
+                      "enum": [
+                        "CT",
+                        "T",
+                        null
+                      ]
+                    },
+                    "inventory_status": {
+                      "enum": [
+                        "absent",
+                        "unsupported_type",
+                        "outside_probe",
+                        "observed"
+                      ]
+                    },
+                    "inventory_length": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "slots": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "handle": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 4294967295
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "enum": [
+                              "absent",
+                              "unsupported_type",
+                              "invalid_sentinel",
+                              "entity_unavailable",
+                              "serial_mismatch",
+                              "kind_mismatch",
+                              "resolved"
+                            ]
+                          },
+                          "target_alias": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^native-entity-[0-9]{6}$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "handle",
+                          "status",
+                          "target_alias"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "entity_alias",
+                    "actor_alias",
+                    "side",
+                    "inventory_status",
+                    "inventory_length",
+                    "slots"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "equipment": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "entity_alias": {
+                      "type": "string",
+                      "pattern": "^native-entity-[0-9]{6}$"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "handle": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 4294967295
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "status": {
+                          "enum": [
+                            "absent",
+                            "unsupported_type",
+                            "invalid_sentinel",
+                            "entity_unavailable",
+                            "serial_mismatch",
+                            "kind_mismatch",
+                            "resolved"
+                          ]
+                        },
+                        "target_alias": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^native-entity-[0-9]{6}$"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "handle",
+                        "status",
+                        "target_alias"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "entity_alias",
+                    "owner"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "sequence",
+              "first_cut",
+              "pawns",
+              "equipment"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "cuts",
+        "states"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "source_identity",
+    "cut_contract",
+    "observations"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_ownership_observations@1",
+  "x-stratai-training-authorized": false
+}

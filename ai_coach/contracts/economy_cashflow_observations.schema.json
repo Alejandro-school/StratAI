@@ -1,0 +1,418 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_initial_features_or_player_knowledge"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "schema_id": {
+      "const": "stratai.economy_cashflow_observations@1"
+    },
+    "source_entries": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_entry_observations.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "source_trace": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_transaction_trace.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "cut_contract": {
+      "const": "fresh_accounts_in_entry_ownership_FrameDone_trace_next_frame_equals_cut_frame_plus_one"
+    },
+    "observations": {
+      "type": "object",
+      "properties": {
+        "controllers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "alias": {
+                "type": "string",
+                "pattern": "^trace-entity-[0-9]{6}$"
+              },
+              "index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "serial": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "created_frame": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "destroyed_frame": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "alias",
+              "index",
+              "serial",
+              "created_frame",
+              "destroyed_frame"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "deliveries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "trace_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "pawn_handle": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "absent",
+                      "unsupported_type"
+                    ]
+                  },
+                  "native_type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "value": {
+                    "type": [
+                      "integer",
+                      "boolean",
+                      "null"
+                    ],
+                    "minimum": -2147483648,
+                    "maximum": 4294967295
+                  }
+                },
+                "required": [
+                  "status",
+                  "native_type",
+                  "value"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "trace_sequence",
+              "pawn_handle"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ownership_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "trace_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "trace_next_frame": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "ownership_cut",
+              "state_sequence",
+              "trace_sequence",
+              "trace_next_frame"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "entry_state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "pawns": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "pawn_alias": {
+                      "type": "string",
+                      "pattern": "^native-entity-[0-9]{6}$"
+                    },
+                    "controller_alias": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^trace-entity-[0-9]{6}$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "pawn_handle": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "observed",
+                            "absent",
+                            "unsupported_type"
+                          ]
+                        },
+                        "native_type": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "value": {
+                          "type": [
+                            "integer",
+                            "boolean",
+                            "null"
+                          ],
+                          "minimum": -2147483648,
+                          "maximum": 4294967295
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "native_type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "account": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "observed",
+                            "absent",
+                            "unsupported_type"
+                          ]
+                        },
+                        "native_type": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "value": {
+                          "type": [
+                            "integer",
+                            "boolean",
+                            "null"
+                          ],
+                          "minimum": -2147483648,
+                          "maximum": 4294967295
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "native_type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "spent": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "observed",
+                            "absent",
+                            "unsupported_type"
+                          ]
+                        },
+                        "native_type": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 64
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "value": {
+                          "type": [
+                            "integer",
+                            "boolean",
+                            "null"
+                          ],
+                          "minimum": -2147483648,
+                          "maximum": 4294967295
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "native_type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "pawn_alias",
+                    "controller_alias",
+                    "pawn_handle",
+                    "account",
+                    "spent"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "sequence",
+              "first_cut",
+              "entry_state_sequence",
+              "pawns"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "controllers",
+        "deliveries",
+        "cuts",
+        "states"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "schema_id",
+    "source_entries",
+    "source_trace",
+    "cut_contract",
+    "observations"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_cashflow_observations@1",
+  "x-stratai-training-authorized": false
+}

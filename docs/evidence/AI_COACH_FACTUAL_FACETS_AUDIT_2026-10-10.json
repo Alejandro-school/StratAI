@@ -1,0 +1,293 @@
+{
+  "schema_id": "stratai.factual_facets_audit@1",
+  "date": "2026-10-10",
+  "status": "diagnosis_complete_repairs_pending",
+  "instruction": "Comprobar las otras facetas factuales ya implementadas y buscar fallos",
+  "source_demo": {
+    "alias": "demo-0beb9110ec408f80c39b",
+    "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_matches": 1,
+    "new_parse": false
+  },
+  "scope": {
+    "facets": [
+      "zones and positions",
+      "round state, clocks and winner",
+      "shots, damage, kills",
+      "own utility launch/trajectory/effect",
+      "existing identity, life, counts and resources",
+      "declared uncertainty/provenance"
+    ],
+    "inputs": "all ten current @5 packets and initial views",
+    "readings": "all 49 claims of current complete N01 and N04; N10 failure accounted separately",
+    "historical_readings": "preserved; not scored as if they received newer facets",
+    "method": "offline exact replay, claim/fact comparison, independent producer checks and isolated falsification probes",
+    "new_model_calls": 0,
+    "production_changes": false,
+    "new_phase": false,
+    "limits": "No tactical quality score, no new available-information/grenade/sound feature, no model reliability percentage from two cases."
+  },
+  "data_coverage": {
+    "current_inputs": 10,
+    "samples": 6840,
+    "own_player_rows": 34200,
+    "living_zone_rows_recomputed": 29017,
+    "zone_discrepancies": 0,
+    "clocks_recomputed": 6549,
+    "clock_discrepancies": 0,
+    "round_projection_ticks": 27330,
+    "intermediate_ticks_abstain_clock": 20490,
+    "ended_samples": 291,
+    "weapon_fire_at_cuts": 394,
+    "hurt_at_cuts": 83,
+    "kills_at_cuts": 38,
+    "throws_at_cuts": 62,
+    "utility_starts_at_cuts": 76,
+    "utility_ends_at_cuts": 19,
+    "utility_boundary_projections": 663,
+    "combat_events_matched_in_retained_match": 3149,
+    "all_final_counts_are_events_not_sum_per_frame_repetitions": true
+  },
+  "current_model_attempts": {
+    "complete": [
+      "N01",
+      "N04"
+    ],
+    "claims_reviewed": 49,
+    "incomplete": {
+      "case": "N10",
+      "reason": "generation limit reached",
+      "tokens": 8192
+    },
+    "new_model_calls": 0,
+    "no_accuracy_rate": true
+  },
+  "present_findings": [
+    {
+      "id": "F01",
+      "kind": "false_output",
+      "case": "N01",
+      "claim": "situation[3]",
+      "description": "Supplied smoke path cannot cross Apartments, even in XY",
+      "minimum_xy_axis_gap_units": 217.71875
+    },
+    {
+      "id": "F02",
+      "kind": "false_output",
+      "case": "N01",
+      "claim": "uncertainty[7]",
+      "description": "Current P09 death presented as unknown despite alive=true and health=70"
+    },
+    {
+      "id": "F03",
+      "kind": "false_output",
+      "case": "N04",
+      "claim": "evolution[1]",
+      "description": "bomb_drop in preplant presented as planting started"
+    },
+    {
+      "id": "F04",
+      "kind": "temporal_citation_mismatch",
+      "claims": [
+        "N01:evolution[0]",
+        "N04:evolution[0]"
+      ],
+      "description": "True initial facts cited using final facts; delivered S0 unavailable in citation enum without redundant consultation"
+    },
+    {
+      "id": "F05",
+      "kind": "input_provenance_omission",
+      "final_dead_inventory_facts": 17,
+      "description": "Cached last live inventory lacks its own historical timestamp/status; alive=false correctly retained"
+    },
+    {
+      "id": "F06",
+      "kind": "output_provenance_loss",
+      "description": "Estimated/simulated sources represented as observed in claims"
+    }
+  ],
+  "synthetic_only_guard_gaps": {
+    "not_observed_in_real_inputs": true,
+    "identity_and_health": [
+      "duplicate player -> 6 allies",
+      "negative health",
+      "text health",
+      "alive with zero health"
+    ],
+    "round": [
+      "999-second clock with 115-second duration",
+      "planted phase vs carried C4",
+      "ended round reopens",
+      "end without end_tick",
+      "round instance binding"
+    ],
+    "event_position": "position_tick beyond cut accepted by Python",
+    "projection_only": "future end removes end_tick but retains winner; Python rejects",
+    "output_probes": {
+      "false_or_unsupported_statements_accepted": 19,
+      "true_control_accepted": true,
+      "unknown_citation_rejected": true,
+      "synthetic_not_model_generations": true
+    },
+    "working_zone_guards": {
+      "mutations_rejected": 13,
+      "independent_fixtures_pass": 6
+    }
+  },
+  "verification": {
+    "red_tests_expected_failures": {
+      "identity_health": 2,
+      "round": 4,
+      "events": 1
+    },
+    "event_control_tests_passed": 2,
+    "regressions_are_isolated_not_production_suite": true,
+    "commands": [
+      "npm run test:python -- outputs/stratai-factual-facets-audit-20261010/audit_identity_scalars.py -k 'reject_duplicate_own_identity or reject_negative_health' -p no:cacheprovider",
+      "npm run test:python -- outputs/stratai-factual-facets-audit-20261010/round/audit_round.py -k round_guard -p no:cacheprovider",
+      "npm run test:python -- outputs/stratai-factual-facets-audit-20261010/events/test_event_boundary_audit.py -k EventBoundaryAudit -q -p no:cacheprovider"
+    ],
+    "independent_review": "All 49 original claims and referenced facts checked by second reviewer; 3 new contradictions and 2 temporal citation errors confirmed. All 21 output probes reproduced. 19 described as false OR unsupported.",
+    "documentation_checks": "outputs/stratai-factual-facets-audit-20261010/documentation-check.json"
+  },
+  "native_telemetry_caveat": {
+    "adjacent_health_damage_differences_in_retained_match": 98,
+    "example": "N04 P10: health99 -> health96 with reported damage2",
+    "replay_and_combat_ledger_agree": true,
+    "native_cause_proven": false,
+    "transformation_defect_proven": false
+  },
+  "preservation": {
+    "sealed_phase_artifacts": [
+      {
+        "directory": "stratai-c4-repair-20261009",
+        "files": 456,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-zones-20261009",
+        "files": 380,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-round-context-20261010",
+        "files": 180,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-replay-events-20261010",
+        "files": 498,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-c4-root-cause-20261010",
+        "files": 57,
+        "changed": 0
+      }
+    ],
+    "sealed_total": 1571,
+    "historical_non_dependency_files": 222,
+    "original_readings": 10,
+    "human_notes_sha256": "f34a3094c70cfbc8a34d3d27c979760352c81eec76bbdf6900380ccb586fe617",
+    "baseline_entries": 37,
+    "source_check": {
+      "files": 56,
+      "all_unchanged": true,
+      "hashes": {
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-events-smoke-65ny4gmw\\capture\\replay.json": "f7582ec7a4b1b9ef620e6367a24d179d0b4dfcfd5203e6c9b03d488354a03d86",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-events-smoke-65ny4gmw\\capture\\objective-ledger.json": "77e69d89a96d71c5a319b401a1e1c36f41b37f61c6f16a40be4283636937aab4",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\replay_round_context.go": "88e6df8af36fcb0f9677779e7eb3681d7a16a05707afe68fa09bbb2f85d0a54c",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\replay.go": "bf202ad82cde359b46e5100c273fd379c5f33cad857da69b64eee74155b6bdb9",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\models\\replay_round_context.go": "74184b02086ec6e44f417a7927ef0b136b585d22ff4297911b735b7f789e3828",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\replayRoundContext.js": "3e39bb273bc3db090772c14740336809c0aeee61fe98b095f148387a97cc9940",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\teamReplayProjection.js": "cdf343ca5227a94266bbfb2f64cee6d41090677e0598f8321f825d02f0c8d357",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\replay_round_context.py": "8486b2eea4e93d0c17902252f41775e406f3c85aea8e38ccdfc7cdea9849d779",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\replay_reading_context.py": "a9101084cb62157080032c03840dba3bb543b4977423955a669a2896de26dc4d",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\contracts\\context\\replay-round-context-v1.md": "84c1e8cb45892f02152a9699d1c7e09e0ee06ec0d0dbce882d951abe8ef2c95e",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N01.json": "184a7f687dfa5f637e5417222e692d2f4974b63e929293c853522bc640c1da6b",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N01-initial-view.json": "5da667568e490f11541635427b470356798d869c166820a708a2ee345038003f",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N02.json": "3e423a91b9360422e2356582b193153ba028c7fd26993da18c4edb39418f300e",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N02-initial-view.json": "c815a03130fc4a742bf1b666d91feed9d65d13a9a3f8899c0bc67a6a7724f4e5",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N03.json": "417e955fd3b2372620634214d7453da90f8e95146a17c1d2acc78eadc6bae30a",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N03-initial-view.json": "84cf6a18b16d92f2a8f4436eae4f05911d2452f9ec954729c25436b8a68468bb",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N04.json": "54e47322d9be3c0d7ac6e00d6f3916ffa2c757a2a6a6f7f111806b84d4256958",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N04-initial-view.json": "379627b82927df57e617fdf2cb03c9592e9be4bcb78e406eb607eafa4475415c",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N05.json": "b2d59a73c3f207420f481181d5c6b7d229c788805df7d8200e6196f2336fc096",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N05-initial-view.json": "250157f8ae841c3638768bd3f240bd76362b88e0fac7eb591d6e292f152dab41",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N06.json": "ce25427265404b566b7318e198eb69418e26d9d3e7194612bf856f16fa95d0c1",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N06-initial-view.json": "fc0b19d2301e18d69b2a823d88b0c4d33ce3a28a6def2e3a450c9e046e056aac",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N07.json": "80613d2fd2b8926396c39af20c7b477b4d090f913d11b48e1bc66908f386d986",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N07-initial-view.json": "072363a4d84ef9870bf7717c38cae2ca58449532c85e3c6a2989da4f32808077",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N08.json": "d1e0402567ed65ced81ee50ae17f49008572af14b4b9738c9b5800c9961ba7c4",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N08-initial-view.json": "3d1df2277789194c7821d487548946f4476d1907230c145a7b07cd2c5c26e86b",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N09.json": "4a5c5459394b89914892c0828fa0e88caa8ea5af2040284e69dbf8df9ff0b4fa",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N09-initial-view.json": "224bf4a913fbba7cf2f9be65401cbbe1052e974b38c359a1e9dbd521c7735120",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N10.json": "08c95f19aec035cf7fc6f4fc6850282d4856083c7c2a1ef5e77aff585c68aa2f",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\inputs\\N10-initial-view.json": "e318ddd641172b05820ad7188ae328fc349ced38929fb5dc836f82060022c6c4",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\replay_event_context.go": "5a5a473158f3a80b2559c5161caf45f30dc0dd0dd330ac7562b03cde3e234338",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\replayEvents.js": "98e4ff48d206828f16526e4545cd3cc2941f5bd06ee008ae8afcf0f47a1d1a9c",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\replay_event_context.py": "cc0bb7b874f9aad40a323c45d7d85e4ad94ea5e442f71f9b05d74b976f9c7963",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\contracts\\context\\replay-events-v1.md": "3b088f47c3f3d78ebb5bafbde82373d6ca558ebcd8590c795ba364f7a865c823",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\smoke-command.json": "31daaa81c1862cc2b078ead9a8e6d7f65e98b3095d057dfebd0983e0f8c743ec",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-events-smoke-65ny4gmw\\capture\\combat-audit.json": "74440f3333fa103db4c47e5e555613c1d7b646500cd46615033c54335e6e1570",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\maps\\de_mirage_place_volumes.json": "a973bdcc48dd07c15c7aee42a6d857e248d67f02890f478f55df26c6b85ca125",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\replayPlaces.js": "f2d2792a4f41dc205b7ed4d3623357b0a3c326a74b7bb0aa4cd8465cb00dafe9",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\replay_place_context.py": "87f2f05406950a2296464bb0fdf0d2a50d3e3ca06df6d4bac45ea64b44a01d6b",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\place_volumes.py": "8b57ca5fd0ce15cdc4466a7164749895053322f478d443b1a45ce0fb5642b62c",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\contracts\\context\\replay-places-v1.md": "302f5faca40240252a53d12e48ed1000eb7c74682f483c5a16bec2eac86751ce",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\bomb.go": "f513684a738ee5fce4e95d0392f5c2f54bf0233f4e1799d8f938d343db43e14f",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\objective_helpers.go": "2d44e04a7bc3aa1eb98c4ad7ecf8d309fbde1315a694cc0dd5805050d096829e",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\handlers\\tracking.go": "46456239d531ac17d20333b360b1df08561f78a450eb27d37692a6c9c467465b",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\pkg\\objective\\tracker.go": "2e01e8af4fd55e030ca31f11bbb16ce4dcd12332c83e0b6b6062d28c89b559ee",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\replayModel.js": "809b8fe9c5ed108131ca6aad381075870f79fe68bdc11e70c43826f76f871243",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\replayObjectiveProjection.js": "26862bf264be870dae469fbbc92da74e7aeff5515a97e5ca263f1eef2d46d899",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\context_comparison.py": "84188415fff50f7203e9b0807d75f92f5f92bd4ab6b070cbd8732d77137cd345",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\smoke_producer.go": "e9507037af985cffc2c08e286fdb7324462b60b30da06388e7ade24e02c2b15e",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\package_data.mjs": "a57d2df0439a658931861e28b4bb915176ff18e96a1acbe487ae60a2fe140c92",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\paired-readings\\N01.json": "91234a44d63352a7380d80649bbec2f178bd67af043ac202ba31e7521b17805e",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-events-20261010\\paired-readings\\N01.trace.jsonl": "53447dc7d4be88d79c1ad6da621bf1219321d1b74542439e4d068cb86db3332b",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\interpretation\\context_comparison_ollama.py": "3d07d30b187eb04fbfcb881108d87147600f8bf5f36427a57c67e871ff10da7a",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\tests\\test_context_comparison.py": "d7696c8b52844828796f316f4fddce511cab1aa47f56e2da7fb6e31fcd4a419c",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\components\\ReplayCoachReading.jsx": "e52c4e1a7801af92bfcdcee8bd6bd5f94eb983e672c5f8cdeda6891769044d68",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\src\\features\\replay2d\\domain\\replayPlayerLabels.js": "ec9310ae82f0bf35284b1b104d8123daac4946043f1942ebf36a5212d45fc1a0"
+      }
+    },
+    "counts_may_overlap": true,
+    "originals_modified": false,
+    "documentation_changes": [
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/prompts/AI_COACH_CONTEXT_COMPARISON_PHASE_PROMPT.md"
+    ]
+  },
+  "production_changes": false,
+  "runtime_contract_changes": false,
+  "new_phase_started": false,
+  "workbook_changed": false,
+  "training_allowed": false,
+  "product_supported": false,
+  "report": "outputs/stratai-factual-facets-audit-20261010/RESULTADO.md",
+  "report_sha256": "9b1a384ee2505f3cdb1abde5fdbfe27dc7568eb1a85381ad26172232406ab321",
+  "artifacts": {
+    "input-and-request-audit.json": "c635315f58f9e5cd26469a3194f7c5074b99d185a45ee9e34e5eaec6e93d3fe6",
+    "claim-by-claim-review.json": "ac6cc59edb6e58d0f8ced81dc66a6e81a075205725cdb1806d69eda6237ccca2",
+    "output-validation-probes.json": "dccdd2cc63bfd8a945ff6b116e62c09ac8e9088585cd3ccb300071a54f33f5f4",
+    "identity-and-scalar-audit.json": "1724aa0d2bc5b501b27e99b6fa78be8461feb4ddedc5a84b2daa786a2a04bda7",
+    "zones/audit-results.json": "b9360866ddd85cea7690b180e8a868d44178cdefe7f6b180bb5e290e0526f93b",
+    "zones/smoke-trajectory-claim.json": "5db24f377bb2f2ad035eb03a2249a0e35ad17d79f7f365c642eca026109df49b",
+    "round/review.json": "fcf49fccf3f99cf14060d9000a42954783eb2871c8e9031e4876aad6a0c3d0ab",
+    "events/findings-and-preservation.json": "a3296eea069b15d5389f05d7b57872089ace403748dfa86ac1ea6115ef6ce740",
+    "identity-scalar-red.log": "c6865e413c84a7d6332b9a84a9d7d9cfa25b2041ae45c5737b8f4418cc9a2246",
+    "round/red-guards.log": "ec0ec905962b2249eaf3981b0b0784d3a7194098c117d1ccbed5333c4cd9d701",
+    "events/boundary-red-no-cache.log": "f3f4af70467dda0f57f17a30505060a23fdb3c2ef0dedecc9c23ee29f68cc862"
+  },
+  "limitations": [
+    "Retained captures from one match, no new parse, no every-native-message guarantee.",
+    "Reference map build compatibility and real human perception not established.",
+    "Winner compared to producer summary, no independent winner event ledger.",
+    "No pause/freezetime samples in audited windows.",
+    "Two complete model outputs; no tactical grading or statistical reliability claim.",
+    "Combat reference uses the same parser; native health-damage mismatch cause unresolved.",
+    "Diagnostic RED regressions establish missing guards, no functional repair claimed.",
+    "No new browser QA, corpus-wide audit, training or next-phase implementation."
+  ]
+}

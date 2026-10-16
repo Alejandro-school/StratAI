@@ -1,0 +1,206 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "training_allowed",
+    "product_supported",
+    "base_export_version",
+    "artifact",
+    "base_manifest",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_candidate_manifest@2"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.2"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "base_export_version": {
+      "const": "3.8.0"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "base_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "round_instances",
+        "participants",
+        "initial_snapshots",
+        "freeze_snapshots",
+        "end_snapshots",
+        "initial_actors",
+        "prepurchase_available",
+        "money_observed",
+        "money_zero",
+        "inventory_observed",
+        "execution_events",
+        "other_events",
+        "prior_allied_drop_links",
+        "unresolved_pickups",
+        "round_start_probes",
+        "competitive_round_links",
+        "excluded_round_links"
+      ],
+      "properties": {
+        "round_instances": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "participants": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "initial_snapshots": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "freeze_snapshots": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "end_snapshots": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "initial_actors": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "prepurchase_available": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "money_observed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "money_zero": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "inventory_observed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "execution_events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "other_events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "prior_allied_drop_links": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "unresolved_pickups": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "round_start_probes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "competitive_round_links": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excluded_round_links": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_candidate_manifest@2",
+  "x-stratai-status": "candidate_not_materialized_in_3.8",
+  "x-stratai-training-authorized": false
+}

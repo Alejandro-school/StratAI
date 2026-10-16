@@ -1,0 +1,1460 @@
+{
+  "ok": true,
+  "date": "2026-09-22",
+  "purpose": "technical development evaluation",
+  "distinct_approved_matches": 5,
+  "technical_matches_passed": 5,
+  "performance_closure_precedes_additional_matches": true,
+  "selection": {
+    "purpose": "technical development evaluation, not tactical accuracy or training",
+    "selection": "known smoke match plus min, 1/3, 2/3, max source byte sizes among remaining approved demos",
+    "authorized_by": "2026-09-22: Bien. Pues aplica el recorrido",
+    "frozen_before_new_outputs": true,
+    "selected": [
+      {
+        "alias": "demo-a11eb0d600ee702c9edb",
+        "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "bytes": 330945844
+      },
+      {
+        "alias": "demo-5bdb2dac2277dd9463ac",
+        "sha256": "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+        "bytes": 192768529
+      },
+      {
+        "alias": "demo-381bbf14c9ccd5693047",
+        "sha256": "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+        "bytes": 246273552
+      },
+      {
+        "alias": "demo-310597a1cb8f27f26c55",
+        "sha256": "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+        "bytes": 283832820
+      },
+      {
+        "alias": "demo-6e4a3660d53931747fa8",
+        "sha256": "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+        "bytes": 435771464
+      }
+    ],
+    "remaining_pool": [
+      {
+        "alias": "demo-b4aea580f276cc47432c",
+        "sha256": "b4aea580f276cc47432ce092be5bb1a2c1df3a53c4e9d9ce04b8c4f59d7777f9",
+        "bytes": 244581709
+      },
+      {
+        "alias": "demo-16f8007d930cd56063dd",
+        "sha256": "16f8007d930cd56063dd786d3303186b473ed030204e2004b774ef6fb6b694b4",
+        "bytes": 205266754
+      },
+      {
+        "alias": "demo-5224a45934f2d5b94c01",
+        "sha256": "5224a45934f2d5b94c01ba991b30f96bf9981dc07e6a8ffff5dd570ea83664a4",
+        "bytes": 359208831
+      },
+      {
+        "alias": "demo-0beb9110ec408f80c39b",
+        "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "bytes": 261876403
+      },
+      {
+        "alias": "demo-19d8eb34d820b2b18553",
+        "sha256": "19d8eb34d820b2b18553d7b176884d7ffcd2b0de6bd66a5ef3d3dc5051c2f9e5",
+        "bytes": 244897549
+      },
+      {
+        "alias": "demo-d5f90617b4bf38036f3c",
+        "sha256": "d5f90617b4bf38036f3c04bc150a14e7cbd3b96870a5570e4ba706cb159ae0bf",
+        "bytes": 273944888
+      },
+      {
+        "alias": "demo-2b5a00839d69251d94e8",
+        "sha256": "2b5a00839d69251d94e87832dd000cb0ca5a5fd60cb78e5c44ccf7a2e8c97eb6",
+        "bytes": 305372241
+      },
+      {
+        "alias": "demo-773d35699f83bc3301f6",
+        "sha256": "773d35699f83bc3301f629a7b1fe90dbb45cf22a99b4d34886c5563928b386d9",
+        "bytes": 247208070
+      },
+      {
+        "alias": "demo-7d26c630af0a2b3adf74",
+        "sha256": "7d26c630af0a2b3adf740bf018567f468f125c80629a0ec668b852f6a5520861",
+        "bytes": 285907831
+      },
+      {
+        "alias": "demo-b9c9fef71f986463531e",
+        "sha256": "b9c9fef71f986463531e5b54ef2d73890f6c8480cefed6f7fbc945d14cf3401d",
+        "bytes": 270657108
+      },
+      {
+        "alias": "demo-7fd8da160b9b9a79fb37",
+        "sha256": "7fd8da160b9b9a79fb375676db985a7cc998e06cc1893f909c73ea2db4e096e4",
+        "bytes": 296091838
+      },
+      {
+        "alias": "demo-e4588db759c3e388a28a",
+        "sha256": "e4588db759c3e388a28aac745c6effd3aef21357f1fd0751df84c6be724b3a9f",
+        "bytes": 228959821
+      },
+      {
+        "alias": "demo-445ee754fdf13603d665",
+        "sha256": "445ee754fdf13603d665bfdde67b90514d2c8d48b2a6a3f8a3594c00b0a6067b",
+        "bytes": 249303933
+      },
+      {
+        "alias": "demo-9878534630a68b998f43",
+        "sha256": "9878534630a68b998f4315810be4f434f75d467549d3e903974d9d3060b543b0",
+        "bytes": 254129812
+      },
+      {
+        "alias": "demo-69fe05d62448487164c6",
+        "sha256": "69fe05d62448487164c69057baa2e2970873922c83541cb0c70e7bd8802ae728",
+        "bytes": 210444757
+      },
+      {
+        "alias": "demo-97d87a091be835f01f5a",
+        "sha256": "97d87a091be835f01f5a8485546733913877756033fd4fe016bacb202c3395c6",
+        "bytes": 239956852
+      },
+      {
+        "alias": "demo-560a3000210e30e6feb9",
+        "sha256": "560a3000210e30e6feb9d00b51a1165d850166f797368e6294ffb192116d3bb7",
+        "bytes": 256271637
+      },
+      {
+        "alias": "demo-ad48bf05c36fef00f8d4",
+        "sha256": "ad48bf05c36fef00f8d4ab1377dd793b26ffeb3bd162639511a853a792a8f644",
+        "bytes": 194422063
+      },
+      {
+        "alias": "demo-d1cf31896e6dd93b68da",
+        "sha256": "d1cf31896e6dd93b68dafa341e4e7d145bc7ab082a4b5ad30404cc2f1063d8cc",
+        "bytes": 310379150
+      },
+      {
+        "alias": "demo-86ce234795e3d55bb95b",
+        "sha256": "86ce234795e3d55bb95b96d8917df87b2b738478745f2a5a49e884dacc15a786",
+        "bytes": 369021423
+      },
+      {
+        "alias": "demo-1028fce95708dda309ae",
+        "sha256": "1028fce95708dda309ae71d25b814dffd931c152dc6f6b72bb8e0d5d1c840f3c",
+        "bytes": 342432379
+      },
+      {
+        "alias": "demo-7949b6da7301dce89ab3",
+        "sha256": "7949b6da7301dce89ab349ad56f73cc4b00b051f97dc6db1301b195bafe650a4",
+        "bytes": 307980260
+      },
+      {
+        "alias": "demo-4808a5438ee9f991fa68",
+        "sha256": "4808a5438ee9f991fa683624a12676fd0907d8a522928e6107263e848e9071ea",
+        "bytes": 247853697
+      },
+      {
+        "alias": "demo-f3897b8116e8a23e3715",
+        "sha256": "f3897b8116e8a23e371590f90ae4e5b010fe8062635822bc9c33716de5419649",
+        "bytes": 329191117
+      },
+      {
+        "alias": "demo-f54b0f4d05b728a7b82a",
+        "sha256": "f54b0f4d05b728a7b82abe08b3bedd369a55cb9667cce0802c693ff7eecf56c4",
+        "bytes": 216875489
+      },
+      {
+        "alias": "demo-08c5b544a3e0fdbf0291",
+        "sha256": "08c5b544a3e0fdbf02913431b4281a6d2720cbaf01c96e792b4ef32de5963f08",
+        "bytes": 239733433
+      },
+      {
+        "alias": "demo-7fea6dde5c22b71c8425",
+        "sha256": "7fea6dde5c22b71c8425cfebe3ab5b558939166d569968a8192bbadc84c06039",
+        "bytes": 207539019
+      },
+      {
+        "alias": "demo-e21b1788b82df945ee92",
+        "sha256": "e21b1788b82df945ee924b980f42e8585f86584ba22f7da5dc74a6a24f3de2ba",
+        "bytes": 286107359
+      },
+      {
+        "alias": "demo-066944f5acb806ba5f81",
+        "sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+        "bytes": 238916567
+      },
+      {
+        "alias": "demo-e8daa09c10ea0fbf5742",
+        "sha256": "e8daa09c10ea0fbf574267d3d8b46f56b0d43afe241431a744ec74e7806b4534",
+        "bytes": 271416876
+      },
+      {
+        "alias": "demo-0b4af44ba9eebdb69a6b",
+        "sha256": "0b4af44ba9eebdb69a6beb0a4ae1c3a9aa70ec72f73ad8152ab88d0654923f9c",
+        "bytes": 289161849
+      },
+      {
+        "alias": "demo-faf95fc7bbdef87473b6",
+        "sha256": "faf95fc7bbdef87473b695fdfd5446c180fbca2253ffa65267a2be6b387cabca",
+        "bytes": 311429886
+      },
+      {
+        "alias": "demo-320fc58d45f8c8ca7f03",
+        "sha256": "320fc58d45f8c8ca7f0320c998e1a33399ac3cb84171f625b53665848d0efb7e",
+        "bytes": 242097615
+      },
+      {
+        "alias": "demo-cab5667cb4c8e0e77c34",
+        "sha256": "cab5667cb4c8e0e77c349d5832a4be235b50005c6bc87f5179f614ea743de78a",
+        "bytes": 262829167
+      },
+      {
+        "alias": "demo-d88bdfaf6b87ae48c84f",
+        "sha256": "d88bdfaf6b87ae48c84f6930bedbac284da73403cb5e6e328be80d23c3962551",
+        "bytes": 298772279
+      },
+      {
+        "alias": "demo-045df2521c790a7d8a69",
+        "sha256": "045df2521c790a7d8a690272208ab8f14a24f6f5493dadeb670e75d157598fa4",
+        "bytes": 261335893
+      },
+      {
+        "alias": "demo-fd7ff4a779cff305d79b",
+        "sha256": "fd7ff4a779cff305d79b8586eff75ccdbb323a6a3bae307ae0e2b47af84743ba",
+        "bytes": 279604437
+      },
+      {
+        "alias": "demo-68955f754119bfcd6c1c",
+        "sha256": "68955f754119bfcd6c1c5476545bc02cba6a5228d2ff01f72d06387c40762905",
+        "bytes": 222527067
+      },
+      {
+        "alias": "demo-a1b04b7f0c43acd728c9",
+        "sha256": "a1b04b7f0c43acd728c9fc0163d7b8011885881d6e7f38a2a1831bc1d99d6924",
+        "bytes": 247923403
+      }
+    ],
+    "remaining_pool_is_not_yet_an_independent_sealed_test": true,
+    "downloads": false,
+    "promotion": false,
+    "training": false
+  },
+  "matches": [
+    {
+      "alias": "demo-a11eb0d600ee702c9edb",
+      "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "bytes": 330945844,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0",
+      "seconds": {
+        "parse": 75.348,
+        "generation": 64.729,
+        "reader": 66.472,
+        "independent_audit": 18.641
+      },
+      "counts": {
+        "active_weapon:observed:present": 204851,
+        "active_weapon:unavailable:cut_unavailable": 8573,
+        "active_weapon:unavailable:not_alive": 92843,
+        "active_weapon:unavailable:weapon_identity_unavailable": 473,
+        "actors": 306740,
+        "alive:observed:present": 306740,
+        "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+        "ammo_in_magazine:observed:present": 132405,
+        "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+        "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+        "ammo_in_magazine:unavailable:not_alive": 92843,
+        "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+        "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+        "ammo_reserve:observed:present": 132724,
+        "ammo_reserve:unavailable:cut_unavailable": 8573,
+        "ammo_reserve:unavailable:not_alive": 92843,
+        "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+        "ducking:observed:present": 205324,
+        "ducking:unavailable:cut_unavailable": 8573,
+        "ducking:unavailable:not_alive": 92843,
+        "excluded:cut_unavailable": 8573,
+        "excluded:none": 205324,
+        "excluded:not_alive": 92843,
+        "has_c4:observed:present": 205324,
+        "has_c4:unavailable:cut_unavailable": 8573,
+        "has_c4:unavailable:not_alive": 92843,
+        "hypotheses_unavailable": 245728,
+        "missing_previous_actors": 11,
+        "position:observed:present": 205324,
+        "position:unavailable:cut_unavailable": 8573,
+        "position:unavailable:not_alive": 92843,
+        "records": 61432,
+        "reloading:not_applicable:non_ammunition_weapon": 72127,
+        "reloading:observed:present": 131136,
+        "reloading:unavailable:cut_unavailable": 8573,
+        "reloading:unavailable:not_alive": 92843,
+        "reloading:unavailable:reload_signal_unavailable": 1588,
+        "reloading:unavailable:weapon_identity_unavailable": 473,
+        "sampled_displacement:observed:present": 205045,
+        "sampled_displacement:unavailable:no_previous_sample": 9,
+        "sampled_displacement:unavailable:not_alive": 162,
+        "sampled_displacement:unavailable:previous_actor_unavailable": 73971,
+        "sampled_displacement:unavailable:sample_gap_or_boundary": 27553,
+        "view_angles:observed:present": 205324,
+        "view_angles:unavailable:cut_unavailable": 8573,
+        "view_angles:unavailable:not_alive": 92843,
+        "walking:observed:present": 205324,
+        "walking:unavailable:cut_unavailable": 8573,
+        "walking:unavailable:not_alive": 92843
+      },
+      "independent_audit": {
+        "ok": true,
+        "seconds": 18.641,
+        "counts": {
+          "independently_checked_positions": 205324,
+          "independently_checked_alive": 306740,
+          "independently_checked_physical_facts": 1217088,
+          "independently_checked_C4_negative": 191554,
+          "actor_cuts": 306740,
+          "records": 61432,
+          "independently_recomputed_displacements": 205045,
+          "zero_displacements": 37150,
+          "nonzero_displacements": 167895,
+          "independently_checked_C4_positive": 13770
+        },
+        "variants": {
+          "active_weapon:observed:present": 204851,
+          "active_weapon:unavailable:cut_unavailable": 8573,
+          "active_weapon:unavailable:not_alive": 92843,
+          "active_weapon:unavailable:weapon_identity_unavailable": 473,
+          "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+          "ammo_in_magazine:observed:present": 132405,
+          "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+          "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+          "ammo_in_magazine:unavailable:not_alive": 92843,
+          "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+          "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+          "ammo_reserve:observed:present": 132724,
+          "ammo_reserve:unavailable:cut_unavailable": 8573,
+          "ammo_reserve:unavailable:not_alive": 92843,
+          "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+          "displacement:observed:present": 205045,
+          "displacement:unavailable:no_previous_sample": 9,
+          "displacement:unavailable:not_alive": 162,
+          "displacement:unavailable:previous_actor_unavailable": 73971,
+          "displacement:unavailable:sample_gap_or_boundary": 27553,
+          "ducking:observed:present": 205324,
+          "ducking:unavailable:cut_unavailable": 8573,
+          "ducking:unavailable:not_alive": 92843,
+          "has_c4:observed:False:present": 191554,
+          "has_c4:observed:True:present": 13770,
+          "has_c4:unavailable:None:cut_unavailable": 8573,
+          "has_c4:unavailable:None:not_alive": 92843,
+          "reloading:not_applicable:non_ammunition_weapon": 72127,
+          "reloading:observed:present": 131136,
+          "reloading:unavailable:cut_unavailable": 8573,
+          "reloading:unavailable:not_alive": 92843,
+          "reloading:unavailable:reload_signal_unavailable": 1588,
+          "reloading:unavailable:weapon_identity_unavailable": 473,
+          "view_angles:observed:present": 205324,
+          "view_angles:unavailable:cut_unavailable": 8573,
+          "view_angles:unavailable:not_alive": 92843,
+          "walking:observed:present": 205324,
+          "walking:unavailable:cut_unavailable": 8573,
+          "walking:unavailable:not_alive": 92843
+        },
+        "known_cases": {
+          "K1": {
+            "tick": 8524,
+            "record_id": "12d0466463bc20e3b1665b673c07db55ac0eab6544764071461e6ab61f4caad2",
+            "players": [
+              {
+                "alias": "T1",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T2",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T3",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T4",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": true
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T5",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Smoke Grenade"
+                }
+              }
+            ],
+            "human_answer_used_as_input": false,
+            "tactical_plan": "unknown",
+            "known_development_not_independent_evaluation": true
+          },
+          "K2": {
+            "tick": 8636,
+            "record_id": "0f70d0f688affd81c3d1bad3e60b1519802300956665b6d5051d0496605a2afd",
+            "players": [
+              {
+                "alias": "T1",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T2",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T3",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T4",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": true
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Glock-18"
+                }
+              },
+              {
+                "alias": "T5",
+                "position_matches": true,
+                "C4": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": false
+                },
+                "weapon": {
+                  "reason": null,
+                  "status": "observed",
+                  "value": "Smoke Grenade"
+                }
+              }
+            ],
+            "human_answer_used_as_input": false,
+            "tactical_plan": "unknown",
+            "known_development_not_independent_evaluation": true
+          }
+        },
+        "limits": [
+          "No physical route, legal enemy perception, intent, tactical superiority or independent evaluation accredited.",
+          "Real coverage is limited to variants present in this match; adversarial absences are regression fixtures."
+        ]
+      },
+      "commands": {
+        "producer": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\demo-a11eb0d600ee702c9edb.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture",
+            "--alias",
+            "demo-a11eb0d600ee702c9edb",
+            "--checksum",
+            "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-temporal-performance-20260922",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "exit_code": 0,
+          "seconds": 75.348,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\producer.log"
+        },
+        "materialize": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 64.729,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\materialize.log"
+        },
+        "validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 66.472,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\validate.log"
+        }
+      },
+      "manifest_sha256": "82352c2f14c904b0c55be405fde0d58a939e0dcd83db89fd9ffccec12faaf8fd",
+      "ledger_sha256": "d3a10c9ba5bdefe84e8a24ec55640a3a7f5e035d3fea43f3aaaae0d1997c479d"
+    },
+    {
+      "alias": "demo-5bdb2dac2277dd9463ac",
+      "sha256": "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+      "bytes": 192768529,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac",
+      "seconds": {
+        "parse": 44.93,
+        "generation": 38.038,
+        "reader": 38.8,
+        "independent_audit": 11.787
+      },
+      "counts": {
+        "active_weapon:observed:present": 119232,
+        "active_weapon:unavailable:cut_unavailable": 5873,
+        "active_weapon:unavailable:disconnected": 30,
+        "active_weapon:unavailable:not_alive": 48146,
+        "actors": 173281,
+        "alive:observed:present": 173251,
+        "alive:unavailable:disconnected": 30,
+        "ammo_in_magazine:not_applicable:non_ammunition_weapon": 39061,
+        "ammo_in_magazine:observed:present": 79800,
+        "ammo_in_magazine:unavailable:cut_unavailable": 5873,
+        "ammo_in_magazine:unavailable:disconnected": 30,
+        "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 371,
+        "ammo_in_magazine:unavailable:not_alive": 48146,
+        "ammo_reserve:not_applicable:non_ammunition_weapon": 39061,
+        "ammo_reserve:observed:present": 80171,
+        "ammo_reserve:unavailable:cut_unavailable": 5873,
+        "ammo_reserve:unavailable:disconnected": 30,
+        "ammo_reserve:unavailable:not_alive": 48146,
+        "ducking:observed:present": 119232,
+        "ducking:unavailable:cut_unavailable": 5873,
+        "ducking:unavailable:disconnected": 30,
+        "ducking:unavailable:not_alive": 48146,
+        "excluded:cut_unavailable": 5873,
+        "excluded:disconnected": 30,
+        "excluded:none": 119232,
+        "excluded:not_alive": 48146,
+        "has_c4:observed:present": 119232,
+        "has_c4:unavailable:cut_unavailable": 5873,
+        "has_c4:unavailable:disconnected": 30,
+        "has_c4:unavailable:not_alive": 48146,
+        "hypotheses_unavailable": 139704,
+        "missing_previous_actors": 2,
+        "position:observed:present": 119232,
+        "position:unavailable:cut_unavailable": 5873,
+        "position:unavailable:disconnected": 30,
+        "position:unavailable:not_alive": 48146,
+        "records": 34926,
+        "reloading:not_applicable:non_ammunition_weapon": 39061,
+        "reloading:observed:present": 79264,
+        "reloading:unavailable:cut_unavailable": 5873,
+        "reloading:unavailable:disconnected": 30,
+        "reloading:unavailable:not_alive": 48146,
+        "reloading:unavailable:reload_signal_unavailable": 907,
+        "sampled_displacement:observed:present": 119043,
+        "sampled_displacement:unavailable:no_previous_sample": 10,
+        "sampled_displacement:unavailable:not_alive": 110,
+        "sampled_displacement:unavailable:previous_actor_unavailable": 34703,
+        "sampled_displacement:unavailable:sample_gap_or_boundary": 19415,
+        "view_angles:observed:present": 119232,
+        "view_angles:unavailable:cut_unavailable": 5873,
+        "view_angles:unavailable:disconnected": 30,
+        "view_angles:unavailable:not_alive": 48146,
+        "walking:observed:present": 119232,
+        "walking:unavailable:cut_unavailable": 5873,
+        "walking:unavailable:disconnected": 30,
+        "walking:unavailable:not_alive": 48146
+      },
+      "independent_audit": {
+        "ok": true,
+        "seconds": 11.787,
+        "counts": {
+          "reference_schema_rows": 166,
+          "independently_checked_positions": 119232,
+          "independently_checked_alive": 173251,
+          "independently_checked_physical_facts": 716163,
+          "independently_checked_C4_negative": 108385,
+          "actor_cuts": 173281,
+          "records": 34926,
+          "independently_recomputed_displacements": 119043,
+          "nonzero_displacements": 105204,
+          "zero_displacements": 13839,
+          "independently_checked_C4_positive": 10847
+        },
+        "variants": {
+          "active_weapon:observed:present": 119232,
+          "active_weapon:unavailable:cut_unavailable": 5873,
+          "active_weapon:unavailable:disconnected": 30,
+          "active_weapon:unavailable:not_alive": 48146,
+          "ammo_in_magazine:not_applicable:non_ammunition_weapon": 39061,
+          "ammo_in_magazine:observed:present": 79800,
+          "ammo_in_magazine:unavailable:cut_unavailable": 5873,
+          "ammo_in_magazine:unavailable:disconnected": 30,
+          "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 371,
+          "ammo_in_magazine:unavailable:not_alive": 48146,
+          "ammo_reserve:not_applicable:non_ammunition_weapon": 39061,
+          "ammo_reserve:observed:present": 80171,
+          "ammo_reserve:unavailable:cut_unavailable": 5873,
+          "ammo_reserve:unavailable:disconnected": 30,
+          "ammo_reserve:unavailable:not_alive": 48146,
+          "displacement:observed:present": 119043,
+          "displacement:unavailable:no_previous_sample": 10,
+          "displacement:unavailable:not_alive": 110,
+          "displacement:unavailable:previous_actor_unavailable": 34703,
+          "displacement:unavailable:sample_gap_or_boundary": 19415,
+          "ducking:observed:present": 119232,
+          "ducking:unavailable:cut_unavailable": 5873,
+          "ducking:unavailable:disconnected": 30,
+          "ducking:unavailable:not_alive": 48146,
+          "has_c4:observed:False:present": 108385,
+          "has_c4:observed:True:present": 10847,
+          "has_c4:unavailable:None:cut_unavailable": 5873,
+          "has_c4:unavailable:None:disconnected": 30,
+          "has_c4:unavailable:None:not_alive": 48146,
+          "reloading:not_applicable:non_ammunition_weapon": 39061,
+          "reloading:observed:present": 79264,
+          "reloading:unavailable:cut_unavailable": 5873,
+          "reloading:unavailable:disconnected": 30,
+          "reloading:unavailable:not_alive": 48146,
+          "reloading:unavailable:reload_signal_unavailable": 907,
+          "view_angles:observed:present": 119232,
+          "view_angles:unavailable:cut_unavailable": 5873,
+          "view_angles:unavailable:disconnected": 30,
+          "view_angles:unavailable:not_alive": 48146,
+          "walking:observed:present": 119232,
+          "walking:unavailable:cut_unavailable": 5873,
+          "walking:unavailable:disconnected": 30,
+          "walking:unavailable:not_alive": 48146
+        },
+        "source_alias": "demo-5bdb2dac2277dd9463ac",
+        "source_sha256": "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+        "tactical_accuracy_evaluated": false
+      },
+      "commands": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\demo-5bdb2dac2277dd9463ac.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\capture",
+            "--alias",
+            "demo-5bdb2dac2277dd9463ac",
+            "--checksum",
+            "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-temporal-performance-20260922",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "exit_code": 0,
+          "seconds": 44.93,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-5bdb2dac2277dd9463ac-parse.log"
+        },
+        "materialize": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\capture\\smoke_run_demo-5bdb2dac2277dd9463ac",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 38.038,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-5bdb2dac2277dd9463ac-materialize.log"
+        },
+        "validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\capture\\smoke_run_demo-5bdb2dac2277dd9463ac",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 38.8,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-5bdb2dac2277dd9463ac-validate.log"
+        },
+        "audit": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\audit_sample.py",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\capture\\smoke_run_demo-5bdb2dac2277dd9463ac",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\ledger",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-5bdb2dac2277dd9463ac-audit-result.json"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 12.561,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-5bdb2dac2277dd9463ac-audit.log"
+        }
+      },
+      "manifest_sha256": "c8db48d6c2ba4500f5a92ea1919a19cbbcee4136ee031e90cb6c6bdd46c614bf",
+      "ledger_sha256": "0a316704a02a5af14bbb7e85e984d7fbf81c77fcebc49fea4ed9e41a8fe2125f"
+    },
+    {
+      "alias": "demo-381bbf14c9ccd5693047",
+      "sha256": "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+      "bytes": 246273552,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047",
+      "seconds": {
+        "parse": 60.326,
+        "generation": 49.473,
+        "reader": 51.346,
+        "independent_audit": 15.91
+      },
+      "counts": {
+        "active_weapon:observed:present": 150863,
+        "active_weapon:unavailable:cut_unavailable": 7177,
+        "active_weapon:unavailable:not_alive": 74918,
+        "actors": 232958,
+        "alive:observed:present": 232958,
+        "ammo_in_magazine:not_applicable:non_ammunition_weapon": 55931,
+        "ammo_in_magazine:observed:present": 94798,
+        "ammo_in_magazine:unavailable:cut_unavailable": 7177,
+        "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 134,
+        "ammo_in_magazine:unavailable:not_alive": 74918,
+        "ammo_reserve:not_applicable:non_ammunition_weapon": 55931,
+        "ammo_reserve:observed:present": 94932,
+        "ammo_reserve:unavailable:cut_unavailable": 7177,
+        "ammo_reserve:unavailable:not_alive": 74918,
+        "ducking:observed:present": 150863,
+        "ducking:unavailable:cut_unavailable": 7177,
+        "ducking:unavailable:not_alive": 74918,
+        "excluded:cut_unavailable": 7177,
+        "excluded:none": 150863,
+        "excluded:not_alive": 74918,
+        "has_c4:observed:present": 150863,
+        "has_c4:unavailable:cut_unavailable": 7177,
+        "has_c4:unavailable:not_alive": 74918,
+        "hypotheses_unavailable": 186864,
+        "missing_previous_actors": 1,
+        "position:observed:present": 150863,
+        "position:unavailable:cut_unavailable": 7177,
+        "position:unavailable:not_alive": 74918,
+        "records": 46716,
+        "reloading:not_applicable:non_ammunition_weapon": 55931,
+        "reloading:observed:present": 93708,
+        "reloading:unavailable:cut_unavailable": 7177,
+        "reloading:unavailable:not_alive": 74918,
+        "reloading:unavailable:reload_signal_unavailable": 1224,
+        "sampled_displacement:observed:present": 150643,
+        "sampled_displacement:unavailable:no_previous_sample": 10,
+        "sampled_displacement:unavailable:not_alive": 139,
+        "sampled_displacement:unavailable:previous_actor_unavailable": 57966,
+        "sampled_displacement:unavailable:sample_gap_or_boundary": 24200,
+        "view_angles:observed:present": 150863,
+        "view_angles:unavailable:cut_unavailable": 7177,
+        "view_angles:unavailable:not_alive": 74918,
+        "walking:observed:present": 150863,
+        "walking:unavailable:cut_unavailable": 7177,
+        "walking:unavailable:not_alive": 74918
+      },
+      "independent_audit": {
+        "ok": true,
+        "seconds": 15.91,
+        "counts": {
+          "reference_schema_rows": 222,
+          "independently_checked_positions": 150863,
+          "independently_checked_alive": 232958,
+          "independently_checked_physical_facts": 886890,
+          "independently_checked_C4_negative": 139788,
+          "actor_cuts": 232958,
+          "records": 46716,
+          "independently_recomputed_displacements": 150643,
+          "nonzero_displacements": 133285,
+          "zero_displacements": 17358,
+          "independently_checked_C4_positive": 11075
+        },
+        "variants": {
+          "active_weapon:observed:present": 150863,
+          "active_weapon:unavailable:cut_unavailable": 7177,
+          "active_weapon:unavailable:not_alive": 74918,
+          "ammo_in_magazine:not_applicable:non_ammunition_weapon": 55931,
+          "ammo_in_magazine:observed:present": 94798,
+          "ammo_in_magazine:unavailable:cut_unavailable": 7177,
+          "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 134,
+          "ammo_in_magazine:unavailable:not_alive": 74918,
+          "ammo_reserve:not_applicable:non_ammunition_weapon": 55931,
+          "ammo_reserve:observed:present": 94932,
+          "ammo_reserve:unavailable:cut_unavailable": 7177,
+          "ammo_reserve:unavailable:not_alive": 74918,
+          "displacement:observed:present": 150643,
+          "displacement:unavailable:no_previous_sample": 10,
+          "displacement:unavailable:not_alive": 139,
+          "displacement:unavailable:previous_actor_unavailable": 57966,
+          "displacement:unavailable:sample_gap_or_boundary": 24200,
+          "ducking:observed:present": 150863,
+          "ducking:unavailable:cut_unavailable": 7177,
+          "ducking:unavailable:not_alive": 74918,
+          "has_c4:observed:False:present": 139788,
+          "has_c4:observed:True:present": 11075,
+          "has_c4:unavailable:None:cut_unavailable": 7177,
+          "has_c4:unavailable:None:not_alive": 74918,
+          "reloading:not_applicable:non_ammunition_weapon": 55931,
+          "reloading:observed:present": 93708,
+          "reloading:unavailable:cut_unavailable": 7177,
+          "reloading:unavailable:not_alive": 74918,
+          "reloading:unavailable:reload_signal_unavailable": 1224,
+          "view_angles:observed:present": 150863,
+          "view_angles:unavailable:cut_unavailable": 7177,
+          "view_angles:unavailable:not_alive": 74918,
+          "walking:observed:present": 150863,
+          "walking:unavailable:cut_unavailable": 7177,
+          "walking:unavailable:not_alive": 74918
+        },
+        "source_alias": "demo-381bbf14c9ccd5693047",
+        "source_sha256": "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+        "tactical_accuracy_evaluated": false
+      },
+      "commands": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\demo-381bbf14c9ccd5693047.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\capture",
+            "--alias",
+            "demo-381bbf14c9ccd5693047",
+            "--checksum",
+            "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-temporal-performance-20260922",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "exit_code": 0,
+          "seconds": 60.326,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-381bbf14c9ccd5693047-parse.log"
+        },
+        "materialize": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\capture\\smoke_run_demo-381bbf14c9ccd5693047",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 49.473,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-381bbf14c9ccd5693047-materialize.log"
+        },
+        "validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\capture\\smoke_run_demo-381bbf14c9ccd5693047",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 51.346,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-381bbf14c9ccd5693047-validate.log"
+        },
+        "audit": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\audit_sample.py",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\capture\\smoke_run_demo-381bbf14c9ccd5693047",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\ledger",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-381bbf14c9ccd5693047-audit-result.json"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 16.896,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-381bbf14c9ccd5693047-audit.log"
+        }
+      },
+      "manifest_sha256": "fffa3c60fce8a5ab04d64fd539c024a074e1ff9e225073ee537543a290f2b3e9",
+      "ledger_sha256": "bb7d90f24a28be144590a959591b402673a3c3a098654f8b38b534cd388d7072"
+    },
+    {
+      "alias": "demo-310597a1cb8f27f26c55",
+      "sha256": "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+      "bytes": 283832820,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55",
+      "seconds": {
+        "parse": 63.507,
+        "generation": 53.357,
+        "reader": 53.991,
+        "independent_audit": 16.445
+      },
+      "counts": {
+        "active_weapon:observed:present": 159838,
+        "active_weapon:unavailable:cut_unavailable": 7738,
+        "active_weapon:unavailable:not_alive": 76269,
+        "actors": 243845,
+        "alive:observed:present": 243845,
+        "ammo_in_magazine:not_applicable:non_ammunition_weapon": 58506,
+        "ammo_in_magazine:observed:present": 101064,
+        "ammo_in_magazine:unavailable:cut_unavailable": 7738,
+        "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 268,
+        "ammo_in_magazine:unavailable:not_alive": 76269,
+        "ammo_reserve:not_applicable:non_ammunition_weapon": 58506,
+        "ammo_reserve:observed:present": 101332,
+        "ammo_reserve:unavailable:cut_unavailable": 7738,
+        "ammo_reserve:unavailable:not_alive": 76269,
+        "ducking:observed:present": 159838,
+        "ducking:unavailable:cut_unavailable": 7738,
+        "ducking:unavailable:not_alive": 76269,
+        "excluded:cut_unavailable": 7738,
+        "excluded:none": 159838,
+        "excluded:not_alive": 76269,
+        "has_c4:observed:present": 159838,
+        "has_c4:unavailable:cut_unavailable": 7738,
+        "has_c4:unavailable:not_alive": 76269,
+        "hypotheses_unavailable": 197128,
+        "missing_previous_actors": 6,
+        "position:observed:present": 159838,
+        "position:unavailable:cut_unavailable": 7738,
+        "position:unavailable:not_alive": 76269,
+        "records": 49282,
+        "reloading:not_applicable:non_ammunition_weapon": 58506,
+        "reloading:observed:present": 99343,
+        "reloading:unavailable:cut_unavailable": 7738,
+        "reloading:unavailable:not_alive": 76269,
+        "reloading:unavailable:reload_signal_unavailable": 1989,
+        "sampled_displacement:observed:present": 159595,
+        "sampled_displacement:unavailable:no_previous_sample": 10,
+        "sampled_displacement:unavailable:not_alive": 143,
+        "sampled_displacement:unavailable:previous_actor_unavailable": 59177,
+        "sampled_displacement:unavailable:sample_gap_or_boundary": 24920,
+        "view_angles:observed:present": 159838,
+        "view_angles:unavailable:cut_unavailable": 7738,
+        "view_angles:unavailable:not_alive": 76269,
+        "walking:observed:present": 159838,
+        "walking:unavailable:cut_unavailable": 7738,
+        "walking:unavailable:not_alive": 76269
+      },
+      "independent_audit": {
+        "ok": true,
+        "seconds": 16.445,
+        "counts": {
+          "reference_schema_rows": 234,
+          "independently_checked_positions": 159838,
+          "independently_checked_alive": 243845,
+          "independently_checked_physical_facts": 941091,
+          "independently_checked_C4_negative": 150552,
+          "actor_cuts": 243845,
+          "records": 49282,
+          "independently_recomputed_displacements": 159595,
+          "nonzero_displacements": 137962,
+          "zero_displacements": 21633,
+          "independently_checked_C4_positive": 9286
+        },
+        "variants": {
+          "active_weapon:observed:present": 159838,
+          "active_weapon:unavailable:cut_unavailable": 7738,
+          "active_weapon:unavailable:not_alive": 76269,
+          "ammo_in_magazine:not_applicable:non_ammunition_weapon": 58506,
+          "ammo_in_magazine:observed:present": 101064,
+          "ammo_in_magazine:unavailable:cut_unavailable": 7738,
+          "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 268,
+          "ammo_in_magazine:unavailable:not_alive": 76269,
+          "ammo_reserve:not_applicable:non_ammunition_weapon": 58506,
+          "ammo_reserve:observed:present": 101332,
+          "ammo_reserve:unavailable:cut_unavailable": 7738,
+          "ammo_reserve:unavailable:not_alive": 76269,
+          "displacement:observed:present": 159595,
+          "displacement:unavailable:no_previous_sample": 10,
+          "displacement:unavailable:not_alive": 143,
+          "displacement:unavailable:previous_actor_unavailable": 59177,
+          "displacement:unavailable:sample_gap_or_boundary": 24920,
+          "ducking:observed:present": 159838,
+          "ducking:unavailable:cut_unavailable": 7738,
+          "ducking:unavailable:not_alive": 76269,
+          "has_c4:observed:False:present": 150552,
+          "has_c4:observed:True:present": 9286,
+          "has_c4:unavailable:None:cut_unavailable": 7738,
+          "has_c4:unavailable:None:not_alive": 76269,
+          "reloading:not_applicable:non_ammunition_weapon": 58506,
+          "reloading:observed:present": 99343,
+          "reloading:unavailable:cut_unavailable": 7738,
+          "reloading:unavailable:not_alive": 76269,
+          "reloading:unavailable:reload_signal_unavailable": 1989,
+          "view_angles:observed:present": 159838,
+          "view_angles:unavailable:cut_unavailable": 7738,
+          "view_angles:unavailable:not_alive": 76269,
+          "walking:observed:present": 159838,
+          "walking:unavailable:cut_unavailable": 7738,
+          "walking:unavailable:not_alive": 76269
+        },
+        "source_alias": "demo-310597a1cb8f27f26c55",
+        "source_sha256": "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+        "tactical_accuracy_evaluated": false
+      },
+      "commands": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\demo-310597a1cb8f27f26c55.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\capture",
+            "--alias",
+            "demo-310597a1cb8f27f26c55",
+            "--checksum",
+            "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-temporal-performance-20260922",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "exit_code": 0,
+          "seconds": 63.507,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-310597a1cb8f27f26c55-parse.log"
+        },
+        "materialize": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\capture\\smoke_run_demo-310597a1cb8f27f26c55",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 53.357,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-310597a1cb8f27f26c55-materialize.log"
+        },
+        "validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\capture\\smoke_run_demo-310597a1cb8f27f26c55",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 53.991,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-310597a1cb8f27f26c55-validate.log"
+        },
+        "audit": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\audit_sample.py",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\capture\\smoke_run_demo-310597a1cb8f27f26c55",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\ledger",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-310597a1cb8f27f26c55-audit-result.json"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 17.461,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-310597a1cb8f27f26c55-audit.log"
+        }
+      },
+      "manifest_sha256": "ef7b2f99318f45bd989a49a3e1e1e47cdec634cc087bdba477693e75b9a030fa",
+      "ledger_sha256": "0a4cd8a1a4aaa72c433535fd015100910af49e490d76ae66a1803567d7929cc2"
+    },
+    {
+      "alias": "demo-6e4a3660d53931747fa8",
+      "sha256": "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+      "bytes": 435771464,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8",
+      "seconds": {
+        "parse": 101.866,
+        "generation": 84.085,
+        "reader": 85.472,
+        "independent_audit": 26.208
+      },
+      "counts": {
+        "active_weapon:observed:present": 252294,
+        "active_weapon:unavailable:cut_unavailable": 9629,
+        "active_weapon:unavailable:not_alive": 135758,
+        "actors": 397681,
+        "alive:observed:present": 397681,
+        "ammo_in_magazine:not_applicable:non_ammunition_weapon": 92761,
+        "ammo_in_magazine:observed:present": 158931,
+        "ammo_in_magazine:unavailable:cut_unavailable": 9629,
+        "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 602,
+        "ammo_in_magazine:unavailable:not_alive": 135758,
+        "ammo_reserve:not_applicable:non_ammunition_weapon": 92761,
+        "ammo_reserve:observed:present": 159533,
+        "ammo_reserve:unavailable:cut_unavailable": 9629,
+        "ammo_reserve:unavailable:not_alive": 135758,
+        "ducking:observed:present": 252294,
+        "ducking:unavailable:cut_unavailable": 9629,
+        "ducking:unavailable:not_alive": 135758,
+        "excluded:cut_unavailable": 9629,
+        "excluded:none": 252294,
+        "excluded:not_alive": 135758,
+        "has_c4:observed:present": 252294,
+        "has_c4:unavailable:cut_unavailable": 9629,
+        "has_c4:unavailable:not_alive": 135758,
+        "hypotheses_unavailable": 318600,
+        "missing_previous_actors": 1,
+        "position:observed:present": 252294,
+        "position:unavailable:cut_unavailable": 9629,
+        "position:unavailable:not_alive": 135758,
+        "records": 79650,
+        "reloading:not_applicable:non_ammunition_weapon": 92761,
+        "reloading:observed:present": 156259,
+        "reloading:unavailable:cut_unavailable": 9629,
+        "reloading:unavailable:not_alive": 135758,
+        "reloading:unavailable:reload_signal_unavailable": 3274,
+        "sampled_displacement:observed:present": 251984,
+        "sampled_displacement:unavailable:no_previous_sample": 10,
+        "sampled_displacement:unavailable:not_alive": 199,
+        "sampled_displacement:unavailable:previous_actor_unavailable": 110703,
+        "sampled_displacement:unavailable:sample_gap_or_boundary": 34785,
+        "view_angles:observed:present": 252294,
+        "view_angles:unavailable:cut_unavailable": 9629,
+        "view_angles:unavailable:not_alive": 135758,
+        "walking:observed:present": 252294,
+        "walking:unavailable:cut_unavailable": 9629,
+        "walking:unavailable:not_alive": 135758
+      },
+      "independent_audit": {
+        "ok": true,
+        "seconds": 26.208,
+        "counts": {
+          "reference_schema_rows": 378,
+          "independently_checked_positions": 252294,
+          "independently_checked_alive": 397681,
+          "independently_checked_physical_facts": 1483899,
+          "independently_checked_C4_negative": 231581,
+          "actor_cuts": 397681,
+          "records": 79650,
+          "independently_recomputed_displacements": 251984,
+          "nonzero_displacements": 218638,
+          "zero_displacements": 33346,
+          "independently_checked_C4_positive": 20713
+        },
+        "variants": {
+          "active_weapon:observed:present": 252294,
+          "active_weapon:unavailable:cut_unavailable": 9629,
+          "active_weapon:unavailable:not_alive": 135758,
+          "ammo_in_magazine:not_applicable:non_ammunition_weapon": 92761,
+          "ammo_in_magazine:observed:present": 158931,
+          "ammo_in_magazine:unavailable:cut_unavailable": 9629,
+          "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 602,
+          "ammo_in_magazine:unavailable:not_alive": 135758,
+          "ammo_reserve:not_applicable:non_ammunition_weapon": 92761,
+          "ammo_reserve:observed:present": 159533,
+          "ammo_reserve:unavailable:cut_unavailable": 9629,
+          "ammo_reserve:unavailable:not_alive": 135758,
+          "displacement:observed:present": 251984,
+          "displacement:unavailable:no_previous_sample": 10,
+          "displacement:unavailable:not_alive": 199,
+          "displacement:unavailable:previous_actor_unavailable": 110703,
+          "displacement:unavailable:sample_gap_or_boundary": 34785,
+          "ducking:observed:present": 252294,
+          "ducking:unavailable:cut_unavailable": 9629,
+          "ducking:unavailable:not_alive": 135758,
+          "has_c4:observed:False:present": 231581,
+          "has_c4:observed:True:present": 20713,
+          "has_c4:unavailable:None:cut_unavailable": 9629,
+          "has_c4:unavailable:None:not_alive": 135758,
+          "reloading:not_applicable:non_ammunition_weapon": 92761,
+          "reloading:observed:present": 156259,
+          "reloading:unavailable:cut_unavailable": 9629,
+          "reloading:unavailable:not_alive": 135758,
+          "reloading:unavailable:reload_signal_unavailable": 3274,
+          "view_angles:observed:present": 252294,
+          "view_angles:unavailable:cut_unavailable": 9629,
+          "view_angles:unavailable:not_alive": 135758,
+          "walking:observed:present": 252294,
+          "walking:unavailable:cut_unavailable": 9629,
+          "walking:unavailable:not_alive": 135758
+        },
+        "source_alias": "demo-6e4a3660d53931747fa8",
+        "source_sha256": "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+        "tactical_accuracy_evaluated": false
+      },
+      "commands": {
+        "parse": {
+          "command": [
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\canonical-export.exe",
+            "--demo",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\demo-6e4a3660d53931747fa8.dem",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\capture",
+            "--alias",
+            "demo-6e4a3660d53931747fa8",
+            "--checksum",
+            "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+            "--maps-root",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+            "--build-id",
+            "working-tree-temporal-performance-20260922",
+            "--ai-coach-support-c4-candidate"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+          "exit_code": 0,
+          "seconds": 101.866,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-6e4a3660d53931747fa8-parse.log"
+        },
+        "materialize": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "materialize",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\capture\\smoke_run_demo-6e4a3660d53931747fa8",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 84.085,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-6e4a3660d53931747fa8-materialize.log"
+        },
+        "validate": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.interpretation.ledger_io",
+            "validate",
+            "--source",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\capture\\smoke_run_demo-6e4a3660d53931747fa8",
+            "--output",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\ledger"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 85.472,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-6e4a3660d53931747fa8-validate.log"
+        },
+        "audit": {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\audit_sample.py",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\capture\\smoke_run_demo-6e4a3660d53931747fa8",
+            "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\ledger",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-6e4a3660d53931747fa8-audit-result.json"
+          ],
+          "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+          "exit_code": 0,
+          "seconds": 27.768,
+          "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\demo-6e4a3660d53931747fa8-audit.log"
+        }
+      },
+      "manifest_sha256": "d04957b164e61f7a0045cc4721abd766cc28c5c420caf1f78954ab7265619bad",
+      "ledger_sha256": "2526c604da6a406819db562cfa6a5d8325573e1cd8fbc36e118f7437af977995"
+    }
+  ],
+  "counts": {
+    "active_weapon:observed:present": 887078,
+    "active_weapon:unavailable:cut_unavailable": 38990,
+    "active_weapon:unavailable:not_alive": 427934,
+    "active_weapon:unavailable:weapon_identity_unavailable": 473,
+    "actors": 1354505,
+    "alive:observed:present": 1354475,
+    "ammo_in_magazine:not_applicable:non_ammunition_weapon": 318386,
+    "ammo_in_magazine:observed:present": 566998,
+    "ammo_in_magazine:unavailable:cut_unavailable": 38990,
+    "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 1694,
+    "ammo_in_magazine:unavailable:not_alive": 427934,
+    "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+    "ammo_reserve:not_applicable:non_ammunition_weapon": 318386,
+    "ammo_reserve:observed:present": 568692,
+    "ammo_reserve:unavailable:cut_unavailable": 38990,
+    "ammo_reserve:unavailable:not_alive": 427934,
+    "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+    "ducking:observed:present": 887551,
+    "ducking:unavailable:cut_unavailable": 38990,
+    "ducking:unavailable:not_alive": 427934,
+    "excluded:cut_unavailable": 38990,
+    "excluded:none": 887551,
+    "excluded:not_alive": 427934,
+    "has_c4:observed:present": 887551,
+    "has_c4:unavailable:cut_unavailable": 38990,
+    "has_c4:unavailable:not_alive": 427934,
+    "hypotheses_unavailable": 1088024,
+    "missing_previous_actors": 21,
+    "position:observed:present": 887551,
+    "position:unavailable:cut_unavailable": 38990,
+    "position:unavailable:not_alive": 427934,
+    "records": 272006,
+    "reloading:not_applicable:non_ammunition_weapon": 318386,
+    "reloading:observed:present": 559710,
+    "reloading:unavailable:cut_unavailable": 38990,
+    "reloading:unavailable:not_alive": 427934,
+    "reloading:unavailable:reload_signal_unavailable": 8982,
+    "reloading:unavailable:weapon_identity_unavailable": 473,
+    "sampled_displacement:observed:present": 886310,
+    "sampled_displacement:unavailable:no_previous_sample": 49,
+    "sampled_displacement:unavailable:not_alive": 753,
+    "sampled_displacement:unavailable:previous_actor_unavailable": 336520,
+    "sampled_displacement:unavailable:sample_gap_or_boundary": 130873,
+    "view_angles:observed:present": 887551,
+    "view_angles:unavailable:cut_unavailable": 38990,
+    "view_angles:unavailable:not_alive": 427934,
+    "walking:observed:present": 887551,
+    "walking:unavailable:cut_unavailable": 38990,
+    "walking:unavailable:not_alive": 427934,
+    "active_weapon:unavailable:disconnected": 30,
+    "alive:unavailable:disconnected": 30,
+    "ammo_in_magazine:unavailable:disconnected": 30,
+    "ammo_reserve:unavailable:disconnected": 30,
+    "ducking:unavailable:disconnected": 30,
+    "excluded:disconnected": 30,
+    "has_c4:unavailable:disconnected": 30,
+    "position:unavailable:disconnected": 30,
+    "reloading:unavailable:disconnected": 30,
+    "view_angles:unavailable:disconnected": 30,
+    "walking:unavailable:disconnected": 30
+  },
+  "independent_counts": {
+    "independently_checked_positions": 887551,
+    "independently_checked_alive": 1354475,
+    "independently_checked_physical_facts": 5245131,
+    "independently_checked_C4_negative": 821860,
+    "actor_cuts": 1354505,
+    "records": 272006,
+    "independently_recomputed_displacements": 886310,
+    "zero_displacements": 123326,
+    "nonzero_displacements": 762984,
+    "independently_checked_C4_positive": 65691,
+    "reference_schema_rows": 1000
+  },
+  "generation_seconds_median": 53.357,
+  "timing_conditions": "Smoke measured on its own; additional matches ran with at most two concurrent pipelines. Reader and independent audit are offline development checks, reported separately.",
+  "protected_manifests_unchanged": 44,
+  "original_demo_checksums_verified": 44,
+  "inventory_sha256": "adfafe225428b4cc486cc3c6a94a2bec88b0f4d5bc70881ed9d58c637a3ee631",
+  "retained_evaluation_files": 308,
+  "retained_evaluation_bytes": 7055023388,
+  "tactical_accuracy_evaluated": false,
+  "training_examples_labeled": 0,
+  "trained_models": 0,
+  "eligible_capabilities_added": 0,
+  "steps": {
+    "performance": "complete",
+    "initial_multidemo_technical_evaluation": "complete",
+    "first_tactical_capability": "scope prepared; positive information-attribution and spatial sources still required",
+    "dataset_separation": "five known development matches; 39 reserve candidates, not a certified sealed test",
+    "training": "pending factual, labeling, split and independent evaluation gates"
+  }
+}

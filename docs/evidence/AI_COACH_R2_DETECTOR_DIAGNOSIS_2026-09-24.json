@@ -1,0 +1,168 @@
+{
+  "ok": true,
+  "source_alias": "demo-066944f5acb806ba5f81",
+  "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+  "episode_id": "9648f784a2ac5bab8b222412ec89713a5d17c9c84d473834b40eb6e3fada92f4",
+  "context_id": "65c00a40859e2e837c210461a0b13dc4624b563fe1101fa553752b15b41ca0bb",
+  "interpretation_id": "987aa3679cf47c53777aa03fc7016d4a5fab48d55071ea5cbb3b79bec02046e9",
+  "configuration": "collective_c4_approach@1-provisional",
+  "frozen_prediction_reproduced_exactly": true,
+  "samples": 65,
+  "interval_seconds": 4,
+  "active_paths": {
+    "T1": 65,
+    "T2": 65,
+    "T4": 65,
+    "T5": 65
+  },
+  "excluded": [
+    {
+      "actor": "T3",
+      "alive": false,
+      "reason": "not_alive"
+    }
+  ],
+  "deaths": [
+    {
+      "sequence": 6373,
+      "alive": 4
+    }
+  ],
+  "A_advancing_actors": [
+    "T2",
+    "T5"
+  ],
+  "carrier_path_complete": true,
+  "carrier_C4_throughout": true,
+  "first_failed_condition": "current_C4_carrier_not_advancing_due_to_latest_nonzero_distance_increase",
+  "T1_A_net_approach": 445.70638325988034,
+  "T1_A_last_nonzero_delta": 0.9412339591531236,
+  "T1_A_correction_after_sequence_6378": 5.6934275146531945,
+  "A_prefix_sequences": [
+    6324,
+    6325,
+    6326,
+    6327,
+    6328,
+    6329,
+    6330,
+    6331,
+    6332,
+    6333,
+    6334,
+    6335,
+    6336,
+    6337,
+    6338,
+    6339,
+    6340,
+    6341,
+    6342,
+    6343,
+    6344,
+    6345,
+    6346,
+    6347,
+    6348,
+    6349,
+    6350,
+    6351,
+    6352,
+    6353,
+    6354,
+    6355,
+    6356,
+    6365,
+    6366,
+    6373,
+    6375,
+    6376,
+    6377,
+    6378
+  ],
+  "first_final_loss_of_A_sequence": 6379,
+  "seconds_before_t0_at_loss": 0.1875,
+  "all_shorter_histories_at_same_t0_abstained": true,
+  "longer_history_cannot_fix_this_gate_alone": "The final observed positive nonzero step remains the latest resolved direction; adding older samples does not change it.",
+  "diagnostic_override_result": {
+    "scope": "diagnostic_only_not_promoted_not_an_approved_criterion",
+    "change": "Ignore latest nonzero distance sign only for current C4 carrier; keep net approach and every other check.",
+    "result": "compatible",
+    "destinations": [
+      "A"
+    ],
+    "advancing_actors": [
+      "T1",
+      "T2",
+      "T5"
+    ],
+    "restored_original_reproduces_frozen_prediction": true
+  },
+  "not_the_active_blocker": [
+    "missing_C4",
+    "missing_alive_ally_positions",
+    "lost_continuity_for_living_actors",
+    "T5_divergent_movement",
+    "unknown_enemy_information",
+    "unknown_grenade_inventory"
+  ],
+  "limits": [
+    "Distances are to unverified development landmarks, not physical routes or zone containment.",
+    "A small displacement is observed, not proven measurement noise or intent to withdraw.",
+    "Prefix stability or a tolerance policy requires expert framing; diagnostic override is not a tactical fix.",
+    "Death location, contact information and reason for choosing A remain unknown."
+  ],
+  "protected_files_unchanged": 77,
+  "runtime_changed": false,
+  "training_allowed": false,
+  "new_parsing": 0,
+  "seconds": 51.053,
+  "command": [
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+    "-B",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-r2-detector-diagnosis-20260924\\diagnose.py"
+  ],
+  "artifacts": [
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\branch-audit.json",
+      "sha256": "cb935840ee2dcab298aa0db8ce09bda899f801102113bf257b319dea0d5e70d9",
+      "bytes": 5715
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\causal-prefixes.json",
+      "sha256": "e176c83c906b1956e6761cafed0e571989a2dad3ff1365f2662b92f7a10913ef",
+      "bytes": 18990
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\diagnose.py",
+      "sha256": "f1e285584a97cb7ba585cbe53b8eb76d51629e802bc272666d08d9ab9b508de5",
+      "bytes": 11156
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\diagnosis.json",
+      "sha256": "bccbae9d5dfdb3161fe8c2baaecd7536357a570934e2d9cc23ff0266dbbd8990",
+      "bytes": 3471
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\diagnostic-branch-probe.json",
+      "sha256": "2d6ed572a56720a974bbb5c796deee1803d2c031d1024c0dfaaaa2b9a934ee8f",
+      "bytes": 380
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\distance-steps.json",
+      "sha256": "5591bad1475e809c5e38cfae48e75311110eaa8a4d5c856f949f02a34a496ada",
+      "bytes": 106545
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\protected-before.json",
+      "sha256": "c17f30fbaf7572976dc3c60035ce97d5e32e0454bb4eb8c476fdb692f7bd5d0f",
+      "bytes": 15206
+    },
+    {
+      "path": "outputs\\stratai-r2-detector-diagnosis-20260924\\same-t0-shorter-histories.json",
+      "sha256": "64197ac3fc4c37931268cf1842f9c0446e5bbf4a8c8ad481997b90911ab5948e",
+      "bytes": 10660
+    }
+  ],
+  "scope": "Diagnosis requested by user: Averigualo. No new expert criteria accepted."
+}

@@ -20,6 +20,12 @@ type entityScope struct {
 	entityID int
 }
 
+type physicalEntityScope struct {
+	round        int
+	entityID     int
+	entitySerial int
+}
+
 type extinguishCandidate struct {
 	smokeThrowID string
 	tick         int
@@ -37,26 +43,28 @@ type trajectorySampleKey struct {
 type Tracker struct {
 	mu sync.RWMutex
 
-	throws               []Throw
-	currentRound         int
-	sequenceByRound      map[int]int
-	entityGenerations    map[entityScope]int
-	projectileByEntity   map[entityScope]int
-	effectByEntity       map[entityScope]int
-	extinguishCandidates map[int]extinguishCandidate
-	trajectorySamples    map[int]map[trajectorySampleKey]struct{}
-	pendingDamage        []DamageInput
-	diagnostics          Diagnostics
+	throws                  []Throw
+	currentRound            int
+	sequenceByRound         map[int]int
+	entityGenerations       map[entityScope]int
+	projectileByEntity      map[entityScope]int
+	initialVelocityByEntity map[physicalEntityScope]int
+	effectByEntity          map[entityScope]int
+	extinguishCandidates    map[int]extinguishCandidate
+	trajectorySamples       map[int]map[trajectorySampleKey]struct{}
+	pendingDamage           []DamageInput
+	diagnostics             Diagnostics
 }
 
 func NewTracker() *Tracker {
 	return &Tracker{
-		sequenceByRound:      make(map[int]int),
-		entityGenerations:    make(map[entityScope]int),
-		projectileByEntity:   make(map[entityScope]int),
-		effectByEntity:       make(map[entityScope]int),
-		extinguishCandidates: make(map[int]extinguishCandidate),
-		trajectorySamples:    make(map[int]map[trajectorySampleKey]struct{}),
+		sequenceByRound:         make(map[int]int),
+		entityGenerations:       make(map[entityScope]int),
+		projectileByEntity:      make(map[entityScope]int),
+		initialVelocityByEntity: make(map[physicalEntityScope]int),
+		effectByEntity:          make(map[entityScope]int),
+		extinguishCandidates:    make(map[int]extinguishCandidate),
+		trajectorySamples:       make(map[int]map[trajectorySampleKey]struct{}),
 	}
 }
 
@@ -95,11 +103,55 @@ func (tracker *Tracker) RecordThrow(input ThrowInput) (string, bool) {
 	tracker.ensureMapsLocked()
 
 	scope := entityScope{round: input.Round, entityID: input.RuntimeEntityID}
+	physicalScope, physicalIdentityObserved := physicalScopeFromThrowInput(input)
+	physicalConflictReason := ""
 	if input.RuntimeEntityID != 0 {
 		if index, exists := tracker.projectileByEntity[scope]; exists &&
 			tracker.throws[index].Launch.Tick.Tick == input.Launch.Tick.Tick {
+			if physicalIdentityObserved {
+				physicalIndex, physicalExists := tracker.initialVelocityByEntity[physicalScope]
+				if !physicalExists || physicalIndex != index ||
+					!samePhysicalThrowObservation(tracker.throws[index], input) {
+					invalidateInitialVelocityCandidate(
+						&tracker.throws[index].InitialVelocityCandidate,
+						InitialVelocityReasonIdentityConflict,
+					)
+					if physicalExists && physicalIndex >= 0 && physicalIndex != index {
+						invalidateInitialVelocityCandidate(
+							&tracker.throws[physicalIndex].InitialVelocityCandidate,
+							InitialVelocityReasonIdentityConflict,
+						)
+					}
+					tracker.initialVelocityByEntity[physicalScope] = -1
+				}
+			} else {
+				invalidateInitialVelocityCandidate(
+					&tracker.throws[index].InitialVelocityCandidate,
+					InitialVelocityReasonIdentityUnavailable,
+				)
+			}
 			tracker.diagnostics.Throws.Deduplicated++
 			return tracker.throws[index].ID, false
+		}
+	}
+	if physicalIdentityObserved {
+		if index, exists := tracker.initialVelocityByEntity[physicalScope]; exists {
+			physicalConflictReason = InitialVelocityReasonIdentityConflict
+			if index >= 0 {
+				existingEntry := &tracker.throws[index]
+				existingCandidate := &tracker.throws[index].InitialVelocityCandidate
+				reuseIsFuture := existingEntry.Launch.Tick.Status == AvailabilityObserved &&
+					input.Launch.Tick.Status == AvailabilityObserved &&
+					input.Launch.Tick.Tick > existingEntry.Launch.Tick.Tick
+				if reuseIsFuture {
+					physicalConflictReason = InitialVelocityReasonEntityReused
+				} else {
+					invalidateInitialVelocityCandidate(
+						existingCandidate,
+						InitialVelocityReasonIdentityConflict,
+					)
+				}
+			}
 		}
 	}
 
@@ -111,10 +163,19 @@ func (tracker *Tracker) RecordThrow(input ThrowInput) (string, bool) {
 		tracker.entityGenerations[scope] = generation
 	}
 	entry := newThrow(input, sequence, generation)
+	if physicalConflictReason != "" {
+		invalidateInitialVelocityCandidate(
+			&entry.InitialVelocityCandidate,
+			physicalConflictReason,
+		)
+	}
 	tracker.throws = append(tracker.throws, entry)
 	index := len(tracker.throws) - 1
 	if input.RuntimeEntityID != 0 {
 		tracker.projectileByEntity[scope] = index
+	}
+	if physicalIdentityObserved {
+		tracker.initialVelocityByEntity[physicalScope] = index
 	}
 	tracker.diagnostics.Throws.ExactCorrelated++
 	tracker.reconcilePendingDamageLocked()
@@ -146,8 +207,154 @@ func (tracker *Tracker) RecordTrajectoryPosition(round, runtimeEntityID, tick in
 	return true
 }
 
+// RecordInitialVelocityPosition consumes only the position visible in the
+// current FrameDone callback. It freezes the first causal two-position
+// measurement and is intentionally never called by final-trajectory replay.
+func (tracker *Tracker) RecordInitialVelocityPosition(input InitialVelocityPositionInput) bool {
+	tracker.mu.Lock()
+	defer tracker.mu.Unlock()
+
+	physicalScope, identityObserved := physicalScopeFromInitialVelocityInput(input)
+	if !identityObserved {
+		return false
+	}
+	index, exists := tracker.initialVelocityByEntity[physicalScope]
+	if !exists || index < 0 {
+		return false
+	}
+	entry := &tracker.throws[index]
+	candidate := &entry.InitialVelocityCandidate
+	if candidate.Status == AvailabilityObserved && input.Tick > candidate.AvailabilityTick {
+		return true
+	}
+	if candidate.Terminal {
+		if !candidate.PositionSampleObserved || input.Tick != candidate.PositionSampleTick ||
+			!initialVelocityIdentityMatches(*entry, input) {
+			return false
+		}
+		if compareVectors(input.Position, candidate.PositionSample) != 0 {
+			invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonSameTickConflict)
+		}
+		return false
+	}
+	if !initialVelocityIdentityMatches(*entry, input) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonIdentityConflict)
+		return false
+	}
+	if candidate.Status == AvailabilityObserved && candidate.Source == SourceProjectileVelocity {
+		return true
+	}
+	if !isFiniteVector(input.Position) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonNativeNonFinite)
+		return false
+	}
+	if initialVelocityVectorIsSentinel(input.Position) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonNativeSentinel)
+		return false
+	}
+	if candidate.Status == AvailabilityObserved {
+		if candidate.Source == SourceProjectilePositionDelta &&
+			input.Tick == candidate.AvailabilityTick && compareVectors(input.Position, candidate.EndPosition) != 0 {
+			invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonSameTickConflict)
+			return false
+		}
+		return true
+	}
+	launch := entry.Launch
+	if launch.Tick.Status != AvailabilityObserved || launch.Position.Status != AvailabilityObserved ||
+		launch.Position.Source != SourceProjectilePosition || !isFiniteVector(launch.Position.Value) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonLaunchPositionUnavailable)
+		return false
+	}
+	if initialVelocityVectorIsSentinel(launch.Position.Value) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonNativeSentinel)
+		return false
+	}
+	if input.Tick < launch.Tick.Tick {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonInsufficientSamples)
+		return false
+	}
+	if input.Tick == launch.Tick.Tick {
+		if compareVectors(input.Position, launch.Position.Value) != 0 {
+			invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonSameTickConflict)
+			return false
+		}
+		candidate.Reason = InitialVelocityReasonInsufficientSamples
+		return false
+	}
+	if !isFinite(input.TickRate) || input.TickRate <= 0 {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonTickRateUnavailable)
+		return false
+	}
+	for _, bounce := range entry.Trajectory.Bounces {
+		if bounce.Tick <= input.Tick {
+			invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonFlightEnded)
+			return false
+		}
+	}
+	if terminalTick, observed := flightTerminalTick(entry.Lifecycle); observed && terminalTick <= input.Tick {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonFlightEnded)
+		return false
+	}
+	if candidate.PositionSampleObserved {
+		if input.Tick == candidate.PositionSampleTick &&
+			compareVectors(input.Position, candidate.PositionSample) != 0 {
+			invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonSameTickConflict)
+		}
+		return false
+	}
+	candidate.PositionSampleTick = input.Tick
+	candidate.PositionSample = input.Position
+	candidate.PositionSampleObserved = true
+
+	windowTicks := input.Tick - launch.Tick.Tick
+	scale := input.TickRate / float64(windowTicks)
+	vector := Vector{
+		X: (input.Position.X - launch.Position.Value.X) * scale,
+		Y: (input.Position.Y - launch.Position.Value.Y) * scale,
+		Z: (input.Position.Z - launch.Position.Value.Z) * scale,
+	}
+	if !isFiniteVector(vector) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonNativeNonFinite)
+		return false
+	}
+	if initialVelocityVectorIsSentinel(vector) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonNativeSentinel)
+		return false
+	}
+	if initialVelocityVectorIsZero(vector) {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonInsufficientSamples)
+		return false
+	}
+	*candidate = InitialVelocityCandidate{
+		Vector:                 vector,
+		HorizontalSpeed:        math.Hypot(vector.X, vector.Y),
+		ObservedTick:           input.Tick,
+		AvailabilityTick:       input.Tick,
+		MeasurementStartTick:   launch.Tick.Tick,
+		MeasurementEndTick:     input.Tick,
+		MeasurementWindowTicks: windowTicks,
+		TickRate:               input.TickRate,
+		StartPosition:          launch.Position.Value,
+		EndPosition:            input.Position,
+		Status:                 AvailabilityObserved,
+		Source:                 SourceProjectilePositionDelta,
+		IdentityStatus:         AvailabilityObserved,
+		RuntimeEntityID:        input.RuntimeEntityID,
+		RuntimeEntitySerial:    input.RuntimeEntitySerial,
+		ActorID:                input.ActorID,
+		Type:                   normalizedType(input.Type),
+		PositionSampleTick:     input.Tick,
+		PositionSample:         input.Position,
+		PositionSampleObserved: true,
+	}
+	return true
+}
+
 func (tracker *Tracker) RecordBounce(
-	round, runtimeEntityID, tick int,
+	round, runtimeEntityID, runtimeEntitySerial int,
+	runtimeEntitySerialStatus Availability,
+	tick int,
 	position Vector,
 	positionStatus Availability,
 	bounceNumber int,
@@ -158,6 +365,14 @@ func (tracker *Tracker) RecordBounce(
 	if bounceNumber <= 0 {
 		tracker.diagnostics.Bounces.Unmatched++
 		return false
+	}
+	if runtimeEntityID != 0 && runtimeEntitySerialStatus == AvailabilityObserved {
+		physicalScope := physicalEntityScope{
+			round: round, entityID: runtimeEntityID, entitySerial: runtimeEntitySerial,
+		}
+		if candidateIndex, exists := tracker.initialVelocityByEntity[physicalScope]; exists && candidateIndex >= 0 {
+			invalidateInitialVelocityAtBoundaryLocked(&tracker.throws[candidateIndex], tick)
+		}
 	}
 	index, exists := tracker.projectileByEntity[entityScope{round: round, entityID: runtimeEntityID}]
 	if !exists {
@@ -205,6 +420,7 @@ func (tracker *Tracker) RecordDestroy(hint CallbackHint) (string, bool) {
 		correlation = Correlation{Status: CorrelationUnavailable, Source: SourceUnavailable}
 	}
 	entry := &tracker.throws[index]
+	tracker.invalidateInitialVelocityFromLifecycleHintLocked(hint)
 	tracker.enrichActorLocked(entry, callbackActor(hint))
 	if sameObservation(entry.Lifecycle.Destroy, hint.Tick, SourceProjectileDestroy) {
 		tracker.diagnostics.Lifecycle.Deduplicated++
@@ -237,6 +453,7 @@ func (tracker *Tracker) RecordDetonation(hint CallbackHint, source string) (stri
 		correlation = Correlation{Status: CorrelationUnavailable, Source: SourceUnavailable}
 	}
 	entry := &tracker.throws[index]
+	tracker.invalidateInitialVelocityFromLifecycleHintLocked(hint)
 	tracker.enrichActorLocked(entry, callbackActor(hint))
 	if sameObservation(entry.Lifecycle.Detonation, hint.Tick, source) {
 		tracker.diagnostics.Lifecycle.Deduplicated++
@@ -599,6 +816,11 @@ func (tracker *Tracker) endRoundLocked(round int) {
 			delete(tracker.projectileByEntity, scope)
 		}
 	}
+	for scope := range tracker.initialVelocityByEntity {
+		if scope.round == round {
+			delete(tracker.initialVelocityByEntity, scope)
+		}
+	}
 	for scope := range tracker.effectByEntity {
 		if scope.round == round {
 			delete(tracker.effectByEntity, scope)
@@ -833,13 +1055,15 @@ func (tracker *Tracker) recordLifecycleOnlyLocked(hint CallbackHint, _ string) i
 		typeSource = SourceUnavailable
 	}
 	input := ThrowInput{
-		Round:           hint.Round,
-		RuntimeEntityID: hint.RuntimeEntityID,
-		EntitySource:    hint.EntitySource,
-		Type:            typeName,
-		TypeSource:      typeSource,
-		Actor:           callbackActor(hint),
-		Launch:          unavailableThrowSnapshot(),
+		Round:                     hint.Round,
+		RuntimeEntityID:           hint.RuntimeEntityID,
+		RuntimeEntitySerial:       hint.RuntimeEntitySerial,
+		RuntimeEntitySerialStatus: hint.RuntimeEntitySerialStatus,
+		EntitySource:              hint.EntitySource,
+		Type:                      typeName,
+		TypeSource:                typeSource,
+		Actor:                     callbackActor(hint),
+		Launch:                    unavailableThrowSnapshot(),
 	}
 	generation := 0
 	if hint.RuntimeEntityID != 0 {
@@ -853,6 +1077,17 @@ func (tracker *Tracker) recordLifecycleOnlyLocked(hint CallbackHint, _ string) i
 		tracker.projectileByEntity[entityScope{
 			round: hint.Round, entityID: hint.RuntimeEntityID,
 		}] = index
+	}
+	if physicalScope, observed := physicalScopeFromThrowInput(input); observed {
+		if _, exists := tracker.initialVelocityByEntity[physicalScope]; exists {
+			tracker.initialVelocityByEntity[physicalScope] = -1
+			invalidateInitialVelocityCandidate(
+				&tracker.throws[index].InitialVelocityCandidate,
+				InitialVelocityReasonIdentityConflict,
+			)
+		} else {
+			tracker.initialVelocityByEntity[physicalScope] = index
+		}
 	}
 	return index
 }
@@ -891,6 +1126,9 @@ func (tracker *Tracker) ensureMapsLocked() {
 	}
 	if tracker.projectileByEntity == nil {
 		tracker.projectileByEntity = make(map[entityScope]int)
+	}
+	if tracker.initialVelocityByEntity == nil {
+		tracker.initialVelocityByEntity = make(map[physicalEntityScope]int)
 	}
 	if tracker.effectByEntity == nil {
 		tracker.effectByEntity = make(map[entityScope]int)
@@ -1065,23 +1303,33 @@ func newThrow(input ThrowInput, sequence, generation int) Throw {
 	entityStatus := availability(entityObserved)
 	entitySource := SourceUnavailable
 	sourceEntityID, sourceEntityGeneration := 0, 0
+	sourceEntitySerial := 0
+	sourceEntitySerialStatus := AvailabilityUnavailable
 	if entityObserved {
 		entitySource = input.EntitySource
 		sourceEntityID = input.RuntimeEntityID
 		sourceEntityGeneration = generation
+		if input.RuntimeEntitySerialStatus == AvailabilityObserved {
+			sourceEntitySerial = input.RuntimeEntitySerial
+			sourceEntitySerialStatus = AvailabilityObserved
+		}
 	}
-	return Throw{
-		ID:                     fmt.Sprintf("r%d-u%04d", input.Round, sequence),
-		Round:                  input.Round,
-		Sequence:               sequence,
-		SourceEntityID:         sourceEntityID,
-		SourceEntityGeneration: sourceEntityGeneration,
-		EntityStatus:           entityStatus,
-		EntitySource:           entitySource,
-		Type:                   typeValue,
-		TypeSource:             typeSource,
-		Actor:                  normalizePlayer(input.Actor),
-		Launch:                 normalizeThrowSnapshot(input.Launch),
+	launch := normalizeThrowSnapshot(input.Launch)
+	entry := Throw{
+		ID:                       fmt.Sprintf("r%d-u%04d", input.Round, sequence),
+		Round:                    input.Round,
+		Sequence:                 sequence,
+		SourceEntityID:           sourceEntityID,
+		SourceEntityGeneration:   sourceEntityGeneration,
+		SourceEntitySerial:       sourceEntitySerial,
+		SourceEntitySerialStatus: sourceEntitySerialStatus,
+		EntityStatus:             entityStatus,
+		EntitySource:             entitySource,
+		Type:                     typeValue,
+		TypeSource:               typeSource,
+		Actor:                    normalizePlayer(input.Actor),
+		Launch:                   launch,
+		InitialVelocityCandidate: initialVelocityCandidateFromLaunch(launch),
 		Trajectory: Trajectory{
 			Samples: []TrajectorySample{}, Bounces: []BounceObservation{},
 			Status: TrajectoryUnavailable, Source: SourceUnavailable,
@@ -1105,6 +1353,258 @@ func newThrow(input ThrowInput, sequence, generation int) Throw {
 		Flashes: []FlashEffect{},
 		Damage:  []DamageEffect{},
 	}
+	stampInitialVelocityCandidateIdentity(&entry)
+	return entry
+}
+
+func physicalScopeFromThrowInput(input ThrowInput) (physicalEntityScope, bool) {
+	if input.Round <= 0 || input.RuntimeEntityID == 0 ||
+		input.RuntimeEntitySerialStatus != AvailabilityObserved ||
+		input.EntitySource != SourceProjectileEntity {
+		return physicalEntityScope{}, false
+	}
+	return physicalEntityScope{
+		round: input.Round, entityID: input.RuntimeEntityID, entitySerial: input.RuntimeEntitySerial,
+	}, true
+}
+
+func physicalScopeFromInitialVelocityInput(input InitialVelocityPositionInput) (physicalEntityScope, bool) {
+	if input.Round <= 0 || input.RuntimeEntityID == 0 ||
+		input.RuntimeEntitySerialStatus != AvailabilityObserved {
+		return physicalEntityScope{}, false
+	}
+	return physicalEntityScope{
+		round: input.Round, entityID: input.RuntimeEntityID, entitySerial: input.RuntimeEntitySerial,
+	}, true
+}
+
+func samePhysicalThrowObservation(entry Throw, input ThrowInput) bool {
+	if entry.Round != input.Round || entry.SourceEntityID != input.RuntimeEntityID ||
+		entry.Launch.Tick.Status != AvailabilityObserved || input.Launch.Tick.Status != AvailabilityObserved ||
+		entry.Launch.Tick.Tick != input.Launch.Tick.Tick {
+		return false
+	}
+	if entry.SourceEntitySerialStatus == AvailabilityObserved ||
+		input.RuntimeEntitySerialStatus == AvailabilityObserved {
+		if entry.SourceEntitySerialStatus != AvailabilityObserved ||
+			input.RuntimeEntitySerialStatus != AvailabilityObserved ||
+			entry.SourceEntitySerial != input.RuntimeEntitySerial {
+			return false
+		}
+	}
+	inputType := normalizedType(input.Type)
+	if entry.Type == TypeUnknown || inputType == TypeUnknown || entry.Type != inputType {
+		return false
+	}
+	if entry.Actor.Status != AvailabilityObserved || input.Actor.Status != AvailabilityObserved ||
+		entry.Actor.ID == 0 || entry.Actor.ID != input.Actor.ID {
+		return false
+	}
+	if entry.Launch.Position.Status != input.Launch.Position.Status {
+		return false
+	}
+	if entry.Launch.Position.Status == AvailabilityObserved {
+		if !isFiniteVector(entry.Launch.Position.Value) || !isFiniteVector(input.Launch.Position.Value) ||
+			!vectorsBitwiseEqual(entry.Launch.Position.Value, input.Launch.Position.Value) {
+			return false
+		}
+	}
+	leftVelocity := entry.Launch.ProjectileInitialVelocity
+	rightVelocity := input.Launch.ProjectileInitialVelocity
+	if leftVelocity.Status != rightVelocity.Status || leftVelocity.Source != rightVelocity.Source {
+		return false
+	}
+	if leftVelocity.Status == AvailabilityObserved &&
+		(leftVelocity.ObservedTick != rightVelocity.ObservedTick ||
+			leftVelocity.MeasurementWindowTicks != rightVelocity.MeasurementWindowTicks ||
+			!vectorsBitwiseEqual(leftVelocity.Vector, rightVelocity.Vector) ||
+			math.Float64bits(leftVelocity.HorizontalSpeed) != math.Float64bits(rightVelocity.HorizontalSpeed)) {
+		return false
+	}
+	return true
+}
+
+func vectorsBitwiseEqual(left, right Vector) bool {
+	return math.Float64bits(left.X) == math.Float64bits(right.X) &&
+		math.Float64bits(left.Y) == math.Float64bits(right.Y) &&
+		math.Float64bits(left.Z) == math.Float64bits(right.Z)
+}
+
+func stampInitialVelocityCandidateIdentity(entry *Throw) {
+	if entry == nil || entry.EntityStatus != AvailabilityObserved ||
+		entry.EntitySource != SourceProjectileEntity || entry.SourceEntityID == 0 ||
+		entry.SourceEntitySerialStatus != AvailabilityObserved ||
+		entry.Actor.Status != AvailabilityObserved || entry.Actor.ID == 0 ||
+		entry.Type == TypeUnknown || entry.TypeSource != SourceWeaponInstance ||
+		entry.Launch.Tick.Status != AvailabilityObserved {
+		return
+	}
+	candidate := &entry.InitialVelocityCandidate
+	candidate.IdentityStatus = AvailabilityObserved
+	candidate.RuntimeEntityID = entry.SourceEntityID
+	candidate.RuntimeEntitySerial = entry.SourceEntitySerial
+	candidate.ActorID = entry.Actor.ID
+	candidate.Type = entry.Type
+}
+
+func initialVelocityIdentityMatches(entry Throw, input InitialVelocityPositionInput) bool {
+	candidate := entry.InitialVelocityCandidate
+	return candidate.IdentityStatus == AvailabilityObserved &&
+		candidate.RuntimeEntityID == input.RuntimeEntityID &&
+		candidate.RuntimeEntitySerial == input.RuntimeEntitySerial &&
+		candidate.ActorID != 0 && candidate.ActorID == input.ActorID &&
+		candidate.Type != TypeUnknown && candidate.Type == normalizedType(input.Type) &&
+		entry.SourceEntitySerialStatus == AvailabilityObserved &&
+		entry.SourceEntitySerial == input.RuntimeEntitySerial
+}
+
+func invalidateInitialVelocityCandidate(candidate *InitialVelocityCandidate, reason string) {
+	if candidate == nil {
+		return
+	}
+	identityStatus := candidate.IdentityStatus
+	runtimeEntityID := candidate.RuntimeEntityID
+	runtimeEntitySerial := candidate.RuntimeEntitySerial
+	actorID := candidate.ActorID
+	typeName := candidate.Type
+	positionSampleTick := candidate.PositionSampleTick
+	positionSample := candidate.PositionSample
+	positionSampleObserved := candidate.PositionSampleObserved
+	*candidate = InitialVelocityCandidate{
+		Status:                 AvailabilityUnavailable,
+		Source:                 SourceUnavailable,
+		Reason:                 reason,
+		Terminal:               true,
+		IdentityStatus:         identityStatus,
+		RuntimeEntityID:        runtimeEntityID,
+		RuntimeEntitySerial:    runtimeEntitySerial,
+		ActorID:                actorID,
+		Type:                   typeName,
+		PositionSampleTick:     positionSampleTick,
+		PositionSample:         positionSample,
+		PositionSampleObserved: positionSampleObserved,
+	}
+}
+
+func invalidateInitialVelocityAtBoundaryLocked(entry *Throw, tick int) {
+	if entry == nil {
+		return
+	}
+	candidate := &entry.InitialVelocityCandidate
+	if candidate.Status == AvailabilityObserved && candidate.Source == SourceProjectileVelocity {
+		return
+	}
+	if candidate.Status == AvailabilityObserved && candidate.Source == SourceProjectilePositionDelta {
+		if tick <= candidate.MeasurementEndTick {
+			invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonFlightEnded)
+			candidate.PositionSampleTick = 0
+			candidate.PositionSample = Vector{}
+			candidate.PositionSampleObserved = false
+		}
+		return
+	}
+	if !candidate.Terminal {
+		invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonFlightEnded)
+		candidate.PositionSampleTick = 0
+		candidate.PositionSample = Vector{}
+		candidate.PositionSampleObserved = false
+	}
+}
+
+func initialVelocityBoundaryCanAffect(candidate InitialVelocityCandidate, tick int) bool {
+	if candidate.Status == AvailabilityObserved {
+		return candidate.Source == SourceProjectilePositionDelta && tick <= candidate.MeasurementEndTick
+	}
+	return !candidate.Terminal
+}
+
+func (tracker *Tracker) invalidateInitialVelocityFromLifecycleHintLocked(hint CallbackHint) {
+	if hint.RuntimeEntityID == 0 || hint.Tick < 0 {
+		return
+	}
+	if hint.RuntimeEntitySerialStatus == AvailabilityObserved {
+		scope := physicalEntityScope{
+			round: hint.Round, entityID: hint.RuntimeEntityID, entitySerial: hint.RuntimeEntitySerial,
+		}
+		if index, exists := tracker.initialVelocityByEntity[scope]; exists && index >= 0 {
+			invalidateInitialVelocityAtBoundaryLocked(&tracker.throws[index], hint.Tick)
+		}
+		return
+	}
+	typeName := normalizedType(hint.Type)
+	if typeName == TypeUnknown || hint.ActorID == 0 {
+		return
+	}
+	matches := make([]int, 0, 2)
+	for index := range tracker.throws {
+		entry := tracker.throws[index]
+		if entry.Round != hint.Round || entry.SourceEntityID != hint.RuntimeEntityID ||
+			entry.Type != typeName || entry.Actor.ID != hint.ActorID ||
+			entry.Launch.Tick.Status != AvailabilityObserved || entry.Launch.Tick.Tick > hint.Tick {
+			continue
+		}
+		matches = append(matches, index)
+	}
+	if len(matches) == 1 {
+		invalidateInitialVelocityAtBoundaryLocked(&tracker.throws[matches[0]], hint.Tick)
+		return
+	}
+	if len(matches) > 1 {
+		for _, index := range matches {
+			candidate := &tracker.throws[index].InitialVelocityCandidate
+			if initialVelocityBoundaryCanAffect(*candidate, hint.Tick) {
+				invalidateInitialVelocityCandidate(candidate, InitialVelocityReasonIdentityConflict)
+			}
+		}
+	}
+}
+
+func initialVelocityCandidateFromLaunch(launch ThrowSnapshot) InitialVelocityCandidate {
+	velocity := launch.ProjectileInitialVelocity
+	candidate := InitialVelocityCandidate{
+		Status: AvailabilityUnavailable,
+		Source: SourceUnavailable,
+		Reason: InitialVelocityReasonNativeUnavailable,
+	}
+	if velocity.Status != AvailabilityObserved || velocity.Source != SourceProjectileVelocity {
+		return candidate
+	}
+	if !isFiniteVector(velocity.Vector) || !isFinite(velocity.HorizontalSpeed) {
+		candidate.Reason = InitialVelocityReasonNativeNonFinite
+		return candidate
+	}
+	if initialVelocityVectorIsSentinel(velocity.Vector) {
+		candidate.Reason = InitialVelocityReasonNativeSentinel
+		return candidate
+	}
+	if initialVelocityVectorIsZero(velocity.Vector) {
+		candidate.Reason = InitialVelocityReasonNativeZeroAmbiguous
+		return candidate
+	}
+	if launch.Tick.Status != AvailabilityObserved || velocity.ObservedTick != launch.Tick.Tick ||
+		velocity.MeasurementWindowTicks != 0 {
+		return candidate
+	}
+	return InitialVelocityCandidate{
+		Vector:                 velocity.Vector,
+		HorizontalSpeed:        velocity.HorizontalSpeed,
+		ObservedTick:           velocity.ObservedTick,
+		AvailabilityTick:       velocity.ObservedTick,
+		MeasurementStartTick:   velocity.ObservedTick,
+		MeasurementEndTick:     velocity.ObservedTick,
+		MeasurementWindowTicks: 0,
+		Status:                 AvailabilityObserved,
+		Source:                 SourceProjectileVelocity,
+	}
+}
+
+func initialVelocityVectorIsZero(vector Vector) bool {
+	return vector.X == 0 && vector.Y == 0 && vector.Z == 0
+}
+
+func initialVelocityVectorIsSentinel(vector Vector) bool {
+	sentinel := float64(math.MaxFloat32)
+	return math.Abs(vector.X) >= sentinel || math.Abs(vector.Y) >= sentinel || math.Abs(vector.Z) >= sentinel
 }
 
 func unavailableThrowSnapshot() ThrowSnapshot {
@@ -1375,6 +1875,7 @@ func (tracker *Tracker) closeFlightTrajectoryLocked(index int) {
 	if !observed {
 		return
 	}
+	invalidateInitialVelocityAtBoundaryLocked(&tracker.throws[index], terminalTick)
 	trajectory := &tracker.throws[index].Trajectory
 	retained := trajectory.Samples[:0]
 	keys := make(map[trajectorySampleKey]struct{}, len(trajectory.Samples))

@@ -1,0 +1,998 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "map_id",
+    "tick_rate",
+    "build_identifier",
+    "visibility_contract",
+    "order_contract",
+    "training_allowed",
+    "product_supported",
+    "rules_compatibility",
+    "configs",
+    "participants",
+    "rounds"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.observed_economy_candidate@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "map_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "tick_rate": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "visibility_contract": {
+      "const": "self_and_same_side_only_per_actor_no_opponent_economy"
+    },
+    "order_contract": {
+      "const": "parser_callback_sequence_not_engine_subtick_order"
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "rules_compatibility": {
+      "const": "unverified_no_price_or_reward_inference"
+    },
+    "configs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacy_prices",
+        "legacy_rules"
+      ],
+      "properties": {
+        "legacy_prices": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "version",
+            "sha256",
+            "use"
+          ],
+          "properties": {
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "use": {
+              "const": "reference_only_not_applied"
+            }
+          }
+        },
+        "legacy_rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "version",
+            "sha256",
+            "use"
+          ],
+          "properties": {
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "use": {
+              "const": "reference_only_not_applied"
+            }
+          }
+        }
+      }
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actor_key",
+          "participant_alias"
+        ],
+        "properties": {
+          "actor_key": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "participant_alias": {
+            "type": "string",
+            "pattern": "^p[0-9]{4}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/round"
+      },
+      "minItems": 1
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_economy_candidate@1",
+  "$defs": {
+    "inventory_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_alias",
+        "weapon"
+      ],
+      "properties": {
+        "entity_alias": {
+          "type": "string",
+          "pattern": "^w[0-9]{5}$"
+        },
+        "weapon": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "integer_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "status",
+        "source",
+        "observation_tick",
+        "availability_tick"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "observation_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "observed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "observation_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "availability_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "observation_tick": {
+                "type": "null"
+              },
+              "availability_tick": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "boolean_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "status",
+        "source",
+        "observation_tick",
+        "availability_tick"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "observation_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "observed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              },
+              "observation_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "availability_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "observation_tick": {
+                "type": "null"
+              },
+              "availability_tick": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "string_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "status",
+        "source",
+        "observation_tick",
+        "availability_tick"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "observation_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "observed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "observation_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "availability_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "observation_tick": {
+                "type": "null"
+              },
+              "availability_tick": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "inventory_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "status",
+        "source",
+        "observation_tick",
+        "availability_tick"
+      ],
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/inventory_item"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "observation_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "observed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/inventory_item"
+                }
+              },
+              "observation_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "availability_tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "observation_tick": {
+                "type": "null"
+              },
+              "availability_tick": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_alias",
+        "side",
+        "connected",
+        "facts",
+        "prepurchase_status",
+        "prepurchase_reason"
+      ],
+      "properties": {
+        "actor_alias": {
+          "type": "string",
+          "pattern": "^p[0-9]{4}$"
+        },
+        "side": {
+          "enum": [
+            "CT",
+            "T"
+          ]
+        },
+        "connected": {
+          "type": "boolean"
+        },
+        "facts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "money",
+            "spent_native",
+            "armor",
+            "equipment_value_native",
+            "helmet",
+            "kit",
+            "buy_zone",
+            "inventory"
+          ],
+          "properties": {
+            "money": {
+              "$ref": "#/$defs/integer_fact"
+            },
+            "spent_native": {
+              "$ref": "#/$defs/integer_fact"
+            },
+            "armor": {
+              "$ref": "#/$defs/integer_fact"
+            },
+            "equipment_value_native": {
+              "$ref": "#/$defs/integer_fact"
+            },
+            "helmet": {
+              "$ref": "#/$defs/boolean_fact"
+            },
+            "kit": {
+              "$ref": "#/$defs/boolean_fact"
+            },
+            "buy_zone": {
+              "$ref": "#/$defs/boolean_fact"
+            },
+            "inventory": {
+              "$ref": "#/$defs/inventory_fact"
+            }
+          }
+        },
+        "prepurchase_status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "prepurchase_reason": {
+          "enum": [
+            "not_initial_snapshot",
+            "participant_unavailable",
+            "initial_sample_after_round_start",
+            "activity_at_or_before_initial",
+            "required_initial_fact_unavailable",
+            "spend_at_initial_observation",
+            "observed_at_round_start_without_prior_activity",
+            "freeze_closed_before_initial"
+          ]
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "tick",
+        "callback_sequence",
+        "context",
+        "actors"
+      ],
+      "properties": {
+        "phase": {
+          "enum": [
+            "initial_available",
+            "freeze_end",
+            "round_end"
+          ]
+        },
+        "tick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "callback_sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mp_buytime",
+            "mp_freezetime",
+            "mp_maxmoney",
+            "mp_startmoney",
+            "mp_maxrounds",
+            "mp_overtime_enable",
+            "score_CT",
+            "score_T"
+          ],
+          "properties": {
+            "mp_buytime": {
+              "$ref": "#/$defs/string_fact"
+            },
+            "mp_freezetime": {
+              "$ref": "#/$defs/string_fact"
+            },
+            "mp_maxmoney": {
+              "$ref": "#/$defs/string_fact"
+            },
+            "mp_startmoney": {
+              "$ref": "#/$defs/string_fact"
+            },
+            "mp_maxrounds": {
+              "$ref": "#/$defs/string_fact"
+            },
+            "mp_overtime_enable": {
+              "$ref": "#/$defs/string_fact"
+            },
+            "score_CT": {
+              "$ref": "#/$defs/integer_fact"
+            },
+            "score_T": {
+              "$ref": "#/$defs/integer_fact"
+            }
+          }
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/actor"
+          }
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "kind",
+        "tick",
+        "callback_sequence",
+        "actor_alias",
+        "side",
+        "weapon",
+        "entity_alias",
+        "prior_drop_event_id",
+        "attribution"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "pattern": "^e[0-9]{8}$"
+        },
+        "kind": {
+          "enum": [
+            "pickup",
+            "drop",
+            "refund"
+          ]
+        },
+        "tick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "callback_sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "actor_alias": {
+          "type": "string",
+          "pattern": "^p[0-9]{4}$"
+        },
+        "side": {
+          "enum": [
+            "CT",
+            "T",
+            "unknown"
+          ]
+        },
+        "weapon": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entity_alias": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^w[0-9]{5}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prior_drop_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^e[0-9]{8}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "callback_only",
+            "purchase_or_pickup_unresolved",
+            "prior_allied_drop_same_entity"
+          ]
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_alias",
+        "metric",
+        "delta",
+        "status"
+      ],
+      "properties": {
+        "actor_alias": {
+          "type": "string",
+          "pattern": "^p[0-9]{4}$"
+        },
+        "metric": {
+          "enum": [
+            "initial_minus_legacy_initial_money",
+            "end_frame_minus_legacy_round_end_money"
+          ]
+        },
+        "delta": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "unavailable",
+            "diagnostic_different_observation_frontiers"
+          ]
+        }
+      }
+    },
+    "round": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instance",
+        "round_number",
+        "start_tick",
+        "freeze_end_tick",
+        "end_tick",
+        "initial_state",
+        "execution",
+        "reconciliation"
+      ],
+      "properties": {
+        "instance": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "round_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "start_tick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "freeze_end_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_tick": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "initial_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/snapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "execution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "freeze_snapshot",
+            "events"
+          ],
+          "properties": {
+            "freeze_snapshot": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/snapshot"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/event"
+              }
+            }
+          }
+        },
+        "reconciliation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "round_end_snapshot",
+            "other_events",
+            "comparisons"
+          ],
+          "properties": {
+            "round_end_snapshot": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/snapshot"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "other_events": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/event"
+              }
+            },
+            "comparisons": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/comparison"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-stratai-status": "candidate_not_materialized_in_3.8",
+  "x-stratai-training-authorized": false
+}

@@ -1,0 +1,2596 @@
+{
+  "ok": true,
+  "seconds": 213.492,
+  "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2",
+  "distinct_matches": 7,
+  "newly_parsed_reserve_matches": 2,
+  "retained_development_captures": 5,
+  "matches": [
+    {
+      "ok": true,
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-a11eb0d600ee702c9edb\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+      "seconds": 39.273,
+      "counts": {
+        "episodes": 12,
+        "abstained": 10,
+        "unreviewed": 12,
+        "emitted": 2
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 91847814,
+          "sha256": "dd715e672e7a1c9f4f9e853dc7d8262d021138c7da6491b1a641e5ff52bdfa24"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 177194930,
+          "sha256": "ce78e8d5e03f8b85e0c24f5177b4cab077850517e7d886c60b28802698b0a8bd"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 112277205,
+          "sha256": "d19f902e8e3b41e43a1f2e8624d43ab4dd2990f50aefbb4afb68f82b7aca999e"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 14368212,
+          "sha256": "975ff07d0d8275fadeb47989289330b38d6a078e42da106d4e7bd5304900a93e"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+        "bytes": 33478,
+        "sha256": "b6003d4384980907af38bc5f131c7a574b22e2291365b1d1178e97151b97effb"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 417,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6727741,
+          "sha256": "3b05f7aeee0dd21b04a6a8b9b645ea1e5ee02a322033c0c20dfce386b72a1eac"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 7433,
+          "sha256": "f5aeaa87cab81b160b33caa00bdb1a7e3b7257250ba41f8970419d7f6ba824fe"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 761,
+          "sha256": "58691050baedd7e4a17ccb26c831bea25d3e66fb2502bb0c784068d8c685609e"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4651,
+          "sha256": "f1e45dc26b62e373549a44f055d5f9ab54c521170de1ba4800bd570ccdbde0a9"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 275364,
+          "sha256": "a12188052cf2b20eecfd0fbdcacb0acb5d7f706f2e50988bce35d6ac2150dc41"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "43beaeca6c44ef5845d90d45f38a373ab0a0f3ae70c0e09433585684d000c075"
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "source_alias": "demo-5bdb2dac2277dd9463ac",
+      "source_sha256": "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-5bdb2dac2277dd9463ac\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-5bdb2dac2277dd9463ac\\capture\\smoke_run_demo-5bdb2dac2277dd9463ac",
+      "seconds": 26.825,
+      "counts": {
+        "episodes": 12,
+        "abstained": 10,
+        "unreviewed": 12,
+        "emitted": 2
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 51788472,
+          "sha256": "3de7aacf23c4dabd5f72beae07bb33cc450f161b26cfb4472df6226125d2818b"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 103104416,
+          "sha256": "7e751b74d360597bc3d29c09436caecd0d2f607a38c52436cf765313a3967d20"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 63582222,
+          "sha256": "e41d47951be8b7f536546abdcd4565a11f8963a4f673f2e82aad753fb27fc565"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 7958152,
+          "sha256": "77634101158078ef53087185c2533a18ae45541a755f063e994d8618720012d2"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-5bdb2dac2277dd9463ac/canonical/manifest.json",
+        "bytes": 28305,
+        "sha256": "a75538e350fa7ade6a9a40fcf4079f7443debfc88980e6669a12d8366a369c5c"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 232,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6677534,
+          "sha256": "fb15a060158ae9fb26a4cabaeea062200689749fb15be908ce712be244c95d16"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 6984,
+          "sha256": "dc28a42cf062b06d673f5270f77ea43c96dc323312e08adfb04bdc84bee4d061"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 761,
+          "sha256": "eb9fcf7c3ffecb951c6f8657d2da78dd4c99b897a3f3916cec72032713fe7cd8"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4645,
+          "sha256": "93936105b1fed47d55217596ecc19279031fe50f846438b2ca9309fdc9b3388c"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 185352,
+          "sha256": "077b7119cf297bb441e34e179571b1903ede4c0d31bea01778a00c39413f98f5"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "f03c53d0b6aff661a53bfb948576cf613395c3b40225b292ab8531e5b1616613"
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "source_alias": "demo-381bbf14c9ccd5693047",
+      "source_sha256": "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-381bbf14c9ccd5693047\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-381bbf14c9ccd5693047\\capture\\smoke_run_demo-381bbf14c9ccd5693047",
+      "seconds": 31.651,
+      "counts": {
+        "episodes": 12,
+        "abstained": 11,
+        "unreviewed": 12,
+        "emitted": 1
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 69713416,
+          "sha256": "c1c273c5f641f4ba816c47d3ec8616f15bccca7f2c31bb97d1aae24a4cbb5dbe"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 131619625,
+          "sha256": "3724ab1046632b2267c0643d29e27739307032d37b07a5318d6f17a2ef0fa9da"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 85131889,
+          "sha256": "9abbb60ccb664539919596abb7a57d29119aa8e8e782e0be31bf63160b5aa762"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 11014147,
+          "sha256": "597bf69cc4c84c7b5080e37fa9ea6489f6afe43d5eaf5552d3b8c708d35da0a6"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-381bbf14c9ccd5693047/canonical/manifest.json",
+        "bytes": 31405,
+        "sha256": "e2cb92f5d43f4b49f830c21d0fe2f0c00722ac79e0851ad9fcd9dd526e90334f"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 311,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6773623,
+          "sha256": "de0c44dff44e1ced2af09c7d5dfa6045f51d3456324ee1134d516881813252bc"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 6732,
+          "sha256": "ac0b265cb96922e45535f9b53b8afbcd7a65ddcc32e42719ec027bdd8dab46f5"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 761,
+          "sha256": "266f911295c86bbe99b83020037c932fa4c9a737fc47732a62f8c63d94a3b60b"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4649,
+          "sha256": "1a3eb6559098eba231b5a20ccad5ebf14d99e015aeed4aeeccbb3a7cd18e101a"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 143576,
+          "sha256": "90684933f27818e1540f2826b883f70886ff75f49700f660f0477785d799003e"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "0da8e5a88c2a560c5af2b75fe449863979787e21b053ab9cc21988e81488f01a"
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "source_alias": "demo-310597a1cb8f27f26c55",
+      "source_sha256": "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-310597a1cb8f27f26c55\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-310597a1cb8f27f26c55\\capture\\smoke_run_demo-310597a1cb8f27f26c55",
+      "seconds": 33.036,
+      "counts": {
+        "episodes": 12,
+        "abstained": 11,
+        "unreviewed": 12,
+        "emitted": 1
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 72958655,
+          "sha256": "ea676ac7dc1dd81cdd6e593dd55d562443499e7ddbe9936fbc39a6500c39b64c"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 139326188,
+          "sha256": "717e2df0987d5594d359de54dd6c629bfc9675d4d82945a050574613281fdac0"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 89258580,
+          "sha256": "bd0d1760d113821cfc4534bb05e7e814acee6bda18f66887c4e4981cd0cbdfb7"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 11405577,
+          "sha256": "885ea86a885ddb20fcb6000b365dca1e000eb22258a8daa897ff86ffc4892820"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-310597a1cb8f27f26c55/canonical/manifest.json",
+        "bytes": 31998,
+        "sha256": "194ab4aedae47fbb845c9a67d31da85af949a34f18357e8b5e8bc13098ad01be"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 329,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6385900,
+          "sha256": "f7636c52d87340ebd89948ec7059fd0f2815d344587fa45723555dfda24f33e3"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 6667,
+          "sha256": "caad8eaebd11cfa175f5df8ef2c7da15503efe3f8afaf4402bc3620032398cd8"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 761,
+          "sha256": "80c5b6d3ecb694dcd1aacd1f5ca28967a105030d0570beedd3c228ba3d34b5ff"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4649,
+          "sha256": "b65533f21976e44b4a06a4c5b9e0638ae15bf8b16ce62523cff374b6d677532c"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 101892,
+          "sha256": "58c495c94a42fc64f537c14365bd87a5f4ced4a0cbd2a887b762b799298071ca"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "b245cc83428189141c519ef4394e14f7c7fa61ae066f236a52356f366ff44c23"
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "source_alias": "demo-6e4a3660d53931747fa8",
+      "source_sha256": "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-6e4a3660d53931747fa8\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-multidemo-9hba1zv6\\demo-6e4a3660d53931747fa8\\capture\\smoke_run_demo-6e4a3660d53931747fa8",
+      "seconds": 48.687,
+      "counts": {
+        "episodes": 12,
+        "abstained": 11,
+        "unreviewed": 12,
+        "emitted": 1
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 118926157,
+          "sha256": "9df53db9c9c59b527642f345b839d82bc66c2572be0c5f0a76c8dbcf98acfd9d"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 218911640,
+          "sha256": "56ec6a25da9e69d5301cfa034d3fe12e7524e01684f446cb049b97ba0fb87994"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 145083352,
+          "sha256": "34838a3946b5b5c8d378580884dc597a2f900a927a5c41e2c79b746425f1706c"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 19936980,
+          "sha256": "fd8c9d1cdf60d707668ad2204937e268f0161c113bbe8f9a8fed5985d96e0e12"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-6e4a3660d53931747fa8/canonical/manifest.json",
+        "bytes": 38072,
+        "sha256": "be7bd330eb06bfc71117c5fa3ce9956c9d5ed94969991753ded9b87c256d67d4"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 546,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6865896,
+          "sha256": "c94cf01109cda47e285a99e1a160ad5168acf9350b3fa9c73ef050912b79d8a2"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 6746,
+          "sha256": "7e3698ee5eee6af09f05c7fa3a31e7c6d4369edfd472b99585b2f10516b722f2"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 761,
+          "sha256": "ad9aa2d50f3791bafc399c40295bf88f1c9915a7f7d1e60a82845088a04d57b0"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4653,
+          "sha256": "2fc015c70361e3a12109107b40b2fa5f7685bd922e3e9591c3aa708b649cce59"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 143592,
+          "sha256": "ac5dc58609da24a0265f214e3a7b5e073fa5b46c4c39279c8cf3974f263b6c82"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "bf76b3222a8c8e59b23598ce52799900d63d3ed216c1c0454d3143df7b848282"
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "source_alias": "demo-045df2521c790a7d8a69",
+      "source_sha256": "045df2521c790a7d8a690272208ab8f14a24f6f5493dadeb670e75d157598fa4",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-045df2521c790a7d8a69\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-045df2521c790a7d8a69\\capture\\smoke_run_demo-045df2521c790a7d8a69",
+      "seconds": 32.457,
+      "counts": {
+        "episodes": 12,
+        "abstained": 10,
+        "unreviewed": 12,
+        "emitted": 2
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 70905945,
+          "sha256": "4f814d6d3c5924ec39985733dd011e45f4e1e58b52bca2d38517144f232e0f8d"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 139288122,
+          "sha256": "9b9e26a269a83347bd3be3bd79109c61e88e218969895950d9e747acddad5871"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 86866979,
+          "sha256": "653057b4c1a9ba854896f24fc9f07b53431317803189766d618c218e576c6811"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 11530118,
+          "sha256": "5058f1107ce6fad9fe4de3daf5ff953440479654198ef8f9be4901e5cd370598"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-045df2521c790a7d8a69/canonical/manifest.json",
+        "bytes": 31409,
+        "sha256": "cf486d7999da6a125868717cb413a5381e0b6ae80bef2dc1fadc480f86e3cc35"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 320,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6747667,
+          "sha256": "b6ee3ef33733c73aea9c87cdc6e68d12a343dc517c7a0b868d38ad08decc3a98"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 7438,
+          "sha256": "ef63cba1c3293bcc7c570e403b5ea64e032e92ca32aa2281e24910f6e5650b83"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 761,
+          "sha256": "f1928c0d6a986d61af3ae831eb09a48dbec249d20454fabd6a2c1645d603ad4c"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4698,
+          "sha256": "3e7da92209d442b75b9ba0dd0ceabb8af0eac5edc1f5e37fc3860c4a420add25"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 351886,
+          "sha256": "1efdc994fcd0e529068b35811916e96deed661d75c730992404c8424af6570fe"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "784aec7f596af3b17f0726fab4c450b8238243122cb1dfd841bd06bde986ef4b"
+        }
+      ]
+    },
+    {
+      "ok": true,
+      "source_alias": "demo-066944f5acb806ba5f81",
+      "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-066944f5acb806ba5f81\\evaluation",
+      "source_directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-evaluation-bqt6rdl2\\demo-066944f5acb806ba5f81\\capture\\smoke_run_demo-066944f5acb806ba5f81",
+      "seconds": 29.089,
+      "counts": {
+        "episodes": 12,
+        "abstained": 9,
+        "unreviewed": 12,
+        "emitted": 3
+      },
+      "source_artifacts": {
+        "support_observations.json": {
+          "path": "support_observations.json",
+          "bytes": 67749417,
+          "sha256": "9eaf6b6cd6781f27e40445db3bdf13170ddc0c5a953a2586b298b02a5addb5dc"
+        },
+        "support_physical_observations.json": {
+          "path": "support_physical_observations.json",
+          "bytes": 120892462,
+          "sha256": "6e9ad6e8998ee67c6e6bc8891e336aa23821ed030ece745182077dece2a567ab"
+        },
+        "support_objective_observations.json": {
+          "path": "support_objective_observations.json",
+          "bytes": 82462847,
+          "sha256": "590f94bc54ed64577e0d2041b89dceee8be7b91dd701e41c7d675f25498f18d2"
+        },
+        "support_c4_observations.json": {
+          "path": "support_c4_observations.json",
+          "bytes": 10573541,
+          "sha256": "8cbbb4a451c836c53b8f26b4ca0c118a44a4859fe4acc8849ab6776028b650fe"
+        }
+      },
+      "base_manifest": {
+        "path": "match_demo-066944f5acb806ba5f81/canonical/manifest.json",
+        "bytes": 32001,
+        "sha256": "a6ab4f819bf31dc7293b050875657aa23ad44a3010f32349afcf7add41d2390d"
+      },
+      "map_reference": {
+        "schema_id": "stratai.contextual_map_reference@1",
+        "map_name": "de_mirage",
+        "source": {
+          "artifact": "de_mirage_texto.vmap",
+          "sha256": "42b0f36d2cbe30a1e5b9ab0b5701913d136f42e36c5c5b197513a9dc482caee1",
+          "bytes": 211928992,
+          "kind": "local_vmap_env_cs_place_origin"
+        },
+        "scope": "development_reference",
+        "build_compatibility": "unverified",
+        "landmarks": [
+          {
+            "id": "113",
+            "source_label": "House",
+            "label": "House",
+            "position": {
+              "x": 12.5,
+              "y": 812.5,
+              "z": -82.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "181",
+            "source_label": "SideAlley",
+            "label": "SideAlley",
+            "position": {
+              "x": 1075.0,
+              "y": 475.0,
+              "z": -207.4430084229
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1811",
+            "source_label": "CTSpawn",
+            "label": "CTSpawn",
+            "position": {
+              "x": -1512.5,
+              "y": -787.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1813",
+            "source_label": "TRamp",
+            "label": "TRamp",
+            "position": {
+              "x": 512.5,
+              "y": -1625.0,
+              "z": -206.7189941406
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1815",
+            "source_label": "TSpawn",
+            "label": "TSpawn",
+            "position": {
+              "x": 1262.5,
+              "y": 462.5,
+              "z": -208.8199920654
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1818",
+            "source_label": "TopofMid",
+            "label": "TopofMid",
+            "position": {
+              "x": 475.0,
+              "y": -900.0,
+              "z": -107.0243988037
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1820",
+            "source_label": "Catwalk",
+            "label": "Catwalk",
+            "position": {
+              "x": -125.0,
+              "y": -425.0,
+              "z": -121.2937469482
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1822",
+            "source_label": "Middle",
+            "label": "Middle",
+            "position": {
+              "x": -162.5,
+              "y": -887.5,
+              "z": -112.7568511963
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1824",
+            "source_label": "BombsiteA",
+            "label": "A",
+            "position": {
+              "x": -662.5,
+              "y": -1612.5,
+              "z": -118.7188949585
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1829",
+            "source_label": "SnipersNest",
+            "label": "SnipersNest",
+            "position": {
+              "x": -1250.0,
+              "y": -1087.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1831",
+            "source_label": "Truck",
+            "label": "Truck",
+            "position": {
+              "x": -2300.0,
+              "y": 687.5,
+              "z": 11.4268493652
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1833",
+            "source_label": "BombsiteB",
+            "label": "B",
+            "position": {
+              "x": -2550.0,
+              "y": 162.5,
+              "z": -110.860748291
+            },
+            "kind": "site_landmark"
+          },
+          {
+            "id": "1835",
+            "source_label": "PalaceInterior",
+            "label": "PalaceInterior",
+            "position": {
+              "x": 1325.0,
+              "y": -1362.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1838",
+            "source_label": "PalaceAlley",
+            "label": "PalaceAlley",
+            "position": {
+              "x": 1187.5,
+              "y": -762.5,
+              "z": -190.7510070801
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1840",
+            "source_label": "Stairs",
+            "label": "Stairs",
+            "position": {
+              "x": -462.5,
+              "y": -1575.0,
+              "z": 13.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1843",
+            "source_label": "Connector",
+            "label": "Connector",
+            "position": {
+              "x": -675.0,
+              "y": -1225.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1845",
+            "source_label": "Underpass",
+            "label": "Underpass",
+            "position": {
+              "x": -475.0,
+              "y": 412.5,
+              "z": -106.7188491821
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "1848",
+            "source_label": "Shop",
+            "label": "Shop",
+            "position": {
+              "x": -2325.0,
+              "y": -400.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "205",
+            "source_label": "Ladder",
+            "label": "Ladder",
+            "position": {
+              "x": -1012.5,
+              "y": -100.0,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "267",
+            "source_label": "BackAlley",
+            "label": "BackAlley",
+            "position": {
+              "x": -275.0,
+              "y": 387.5,
+              "z": -31.5331020355
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "69",
+            "source_label": "Scaffolding",
+            "label": "Scaffolding",
+            "position": {
+              "x": 37.5,
+              "y": -2012.5,
+              "z": 15.2812519073
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "71",
+            "source_label": "Apartments",
+            "label": "apartamentos",
+            "position": {
+              "x": -2012.5,
+              "y": 762.5,
+              "z": 5.28125
+            },
+            "kind": "landmark"
+          },
+          {
+            "id": "919",
+            "source_label": "Jungle",
+            "label": "Jungle",
+            "position": {
+              "x": -850.0,
+              "y": -1537.5,
+              "z": -114.7188949585
+            },
+            "kind": "landmark"
+          }
+        ],
+        "regions": [],
+        "physical_route_accredited": false,
+        "training_allowed": false,
+        "reference_id": "980da2f07a7c4857be6fe1fc24858f04f5c3a099fa276d755be0d6fb8b532201"
+      },
+      "candidate_windows": 302,
+      "selection": "12 uniform nonoverlapping windows before predictions",
+      "artifacts": [
+        {
+          "path": "blind_contexts.jsonl",
+          "bytes": 6495815,
+          "sha256": "88cb5743fd47543bc25a6328129f0797cec010c2a59613f6c8846c97b86b2aef"
+        },
+        {
+          "path": "contextual_report.md",
+          "bytes": 8054,
+          "sha256": "854f67380754e5655d5e1ed34b8eb9720360cefa840f8408f85a9bae1c1c5ef0"
+        },
+        {
+          "path": "evaluation.json",
+          "bytes": 759,
+          "sha256": "32e3311a5022ff1a853fad6b82749879df3a3f4e6cdf87d14c45a61698ec9312"
+        },
+        {
+          "path": "evaluation_manifest.json",
+          "bytes": 4698,
+          "sha256": "6ab64903ad24cb2041acf78d7b1f259d8f77026e5e32e96da13c6652c217a398"
+        },
+        {
+          "path": "predictions.jsonl",
+          "bytes": 521442,
+          "sha256": "f3e7d3dd130e666e831540e0170511f3ae22fa3d867a3a55679fb11e0f272c4f"
+        },
+        {
+          "path": "review_template.json",
+          "bytes": 2643,
+          "sha256": "e015dfd0e6579b0be4e686b9636610fc35fe4acb32235cc476a069b41185da78"
+        }
+      ]
+    }
+  ],
+  "maximum_concurrent_matches": 2,
+  "training_allowed": false,
+  "independent_tactical_accuracy": null,
+  "counts": {
+    "episodes": 84,
+    "abstained": 72,
+    "unreviewed": 84,
+    "emitted": 12
+  },
+  "selection": {
+    "date": "2026-09-23",
+    "configuration": "collective_c4_approach@1-provisional",
+    "selection": "two lowest SHA-256 in the 39-match reserve, before new parsing or predictions",
+    "development": [
+      {
+        "alias": "demo-a11eb0d600ee702c9edb",
+        "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "bytes": 330945844
+      },
+      {
+        "alias": "demo-5bdb2dac2277dd9463ac",
+        "sha256": "5bdb2dac2277dd9463ac60880c8e5cbf480d9ea13f263bbdba7f68e6616680c5",
+        "bytes": 192768529
+      },
+      {
+        "alias": "demo-381bbf14c9ccd5693047",
+        "sha256": "381bbf14c9ccd5693047e9ea4747172591583990e1da48bd8d30a6e7f519eed4",
+        "bytes": 246273552
+      },
+      {
+        "alias": "demo-310597a1cb8f27f26c55",
+        "sha256": "310597a1cb8f27f26c5574ed1f11c1756791a90baf9aa1967fbc859e92657f40",
+        "bytes": 283832820
+      },
+      {
+        "alias": "demo-6e4a3660d53931747fa8",
+        "sha256": "6e4a3660d53931747fa82716a1872e0472b40a04c7ef0ef21640309ff937678a",
+        "bytes": 435771464
+      }
+    ],
+    "reserve": [
+      {
+        "alias": "demo-045df2521c790a7d8a69",
+        "sha256": "045df2521c790a7d8a690272208ab8f14a24f6f5493dadeb670e75d157598fa4",
+        "bytes": 261335893
+      },
+      {
+        "alias": "demo-066944f5acb806ba5f81",
+        "sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+        "bytes": 238916567
+      }
+    ],
+    "exposure_of_reserve": "not_previous_detector_development_but_historical_audit_exposure_unverified",
+    "episode_selection": "12 T intervals of 65 consecutive samples per match, spaced uniformly among nonoverlapping 4-second playing windows; no prediction or answer used",
+    "independent_accuracy_claim": false,
+    "source_hashes": {
+      "ai_coach\\interpretation\\coaching.py": "312b99cf4b48508b37fee141763b0c3b3fc5bba71a508a3a9d3af0f2c81f185d",
+      "ai_coach\\interpretation\\context.py": "94954dc9fda62094f26925d8d5b7229edf420b16e19af352551393a581c2aa36",
+      "ai_coach\\interpretation\\contextual_io.py": "b94ac19de5e3fcb168927811f1732aae96297d2272e411ff6ff244e664c08e36",
+      "ai_coach\\interpretation\\detector.py": "db2ee961307a1b1bd86132384846e628d0584d8068f796a7e17c63c6677a3337",
+      "ai_coach\\interpretation\\evaluation.py": "988f5bfa04f5af4e27ed5f1cc85d2b74bf0e12b06c492976836f19ef7613a967",
+      "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+      "ai_coach\\interpretation\\replay_report.py": "8b63cfdb326c52c39a8fb81939f1b3592886d066db3911980d4bf108b3ed588e",
+      "ai_coach\\interpretation\\spatial_reference.py": "10ef95b807e33818f529dbe1f1cbac8975c33e858292727285a451fc1dca62e5",
+      "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+      "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588"
+    }
+  },
+  "independent_factual_audit": {
+    "ok": true,
+    "seconds": 6.472,
+    "counts": {
+      "positions_recalculated": 19669,
+      "source_references": 66487,
+      "episodes": 84,
+      "unavailable_positions": 7480,
+      "emitted_signals_recalculated": 39
+    },
+    "by_match": {
+      "demo-a11eb0d600ee702c9edb": {
+        "positions_recalculated": 2880,
+        "source_references": 9660,
+        "episodes": 12,
+        "unavailable_positions": 1020,
+        "emitted_signals_recalculated": 7
+      },
+      "demo-5bdb2dac2277dd9463ac": {
+        "positions_recalculated": 2911,
+        "source_references": 9701,
+        "episodes": 12,
+        "unavailable_positions": 968,
+        "emitted_signals_recalculated": 4
+      },
+      "demo-381bbf14c9ccd5693047": {
+        "positions_recalculated": 2979,
+        "source_references": 9858,
+        "episodes": 12,
+        "unavailable_positions": 921,
+        "emitted_signals_recalculated": 3
+      },
+      "demo-310597a1cb8f27f26c55": {
+        "positions_recalculated": 2275,
+        "source_references": 8385,
+        "episodes": 12,
+        "unavailable_positions": 1560,
+        "emitted_signals_recalculated": 2
+      },
+      "demo-6e4a3660d53931747fa8": {
+        "positions_recalculated": 3155,
+        "source_references": 10210,
+        "episodes": 12,
+        "unavailable_positions": 745,
+        "emitted_signals_recalculated": 3
+      },
+      "demo-045df2521c790a7d8a69": {
+        "positions_recalculated": 2944,
+        "source_references": 9788,
+        "episodes": 12,
+        "unavailable_positions": 956,
+        "emitted_signals_recalculated": 8
+      },
+      "demo-066944f5acb806ba5f81": {
+        "positions_recalculated": 2525,
+        "source_references": 8885,
+        "episodes": 12,
+        "unavailable_positions": 1310,
+        "emitted_signals_recalculated": 12
+      }
+    },
+    "tactical_correctness_reviewed": false
+  },
+  "retained_files": 195,
+  "retained_bytes": 2288309270,
+  "inventory_sha256": "cbb47b8d6cf5bb5ecceff885caccf97cb42eaf662360690bc12d7d34858954a6",
+  "protected_manifests_and_context_unchanged": true,
+  "reviewed_episodes": 0,
+  "agreement": null,
+  "independence_accredited": false,
+  "recommendations_emitted": 0,
+  "trained_models": 0,
+  "blind_review_cases": [
+    {
+      "case": "R1",
+      "episode_id": "cf87833570641dd0974122f33fd115cb23a3f7e7221b111142b38dbaa3e7e0fc",
+      "source_alias": "demo-045df2521c790a7d8a69",
+      "context_id": "001efa7125795cfe8d44c93edf4d097f543751df847d64d2a6337765cc503ee7",
+      "selection": "fourth of 12 fixed windows, no prediction used"
+    },
+    {
+      "case": "R2",
+      "episode_id": "9648f784a2ac5bab8b222412ec89713a5d17c9c84d473834b40eb6e3fada92f4",
+      "source_alias": "demo-066944f5acb806ba5f81",
+      "context_id": "65c00a40859e2e837c210461a0b13dc4624b563fe1101fa553752b15b41ca0bb",
+      "selection": "fourth of 12 fixed windows, no prediction used"
+    }
+  ],
+  "retained_development_outputs": {
+    "roots": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-development-_qw37rd2",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-contextual-development-o68_s8d8"
+    ],
+    "files": 10,
+    "inventory_sha256": "97d918f43d2e3c1b6cfd5bfeb9dbaa7dfc6ea71d62b4cf8c37bb5915d96097b0"
+  }
+}

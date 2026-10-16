@@ -1,0 +1,146 @@
+{
+  "id": "ICT-D1-F01-K1-R1",
+  "date": "2026-09-17",
+  "kind": "expert_development_review_receipt",
+  "status": "documented",
+  "case": {
+    "id": "F01-K1",
+    "version": "0.2",
+    "stimulus": "docs/AI_COACH_F01_K1_REVIEW_v0.2.md",
+    "stimulus_sha256": "a905945de22e2c63082a7d2bb350f4eb09e4439938439c1941cac24c63dcdeab",
+    "preparation_evidence": "docs/evidence/AI_COACH_F01_K1_REVIEW_PREPARATION_2026-09-17.json",
+    "preparation_evidence_sha256": "de8fdf8dd5eb3824cf77d7b0f71c734061f53fbd15f5b6b101ad4856ba21b764"
+  },
+  "source": {
+    "type": "user_message_in_this_conversation",
+    "reviewer": "user_game_expert",
+    "individual_timestamp": "not_recorded",
+    "exposure": "Case and minimap presented in prior assistant answer; additional exposure outside conversation unknown; open development review"
+  },
+  "response_verbatim": "Ahora puedo identificar cada jugador correctamente. Veo que se estan dirigiendo a B y que el plan es entrar en B. El T5 es el encargado de lanzar la utilidad del equipo y el resto de entrar, cubriendo a T4 que es el portador de la bomba. Mucho mejor esta información",
+  "expert_reading": {
+    "players_identifiable": true,
+    "presentation_better": true,
+    "plan": "entrar en B",
+    "explicit_signal": "se estan dirigiendo a B",
+    "T5": "encargado de lanzar la utilidad del equipo",
+    "remaining_group": "entrar, cubriendo a T4",
+    "T4": "portador de la bomba",
+    "additional_missing_information": "not separately enumerated; no exhaustive absence claim"
+  },
+  "agent_treatment": {
+    "format_sufficient_for_this_interpretation": true,
+    "interpretation_contextual": true,
+    "roles_not_universal": true,
+    "T4_carriage_previously_observed": true,
+    "coverage_is_human_interpretation_not_physical_proof": true,
+    "execution_already_started_not_claimed": true,
+    "no_individual_roles_added": true
+  },
+  "workbook": {
+    "source": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+    "source_sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c",
+    "output": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx",
+    "output_sha256": "d7ac32d3fecd8229b60fcec6a6090f24708452b81d5bf4d74e2ada95fed925d7",
+    "sheet": "Fichas tácticas",
+    "range": "A24:I24",
+    "literal_cell": "F24",
+    "missing_information_cell": "G24",
+    "missing_information_blank": true,
+    "columns_preserved": 9,
+    "sheets_preserved": 13,
+    "previous_18_answers_preserved": true,
+    "previous_18_hypothesis_ratings": "Pendiente",
+    "countif_reference_normalization": "Quote Casuísticas in Guía B19:B22 without changing criteria or outputs",
+    "countif_outputs": [
+      0,
+      71,
+      4,
+      0
+    ],
+    "verification": {
+      "sheets": 13,
+      "unexpected_content_changes": [],
+      "original_cell_style_differences": [],
+      "feature_differences": [],
+      "table_differences": [
+        "ICT_Fichastcticas"
+      ],
+      "source_countif_values_preserved": [
+        0,
+        71,
+        4,
+        0
+      ],
+      "human_response_exact": true,
+      "historical_hypotheses_pending": 18,
+      "missing_information_blank": true
+    },
+    "serialization_normalization": [
+      "Excel revision IDs",
+      "empty border children",
+      "row height precision",
+      "table default attributes and local column IDs"
+    ],
+    "changed_view_scroll": "Fichas tácticas topLeftCell D19 -> C6; freeze split remains 2 columns/5 rows"
+  },
+  "limits": {
+    "blind_evaluation": false,
+    "tactical_optimality": false,
+    "physical_support": false,
+    "model_executed": false,
+    "training_allowed": false,
+    "eligible_capabilities": 0,
+    "S2_S3_closed": false,
+    "runtime_changes": false,
+    "producer_passes": 0,
+    "functional_suites": "not applicable: documentary receipt and workbook annotation",
+    "new_smoke": "not applicable: no producer/schema/runtime change"
+  },
+  "next": {
+    "action": "Prepare one real F01-K2 in same round with same aliases, using first relevant supported change; no confirmation selection",
+    "executed_this_turn": false
+  },
+  "retention": {
+    "directory": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-feedback-06ade91251354a2e9eb6ad74032338b3",
+    "inventory": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-feedback-06ade91251354a2e9eb6ad74032338b3/inventory.json"
+  },
+  "verification": {
+    "status": "passed",
+    "protected_files": 61,
+    "workbook_source_unchanged": true,
+    "local_links": 228,
+    "unique_prompt": "AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+    "documents": [
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "exit_code": 1,
+        "sha256": "ad755751245471bec2b17848cdd13c5f1fe10aa7f7d834389bb13e7df1ed8b44"
+      },
+      {
+        "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+        "exit_code": 1,
+        "sha256": "dbe3b51dfdac6b39c55c445f4b11c4161fdd868cb1dfb8210a957290f940b591"
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "exit_code": 1,
+        "sha256": "bcb274bf7c29a720db1a1ea1841cd5492fa55a5aa572958f8d37d59d98f732bc"
+      },
+      {
+        "path": "docs/README.md",
+        "exit_code": 1,
+        "sha256": "5e5482db098c21ffbda1b03117beeb98820ec1b524a6cefb37265ee6fbf8b6ae"
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.md",
+        "exit_code": 1,
+        "sha256": "7a23868b21da999e74ffbdfeb51a049ec76b984e4bb58057ca39748ad92a3a9e"
+      }
+    ],
+    "workbook_formula_errors": 0,
+    "visual_review": "Before/after response, context and headings inspected; no clipped new content",
+    "structured_xlsx_comparison": "All 13 sheets compared; only intended content and equivalent COUNTIF quoting; expanded case table only",
+    "independent_agent_review": "Scope and next-action review; no tactical approval from agent"
+  }
+}

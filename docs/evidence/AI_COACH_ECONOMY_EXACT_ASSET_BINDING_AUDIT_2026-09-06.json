@@ -1,0 +1,659 @@
+{
+  "phase": "3D.2E",
+  "recorded_at_utc": "2026-09-06T18:18:22.109635+00:00",
+  "status": "dependency_audit_completed_exact_binding_unaccredited_material_required",
+  "functional_changes": false,
+  "parent_phase_3D_complete": false,
+  "authorization": {
+    "new_demo_parses": 0,
+    "full_producer_passes": 0,
+    "demo_downloads": 0,
+    "private_package_downloads": 0,
+    "unknown_binary_executions": 0,
+    "external_messages_sent": 0,
+    "corpus_reprocessing": false,
+    "promotion": false,
+    "training": false
+  },
+  "source": {
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "use": "Existing approved evidence only; source hash rechecked by read-only protection inventory, no parser run"
+  },
+  "versions": {
+    "rule_context_contract": "1.0.0-candidate.1",
+    "selector": 6,
+    "native_sources": "1.0.0-candidate.1",
+    "economy_v2": "1.0.0-candidate.2",
+    "base_export": "3.8.0",
+    "base_manifest": "stratai.canonical_manifest@3",
+    "parser": "v16",
+    "quality": 12,
+    "demoinfocs": "v5.2.0",
+    "catalog": "1.7.0",
+    "catalog_sha256": "734cd03d3f888f8e725180201d6ee289e04c804b992331b0c70d3bce8cf4a771",
+    "runtime_schemas": 51,
+    "reason_codes": 19,
+    "human_contract": "1.21",
+    "session_payload": "1.0.0-candidate.1",
+    "implementation_plan": "2.11",
+    "resource_manifest": "1.0.0-candidate.1",
+    "plan": "2.13",
+    "runtime_changed": false
+  },
+  "prior_evidence": {
+    "path": "docs/evidence/AI_COACH_ECONOMY_RESOURCE_MANIFEST_SINGLE_DEMO_SMOKE_2026-09-06.json",
+    "sha256": "a457c6d59a5c6ea42e06485e3685d1b11877ebf899ea23077d752be0ed215a71",
+    "functional_test_count": 510,
+    "tests_and_smoke_reexecuted_in_this_phase": false
+  },
+  "consulted_sources": [
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-commit",
+      "url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/commits/fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "resolved_url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/commits/fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "bytes": 215702,
+      "sha256": "c16354bd877cf63e9cc6b2b98630ffa4ff86f96e2164f579c671faa1709a0428",
+      "status": "retrieved",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-tree",
+      "url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/git/trees/fd04856b8668f11cb31ed2b22574607dd9c365e0?recursive=1",
+      "resolved_url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/git/trees/fd04856b8668f11cb31ed2b22574607dd9c365e0?recursive=1",
+      "bytes": 2454697,
+      "sha256": "4481462e0cfba9a016aa9fbc6b419ef2e4e5af63688240845cf87b9b062dbfe0",
+      "status": "retrieved",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-version",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/steam.inf",
+      "resolved_url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/steam.inf",
+      "bytes": 181,
+      "sha256": "13b55afcb23dd39499f819293bce05cf820a5170111cbb0e6a8c23832f1eb6a9",
+      "status": "retrieved",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-commit",
+      "url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/commits/acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "resolved_url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/commits/acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "bytes": 101389,
+      "sha256": "0342a01dfb028f0e3d1d0f2d358cee62bc1615ef8fcdda0974cc097e22f2437d",
+      "status": "retrieved",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-tree",
+      "url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/git/trees/acfe24d588d2df0a26da0f964e44d780bd3070eb?recursive=1",
+      "resolved_url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/git/trees/acfe24d588d2df0a26da0f964e44d780bd3070eb?recursive=1",
+      "bytes": 2458765,
+      "sha256": "ae8d715b392c14216a88a84b4bd7dc2defd62475b75b3e1c0e17b8a53110b11f",
+      "status": "retrieved",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-version",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/game/csgo/steam.inf",
+      "resolved_url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/game/csgo/steam.inf",
+      "bytes": 181,
+      "sha256": "a379ba7f7536b5dab10fb908339b418bccd0bc1dcb666580d2ee35f34cbaa8e1",
+      "status": "retrieved",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb"
+    },
+    {
+      "name": "steamworks-builds",
+      "url": "https://partner.steamgames.com/doc/store/application/builds",
+      "resolved_url": "https://partner.steamgames.com/doc/store/application/builds",
+      "bytes": 120942,
+      "sha256": "a0d13afcbb4a35fe06861dc95afa20b1a09d5363b9ce9e64727835208a154b35",
+      "status": "retrieved"
+    },
+    {
+      "name": "steamworks-depots",
+      "url": "https://partner.steamgames.com/doc/store/application/depots",
+      "resolved_url": "https://partner.steamgames.com/doc/store/application/depots",
+      "bytes": 122450,
+      "sha256": "e2bc1514f52e4db92f1752547cfc5fa3a3ca1714f93b72268fcb63f5cd34b1b4",
+      "status": "retrieved"
+    },
+    {
+      "name": "steamworks-uploading",
+      "url": "https://partner.steamgames.com/doc/sdk/uploading",
+      "resolved_url": "https://partner.steamgames.com/doc/sdk/uploading",
+      "bytes": 166655,
+      "sha256": "3957083b10aa8942543ba5bfdde9fc908d339733238a348d8bc0f6fc146360c1",
+      "status": "retrieved"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-files.json",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": "files.json",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/files.json",
+      "bytes": 568,
+      "sha256": "6b38b73ad26759e44bd8ee49a4ec3115ceab5ad31b5eb8cf55bdc19892bb9dbf"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-update.sh",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": "update.sh",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/update.sh",
+      "bytes": 1801,
+      "sha256": "d4ffa0a8bd46b394288ee80405e4eb1f8d2ee8ee908d02959d9108cf6707cc05"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-README.md",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/README.md",
+      "bytes": 371,
+      "sha256": "71bf8de0a4306c8c718c617eb6ca5db71afa6dee4950e1f63d71e3c5403fe631"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-game_bin_built_from_cl.txt",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": "game/bin/built_from_cl.txt",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/bin/built_from_cl.txt",
+      "bytes": 9,
+      "sha256": "a37c3013537ea9d60b2d390ed8b7c03686bcc05a20694bdc78a227a61fe20349"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-DumpSource2_module_metadata_engine2.kv3",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": "DumpSource2/module_metadata/engine2.kv3",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/DumpSource2/module_metadata/engine2.kv3",
+      "bytes": 1428,
+      "sha256": "cb88ab701cb04d70c979799582aac5a644cbcf92671437cbe1895099171a1595"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-DumpSource2_module_metadata_server.kv3",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": "DumpSource2/module_metadata/server.kv3",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/DumpSource2/module_metadata/server.kv3",
+      "bytes": 1052909,
+      "sha256": "b7ba12869d517bbce78002be18ce72455af5aa38ea4f920e5f5e0b7018eebe05"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-files.json",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": "files.json",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/files.json",
+      "bytes": 568,
+      "sha256": "6b38b73ad26759e44bd8ee49a4ec3115ceab5ad31b5eb8cf55bdc19892bb9dbf"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-update.sh",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": "update.sh",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/update.sh",
+      "bytes": 1801,
+      "sha256": "d4ffa0a8bd46b394288ee80405e4eb1f8d2ee8ee908d02959d9108cf6707cc05"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-README.md",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/README.md",
+      "bytes": 371,
+      "sha256": "71bf8de0a4306c8c718c617eb6ca5db71afa6dee4950e1f63d71e3c5403fe631"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-game_bin_built_from_cl.txt",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": "game/bin/built_from_cl.txt",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/game/bin/built_from_cl.txt",
+      "bytes": 9,
+      "sha256": "efe16774aca5182f6cff09bcd6256e4138a1cdd01dff76c484eff88314f0608f"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-DumpSource2_module_metadata_engine2.kv3",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": "DumpSource2/module_metadata/engine2.kv3",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/DumpSource2/module_metadata/engine2.kv3",
+      "bytes": 1428,
+      "sha256": "cb88ab701cb04d70c979799582aac5a644cbcf92671437cbe1895099171a1595"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-DumpSource2_module_metadata_server.kv3",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": "DumpSource2/module_metadata/server.kv3",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/DumpSource2/module_metadata/server.kv3",
+      "bytes": 1052909,
+      "sha256": "b7ba12869d517bbce78002be18ce72455af5aa38ea4f920e5f5e0b7018eebe05"
+    },
+    {
+      "name": "fd04856b8668f11cb31ed2b22574607dd9c365e0-.gitignore",
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "path": ".gitignore",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/.gitignore",
+      "bytes": 786,
+      "sha256": "bf6ea5814fb1bb01c96e0527b77202ae2d14b7f8b100300a91cfa581d8d192c9"
+    },
+    {
+      "name": "acfe24d588d2df0a26da0f964e44d780bd3070eb-.gitignore",
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "path": ".gitignore",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/.gitignore",
+      "bytes": 786,
+      "sha256": "bf6ea5814fb1bb01c96e0527b77202ae2d14b7f8b100300a91cfa581d8d192c9"
+    }
+  ],
+  "sdk": {
+    "revision": "v5.2.0",
+    "path": "pkg/demoinfocs/msg/proto/demo.proto",
+    "sha256": "f646d9a14515ac34bce14d7aa16cba5ec9f8b0e887f4af38b2b2b799cec3e6a8",
+    "url": "https://github.com/markus-wa/demoinfocs-golang/blob/v5.2.0/pkg/demoinfocs/msg/proto/demo.proto",
+    "boundary": "CDemoFileHeader.build_num is an optional int32 field; declaration alone does not bind server binary or depot contents."
+  },
+  "historical_references": [
+    {
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "commit_date": "2026-08-25T19:58:17Z",
+      "version_fields": {
+        "ClientVersion": "2000891",
+        "ServerVersion": "2000891",
+        "PatchVersion": "1.41.7.7",
+        "ProductName": "cs2",
+        "appID": "730",
+        "ServerAppID": "2347773",
+        "SourceRevision": "10937988",
+        "VersionDate": "Aug 25 2026",
+        "VersionTime": "11:28:13"
+      },
+      "version_source_registry_hash_matched": true,
+      "built_from_cl": "10937911",
+      "tracker_patchnotes_id": "24934554",
+      "tracker_patchnotes_url": "https://steamdb.info/patchnotes/24934554/",
+      "distribution_association_status": "tracker_declared_reference_not_demo_binding",
+      "selection_depot_ids": [
+        "2347770",
+        "2347771",
+        "2347773",
+        "2347779"
+      ],
+      "historical_depot_manifest_ids": null,
+      "tree_entries": 8886,
+      "tree_truncated": false,
+      "original_binary_vpk_manifest_and_buildid_paths": [],
+      "modules": [
+        {
+          "module": "engine2",
+          "exact_10896_tokens": 0,
+          "identity_assignment_probe_hits": []
+        },
+        {
+          "module": "server",
+          "exact_10896_tokens": 0,
+          "identity_assignment_probe_hits": []
+        }
+      ],
+      "extraction_uses_vpk_decompile": true,
+      "extraction_tool_revision_at_capture": null,
+      "native_header_build_binding": null
+    },
+    {
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "commit_date": "2026-08-24T23:42:44Z",
+      "version_fields": {
+        "ClientVersion": "2000888",
+        "ServerVersion": "2000888",
+        "PatchVersion": "1.41.7.7",
+        "ProductName": "cs2",
+        "appID": "730",
+        "ServerAppID": "2347773",
+        "SourceRevision": "10936007",
+        "VersionDate": "Aug 24 2026",
+        "VersionTime": "16:07:10"
+      },
+      "version_source_registry_hash_matched": true,
+      "built_from_cl": "10935971",
+      "tracker_patchnotes_id": "24916958",
+      "tracker_patchnotes_url": "https://steamdb.info/patchnotes/24916958/",
+      "distribution_association_status": "tracker_declared_reference_not_demo_binding",
+      "selection_depot_ids": [
+        "2347770",
+        "2347771",
+        "2347773",
+        "2347779"
+      ],
+      "historical_depot_manifest_ids": null,
+      "tree_entries": 8871,
+      "tree_truncated": false,
+      "original_binary_vpk_manifest_and_buildid_paths": [],
+      "modules": [
+        {
+          "module": "engine2",
+          "exact_10896_tokens": 0,
+          "identity_assignment_probe_hits": []
+        },
+        {
+          "module": "server",
+          "exact_10896_tokens": 0,
+          "identity_assignment_probe_hits": []
+        }
+      ],
+      "extraction_uses_vpk_decompile": true,
+      "extraction_tool_revision_at_capture": null,
+      "native_header_build_binding": null
+    }
+  ],
+  "local_installation": {
+    "steam_libraries_checked": 2,
+    "steam_library_index_sha256": "a6c5c2cfee4ef1ccc0d702df40ea13123c49fbaa3e432c527af8e1bc1d755ee5",
+    "cs2_installations": [
+      {
+        "library_alias": "local-steam-library-1",
+        "appmanifest_sha256": "f3315812da7d6eb757ab41e4afc3a318f40ee518c3238ad82ec7886071308e9c",
+        "app_id": "730",
+        "steam_app_build_id": "25000182",
+        "installed_depots": {
+          "732": {
+            "manifest": "2392832650133142766",
+            "size": "8"
+          },
+          "731": {
+            "manifest": "6967806384656644903",
+            "size": "8"
+          },
+          "735": {
+            "manifest": "3656110896552880422",
+            "size": "8"
+          },
+          "2347770": {
+            "manifest": "6839025807341874757",
+            "size": "62725603852"
+          },
+          "2347771": {
+            "manifest": "5122228181560116426",
+            "size": "7712178854"
+          },
+          "2347774": {
+            "manifest": "6880616264887178762",
+            "size": "1142056124"
+          }
+        },
+        "steam_inf_files": [
+          {
+            "path": "game/csgo/steam.inf",
+            "sha256": "d41d10dbdf6c0b03b8e0727339934155329dbb319fb46ea114af20b053746ebc",
+            "fields": {
+              "ClientVersion": "2000899",
+              "ServerVersion": "2000899",
+              "PatchVersion": "1.41.7.8",
+              "ProductName": "cs2",
+              "appID": "730"
+            }
+          }
+        ],
+        "named_binaries": [
+          {
+            "path": "game/bin/win64/cs2.exe",
+            "bytes": 2967704,
+            "sha256": "427777df3271a7e423e7b9accdb7b40bda47d6683b6ac1d75d129f26e5103dbf"
+          },
+          {
+            "path": "game/bin/win64/engine2.dll",
+            "bytes": 6768792,
+            "sha256": "26dc9c5fee70312e7851d87c2383f70cc4d036247d8de04e3cf342ccc20773ac"
+          },
+          {
+            "path": "game/csgo/bin/win64/server.dll",
+            "bytes": 33002648,
+            "sha256": "9e5749d77dcb68883477feae751a3f28068d119ec145edcb0e4d48d15b538d36"
+          }
+        ],
+        "symbol_files": []
+      }
+    ],
+    "scope": "Only Steam library index, appmanifest_730, steam.inf and named CS2 binaries/symbol directories; no account fields retained."
+  },
+  "local_read_only_recheck": [
+    {
+      "library_alias": "local-steam-library-1",
+      "path": "game/csgo/steam.inf",
+      "sha256": "d41d10dbdf6c0b03b8e0727339934155329dbb319fb46ea114af20b053746ebc",
+      "unchanged": true
+    },
+    {
+      "library_alias": "local-steam-library-1",
+      "path": "game/bin/win64/cs2.exe",
+      "sha256": "427777df3271a7e423e7b9accdb7b40bda47d6683b6ac1d75d129f26e5103dbf",
+      "unchanged": true
+    },
+    {
+      "library_alias": "local-steam-library-1",
+      "path": "game/bin/win64/engine2.dll",
+      "sha256": "26dc9c5fee70312e7851d87c2383f70cc4d036247d8de04e3cf342ccc20773ac",
+      "unchanged": true
+    },
+    {
+      "library_alias": "local-steam-library-1",
+      "path": "game/csgo/bin/win64/server.dll",
+      "sha256": "9e5749d77dcb68883477feae751a3f28068d119ec145edcb0e4d48d15b538d36",
+      "unchanged": true
+    },
+    {
+      "library_alias": "local-steam-library-1",
+      "path": "steamapps/appmanifest_730.acf",
+      "sha256": "f3315812da7d6eb757ab41e4afc3a318f40ee518c3238ad82ec7886071308e9c",
+      "unchanged": true
+    },
+    {
+      "library_alias": "local-steam-library-1",
+      "path": "game/bin/built_from_cl.txt",
+      "sha256": "c3a96cc35a835b39414cda4fd85001e61acbd1978908a1d9fce9ae312c69c622",
+      "changelist_marker": "10948893",
+      "native_build_equivalence": null
+    }
+  ],
+  "chain": {
+    "observed_header_build_num": 10896,
+    "observed_patch_version": 14177,
+    "observed_serverinfo_protocol": 14177,
+    "header_component_to_server_binary_binding": null,
+    "header_build_to_exact_distribution": null,
+    "exact_historical_depot_manifests": null,
+    "original_economic_asset_hashes_bound_to_demo": null,
+    "original_to_registered_representation_reproducible_chain": null,
+    "effective_economic_rules_complete": false,
+    "compatible_packages": 0,
+    "comparison_allowed": false,
+    "training_allowed": false,
+    "product_supported": false
+  },
+  "dependency": {
+    "document": "docs/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md",
+    "status": "material_required",
+    "required_material": [
+      "Origin record linking demo/header component and relevant binary version with package provenance",
+      "App/build/depot/manifest identities for the exact platform and distribution",
+      "Original binaries or verifiable origin records, relevant VPK/resource/config bytes and hashes",
+      "Pinned extraction tool, arguments, original input and transformed output hashes"
+    ],
+    "possible_suppliers": [
+      "Custodian of the corresponding historical installation",
+      "Authorized distributor with historical depot records",
+      "Public archive with the complete verifiable chain",
+      "Tracker maintainers if original capture/extraction records are retained"
+    ],
+    "acceptance_cases_documented": 9,
+    "positive_material_received": false,
+    "acceptance_tests_on_real_exact_package_executed": false
+  },
+  "research_scope": {
+    "graph": "list_projects returned Transport closed; bounded local fallback",
+    "public_repositories": [
+      "SteamTracking/GameTracking-CS2 at the two registered revisions"
+    ],
+    "documents": [
+      "Steamworks builds, depots and uploading"
+    ],
+    "tree_filename_filter": "steam.inf, appmanifest, build, manifest, version, depot; filename discovery only",
+    "tree_original_categories_checked": [
+      ".dll",
+      ".exe",
+      ".so",
+      ".vpk",
+      ".vpk.manifest.txt",
+      "steam_buildid.txt"
+    ],
+    "metadata_identity_probe": [
+      "Exact 10896 numeric token",
+      "Named assignments build_num/build_number/buildid/SourceRevision/ClientVersion/manifest_id/depot_id in engine2/server metadata"
+    ],
+    "web_searches": [
+      "\"cs2\" \"10896\" build",
+      "\"csgo\" \"2000888\" \"14177\"",
+      "\"cs2\" \"2000891\" build",
+      "site:github.com/ValveSoftware/csgo-osx-linux \"10896\"",
+      "site:github.com/SteamTracking/GameTracking-CS2 \"10896\"",
+      "site:github.com/a2x/cs2-dumper \"10896\""
+    ],
+    "web_search_boundary": "No relevant primary source completing the native-build link was returned; unrelated results not retained or used. This is not proof of global absence.",
+    "transport_fallback": "web tool could not open two GitHub API URLs; fixed commit data fetched successfully via HTTPS in local audit; GitHub commit pages also opened. No auth/private packages involved."
+  },
+  "validation": {
+    "contract_command": "backend/venv/Scripts/python.exe -B -m ai_coach.contracts.validate_contract",
+    "contract": {
+      "counts": {
+        "actions": 51,
+        "capabilities": 17,
+        "decisions": 15,
+        "fields": 58,
+        "outcomes": 18
+      },
+      "ok": true,
+      "runtime_contracts": {
+        "reason_codes": 19,
+        "schemas": 51
+      }
+    },
+    "functional_suites": "Not rerun: documentation/dependency audit only; all functional files unchanged",
+    "smoke": "Not run: no producer/schema/derived-fact change; do not repeat a demo only to reconfirm missing material",
+    "registry_version_sources_hashes_matched": 2,
+    "source_capture_hashes_verified": 23,
+    "local_previous_hashes_matched": 5,
+    "protected_inventory": {
+      "before": {
+        "approved_bundles": 44,
+        "source_files": 50,
+        "files": 4356,
+        "hashed_files": 181,
+        "bytes": 42372398910,
+        "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+        "seconds": 1.795
+      },
+      "after": {
+        "approved_bundles": 44,
+        "source_files": 50,
+        "files": 4356,
+        "hashed_files": 181,
+        "bytes": 42372398910,
+        "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+        "seconds": 1.431,
+        "unchanged": true
+      }
+    },
+    "prior_validated_build_files_unchanged": 308
+  },
+  "previous_evidence_sha256": {
+    "docs/evidence/AI_COACH_DECISION_EXAMPLE_COVERAGE_MIRAGE_44_2026-08-27.json": "ad4849fefcbd6e71cfc571d2e99447a842ea1965d19ae6952501ace95d6d34af",
+    "docs/evidence/AI_COACH_ECONOMY_CAUSAL_STATE_SINGLE_DEMO_SMOKE_2026-09-05.json": "c6d712c582966ad8ae97822a1f43ccb333bd47ccbbf432f9f87b295233cc229c",
+    "docs/evidence/AI_COACH_ECONOMY_INITIAL_COVERAGE_AND_ROUND_LINK_SINGLE_DEMO_SMOKE_2026-09-05.json": "6eafe384112c03de548c8af9a89255ba2570d45db9c82a2ed995d1fc3831084f",
+    "docs/evidence/AI_COACH_ECONOMY_NATIVE_RULE_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-06.json": "0e4721f3f38858d4bb619b49a0ed900ec40802a6d63c80255c0924e78ae2b5ae",
+    "docs/evidence/AI_COACH_ECONOMY_NATIVE_SOURCES_SINGLE_DEMO_SMOKE_2026-09-06.json": "9bf020a0fb0a463a2f7798c1e6db97e2a85e1dd4be3cc46df463db784ced5919",
+    "docs/evidence/AI_COACH_ECONOMY_OPPORTUNITY_CONTRACT_SINGLE_DEMO_SMOKE_2026-09-06.json": "16756c182cb196fe2e46769833e86eaa1ddc449c4e915d73083fdc65757d6703",
+    "docs/evidence/AI_COACH_ECONOMY_RESOURCE_MANIFEST_SINGLE_DEMO_SMOKE_2026-09-06.json": "a457c6d59a5c6ea42e06485e3685d1b11877ebf899ea23077d752be0ed215a71",
+    "docs/evidence/AI_COACH_ECONOMY_RULE_REFERENCES_SINGLE_DEMO_SMOKE_2026-09-06.json": "4e44ec92b5b342bc978d3fd42a241f2fb4138a4a08360f303df385e7155195d6",
+    "docs/evidence/AI_COACH_ECONOMY_SESSION_PAYLOAD_SINGLE_DEMO_SMOKE_2026-09-06.json": "f9aa6e3146d375d39e6cd5112373d070bc87c0e88678a4706cb078b60c105db9",
+    "docs/evidence/AI_COACH_ETA_SINGLE_DEMO_SMOKE_2026-08-28.json": "8276a322cc1de9b6cb330f6db11a16f0fb284f5f70a40929abbda093904181cc",
+    "docs/evidence/AI_COACH_FULL_MATCH_VALIDATION_2026-08-28.json": "f52e70ced794633e5b892452e224813326393e81a63eb09a91ea8f30d449401c",
+    "docs/evidence/AI_COACH_FULL_SINGLE_DEMO_VALIDATION_2026-08-28.json": "479a8add175b4efe2e9bc3f246d15fc7d39d6873d52a78e6ba40804c567a6c1c",
+    "docs/evidence/AI_COACH_LAST_KNOWN_POSITION_INFORMATION_AGE_SINGLE_DEMO_SMOKE_2026-08-29.json": "9c35df5e8df8ccfebc87726558142ef830be257f5da75ef9e2246ea5646410cb",
+    "docs/evidence/AI_COACH_MULTIMAP_COVER_MIRAGE_SINGLE_DEMO_SMOKE_2026-08-31.json": "856387402e4181ab1c8dce7320410ef41ea2dcc136369b8d02d3511339e0e000",
+    "docs/evidence/AI_COACH_MULTIMAP_EXIT_ROUTE_MIRAGE_SINGLE_DEMO_SMOKE_2026-08-31.json": "144a7cba439bc3baee006cb3a3d36600e97941f2c7bd665f0063fdcd55bcecb7",
+    "docs/evidence/AI_COACH_MULTIMAP_EXPOSURE_ANGLES_MIRAGE_SINGLE_DEMO_SMOKE_2026-08-29.json": "a79adef56757fb14bcf5efa7f8fd327572dbb78201fc38fa380df3ec307e21cc",
+    "docs/evidence/AI_COACH_SPATIAL_CONTEXTUAL_REVIEW_INSTRUMENT_REPAIR_2026-09-02.json": "11dcfda25fc1e04110dcdabeda841424f0bbd98f104714fcb599f23d6e1986ea",
+    "docs/evidence/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_SINGLE_DEMO_SMOKE_2026-09-05.json": "6f37292489b90017af2f93fcf77e049a3b9d327310a82d0d5450506b1f41108c",
+    "docs/evidence/AI_COACH_SPATIAL_FACT_BOUNDARY_SINGLE_DEMO_SMOKE_2026-09-04.json": "918137384e7d145af71873e709d5f8f38f1cefc0d994e287079f6ab9f8469fc5",
+    "docs/evidence/AI_COACH_SPATIAL_HUMAN_REVIEW_PROTOCOL_MIRAGE_PILOT_2026-09-01.json": "b2b6431109771638a3534b48e2f00daf4ea1fc770f005399ed1f2de50f00153f",
+    "docs/evidence/AI_COACH_UTILITY_INITIAL_VELOCITY_SINGLE_DEMO_SMOKE_2026-08-28.json": "64b605175f914624149c846e84d219b956fb88a8aab31ff5cd4fd23df855809f",
+    "docs/evidence/AI_COACH_WEAPON_AMMO_RELOAD_SINGLE_DEMO_SMOKE_2026-08-28.json": "816c867af19506276e682733fd6cdb31310209392f8e0dc6397d74fd5919def1",
+    "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json": "38c39620e4714357c716e5884bdb6199a610916a33d7a47af55a1e986c0e2bb9"
+  },
+  "commands": {
+    "workspace": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+    "temporary_audit_work": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3d2e-work-vuj26c9l",
+    "source_audit": "backend/venv/Scripts/python.exe -B $work/audit_sources.py",
+    "source_summary": "backend/venv/Scripts/python.exe -B $work/summarize_audit.py",
+    "local_recheck": "backend/venv/Scripts/python.exe -B $work/local_recheck.py",
+    "protected_before": "backend/venv/Scripts/python.exe -B $work/protected_inventory.py before",
+    "protected_after": "backend/venv/Scripts/python.exe -B $work/protected_inventory.py after",
+    "closure": "backend/venv/Scripts/python.exe -B $work/close_audit.py",
+    "helpers": [
+      {
+        "file": "audit_sources.py",
+        "sha256": "936419750396da6d7b8987dad9fc85b3f226805ec5ee79ab9e9705435689d745"
+      },
+      {
+        "file": "summarize_audit.py",
+        "sha256": "ab85df798afb52a10c1a32d3a8a072f9815714692c923f6de8cbaf3dfc7ba8a8"
+      },
+      {
+        "file": "local_recheck.py",
+        "sha256": "306dd57a55b6547b792af0750e40faff9d0c3deb691fbe0f1a296097b30c1c78"
+      },
+      {
+        "file": "protected_inventory.py",
+        "sha256": "1206ce6b94774a8d1f2d7f1ae7b6a020e91f5544c2377d3fadd90b729db32fec"
+      },
+      {
+        "file": "close_audit.py",
+        "sha256": "c96a0a7938370701ddc91bb5e9f03d2496d8a1300e50eeadec64e794afba17a8"
+      }
+    ]
+  },
+  "limitations": [
+    "No exact distribution selected from patch/date/price/name matches.",
+    "Tracker update IDs are declared references, not historical depot manifest IDs or demo binding.",
+    "Hashes of transformed text do not replace original compiled resource or VPK hashes.",
+    "Header build field declaration alone does not identify every relevant server/client binary.",
+    "The bounded search does not demonstrate that missing material is unavailable everywhere.",
+    "Nine acceptance cases are specifications for future material, not passed runtime tests.",
+    "Even exact assets would not establish all effective overrides, loadout, cooperation or transaction history."
+  ],
+  "cleanup": {
+    "new_large_demo_output_created": false,
+    "old_outputs_read_only": true,
+    "prior_rejections_retried": false,
+    "new_deletion_attempts": 0
+  },
+  "next_action": {
+    "phase": "3D.3",
+    "task": "Trace and distinguish native economic transactions with explicit ambiguity, independently of external price packages",
+    "prompt": "docs/prompts/AI_COACH_ECONOMY_TRANSACTION_TRACE_PHASE_PROMPT.md",
+    "exact_asset_work_reopens_only_after_material": true
+  },
+  "closure_verification": {
+    "documents_checked": 54,
+    "local_links_checked": 334,
+    "missing_targets": [],
+    "active_prompts": 1,
+    "baseline_files": 989,
+    "changed_baseline_files": [
+      "docs/README.md",
+      "docs/archive/ai-coach/README.md",
+      "docs/canonical-economy-rule-references-v1.md",
+      "docs/prompts/AI_COACH_ECONOMY_EXACT_ASSET_BINDING_PHASE_PROMPT.md",
+      "README.md",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md"
+    ],
+    "unchanged_outside_scope": 982,
+    "functional_code_unchanged": true,
+    "previous_evidence_unchanged": 23,
+    "catalog_unchanged": true,
+    "git_diff_check": "passed"
+  }
+}

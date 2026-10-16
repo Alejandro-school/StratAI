@@ -1,0 +1,672 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_navigation_context@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "map_name",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "rows",
+    "matrix",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_navigation_context@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string"
+    },
+    "map_name": {
+      "type": "string",
+      "pattern": "^de_[a-z0-9_]+$"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "physical_source",
+        "support_source",
+        "anchors",
+        "physical_context",
+        "base_manifest",
+        "evaluator",
+        "navigation_source"
+      ],
+      "properties": {
+        "physical_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "anchors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "base_manifest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "evaluator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "navigation_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "anchor_id",
+          "actor_alias",
+          "ally_alias",
+          "actor_life",
+          "ally_life",
+          "side",
+          "instance",
+          "round_number",
+          "source_sequence",
+          "epoch",
+          "t0_tick",
+          "t0_frame",
+          "endpoints",
+          "competitive_round_status",
+          "initial",
+          "candidate_diagnostic",
+          "decision_eligible"
+        ],
+        "properties": {
+          "anchor_id": {
+            "type": "string"
+          },
+          "actor_alias": {
+            "type": "string"
+          },
+          "ally_alias": {
+            "type": "string"
+          },
+          "actor_life": {
+            "type": "string"
+          },
+          "ally_life": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "integer"
+          },
+          "round_number": {
+            "type": "integer"
+          },
+          "source_sequence": {
+            "type": "integer"
+          },
+          "epoch": {
+            "type": "integer"
+          },
+          "t0_tick": {
+            "type": "integer"
+          },
+          "t0_frame": {
+            "type": "integer"
+          },
+          "endpoints": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "origin",
+              "target"
+            ],
+            "properties": {
+              "origin": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "X",
+                  "Y",
+                  "Z"
+                ],
+                "properties": {
+                  "X": {
+                    "type": "number"
+                  },
+                  "Y": {
+                    "type": "number"
+                  },
+                  "Z": {
+                    "type": "number"
+                  }
+                }
+              },
+              "target": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "X",
+                  "Y",
+                  "Z"
+                ],
+                "properties": {
+                  "X": {
+                    "type": "number"
+                  },
+                  "Y": {
+                    "type": "number"
+                  },
+                  "Z": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          },
+          "competitive_round_status": {
+            "enum": [
+              "canonical_interval_matched",
+              "not_accredited"
+            ]
+          },
+          "initial": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "reachable",
+              "path_distance_world_units",
+              "path",
+              "availability_tick",
+              "availability_frame",
+              "reasons"
+            ],
+            "properties": {
+              "status": {
+                "const": "insufficient_information"
+              },
+              "reachable": {
+                "const": null
+              },
+              "path_distance_world_units": {
+                "const": null
+              },
+              "path": {
+                "const": null
+              },
+              "availability_tick": {
+                "type": "integer"
+              },
+              "availability_frame": {
+                "type": "integer"
+              },
+              "reasons": {
+                "const": [
+                  "exact_demo_asset_binding_unavailable",
+                  "endpoint_physical_association_unaccredited",
+                  "area_attributes_hull_and_mobile_transforms_not_modelled",
+                  "ladder_links_not_modelled",
+                  "target_edge_geometry_not_retained",
+                  "centre_polyline_not_collision_checked"
+                ]
+              }
+            }
+          },
+          "candidate_diagnostic": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "reason",
+              "measurement",
+              "points",
+              "association"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "unavailable",
+                  "candidate_connected",
+                  "candidate_no_directed_path",
+                  "candidate_outside_coverage"
+                ]
+              },
+              "reason": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "measurement": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "DirectDistance",
+                      "Reachable",
+                      "PathDistance",
+                      "OriginAssociationDistance",
+                      "TargetAssociationDistance",
+                      "UnavailableReason"
+                    ],
+                    "properties": {
+                      "DirectDistance": {
+                        "type": "number"
+                      },
+                      "Reachable": {
+                        "anyOf": [
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "PathDistance": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "OriginAssociationDistance": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "TargetAssociationDistance": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "UnavailableReason": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "points": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "X",
+                    "Y",
+                    "Z"
+                  ],
+                  "properties": {
+                    "X": {
+                      "type": "number"
+                    },
+                    "Y": {
+                      "type": "number"
+                    },
+                    "Z": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "association": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "origin",
+                      "target",
+                      "same_polygon"
+                    ],
+                    "properties": {
+                      "origin": {
+                        "enum": [
+                          "polygon_xy_candidate",
+                          "nearest_center_candidate",
+                          "outside_candidate_coverage"
+                        ]
+                      },
+                      "target": {
+                        "enum": [
+                          "polygon_xy_candidate",
+                          "nearest_center_candidate",
+                          "outside_candidate_coverage"
+                        ]
+                      },
+                      "same_polygon": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "decision_eligible": {
+            "const": false
+          }
+        }
+      }
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance",
+          "actor_alias",
+          "ally_alias",
+          "counts"
+        ],
+        "properties": {
+          "instance": {
+            "type": "integer"
+          },
+          "actor_alias": {
+            "type": "string"
+          },
+          "ally_alias": {
+            "type": "string"
+          },
+          "counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "anchors",
+              "canonical_interval_matched",
+              "insufficient_information",
+              "candidate_connected",
+              "candidate_no_directed_path",
+              "candidate_outside_coverage",
+              "unavailable"
+            ],
+            "properties": {
+              "anchors": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "canonical_interval_matched": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "insufficient_information": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidate_connected": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidate_no_directed_path": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidate_outside_coverage": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unavailable": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchors",
+        "canonical_interval_matched",
+        "insufficient_information",
+        "candidate_connected",
+        "candidate_no_directed_path",
+        "candidate_outside_coverage",
+        "unavailable",
+        "matrix_rows",
+        "physical_connections_observed",
+        "physical_absences_accredited",
+        "eligible_decisions"
+      ],
+      "properties": {
+        "anchors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "canonical_interval_matched": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "insufficient_information": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "candidate_connected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "candidate_no_directed_path": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "candidate_outside_coverage": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matrix_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "physical_connections_observed": {
+          "const": 0
+        },
+        "physical_absences_accredited": {
+          "const": 0
+        },
+        "eligible_decisions": {
+          "const": 0
+        }
+      }
+    }
+  }
+}

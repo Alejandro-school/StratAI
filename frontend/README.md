@@ -60,6 +60,25 @@ Evita añadir nueva lógica de dominio a `utils/`. Colócala en la feature propi
 
 Node.js y Go son servicios internos y no deben exponerse directamente al navegador.
 
+## Landing oficial y acceso con Steam
+
+La ruta pública `/` utiliza `src/features/landing-world/`: el recorrido de Mirage,
+sus paneles y el replay original. Sus estilos permanecen dentro de `.landing-world`
+para conservar los controles y el scroll de las pantallas de cuenta. Los textos
+y el guion del replay pertenecen a la misma feature; la landing anterior se ha retirado.
+
+Todos los accesos a Steam utilizan `VITE_API_URL` y `/auth/steam/login`. En desarrollo,
+la API predeterminada es `http://localhost:8000`; en una compilación de producción
+sin esa variable se usa el mismo origen. Si sirves el build desde otro origen,
+compila con la URL pública de la API. El servidor debe configurar `FRONTEND_URL`
+para el retorno a `/steam-login-success`, `PUBLIC_BACKEND_URL` para el callback de
+Steam y `ALLOWED_ORIGINS` para el frontend. La sesión y el onboarding existentes
+deciden después entre `/history-code` y `/dashboard`.
+
+El acceso y los paneles también están disponibles mientras carga el mapa 3D.
+La entrada independiente `landing-world.html` se conserva como herramienta
+opcional de revisión; la aplicación oficial se inicia con los comandos normales.
+
 ## Comandos
 
 ```powershell

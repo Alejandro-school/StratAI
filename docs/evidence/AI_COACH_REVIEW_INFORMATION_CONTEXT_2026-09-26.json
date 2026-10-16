@@ -1,0 +1,670 @@
+{
+  "date": "2026-09-26",
+  "request": {
+    "literal": "Implementalo por favor.",
+    "date": "2026-09-26",
+    "accepted_context": "Implement the recommended team-information perspective from the immediately preceding answer.",
+    "criterion": "Ally casualties and verified prior positions; enemy contacts only with causal source attribution; communications remain unknown without evidence.",
+    "new_game_label": false,
+    "expert_criterion_reopened": false,
+    "tests_configuration_retry": "First run lacked CONTENT_KEY and correctly returned 503; same suite passed with the existing build key. No demo ran before the passing suite.",
+    "preview_http": {
+      "url": "http://127.0.0.1:54638/entrar",
+      "status": 200,
+      "invitation_page": true
+    },
+    "browser_visual_test": false
+  },
+  "scope_status": "ally_casualty_context_published; enemy_contact_attribution_still_unavailable",
+  "instrument": "stratai.review_web@3",
+  "case_count": 34,
+  "death_occurrences_in_delivered_cards": 63,
+  "occurrences_are_not_independent_events": true,
+  "raw_blocks_unchanged": 102,
+  "tests_passed": 11,
+  "tests_failed": 0,
+  "receipts": {
+    "tests-configured": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "test"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-shared-20260925\\site",
+      "exit_code": 0,
+      "seconds": 1.835
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\demo-0beb9110ec408f80c39b.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\capture",
+        "--alias",
+        "demo-0beb9110ec408f80c39b",
+        "--checksum",
+        "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 90.852
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "3896:4350",
+        "6283:6672",
+        "7435:8669",
+        "9387:10686",
+        "12090:12869",
+        "14606:15190",
+        "17261:17325",
+        "19132:19521",
+        "20185:21549",
+        "21918:23607",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 449.665
+    },
+    "validate": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.review_packet_v3",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\cards",
+        "--side",
+        "T",
+        "--intervals",
+        "3896:4350",
+        "6283:6672",
+        "7435:8669",
+        "9387:10686",
+        "12090:12869",
+        "14606:15190",
+        "17261:17325",
+        "19132:19521",
+        "20185:21549",
+        "21918:23607",
+        "--radar",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\frontend\\public\\maps\\de_mirage_radar_psd.webp"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 451.733
+    },
+    "derive": {
+      "command": [
+        "node",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-information-20260926\\derive_smoke.mjs",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\cards",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1\\information.json"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 0.488
+    },
+    "independent-audit": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-information-20260926\\audit_smoke.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 4.26
+    }
+  },
+  "smoke": {
+    "ok": true,
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_matches": 1,
+    "frames": 8255,
+    "death_occurrences": 21,
+    "positions_independently_recomputed": 21,
+    "causal_cuts_checked": 8255,
+    "contact_abstention_cuts": 8255,
+    "exact_death_position_claims": 0,
+    "copied_raw_blocks_equal": 30,
+    "protected_files_unchanged": 160,
+    "corpus_manifests_unchanged": 44,
+    "cards": [
+      {
+        "case": "E03",
+        "frames": 455,
+        "death_occurrences": 2,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E04",
+        "frames": 390,
+        "death_occurrences": 1,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E05",
+        "frames": 1235,
+        "death_occurrences": 4,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E06",
+        "frames": 1300,
+        "death_occurrences": 3,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E07",
+        "frames": 780,
+        "death_occurrences": 4,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E08",
+        "frames": 585,
+        "death_occurrences": 1,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E09",
+        "frames": 65,
+        "death_occurrences": 0,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E10",
+        "frames": 390,
+        "death_occurrences": 1,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E11",
+        "frames": 1365,
+        "death_occurrences": 2,
+        "raw_json_blocks_equal": 3
+      },
+      {
+        "case": "E12",
+        "frames": 1690,
+        "death_occurrences": 3,
+        "raw_json_blocks_equal": 3
+      }
+    ],
+    "artifact_hashes": {
+      "canonical-export.exe": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+      "demo-0beb9110ec408f80c39b.dem": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+      "information.json": "df554b2120f5180df8533935b08af9faa72ed8c3f56f74f9946ddf48edbe0e81",
+      "cards\\case_001.html": "50ac1d436354ee0c10c44be21c767689fece6d2f9dd1e5820be823da7ece670d",
+      "cards\\case_001.json": "fa938e8d4e0c7a9866583ad1d69c77e879aded509568e7301193fba6c8d3f42c",
+      "cards\\case_002.html": "381a3c361fd17f5ca7535b59c56a1c6265763c97385e64a43ea609720de89b85",
+      "cards\\case_002.json": "468694f045e56810d2555e76f2b5b12cccbde7f86abfb9ca645ec83f9fc6815f",
+      "cards\\case_003.html": "e935eea75cd0b9ebd31cd402bf960996f0ca0322d7bae8f1653e40a514b09c92",
+      "cards\\case_003.json": "46f03df7e76825d8cab0acd3d79b6b0316807cb4371c7d2612780926a71e8624",
+      "cards\\case_004.html": "66f581182e5dfffdcfd5cdb07bfdc321ac21b0457cd33e449dd8fec0405b087c",
+      "cards\\case_004.json": "2cf0e0c7af25c12810bf31c2e8d72ab475c273b55404ea900ef4fd05fdfc56c1",
+      "cards\\case_005.html": "0a896a8e12f2c003a47c9b078aae6dee17e3e6e5a3d2d4325409e4fab51f8711",
+      "cards\\case_005.json": "c972381a36a6c2d499337282c1041ddcae9267731b6123fbef538d2810c307a3",
+      "cards\\case_006.html": "0293e6f97323301fb037a8040ed4760e51bf62da9307ec9344e18e59fc4283c1",
+      "cards\\case_006.json": "7b79949e6a3b5eca8db333c98c0578dd5ac9fd2829989ac7e54a7cf4e0251804",
+      "cards\\case_007.html": "f0481b11f2e5634d92e30121f96d06ea6f5aa36cdcb4853c93f91fa05e4b1a93",
+      "cards\\case_007.json": "879d4b95df70c903634272dd496560cc9efb93df4e42f4a4fcf2309098f9ad5a",
+      "cards\\case_008.html": "bdffb4f6ef60ade1273a2865949df50cf264835c966004a260faa28d09802df6",
+      "cards\\case_008.json": "af062968777020b028de8f0eb40b2d6c4cd178cab2afddb55b635ea593f8866a",
+      "cards\\case_009.html": "3eb62158ebbcf28a97c5039637395c967fdfd5472ffcdee20166756f5905dc1a",
+      "cards\\case_009.json": "258a182a865d45c806fbc4d4ec20bcafdef45364340f42cff54f51be39364500",
+      "cards\\case_010.html": "dc821d979f526cd8c4d22c4f7619018aee8bef21365c53a553cd4ecc0d2c941e",
+      "cards\\case_010.json": "4ede819cf7a04ccc1dcbbf90e1db56cb1ab4fbb8c265b4af057e7bfd9c5f2b27",
+      "cards\\review_packet_manifest.json": "ac2d0697077c9b0c263d9eac1561938dd4b59eb6419e36c2ce74e9f804496fc4",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_c4_observations.json": "389e3c73e9f6ebd34172096cc840d14b834742002697b1c17a0359d6e4a9a1af",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_inventory_observations.json": "328ca3f859479646b65a02eb2fe78850dd940efb0ad85cf530a0506ca74a1fe1",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_objective_clock_observations.json": "cc376f376e0ff6aaa8ebafc8bd1a5f9a521327da61189a14153a8e278035e476",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_objective_observations.json": "1552e62256d5c016aa3f5d34178c5a7195b8345843f255dd4f4d8dec5559652a",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_observations.json": "614f03792e7a651b6626a8f570ae5138ff496226d47638bed67aa8c98278f7f1",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_physical_observations.json": "5c095fda3b7a8fc6983929f2c2db4c6339a2cd72f7d8128304596879a7815f29",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_round_context_observations.json": "00b3a821e52d485b35d7a712de3616cf217762f29f4c175de7673dd6636ac113",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\manifest.json": "38cf5462919cb2e138f7d5164e9a2cfa5caad070413d0ca21c70a952aa87efd9",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\decisions.jsonl": "9c6306436c808d7abde14d4fbe9199d825396c6598e50db1142d99bd21aaaa1b",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\decision_features.jsonl": "72b82a02a9ff03d57869dd9fdf9adadbc4a594c4148c1f4745a63cba19614efd",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\oracle_context.jsonl": "f59aa7922ee59a018c69f81e4afbcb2b71127d8ce9e3ad64cb6473e22245a68c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\outcomes.jsonl": "148bea869a3ac083dea474fe6a4529d7487239ed8e83be9301d5b10cdb6064d2",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\quality_masks.jsonl": "7414bf94942c1c27dd0fbb9e846cee9e236e3fdfb5c59e3f8a0a01435d8a320e",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\match.json": "56f04f6e5729fddad7d1038bc178f9c49917f0908726e5828c6a1c9ce3e34634",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\match_metadata.json": "f3dbbf6fb620612676cbf972120978b84f588fee76678bbbb9cd2d54dac440ed",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\participants.json": "3a503d8ecb84de1595e4269e8fbb685661af167bc5cdf2c7a7601bce29ca485e",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\rounds.json": "c3af6cda7b98e020906d4796dc2fb462f057f5953f4d06260b7428f664dd03bc",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\clutch_events.json": "98a9e437dd4417ee9b7ab2b27f977a151de312d91214cb27401276e6597ad228",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\economy_players.json": "ac1c0f870d8508c5cd3dcdef78aba6498ccb6cfa0f68879f25942c31c3c70c46",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\economy_rounds.json": "556e8004d5b2ac50a1fc325de5161261c198be93c6eca82e56d3ef309ee4c54b",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\engagements.json": "52f61453b89da74c89834e9b2dd2c75df064a9132b554f709e3270d059fc3f7a",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\player_stats.json": "2a1433ae9b0a85a148e5e4ca9b5f9c7d0e84da078fb24233eb8d865140adee6b",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\trades.json": "9774e39ec0d00306e8f8d30a649f5c49cc46e19f95e6c0fa00b9b6777c9ecc74",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\diagnostics\\quality_report.json": "c4bb62ab8c342b8c990355d58713b73e322d533f47cb53840ec6fb2714f3d617",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\combat_events.jsonl": "46b5392ac6767765a98d48b17400593c6cf26375561373ed198066d37fd5d92c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\objective_events.jsonl": "8f8451bc18a9cbf05fe44d57ff6386324282178169b0c65490f7c42444ca21fc",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\utility_events.jsonl": "2e6c4cc63cd756bf7b35489a79a7d72f424276539c2409b271c8c4defbfe7283",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_001.jsonl": "45596025a6af5560114aef87e0aa3e81340b19cc7a620e8970e0eedafc66371c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_002.jsonl": "dc4ee1832307689ae5f90c516061d558bba865aa9ab4353e2be6794e7d6be464",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_003.jsonl": "93fd39be8f4fc7402c0884c8a075d9236c19ab143818b21a7e4aac1d31f3e7ad",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_004.jsonl": "3791570ce36380d9b9749c47ebc935a0c72a888e40a638dce0904b96688f7919",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_005.jsonl": "1675ef006cb1be71be63b691f0a60cf599e5d6e186b026e1c3202387c300c2c2",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_006.jsonl": "936d3984936835c8f3b36c2882f5d403aecd201856ec2462124d6e68633478ff",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_007.jsonl": "dcf5c929beef1848b5923184afd3ac6807c83e7abf22fc27d87fcfdfd266e0d3",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_008.jsonl": "be509601cac70c090f69bd0b33c8b1cdbf925ae46a4edd835ea7490ebb93ffde",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_009.jsonl": "1b6411484524390938e339fb605f6bfe6c75d7f10bac48d3cb2b47fab7fad014",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_010.jsonl": "3d953685762d9792149f7a437bb94b2ac2fa56f6de5c9f4fbc61e9673a167cc2",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_011.jsonl": "ac1c54c7fdc1d0210606a3e3d61269ed26a4b31ca770c9cae981c9ec8a5fbdc9",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_012.jsonl": "37bd9270e85d8c3648fc4dbdc3d176f793f3221c6cd0ac0dd8f51b7b996ef5cb",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_013.jsonl": "a36ccbed3205e162bcc37cc41dcddf4db900795ee8ab63cc273bbdae37da525f",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_014.jsonl": "205cc1fe94c542cc3b9f5ed3bd6657e6b1ee1325deefd37b0628ef913ea8905f",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_015.jsonl": "9f55a67a0e546ef077bb3777aa4a063e58c3029d9623ec6231a8a9864e862432",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_016.jsonl": "d576dfb4df4d27af73bc9fa00be764fbed732f6d287135a9dc4b3bf08dea6032",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_017.jsonl": "989ff68dc2f4076526c7a097ea721329bfcb3bcfb5be3e9a2e82f572b21efbec",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_018.jsonl": "d58be7b7137e2494e5d691638a64ce9f6c29638ecadfec17d7b26f735d535577",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_019.jsonl": "8efd00a91800d89c200ca9892188c0f623c5241be4d789831d8f1ee29677a1d0",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_020.jsonl": "e32b8e3e3ad78b476f9542ef5930e9770ce86e5971259e88ff19a602596b4362",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\gaps.jsonl": "b0d4ec557d6e3d1bdb7254f1de7b1fcf101790aea27d8e996d2a9398e7b8aa56",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\observed.jsonl.gz": "3a52d26575df0e9cdfd50d6592f2058a6e27f4969947822db8a60e84829c34ae",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\oracle.jsonl": "a195edc44708097ed1215714858e68d0c5301a01e65f91e4816fdac6cc754565",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\sampling.json": "be96db6e2e215e40999c2f40b43d11b5b84ef7757f2545f733c05fc3f91bf3f7",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\index.json": "d16fc3e20e2565fbde79a4d65d1405c1853d45fe35f5fc644156ba3e2862d8e5",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_001.json.gz": "77702947e5cf032e6e4f62511c15fef90732303723c5babe99efab32bcff6f44",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_002.json.gz": "665094fa50d4700f640dccc672e982933e3149dfc5f165b7e17d3006ba99ac90",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_003.json.gz": "5275fbab3b300e52a70842e1084afe40a4288dd3e2d4c7530ae1e39ff460fec1",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_004.json.gz": "4dd1c70b9b96bdd2ffd484e529e3fbf53383fd0251dc19dca4b3430235f42871",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_005.json.gz": "0b16b3983afa8f7a60abe85ff7a87baae0d12a5ce02e72fa3593f245ea0331c9",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_006.json.gz": "6ae0663aa826c8ccd9b3281232bd6a21e4f33127528de25c60c36da6d46691e8",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_007.json.gz": "3c09a0df02bb9048ac48413fcd125928a1c9af7940a668d19678574ad9dbf646",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_008.json.gz": "654c378609b09bc34444469c586e8ee468de5780edf272f3d9d7ed22d4b5f18f",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_009.json.gz": "05c2c841508b780aac0302073f0533c46447a9e3821a4a3f13b94b6e930c04bb",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_010.json.gz": "6d332eb9635db2341a8cf0f7da6a5d6e42f488a28f6a4aee6d1f9686a6a1fc7a",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_011.json.gz": "1eb2211a5e71f3dfabedfbfae61bc75693609dab5386645e666a29f0174795b6",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_012.json.gz": "ddfefbeee10a8fc0249080f9368017e1d2ddb70766617eb757ee1f327c0652b3",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_013.json.gz": "87d7dfae361ef41079292bc3109a82e249a505d0a4a66bde0edde79632bb8eef",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_014.json.gz": "38dfac3d05aca48fd47a46c3c5fd18f081b512f2abbce8f6a6b86aa28561f2fd",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_015.json.gz": "d77f3ab19b05ddb5a9ceb69895240f26c8f64716e9fca54edfb39e84524f4f21",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_016.json.gz": "ab8d3984608f99ff4067b4d38fe3674d68546e900039772b682db9c9ae08aefe",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_017.json.gz": "92869e536659c97fd05e383055104689d9d3625129c3026b1c695805fec1873c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_018.json.gz": "c0d6f5d646053b5149bd6ca08cd7278f11d42aaeafb106f15a9dfce35ca81aeb",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_019.json.gz": "f713775b2fd0ebfbe0762cbed3e627f58141d2dec3ac66fc89b6a96b62fc250d",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_020.json.gz": "790e05e4dd210a49e7554daadd521078dcdf36fa9b7715edccc88200a115f1c9"
+    },
+    "retained_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1",
+    "training": false,
+    "new_expert_labels": 0
+  },
+  "preflight": {
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_approved_matches": 1,
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-information-smoke-znhfifi1",
+    "binary_sha256": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+    "build_identifier": "working-tree-round-context-20260925",
+    "unchanged_go_binary_reused": true,
+    "go_sources_match_recorded_build": true,
+    "canonical": "3.8.0",
+    "parser": "v16",
+    "quality": 12,
+    "runtime_schemas": 115,
+    "review_packet": "stratai.contextual_review_packet@3",
+    "instrument": "stratai.review_web@3",
+    "corpus_manifest_hashes": {
+      "demo-b4aea580f276cc47432c": "edc7efe71658afef0bb0ce100210319100864a35e6a0fdc51e3a14ee13b32f2e",
+      "demo-16f8007d930cd56063dd": "c17633027e1f8c389d3fdbb85eb31a958f1d0957c4e5092bedd8ae8ecf8c8f13",
+      "demo-5224a45934f2d5b94c01": "ce5f3cb8b35c2318b55a78f2685bb465fe93578ee66d9685de2babbafcfa6913",
+      "demo-0beb9110ec408f80c39b": "e5d32dcaf5caef5447fe35c1a7b1b45bf197ba189f62a5bda8fc2b9daca417b1",
+      "demo-19d8eb34d820b2b18553": "c87a4159e4837bff177a9f42ec769cf8a4170c27fb2796cb7298b46438aac27a",
+      "demo-d5f90617b4bf38036f3c": "629ae6a83ae49eb1b9591c4b5f1a0f1fdd480f056ed704cc8dc7595d29e40ab8",
+      "demo-2b5a00839d69251d94e8": "f3eacb17ce239e211a92b2fdba062a75fdf62b97c7d48a64ca004fa2f9b04822",
+      "demo-773d35699f83bc3301f6": "04e2362280e1b2039ed1942fc60fc5430360f6a2eec2023be5d66578dfaf4974",
+      "demo-7d26c630af0a2b3adf74": "6a7cb2ee9b9694248038932d1e8efce3316b739dc50d08c8dc5e1345152f2cd7",
+      "demo-b9c9fef71f986463531e": "93e2eebbcce7e0614190f240d19ed6859355a30f8383f90a4a799fe14147f8b5",
+      "demo-7fd8da160b9b9a79fb37": "4d3302a3b64d197dd1879a6d6321f68d51c2dc8024cfe7b7ddea81b9605827e6",
+      "demo-a11eb0d600ee702c9edb": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+      "demo-e4588db759c3e388a28a": "7964ce27535e0cd5f53061bdc83acde09275ad587374b191d13f1c82c61dcae5",
+      "demo-445ee754fdf13603d665": "eafb71746c5f60fe3522740edf9dfe93e5bd44ef0dd0be3a3ed018883a229ca3",
+      "demo-9878534630a68b998f43": "ba17ecb293da3c2c41d1305bf24c9798bc65d0580ad5b28c1d0d2f88bcb79751",
+      "demo-69fe05d62448487164c6": "8dda4a3740bc8e9edf5bcc6b00e05af1b381d5086b119635a05ba2d1fe19da6a",
+      "demo-97d87a091be835f01f5a": "bf8c414d9ac0fd905a264a718c63d2c3b31d20ab9f300ae9aeed3f42b35eb3d3",
+      "demo-560a3000210e30e6feb9": "527fc30554f935ad7e854d284ceee30c96cfddc70dcc14ddc49b09d6b72c0788",
+      "demo-ad48bf05c36fef00f8d4": "b0936446cb34a32441f5b7bbc633e683327c5bbdd935b1db4af012714a5f124f",
+      "demo-d1cf31896e6dd93b68da": "d52b8d42ec0b6a0dd00d518c327ae05ca12a54415bda5d94aa7574edc6ac4291",
+      "demo-86ce234795e3d55bb95b": "9abd881462229639360c1809a9cc3b98b3fead1b84092823d6127e075c63ee78",
+      "demo-1028fce95708dda309ae": "c56985c3c5e44b0cce6c84501962a82d405cada717bd9486658569d9c793f5a2",
+      "demo-7949b6da7301dce89ab3": "24b41214638145c1e43242d347c712c11ac5e7e0a96d217d375a5e7306dc1365",
+      "demo-4808a5438ee9f991fa68": "cbbd7e49b48839fd76425dd5ab43ce322b0a1f1a42e4714238cdff4216687bec",
+      "demo-f3897b8116e8a23e3715": "11f99902075ed67cd0ddf5d0827f5a2c175031b99c0c0573f3efba7199ce0e22",
+      "demo-381bbf14c9ccd5693047": "f239072ac6c4e11c31e2a7adb0dc4bc39e9b339869cf1d1b5234926773dfe70d",
+      "demo-f54b0f4d05b728a7b82a": "597dd1ef4293e3ba378cc00da79ebc4ef2640d978f2c286a243a6304bf963961",
+      "demo-08c5b544a3e0fdbf0291": "0be98e0d82aee950706baa82d54de11469bd187e1827822acc5041e3ae7280dd",
+      "demo-7fea6dde5c22b71c8425": "2c3adc01f5e375ca80fc272dfeb084b41341723a728cb09661cbb9dc4631df76",
+      "demo-e21b1788b82df945ee92": "ccdd163a6e01e9723eaebd4b786e0a089fd1c5a5415c247ade85fa6ecef9ff83",
+      "demo-066944f5acb806ba5f81": "8c4b4d656bde864216151f924253c1469ed66edbc97349c7c3a115d0067496e6",
+      "demo-e8daa09c10ea0fbf5742": "f63b8c790911e6bef931f5de13d0a101e297dd65832aee5162d0bf9a611b9c4a",
+      "demo-0b4af44ba9eebdb69a6b": "e02eefb682efb311dc2a4518f9f29fb8dbaaab9b6305fcfe94ba5c20683dbd86",
+      "demo-faf95fc7bbdef87473b6": "c52e3c33c0a6345515119b2106531f675361ec5278f6883551eb5b0fdd967e5c",
+      "demo-320fc58d45f8c8ca7f03": "f22cfd3d0139eed4cfe633cd4dcbfdcec6a30b6874812626b431617449397846",
+      "demo-cab5667cb4c8e0e77c34": "b918344df66ca7bfb1c2b4237d38832e9d218f3653d3d0a3539076e8c2a2690b",
+      "demo-d88bdfaf6b87ae48c84f": "d3e5f01deb372db236c7380c87f074d1eef847d23c67b8c46cac069b4be0f4b5",
+      "demo-045df2521c790a7d8a69": "5a6023e5c4c6ac75cb4d6a9eba5964e8d1e473a47f6568d7fac5522e641f1300",
+      "demo-6e4a3660d53931747fa8": "92d373bb7a4f9c419f6b760c2eb050815a55eaf31bd290a8c22aa753d2dcda24",
+      "demo-5bdb2dac2277dd9463ac": "bb758067befd6d8bcad1478a9370aea93a7ffca721379c78cefa594b6b993be7",
+      "demo-310597a1cb8f27f26c55": "9bd752915ab8817ecce83a0effa51cf5ce1fb3a5282717a5e1c32a4553b6da0e",
+      "demo-fd7ff4a779cff305d79b": "5afbc30320321139d551cee7c7acca80830b974eeffba34a92ab9968129c219a",
+      "demo-68955f754119bfcd6c1c": "4314134b12a69276bef17920de76064b7b583fb1c1905431254391006e23535b",
+      "demo-a1b04b7f0c43acd728c9": "f6a5b187337c451ad4ad02c1e0135a8b792aef46c7f985604352a30f8731a2e5"
+    },
+    "sources": {
+      "ai_coach\\interpretation\\coaching.py": "f46940337d46709dc3a43ace1686604fcb358860f73a5e886b7e9904b7821e27",
+      "ai_coach\\interpretation\\context.py": "94954dc9fda62094f26925d8d5b7229edf420b16e19af352551393a581c2aa36",
+      "ai_coach\\interpretation\\contextual_io.py": "1633023636a1bcfe1c4c8d15af8ea86772649e6800e3564cd691b39671938082",
+      "ai_coach\\interpretation\\detector.py": "db2ee961307a1b1bd86132384846e628d0584d8068f796a7e17c63c6677a3337",
+      "ai_coach\\interpretation\\evaluation.py": "988f5bfa04f5af4e27ed5f1cc85d2b74bf0e12b06c492976836f19ef7613a967",
+      "ai_coach\\interpretation\\inventory.py": "db1859f355830a05eb3e15ee158d70b8dc9d04bc9f50b4e775b00cb03328fab0",
+      "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+      "ai_coach\\interpretation\\replay_report.py": "8b63cfdb326c52c39a8fb81939f1b3592886d066db3911980d4bf108b3ed588e",
+      "ai_coach\\interpretation\\review.py": "10cc44e238c11ab7c23db194f3afe5ade602a8c3a06dc3699794ae54759d9162",
+      "ai_coach\\interpretation\\review_packet.py": "0e9eb66e12aa2621f52381bddec1fc358db416b06e2e01fe75b6de163c42caef",
+      "ai_coach\\interpretation\\review_packet_v2.py": "236472418c1b05eebd2e7a647dd2d1bee4fabc9306bb8eb4a719b141529fe745",
+      "ai_coach\\interpretation\\review_packet_v3.py": "01f793a8c721d3c8a23b7a49b16c31c962a858c09dea211d594107ad18688600",
+      "ai_coach\\interpretation\\round_context.py": "8751031031e31bf0074c43e66eb95deaf6520dd326ea49f8b8bcb95990bd2422",
+      "ai_coach\\interpretation\\spatial_reference.py": "10ef95b807e33818f529dbe1f1cbac8975c33e858292727285a451fc1dca62e5",
+      "ai_coach\\interpretation\\team_status.py": "d5ab444e6e33dae138565aa10b954d012861c38174b4c3dee355bc1b9116979d",
+      "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+      "ai_coach\\interpretation\\temporal_detector.py": "cca62b81a036fc999e5bb3527cc4dec76247ded50aebc1b645ca8e57d55fcd14",
+      "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588",
+      "ai_coach\\interpretation\\review_packet.html": "bc5ce32b7e6d34b210a08fe87fec1a7d4f3406b503ca7c833cf4fbc038de4623",
+      "ai_coach\\interpretation\\review_packet_v2.html": "79293f37ad47bbf61e0789db84cc367de2754a56042b06493e3a5c37af474869",
+      "ai_coach\\interpretation\\review_packet_v3.html": "a60590557ee0382dd7ec501739c7e99e03530804f5d861e317d7e17f83351ea8",
+      "outputs\\stratai-review-shared-20260925\\site\\web\\information.js": "3cb7b44466a8c515ff61b330c519847ac547d9e8e657f8579257e1f30a35fba0",
+      "outputs\\stratai-review-shared-20260925\\site\\web\\information-view.js": "36755ff3c7407076c3bb47bcb9ece8287d56d2b7b3f8794c1435df52a78c21ba"
+    }
+  },
+  "hosted": {
+    "ok": true,
+    "cases": [
+      {
+        "case": "E03",
+        "three_fields": true,
+        "sha256": "020664b37c8f544e94d1f44f538350c11a68c7485eb0fe9c50a2fb602d3ea918"
+      },
+      {
+        "case": "E04",
+        "three_fields": true,
+        "sha256": "70f6b20f1380bc00c4a2e79266e14be7b51fa91f911691a0a2dd55baa47bb317"
+      },
+      {
+        "case": "E05",
+        "three_fields": true,
+        "sha256": "b07dd5ba61d2efc26e92022a311a066a6b9ee9f9e48238974ae67d34e381d4ae"
+      },
+      {
+        "case": "E06",
+        "three_fields": true,
+        "sha256": "397bc5ba853a9e859c36ed2cb4916231acf1322f2c5581e2bca7aa4042433492"
+      },
+      {
+        "case": "E07",
+        "three_fields": true,
+        "sha256": "ea923e8917c1da5c7fdcef8d26e46839ed4a84a583f1b0d6ef6e07a9d6621e60"
+      },
+      {
+        "case": "E08",
+        "three_fields": true,
+        "sha256": "5f4b126afb20f923bdb8227a55ba12cbc35c36565c83b60f7665acfeadceb0f5"
+      },
+      {
+        "case": "E09",
+        "three_fields": true,
+        "sha256": "31d2269cf9bc00dbe727cfffdd0b223a831ff3985022db5589537dc463b49f9f"
+      },
+      {
+        "case": "E10",
+        "three_fields": true,
+        "sha256": "1d44983ebdec4d1ae2f3d53062f49d79b1d187148450b1cce96b7690f67049ce"
+      },
+      {
+        "case": "E11",
+        "three_fields": true,
+        "sha256": "802172bbe2f0ab528ac5b31c96949ba7f287ba9b9f15f9ed6021c4d719128684"
+      },
+      {
+        "case": "E12",
+        "three_fields": true,
+        "sha256": "a04639ab749d3cdff1444b195fdd5bf146251f897808b28d788f246878557c17"
+      },
+      {
+        "case": "E13",
+        "three_fields": true,
+        "sha256": "896e62cf533bf9c476bfdc50080490f15779e8d82ae65d288937aa3dd2e6bc5c"
+      },
+      {
+        "case": "E14",
+        "three_fields": true,
+        "sha256": "2606185d7ebf305c101f3dfbc1097ea7e62eeb07e6f62843c98f9e1536a416ae"
+      },
+      {
+        "case": "E15",
+        "three_fields": true,
+        "sha256": "ba3166169511dbc7be5c2cedd5269000aa969bd70df733856fb7d07798b4abfd"
+      },
+      {
+        "case": "E16",
+        "three_fields": true,
+        "sha256": "6a17f54b72a8d590d3c39d1ae63793359549e8e6d366e3108ee127acb50a2e7b"
+      },
+      {
+        "case": "E17",
+        "three_fields": true,
+        "sha256": "b60c68c559e617f91c74ba88b940f31b0b1d52672e5a977af32a3c3430ad7ab1"
+      },
+      {
+        "case": "E18",
+        "three_fields": true,
+        "sha256": "4b4291326d561e51b416550166e344256478c08b7310b59ef5afe296ce14547b"
+      },
+      {
+        "case": "E19",
+        "three_fields": true,
+        "sha256": "9e8b9c9c9efb1e1a3591ee79fa42f9bd4946fdc94db4d486ac3859b29aae94a5"
+      },
+      {
+        "case": "E20",
+        "three_fields": true,
+        "sha256": "afc9f4faef0c8ef45c74d66c499ab71964bb8d4b6742760594e3e8ef94a582e5"
+      },
+      {
+        "case": "E21",
+        "three_fields": true,
+        "sha256": "5787c080b9469bac9fad8fa33997c2e80291191793160e6291b77bbeb5d8e1c9"
+      },
+      {
+        "case": "E22",
+        "three_fields": true,
+        "sha256": "bbae064aa1d802089e708f17f6d1fc6d4e24b8a9a821a7cb515bdc81be60f71f"
+      },
+      {
+        "case": "E23",
+        "three_fields": true,
+        "sha256": "0a05e025228eb515d9d7ec18d36f32dca44017f866e5af19abee8030f904b480"
+      },
+      {
+        "case": "E24",
+        "three_fields": true,
+        "sha256": "8ea9c470b6268f38090cbbaf61ffead957f50b7e997cca3e3d16ad33363b6e07"
+      },
+      {
+        "case": "E25",
+        "three_fields": true,
+        "sha256": "d745a25c21e57aae4017b4ab129ef8022631816529b4f392f8d948f9643dfbce"
+      },
+      {
+        "case": "E26",
+        "three_fields": true,
+        "sha256": "e0373a6b9db7bcd431537ba3471bc756646dea6ef1662e460dbf40fc24a4cdcf"
+      },
+      {
+        "case": "E27",
+        "three_fields": true,
+        "sha256": "41cc9cfcc7fa94e6d62e1d9af3625122e290e30deb8911425af63691f774a48a"
+      },
+      {
+        "case": "E28",
+        "three_fields": true,
+        "sha256": "33ed534d1aeb0f90885c6b013a9a1a2304e37af940759d2a3a32514eaf1f1dc5"
+      },
+      {
+        "case": "E29",
+        "three_fields": true,
+        "sha256": "505c65baa8e6db04f2e686c162b94b952a6aad0bc8aab43d889f99d83f7ceb3a"
+      },
+      {
+        "case": "E30",
+        "three_fields": true,
+        "sha256": "e1e0e12451708ac986bbc26818c04a97f5b0577f50a82d6e411a82b0551f5fe5"
+      },
+      {
+        "case": "E31",
+        "three_fields": true,
+        "sha256": "77515e811af22059181b8350d272aca9513d4454e9a015c7340a896c2b21c088"
+      },
+      {
+        "case": "E32",
+        "three_fields": true,
+        "sha256": "1f003187c2aa0206feb69fda24e4c5da31b0405573ea29f153f4d3702f71d7a2"
+      },
+      {
+        "case": "E33",
+        "three_fields": true,
+        "sha256": "aff2154ec39679177004ebf4fd0cf219486c417ab2216b80736c3644930f69d1"
+      },
+      {
+        "case": "E34",
+        "three_fields": true,
+        "sha256": "3d8e516dc28405ee4f8b3df82637986bd5f069a0444cf7a66e09f9223743ba84"
+      },
+      {
+        "case": "E35",
+        "three_fields": true,
+        "sha256": "7d1a2af4954fdb59bcca41b8e3a89b27c0a60bf580efc5192bb0b9f2c6f1f9c0"
+      },
+      {
+        "case": "E36",
+        "three_fields": true,
+        "sha256": "e73c91e66a304e1c41c2c201fa2a4936bb9aac2fc2c9509312ffcefb769b00dc"
+      }
+    ],
+    "existing_records_preserved": 8,
+    "new_technical_records": [
+      10,
+      9
+    ],
+    "expert_answers_created": 0,
+    "fields": [
+      "alias",
+      "reading",
+      "missing"
+    ],
+    "omitted_exposure": "not_collected",
+    "old_form_requests_ask_reload": true,
+    "no_platform_login": true,
+    "immutable_versions_and_idempotence": true,
+    "other_reviewers_isolated": true,
+    "clock_format": "mm:ss",
+    "browser_visual_test": false,
+    "instrument": "stratai.review_web@3",
+    "casualty_context_present": true,
+    "contacts": "unavailable"
+  },
+  "publication": {
+    "version": {
+      "id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_97be8799179c81919d2c72f73a4f8704",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "version_number": 5,
+      "source": {
+        "commit_sha": "d825e1bb334e7b9dc7593040367b588fc8d5effb"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_00000000035881f4b8cfa1b248a10af5",
+        "content_hash": "sha256:87ff6d0ef0379126748d64ba6c7fd66703de313a8534e6eca8481b418ef1eec6",
+        "size_bytes": 11304960,
+        "file_count": 40
+      },
+      "screenshot_url": null,
+      "deployment_id": null
+    },
+    "deployment": {
+      "id": "appgdep_6ab78b415d8c8191b7593afccc83e4ab",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "title": "StratAI · Revisión de 34 casos",
+      "version_id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_97be8799179c81919d2c72f73a4f8704",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6ab6ca78f2bc81918ef415064532155d",
+      "failure_message": null,
+      "env_set_revision": 3,
+      "updated_at": "2026-09-26T09:07:32.160226+00:00"
+    },
+    "environment_revision": 3
+  },
+  "workbook": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_changed_cells": [
+      "A35",
+      "B35",
+      "C35",
+      "D35",
+      "E35",
+      "F35",
+      "G35"
+    ],
+    "sheet": "Contexto colectivo",
+    "literal_reviews_preserved": true,
+    "visual_review": true,
+    "output_sha256": "b07642daf4ca4024688a84eefe775c94440906a674937d556eadad694b8b9727"
+  },
+  "workbook_version": 21,
+  "criterion_id": "IC30",
+  "enemy_contact_claims": 0,
+  "exact_death_location_claims": 0,
+  "exact_death_time_claims": 0,
+  "communications_claims": 0,
+  "new_expert_labels": 0,
+  "detector_changes": 0,
+  "training": false,
+  "source_constraint": "No attributed enemy-contact source in these review projections; spotting/LOS proxies are not player-visible evidence.",
+  "browser_visual_test": false,
+  "temporary_outputs_retained": true,
+  "corpus_reprocessed": false
+}

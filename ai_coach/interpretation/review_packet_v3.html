@@ -1,0 +1,19 @@
+<style>
+.situation{margin:20px 4vw 0;padding:18px 22px;background:var(--ink);color:#fff}.situation h2{margin:0 0 8px;font-size:13px;letter-spacing:.08em;text-transform:uppercase}.situation p{margin:0;font-family:Georgia,serif;font-size:clamp(22px,3vw,32px);line-height:1.35}.situation .count-note{margin-top:10px;font:14px/1.5 Bahnschrift,'Segoe UI',sans-serif;color:#d7e0df}
+</style>
+<script id="team-data" type="application/json">__TEAM_JSON__</script>
+<script>
+const teamData=JSON.parse(document.getElementById('team-data').textContent);
+const situationPanel=node('section',undefined,'situation');situationPanel.setAttribute('aria-label','Resumen de hechos');
+const situationTitle=node('h2','En este instante'), situationText=node('p'), countNote=node('p',undefined,'count-note');
+situationPanel.append(situationTitle,situationText,countNote);document.querySelector('header').after(situationPanel);
+function teamText(c,label){const plural=label==='rival'?'rivales':'aliados';if(c.status==='observed')return c.alive+' '+(c.alive===1?label+' vivo':plural+' vivos');if(c.status==='partial')return plural+': '+c.observed_alive+' vivos confirmados'+(c.unknown?' y '+c.unknown+' sin confirmar':'');return plural+': recuento sin confirmar'}
+const drawWithClock=draw;
+draw=function(){drawWithClock();const i=Number(slider.value),t=teamData[i],f=data.frames[i],r=roundData.frames[i],bomb=r.native_clock.bomb_remaining_seconds;
+const objective=f.planted===true?'Bomba plantada':f.planted===false?'Bomba sin plantar':'Plantado sin confirmar';
+situationText.textContent=objective+'. '+teamText(t.allies,'aliado')+' · '+teamText(t.opponents,'rival')+(f.planted===true&&bomb.status==='observed'?' · Bomba: '+roundTime(bomb):'');
+countNote.textContent=t.allies.status==='observed'&&t.opponents.status==='observed'?'Recuento de vivos de ambos equipos en este instante.':'El recuento está incompleto. Un jugador sin datos no se considera muerto.';
+document.querySelector('.limits').textContent='Se muestra el número de rivales vivos, sin sus posiciones ni recursos. «Sin dato» no significa que no lleven granadas. Una lista anterior puede haber cambiado.';
+situationPanel.hidden=roundData.scope==='excluded';
+};draw();
+</script>

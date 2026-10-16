@@ -1,0 +1,39 @@
+{
+  "case": "R2",
+  "date": "2026-09-24",
+  "reviewer": "session_user_expert",
+  "source_alias": "demo-066944f5acb806ba5f81",
+  "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+  "episode_id": "9648f784a2ac5bab8b222412ec89713a5d17c9c84d473834b40eb6e3fada92f4",
+  "presentation_context_id": "e85d6a6197f21f4f745e0c22d51a9cacbd5e3596637ac7124d37df39abb9c9be",
+  "frozen_context_id": "65c00a40859e2e837c210461a0b13dc4624b563fe1101fa553752b15b41ca0bb",
+  "literal": "Veo que el equipo se dirige hacia A. Al parecer van a acabar ahi, aunque veo un jugador muerto, eso da información de rivales, es posible que muriese enmedio ya que hay otro jugador viniendo de esa posición, el T5 y al matar a su compañero esta volviendo para juntarse con su equipo. Por lo que sea, han decicido ejecutar la jugada en A, pero habría que ver que información a recabado la persona que ha muerto, puede que haya visto 3 en B o 3 medio y A sea el punto debil. O puede que no y simplemente creen que es la mejor jugada.",
+  "normalized_by_assistant": {
+    "plan_reading": "Organización compatible con dirigirse a A para ejecutar allí la jugada.",
+    "destination": "A",
+    "destination_judgement": "supported_by_reviewer_not_proven_future",
+    "compatible_detector_plan": "prepare_entry",
+    "plan_mapping_reason": "El experto menciona explícitamente ejecutar la jugada en A, además del destino. Se normaliza como compatibilidad con preparar esa ejecución, sin certificar intención interna, entrada consumada ni superioridad táctica.",
+    "possible_function": {"actor": "T5", "function": "regroup_with_team", "certainty": "possible"},
+    "possible_prior_event": {"event": "El compañero pudo morir en medio", "certainty": "possible_not_verified"},
+    "possible_causal_link": "T5 podría volver para reunirse tras la muerte del compañero; no se acredita esa causa.",
+    "unknowns": ["Qué información obtuvo y transmitió el jugador muerto", "Dónde murió, como explicación de esta lectura", "Qué motivó elegir A", "Si A era realmente el punto débil o la mejor alternativa"],
+    "illustrative_counterfactuals_not_observations": ["El jugador pudo ver tres rivales en B", "El jugador pudo ver tres rivales en medio", "El equipo pudo elegir A por preferencia sin esa información"],
+    "recommended_action": null,
+    "scope": "R2_only_not_a_general_rule_after_a_death"
+  },
+  "presentation_context": {
+    "packet": "outputs/stratai-review-completion-20260923/R2.html",
+    "assistant_supplied_map_orientation": true,
+    "inventory_added_relative_to_frozen_detector_input": true,
+    "new_capture_build_changes_context_id": true,
+    "frozen_factual_samples_equivalent_excluding_record_ids": 65,
+    "prediction_shown_before_review_in_this_conversation": false,
+    "prior_private_exposure": "unknown",
+    "independent_blind_review_accredited": false
+  },
+  "comparison_scope": "exploratory_human_reading_against_frozen_prediction_with_richer_presentation",
+  "detector_input": false,
+  "detector_adjusted": false,
+  "training_allowed": false
+}

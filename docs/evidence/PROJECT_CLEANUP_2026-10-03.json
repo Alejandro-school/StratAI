@@ -1,0 +1,941 @@
+{
+  "date": "2026-10-03",
+  "requested_by_user": "Quiero que elimnines todo el residuo del proyecto actual y lo dejes completamente limpio. Documentaci?n, en desuso, etc.",
+  "status": "documentation_organized_deletion_blocked",
+  "deletion": {
+    "executed": false,
+    "removed_files": 0,
+    "review_rejection": "blocked by policy",
+    "attempted_actions": "checked recursive deletion of the 142 inventory targets, followed by archival of four documents; the entire combined command was rejected before execution",
+    "retry_performed": false,
+    "targets": 142,
+    "files": 1889,
+    "bytes": 906603475,
+    "full_manifest_path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-cleanup-20261003-b9pgnq6u\\removal-manifest.json",
+    "full_manifest_sha256": "af632162b13e8d9827cb4ece7cee3a2d31d003e5340d4b2ad13079109c697dfd",
+    "items": [
+      {
+        "path": "frontend/src/components/Performance/StatPill.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2263
+      },
+      {
+        "path": "frontend/src/components/Progress/MissionCard.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2137
+      },
+      {
+        "path": "frontend/src/components/Progress/MissionsTab.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2344
+      },
+      {
+        "path": "frontend/src/components/Progress/ProgressHeader.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 1676
+      },
+      {
+        "path": "frontend/src/components/Progress/RankBadge.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 1524
+      },
+      {
+        "path": "frontend/src/components/Progress/RankingTab.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 6127
+      },
+      {
+        "path": "frontend/src/components/TacticalMap/AdaptiveHotspot.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 6628
+      },
+      {
+        "path": "frontend/src/components/TacticalMap/CalloutDetailPanel.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 6856
+      },
+      {
+        "path": "frontend/src/components/TacticalMap/LevelSelector.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 7512
+      },
+      {
+        "path": "frontend/src/components/TacticalMap/MapStatsSummary.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2442
+      },
+      {
+        "path": "frontend/src/components/TacticalMap/MovementHeatmapTab.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 3662
+      },
+      {
+        "path": "frontend/src/features/performance/scene/StaticFactionModel.jsx",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2524
+      },
+      {
+        "path": "frontend/src/mocks/progressData.js",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 4572
+      },
+      {
+        "path": "frontend/src/styles/pages/performance.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 59788
+      },
+      {
+        "path": "frontend/src/styles/Progress/leaderboard.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 12595
+      },
+      {
+        "path": "frontend/src/styles/Progress/missionCard.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 3333
+      },
+      {
+        "path": "frontend/src/styles/Progress/missionsTab.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2935
+      },
+      {
+        "path": "frontend/src/styles/Progress/progressHeader.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2219
+      },
+      {
+        "path": "frontend/src/styles/Progress/progressShell.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 3323
+      },
+      {
+        "path": "frontend/src/styles/Progress/rankBadge.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 2461
+      },
+      {
+        "path": "frontend/src/styles/TacticalMap/adaptiveHotspot.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 9066
+      },
+      {
+        "path": "frontend/src/styles/TacticalMap/calloutDetailPanel.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 8360
+      },
+      {
+        "path": "frontend/src/styles/TacticalMap/levelSelector.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 7373
+      },
+      {
+        "path": "frontend/src/styles/TacticalMap/movementHeatmap.css",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 9595
+      },
+      {
+        "path": "frontend/src/utils/insightEngine.js",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 15958
+      },
+      {
+        "path": "frontend/src/utils/performanceBenchmarks.js",
+        "reason": "frontend module unreachable from index.jsx; no test consumer",
+        "files": 1,
+        "bytes": 1633
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_CONTEXT_INPUT_COMPLETED_PROMPT_2026-09-23.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1854
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_ICT_I1A_EXECUTED_PROMPT_2026-09-21.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 2211
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_ICT_I1B_PREPARATION_EXECUTED_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1853
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_ICT_I1B_PROBE_EXECUTED_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1802
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_ICT_I1B_PROMPT_BEFORE_PERFORMANCE_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1424
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_ICT_I1B_REVIEW_EXECUTED_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1720
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_RADAR_HUD_PREPARATION_EXECUTED_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1570
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_RADAR_RECORDING_PROPOSAL_WITHDRAWN_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1912
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_COMPLETED_PROMPT_2026-09-23.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1435
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_REPLAY_INFORMATION_SCOPE_COMPLETED_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 1735
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_TECHNICAL_EVALUATION_EXECUTED_PROMPT_2026-09-22.md",
+        "reason": "completed or withdrawn execution prompt; results transferred to phase records",
+        "files": 1,
+        "bytes": 671
+      },
+      {
+        "path": "frontend/build",
+        "reason": "regenerable cache or obsolete build/publication staging copy",
+        "files": 233,
+        "bytes": 94179359
+      },
+      {
+        "path": ".pytest_cache",
+        "reason": "regenerable cache or obsolete build/publication staging copy",
+        "files": 5,
+        "bytes": 300156
+      },
+      {
+        "path": ".ruff_cache",
+        "reason": "regenerable cache or obsolete build/publication staging copy",
+        "files": 22,
+        "bytes": 29870
+      },
+      {
+        "path": "outputs/stratai-review-shared-20260925/retained-builds",
+        "reason": "regenerable cache or obsolete build/publication staging copy",
+        "files": 798,
+        "bytes": 558087983
+      },
+      {
+        "path": "outputs/stratai-review-shared-20260925/packaging-stage",
+        "reason": "regenerable cache or obsolete build/publication staging copy",
+        "files": 39,
+        "bytes": 120968465
+      },
+      {
+        "path": "outputs/stratai-full-width-map-20260928/publish-final",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11603435
+      },
+      {
+        "path": "outputs/stratai-full-width-map-20260928/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11603434
+      },
+      {
+        "path": "outputs/stratai-ground-c4-review-20260928/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11907895
+      },
+      {
+        "path": "outputs/stratai-kill-context-20260926/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11347928
+      },
+      {
+        "path": "outputs/stratai-review-information-20260926/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11273141
+      },
+      {
+        "path": "outputs/stratai-review-simple-20260926/packaging-v4",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11167138
+      },
+      {
+        "path": "outputs/stratai-review-web-20260926/packaging-v2",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11171261
+      },
+      {
+        "path": "outputs/stratai-review-web-20260926/packaging-v3",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11171695
+      },
+      {
+        "path": "outputs/stratai-review-workspace-20260928/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11526814
+      },
+      {
+        "path": "outputs/stratai-situation-review-20260926/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11413805
+      },
+      {
+        "path": "outputs/stratai-three-column-review-20260928/publish-stage",
+        "reason": "obsolete publication staging copy; current site source and dist preserved",
+        "files": 40,
+        "bytes": 11598953
+      },
+      {
+        "path": "ai_coach/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 1,
+        "bytes": 226
+      },
+      {
+        "path": "ai_coach/audits/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 37571
+      },
+      {
+        "path": "ai_coach/contracts/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 18,
+        "bytes": 578246
+      },
+      {
+        "path": "ai_coach/datasets/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 5,
+        "bytes": 153558
+      },
+      {
+        "path": "ai_coach/economy/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 17,
+        "bytes": 299930
+      },
+      {
+        "path": "ai_coach/interpretation/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 26,
+        "bytes": 355208
+      },
+      {
+        "path": "ai_coach/spatial/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 1,
+        "bytes": 252
+      },
+      {
+        "path": "ai_coach/spatial/cover/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 29434
+      },
+      {
+        "path": "ai_coach/spatial/exit_route/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 25004
+      },
+      {
+        "path": "ai_coach/spatial/exposure/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 28344
+      },
+      {
+        "path": "ai_coach/spatial/review/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 7,
+        "bytes": 117858
+      },
+      {
+        "path": "ai_coach/support/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 23,
+        "bytes": 601716
+      },
+      {
+        "path": "ai_coach/tests/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 81,
+        "bytes": 2437371
+      },
+      {
+        "path": "backend/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 1,
+        "bytes": 160
+      },
+      {
+        "path": "backend/app/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 7014
+      },
+      {
+        "path": "backend/app/auth/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 2115
+      },
+      {
+        "path": "backend/app/matches/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 5,
+        "bytes": 79047
+      },
+      {
+        "path": "backend/app/middleware/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 3,
+        "bytes": 15206
+      },
+      {
+        "path": "backend/app/routes/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 5,
+        "bytes": 151157
+      },
+      {
+        "path": "backend/app/security/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 3,
+        "bytes": 5787
+      },
+      {
+        "path": "backend/app/tactical/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 5,
+        "bytes": 22071
+      },
+      {
+        "path": "backend/app/utils/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 6,
+        "bytes": 98367
+      },
+      {
+        "path": "backend/go-service/scripts/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 16,
+        "bytes": 1379586
+      },
+      {
+        "path": "backend/tests/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 12,
+        "bytes": 157288
+      },
+      {
+        "path": "outputs/stratai-orientation-candidate-20261001/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 3,
+        "bytes": 111568
+      },
+      {
+        "path": "outputs/stratai-review-batch-20260925/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 1,
+        "bytes": 16272
+      },
+      {
+        "path": "outputs/stratai-team-status-20260925/__pycache__",
+        "reason": "regenerable Python bytecode cache",
+        "files": 2,
+        "bytes": 11301
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-23T07-56-00-466Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 143
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-23T18-05-13-942Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 143
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-23T18-14-10-781Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 143
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-24T15-30-09-895Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 139
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-24T17-42-35-643Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 139
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-28T07-57-47-997Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 139
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-28T08-16-54-785Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 139
+      },
+      {
+        "path": ".playwright-cli/console-2026-09-28T08-59-19-738Z.log",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 139
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-23T18-05-14-129Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3098
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-23T18-05-59-804Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3141
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-23T18-06-12-608Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3210
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-23T18-14-10-882Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3243
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-24T15-22-40-421Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 0
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-24T15-30-10-145Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3264
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-24T15-30-55-708Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3292
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-24T15-32-32-400Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3408
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-24T17-42-35-870Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3950
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-24T17-42-59-121Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3986
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T14-51-07-469Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3509
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T14-52-08-634Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3781
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T14-52-58-372Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3846
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T14-53-35-946Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3830
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T15-44-51-688Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3761
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T15-45-18-128Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4023
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T15-45-42-130Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4084
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T15-45-59-582Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4091
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T15-46-02-740Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4035
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T15-47-02-979Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 3793
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-05-28-727Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 11917
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-06-25-008Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 5289
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-06-43-023Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 5329
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-06-58-061Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4756
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-07-11-926Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 11917
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-07-32-887Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4044
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-07-58-370Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4375
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-08-17-554Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4231
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-08-53-457Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4231
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-08-57-368Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4380
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-09-31-591Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4231
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-09-49-805Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4458
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-10-12-930Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4362
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-10-34-557Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 4307
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-25T18-11-23-003Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 12201
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T07-57-49-085Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 13289
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T07-58-01-419Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7489
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T07-58-58-159Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7405
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-00-11-110Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7134
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-00-59-999Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7134
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-01-24-897Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7134
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-02-07-184Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7130
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-02-09-083Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7246
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-02-10-963Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 9198
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-02-58-147Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 8956
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-03-29-556Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 9226
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-16-55-885Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 13289
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-16-59-004Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7125
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-19-11-853Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7125
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-59-20-838Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 13289
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T08-59-39-846Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7308
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T09-00-25-142Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 8005
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T09-01-42-375Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 8073
+      },
+      {
+        "path": ".playwright-cli/page-2026-09-28T09-02-12-833Z.yml",
+        "reason": "browser console and DOM snapshot trace",
+        "files": 1,
+        "bytes": 7341
+      }
+    ]
+  },
+  "documentation": {
+    "moves": {
+      "docs/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md": "docs/archive/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md",
+      "docs/AI_COACH_REPLAY_CONTEXT_PROPOSAL_v0.1.md": "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_PROPOSAL_v0.1.md",
+      "docs/AI_COACH_REVIEW_INFORMATION_CONTEXT_PROPOSAL.md": "docs/archive/ai-coach/AI_COACH_REVIEW_INFORMATION_CONTEXT_PROPOSAL.md",
+      "docs/AI_COACH_KILL_CONTEXT_SCOPE.md": "docs/archive/ai-coach/AI_COACH_KILL_CONTEXT_SCOPE.md"
+    },
+    "links_updated": [
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+      "docs/README.md",
+      "docs/archive/ai-coach/AI_COACH_AUDIT_FOLLOWUP_2026-09-20.md",
+      "docs/archive/ai-coach/AI_COACH_KILL_CONTEXT_2026-09-26.md",
+      "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_PREPARATION_2026-09-23.md",
+      "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_PROPOSAL_v0.1.md",
+      "docs/archive/ai-coach/AI_COACH_REVIEW_INFORMATION_CONTEXT_PROPOSAL.md",
+      "docs/archive/ai-coach/AI_COACH_SIMPLE_REVIEW_FORM_2026-09-26.md",
+      "docs/archive/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md"
+    ]
+  },
+  "preserved": [
+    "all existing source changes, including untracked AI Coach work",
+    "backend/data, source demos, all 44 approved bundles and CURRENT pointers",
+    "Redis dump and runtime databases",
+    "expert workbooks, original readings, factual cards, frozen predictions and historical evidence JSON",
+    "current review site source, public and generated factual inputs, current site/dist, nested git history and runtime configuration",
+    "stratai-go-release, browser profile, knowledge graph, installed dependencies and Python environments"
+  ],
+  "discovery": {
+    "graph_project": "E-Carpeta-compartida-Proyecto-IA-StratAI",
+    "graph_used": true,
+    "frontend_coverage": "best-effort; index reports metadata_changed for deletion candidates; corroborated against current source",
+    "frontend_entry": "frontend/src/index.jsx",
+    "reachable_frontend_files": 196,
+    "frontend_orphan_files": 26,
+    "unresolved_local_imports_before_changes": 0,
+    "orphan_test_consumers": 0,
+    "completed_unreferenced_prompts": 11
+  },
+  "verification": {
+    "unchanged_baseline_files": 1620,
+    "changed_files": [
+      ".gitignore",
+      "README.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+      "docs/README.md",
+      "docs/archive/ai-coach/AI_COACH_AUDIT_FOLLOWUP_2026-09-20.md",
+      "docs/archive/ai-coach/AI_COACH_KILL_CONTEXT_2026-09-26.md",
+      "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_PREPARATION_2026-09-23.md",
+      "docs/archive/ai-coach/AI_COACH_SIMPLE_REVIEW_FORM_2026-09-26.md",
+      "docs/archive/ai-coach/README.md",
+      "docs/prompts/AI_COACH_CONTEXT_INPUT_PHASE_PROMPT.md"
+    ],
+    "unexpected_source_changes": [],
+    "unexpected_missing_files": [],
+    "document_moves": {
+      "docs/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md": "docs/archive/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md",
+      "docs/AI_COACH_REPLAY_CONTEXT_PROPOSAL_v0.1.md": "docs/archive/ai-coach/AI_COACH_REPLAY_CONTEXT_PROPOSAL_v0.1.md",
+      "docs/AI_COACH_REVIEW_INFORMATION_CONTEXT_PROPOSAL.md": "docs/archive/ai-coach/AI_COACH_REVIEW_INFORMATION_CONTEXT_PROPOSAL.md",
+      "docs/AI_COACH_KILL_CONTEXT_SCOPE.md": "docs/archive/ai-coach/AI_COACH_KILL_CONTEXT_SCOPE.md"
+    },
+    "local_markdown_links": 1422,
+    "broken_local_links": [],
+    "all_rejected_deletion_targets_still_present": true,
+    "functional_tests": "not rerun: application source, producer, exporters, schemas and runtime contracts unchanged; documentation and ignore rules only",
+    "real_demo_smoke": "not applicable: no functional change to parsing, exporters, derived facts, schemas or runtime contracts",
+    "git_diff_check": "passed",
+    "application_source_and_contract_hashes": "unchanged relative to start-of-task baseline"
+  }
+}

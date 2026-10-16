@@ -1,0 +1,145 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "episode_id",
+    "context_id",
+    "reviewer",
+    "literal",
+    "strategy",
+    "destinations",
+    "roles",
+    "exposure",
+    "training_allowed"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.contextual_review@2"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "context_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reviewer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "literal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "compatible_plans"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unreviewed",
+            "undetermined",
+            "interpretable"
+          ]
+        },
+        "compatible_plans": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "destinations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "destination",
+          "judgement"
+        ],
+        "properties": {
+          "destination": {
+            "type": "string",
+            "minLength": 1
+          },
+          "judgement": {
+            "enum": [
+              "possible",
+              "supported",
+              "rejected"
+            ]
+          }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actor",
+          "function",
+          "judgement"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "function": {
+            "type": "string",
+            "minLength": 1
+          },
+          "judgement": {
+            "enum": [
+              "possible",
+              "supported",
+              "rejected"
+            ]
+          }
+        }
+      }
+    },
+    "exposure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prediction_seen",
+        "prior_exposure",
+        "assisted_orientation"
+      ],
+      "properties": {
+        "prediction_seen": {
+          "type": "boolean"
+        },
+        "prior_exposure": {
+          "enum": [
+            "unknown",
+            "unexposed",
+            "exposed"
+          ]
+        },
+        "assisted_orientation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "training_allowed": {
+      "const": false
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.contextual_review@2",
+  "x-stratai-training-authorized": false
+}

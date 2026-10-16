@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.native_place_context@1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "native_place_context_id", "candidate_context_id", "source_demo_sha256", "cut", "status", "reason", "observations", "provenance"],
+  "properties": {
+    "schema_id": {"const": "stratai.native_place_context@1"},
+    "native_place_context_id": {"$ref": "#/$defs/hash"},
+    "candidate_context_id": {"$ref": "#/$defs/hash"},
+    "source_demo_sha256": {"$ref": "#/$defs/hash"},
+    "cut": {"$ref": "#/$defs/cut"},
+    "status": {"enum": ["observed", "unavailable"]},
+    "reason": {"enum": [null, "native_source_not_materialized"]},
+    "observations": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/observation"}},
+    "provenance": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/provenance"}]}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "cut": {
+      "type": "object", "additionalProperties": false,
+      "required": ["epoch", "frame", "instance", "phase", "round_number", "sample_step", "sequence", "tick", "tick_rate"],
+      "properties": {
+        "epoch": {"type": "integer", "minimum": 0},
+        "frame": {"type": "integer", "minimum": 0},
+        "instance": {"type": "integer", "minimum": 0},
+        "phase": {"type": "string"},
+        "round_number": {"type": "integer", "minimum": 0},
+        "sample_step": {"type": "integer", "minimum": 1},
+        "sequence": {"type": "integer", "minimum": 0},
+        "tick": {"type": "integer", "minimum": 0},
+        "tick_rate": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "position": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+    },
+    "value_status": {"enum": ["observed", "empty_string", "unset", "absent_property", "entity_unavailable", "lookup_error", "read_error", "unsupported_type", "unavailable"]},
+    "delivery": {
+      "type": "object", "additionalProperties": false,
+      "required": ["frame", "tick", "epoch", "instance", "round_number", "value_status", "value"],
+      "properties": {
+        "frame": {"type": "integer", "minimum": 0}, "tick": {"type": "integer", "minimum": 0},
+        "epoch": {"type": "integer", "minimum": 0}, "instance": {"type": "integer", "minimum": 0},
+        "round_number": {"type": "integer", "minimum": 0},
+        "value_status": {"$ref": "#/$defs/value_status"},
+        "value": {"type": ["string", "null"]}
+      }
+    },
+    "observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["actor_alias", "label", "pawn_life", "pawn_handle", "side", "alive", "connected", "position", "property", "value_status", "value", "native_type", "last_delivery"],
+      "properties": {
+        "actor_alias": {"type": "string", "minLength": 1}, "label": {"type": "string", "minLength": 1},
+        "pawn_life": {"type": ["string", "null"]}, "pawn_handle": {"type": ["integer", "null"], "minimum": 0, "maximum": 4294967295},
+        "side": {"enum": ["T", "CT", null]}, "alive": {"type": ["boolean", "null"]}, "connected": {"type": "boolean"},
+        "position": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/position"}]},
+        "property": {"const": "m_szLastPlaceName"},
+        "value_status": {"$ref": "#/$defs/value_status"}, "value": {"type": ["string", "null"]},
+        "native_type": {"type": ["string", "null"]},
+        "last_delivery": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/delivery"}]}
+      }
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["manifest_sha256", "snapshot_sha256", "targets_sha256", "candidate_context_sha256", "target_id", "map_name", "build", "patch", "source_semantics"],
+      "properties": {
+        "manifest_sha256": {"$ref": "#/$defs/hash"}, "snapshot_sha256": {"$ref": "#/$defs/hash"},
+        "targets_sha256": {"$ref": "#/$defs/hash"}, "candidate_context_sha256": {"$ref": "#/$defs/hash"},
+        "target_id": {"type": "string", "pattern": "^[a-zA-Z0-9_-]{1,80}$"}, "map_name": {"type": "string", "minLength": 1},
+        "build": {"type": ["integer", "null"], "minimum": 0}, "patch": {"type": ["integer", "null"], "minimum": 0},
+        "source_semantics": {"const": "current_native_property_not_geometric_zone"}
+      }
+    }
+  }
+}

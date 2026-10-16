@@ -32,7 +32,7 @@ const DEMOS_DIR = path.resolve(__dirname, '../../data/demos');
 const GC_RESOLVER_VERSION = 2;
 const DEMO_DOWNLOADER_VERSION = 2;
 const ANALYZER_AUTH_VERSION = 2;
-const PARSER_SCHEMA_VERSION = 'v11';
+const PARSER_SCHEMA_VERSION = 'v16';
 const prefix = config.pipelineNamespace;
 const connection = new IORedis(config.redis.url, {
   maxRetriesPerRequest: null,
@@ -177,6 +177,19 @@ async function updateCredentialStatus(steamId, version, status, errorCode = '') 
   return result === 1;
 }
 
+async function acknowledgeInitialMatch(steamId, version, sharecode) {
+  return redisClient.eval(
+    `
+      if redis.call('HGET', KEYS[1], 'version') ~= ARGV[1]
+        or redis.call('HGET', KEYS[1], 'initial_code') ~= ARGV[2] then
+        return 0
+      end
+      return redis.call('HDEL', KEYS[1], 'initial_code')
+    `,
+    { keys: [credentialKey(steamId)], arguments: [version || '', sharecode] },
+  );
+}
+
 function decryptCredential(envelope) {
   const [version, payload] = String(envelope || '').split('.', 2);
   if (version !== 'v1' || !payload) throw new Error('Invalid credential envelope');
@@ -269,16 +282,10 @@ async function runDiscovery(job) {
     const users = await redisClient.sMembers(`${prefix}:users`);
     for (let offset = 0; offset < users.length; offset += 100) {
       const batch = users.slice(offset, offset + 100);
-      await discoveryQueue.addBulk(batch.map((steamId) => ({
-        name: 'discover-user',
-        data: { steamId, priority: 100 },
-        opts: {
-          priority: 100,
-          attempts: 4,
-          backoff: { type: 'exponential', delay: 5000, jitter: 0.5 },
-          deduplication: { id: steamId },
-        },
-      })));
+      await Promise.all(batch.map(async (steamId) => {
+        const version = await redisClient.hGet(credentialKey(steamId), 'version');
+        if (version) await triggerDiscovery(steamId, 100, version);
+      }));
     }
     return { users: users.length };
   }
@@ -313,6 +320,8 @@ async function runDiscovery(job) {
   const authCode = decryptCredential(credentials.auth_code);
   let currentCode = credentials.known_code;
   let discovered = 0;
+  let initialCode = credentials.initial_code;
+  const seen = new Set([currentCode]);
 
   while (discovered < 50) {
     await waitForSteamRateSlot();
@@ -335,6 +344,10 @@ async function runDiscovery(job) {
           'needs_credentials',
           'steam_credentials_invalid',
         );
+        await publishEvent(steamId, {
+          job_id: String(job.id), stage: 'failed', progress: 100,
+          error_code: 'steam_credentials_invalid',
+        });
         const invalidCredentials = new UnrecoverableError('Steam credentials or known code are invalid');
         invalidCredentials.pipelineCode = 'steam_credentials_invalid';
         throw invalidCredentials;
@@ -347,11 +360,29 @@ async function runDiscovery(job) {
       throw error;
     }
 
-    const nextCode = response.data?.result?.nextcode?.trim();
-    if (!nextCode || EMPTY_SHARECODES.has(nextCode.toLowerCase())) break;
-    if (!SHARECODE_PATTERN.test(nextCode)) {
+    const rawNextCode = response.data?.result?.nextcode;
+    if (response.status !== 204 && (typeof rawNextCode !== 'string' || !rawNextCode.trim())) {
+      throw new Error('Steam returned an invalid history response');
+    }
+    const nextCode = rawNextCode?.trim();
+    if (nextCode && !EMPTY_SHARECODES.has(nextCode.toLowerCase()) && !SHARECODE_PATTERN.test(nextCode)) {
       throw new UnrecoverableError('Steam returned an invalid sharecode');
     }
+    // Only import the supplied match after Steam validates history access.
+    // Keep the marker until durable enqueue succeeds, so a retry cannot lose it.
+    if (initialCode && SHARECODE_PATTERN.test(initialCode)) {
+      if (await redisClient.hGet(credentialKey(steamId), 'version') !== effectiveCredentialVersion) {
+        const error = new UnrecoverableError('Credential version has been replaced');
+        error.pipelineCode = 'stale_credential_job';
+        throw error;
+      }
+      await enqueueSharecode(steamId, initialCode, priority);
+      await acknowledgeInitialMatch(steamId, effectiveCredentialVersion, initialCode);
+      initialCode = null;
+    }
+    if (!nextCode || EMPTY_SHARECODES.has(nextCode.toLowerCase())) break;
+    if (seen.has(nextCode)) throw new Error('Steam returned a repeated sharecode');
+    seen.add(nextCode);
     if (
       effectiveCredentialVersion
       && await redisClient.hGet(credentialKey(steamId), 'version') !== effectiveCredentialVersion
@@ -375,18 +406,21 @@ async function runDiscovery(job) {
   if (discovered === 0) {
     await updateCredentialCursor(steamId, effectiveCredentialVersion, '');
   }
+  await publishEvent(steamId, {
+    job_id: String(job.id), stage: 'discovery_completed', progress: 100, discovered,
+  });
   return { discovered };
 }
 
 async function runResolve(job) {
-  const { steamId, sharecode, refreshToken } = job.data;
+  const { steamId, sharecode, refreshToken, urlRefreshAttempts = 0 } = job.data;
   const identity = jobIdentity(steamId, sharecode);
   await setPipelineState(steamId, sharecode, {
     job_id: identity,
     stage: 'resolving',
     attempt: job.attemptsMade + 1,
   });
-  const result = await resolveSharecode(sharecode);
+  const result = await resolveSharecode(sharecode, 2, Boolean(refreshToken));
   const matchId = result.matchID.toString();
   const downloadIdentity = refreshToken ? `${identity}-${refreshToken}` : identity;
   await downloadQueue.add(
@@ -400,6 +434,7 @@ async function runResolve(job) {
       matchDate: result.matchDate,
       matchDuration: result.matchDuration,
       mapName: result.mapName || 'unknown',
+      urlRefreshAttempts,
     },
     {
       attempts: config.downloadQueue.maxRetries,
@@ -422,6 +457,7 @@ async function runDownload(job) {
     sharecode,
     matchId,
     demoUrl,
+    urlRefreshAttempts = 0,
   } = job.data;
   const identity = jobIdentity(steamId, sharecode);
   await setPipelineState(steamId, sharecode, {
@@ -467,19 +503,25 @@ async function runDownload(job) {
     return download;
   } catch (error) {
     if ([403, 410].includes(error.statusCode)) {
+      if (urlRefreshAttempts >= 2) {
+        const unavailable = new UnrecoverableError('Steam CDN remains unavailable after refreshing its URL');
+        unavailable.pipelineCode = 'cdn_url_unavailable';
+        throw unavailable;
+      }
       await resolveQueue.add(
         'resolve',
         {
           steamId,
           sharecode,
           refreshToken: Date.now().toString(),
+          urlRefreshAttempts: urlRefreshAttempts + 1,
           resolverVersion: GC_RESOLVER_VERSION,
         },
         {
           priority: 1,
           attempts: 4,
           backoff: { type: 'exponential', delay: 2000, jitter: 0.5 },
-          deduplication: { id: `${jobIdentity(steamId, sharecode)}-refresh-${Date.now()}` },
+          deduplication: { id: `${identity}-refresh-${urlRefreshAttempts + 1}` },
         },
       );
       await setPipelineState(steamId, sharecode, {
@@ -508,6 +550,11 @@ async function runAnalysis(job) {
     parserSchemaVersion,
   } = job.data;
   const identity = jobIdentity(steamId, sharecode);
+  // A queued job can predate this worker. Record the contract of this attempt,
+  // rather than asking the current analyzer to produce an obsolete schema.
+  if (parserSchemaVersion !== PARSER_SCHEMA_VERSION) {
+    await job.updateData({ ...job.data, parserSchemaVersion: PARSER_SCHEMA_VERSION });
+  }
   await setPipelineState(steamId, sharecode, {
     job_id: identity,
     match_id: matchId,
@@ -524,7 +571,7 @@ async function runAnalysis(job) {
     match_date: matchDate,
     match_duration: matchDuration,
     checksum,
-    parser_schema_version: parserSchemaVersion || PARSER_SCHEMA_VERSION,
+    parser_schema_version: PARSER_SCHEMA_VERSION,
     job_id: identity,
   });
   const body = Buffer.from(payload);
@@ -654,23 +701,25 @@ function timedProcessor(stage, processor) {
 }
 
 async function triggerDiscovery(steamId, priority = 100, credentialVersion) {
+  const version = credentialVersion || await redisClient.hGet(credentialKey(steamId), 'version');
   const job = await discoveryQueue.add(
     'discover-user',
-    { steamId, priority, credentialVersion },
+    { steamId, priority, credentialVersion: version },
     {
       priority,
       attempts: 4,
       backoff: { type: 'exponential', delay: 5000, jitter: 0.5 },
-      deduplication: { id: credentialVersion ? `${steamId}-${credentialVersion}` : steamId },
+      deduplication: { id: version ? `${steamId}-${version}` : steamId },
     },
   );
   return { status: 'queued', discovery_job_id: job.id };
 }
 
 async function getPipelineStatus(steamId) {
-  const [credentialsExist, credentialStatus, rawStates] = await Promise.all([
+  const [credentialsExist, credentialStatus, validatedAt, rawStates] = await Promise.all([
     redisClient.exists(credentialKey(steamId)),
     redisClient.hGet(credentialKey(steamId), 'status'),
+    redisClient.hGet(credentialKey(steamId), 'validated_at'),
     redisClient.hGetAll(stateKey(steamId)),
   ]);
   const discoveryErrorCode = credentialsExist > 0
@@ -690,7 +739,10 @@ async function getPipelineStatus(steamId) {
     return result;
   }, {});
   return {
-    configured: credentialsExist > 0 && credentialStatus === 'configured',
+    configured: credentialsExist > 0 && (
+      credentialStatus === 'configured'
+      || Boolean(validatedAt) && !['needs_credentials', 'pending_validation'].includes(credentialStatus)
+    ),
     credential_status: credentialStatus || 'missing',
     discovery_error_code: discoveryErrorCode || null,
     counts,
@@ -913,6 +965,9 @@ module.exports = {
     recoverServiceAuthFailures,
     recoverTlsUpgradeFailures,
     resolveQueue,
+    runAnalysis,
     runDiscovery,
+    runDownload,
+    runResolve,
   },
 };

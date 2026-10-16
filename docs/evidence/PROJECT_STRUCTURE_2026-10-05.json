@@ -1,0 +1,689 @@
+{
+  "date": "2026-10-05",
+  "status": "completed",
+  "scope": "Repository documentation organization, onboarding, module guides and local documentation validation",
+  "before": {
+    "docs_root_markdown": 74,
+    "root_readme_lines": 213,
+    "git_status_snapshot": ".cache/project-structure-20261005/git-status-before.txt"
+  },
+  "after": {
+    "docs_root_markdown": 13,
+    "root_readme_lines": 147,
+    "relocated_documents": 62,
+    "groups": {
+      "design": 18,
+      "context_contracts": 8,
+      "economy_contracts": 12,
+      "support_contracts": 20,
+      "operations": 4
+    }
+  },
+  "verification": {
+    "documentation": {
+      "command": "npm run check:docs",
+      "exit_code": 0,
+      "markdown_files": 218,
+      "local_links": 1549,
+      "relocations": 62,
+      "active_prompts": 1,
+      "scope_limits": [
+        "External URLs not checked",
+        "Heading anchors not checked",
+        "Frozen historical artifacts and scripts not retargeted"
+      ]
+    },
+    "checker_syntax": {
+      "command": "node --check scripts/check-docs.mjs",
+      "exit_code": 0
+    },
+    "diff_check": {
+      "command": "git -c core.safecrlf=false diff --check",
+      "exit_code": 0
+    },
+    "checker_fixtures": {
+      "directory": ".cache/project-structure-20261005/checker-fixtures-983e0d05",
+      "cases": {
+        "valid": {
+          "expected_exit_code": 0,
+          "exit_code": 0,
+          "output": "Documentation OK: 14 Markdown files, 3 local links, 1 relocations, one active prompt.\nScope: docs/ and maintained entry guides. External URLs, heading anchors and retained historical artifacts are not validated."
+        },
+        "missing": {
+          "expected_exit_code": 1,
+          "exit_code": 1,
+          "output": "docs\\README.md: missing missing.md"
+        },
+        "duplicate": {
+          "expected_exit_code": 1,
+          "exit_code": 1,
+          "output": "Relocation has two copies: docs/previous.md and docs/topics/topic.md"
+        },
+        "unlinked": {
+          "expected_exit_code": 1,
+          "exit_code": 1,
+          "output": "Relocated document has no incoming Markdown link: docs/topics/topic.md"
+        },
+        "extra_prompt": {
+          "expected_exit_code": 1,
+          "exit_code": 1,
+          "output": "Expected one active Markdown prompt; found 2"
+        },
+        "invalid_location": {
+          "expected_exit_code": 1,
+          "exit_code": 1,
+          "output": "Invalid relocation path: outside.md"
+        }
+      }
+    },
+    "relocated_content_reference_only": 62,
+    "unchanged_existing_non_markdown_sha256_count": 1198,
+    "unchanged_source_sha256_count": 788,
+    "unchanged_existing_evidence_sha256_count": 121,
+    "package_json_change": "Only check:docs added; removing that exact line reproduces the original SHA-256",
+    "gitignore_change": "Only pytest-cache-files-*/ added; removing that exact line reproduces the original SHA-256",
+    "AGENTS_md_sha256_unchanged": true,
+    "functional_suites": "Not run: no runtime/source behavior changed by this task",
+    "real_demo_smoke": "Not applicable: producers, derived-fact logic, executable schemas and runtime contracts unchanged by this task"
+  },
+  "preservation": {
+    "inventory": ".cache/project-structure-20261005/snapshot.json",
+    "inventory_sha256": "be2b4e1d993c802c32df60af687a700cd216d0d473bfddd348f7880c8320a3ad",
+    "verification": ".cache/project-structure-20261005/preservation-check.json",
+    "backups": ".cache/project-structure-20261005/before/",
+    "retained": true,
+    "not_operated_on": [
+      "backend/data",
+      "source demos and approved corpus",
+      "runtime databases and Redis dump",
+      "release directories and CURRENT pointers",
+      "existing workbooks and frozen outputs",
+      "browser profiles and dependency directories",
+      "pre-existing JSON evidence"
+    ]
+  },
+  "concurrent_work": {
+    "observed": [
+      {
+        "path": "outputs/stratai-context-comparison-20261005/run.py",
+        "change": "metadata changed outside task"
+      }
+    ],
+    "active_protocol": "docs/AI_COACH_CONTEXT_COMPARISON_PROTOCOL.md",
+    "handling": "Protocol path preserved after concurrent recreation; relocated copy retained under cache, index points to current original. Canonical plan CS3 content edits preserved; only links updated by this task. Outputs run.py was not edited by this task."
+  },
+  "inventory_limits": [
+    "Initial inventory could not enter two pytest-cache-files directories",
+    "Initial inventory could not enter outputs/stratai-integral-audit-20260917/pipeline-version-fixtures-cshvxr_l",
+    "Ignored runtime/data/artifacts excluded from source inventory"
+  ],
+  "relocation_map": "docs/references/document-locations.json",
+  "relocations": [
+    {
+      "from": "docs/ai-coach-validation.md",
+      "to": "docs/operations/ai-coach-validation.md",
+      "before_sha256": "684fd1cb16f2a22721d61a64e36eb54852599d3667f4055f2e7a7cf364db4a16",
+      "after_sha256": "1068ed4bd739b5fef0e20fbf6f01d464e4aa7cc7f29839364503bc7d8e839329",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "to": "docs/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "before_sha256": "3c7cf97aa064de8d716a3ef00c9d6d6934c3965308a9c3d72c6d0cea7ea1ae4b",
+      "after_sha256": "307acd9a67f411f0a14622da689fe71baff40111132ae3391c1b2390f9e7cbb2",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_COLLECTIVE_TACTICAL_REVIEW_CARDS.md",
+      "to": "docs/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_REVIEW_CARDS.md",
+      "before_sha256": "fd001fc048346e773eeb36ffd0a1bd9b1ddac21b3e5c87d2a618b1d31aefe246",
+      "after_sha256": "fd60ae747ef5e9e3a5f9e358e845a885ec0b5e764eeea55077ac3a92103b4764",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_CONTEXT_INPUT_PHASE.md",
+      "to": "docs/ai-coach/AI_COACH_CONTEXT_INPUT_PHASE.md",
+      "before_sha256": "dbb006751462e78222b34d9a92995e7eea9e7624894145339b24f889acb107eb",
+      "after_sha256": "5935dba202f026dff90c49cbd8ba3247d52001e218b78fe48724c7609e72bc2d",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md",
+      "to": "docs/ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md",
+      "before_sha256": "bb2e24808850d43d4b48204d25be422a35091472060b773cc130d9a135d3a42a",
+      "after_sha256": "5b62deeb175e02e9fc3dc157ac72bc5e499005cf0622931e1ffb3b2ca9817e74",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_ENTRY_SUPPORT_REVIEW_RUBRIC.md",
+      "to": "docs/ai-coach/AI_COACH_ENTRY_SUPPORT_REVIEW_RUBRIC.md",
+      "before_sha256": "7d3708374c4f8c63b7e6da7584bc17e72594359c6424bd9a9f9e85ccba706c4d",
+      "after_sha256": "a422d8a5623a447c76f73c7bbe477c5eb90d5c8f5efccf0ce4ae9555cf8880cc",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_EXPERT_QUESTIONS.md",
+      "to": "docs/ai-coach/AI_COACH_EXPERT_QUESTIONS.md",
+      "before_sha256": "66c38a48ef6de338bb3efa058702d25c941489766a3fc63840f5920ff0411b38",
+      "after_sha256": "7e9615f0ca90c1e1f72e79781c6aabd482b8580dd7c3477c5c44506f1e138bf9",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_F01_K1_REVIEW_v0.2.md",
+      "to": "docs/ai-coach/AI_COACH_F01_K1_REVIEW_v0.2.md",
+      "before_sha256": "a905945de22e2c63082a7d2bb350f4eb09e4439938439c1941cac24c63dcdeab",
+      "after_sha256": "54fa148e7ccda784297927ccb5e348a5fb4cf0fd2e26062bcfbec934d6bb9d27",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_F01_K2_REVIEW_v0.2.md",
+      "to": "docs/ai-coach/AI_COACH_F01_K2_REVIEW_v0.2.md",
+      "before_sha256": "047f21bd5598764590ce88890a6b7bf7670086efaeaa9a1321e6a2c7c322701c",
+      "after_sha256": "560c926b3055781f49a52947df4b279d5b28604222cf093b4666b98962d27d2a",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_ICT_I1B_INFORMATION_ATTRIBUTION_PROPOSAL.md",
+      "to": "docs/ai-coach/AI_COACH_ICT_I1B_INFORMATION_ATTRIBUTION_PROPOSAL.md",
+      "before_sha256": "c7c2f2e3bc01cbfba60613d812e177376032e0823eaf7783d4d688cbe065afeb",
+      "after_sha256": "bdaabb8c65d295ece5ffb9cbc20407513a0ab70ffdc5dc470e97482c88bdc85a",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_ICT_I1B_RADAR_STATE_DEPENDENCY.md",
+      "to": "docs/ai-coach/AI_COACH_ICT_I1B_RADAR_STATE_DEPENDENCY.md",
+      "before_sha256": "bbdbb30a7a55e5e5791f074232dc6c969d2cd3d31c9aec5ab8104cfe90d41adc",
+      "after_sha256": "67d368d5016e174c714f824c88dbaecda2274d1b63bb59906c5463bf4b6cb83e",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_INDEPENDENT_EVALUATION_PROTOCOL.md",
+      "to": "docs/ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PROTOCOL.md",
+      "before_sha256": "0fd8e7591e47a446599f6b8c45b24fe7ee59f52934256f107ae78f28636aa385",
+      "after_sha256": "37a2a74717d93626e7bcb30e3e668ca33ff050569e1123ef69e032434d21377d",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_INITIAL_PILOT_DESIGN.md",
+      "to": "docs/ai-coach/AI_COACH_INITIAL_PILOT_DESIGN.md",
+      "before_sha256": "4e236d55c40018a3315ef11add7607b0e0e2ff7bfd6dd7cedb8c6311c208c6f0",
+      "after_sha256": "08ff7a27083f27d92beb6492f86010c3f90db89713070da218a9d36cda42a820",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_MODEL_ARCHITECTURE.md",
+      "to": "docs/ai-coach/AI_COACH_MODEL_ARCHITECTURE.md",
+      "before_sha256": "65c7124efb41b023371c54a9247d3da4a63ee07aba613fdc71cfcd5784a1fc4f",
+      "after_sha256": "14cf7dc40c4fd6f97e6fcc555259493f2ceab7f47c880ee7127667f68a1b2141",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "to": "docs/ai-coach/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "before_sha256": "643283870d46c44787faf9c1e5a68bc834012188d6b29df8a171364ca4141233",
+      "after_sha256": "8fafcd76d13a03a64a169e52a7d8df066110c5ea8033c9fa8076e922c7e62a7f",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL.md",
+      "to": "docs/ai-coach/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL.md",
+      "before_sha256": "cfd93771b31b95ffa2af6cdb0f167facd3bb4825cd3693933decfd2b91f3fa55",
+      "after_sha256": "3aac8c8984b5580df8b0a9b61e911b24543e4191feda3cfd61593735656774f5",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_TECHNICAL_EVALUATION_PROTOCOL.md",
+      "to": "docs/ai-coach/AI_COACH_TECHNICAL_EVALUATION_PROTOCOL.md",
+      "before_sha256": "1382b41183b566d1aa667ec24a6457a09e1d5f331d29e9a4927c28c3a65edbd7",
+      "after_sha256": "cd3441479beeeecb8b4a9f5bcb5287c206579bc3053720e59202fc85f57f73eb",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+      "to": "docs/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+      "before_sha256": "d41aa05e94ce664ed0dfff8e7a1c9db1aab740b44c7aa49bd6c947b57cdfb4f6",
+      "after_sha256": "6372c56d813f1f953f8e19b787f09815bee904a7c9ba6239656ca09463282d4f",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/AI_COACH_TEMPORAL_PERSISTENCE_PROPOSAL.md",
+      "to": "docs/ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_PROPOSAL.md",
+      "before_sha256": "6d073ff23e872c342725e07e371e7686642183ac42d8a0bfdc86f6fa7f5e6b6d",
+      "after_sha256": "de100fbe962b0a036ddd9b536adbaa13a9ab454f93b267f641fe295c5d2e9886",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-candidate-context-v1.md",
+      "to": "docs/contracts/context/canonical-candidate-context-v1.md",
+      "before_sha256": "62601bae9eb2d600e8c0d633eeee06e5c122377476f58b9d63efdc593c6b27d0",
+      "after_sha256": "ebe5d8aefa526a536826c3b4c87df78aa10f34ad43e06522f5899cc9b58e5bbc",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-contextual-interpreter-v1.md",
+      "to": "docs/contracts/context/canonical-contextual-interpreter-v1.md",
+      "before_sha256": "066d65979d0e8a3ab4bc10e15433d18ed106420cfe0a3a156d4e4e1dcfd655f6",
+      "after_sha256": "86a022b71f69bbc97159a30e6bf966822f49bbed48a847e6cac9ba80b2da3eac",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-contextual-review-v1.md",
+      "to": "docs/contracts/context/canonical-contextual-review-v1.md",
+      "before_sha256": "ff03e998e52e53a8ce665e4323c5cb5884237261f4281c44c704517423f0c044",
+      "after_sha256": "ff03e998e52e53a8ce665e4323c5cb5884237261f4281c44c704517423f0c044",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-destination-orientation-v1.md",
+      "to": "docs/contracts/context/canonical-destination-orientation-v1.md",
+      "before_sha256": "831afc4099304ce7557667efd13baf4403ff624423edacb618546035adde1734",
+      "after_sha256": "be7280d7ec9f4dc1c1bdd113fd66d893bdd70b4e6b2ce0699e2b1d60a3a59baf",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-candidate-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-candidate-v1.md",
+      "before_sha256": "9ae256914715718576effadf2540dd17d83838a0bc4d64ead93d0b44d83d852e",
+      "after_sha256": "579849baccb0e468cc26c4f63c345b41a07f55ec18b63ff7850a1ea899097f9c",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-candidate-v2.md",
+      "to": "docs/contracts/economy/canonical-economy-candidate-v2.md",
+      "before_sha256": "621ca119017ce1461304bf6179377751fc80a22537035b6d6ba9d4eb730428ed",
+      "after_sha256": "13efe513afc54b72fdb4f35c2da4e39cbdda091bc69be5915969badfeea67942",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-cashflow-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-cashflow-v1.md",
+      "before_sha256": "970159ab38fcaa72fde982bb5cbcc6faefee52afc6d494e81f7a66a6b552234d",
+      "after_sha256": "970159ab38fcaa72fde982bb5cbcc6faefee52afc6d494e81f7a66a6b552234d",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-entry-identity-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-entry-identity-v1.md",
+      "before_sha256": "a78a547e74206c38d21f5cdf4048e2cc4449f008474151b05222ed1788b3bae4",
+      "after_sha256": "a78a547e74206c38d21f5cdf4048e2cc4449f008474151b05222ed1788b3bae4",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-native-identity-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-native-identity-v1.md",
+      "before_sha256": "238ffa158a002b02dce6ba0bf8027bdbbb62aeff166622b27fbe26de94ad4800",
+      "after_sha256": "238ffa158a002b02dce6ba0bf8027bdbbb62aeff166622b27fbe26de94ad4800",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-native-sources-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-native-sources-v1.md",
+      "before_sha256": "4ad07fabbde47ab1b3c995d6446f163b0a0b4092bde8adb4477c02aee5f0ef81",
+      "after_sha256": "f6f65512aae6eabab26af59b2827342e8b0d8a41ab2061cda40f7cf02b12ded6",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-opportunities-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-opportunities-v1.md",
+      "before_sha256": "535b5324f00f0aaba3d03352bbacf07582a0de3bf822a35cafe1390f4700ddb5",
+      "after_sha256": "496e98c9bcc72e15a4ebceebf2e53dbb92eb56176f1ef17818952c93ab593028",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-ownership-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-ownership-v1.md",
+      "before_sha256": "c47ae52b3dc2f35d7d9e1961cbc1e89e2cffe6691cb9071f1f6860bd9de5585a",
+      "after_sha256": "c47ae52b3dc2f35d7d9e1961cbc1e89e2cffe6691cb9071f1f6860bd9de5585a",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-resource-manifest-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-resource-manifest-v1.md",
+      "before_sha256": "9b82cec8b343a921accf404429a31393de606285d9d133a3f22745b5469f23e8",
+      "after_sha256": "f1aa31042d62a9d97e928f513e3f863942647ee312863c39b6e6797b6427f382",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-rule-context-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-rule-context-v1.md",
+      "before_sha256": "401b3940454ccc723e606d66ab574ebb7204c85052131ed0d40f209124d3d7e1",
+      "after_sha256": "129f1b2f91269ff24011d6e24caa676e390c9fb484e216c1a42331af850f9608",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-rule-references-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-rule-references-v1.md",
+      "before_sha256": "09ccad52b24adb1f816ed6b64621cb36237dba04e81254f969a964429570c2bf",
+      "after_sha256": "b3f6410d4cd34e30b321c9c616469960f7dc39214756ce7e94114da361c036b1",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-economy-transaction-trace-v1.md",
+      "to": "docs/contracts/economy/canonical-economy-transaction-trace-v1.md",
+      "before_sha256": "cd49bbde70ff1794a30a38b1abba51ee435ea34ccd9081aac2dc6afe1dccbfad",
+      "after_sha256": "cd49bbde70ff1794a30a38b1abba51ee435ea34ccd9081aac2dc6afe1dccbfad",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-native-place-context-v1.md",
+      "to": "docs/contracts/context/canonical-native-place-context-v1.md",
+      "before_sha256": "eb20ec5db69ee84baffc126353a5fb9bcdf7803408a0c61f045ea8f5d1fc5589",
+      "after_sha256": "baf122600df3cf5903a3d7d468e8ddae3d7e4893c14f955fb5a298d93acf2894",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-publication-rollback.md",
+      "to": "docs/operations/canonical-publication-rollback.md",
+      "before_sha256": "104cf72d07f83b7e4a500463267bc394176a07a638e42dbf1962b1c53c991e4f",
+      "after_sha256": "ce3883f4cf4e11091f57fbd7a428e49d8b14478622af3eaebc1fb7ee2590d89e",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-round-context-v1.md",
+      "to": "docs/contracts/context/canonical-round-context-v1.md",
+      "before_sha256": "339f488ed51d540bff46137a5f651b0f6df77e99c38373927236a7fbcffd7a9e",
+      "after_sha256": "339f488ed51d540bff46137a5f651b0f6df77e99c38373927236a7fbcffd7a9e",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-anchors-v1.md",
+      "to": "docs/contracts/support/canonical-support-anchors-v1.md",
+      "before_sha256": "346e6f08e84f93b5f466f228f33d88b9575313b96e9da9fe42a69b9184da8af0",
+      "after_sha256": "b02ee0b14f9da6f1ccda133aac321f380d19df3f50b531a9c798431cae670c9d",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-attempt-origin-v1.md",
+      "to": "docs/contracts/support/canonical-support-attempt-origin-v1.md",
+      "before_sha256": "0a06f9658d9e8a81c332c062725e7fd4224e2c665a31a1ee08713696f8941645",
+      "after_sha256": "4ff671d71b93a7f212caf7d1b1a59205b52b173843b647af03ab69d20ec00257",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-c4-v1.md",
+      "to": "docs/contracts/support/canonical-support-c4-v1.md",
+      "before_sha256": "716a960d620c521e98a9476d2ce2278ba5e9dba303a4065be2891fe6728d453c",
+      "after_sha256": "79877db939250a7a1558b01cb5389c1f22844dd0a2620193fe4672a5f7d793ea",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-native-motion-v1.md",
+      "to": "docs/contracts/support/canonical-support-native-motion-v1.md",
+      "before_sha256": "65f96dc2ff0b90643a4370324f98f843f1c0ffe5e9cb684c7c4df630100d60fc",
+      "after_sha256": "67e9551baa292d0c9ba267c98fe05d4c4dad99c360e5dc6c9ab642223a9026eb",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-navigation-v1.md",
+      "to": "docs/contracts/support/canonical-support-navigation-v1.md",
+      "before_sha256": "c333ec048f755839b782c97b2301eab563b50471a70d85bd98a8ac72c6ba3811",
+      "after_sha256": "58602f3cc2a9d4c6d39dc4ae819487388257667dcb3fd32bd75e7fe5e4f591f4",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-objective-clock-v1.md",
+      "to": "docs/contracts/support/canonical-support-objective-clock-v1.md",
+      "before_sha256": "a572b356c5537978fd57fd030ff63bf0fb413177f66b886228f1626bc201f1e2",
+      "after_sha256": "37b3ca2ad5fca763b393ad9a3882fc3179e05679edfbd4d3d09020ee8792ecf6",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-objective-position-v1.md",
+      "to": "docs/contracts/support/canonical-support-objective-position-v1.md",
+      "before_sha256": "6382d8a44ef8110e2fa5fb931c842dabeea8ddb14335a5ed02aaa278d0cf084e",
+      "after_sha256": "3e3b2699bfa8781e4ebcd12d7c683787d100247ad0b589773a3a7dcd5ce31296",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-objective-v1.md",
+      "to": "docs/contracts/support/canonical-support-objective-v1.md",
+      "before_sha256": "3bb5f3a8a3311c4576f4f16d188139affe762b6815612722bfba1b6c8ab6ed03",
+      "after_sha256": "81c21809523ede5a9dd0e205cacd4ae1d94fa69e5c3839125a10da991c67813f",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-physical-v1.md",
+      "to": "docs/contracts/support/canonical-support-physical-v1.md",
+      "before_sha256": "18536b243fe16695bac59b2775a34f2d6a36bca9d24d492e865c02ca0b20c76c",
+      "after_sha256": "3011e82b587a140e621f126a923211dc56893d16bd4e5c4c4181f3f8fdc1da8d",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-attempt-origin-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-attempt-origin-v1.md",
+      "before_sha256": "ff3988f2937e386679b00443e4a5caa94d4360ba770c868a06d03640540160d6",
+      "after_sha256": "2ebecbddf2a9065a272fff62cb5138151e4e8fba6af05cb83051b425a489e74b",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-c4-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-c4-v1.md",
+      "before_sha256": "376ff4a23195b0a37cfacd63be7335e559805da38fdbf8341c9406f3d5bcb6d7",
+      "after_sha256": "66b3659f244ab7c0a9f41a04f7792ed24a167814e778ab0b83948b80aad3d47f",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-native-motion-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-native-motion-v1.md",
+      "before_sha256": "34d32dd015dd9d814e9031e7926430c234c03b14f0ed7a3b8f32675489c7b043",
+      "after_sha256": "b720bc30c66a85f2216b15fb9d2e82260290c2c69f07e6f2894819840f8992d4",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-objective-clock-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-objective-clock-v1.md",
+      "before_sha256": "c5a8e0274eb12b401f65d48484710a668973afbeef893f012d1dfe75ba382b59",
+      "after_sha256": "1049287fb4dc49c80262f91804cce4c8c436e7a39afcc0e19c21d0161b84dcdd",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-objective-position-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-objective-position-v1.md",
+      "before_sha256": "9a7eac7826d7e18ea83c73742c5956e4643ea4ca8cbc8f735b1031a8cdc3d921",
+      "after_sha256": "d95343232eee1f243a8515154f6ccc4abe7a07c414688f69d14f20a59b9510c3",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-objective-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-objective-v1.md",
+      "before_sha256": "86f8cb14a74cd0ba097dcb2d3587e8052403fe3c62142929accd66c1e6b9c72f",
+      "after_sha256": "e0bfc388b3126d500ab1981c310443f7d25786f429a7c9f7865b897501de0e3e",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-physical-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-physical-v1.md",
+      "before_sha256": "600600b98a960530bc839ebcd57ddfcc4d667db43533485c399a87dc3ed60170",
+      "after_sha256": "409835ee0c1d06e512c535f29dffc56c7b2f1bf63350d0a60c7f0d9e4864cd5b",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-v1.md",
+      "before_sha256": "cd79656e238fa0660328e6ffbb8028b7751e6dbe7e765fca3e2c5964c43c2640",
+      "after_sha256": "3466f04ca01253c35e741d692eef01b3acb17572019ae801aa62244b81a0fb93",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-visual-contact-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-visual-contact-v1.md",
+      "before_sha256": "f78aa79deeae2e099e05e23f822389d740440d0ad29d932d03cf6caa40e13157",
+      "after_sha256": "b833a3c03c5046a4f478ff709ffa95b15c65b2d2505fe21a376f26b1c27609a2",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-preparation-weapon-timing-v1.md",
+      "to": "docs/contracts/support/canonical-support-preparation-weapon-timing-v1.md",
+      "before_sha256": "b0c93e40c8751053cd960a2ba764913d855b186e65ea9972c9d09cffb251f6ce",
+      "after_sha256": "baee0742e12f0ae8ea2ba0d99d76387bf33e5bfa90fa394a2711dd595184d6af",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-support-weapon-timing-v1.md",
+      "to": "docs/contracts/support/canonical-support-weapon-timing-v1.md",
+      "before_sha256": "f254c64f90d4e4e15d314a3b55e178be1abf11399bd1c3b8b862025367e42306",
+      "after_sha256": "5aac638c8b4d985a49a9b2c7ff978f5ac2ddc852a83c5a3edf6f6eb0203c8c74",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-team-status-review-v1.md",
+      "to": "docs/contracts/context/canonical-team-status-review-v1.md",
+      "before_sha256": "8aecb2631358044c692067f639382f9832f1981b93226c62426fdd9259bb8b1f",
+      "after_sha256": "69de71ebcbacf972c5d392ea60c93a3c61d1f00e7a07e629c2ee30037aee4fa9",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/canonical-temporal-description-v1.md",
+      "to": "docs/contracts/context/canonical-temporal-description-v1.md",
+      "before_sha256": "c551ecde6e036e1c63b7bde0619cbf84e77040acc5f3f1dbf11178eb14d09f68",
+      "after_sha256": "0a8d154390688773503b694e1361fa3e8f58530c8f207713869b14a6c698eb97",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/golden-corpus.md",
+      "to": "docs/operations/golden-corpus.md",
+      "before_sha256": "4c5170622f2b6524d3ce2d182e0f95da1f23a5598ab4aec9aee305533e89a843",
+      "after_sha256": "4c5170622f2b6524d3ce2d182e0f95da1f23a5598ab4aec9aee305533e89a843",
+      "content_change": "references_only"
+    },
+    {
+      "from": "docs/pipeline-v2-rollout.md",
+      "to": "docs/operations/pipeline-v2-rollout.md",
+      "before_sha256": "2fd23f36cbd37974a74e54c1f3cf4303dbfdff0d1bd404cb92fd296e2fb3355a",
+      "after_sha256": "2fd23f36cbd37974a74e54c1f3cf4303dbfdff0d1bd404cb92fd296e2fb3355a",
+      "content_change": "references_only"
+    }
+  ],
+  "existing_markdown_changed_or_retargeted": [
+    "README.md",
+    "backend/README.md",
+    "backend/go-service/scripts/README.md",
+    "backend/node-service/README.md",
+    "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+    "docs/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+    "docs/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_REVIEW_CARDS.md",
+    "docs/AI_COACH_CONTEXTUAL_REPRESENTATION_CRITERION.md",
+    "docs/AI_COACH_CONTEXT_COMPARISON_PROTOCOL.md",
+    "docs/ai-coach/AI_COACH_CONTEXT_INPUT_PHASE.md",
+    "docs/ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_DEPENDENCY.md",
+    "docs/ai-coach/AI_COACH_ENTRY_SUPPORT_REVIEW_RUBRIC.md",
+    "docs/ai-coach/AI_COACH_EXPERT_QUESTIONS.md",
+    "docs/ai-coach/AI_COACH_F01_K1_REVIEW_v0.2.md",
+    "docs/ai-coach/AI_COACH_F01_K2_REVIEW_v0.2.md",
+    "docs/ai-coach/AI_COACH_ICT_I1B_INFORMATION_ATTRIBUTION_PROPOSAL.md",
+    "docs/ai-coach/AI_COACH_ICT_I1B_RADAR_STATE_DEPENDENCY.md",
+    "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+    "docs/ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PROTOCOL.md",
+    "docs/ai-coach/AI_COACH_INITIAL_PILOT_DESIGN.md",
+    "docs/ai-coach/AI_COACH_MODEL_ARCHITECTURE.md",
+    "docs/AI_COACH_PRODUCT_DEFINITION.md",
+    "docs/ai-coach/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+    "docs/ai-coach/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL.md",
+    "docs/ai-coach/AI_COACH_TECHNICAL_EVALUATION_PROTOCOL.md",
+    "docs/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_SCOPE_v0.2.md",
+    "docs/ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_PROPOSAL.md",
+    "docs/README.md",
+    "docs/operations/ai-coach-validation.md",
+    "docs/archive/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_DESIGN_PHASE_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_EXPERT_REVIEW_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_CONTEXTUAL_INTERPRETER_PHASE_2026-09-23.md",
+    "docs/archive/ai-coach/AI_COACH_CONTEXTUAL_MULTIMATCH_PHASE_2026-09-23.md",
+    "docs/archive/ai-coach/AI_COACH_CONTEXTUAL_REVIEW_COMPLETION_2026-09-23.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_CASHFLOW_RECONCILIATION_PHASE_2026-09-08.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_CAUSAL_STATE_PHASE_2026-09-05.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_ENTRY_IDENTITY_LINK_PHASE_2026-09-08.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_EXACT_ASSET_BINDING_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_INITIAL_COVERAGE_AND_ROUND_LINK_PHASE_2026-09-05.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_NATIVE_IDENTITY_AND_TIME_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_NATIVE_RULE_CONTEXT_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_NATIVE_SOURCES_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_OPPORTUNITY_CONTRACT_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_OPPORTUNITY_SUFFICIENCY_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_OWNERSHIP_PHASE_2026-09-08.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_RESOURCE_MANIFEST_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_RULE_REFERENCES_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_SESSION_PAYLOAD_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ECONOMY_TRANSACTION_TRACE_PHASE_2026-09-06.md",
+    "docs/archive/ai-coach/AI_COACH_ENTRY_SUPPORT_RUBRIC_PHASE_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_F01_K1_PREPARATION_PHASE_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_F01_K2_EXPERT_REVIEW_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_F01_K2_PREPARATION_PHASE_2026-09-17.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1A_PHASE_2026-09-21.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1B_PREPARATION_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1B_SPOTTING_PROBE_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_ICT_I1_EXPERT_REVIEW_2026-09-21.md",
+    "docs/archive/ai-coach/AI_COACH_IMPLEMENTATION_PLAN_v1.18_2026-09-05.md",
+    "docs/archive/ai-coach/AI_COACH_INDEPENDENT_EVALUATION_PREPARATION_2026-09-24.md",
+    "docs/archive/ai-coach/AI_COACH_INITIAL_PILOT_DESIGN_PHASE_2026-09-05.md",
+    "docs/archive/ai-coach/AI_COACH_RADAR_HUD_CONTRAST_PREPARATION_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_REVIEW_INFORMATION_CONTEXT_PROPOSAL.md",
+    "docs/archive/ai-coach/AI_COACH_ROUND_CONTEXT_AND_CLOCK_2026-09-25.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_ATTEMPT_ORIGIN_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_C4_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_CAUSAL_ANCHOR_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_NATIVE_MOTION_PHASE_2026-09-10.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_NAVIGATION_CONTEXT_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_OBJECTIVE_CLOCK_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_OBJECTIVE_CONTEXT_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_OBJECTIVE_POSITION_PHASE_2026-09-10.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PHYSICAL_CONTEXT_PHASE_2026-09-09.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_ATTEMPT_ORIGIN_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_C4_CONTEXT_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_CENSUS_PHASE_2026-09-13.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_PHASE_2026-09-16.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_NATIVE_MOTION_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CLOCK_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CONTEXT_PHASE_2026-09-14.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_POSITION_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_PHYSICAL_CONTEXT_PHASE_2026-09-14.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_WEAPON_TIMING_PHASE_2026-09-15.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_PRE_ENTRY_PROTOCOL_PHASE_2026-09-12.md",
+    "docs/archive/ai-coach/AI_COACH_SUPPORT_WEAPON_TIMING_PHASE_2026-09-11.md",
+    "docs/archive/ai-coach/AI_COACH_TEAM_STATUS_REVIEW_2026-09-25.md",
+    "docs/archive/ai-coach/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md",
+    "docs/archive/ai-coach/AI_COACH_TEMPORAL_MULTIDEMO_EVALUATION_2026-09-22.md",
+    "docs/archive/ai-coach/AI_COACH_TEMPORAL_PERSISTENCE_2026-09-24.md",
+    "docs/contracts/context/canonical-candidate-context-v1.md",
+    "docs/canonical-common-factual-context-v1.md",
+    "docs/contracts/context/canonical-contextual-interpreter-v1.md",
+    "docs/contracts/context/canonical-destination-orientation-v1.md",
+    "docs/contracts/economy/canonical-economy-candidate-v1.md",
+    "docs/contracts/economy/canonical-economy-candidate-v2.md",
+    "docs/contracts/economy/canonical-economy-native-sources-v1.md",
+    "docs/contracts/economy/canonical-economy-opportunities-v1.md",
+    "docs/contracts/economy/canonical-economy-resource-manifest-v1.md",
+    "docs/contracts/economy/canonical-economy-rule-context-v1.md",
+    "docs/contracts/economy/canonical-economy-rule-references-v1.md",
+    "docs/contracts/context/canonical-native-place-context-v1.md",
+    "docs/operations/canonical-publication-rollback.md",
+    "docs/contracts/support/canonical-support-anchors-v1.md",
+    "docs/contracts/support/canonical-support-attempt-origin-v1.md",
+    "docs/contracts/support/canonical-support-c4-v1.md",
+    "docs/contracts/support/canonical-support-native-motion-v1.md",
+    "docs/contracts/support/canonical-support-navigation-v1.md",
+    "docs/contracts/support/canonical-support-objective-clock-v1.md",
+    "docs/contracts/support/canonical-support-objective-position-v1.md",
+    "docs/contracts/support/canonical-support-objective-v1.md",
+    "docs/contracts/support/canonical-support-physical-v1.md",
+    "docs/contracts/support/canonical-support-preparation-attempt-origin-v1.md",
+    "docs/contracts/support/canonical-support-preparation-c4-v1.md",
+    "docs/contracts/support/canonical-support-preparation-native-motion-v1.md",
+    "docs/contracts/support/canonical-support-preparation-objective-clock-v1.md",
+    "docs/contracts/support/canonical-support-preparation-objective-position-v1.md",
+    "docs/contracts/support/canonical-support-preparation-objective-v1.md",
+    "docs/contracts/support/canonical-support-preparation-physical-v1.md",
+    "docs/contracts/support/canonical-support-preparation-v1.md",
+    "docs/contracts/support/canonical-support-preparation-visual-contact-v1.md",
+    "docs/contracts/support/canonical-support-preparation-weapon-timing-v1.md",
+    "docs/canonical-support-visual-contact-v1.md",
+    "docs/contracts/support/canonical-support-weapon-timing-v1.md",
+    "docs/contracts/context/canonical-team-status-review-v1.md",
+    "docs/contracts/context/canonical-temporal-description-v1.md",
+    "docs/prompts/AI_COACH_CONTEXT_COMPARISON_PHASE_PROMPT.md",
+    "docs/repository-structure.md"
+  ],
+  "report": "docs/references/repository-review-2026-10-05.md",
+  "product_status_source": "docs/AI_COACH_IMPLEMENTATION_PLAN.md"
+}

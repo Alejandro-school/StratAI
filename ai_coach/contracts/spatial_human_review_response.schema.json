@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_human_review_response@1",
+  "title": "Independent pseudonymous spatial human-review response",
+  "contract_version": "1.0.0",
+  "x-stratai-status": "deprecated_visual_qa_only",
+  "x-stratai-ground-truth-authorized": false,
+  "x-stratai-evaluation-authorized": false,
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "response_id", "batch_id",
+    "review_unit_id", "reviewer_slot", "reviewer_pseudonym", "answer_id",
+    "reason_codes", "completed_at", "visible_evidence_sha256",
+    "protocol_version", "handbook_version", "independence_attestation"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.spatial_human_review_response@1"},
+    "contract_version": {"const": "1.0.0"},
+    "response_id": {"type": "string", "pattern": "^srr-[0-9a-f]{24}$"},
+    "batch_id": {"type": "string", "pattern": "^spatial-pilot-[0-9a-f]{24}$"},
+    "review_unit_id": {"type": "string", "pattern": "^sru-[0-9a-f]{24}$"},
+    "reviewer_slot": {"enum": ["reviewer_a", "reviewer_b"]},
+    "reviewer_pseudonym": {"type": "string", "pattern": "^reviewer-[0-9a-f]{16}$"},
+    "answer_id": {"enum": ["supported", "not_supported", "missing_context", "not_evaluable", "abstain"]},
+    "reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "visible_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "protocol_version": {"const": "1.0.0"},
+    "handbook_version": {"const": "1.0.0"},
+    "independence_attestation": {"const": true}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

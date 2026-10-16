@@ -1,0 +1,3941 @@
+{
+  "phase": "3E.20",
+  "date": "2026-09-15",
+  "status": "functional_validated_temporaries_retained",
+  "prior_phase_closed_before_start": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-r2-work-cusgwnz1\\closure-seal.json",
+    "bytes": 864,
+    "sha256": "070afcb471d0bb0718552bb25b6c7093cd6a1bdc09b02e835adff14cf97a2537"
+  },
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "build_identifier": "working-tree-support-preparation-weapon-timing-3e20-20260915-r1"
+  },
+  "versions": {
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "quality": 12,
+    "catalog": "1.7.0",
+    "contract": "1.0.0-candidate.1",
+    "runtime_schemas": 102,
+    "reason_codes": 19,
+    "plan": "2.40",
+    "human_contract": "1.47"
+  },
+  "verification_commands": {
+    "root-tests": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "exit_code": 0,
+      "seconds": 61.466
+    },
+    "ai-coach-tests": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "seconds": 413.814
+    },
+    "producer": {
+      "exit_code": 0,
+      "seconds": 105.131,
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "output_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0",
+      "build_id": "working-tree-support-preparation-weapon-timing-3e20-20260915-r1",
+      "binary_sha256": "09fc4fbfb1d624ad5e37bd703a073004e1c1039552ddf9c875d9eaa684f737f2",
+      "build_command": [
+        "go",
+        "build",
+        "-o",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\canonical-export.exe",
+        "./cmd/canonical-export"
+      ],
+      "producer_passes": 1,
+      "distinct_approved_matches": 1,
+      "capture_reused_unchanged": true
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.support.preparation_weapon_timing",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_weapon_timing_observations.json",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\preparation_weapon_timing_context",
+        "--require-observed"
+      ],
+      "exit_code": 0,
+      "seconds": 559.931
+    },
+    "reader": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.support.preparation_weapon_timing",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_weapon_timing_observations.json",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\preparation_weapon_timing_context",
+        "--require-observed",
+        "--validate"
+      ],
+      "exit_code": 0,
+      "seconds": 656.053
+    },
+    "audit_timing": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_timing.py"
+      ],
+      "exit_code": 0,
+      "seconds": 108.249
+    },
+    "audit_native_origins": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_native_origins.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.208
+    },
+    "audit_native_sources": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_native_sources.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.25
+    },
+    "audit_preserved_physical": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_physical.py"
+      ],
+      "exit_code": 0,
+      "seconds": 55.176
+    },
+    "audit_preserved_objective": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_objective.py"
+      ],
+      "exit_code": 0,
+      "seconds": 50.415
+    },
+    "audit_preserved_c4": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_c4.py"
+      ],
+      "exit_code": 0,
+      "seconds": 45.37
+    },
+    "audit_preserved_clock": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_clock.py"
+      ],
+      "exit_code": 0,
+      "seconds": 46.585
+    },
+    "audit_preserved_attempt": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_attempt.py"
+      ],
+      "exit_code": 0,
+      "seconds": 15.894
+    },
+    "audit_preserved_position": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_position.py"
+      ],
+      "exit_code": 0,
+      "seconds": 25.221
+    },
+    "audit_preserved_motion": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\audit_preserved_motion.py"
+      ],
+      "exit_code": 0,
+      "seconds": 78.261
+    },
+    "check_features": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\check_features.py"
+      ],
+      "exit_code": 0,
+      "seconds": 359.931
+    }
+  },
+  "tests": {
+    "ai_coach_passed": 1759,
+    "new_tests": 94,
+    "lint_contract": {
+      "ok": true,
+      "commands": [
+        {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ruff",
+            "check",
+            "ai_coach/support/preparation_weapon_timing.py",
+            "ai_coach/tests/test_support_preparation_weapon_timing.py",
+            "ai_coach/tests/test_spatial_review_protocol.py",
+            "ai_coach/tests/test_contract.py",
+            "ai_coach/contracts/runtime_contracts.py"
+          ],
+          "exit_code": 0
+        },
+        {
+          "command": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ai_coach.contracts.validate_contract"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "seconds": 3.266,
+      "existing_broad_ruff_findings": [
+        "ai_coach/contracts/spatial_candidate.py:83 UP033",
+        "ai_coach/tests/test_spatial_candidate.py:1 I001"
+      ]
+    }
+  },
+  "producer_passes": 1,
+  "final_producer_passes": 1,
+  "distinct_approved_matches": 1,
+  "producer_command": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\producer-command.json",
+    "bytes": 739,
+    "sha256": "51561d302e98187eccb2e258439ef9c1e137dd68f16c269b0b6e0c61708657d5"
+  },
+  "private_source_binding": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\source-path.txt",
+    "bytes": 95,
+    "sha256": "3887b0ba028d48fce7715c6b5b66415876e5accaf0b997945ea52e2354a5888b"
+  },
+  "coverage": {
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "fact_status_counts_per_candidate": {
+      "self.primary_remaining_seconds": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "self.primary_deadline_state": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "self.secondary_remaining_seconds": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "self.secondary_deadline_state": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "self.postpone_remaining_seconds": {
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "self.postpone_deadline_state": {
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "self.pawn_remaining_seconds": {
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706,
+        "observed:present": 636980
+      },
+      "self.pawn_deadline_state": {
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706,
+        "observed:present": 636980
+      },
+      "ally.primary_remaining_seconds": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "ally.primary_deadline_state": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "ally.secondary_remaining_seconds": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "ally.secondary_deadline_state": {
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "ally.postpone_remaining_seconds": {
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "ally.postpone_deadline_state": {
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198,
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435
+      },
+      "ally.pawn_remaining_seconds": {
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706,
+        "observed:present": 636980
+      },
+      "ally.pawn_deadline_state": {
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706,
+        "observed:present": 636980
+      }
+    }
+  },
+  "independent_recomputation": {
+    "ok": true,
+    "seconds": 98.862,
+    "method": "Independent delivery replay, current native/physical object and owner proof, round-origin clock reconstruction, GameTime subtraction and C0 continuity; no application consumer imports",
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 1595632,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "deliveries": 67162,
+    "states": 12640,
+    "snapshot_field_comparisons": 2349080,
+    "retained_state_links": 414613,
+    "domain_transitions": 24,
+    "native_created_lives": 1208,
+    "captured_lives": 946,
+    "destroyed_lives": 1051,
+    "c0_identity_samples_checked": 24547597,
+    "continuity_abstention_causes": {},
+    "numeric_pawn_deadlines": 193225,
+    "pawn_deadline_states": {
+      "elapsed": 152161,
+      "pending": 41064
+    },
+    "clock_witnesses": 25,
+    "state_kind_counts": {
+      "pawn": 4142,
+      "weapon": 8498
+    },
+    "ownership_counts": {
+      "observed": 213356,
+      "current_weapon_unavailable": 541,
+      "current_pawn_unavailable": 92843
+    },
+    "current_identity_changes": {
+      "pawn_life_change": 1,
+      "active_weapon_life_change": 3728
+    },
+    "native_type_counts": {
+      "m_flSimulationTime|float32|None|absent": 4142,
+      "m_nTickBase|None|None|absent": 4142,
+      "m_pWeaponServices.m_flNextAttack|GameTime_t|float32|observed": 4142,
+      "m_pWeaponServices.m_hActiveWeapon|CHandle< CBasePlayerWeapon >|uint64|observed": 4142,
+      "m_flNextPrimaryAttackTickRatio|float32|float32|observed": 8498,
+      "m_flNextSecondaryAttackTickRatio|float32|float32|observed": 8498,
+      "m_flPostponeFireReadyFrac|float32|float32|observed": 8498,
+      "m_hOwnerEntity|CHandle< CBaseEntity >|uint64|observed": 8498,
+      "m_nNextPrimaryAttackTick|GameTick_t|uint32|observed": 8498,
+      "m_nNextSecondaryAttackTick|GameTick_t|uint32|observed": 8498,
+      "m_nPostponeFireReadyTicks|GameTick_t|uint32|observed": 8498
+    },
+    "native_zero_nonzero_counts": {
+      "m_pWeaponServices.m_flNextAttack::nonzero": 4142,
+      "m_pWeaponServices.m_hActiveWeapon::nonzero": 4142,
+      "m_flNextPrimaryAttackTickRatio::zero": 3712,
+      "m_flNextSecondaryAttackTickRatio::zero": 3688,
+      "m_flPostponeFireReadyFrac::zero": 8498,
+      "m_hOwnerEntity::nonzero": 8498,
+      "m_nNextPrimaryAttackTick::nonzero": 8498,
+      "m_nNextSecondaryAttackTick::nonzero": 8498,
+      "m_nPostponeFireReadyTicks::nonzero": 8498,
+      "m_flNextPrimaryAttackTickRatio::nonzero": 4786,
+      "m_flNextSecondaryAttackTickRatio::nonzero": 4810
+    },
+    "fact_status_counts": {
+      "primary_remaining_seconds:not_applicable:non_ammunition_weapon": 71115,
+      "primary_deadline_state:not_applicable:non_ammunition_weapon": 71115,
+      "secondary_remaining_seconds:not_applicable:non_ammunition_weapon": 71115,
+      "secondary_deadline_state:not_applicable:non_ammunition_weapon": 71115,
+      "postpone_remaining_seconds:not_applicable:non_ammunition_weapon": 71115,
+      "postpone_deadline_state:not_applicable:non_ammunition_weapon": 71115,
+      "pawn_remaining_seconds:observed:present": 193225,
+      "pawn_deadline_state:observed:present": 193225,
+      "primary_remaining_seconds:unavailable:current_weapon_unavailable": 473,
+      "primary_deadline_state:unavailable:current_weapon_unavailable": 473,
+      "secondary_remaining_seconds:unavailable:current_weapon_unavailable": 473,
+      "secondary_deadline_state:unavailable:current_weapon_unavailable": 473,
+      "postpone_remaining_seconds:unavailable:current_weapon_unavailable": 473,
+      "postpone_deadline_state:unavailable:current_weapon_unavailable": 473,
+      "pawn_remaining_seconds:unavailable:current_actor_simulation_alignment_unaccredited": 6229,
+      "pawn_deadline_state:unavailable:current_actor_simulation_alignment_unaccredited": 6229,
+      "primary_remaining_seconds:unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866,
+      "primary_deadline_state:unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866,
+      "secondary_remaining_seconds:unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866,
+      "secondary_deadline_state:unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866,
+      "postpone_remaining_seconds:unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 127866,
+      "postpone_deadline_state:unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 127866
+    },
+    "real_opaque_examples": [
+      {
+        "source_sequence": 1,
+        "state": "elapsed",
+        "native_deadline_seconds": 184.578125,
+        "native_now_seconds": 195.515625,
+        "remaining_seconds": 0
+      },
+      {
+        "source_sequence": 35,
+        "state": "pending",
+        "native_deadline_seconds": 198.640625,
+        "native_now_seconds": 197.640625,
+        "remaining_seconds": 1.0
+      }
+    ],
+    "source_observations_unchanged_from_3e10": true
+  },
+  "native_position_source_audit": {
+    "ok": true,
+    "seconds": 0.166,
+    "source_bytes": 17323488,
+    "object_state_records": 657,
+    "fixed_native_rotations_verified": 657,
+    "parented_current_owner_and_attachment_records": 110,
+    "parented_local_zero_positions": 110,
+    "parent_status_counts": {
+      "resolved": 110,
+      "invalid_sentinel": 547
+    },
+    "parented_root_bone_offset_values": {
+      "[0, 0, 0]": 110
+    },
+    "attachment_tokens": {
+      "973653956": 110
+    },
+    "unowned_root_records": 525,
+    "unowned_distinct_lives": 20,
+    "planted_root_records": 22,
+    "planted_distinct_lives": 11,
+    "native_offset_ranges": {
+      "CC4.X": {
+        "min": 0,
+        "max": 1020.28125
+      },
+      "CC4.Y": {
+        "min": 0,
+        "max": 1014.96875
+      },
+      "CC4.Z": {
+        "min": 0,
+        "max": 1023.75
+      },
+      "CPlantedC4.X": {
+        "min": 60.937496185302734,
+        "max": 770.0625
+      },
+      "CPlantedC4.Y": {
+        "min": 11.5625,
+        "max": 925.5625
+      },
+      "CPlantedC4.Z": {
+        "min": 844.03125,
+        "max": 864.59375
+      }
+    },
+    "offset_components_above_cell_stride": {
+      "CC4": 1043,
+      "CPlantedC4": 38
+    },
+    "native_field_coverage": {
+      "CC4.CBodyComponent.m_MeshGroupMask": {
+        "('observed', 'uint64', 'uint64')": 635
+      },
+      "CC4.CBodyComponent.m_SerializePoseRecipeAG2Dynamic": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< uint8 >')": 635
+      },
+      "CC4.CBodyComponent.m_SerializePoseRecipeAG2Slots": {
+        "('unsupported_type', '[]interface {}', 'CUtlVectorEmbeddedNetworkVar< AnimGraph2SerializedPoseRecipeSlot_t >')": 635
+      },
+      "CC4.CBodyComponent.m_angRotation": {
+        "('observed', '[3]float32', 'QAngle')": 635
+      },
+      "CC4.CBodyComponent.m_bClientClothCreationSuppressed": {
+        "('observed', 'bool', 'bool')": 635
+      },
+      "CC4.CBodyComponent.m_bUseParentRenderBounds": {
+        "('observed', 'bool', 'bool')": 635
+      },
+      "CC4.CBodyComponent.m_cellX": {
+        "('observed', 'uint64', 'uint16')": 635
+      },
+      "CC4.CBodyComponent.m_cellY": {
+        "('observed', 'uint64', 'uint16')": 635
+      },
+      "CC4.CBodyComponent.m_cellZ": {
+        "('observed', 'uint64', 'uint16')": 635
+      },
+      "CC4.CBodyComponent.m_flRootBoneOffset_x": {
+        "('observed', 'float32', 'float32')": 635
+      },
+      "CC4.CBodyComponent.m_flRootBoneOffset_y": {
+        "('observed', 'float32', 'float32')": 635
+      },
+      "CC4.CBodyComponent.m_flRootBoneOffset_z": {
+        "('observed', 'float32', 'float32')": 635
+      },
+      "CC4.CBodyComponent.m_flScale": {
+        "('observed', 'float32', 'float32')": 635
+      },
+      "CC4.CBodyComponent.m_flSeqFixedCycle": {
+        "('observed', 'float32', 'float32')": 635
+      },
+      "CC4.CBodyComponent.m_flSeqStartTime": {
+        "('observed', 'float32', 'GameTime_t')": 635
+      },
+      "CC4.CBodyComponent.m_hGraphDefinitionAG2": {
+        "('observed', 'uint64', 'CStrongHandle< InfoForResourceTypeCNmGraphDefinition >')": 635
+      },
+      "CC4.CBodyComponent.m_hModel": {
+        "('observed', 'uint64', 'CStrongHandle< InfoForResourceTypeCModel >')": 635
+      },
+      "CC4.CBodyComponent.m_hParent": {
+        "('observed', 'uint64', 'CGameSceneNodeHandle')": 635
+      },
+      "CC4.CBodyComponent.m_hParent.m_hOwner": {
+        "('absent', None, None)": 635
+      },
+      "CC4.CBodyComponent.m_hParent.m_name": {
+        "('absent', None, None)": 635
+      },
+      "CC4.CBodyComponent.m_hSequence": {
+        "('observed', 'int32', 'HSequence')": 635
+      },
+      "CC4.CBodyComponent.m_hierarchyAttachName": {
+        "('observed', 'uint64', 'CUtlStringToken')": 635
+      },
+      "CC4.CBodyComponent.m_materialGroup": {
+        "('observed', 'uint64', 'CUtlStringToken')": 635
+      },
+      "CC4.CBodyComponent.m_nAnimLoopMode": {
+        "('observed', 'uint32', 'AnimLoopMode_t')": 635
+      },
+      "CC4.CBodyComponent.m_nAnimStateNoInterpSerialNumber": {
+        "('observed', 'uint64', 'uint8')": 635
+      },
+      "CC4.CBodyComponent.m_nAnimationAlgorithm": {
+        "('observed', 'uint32', 'AnimationAlgorithm_t')": 635
+      },
+      "CC4.CBodyComponent.m_nBodyGroupChoices": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< int32 >')": 635
+      },
+      "CC4.CBodyComponent.m_nHitboxSet": {
+        "('observed', 'uint64', 'uint8')": 635
+      },
+      "CC4.CBodyComponent.m_nIdealMotionType": {
+        "('observed', 'int32', 'int8')": 635
+      },
+      "CC4.CBodyComponent.m_nOutsideWorld": {
+        "('observed', 'uint64', 'uint16')": 635
+      },
+      "CC4.CBodyComponent.m_nRootBoneOffsetResetSerialNumber": {
+        "('observed', 'uint64', 'uint8')": 635
+      },
+      "CC4.CBodyComponent.m_nSecondarySkeletonMasterCount": {
+        "('observed', 'int32', 'int32')": 635
+      },
+      "CC4.CBodyComponent.m_nSerializePoseRecipeAG2ActiveSlot": {
+        "('observed', 'uint64', 'uint32')": 635
+      },
+      "CC4.CBodyComponent.m_nSerializePoseRecipeVersionAG2": {
+        "('observed', 'int32', 'int32')": 635
+      },
+      "CC4.CBodyComponent.m_nServerGraphInstanceIteration": {
+        "('observed', 'int32', 'int32')": 635
+      },
+      "CC4.CBodyComponent.m_nServerSerializationContextIteration": {
+        "('observed', 'int32', 'int32')": 635
+      },
+      "CC4.CBodyComponent.m_name": {
+        "('observed', 'uint64', 'CUtlStringToken')": 635
+      },
+      "CC4.CBodyComponent.m_nodeToWorld": {
+        "('absent', None, None)": 635
+      },
+      "CC4.CBodyComponent.m_primaryGraphId": {
+        "('observed', 'uint64', 'ResourceId_t')": 635
+      },
+      "CC4.CBodyComponent.m_vecAbsOrigin": {
+        "('absent', None, None)": 635
+      },
+      "CC4.CBodyComponent.m_vecExternalClipIds": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< ResourceId_t >')": 635
+      },
+      "CC4.CBodyComponent.m_vecExternalGraphIds": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< ResourceId_t >')": 635
+      },
+      "CC4.CBodyComponent.m_vecSecondarySkeletonSlotIDs": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< CGlobalSymbol >')": 635
+      },
+      "CC4.CBodyComponent.m_vecSecondarySkeletons": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< CHandle< CBaseAnimGraph > >')": 635
+      },
+      "CC4.CBodyComponent.m_vecX": {
+        "('observed', 'float32', 'CNetworkedQuantizedFloat')": 635
+      },
+      "CC4.CBodyComponent.m_vecY": {
+        "('observed', 'float32', 'CNetworkedQuantizedFloat')": 635
+      },
+      "CC4.CBodyComponent.m_vecZ": {
+        "('observed', 'float32', 'CNetworkedQuantizedFloat')": 635
+      },
+      "CC4.m_bBombDefused": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_bBombTicking": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_bStartedArming": {
+        "('observed', 'bool', 'bool')": 635
+      },
+      "CC4.m_entitySpottedState.m_bSpotted": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_entitySpottedState.m_bSpottedByMask.0000": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_entitySpottedState.m_bSpottedByMask.0001": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_fFlags": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_hBombDefuser": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_hMoveParent": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_hOwnerEntity": {
+        "('observed', 'uint64', 'CHandle< CBaseEntity >')": 635
+      },
+      "CC4.m_iItemDefinitionIndex": {
+        "('observed', 'uint64', 'uint16')": 635
+      },
+      "CC4.m_iParentAttachment": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_vecAbsOrigin": {
+        "('absent', None, None)": 635
+      },
+      "CC4.m_vecOrigin": {
+        "('absent', None, None)": 635
+      },
+      "CPlantedC4.CBodyComponent.m_MeshGroupMask": {
+        "('observed', 'uint64', 'uint64')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_SerializePoseRecipeAG2Dynamic": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< uint8 >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_SerializePoseRecipeAG2Slots": {
+        "('unsupported_type', '[]interface {}', 'CUtlVectorEmbeddedNetworkVar< AnimGraph2SerializedPoseRecipeSlot_t >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_angRotation": {
+        "('observed', '[3]float32', 'QAngle')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_bClientClothCreationSuppressed": {
+        "('observed', 'bool', 'bool')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_bUseParentRenderBounds": {
+        "('observed', 'bool', 'bool')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_cellX": {
+        "('observed', 'uint64', 'uint16')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_cellY": {
+        "('observed', 'uint64', 'uint16')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_cellZ": {
+        "('observed', 'uint64', 'uint16')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_flRootBoneOffset_x": {
+        "('observed', 'float32', 'float32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_flRootBoneOffset_y": {
+        "('observed', 'float32', 'float32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_flRootBoneOffset_z": {
+        "('observed', 'float32', 'float32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_flScale": {
+        "('observed', 'float32', 'float32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_flSeqFixedCycle": {
+        "('observed', 'float32', 'float32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_flSeqStartTime": {
+        "('observed', 'float32', 'GameTime_t')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hGraphDefinitionAG2": {
+        "('observed', 'uint64', 'CStrongHandle< InfoForResourceTypeCNmGraphDefinition >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hModel": {
+        "('observed', 'uint64', 'CStrongHandle< InfoForResourceTypeCModel >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hParent": {
+        "('observed', 'uint64', 'CGameSceneNodeHandle')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hParent.m_hOwner": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hParent.m_name": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hSequence": {
+        "('observed', 'int32', 'HSequence')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_hierarchyAttachName": {
+        "('observed', 'uint64', 'CUtlStringToken')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_materialGroup": {
+        "('observed', 'uint64', 'CUtlStringToken')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nAnimLoopMode": {
+        "('observed', 'uint32', 'AnimLoopMode_t')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nAnimStateNoInterpSerialNumber": {
+        "('observed', 'uint64', 'uint8')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nAnimationAlgorithm": {
+        "('observed', 'uint32', 'AnimationAlgorithm_t')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nBodyGroupChoices": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< int32 >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nHitboxSet": {
+        "('observed', 'uint64', 'uint8')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nIdealMotionType": {
+        "('observed', 'int32', 'int8')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nOutsideWorld": {
+        "('observed', 'uint64', 'uint16')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nRootBoneOffsetResetSerialNumber": {
+        "('observed', 'uint64', 'uint8')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nSecondarySkeletonMasterCount": {
+        "('observed', 'int32', 'int32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nSerializePoseRecipeAG2ActiveSlot": {
+        "('observed', 'uint64', 'uint32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nSerializePoseRecipeVersionAG2": {
+        "('observed', 'int32', 'int32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nServerGraphInstanceIteration": {
+        "('observed', 'int32', 'int32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nServerSerializationContextIteration": {
+        "('observed', 'int32', 'int32')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_name": {
+        "('observed', 'uint64', 'CUtlStringToken')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_nodeToWorld": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.CBodyComponent.m_primaryGraphId": {
+        "('observed', 'uint64', 'ResourceId_t')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecAbsOrigin": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecExternalClipIds": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< ResourceId_t >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecExternalGraphIds": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< ResourceId_t >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecSecondarySkeletonSlotIDs": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< CGlobalSymbol >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecSecondarySkeletons": {
+        "('unsupported_type', '[]interface {}', 'CNetworkUtlVectorBase< CHandle< CBaseAnimGraph > >')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecX": {
+        "('observed', 'float32', 'CNetworkedQuantizedFloat')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecY": {
+        "('observed', 'float32', 'CNetworkedQuantizedFloat')": 22
+      },
+      "CPlantedC4.CBodyComponent.m_vecZ": {
+        "('observed', 'float32', 'CNetworkedQuantizedFloat')": 22
+      },
+      "CPlantedC4.m_bBombDefused": {
+        "('observed', 'bool', 'bool')": 22
+      },
+      "CPlantedC4.m_bBombTicking": {
+        "('observed', 'bool', 'bool')": 22
+      },
+      "CPlantedC4.m_bStartedArming": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_entitySpottedState.m_bSpotted": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_entitySpottedState.m_bSpottedByMask.0000": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_entitySpottedState.m_bSpottedByMask.0001": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_fFlags": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_hBombDefuser": {
+        "('observed', 'uint64', 'CHandle< CCSPlayerPawn >')": 22
+      },
+      "CPlantedC4.m_hMoveParent": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_hOwnerEntity": {
+        "('observed', 'uint64', 'CHandle< CBaseEntity >')": 22
+      },
+      "CPlantedC4.m_iItemDefinitionIndex": {
+        "('observed', 'uint64', 'uint16')": 22
+      },
+      "CPlantedC4.m_iParentAttachment": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_vecAbsOrigin": {
+        "('absent', None, None)": 22
+      },
+      "CPlantedC4.m_vecOrigin": {
+        "('absent', None, None)": 22
+      }
+    },
+    "delivery_counts_by_field": {
+      "created.CBodyComponent.m_MeshGroupMask": 36,
+      "created.CBodyComponent.m_SerializePoseRecipeAG2Dynamic": 36,
+      "created.CBodyComponent.m_SerializePoseRecipeAG2Slots": 36,
+      "created.CBodyComponent.m_angRotation": 36,
+      "created.CBodyComponent.m_bClientClothCreationSuppressed": 36,
+      "created.CBodyComponent.m_bUseParentRenderBounds": 36,
+      "created.CBodyComponent.m_cellX": 36,
+      "created.CBodyComponent.m_cellY": 36,
+      "created.CBodyComponent.m_cellZ": 36,
+      "created.CBodyComponent.m_flRootBoneOffset_x": 36,
+      "created.CBodyComponent.m_flRootBoneOffset_y": 36,
+      "created.CBodyComponent.m_flRootBoneOffset_z": 36,
+      "created.CBodyComponent.m_flScale": 36,
+      "created.CBodyComponent.m_flSeqFixedCycle": 36,
+      "created.CBodyComponent.m_flSeqStartTime": 36,
+      "created.CBodyComponent.m_hGraphDefinitionAG2": 36,
+      "created.CBodyComponent.m_hModel": 36,
+      "created.CBodyComponent.m_hParent": 36,
+      "created.CBodyComponent.m_hParent.m_hOwner": 36,
+      "created.CBodyComponent.m_hParent.m_name": 36,
+      "created.CBodyComponent.m_hSequence": 36,
+      "created.CBodyComponent.m_hierarchyAttachName": 36,
+      "created.CBodyComponent.m_materialGroup": 36,
+      "created.CBodyComponent.m_nAnimLoopMode": 36,
+      "created.CBodyComponent.m_nAnimStateNoInterpSerialNumber": 36,
+      "created.CBodyComponent.m_nAnimationAlgorithm": 36,
+      "created.CBodyComponent.m_nBodyGroupChoices": 36,
+      "created.CBodyComponent.m_nHitboxSet": 36,
+      "created.CBodyComponent.m_nIdealMotionType": 36,
+      "created.CBodyComponent.m_nOutsideWorld": 36,
+      "created.CBodyComponent.m_nRootBoneOffsetResetSerialNumber": 36,
+      "created.CBodyComponent.m_nSecondarySkeletonMasterCount": 36,
+      "created.CBodyComponent.m_nSerializePoseRecipeAG2ActiveSlot": 36,
+      "created.CBodyComponent.m_nSerializePoseRecipeVersionAG2": 36,
+      "created.CBodyComponent.m_nServerGraphInstanceIteration": 36,
+      "created.CBodyComponent.m_nServerSerializationContextIteration": 36,
+      "created.CBodyComponent.m_name": 36,
+      "created.CBodyComponent.m_nodeToWorld": 36,
+      "created.CBodyComponent.m_primaryGraphId": 36,
+      "created.CBodyComponent.m_vecAbsOrigin": 36,
+      "created.CBodyComponent.m_vecExternalClipIds": 36,
+      "created.CBodyComponent.m_vecExternalGraphIds": 36,
+      "created.CBodyComponent.m_vecSecondarySkeletonSlotIDs": 36,
+      "created.CBodyComponent.m_vecSecondarySkeletons": 36,
+      "created.CBodyComponent.m_vecX": 36,
+      "created.CBodyComponent.m_vecY": 36,
+      "created.CBodyComponent.m_vecZ": 36,
+      "created.m_bBombDefused": 36,
+      "created.m_bBombTicking": 36,
+      "created.m_bStartedArming": 36,
+      "created.m_entitySpottedState.m_bSpotted": 36,
+      "created.m_entitySpottedState.m_bSpottedByMask.0000": 36,
+      "created.m_entitySpottedState.m_bSpottedByMask.0001": 36,
+      "created.m_fFlags": 36,
+      "created.m_hBombDefuser": 36,
+      "created.m_hMoveParent": 36,
+      "created.m_hOwnerEntity": 36,
+      "created.m_iItemDefinitionIndex": 36,
+      "created.m_iParentAttachment": 36,
+      "created.m_vecAbsOrigin": 36,
+      "created.m_vecOrigin": 36,
+      "creation_replay.CBodyComponent.m_MeshGroupMask": 36,
+      "creation_replay.CBodyComponent.m_SerializePoseRecipeAG2Dynamic": 36,
+      "creation_replay.CBodyComponent.m_SerializePoseRecipeAG2Slots": 36,
+      "creation_replay.CBodyComponent.m_angRotation": 36,
+      "creation_replay.CBodyComponent.m_bClientClothCreationSuppressed": 36,
+      "creation_replay.CBodyComponent.m_bUseParentRenderBounds": 36,
+      "creation_replay.CBodyComponent.m_cellX": 36,
+      "creation_replay.CBodyComponent.m_cellY": 36,
+      "creation_replay.CBodyComponent.m_cellZ": 36,
+      "creation_replay.CBodyComponent.m_flRootBoneOffset_x": 36,
+      "creation_replay.CBodyComponent.m_flRootBoneOffset_y": 36,
+      "creation_replay.CBodyComponent.m_flRootBoneOffset_z": 36,
+      "creation_replay.CBodyComponent.m_flScale": 36,
+      "creation_replay.CBodyComponent.m_flSeqFixedCycle": 36,
+      "creation_replay.CBodyComponent.m_flSeqStartTime": 36,
+      "creation_replay.CBodyComponent.m_hGraphDefinitionAG2": 36,
+      "creation_replay.CBodyComponent.m_hModel": 36,
+      "creation_replay.CBodyComponent.m_hParent": 36,
+      "creation_replay.CBodyComponent.m_hSequence": 36,
+      "creation_replay.CBodyComponent.m_hierarchyAttachName": 36,
+      "creation_replay.CBodyComponent.m_materialGroup": 36,
+      "creation_replay.CBodyComponent.m_nAnimLoopMode": 36,
+      "creation_replay.CBodyComponent.m_nAnimStateNoInterpSerialNumber": 36,
+      "creation_replay.CBodyComponent.m_nAnimationAlgorithm": 36,
+      "creation_replay.CBodyComponent.m_nBodyGroupChoices": 36,
+      "creation_replay.CBodyComponent.m_nHitboxSet": 36,
+      "creation_replay.CBodyComponent.m_nIdealMotionType": 36,
+      "creation_replay.CBodyComponent.m_nOutsideWorld": 36,
+      "creation_replay.CBodyComponent.m_nRootBoneOffsetResetSerialNumber": 36,
+      "creation_replay.CBodyComponent.m_nSecondarySkeletonMasterCount": 36,
+      "creation_replay.CBodyComponent.m_nSerializePoseRecipeAG2ActiveSlot": 36,
+      "creation_replay.CBodyComponent.m_nSerializePoseRecipeVersionAG2": 36,
+      "creation_replay.CBodyComponent.m_nServerGraphInstanceIteration": 36,
+      "creation_replay.CBodyComponent.m_nServerSerializationContextIteration": 36,
+      "creation_replay.CBodyComponent.m_name": 36,
+      "creation_replay.CBodyComponent.m_primaryGraphId": 36,
+      "creation_replay.CBodyComponent.m_vecExternalClipIds": 36,
+      "creation_replay.CBodyComponent.m_vecExternalGraphIds": 36,
+      "creation_replay.CBodyComponent.m_vecSecondarySkeletonSlotIDs": 36,
+      "creation_replay.CBodyComponent.m_vecSecondarySkeletons": 36,
+      "creation_replay.CBodyComponent.m_vecX": 36,
+      "creation_replay.CBodyComponent.m_vecY": 36,
+      "creation_replay.CBodyComponent.m_vecZ": 36,
+      "creation_replay.m_bStartedArming": 25,
+      "creation_replay.m_hOwnerEntity": 36,
+      "creation_replay.m_iItemDefinitionIndex": 36,
+      "update.CBodyComponent.m_flSeqStartTime": 130,
+      "update.CBodyComponent.m_nAnimationAlgorithm": 155,
+      "update.CBodyComponent.m_nSecondarySkeletonMasterCount": 155,
+      "update.m_bStartedArming": 13,
+      "destroyed.": 27,
+      "creation_replay.m_bBombDefused": 11,
+      "creation_replay.m_bBombTicking": 11,
+      "creation_replay.m_hBombDefuser": 11,
+      "update.m_hBombDefuser": 6,
+      "update.m_bBombTicking": 7,
+      "update.m_bBombDefused": 3,
+      "update.m_hOwnerEntity": 85,
+      "update.CBodyComponent.m_cellZ": 85,
+      "update.CBodyComponent.m_vecX": 2056,
+      "update.CBodyComponent.m_vecY": 2090,
+      "update.CBodyComponent.m_vecZ": 2098,
+      "update.CBodyComponent.m_hParent": 81,
+      "update.CBodyComponent.m_angRotation": 2508,
+      "update.CBodyComponent.m_hierarchyAttachName": 81,
+      "update.CBodyComponent.m_nIdealMotionType": 81,
+      "update.CBodyComponent.m_cellX": 51,
+      "update.CBodyComponent.m_cellY": 47
+    },
+    "dependency": "Carried objects have an exact current pawn parent and a nonzero attachment token. Their local origin and root-bone offsets do not provide a current attachment-to-world transform. Collection presence and resource handles do not supply decoded model/pose geometry or its demo-compatible provenance."
+  },
+  "native_transition_audit": {
+    "ok": true,
+    "seconds": 0.098,
+    "source_sha256": "e657342356462aff71b9ba076e89b3c009a9149be028c3e7b10b66ef8231178e",
+    "origins": [
+      {
+        "delivery_sequence": 13,
+        "frame": 9425,
+        "entity_life": "support-item-000117",
+        "native_server_tick": 20640,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 322.5,
+        "native_deadline_seconds": 325.5,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 24,
+        "frame": 18685,
+        "entity_life": "support-item-000142",
+        "native_server_tick": 29898,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 467.15625,
+        "native_deadline_seconds": 470.15625,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 35,
+        "frame": 23462,
+        "entity_life": "support-item-000191",
+        "native_server_tick": 34673,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 541.765625,
+        "native_deadline_seconds": 544.765625,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 50,
+        "frame": 34263,
+        "entity_life": "support-item-000257",
+        "native_server_tick": 45472,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 710.5,
+        "native_deadline_seconds": 713.5,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 61,
+        "frame": 38330,
+        "entity_life": "support-item-000312",
+        "native_server_tick": 49538,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 774.03125,
+        "native_deadline_seconds": 777.03125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 89,
+        "frame": 56303,
+        "entity_life": "support-item-000382",
+        "native_server_tick": 67506,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 1054.78125,
+        "native_deadline_seconds": 1057.78125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 126,
+        "frame": 77333,
+        "entity_life": "support-item-000556",
+        "native_server_tick": 88530,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 1383.28125,
+        "native_deadline_seconds": 1386.28125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 137,
+        "frame": 87778,
+        "entity_life": "support-item-000607",
+        "native_server_tick": 98973,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 1546.453125,
+        "native_deadline_seconds": 1549.453125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 162,
+        "frame": 95783,
+        "entity_life": "support-item-000682",
+        "native_server_tick": 106976,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 1671.5,
+        "native_deadline_seconds": 1674.5,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 173,
+        "frame": 102614,
+        "entity_life": "support-item-000724",
+        "native_server_tick": 113805,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 1778.203125,
+        "native_deadline_seconds": 1781.203125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 230,
+        "frame": 129426,
+        "entity_life": "support-item-000939",
+        "native_server_tick": 140610,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 2197.03125,
+        "native_deadline_seconds": 2200.03125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      },
+      {
+        "delivery_sequence": 264,
+        "frame": 151803,
+        "entity_life": "support-item-001092",
+        "native_server_tick": 162981,
+        "native_interval_seconds": 0.015625,
+        "native_start_seconds": 2546.578125,
+        "native_deadline_seconds": 2549.578125,
+        "derived_native_duration_seconds": 3.0,
+        "deadline_assignment_order": "after_flag"
+      }
+    ],
+    "origin_count": 12,
+    "duration_counts": {
+      "3.0": 12
+    },
+    "deadline_assignment_order_counts": {
+      "after_flag": 12
+    },
+    "true_to_false_updates": 1,
+    "cancellation_delivery_sequences": [
+      139
+    ],
+    "creation_true_deliveries": 0,
+    "native_types": {
+      "bool": 63,
+      "float32": 62,
+      "uint64": 131,
+      "None": 21
+    },
+    "method": "Raw property delivery transitions, explicit server ticks and deadlines; no application derivation imported and no duration default."
+  },
+  "preserved_physical_recomputation": {
+    "ok": true,
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 1396178,
+      "candidates": 660686,
+      "velocity_components": 597525
+    },
+    "variants": {
+      "active_weapon:observed:present": 198981,
+      "ammo_in_magazine:not_applicable:non_ammunition_weapon": 71115,
+      "ammo_reserve:not_applicable:non_ammunition_weapon": 71115,
+      "ducking:observed:present": 199454,
+      "reloading:not_applicable:non_ammunition_weapon": 71115,
+      "view_angles:observed:present": 199454,
+      "walking:observed:present": 199454,
+      "weapon:Knife": 53423,
+      "velocity_absence:no_previous_sample": 9,
+      "execution_self:sampled_displacement": 597847,
+      "execution_ally:sampled_displacement": 597847,
+      "velocity_nonzero": 163116,
+      "velocity_zero": 36059,
+      "active_weapon:unavailable:weapon_identity_unavailable": 473,
+      "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+      "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+      "reloading:unavailable:weapon_identity_unavailable": 473,
+      "velocity_absence:previous_actor_unavailable": 10,
+      "execution_ally:no_sampled_displacement": 40390,
+      "execution_self:no_sampled_displacement": 40390,
+      "execution_self:censored:not_alive": 14774,
+      "execution_ally:censored:not_alive": 14774,
+      "execution_self:censored:horizon_gap_or_boundary": 6619,
+      "execution_ally:censored:horizon_gap_or_boundary": 6619,
+      "velocity_absence:previous_cut_incompatible": 250,
+      "ammo_in_magazine:observed:present": 127568,
+      "ammo_reserve:observed:present": 127866,
+      "reloading:observed:present": 126284,
+      "weapon:USP-S": 3866,
+      "weapon:Glock-18": 4310,
+      "weapon:Desert Eagle": 11079,
+      "weapon:AK-47": 38706,
+      "weapon:Incendiary Grenade": 1758,
+      "weapon:Molotov": 1767,
+      "weapon:M4A1": 28921,
+      "weapon:HE Grenade": 3066,
+      "weapon:Smoke Grenade": 4295,
+      "weapon:M4A4": 7259,
+      "reloading:unavailable:reload_signal_unavailable": 1582,
+      "execution_self:censored:identity_unavailable_or_changed": 1056,
+      "execution_ally:censored:identity_unavailable_or_changed": 1056,
+      "velocity_absence:pawn_life_handle_or_side_changed": 10,
+      "weapon:C4": 1256,
+      "weapon:Flashbang": 5426,
+      "weapon:MAC-10": 2240,
+      "weapon:Galil AR": 4192,
+      "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 298,
+      "weapon:AWP": 17012,
+      "weapon:Five-SeveN": 2591,
+      "weapon:Decoy Grenade": 124,
+      "weapon:MP9": 4204,
+      "weapon:Tec-9": 1801,
+      "weapon:MP7": 718,
+      "weapon:SSG 08": 967
+    },
+    "matrix_rows": 1040,
+    "prefix_candidate_hashes": {
+      "1": "75791a4060fc1037453d8a2486d7f73884b0df2f37bae362d990b42f301d4b95",
+      "100": "2681f4ff2bccb331cbebe366e7528a9919c8a4e06f9017faccb5f55a6becc611",
+      "1000": "0e9b49c33d2a1be807725cefb9cfea9f8b12ff107d4470ef43bc5b5a5e52803e",
+      "10000": "5bcee7dd2a18e831c71fb28ef1142f1416e348a023e733707c9413fb5f5a580f",
+      "30716": "4a9f75b3c797da423ce6e5c409e6934fe65cf0ad96c80af7d98cc82428d77a50"
+    },
+    "all_existing_c0_candidates_ids_t0_pawn_references_preserved": true,
+    "source_observations_unchanged_from_3e12": true,
+    "old_execution_descriptors_read_without_filtering": true,
+    "independent_consumer_imports": false,
+    "seconds": 51.53
+  },
+  "preserved_objective_recomputation": {
+    "ok": true,
+    "counts": {
+      "cuts": 30716,
+      "global_facts": 192430,
+      "actor_cuts": 199454,
+      "player_facts": 598362,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "variants": {
+      "global.bomb_planted:observed:False:None": 23050,
+      "global.freeze_period:observed:False:None": 27459,
+      "global.warmup:observed:False:None": 26867,
+      "global.round_duration_seconds:observed:120:None": 476,
+      "global.objective_phase:observed:preplant:None": 22396,
+      "round_elapsed_seconds:observed:zero": 26,
+      "bomb_elapsed_seconds:not_applicable:no_active_planted_phase": 22396,
+      "player.in_bomb_zone:observed:False:None": 198786,
+      "player.defusing:observed:False:None": 199294,
+      "player.has_defuse_kit:observed:False:None": 172073,
+      "execution.self:sampled_displacement": 597847,
+      "execution.ally:sampled_displacement": 597847,
+      "round_elapsed_seconds:observed:nonzero": 27464,
+      "execution.ally:no_sampled_displacement": 40390,
+      "execution.self:no_sampled_displacement": 40390,
+      "execution.self:censored:not_alive": 14774,
+      "execution.ally:censored:not_alive": 14774,
+      "execution.self:censored:horizon_gap_or_boundary": 6619,
+      "execution.ally:censored:horizon_gap_or_boundary": 6619,
+      "global.warmup:observed:True:None": 623,
+      "global.round_duration_seconds:observed:999:None": 623,
+      "global.objective_phase:unavailable:None:public_replay_phase_conflict": 654,
+      "bomb_elapsed_seconds:unavailable:objective_phase_unavailable": 654,
+      "player.has_defuse_kit:observed:True:None": 27381,
+      "execution.self:censored:identity_unavailable_or_changed": 1056,
+      "execution.ally:censored:identity_unavailable_or_changed": 1056,
+      "global.freeze_period:observed:True:None": 31,
+      "global.round_duration_seconds:observed:115:None": 26391,
+      "player.in_bomb_zone:observed:True:None": 668,
+      "global.bomb_planted:observed:True:None": 4440,
+      "global.objective_phase:observed:planted:None": 4440,
+      "bomb_elapsed_seconds:observed:nonzero": 4435,
+      "bomb_elapsed_seconds:observed:zero": 5,
+      "player.defusing:observed:True:None": 160
+    },
+    "prefix_candidate_hashes": {
+      "1": "75791a4060fc1037453d8a2486d7f73884b0df2f37bae362d990b42f301d4b95",
+      "100": "2681f4ff2bccb331cbebe366e7528a9919c8a4e06f9017faccb5f55a6becc611",
+      "1000": "0e9b49c33d2a1be807725cefb9cfea9f8b12ff107d4470ef43bc5b5a5e52803e",
+      "10000": "5bcee7dd2a18e831c71fb28ef1142f1416e348a023e733707c9413fb5f5a580f"
+    },
+    "c0_ids_t0_exclusions_execution_and_physical_population_preserved": true,
+    "source_support_and_physical_observations_unchanged": true,
+    "source_objective_observations_unchanged_from_3e10": true,
+    "application_consumer_imports": false,
+    "seconds": 47.546
+  },
+  "preserved_c4_recomputation": {
+    "ok": true,
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 598362,
+      "candidates": 660686,
+      "carrier_position_components": 35742
+    },
+    "matrix_rows": 1040,
+    "variants": {
+      "native_inventory:observed": 6714,
+      "native_slot:resolved": 29359,
+      "native_owner:resolved": 29359,
+      "native_empty_inventory": 9,
+      "native_inventory:pawn_unavailable": 1820,
+      "native_owner:invalid_sentinel": 281,
+      "new_state_cut": 763,
+      "fact:has_c4:observed:present": 199454,
+      "fact:carrier_player_position:not_applicable:not_a_carrier": 187540,
+      "fact:physical_c4_position:unavailable:not_observed_in_legal_view": 199454,
+      "possession:negative": 187540,
+      "execution:self:sampled_displacement": 597847,
+      "execution:ally:sampled_displacement": 597847,
+      "shared_state_cut": 26727,
+      "execution:ally:no_sampled_displacement": 40390,
+      "execution:self:no_sampled_displacement": 40390,
+      "execution:self:censored:not_alive": 14774,
+      "execution:ally:censored:not_alive": 14774,
+      "execution:self:censored:horizon_gap_or_boundary": 6619,
+      "execution:ally:censored:horizon_gap_or_boundary": 6619,
+      "execution:self:censored:identity_unavailable_or_changed": 1056,
+      "execution:ally:censored:identity_unavailable_or_changed": 1056,
+      "fact:carrier_player_position:observed:present": 11914,
+      "possession:positive": 11914,
+      "carrier_position_zero_component": 5
+    },
+    "prefix_candidate_hashes": {
+      "1": "75791a4060fc1037453d8a2486d7f73884b0df2f37bae362d990b42f301d4b95",
+      "100": "2681f4ff2bccb331cbebe366e7528a9919c8a4e06f9017faccb5f55a6becc611",
+      "1000": "0e9b49c33d2a1be807725cefb9cfea9f8b12ff107d4470ef43bc5b5a5e52803e",
+      "10000": "5bcee7dd2a18e831c71fb28ef1142f1416e348a023e733707c9413fb5f5a580f"
+    },
+    "all_c0_ids_t0_references_execution_and_objective_population_preserved": true,
+    "c4_source_observations_unchanged_from_3e10": true,
+    "application_consumer_imports": false,
+    "seconds": 42.495
+  },
+  "preserved_clock_recomputation": {
+    "ok": true,
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 1994540,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "native_round_origin_witnesses": 25,
+    "numeric_recomputations": {
+      "round_remaining_seconds": 174419,
+      "attempt_remaining_seconds": 710,
+      "bomb_remaining_seconds": 18806,
+      "attempt_progress": 160,
+      "defuse_deadline_margin_seconds": 160
+    },
+    "status_counts": {
+      "pause_state:observed:present": 199454,
+      "clock_state:observed:present": 193225,
+      "round_remaining_seconds:observed:present": 174419,
+      "round_clock_state:observed:present": 174419,
+      "bomb_remaining_seconds:not_applicable:no_active_planted_phase": 174419,
+      "bomb_clock_state:not_applicable:no_active_planted_phase": 174419,
+      "attempt_state:observed:present": 193225,
+      "attempt_remaining_seconds:not_applicable:no_current_own_attempt": 192515,
+      "attempt_progress:not_applicable:no_current_own_attempt": 192515,
+      "defuse_deadline_margin_seconds:not_applicable:no_current_own_attempt": 192515,
+      "clock_state:unavailable:current_actor_simulation_alignment_unaccredited": 6229,
+      "round_remaining_seconds:unavailable:objective_phase_unavailable": 6229,
+      "round_clock_state:unavailable:objective_phase_unavailable": 6229,
+      "bomb_remaining_seconds:unavailable:objective_phase_unavailable": 6229,
+      "bomb_clock_state:unavailable:objective_phase_unavailable": 6229,
+      "attempt_state:unavailable:objective_phase_unavailable": 6229,
+      "attempt_remaining_seconds:unavailable:objective_phase_unavailable": 6229,
+      "attempt_progress:unavailable:objective_phase_unavailable": 6229,
+      "defuse_deadline_margin_seconds:unavailable:objective_phase_unavailable": 6229,
+      "attempt_remaining_seconds:observed:present": 710,
+      "attempt_progress:unavailable:native_attempt_duration_unavailable": 550,
+      "defuse_deadline_margin_seconds:not_applicable:not_a_defuse_attempt": 550,
+      "round_remaining_seconds:not_applicable:round_clock_superseded_by_bomb": 18806,
+      "round_clock_state:not_applicable:round_clock_superseded_by_bomb": 18806,
+      "bomb_remaining_seconds:observed:present": 18806,
+      "bomb_clock_state:observed:present": 18806,
+      "attempt_progress:observed:present": 160,
+      "defuse_deadline_margin_seconds:observed:present": 160
+    },
+    "observed_states": {
+      "pause_state": {
+        "running": 193225,
+        "paused": 6229
+      },
+      "clock_state": {
+        "aligned_native_round_origin": 193225
+      },
+      "round_clock_state": {
+        "active": 174419
+      },
+      "attempt_state": {
+        "none": 192515,
+        "planting": 528,
+        "expired_planting": 22,
+        "defusing": 160
+      },
+      "bomb_clock_state": {
+        "active": 18630,
+        "expired": 176
+      }
+    },
+    "clock_source_observations_unchanged_from_3e10": true,
+    "application_consumer_imports": false,
+    "seconds": 41.399
+  },
+  "preserved_attempt_recomputation": {
+    "ok": true,
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 797816,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "numeric_recomputations": {
+      "planting_duration_seconds": 550,
+      "planting_elapsed_seconds": 550,
+      "planting_progress": 550
+    },
+    "status_counts": {
+      "planting_origin_state:not_applicable:not_a_current_planting_attempt": 192675,
+      "planting_duration_seconds:not_applicable:not_a_current_planting_attempt": 192675,
+      "planting_elapsed_seconds:not_applicable:not_a_current_planting_attempt": 192675,
+      "planting_progress:not_applicable:not_a_current_planting_attempt": 192675,
+      "planting_origin_state:unavailable:objective_phase_unavailable": 6229,
+      "planting_duration_seconds:unavailable:objective_phase_unavailable": 6229,
+      "planting_elapsed_seconds:unavailable:objective_phase_unavailable": 6229,
+      "planting_progress:unavailable:objective_phase_unavailable": 6229,
+      "planting_origin_state:observed:present": 550,
+      "planting_duration_seconds:observed:present": 550,
+      "planting_elapsed_seconds:observed:present": 550,
+      "planting_progress:observed:present": 550
+    },
+    "observed_states": {
+      "native_transition": 528,
+      "expired": 22
+    },
+    "planting_clock_states": {
+      "planting": 528,
+      "expired_planting": 22
+    },
+    "distinct_origins": 11,
+    "active_frames_rechecked": 2182,
+    "native_frames": 2331,
+    "native_deliveries": 277,
+    "native_delivery_kinds": {
+      "created": 75,
+      "creation_replay": 75,
+      "update": 106,
+      "destroyed": 21
+    },
+    "numeric_ranges": {
+      "planting_duration_seconds": {
+        "count": 550,
+        "min": 3.0,
+        "max": 3.0
+      },
+      "planting_elapsed_seconds": {
+        "count": 550,
+        "min": 0.0,
+        "max": 3.0
+      },
+      "planting_progress": {
+        "count": 550,
+        "min": 0.0,
+        "max": 1.0
+      }
+    },
+    "attempt_source_observations_unchanged_from_3e10": true,
+    "application_consumer_imports": false,
+    "seconds": 14.959
+  },
+  "preserved_position_recomputation": {
+    "ok": true,
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 598362,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "independent_coordinate_components": 3612,
+    "snapshot_field_comparisons": 1804807,
+    "completed_plant_witnesses": 11,
+    "birth_exclusions": {},
+    "plant_continuity_frames": 2201,
+    "c0_identity_samples_checked": 1218020,
+    "legal_positions": 4131,
+    "legal_coordinate_components": 12393,
+    "distinct_legal_object_lives": 11,
+    "basis_counts": {
+      "witnessed_stationary_plant": 3971,
+      "current_defuse_contact": 160
+    },
+    "status_counts": {
+      "physical_objective_position:unavailable:legal_object_position_not_observed": 177211,
+      "objective_object_state:unavailable:legal_object_position_not_observed": 177211,
+      "position_availability:unavailable:legal_object_position_not_observed": 177211,
+      "physical_objective_position:unavailable:objective_phase_unavailable": 6229,
+      "objective_object_state:unavailable:objective_phase_unavailable": 6229,
+      "position_availability:unavailable:objective_phase_unavailable": 6229,
+      "physical_objective_position:unavailable:parent_transform_unavailable": 11883,
+      "objective_object_state:unavailable:parent_transform_unavailable": 11883,
+      "position_availability:unavailable:parent_transform_unavailable": 11883,
+      "physical_objective_position:observed:present": 4131,
+      "objective_object_state:observed:present": 4131,
+      "position_availability:observed:present": 4131
+    },
+    "native_geometry_counts": {
+      "CC4.native_object_state.observed:carried": 110,
+      "CC4.cell_position.observed": 635,
+      "CC4.world_position.unavailable:parent_transform_unavailable": 110,
+      "CC4.parent_state.observed:parented": 110,
+      "CPlantedC4.native_object_state.observed:planted": 14,
+      "CPlantedC4.cell_position.observed": 22,
+      "CPlantedC4.world_position.observed": 22,
+      "CPlantedC4.parent_state.observed:root_unparented": 22,
+      "CPlantedC4.native_object_state.observed:resolved": 8,
+      "CC4.native_object_state.observed:unowned": 525,
+      "CC4.world_position.observed": 525,
+      "CC4.parent_state.observed:root_unparented": 525
+    },
+    "position_source_observations_unchanged_from_3e10": true,
+    "application_consumer_imports": false,
+    "seconds": 21.618
+  },
+  "preserved_motion_recomputation": {
+    "ok": true,
+    "seconds": 76.443,
+    "method": "Independent delivery replay, common cuts, full handles/native lives, raw flags and reference resolution, current integer codes; no application consumer imports",
+    "counts": {
+      "cuts": 30716,
+      "actor_cuts": 199454,
+      "facts": 1196724,
+      "candidates": 660686
+    },
+    "matrix_rows": 1040,
+    "deliveries": 91998,
+    "states": 19888,
+    "snapshot_field_comparisons": 7058601,
+    "retained_state_links": 194009,
+    "domain_transitions": 24,
+    "native_created_lives": 12,
+    "captured_lives": 11,
+    "destroyed_lives": 2,
+    "c0_identity_samples_checked": 19179620,
+    "ground_actor_cut_counts": {
+      "True": 183842,
+      "False": 15302
+    },
+    "movement_actor_cut_codes": {
+      "2": 198718,
+      "9": 426
+    },
+    "ground_state_counts": {
+      "True": 3409,
+      "False": 16479
+    },
+    "movement_state_codes": {
+      "2": 19551,
+      "9": 337
+    },
+    "reference_classes": {
+      "ground.CWorld": 3386,
+      "ground.CCSPlayerPawn": 23
+    },
+    "base_velocity_nonzero_states": 3,
+    "historical_nonzero_states": {
+      "m_pMovementServices.m_flLastJumpVelocityZ": 19883,
+      "m_pMovementServices.m_flLastLandedVelocityX": 19766,
+      "m_pMovementServices.m_flLastLandedVelocityY": 19679,
+      "m_pMovementServices.m_flLastLandedVelocityZ": 19844
+    },
+    "native_variants": {
+      "CBodyComponent.m_hParent|CGameSceneNodeHandle|uint64|observed": 19888,
+      "m_MoveCollide|MoveCollide_t|uint64|observed": 19888,
+      "m_MoveType|MoveType_t|uint64|observed": 19888,
+      "m_fFlags|uint32|uint64|observed": 19888,
+      "m_flSimulationTime|float32|None|absent": 19888,
+      "m_hGroundEntity|CHandle< CBaseEntity >|uint64|observed": 19888,
+      "m_hMoveParent|None|None|absent": 19888,
+      "m_iParentAttachment|None|None|absent": 19888,
+      "m_nActualMoveType|None|None|absent": 19888,
+      "m_nGroundBodyIndex|int32|int32|observed": 19888,
+      "m_nTickBase|None|None|absent": 19888,
+      "m_pMovementServices.m_flFallVelocity|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flLastJumpFrac|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flLastJumpVelocityZ|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flLastLandedFrac|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flLastLandedVelocityX|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flLastLandedVelocityY|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flLastLandedVelocityZ|float32|float32|observed": 19888,
+      "m_pMovementServices.m_flMaxspeed|float32|float32|observed": 19888,
+      "m_pMovementServices.m_nLastJumpTick|GameTick_t|uint32|observed": 19888,
+      "m_pMovementServices.m_nLastLandedTick|GameTick_t|uint32|observed": 19888,
+      "m_vecAbsVelocity|None|None|absent": 19888,
+      "m_vecAbsVelocity.m_vecX|None|None|absent": 19888,
+      "m_vecAbsVelocity.m_vecY|None|None|absent": 19888,
+      "m_vecAbsVelocity.m_vecZ|None|None|absent": 19888,
+      "m_vecBaseVelocity|Vector|[3]float32|observed": 19888,
+      "m_vecVelocity|None|None|absent": 19888,
+      "m_vecVelocity.m_vecX|None|None|absent": 19888,
+      "m_vecVelocity.m_vecY|None|None|absent": 19888,
+      "m_vecVelocity.m_vecZ|None|None|absent": 19888,
+      "m_vecVelocity[0]|None|None|absent": 19888,
+      "m_vecVelocity[1]|None|None|absent": 19888,
+      "m_vecVelocity[2]|None|None|absent": 19888
+    },
+    "fact_status_counts": {
+      "native_velocity:unavailable:native_current_velocity_source_absent": 199144,
+      "native_horizontal_speed:unavailable:native_current_velocity_source_absent": 199144,
+      "native_speed:unavailable:native_current_velocity_source_absent": 199144,
+      "ground_contact:observed:present": 199144,
+      "ground_reference_state:observed:present": 199144,
+      "movement_mode_code:observed:present": 199144,
+      "native_velocity:unavailable:native_motion_c0_actor_continuity_unaccredited": 310,
+      "native_horizontal_speed:unavailable:native_motion_c0_actor_continuity_unaccredited": 310,
+      "native_speed:unavailable:native_motion_c0_actor_continuity_unaccredited": 310,
+      "ground_contact:unavailable:native_motion_c0_actor_continuity_unaccredited": 310,
+      "ground_reference_state:unavailable:native_motion_c0_actor_continuity_unaccredited": 310,
+      "movement_mode_code:unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+    },
+    "source_observations_unchanged_from_3e10": true
+  },
+  "initial_feature_controls": {
+    "ok": true,
+    "cases": [
+      {
+        "sequence": 1,
+        "matches_materialization": true,
+        "no_identity_or_evaluation": true,
+        "pawn_deadline_state": "elapsed",
+        "malformed_future_and_enemy_geometry_invariant": true,
+        "detached_copies": true
+      },
+      {
+        "sequence": 35,
+        "matches_materialization": true,
+        "no_identity_or_evaluation": true,
+        "pawn_deadline_state": "elapsed",
+        "malformed_future_and_enemy_geometry_invariant": true,
+        "detached_copies": true
+      },
+      {
+        "sequence": 30614,
+        "matches_materialization": true,
+        "no_identity_or_evaluation": true,
+        "pawn_deadline_state": "elapsed"
+      }
+    ],
+    "seconds": 356.631
+  },
+  "canonical_validation": {
+    "ok": true,
+    "errors": [],
+    "same_canonical_artifacts": 72,
+    "seconds": 360.35
+  },
+  "canonical_comparison": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\base-comparison.json",
+    "bytes": 12121,
+    "sha256": "38077033a9cb690e0cad8c8b9d9160b421c41d8ba2f806f65ccdcc855983fb8e"
+  },
+  "protection": {
+    "corpus": {
+      "approved_bundles": 44,
+      "source_files": 50,
+      "files": 4356,
+      "hashed_files": 181,
+      "bytes": 42372398910,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+      "seconds": 4.303,
+      "unchanged": true
+    },
+    "previous_files": 993,
+    "previous_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\previous-after.json",
+      "bytes": 268216,
+      "sha256": "76de81164942795f24647aebf449000c963ec708363ffb0cdef623b74de76994"
+    },
+    "previous_unchanged": true
+  },
+  "build_source_inventory": [
+    {
+      "path": "ai_coach/contracts/__init__.py",
+      "sha256": "f55b95729fc809ea798a67a21cbfbf3ff37dda5c25ee8ab9325df838cd3a4f55"
+    },
+    {
+      "path": "ai_coach/contracts/capability_catalog.json",
+      "sha256": "734cd03d3f888f8e725180201d6ee289e04c804b992331b0c70d3bce8cf4a771"
+    },
+    {
+      "path": "ai_coach/contracts/cover_map_package.schema.json",
+      "sha256": "27aaab11a38e4ff22f6faaaa9c585014884b9dc3981d9cd4e267c16caa7152cc"
+    },
+    {
+      "path": "ai_coach/contracts/cover_support_manifest.schema.json",
+      "sha256": "c295208ad9e3a9e571ca07195614d516eb70934f69b61419e1fc6113c97cf494"
+    },
+    {
+      "path": "ai_coach/contracts/decision_example.schema.json",
+      "sha256": "6b41bab970d3da4d41948b0bb0cbf2bbf6a59bd3fc0f49bea0ce1fe9fc7464f8"
+    },
+    {
+      "path": "ai_coach/contracts/decision_example_v2.schema.json",
+      "sha256": "f211e1fd215f2cd776ef0cf55438805b10fab36f454d1805d129de0f3d731d3c"
+    },
+    {
+      "path": "ai_coach/contracts/economy_candidate_manifest.schema.json",
+      "sha256": "275e6b146d499a7872bcfaca53843bd61446923fbbe6a88ffa6932d4805e3720"
+    },
+    {
+      "path": "ai_coach/contracts/economy_candidate_manifest_v2.schema.json",
+      "sha256": "1577ae8dff08f85ddfafc390eca6b9748e9899edb75524e7721a2cd734b2d106"
+    },
+    {
+      "path": "ai_coach/contracts/economy_cashflow_observations.schema.json",
+      "sha256": "f4df01e87c92587b03f9177ee076d2733e9246cac3257cf8b7088d405590bdca"
+    },
+    {
+      "path": "ai_coach/contracts/economy_cashflow_reconciliation.schema.json",
+      "sha256": "32744c539664262d294f6c5cf3f64e4584adcbb317dbdd4ca2e147a4acd6ad6d"
+    },
+    {
+      "path": "ai_coach/contracts/economy_entry_identity_links.schema.json",
+      "sha256": "6478ce65f08eae929cabde1c78a55c05110a06a0a368c0382c393d5a823ab9e3"
+    },
+    {
+      "path": "ai_coach/contracts/economy_entry_observations.schema.json",
+      "sha256": "189519a736698ab103b9e1b3dce0312b786ebb5e490bc3e30b445fbcb2623d13"
+    },
+    {
+      "path": "ai_coach/contracts/economy_initial_frontiers.py",
+      "sha256": "d7615cf5f368e90a06bdf9f67dc06d0bcfcef9ee0ea4bdd41d113b64a859582d"
+    },
+    {
+      "path": "ai_coach/contracts/economy_native_identity.schema.json",
+      "sha256": "bc82307db006385bcb2abbab19bdfa6f7bd19dfbdaf85ffa71290c22f2d42a08"
+    },
+    {
+      "path": "ai_coach/contracts/economy_native_reconstruction.schema.json",
+      "sha256": "759ee3def5fc84ea455f046fb4919f17c483eaa4859d238265f75256ea282997"
+    },
+    {
+      "path": "ai_coach/contracts/economy_native_sources.schema.json",
+      "sha256": "b689d6a2e618cbf249525a29cd2c492e04d3f61500c3dfa655b0e62c827ce8eb"
+    },
+    {
+      "path": "ai_coach/contracts/economy_native_sources_manifest.schema.json",
+      "sha256": "f4bdbcacf2aee3cf4d4d1111c3cbbbda9d166c1ee3a180fefee7fd68f7607e43"
+    },
+    {
+      "path": "ai_coach/contracts/economy_opportunities.schema.json",
+      "sha256": "d7d375b3c028eb93c148cc4b180dfe5ce4d05e45d42542ca467ef843ebf0942b"
+    },
+    {
+      "path": "ai_coach/contracts/economy_opportunities_manifest.schema.json",
+      "sha256": "1b322a5722ee11367ebf67e75324bf54619339b644bf32af03798988d4b736e3"
+    },
+    {
+      "path": "ai_coach/contracts/economy_opportunity_protocol.json",
+      "sha256": "539f4d09eb8785b3fb8bb40c6b80ffb0c89d320117e91bace8bb949d84cc580d"
+    },
+    {
+      "path": "ai_coach/contracts/economy_opportunity_protocol.schema.json",
+      "sha256": "27517da5bc1331b9ca1aab6906ea763c01c1f0b70621c2ca7a879096807a6a47"
+    },
+    {
+      "path": "ai_coach/contracts/economy_ownership_observations.schema.json",
+      "sha256": "3f364855ee099ed37c0e438e385c428e73fbc4e8b31ea5e50b07378f6d93804f"
+    },
+    {
+      "path": "ai_coach/contracts/economy_ownership_reconciliation.schema.json",
+      "sha256": "fb5925ce88435680da03f3c51946a47d7e58e621cf4c747554f606fdfefa8a18"
+    },
+    {
+      "path": "ai_coach/contracts/economy_resource_manifest.schema.json",
+      "sha256": "7123823042510de126bbf4df74a9b99d6f9cd5551497e2b77e84aa947a67ac8c"
+    },
+    {
+      "path": "ai_coach/contracts/economy_rule_assessment.schema.json",
+      "sha256": "3b1e7a37d4a28f395a4d2e0fdc86b51a52ddfe66f767fcc6f3684fa59339567e"
+    },
+    {
+      "path": "ai_coach/contracts/economy_rule_context.schema.json",
+      "sha256": "bc75f22749994b7be12c95f66afe4e1b0738e6877158e19747eedeb49d3ae38e"
+    },
+    {
+      "path": "ai_coach/contracts/economy_rule_context_assessment.schema.json",
+      "sha256": "22f1ae83fe31aea7795b04fa68e9347c689e9f1699fb2cabe76814b738e4a326"
+    },
+    {
+      "path": "ai_coach/contracts/economy_rule_context_manifest.schema.json",
+      "sha256": "f57b3b5d71dc743fdbcf4d43a25b677bf0fde7f2ab30b12f4fc5f1d6000f6807"
+    },
+    {
+      "path": "ai_coach/contracts/economy_rule_package.schema.json",
+      "sha256": "b820efb6de79af0c5b7b829224631879f265f8de3a5c50768c6daee513a42976"
+    },
+    {
+      "path": "ai_coach/contracts/economy_rule_source_registry.schema.json",
+      "sha256": "98fde462032e65192710463fff147b25e7c189a5c54a17fb30b67be15f6ae65b"
+    },
+    {
+      "path": "ai_coach/contracts/economy_session_payload.schema.json",
+      "sha256": "7ff18ccacdc1032201ddc4baa110ad3b0799a5fdd9504147e8fee6ac5e1e7907"
+    },
+    {
+      "path": "ai_coach/contracts/economy_transaction_trace.schema.json",
+      "sha256": "aab1fcd6c1a5e61f80200a74b01326e8d4a1c444e204246ae94c51ddbb1f0124"
+    },
+    {
+      "path": "ai_coach/contracts/exit_route_map_package.schema.json",
+      "sha256": "7605bcff7eb8f3cf89468938264e1ee6e1a5de746392a5b2a93b904b8598271a"
+    },
+    {
+      "path": "ai_coach/contracts/exit_route_support_manifest.schema.json",
+      "sha256": "1dc4f4c0de7a85b1b26c869dc04ae456cf02e2e7cc21dbebb52228f572e3e10d"
+    },
+    {
+      "path": "ai_coach/contracts/exposure_angle_map_package.schema.json",
+      "sha256": "e6b6c7b2f2baa0db78106979a6cadfa3feecfa887ae5c04997dcc1a58c1102df"
+    },
+    {
+      "path": "ai_coach/contracts/exposure_angle_support_manifest.schema.json",
+      "sha256": "f7be594074f199a08738a9435099ac7a366f51a7fe2b0367e91d736c0026e12e"
+    },
+    {
+      "path": "ai_coach/contracts/observed_cover_diagnostic.schema.json",
+      "sha256": "19dc9e60eb37d38bfcac1bd675f7b612bc7d8252d965a2ac7a64bd1691bfaf92"
+    },
+    {
+      "path": "ai_coach/contracts/observed_cover_diagnostic_v2.schema.json",
+      "sha256": "d6576f4c70835bab66c814231ace06f6b5ed8582a320bc937e8030d47284bde6"
+    },
+    {
+      "path": "ai_coach/contracts/observed_economy_candidate.schema.json",
+      "sha256": "215aa502696a1dee17271a33faf73e286a94c5de0196621bde9ade72df8cbbcf"
+    },
+    {
+      "path": "ai_coach/contracts/observed_economy_candidate_v2.schema.json",
+      "sha256": "f84bbe4de97e9d78d462eac1d98f44df1a0c4c5e0d0e3c4922e630c6234ad874"
+    },
+    {
+      "path": "ai_coach/contracts/observed_exit_route_diagnostic.schema.json",
+      "sha256": "20673ce2dad67b2a2651ac6f0a9970002233dd92962ccfec5bb676db9c9e6650"
+    },
+    {
+      "path": "ai_coach/contracts/observed_exit_route_diagnostic_v2.schema.json",
+      "sha256": "89815fa45b1603f18560ed72cbf6d9db45fcbf338e570f6688ed6bc2b9326ac6"
+    },
+    {
+      "path": "ai_coach/contracts/observed_exposure_angle_diagnostic.schema.json",
+      "sha256": "b0fbe7f1e8a967a98fac7d3a427ac5e6250dad0b814c4f40330b63a9ac20d72f"
+    },
+    {
+      "path": "ai_coach/contracts/observed_exposure_angle_diagnostic_v2.schema.json",
+      "sha256": "39b8be3d8bfd3f10f0bdedcb86ddda1d152426e650f14cc83162f0e0fd1c28a6"
+    },
+    {
+      "path": "ai_coach/contracts/observed_last_known_position.schema.json",
+      "sha256": "c1366fe1b678ef37d726d75c83b229a7aacdf75526afcbae402824b0a1a624e2"
+    },
+    {
+      "path": "ai_coach/contracts/observed_navigation_path.schema.json",
+      "sha256": "0ca3b5daac026c3d72ed73f0d7fb12c7f43a4bf336ecf47824f263bc6f495e14"
+    },
+    {
+      "path": "ai_coach/contracts/observed_utility_initial_velocity.schema.json",
+      "sha256": "d4a319a1c915afeace6909387cbc0a9ed0c591cee18219b7a16d9da90deed420"
+    },
+    {
+      "path": "ai_coach/contracts/observed_visual_contact.schema.json",
+      "sha256": "5cd70094306875ffcf66fe4728449b171f3a6dc152e23f34724f1a758c0e2462"
+    },
+    {
+      "path": "ai_coach/contracts/observed_weapon_state.schema.json",
+      "sha256": "451e4edd8c848f58eea92ff850c29c43b8e1ae61b38af9643c1b5a705b61af70"
+    },
+    {
+      "path": "ai_coach/contracts/reason_codes.json",
+      "sha256": "87aa373b974bbbf9d10fb66f88286d810f56fe0d0d8f70d7c2a12ef68797ae6f"
+    },
+    {
+      "path": "ai_coach/contracts/runtime_contracts.py",
+      "sha256": "89e84b8bfb577ac82783d0ebc714bd432cf1b8fe56680e1a140f1e6922c6bacf"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_candidate.py",
+      "sha256": "7dcdfabd2c182fc4904a8419b39116de35a2b6c12b67a5eca4056dfc1944bf66"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_candidate_artifact.schema.json",
+      "sha256": "6fcbc318907ec084875e7c40e84c05785e7fecc06af8f351dbf7ec2fbb57acd2"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_candidate_manifest.schema.json",
+      "sha256": "d88ff835c367785294f69cf6d23261698998b9e556efe01dafbe5b0074074a94"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_context_review_adjudication.schema.json",
+      "sha256": "a4c63a1803e2252472687a532969c18bb2f0d9898ee9fe6aecea5abb3c954b1f"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_context_review_batch.schema.json",
+      "sha256": "3d12f5a2eb806e56ca21039db536dc4b7806fb0ec6fdbefc424ec83ef9f53d14"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_context_review_protocol.schema.json",
+      "sha256": "099d713364bb8ac3b040be44a1b4a02a729b3aef86e689fb75b60e4aceece400"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_context_review_response.schema.json",
+      "sha256": "571a4dca2fb026614ea4900e949c40796f31e79f9f128ac61b335f6946ec715e"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_fact_join.schema.json",
+      "sha256": "174248172e6a62c7cf4640b0ea5b99804ad2c4791a3b1018d8dbc9beeaa549a0"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_human_review_adjudication.schema.json",
+      "sha256": "412431799992d68df0c7b00b91ca6c18f7bd8802c1260ae9397607742b4b64b6"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_human_review_batch.schema.json",
+      "sha256": "07c3ff7dbd252e5f06ca89453661fe8b8fc2eb07d8e623cbfc5ed16034a75845"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_human_review_protocol.schema.json",
+      "sha256": "369c14f4373de20d5537175362232a455020cea570944cfc9f4cc7484be2a10b"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_human_review_response.schema.json",
+      "sha256": "012bf53aa506791bc0823c30b3080f2bb2eb617322119f5d293ca2b23a1f715c"
+    },
+    {
+      "path": "ai_coach/contracts/spatial_participant_bridge.schema.json",
+      "sha256": "4f5a306ea67f9b0c20468f0cc1b636cebf9c9b630fbd705fb9f44de32673f687"
+    },
+    {
+      "path": "ai_coach/contracts/support_anchor_protocol.json",
+      "sha256": "ac04b330fe50cf27954f99f7d50633e1e8c1f5de802f17253a915a40016cfbd5"
+    },
+    {
+      "path": "ai_coach/contracts/support_anchor_protocol.schema.json",
+      "sha256": "f3473a9d717b2badde651cb49e564ec3cfe99248ad5dbc5db5b9d5e705bd32f5"
+    },
+    {
+      "path": "ai_coach/contracts/support_anchors.schema.json",
+      "sha256": "acd6086f7ecd407762e46b46360debe9c9c2e0843b1392c08ad0c70f8e095e92"
+    },
+    {
+      "path": "ai_coach/contracts/support_attempt_origin_context.schema.json",
+      "sha256": "23f68b64b438b198bfa3d7d28cf5f674b53cdb2f61ab3baa4c6513288fe71069"
+    },
+    {
+      "path": "ai_coach/contracts/support_attempt_origin_observations.schema.json",
+      "sha256": "4e3f4d2961ebd716bbc0c46db28653bff0b7a44e7078aa62926635431917da14"
+    },
+    {
+      "path": "ai_coach/contracts/support_c4_context.schema.json",
+      "sha256": "227488ffdba8f31b1b18228200b725405273ee84fe09213b55597b97a8df043e"
+    },
+    {
+      "path": "ai_coach/contracts/support_c4_observations.schema.json",
+      "sha256": "19b2a706dde0c1be59882742d3411f602044cac4c70ce6b2c39fb2e4ed0c16f7"
+    },
+    {
+      "path": "ai_coach/contracts/support_native_motion_context.schema.json",
+      "sha256": "9f31ab04ece52e195d92421edfe3433d2050270796bd2d310bb0d8e051e7b563"
+    },
+    {
+      "path": "ai_coach/contracts/support_native_motion_observations.schema.json",
+      "sha256": "11bbc7a26aecaca93c31c565c13a6b95c40e5f8d3f5bbc46ed108c5c8c18f1e6"
+    },
+    {
+      "path": "ai_coach/contracts/support_navigation_context.schema.json",
+      "sha256": "5c5ce2f5e81055ec4f5c40957c6ecb371cda86dc6597c7d5baf91602e33c4894"
+    },
+    {
+      "path": "ai_coach/contracts/support_navigation_observations.schema.json",
+      "sha256": "f05ee5d71be2dceb4993ee56f421a237ef1cd098995ee53e0a673bb961d8677b"
+    },
+    {
+      "path": "ai_coach/contracts/support_objective_clock_context.schema.json",
+      "sha256": "f97c1050ac1552d327b7ac8dfe83af435b09e56f5b626b0a0f8b5eb510fa6311"
+    },
+    {
+      "path": "ai_coach/contracts/support_objective_clock_observations.schema.json",
+      "sha256": "bb64a4ad7a5087d8113b03653d583acc439bed43e198fc6f3266f99e752c16db"
+    },
+    {
+      "path": "ai_coach/contracts/support_objective_context.schema.json",
+      "sha256": "a807057ab9359bbc418077ffaff98508d49ba8f12face3c935d5de8c4c446c5e"
+    },
+    {
+      "path": "ai_coach/contracts/support_objective_observations.schema.json",
+      "sha256": "82d363d333dc7ee58f987d20baf31f97881ba40e8bfc7cd6c56f8d2e7f278735"
+    },
+    {
+      "path": "ai_coach/contracts/support_objective_position_context.schema.json",
+      "sha256": "447eaace9578bbbc9538c4f3d19f21f0324fab576a379b203dce1996f2aa11dd"
+    },
+    {
+      "path": "ai_coach/contracts/support_objective_position_observations.schema.json",
+      "sha256": "ba05df052248506af48ab43cf455b4a96ff1726f17a2c862e42c5188cb0aa219"
+    },
+    {
+      "path": "ai_coach/contracts/support_observations.schema.json",
+      "sha256": "cd8a62bb7585068e788f3d9c37375551face293ecad08fc3dfe3705ec75563d6"
+    },
+    {
+      "path": "ai_coach/contracts/support_physical_context.schema.json",
+      "sha256": "a38f1576340c255dec68cf6bd331ba60cfe8b76df4b99dd0af8f38cc75225329"
+    },
+    {
+      "path": "ai_coach/contracts/support_physical_observations.schema.json",
+      "sha256": "7548e618f05d8c43d607bdf78ec7cd51b9c9be7201884c0c6a7171dc5f777958"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_attempt_origin_cut.schema.json",
+      "sha256": "d1b08de70e4a1b9ccd13ce2aedd87f913ca5abe1e0967ea126e41cb61ad88420"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_attempt_origin_manifest.schema.json",
+      "sha256": "2f82360fdc1205d8deaf8c7ec3e430997806afd00fda66378f1dffc7bef8738b"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_c4_cut.schema.json",
+      "sha256": "13362e9c680930b0ca2c41ce4b0fed27d8413972a5f8ef67030f5dea58a62d57"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_c4_manifest.schema.json",
+      "sha256": "0ea12c04918e72174103039d90f54d7137ef1dfc7f8f41c556f2328a9da30db4"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_cut.schema.json",
+      "sha256": "8d1ece0f53e4dfdfdf45e93518477594fe09741e351518c3cfb2a0e6f290eaae"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_manifest.schema.json",
+      "sha256": "b7819f01a7db6753f5d8e501b9cf67ff89fe17f66e8657f305d08c035a50f649"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_native_motion_cut.schema.json",
+      "sha256": "8ed80df93ae782cf8afc84b3bb7bf7e238ccfd5f1b58af79f3c323898324c474"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_native_motion_manifest.schema.json",
+      "sha256": "734911f4a426c884be2e4e45cd885d40a8933c3170da64c6666aa72eb5f274e9"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_objective_clock_cut.schema.json",
+      "sha256": "d0960bd7abd4294307ea25a9ef450ca40b6aca6c6040017b6f0903a44aced7ae"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_objective_clock_manifest.schema.json",
+      "sha256": "9a0b57e60352952f67812dd570a1a34afd5960b7179f95d1a3d779b56f00ca38"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_objective_cut.schema.json",
+      "sha256": "742261bcea88188b6705c6997e140aac30c5574cc581fc8db412d05cea9fda4b"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_objective_manifest.schema.json",
+      "sha256": "eb22e4fd77484a822b3586fda9bfa45fbc90d840e3d94034ff17684ea331f56d"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_objective_position_cut.schema.json",
+      "sha256": "cdeb0025c8cea5e61fddcb9374347d77ab429d686a2b7dbeba88da2cf7c21aa0"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_objective_position_manifest.schema.json",
+      "sha256": "5281e54ca240a567ba550e95b4ce440a9be62d38f46d1a344137aeb773464ffd"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_pair.schema.json",
+      "sha256": "e41faac76da54a9bc6adbcb8ffb806a2c0ee3c8f28ffb5a07580a9b9d17937c2"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_physical_cut.schema.json",
+      "sha256": "6bf340f630d0c4b36bcbef4629007863b32bdaed94886677d44761dc75998290"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_physical_manifest.schema.json",
+      "sha256": "964b9e760538ea61ce95a7cb12d4ccf8ba652455b0f3b10bbc9ff6a22315fda4"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_protocol.json",
+      "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_protocol.schema.json",
+      "sha256": "7789ad0037e0188d56d0d5fbeb53c1209e347250593bf055967319733d363356"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_weapon_timing_cut.schema.json",
+      "sha256": "55dd44ae2e78b1a0bb3e1283136ebf33e437b426d28593b07247682928c83c5d"
+    },
+    {
+      "path": "ai_coach/contracts/support_preparation_weapon_timing_manifest.schema.json",
+      "sha256": "f0ee6cd4a7ad36dbe3a35702ca2a348ce7e1153b168f0ecc20413bc0c4f74f03"
+    },
+    {
+      "path": "ai_coach/contracts/support_visual_contact_context.schema.json",
+      "sha256": "82d99f911a4fccb8dc7224f1b7cb74872de78e04e92ffd1c09fb74a50f4fedec"
+    },
+    {
+      "path": "ai_coach/contracts/support_visual_contact_observations.schema.json",
+      "sha256": "0c4fb4668f2ddb453ede026b01aba5612974cc9dcedb76e3a26c8926380bd902"
+    },
+    {
+      "path": "ai_coach/contracts/support_weapon_timing_context.schema.json",
+      "sha256": "b946bfa51e4c984efa1cd29dbb867ef65df59610efebf18a1a209b8661ec3802"
+    },
+    {
+      "path": "ai_coach/contracts/support_weapon_timing_observations.schema.json",
+      "sha256": "186a24a7bb704e45fbc0421e55d43228f6accd4aedde5413d286718f29267959"
+    },
+    {
+      "path": "ai_coach/contracts/task_eligibility.schema.json",
+      "sha256": "7b0bcdaf1625ae2c01b0821bd6d4c84dbe0693b44a4275fd619a9a92833485c6"
+    },
+    {
+      "path": "ai_coach/contracts/validate_contract.py",
+      "sha256": "9b10b4c6d86a6b9f70b7845cd92db6447bbc729b08746c6d3103549c1b2bfe6d"
+    },
+    {
+      "path": "ai_coach/contracts/validate_cover_full_demo.py",
+      "sha256": "dfc19544c5ee7f9f5097be6395f48e4616332d73154f0fbf5dd1df0057a343c3"
+    },
+    {
+      "path": "ai_coach/contracts/validate_economy_candidate.py",
+      "sha256": "da4e0ede520b1586d21df95f14071bc4f7b38dd7c3ad7ca742f49923b0871364"
+    },
+    {
+      "path": "ai_coach/contracts/validate_exit_route_full_demo.py",
+      "sha256": "ab22244b6331995d2bbe5990d7abbd6f095898a64d6da8e92c651d569b7b3b5e"
+    },
+    {
+      "path": "ai_coach/contracts/validate_exposure_angle_full_demo.py",
+      "sha256": "74b1c32ec8a50b9a7e211ed8fedfc7d7f44a99179cdf95fcc3913f745b12ab41"
+    },
+    {
+      "path": "ai_coach/contracts/validate_full_demo.py",
+      "sha256": "8fa1e4e1bdd693e3427591e9337d78e1e84bd650ecc156f292767e9182302f39"
+    },
+    {
+      "path": "ai_coach/contracts/validate_last_known_position_full_demo.py",
+      "sha256": "b8c6571a95af8c839ea403582d67ffa59dcd0451a2d20815342085718ad10523"
+    },
+    {
+      "path": "ai_coach/contracts/validate_navigation_smoke.py",
+      "sha256": "6ad9f0fb34a41a68b6022af1884e0d204b230697a427c66f288247b7d9e4fd4f"
+    },
+    {
+      "path": "ai_coach/contracts/validate_spatial_context_review_pilot.py",
+      "sha256": "477ee44c9adb01df7743f4776458565efade0c7306fb932c85051d3232012eae"
+    },
+    {
+      "path": "ai_coach/contracts/validate_spatial_review_pilot.py",
+      "sha256": "5afea8eaf076cfaafcabfdaa8cf15f565f996ae779968dc65f06134e5f6e8cbe"
+    },
+    {
+      "path": "ai_coach/contracts/validate_utility_initial_velocity_full_demo.py",
+      "sha256": "eb86c598128e4b5afd3482f4b9e04c6dc14a946eab524bf7126f26c9264aa29b"
+    },
+    {
+      "path": "ai_coach/contracts/validate_visual_contact_smoke.py",
+      "sha256": "3d3aedc77311b5b3a4810c8d83ac2c3ecca6a4c8e4d8ae3c526b1628ddcfd031"
+    },
+    {
+      "path": "ai_coach/contracts/validate_weapon_state_full_demo.py",
+      "sha256": "d52ad60eaf6a676f5acdf687c25cb9fec5747775b4dfc56cd5ff2869f6255943"
+    },
+    {
+      "path": "ai_coach/datasets/__init__.py",
+      "sha256": "db20b8e524781fbb6b023057cd72fea989d3a07e5ece707112f5d7696aa31602"
+    },
+    {
+      "path": "ai_coach/datasets/build_examples.py",
+      "sha256": "a2ef2cd3247959d48ed05b85e0e02307e9ca0cb8a7cc5621e77d23caecd616bb"
+    },
+    {
+      "path": "ai_coach/datasets/eligibility.py",
+      "sha256": "fedad08b3a7883a3fc3ee8f3270a6f5e573537f10a99b09b8ef4b9e51658b50c"
+    },
+    {
+      "path": "ai_coach/datasets/spatial_candidate.py",
+      "sha256": "cf11b1ccfbb3a7b93e28091944af27e669e41ad97a152cbc1b4763d36f11dfe8"
+    },
+    {
+      "path": "ai_coach/datasets/streaming.py",
+      "sha256": "0993263973ee207fb195be701a1f3ba6ee63c952c90121df4788a926fb6647de"
+    },
+    {
+      "path": "ai_coach/economy/__init__.py",
+      "sha256": "b5820cef30b9716b747b26ea5a4ee858e0566824b85009427942b8443be7e34b"
+    },
+    {
+      "path": "ai_coach/economy/candidate_io.py",
+      "sha256": "eb3c111e102e259a176d0cf8187dcb8d696e5a50209ad45a36d8816506ab52f4"
+    },
+    {
+      "path": "ai_coach/economy/cashflow.py",
+      "sha256": "2e398e96e1d4c1e2d3fc190efbaf2a9ddc4ea70a468ec3459a159f2b32306f47"
+    },
+    {
+      "path": "ai_coach/economy/entry_identity.py",
+      "sha256": "8faf2fc3180f97d93b16405677584cb895afafea8ea1542021a50e322d705914"
+    },
+    {
+      "path": "ai_coach/economy/native_identity.py",
+      "sha256": "befa903eaf0019b29b2bab2d24e6caefa788a3c027abe2788534e3994cb0b3b3"
+    },
+    {
+      "path": "ai_coach/economy/native_reconstruction.py",
+      "sha256": "1efa1b1ac705b10b7e4260fae3ecec62126ab2c2d5ea7bdf6766b3f60040ccab"
+    },
+    {
+      "path": "ai_coach/economy/native_sources.py",
+      "sha256": "6ba5b635b30c62a068be4072148d69b0431640a84c1a40594f4043e76d1c5c6b"
+    },
+    {
+      "path": "ai_coach/economy/opportunities.py",
+      "sha256": "f7a7534858288d90b05391efe8f134c5bb45bd7317529d38310b8b720d2f92d3"
+    },
+    {
+      "path": "ai_coach/economy/ownership.py",
+      "sha256": "cb6058189eb4516b1e4639430042d9de565012bff5e2599883e086ed14dd75b6"
+    },
+    {
+      "path": "ai_coach/economy/resource_manifest.py",
+      "sha256": "28826c7aaf5035d768455038389f98fd61a762ddb4c95b69f3c2af9c538f0e43"
+    },
+    {
+      "path": "ai_coach/economy/rule_assessment.py",
+      "sha256": "6beb6195b517e8c6f383071dda8f59eae0ac299ece30bfd72ac56fd9b7cd414d"
+    },
+    {
+      "path": "ai_coach/economy/rule_asset_text.py",
+      "sha256": "20b30c953a6a159075bfc1a93c81eb64025834b7edf494e2c01961afde371ab0"
+    },
+    {
+      "path": "ai_coach/economy/rule_assets.py",
+      "sha256": "8a19155bc68152dd687fd62bc111d6267b2f60ef35f14f0eac7bcf3ddc457964"
+    },
+    {
+      "path": "ai_coach/economy/rule_context.py",
+      "sha256": "9d5781b34856e9a2be13e43690a9bce3ab53503e4c2d86be4620437517cb47f6"
+    },
+    {
+      "path": "ai_coach/economy/session_payload.py",
+      "sha256": "50af34e253486dbec04864f0157ab9983aa5231b2f55fd937d48edc0647041ef"
+    },
+    {
+      "path": "ai_coach/economy/transaction_trace.py",
+      "sha256": "f81c7989ba316f03b07b374b03078e52a9034e48ff3eea0132d60fdf558cdf82"
+    },
+    {
+      "path": "ai_coach/economy/validate_opportunities.py",
+      "sha256": "76699d969bcc4dca79d0edb76514d80b23b23225113256d66fa21e16569bc29c"
+    },
+    {
+      "path": "ai_coach/support/__init__.py",
+      "sha256": "39f66e463d7d6bca305686b137435629b8dde33c4bd7e63522d403715c28c081"
+    },
+    {
+      "path": "ai_coach/support/anchors.py",
+      "sha256": "3cfa48e8ec8c74a5ec861c980017dd1dffcd02c15256348eddb0152105c37db7"
+    },
+    {
+      "path": "ai_coach/support/attempt_origin.py",
+      "sha256": "502283a59a8fbcd7947c133279d536cc1a32ebe2e589d9b3dcf76d5b2e6b50eb"
+    },
+    {
+      "path": "ai_coach/support/c4.py",
+      "sha256": "8b5342fbbb1278350a5f00d8239f776cbc46ae32be4c85eb694e052a31d81247"
+    },
+    {
+      "path": "ai_coach/support/native_motion.py",
+      "sha256": "b08c2a619f4a0f33d1ef0939bf6d53b5909f8ff487d4f0060fdd36c45c6fa155"
+    },
+    {
+      "path": "ai_coach/support/navigation.py",
+      "sha256": "87ee15d3e1f65f9268d5b3968dac57de85999ade134c560c25cad6d1e810aa5a"
+    },
+    {
+      "path": "ai_coach/support/navigation_verify.py",
+      "sha256": "fc6dc119aaf5049b4a426f59f1de03cb235675e3dd74281a17cb004eb38ce5a4"
+    },
+    {
+      "path": "ai_coach/support/objective.py",
+      "sha256": "58f273622faada38303f4e24922c248db476179a0f8e30c929ce3bf5c952f462"
+    },
+    {
+      "path": "ai_coach/support/objective_clock.py",
+      "sha256": "ab456bd6cedebf108ad2d868676d9e7707247ded841bd80b95fed76f7062d823"
+    },
+    {
+      "path": "ai_coach/support/objective_position.py",
+      "sha256": "846cb1fd6a215d0449dbf80d1aa04f038504b073bae2767db880e23de4faa8f9"
+    },
+    {
+      "path": "ai_coach/support/physical.py",
+      "sha256": "60a113524d599be3e5539395678c36b900de5b7345e5be3a2ff540e67db1d2ad"
+    },
+    {
+      "path": "ai_coach/support/preparation.py",
+      "sha256": "f542ee9b00afe8a816b1dcb9d7fed7acdc1784ea29ae91f8f4b528c4b8349661"
+    },
+    {
+      "path": "ai_coach/support/preparation_attempt_origin.py",
+      "sha256": "4a53deb6faeb5e7f7105f6def9e4c7165fbd01ba2c41f0ea49ef2efb2769f4e3"
+    },
+    {
+      "path": "ai_coach/support/preparation_c4.py",
+      "sha256": "3161b7ade923c53a476118e3c5cf027addc35aaf960ad7149e0b1ac399300641"
+    },
+    {
+      "path": "ai_coach/support/preparation_native_motion.py",
+      "sha256": "e00fa49d58cc351afa8df5f60ab663bbda9ecc142e4d322bf01a80fccb55b59f"
+    },
+    {
+      "path": "ai_coach/support/preparation_objective.py",
+      "sha256": "6fdacb7f1a955ea81a33446f6e1ae318996349df1bc2965a6d92be31a5f09cfd"
+    },
+    {
+      "path": "ai_coach/support/preparation_objective_clock.py",
+      "sha256": "288e308fdc028bbda109c2925cedbf34d9fc96d4e044d823d405b3e843ed8996"
+    },
+    {
+      "path": "ai_coach/support/preparation_objective_position.py",
+      "sha256": "bc940d6e793fa31ac17234d42551398ea98df1a7012c8f11a4fd7b40f12cf6e7"
+    },
+    {
+      "path": "ai_coach/support/preparation_physical.py",
+      "sha256": "70fd4c58194fcb9a4bbb0041250b91b4ef4b8e2108a1d37e44366178e2654b07"
+    },
+    {
+      "path": "ai_coach/support/preparation_weapon_timing.py",
+      "sha256": "3eae2fcf812421eeb88843c6f527374010c7c88b47c854e148728ec71d9659ab"
+    },
+    {
+      "path": "ai_coach/support/visual_contact.py",
+      "sha256": "98146c82be47bb2643a62c185e33de7cd40fa45dfd7b7dca239c31654414f932"
+    },
+    {
+      "path": "ai_coach/support/weapon_timing.py",
+      "sha256": "2055fd81aef4b26f87b0d94a885897ca1c65144080fd9be1343666ffdb1a5d3f"
+    },
+    {
+      "path": "ai_coach/tests/test_bundle_audit.py",
+      "sha256": "4243083260b2277077b382e3693f70275cc4dd6f6137c80a5b7655ed28b23d35"
+    },
+    {
+      "path": "ai_coach/tests/test_contract.py",
+      "sha256": "0cb5b86347b44bbfdb4eb31e9257ba1b766a642d7041fafd6661277e242b5907"
+    },
+    {
+      "path": "ai_coach/tests/test_cover_full_demo_validation.py",
+      "sha256": "7184a12ab7807b41c9d2d2d87c1c07bc9684f49bbbd0a6d2c1f3d73b6ee32295"
+    },
+    {
+      "path": "ai_coach/tests/test_cover_packages.py",
+      "sha256": "f8512c2e21aec76296f4acb1b521f879c3d413ddaaf70e61b5c76297e0c7b298"
+    },
+    {
+      "path": "ai_coach/tests/test_decision_examples.py",
+      "sha256": "16a4a1059dbf2b4fed5eedfbb065a14a95888f50080888da2f72410250b58eb1"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_candidate.py",
+      "sha256": "5aa3315be53ed242c6e18e3255bca9a938d889b03b5d6609e3e2cccdac5942e8"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_cashflow.py",
+      "sha256": "63cbb84ee1ac514cb05e7ab10965c96eb7408a3707b58d8fd194ac6d41f7b17e"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_entry_identity.py",
+      "sha256": "b7fffaeea146edcdc60f6dc9db9f06497fede238be5eebee28c13e9965bea1bb"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_initial_frontiers.py",
+      "sha256": "45fcd91a489e0da4fef32995395ed0a8c97752e88bed10564139a3da0b399622"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_native_identity.py",
+      "sha256": "ae91806f14b16e1644ff8dd49b806173f3150fafae7984b0da0c21b519548db6"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_native_sources.py",
+      "sha256": "66a1dff5a15c7bfc803aa37d47a38951f8f3d4ec5723e6f0d0bcc987a462230b"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_opportunities.py",
+      "sha256": "03929a9ea6483881c22ceea31dcf153ffeaeb851452021c96bca205eeab95e68"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_ownership.py",
+      "sha256": "ce748b84f5f4ab6996b17698b38344d173327961b11a6bb7a8171b375d3a74bc"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_resource_manifest.py",
+      "sha256": "51046f1bca23418be7c0a8298bc801888e1d29275032c38d534078e3feea6fb1"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_rule_assets.py",
+      "sha256": "6f4be9f417eed1be7b97f55089d6928336f970505ce6f901819644d02ae5a33b"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_rule_context.py",
+      "sha256": "16f1162fd9b755d14bc0f6f3958e5372885dc1ac533d4dfc9724051194331ba6"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_session_payload.py",
+      "sha256": "fdbdcdf8750fb322b60c8ad84a61f1595de7b3dc5f0e135aa4dd0a3eaf7e189f"
+    },
+    {
+      "path": "ai_coach/tests/test_economy_transaction_trace.py",
+      "sha256": "4c5599edcc8f481b5a2459d4e7dfa18650dc907054d3948d74b16ab93ce6c491"
+    },
+    {
+      "path": "ai_coach/tests/test_exit_route_package.py",
+      "sha256": "b4c2b769ef566f389c0450e0b2ef71421a34bf78b27e2243a18404445c77b7bd"
+    },
+    {
+      "path": "ai_coach/tests/test_exposure_angle_full_demo_validation.py",
+      "sha256": "b279035de8848885c01569d4bc082325f95db8ff8f1daaf0f57718b63db43880"
+    },
+    {
+      "path": "ai_coach/tests/test_exposure_packages.py",
+      "sha256": "92e2c49006c59b112426eb48f29b7bc4751296a2d17b2529c82103b5188449f9"
+    },
+    {
+      "path": "ai_coach/tests/test_full_demo_validation.py",
+      "sha256": "d7a40ba3a3465de79a1de69037be1a1994e1f0849dbe5879ad5ba6d71daff15c"
+    },
+    {
+      "path": "ai_coach/tests/test_last_known_position_full_demo_validation.py",
+      "sha256": "204e910b1d6e2a727e9b9f49aab224c1969fa1d20f56b7f7b545b9009dbf6706"
+    },
+    {
+      "path": "ai_coach/tests/test_navigation_smoke_validation.py",
+      "sha256": "fedbcdceb125b73e55091cf2ae27f817d52cd080e94443bb0e2858b495573df2"
+    },
+    {
+      "path": "ai_coach/tests/test_spatial_candidate.py",
+      "sha256": "c90d0185da6656deb82875c96306c6f0f6d9869f44a0f4333fbd70eacc6eabbf"
+    },
+    {
+      "path": "ai_coach/tests/test_spatial_context_review.py",
+      "sha256": "79ebd59252183ab7790831ea3658347821155f36b9c5d2f55a10015aacf51b4a"
+    },
+    {
+      "path": "ai_coach/tests/test_spatial_review_forms.py",
+      "sha256": "7bccb668c347c3cf044369e732db66672bd302c500568dee4491c8c51c004421"
+    },
+    {
+      "path": "ai_coach/tests/test_spatial_review_pilot.py",
+      "sha256": "d60ef58cbcdefda6c81edcc726e37a169976df962d09c45eefd8162205619ec9"
+    },
+    {
+      "path": "ai_coach/tests/test_spatial_review_protocol.py",
+      "sha256": "438f678d97c39111f080a494a62f21cc6ef058c6ff0d434ae3cb3b8f5d5f0242"
+    },
+    {
+      "path": "ai_coach/tests/test_support_anchors.py",
+      "sha256": "edb1dabdfa51512d00952fe4c22bddbf09b256c438950d9a96e684c9f1188572"
+    },
+    {
+      "path": "ai_coach/tests/test_support_attempt_origin.py",
+      "sha256": "e583cc0b9f220d40efcf10429591d9d5164ffc45669f47e19207955756971c26"
+    },
+    {
+      "path": "ai_coach/tests/test_support_c4.py",
+      "sha256": "2dd6a94fb89801011ccfa235a11b25f0196a29d122edd862b3f30a5698086bbd"
+    },
+    {
+      "path": "ai_coach/tests/test_support_native_motion.py",
+      "sha256": "cda4a6e6e2420ba4dd36333526012bdc235c51a86c07d21c8ae575a9cfefc0c7"
+    },
+    {
+      "path": "ai_coach/tests/test_support_navigation.py",
+      "sha256": "8368285dc4d5bf08255a4e707789ab7eb65fc1fffc0037860083cd48ed09b96f"
+    },
+    {
+      "path": "ai_coach/tests/test_support_objective.py",
+      "sha256": "d493636f52c5d00816216f0a55eb094112545f6b4be5f5921ddde9316177eaaf"
+    },
+    {
+      "path": "ai_coach/tests/test_support_objective_clock.py",
+      "sha256": "1a6ee2b0b893ae4d7be26d201936978672ab04a7fe9de1f26114c39cdb33856b"
+    },
+    {
+      "path": "ai_coach/tests/test_support_objective_position.py",
+      "sha256": "5f972d0a523618989c77f0a2eeeaaa272828e8ef17c086fcc762b5ea1d007f19"
+    },
+    {
+      "path": "ai_coach/tests/test_support_physical.py",
+      "sha256": "91cfa9450743696496c87cec86b9df3f6742709a03f76cd55736593a86812048"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation.py",
+      "sha256": "126c4200afabb0b28111f1e7ba28c1b5c1ae75189626fc55b3b0c7ac799c5a08"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_attempt_origin.py",
+      "sha256": "23abcc8a859f290a47ecce7e955d84a0dc3dd72028fba338d3a33b731d2ebc95"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_c4.py",
+      "sha256": "c56b324019886d75c24ba881647728b519ba96ce605d2b47acbeab301e69b837"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_native_motion.py",
+      "sha256": "f526563c2338ce04c2b8b308d3d8d60c5f95fd3de5970339b7d1a972c12e04b4"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_objective.py",
+      "sha256": "305c4bda46649b9fe348d26f69d01400501199a34368fcc0aa1521456b7dec6d"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_objective_clock.py",
+      "sha256": "62a9ed7233b49594bdb06d6e16e54ac2b5874319c34100af7ac41dc00f008f4c"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_objective_position.py",
+      "sha256": "51b48102f5a1f8ac3a9e2085ef84a59d3c6c32463f073d3455cbc902a98ad897"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_physical.py",
+      "sha256": "ec27dd90679bd7f163f84d14422013db7b945b5cef3046caab0856a0e4d536e4"
+    },
+    {
+      "path": "ai_coach/tests/test_support_preparation_weapon_timing.py",
+      "sha256": "8eac6ac4805913324c3da2c5f30db62886e1b6e1938a855d429df27917784096"
+    },
+    {
+      "path": "ai_coach/tests/test_support_visual_contact.py",
+      "sha256": "b10d8778fbeeb353bf817c0ac90b875e280615e651ce6bc6c5c97e1baa038935"
+    },
+    {
+      "path": "ai_coach/tests/test_support_weapon_timing.py",
+      "sha256": "a73aa0c827bf5259361fe6deab3e45632ef9cc80b8de83f42a0f128e45f63841"
+    },
+    {
+      "path": "ai_coach/tests/test_utility_initial_velocity_full_demo_validation.py",
+      "sha256": "9ee42b0659a3ae4701c3f0fe5a6a7f201903dffa3b9b7d83a8f453581181b87b"
+    },
+    {
+      "path": "ai_coach/tests/test_visual_contact_smoke_validation.py",
+      "sha256": "49b05d000fd4a1df575c1861eb3b4e42d21c358765109429dcacaa219d51f61c"
+    },
+    {
+      "path": "ai_coach/tests/test_weapon_state_contract.py",
+      "sha256": "44419bf7577f6efc422cb603a49387fca5e80b2e3df3cc2c922c548391aba967"
+    },
+    {
+      "path": "ai_coach/tests/test_weapon_state_full_demo_validation.py",
+      "sha256": "cdb756b5a76178cbe62126c299377627598c7c89e528557255ae5e1e52001407"
+    },
+    {
+      "path": "backend/go-service/analyzers/mechanics.go",
+      "sha256": "e5f88647af3bd5106b3918a588a524207157946eeae806535fe04636abab834d"
+    },
+    {
+      "path": "backend/go-service/analyzers/mechanics_test.go",
+      "sha256": "343853b6436f2b2b0cb3ca9ef677957d486dd1c6cf05509bda85442717da410d"
+    },
+    {
+      "path": "backend/go-service/analyzers/reaction.go",
+      "sha256": "c82d202cd8d2b2a5bb1d2e259b4b8fcc4db4d0817ec3ef6e65cfefebb6378419"
+    },
+    {
+      "path": "backend/go-service/analyzers/reaction_combat.go",
+      "sha256": "0d043f129d3e66810218aaa86f2b41ab10110944643c282f318746eb30e2f745"
+    },
+    {
+      "path": "backend/go-service/analyzers/reaction_combat_test.go",
+      "sha256": "22aa0219b56f492fa2a524c536e2d4cec61b660730729e32b7787f2ed7562204"
+    },
+    {
+      "path": "backend/go-service/analyzers/reaction_test.go",
+      "sha256": "41e990bdbdc3446b1e58be4966280337fc5e18a1e715c6903ae238dce40007bc"
+    },
+    {
+      "path": "backend/go-service/analyzers/spray.go",
+      "sha256": "00fb97ab5f50056a2c4ed3b898769b24b6a69d31397b4d1942181825578627fa"
+    },
+    {
+      "path": "backend/go-service/analyzers/spray_test.go",
+      "sha256": "af4bd9aff5795d9ea44aefd6d7e9480fa5bf202140972dac1939798701ad04d2"
+    },
+    {
+      "path": "backend/go-service/analyzers/visibility_fov.go",
+      "sha256": "c7ae6b542d56e1b079fa04858a103ab8d6fa6116c02467d5591c31a2969e25b7"
+    },
+    {
+      "path": "backend/go-service/analyzers/visibility_refinement.go",
+      "sha256": "3f3ef7bcb221a5ce7cdd16fa9259fdfa361f53d094d2bb0266850011c75243bb"
+    },
+    {
+      "path": "backend/go-service/api/handlers.go",
+      "sha256": "b9026e885f1916fb06436ff89ac50b441dd7e3d2eda666af921a64aed78b1b34"
+    },
+    {
+      "path": "backend/go-service/api/handlers_test.go",
+      "sha256": "a51d965184f7fc5ffd2116c36c94ee20d7fac5e558e5c69bd6b400430575b010"
+    },
+    {
+      "path": "backend/go-service/api/metrics.go",
+      "sha256": "df52ed1792325a72d6c88ae0485fceab7039843baf26d0695ba48f630b4dc33c"
+    },
+    {
+      "path": "backend/go-service/api/publication.go",
+      "sha256": "4891157a0fd260058980f058bda25beaabf2453ad569c88ea9a3bdac800a4928"
+    },
+    {
+      "path": "backend/go-service/api/publication_test.go",
+      "sha256": "587d56b34c3c59329cff7a33f3aa302c2493894da1c3d59558130499a38c8cf5"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_candidate.go",
+      "sha256": "f9be05f4fad2f31de3a644b25de1717d36e1d06ea3297021eb74a5565b6bb432"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_candidate_test.go",
+      "sha256": "d9d02a3e475d891965f224a935341ce18d864b024dafa87b991ababb0178bc1a"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_cashflow.go",
+      "sha256": "e97c03aca6002eb2607e420b93fe819477bed681f7d9c4f91ea3957e2da85715"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_cashflow_test.go",
+      "sha256": "5e8a15c330a86e21d2fe6079326a424fafc50559bbf566c92c424910c6ec17ab"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_entries.go",
+      "sha256": "6961d540d445a057ba98928f899ea20ec8597b8521ec0e6c008227dd9a109f53"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_entries_test.go",
+      "sha256": "0010638ec4eae759ce8a457e02601cf64d2bb422fcabbcee0753d1b597887c93"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_identity.go",
+      "sha256": "dc38953a61bcc27fbd36b2537dfae8e6d6158b9a090e560b22dce5b3928feaf1"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_identity_test.go",
+      "sha256": "2363071117f9d69685927f87d3f7a1baee0023325dd8d311b946bed2492662a1"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_manifest.go",
+      "sha256": "9475d765ce5bb6c345bde9c1d56b6cde248fc965a32528810b8513332c4498b0"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_manifest_test.go",
+      "sha256": "7a236b28f8a9cd2824dcc88dd934f16afbda10607250e8277450c1616ced3789"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_ownership.go",
+      "sha256": "457181b71b30b8f0e0bd792e1a9c7b0f60ff6e7077127b27828663e27c8d5ffa"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_ownership_test.go",
+      "sha256": "961e40b2cc62babe51578fd5fe39627e4c8525c36a098f6a8b7b6be6c6fc6b6d"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_rule_context.go",
+      "sha256": "515eb35c64b536346ad43effb37a151676cc2b1d47661fb18f1d1806336178c1"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_rule_context_test.go",
+      "sha256": "b73b5fff07f4e548730c10b242d69b7b30a99abdcb3e6a781c2f26459f452238"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_session_payload.go",
+      "sha256": "f1f1d4e509a4e30c313ca931f3fb3cf029d81882dc89e6efe45ab5ad82fa8175"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_session_payload_test.go",
+      "sha256": "4f173387c05980e765a9eab01d4f5f6cdf5fdf313a129541d98fb81acd0bdbcf"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_sources.go",
+      "sha256": "f2b19531e7bc8a3b7fa31800f52d5fc47ad69d290b5bc53c091afd12809f456d"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_sources_test.go",
+      "sha256": "2fc36e0f13da3579909e6e32c02169d6bd1db9703c4d270f143b1b240a43baa6"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_trace.go",
+      "sha256": "aeeb21cfeb9f6de5db434a0719cb79cbd3a6daed094596f8559d0ea7ca4d972d"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/economy_trace_test.go",
+      "sha256": "e6a5a2c88537c712276153c0382ded2d40d4b849e68cabe9e4e86d3e7374ce45"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/main.go",
+      "sha256": "d81c18d3240a21b229aa693061cc825d21d5332a5d6cd9c56f47b1f3048daa06"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/main_test.go",
+      "sha256": "bea7b4e761f33734595fd96a5702e2ff755bcff14696e46f2b42b80c9f76846a"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/path_reparse_other.go",
+      "sha256": "cc0e760209b5d21d58fba78eb41d626fdfe0b30ad1eb4a52b93b1a11c7183776"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/path_reparse_windows.go",
+      "sha256": "e89a9a103ce68787a8bcb99e4f2f2e37b543ad6eac0a9fb2edae649a52e4e0b7"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/spatial_candidate_test.go",
+      "sha256": "2e8dc2b6486e65e8da19e5a4c1bf9be6bc1c9882ccbcd917c839827ee21b40e5"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_attempt_origin.go",
+      "sha256": "a49a97669e78d469953595c31a827e5df5eb1533a7d455b680c3563832e0ee8f"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_attempt_origin_test.go",
+      "sha256": "10c78eaa210d779a63d6db8596cf24b9a424ab98120961370e179181e21cf838"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_c4.go",
+      "sha256": "3555d6f04b1f94aff33afb37612f990d93d5f68e7297e0ef367dd2e68b3e02f3"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_c4_test.go",
+      "sha256": "8c1b85a74b28ebec32d0768c642743e62d13d11e41e3f10aa574f5a23e7bdfa1"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_native_motion.go",
+      "sha256": "5c0f3392d913d0e1ba6dcd4d53a85b90c550943665a23e4700644c9b880d1ef7"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_native_motion_test.go",
+      "sha256": "a41870ae7010770518a5fa7e9544846923a7c4e55a08f782141683cbe9307daa"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_objective.go",
+      "sha256": "2270a871a8b1fa99572ebca8bb3996c2f3e9395ab2ab2991f4e26680f9265ff3"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_objective_clock.go",
+      "sha256": "172fd0ab1ff5030fc02d23cd3c4633b0b232facb531c2fa0b75784138d2d0160"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_objective_clock_test.go",
+      "sha256": "def3fa9189ae72718ee7af4d993847b6cfb7a060bb07926b69478c6d6dfba405"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_objective_position.go",
+      "sha256": "2b48ab5c487fbc2aa45139e47a6929d321aace16f82e993f59e98306abd44207"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_objective_position_test.go",
+      "sha256": "b5fa972fb4fc4583dc8702b3cfe5c8bf4fb08ce0d628b358033e157c6d75d057"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_objective_test.go",
+      "sha256": "930120fc3ec84352baf37e512978e549a7ee8ab71c1613f8e72ab500f0afc38f"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_observations.go",
+      "sha256": "d8f8da2bfbd6e48274f787cc748d901570e18f972adbd3d61ef2130a276ef285"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_observations_test.go",
+      "sha256": "1263b0438e0ff233e4e1f681acf20d68f50025c5f74f9e176cbebf46dc2c37d4"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_physical.go",
+      "sha256": "14d09988dfdad5d99f992a8468cf4d30f7c16c1c1fa3624b9fa8c6739bfc8038"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_physical_test.go",
+      "sha256": "f4ab7a368a44e6d4f345812b9883b6fe96d5925e81266f874f07764439aa959e"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_visual_contact.go",
+      "sha256": "770317d7f862f102b0f138e5bab86b310b48afdb84adbbc3ff6afbb120590811"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_visual_contact_test.go",
+      "sha256": "a5b5266f8b8ff3ef097bafdf7f4049d61bec12855c2b64371ed3b4003130844c"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_weapon_timing.go",
+      "sha256": "3a8f9045b7d15ac40f04fe1af8ebfcddc0c7822adeecf919b6ab4c5710be0125"
+    },
+    {
+      "path": "backend/go-service/cmd/canonical-export/support_weapon_timing_test.go",
+      "sha256": "2058b4f7b036c0e841dd0268c8924cf247e796d4b0bd2b8f3eb70374da0dc4d3"
+    },
+    {
+      "path": "backend/go-service/cmd/cover-package-generator/main.go",
+      "sha256": "87e6c47ab349a86a9b89f458a891c0f2e18dbda416d15b0c05b643cd902e6bd3"
+    },
+    {
+      "path": "backend/go-service/cmd/exit-route-package-generator/main.go",
+      "sha256": "c65eefce0cd50fb17852ee162bda4ceabc9ce770b31bee592d32942b46e8b7f2"
+    },
+    {
+      "path": "backend/go-service/cmd/exposure-package-generator/main.go",
+      "sha256": "087414163bdbdbfae69c335503a793a92845ded7cc019acb0e31a8b945452fb9"
+    },
+    {
+      "path": "backend/go-service/cmd/offline-demo-service/main.go",
+      "sha256": "e3b6b002039a57e254673fdb27ac60986ed58f223f3cdb50f080cfd15d55db55"
+    },
+    {
+      "path": "backend/go-service/cmd/offline-demo-service/service.go",
+      "sha256": "2de19f4ee8bb1642cac7d136aa6b43dc1131ddb71ce1491c45a1170b45165846"
+    },
+    {
+      "path": "backend/go-service/cmd/offline-demo-service/service_test.go",
+      "sha256": "8666326edd9f961ab3130b43d2d32aee204d0ea89bcce4bfe21e05a55e1ca59e"
+    },
+    {
+      "path": "backend/go-service/cmd/spatial-review-paths/main.go",
+      "sha256": "4f66d9fbfe5ff1df1fcf81e4d3e0d2ccbc6c3b713cc8755311fdc0b275c918d6"
+    },
+    {
+      "path": "backend/go-service/cmd/support-navigation/main.go",
+      "sha256": "7775cf8a461c5077a0561c36d76d391edeee1e4cd38c1c6fce4d960c99c949ba"
+    },
+    {
+      "path": "backend/go-service/cmd/support-navigation/main_test.go",
+      "sha256": "94fb98e1a4f0653ffc07a7ecec0d7648521724e73590f63bb43cd8694b81cd7d"
+    },
+    {
+      "path": "backend/go-service/cmd/support-visual-check/main.go",
+      "sha256": "c7c72237be1fcb708183d681ca5b5ae9b17d4647fc4c2fc7573d0ef2da0aa919"
+    },
+    {
+      "path": "backend/go-service/cmd/support-visual-check/main_test.go",
+      "sha256": "ecde27ed0492358fff0f819e31672606fe6facd1c2595aa0bb1aac7a5d99761d"
+    },
+    {
+      "path": "backend/go-service/db/redis.go",
+      "sha256": "8a28b20e8fef2823e5119c64a912c065d474da23d6cad6f915883e2f2a82fd3c"
+    },
+    {
+      "path": "backend/go-service/go.mod",
+      "sha256": "dcb385c3d5cb52ff8ac67259205c54c3f72fa37a997447cf150e993f405d3dd3"
+    },
+    {
+      "path": "backend/go-service/go.sum",
+      "sha256": "eb47ea4c2ae7521f6bbac94d003b119654bfe00af115a021617ed4eca18527c7"
+    },
+    {
+      "path": "backend/go-service/handlers/active_weapon_history_test.go",
+      "sha256": "7ccbe6e1d9f09b6f9086bc1d015e7b51087e8c20da8e3b059f2937762e8530da"
+    },
+    {
+      "path": "backend/go-service/handlers/bomb.go",
+      "sha256": "f513684a738ee5fce4e95d0392f5c2f54bf0233f4e1799d8f938d343db43e14f"
+    },
+    {
+      "path": "backend/go-service/handlers/bomb_test.go",
+      "sha256": "05616ec211183a2e872971fd26fe1c158be6f8397dacd743504c5e6ed8fa258d"
+    },
+    {
+      "path": "backend/go-service/handlers/bullet_damage.go",
+      "sha256": "9b67d5ddc9bcf3c78445e8629c771fa183cebe9c53c0228f2a8faf372e4b7c5b"
+    },
+    {
+      "path": "backend/go-service/handlers/bullet_damage_test.go",
+      "sha256": "6365f784ae20094ad218a283e841842a77418b30593dcbb0cd77a14ca6145ce6"
+    },
+    {
+      "path": "backend/go-service/handlers/chat.go",
+      "sha256": "e51f17921abbf282ff3ce6e9de68ad2873358b31d9a9de1e10be66a57d3a4294"
+    },
+    {
+      "path": "backend/go-service/handlers/combat.go",
+      "sha256": "37c54a4a77b6b8172dc7ccdcba013136b83f4e90acb3dccbbc55c6e91bc768c4"
+    },
+    {
+      "path": "backend/go-service/handlers/combat_duels.go",
+      "sha256": "b2b5dd15172dda4bd829b7458a53ee09277162e66822ad45ff529f0cab737904"
+    },
+    {
+      "path": "backend/go-service/handlers/combat_helpers.go",
+      "sha256": "b81725118cde991765466c042aee78728c936557b32b7a6c076ef9dfcc3f3ca9"
+    },
+    {
+      "path": "backend/go-service/handlers/combat_ledger.go",
+      "sha256": "7e8ddf0326fb5cde94eeddaf97bfb4aaf073418fd111f709497993b6de083544"
+    },
+    {
+      "path": "backend/go-service/handlers/combat_ledger_test.go",
+      "sha256": "e4d8326aeca766e9a8376ff9d435fa668c96c51b4948baf29158d7b04655567e"
+    },
+    {
+      "path": "backend/go-service/handlers/data_precision_test.go",
+      "sha256": "898e3a3818a1cee7d3066eea501f0dfbd139db32152f45c5d8d92c6f506aebca"
+    },
+    {
+      "path": "backend/go-service/handlers/economy.go",
+      "sha256": "9088faa1396a50231492f66345d190d50038c355742d2707f79746076068c3f5"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_cashflow.go",
+      "sha256": "56415cd459d95b60bea9d8398c98b7b84e6688a346f44c967fff6e61ea0cc069"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_cashflow_test.go",
+      "sha256": "17335ced64fda2baa4474d648fe8c1bb6a4914f560de87727f1eee4699822185"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_entries.go",
+      "sha256": "153c54a0c702582a583e275acd9c44629f8659d5ceb25150532f33e0556fc90b"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_entries_test.go",
+      "sha256": "3573da3e257de3acef00aaaac92ea69d08eb97e9b1ce73b196a5696d48bf84f6"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_identity.go",
+      "sha256": "c9cce8ba21894dab2e019b95f4d76ee4bb8369fd5f89c23ec8e24a5838ffe025"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_identity_test.go",
+      "sha256": "a2d0fe967c297e78f1b0d06d2967e7ac7d47e61d4a71eebe990180ae7a61ef1a"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_manifest.go",
+      "sha256": "6f28096bda2b7a068f8ace484abbccf9bb7e669121699733c868775a5907cdaa"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_manifest_test.go",
+      "sha256": "ad433805a56e71e00b18b6e637804c7a405dfd8605a5326fe1aa7346ae9aba2c"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_observation.go",
+      "sha256": "9e1c4954f0d6dfbd9a250d35f70b4ca4d2fb2c0ab7a0a431d7254ac8a049f5fd"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_observation_test.go",
+      "sha256": "8e970ca52ac1dea0f08e7086d7a02c1fe0e2a3c8ebdd8d9f84a218fad76492ca"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_ownership.go",
+      "sha256": "728e18d23a075f5686e9c1702be71ebd28ee0132b6865c8d7bc702e77bfbf310"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_ownership_test.go",
+      "sha256": "013d5f91f7c69aa1c81237512d30d69b529881833bb176d24789e362558f6580"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_rule_context.go",
+      "sha256": "2016f6beb9bd23bb58a87337a8e5187a56caebe3317f25b89d02caf3af3fe9b9"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_rule_context_test.go",
+      "sha256": "3d63c68f657e6bc952e0b087c16f17127d01e05ffa077735c65e1cb720a7b78e"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_session_payload.go",
+      "sha256": "6520f5820e72ebd3798d0df22c9d57306dd0cae1861d11ff5ad285bca057a795"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_session_payload_test.go",
+      "sha256": "189cbf6da3c0c17fffbe951da0a02d6dfdbc28c997571a647bc8c316b506248a"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_sources.go",
+      "sha256": "b175fa020eed4a463e821f548cbf9594a721f9869ff60af353a9cecbd6a4f637"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_sources_test.go",
+      "sha256": "9b70ab875a0c536e3556e1cd0ab384cd960524323576fed9a745f94a3e1abf11"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_test.go",
+      "sha256": "33d40197ffc1ddd00d482e1f57c0bddacff4fb020c37c71a0fabbf9d322e80e1"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_trace.go",
+      "sha256": "9ae53ee97721b8da2e6c2e9931f6692f0fe908ce0a2844a8750e8e0d448f1bc1"
+    },
+    {
+      "path": "backend/go-service/handlers/economy_trace_test.go",
+      "sha256": "d18b8381d495010072d51ee05e582460f0b0ca8bf554429256028002597fe2c6"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_impacts.go",
+      "sha256": "2bc2fb908ce0f60e471c6c94ef4d93e96e3e8dad84477f69cb3cf3e1be0497d5"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_lifecycle.go",
+      "sha256": "9123223333bf8038c4f3d217f2186681516e178fc0e143ee61cd7b7a4f4e1c1a"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_observations.go",
+      "sha256": "a73f45f2af5a8aa78a5986056fc29f962d0d240798df3687f904e336eaada98f"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_observations_test.go",
+      "sha256": "8b3b0f50bec663b05171713dd1a84648a9e2fffc97a7390c3e5d5901d2cb2e84"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_projection.go",
+      "sha256": "1f4dcff13a4982b5acb044fd17e91b972715c5e12def5cb39d80fc22774f1569"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_projection_test.go",
+      "sha256": "f01dc886f10704df994837b88e0cec53951cd64880b2279fec06fc09a6dea315"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_throw.go",
+      "sha256": "1f7a8bc2e9b5c623bcd2af706b5952cb059d95e231037270c650b9688c4af2dd"
+    },
+    {
+      "path": "backend/go-service/handlers/grenade_throw_initial_velocity_test.go",
+      "sha256": "4c5ab2bcbb1ef47f527bf4e84872ab9a3a3e4d2020275e2eb7dfe07ffad1eb01"
+    },
+    {
+      "path": "backend/go-service/handlers/grenades.go",
+      "sha256": "0f9ca7d21892defb6aaca75d6f53dde051294479ce129eb5578557a9392fdc6f"
+    },
+    {
+      "path": "backend/go-service/handlers/grenades_boundary_test.go",
+      "sha256": "932506a576c206fec06712e97464be567bf44f90efef7af021f136cf8f7edc76"
+    },
+    {
+      "path": "backend/go-service/handlers/objective_clock_test.go",
+      "sha256": "a240bbdf71b22309aa97379ea31865d4bd19b72815cc61d990fee830727e4b34"
+    },
+    {
+      "path": "backend/go-service/handlers/objective_helpers.go",
+      "sha256": "2d44e04a7bc3aa1eb98c4ad7ecf8d309fbde1315a694cc0dd5805050d096829e"
+    },
+    {
+      "path": "backend/go-service/handlers/objective_helpers_test.go",
+      "sha256": "6589f9408f77e3b2bffe6c2a7442643f81c1b1adfaf62000cfba6f6b11900ec8"
+    },
+    {
+      "path": "backend/go-service/handlers/player.go",
+      "sha256": "9d3af341882283cda1d304c60aa66f02800c2a6ba0c3c4c04131b3de83cf7fc1"
+    },
+    {
+      "path": "backend/go-service/handlers/player_observation.go",
+      "sha256": "4c1e6a90009e4c6d5ff142147468eff746e1e304284c910ad687a69a3c948346"
+    },
+    {
+      "path": "backend/go-service/handlers/player_observation_test.go",
+      "sha256": "14dc7468671c74cbe351940037d4d2049a6257d3d09856ce266a05813c7b2356"
+    },
+    {
+      "path": "backend/go-service/handlers/player_stats_handler.go",
+      "sha256": "487381ab55b5b8f97da5d329f180857124c8e23a6342bc87eb41cbd41512b072"
+    },
+    {
+      "path": "backend/go-service/handlers/player_stats_handler_test.go",
+      "sha256": "45cf1c4ecdd991517e2f8bb467a1fbbb20f504579de01b95aeb6d268007df9f9"
+    },
+    {
+      "path": "backend/go-service/handlers/replay.go",
+      "sha256": "56d239a8a420cda2b0ed4e411fbe47e47bcd56434e250a1eeb79c640ba74e644"
+    },
+    {
+      "path": "backend/go-service/handlers/replay_combat_projection.go",
+      "sha256": "9aa7aa76f316775276a9333932fcee84910fdf32d4adf423bc1dc90d4d6454d3"
+    },
+    {
+      "path": "backend/go-service/handlers/replay_reload_state.go",
+      "sha256": "9cddc2c298f7627d69d0b2eee7f3801356c5967467b8024221e58392411edc03"
+    },
+    {
+      "path": "backend/go-service/handlers/replay_reload_state_test.go",
+      "sha256": "5028f23a9547ed19a15dcdf26a3c91f0a45de04e75967c11b9a001996a6ce841"
+    },
+    {
+      "path": "backend/go-service/handlers/replay_test.go",
+      "sha256": "5bc14f4a9cb5e793f80b6b09a73d42e54b5ba5e8df0ee6cb48f24b210b709940"
+    },
+    {
+      "path": "backend/go-service/handlers/round.go",
+      "sha256": "2ab22167762d08fd649dd70e03c8e26ab99aba14bce32d9adea3a7b21a888a14"
+    },
+    {
+      "path": "backend/go-service/handlers/round_test.go",
+      "sha256": "9aab49e27345306b9549fc24037ccc81dff01e476ffbe6f0b9a101975fd178b5"
+    },
+    {
+      "path": "backend/go-service/handlers/support_attempt_origin.go",
+      "sha256": "395c2da8955c0bcd3f403058513a589f096981b6611f50cc630edf0649bd3112"
+    },
+    {
+      "path": "backend/go-service/handlers/support_attempt_origin_test.go",
+      "sha256": "d0a5f987d6c12b98e43e9a917d4d411bab53eff4d211f09b3bafb9966fa86e02"
+    },
+    {
+      "path": "backend/go-service/handlers/support_c4.go",
+      "sha256": "0c54ebaa55c31a8402c97a1d3c29692a96de5c0fea1771284f4a472b889cb0fa"
+    },
+    {
+      "path": "backend/go-service/handlers/support_c4_test.go",
+      "sha256": "0c076b9a3ef389de98140ce5babb6584d5ce03df645550930e6d3e957cb9cfe7"
+    },
+    {
+      "path": "backend/go-service/handlers/support_native_motion.go",
+      "sha256": "2c3134ecc7a4a960cd476f162afd6262ef2038ca07975f6b8f75ee415cb1d242"
+    },
+    {
+      "path": "backend/go-service/handlers/support_native_motion_test.go",
+      "sha256": "aa88a309b23103e7a067f549147a11029a9a41d4ef5b937ea4dfd345e11d50ae"
+    },
+    {
+      "path": "backend/go-service/handlers/support_objective.go",
+      "sha256": "3edd2331b57365562667e4b6f9f117ee5e09d537da6732f8f72d25bfaaa701b5"
+    },
+    {
+      "path": "backend/go-service/handlers/support_objective_clock.go",
+      "sha256": "5783fed011c7f16108497a2360fe067ec0559e89221465554086d87453bd0379"
+    },
+    {
+      "path": "backend/go-service/handlers/support_objective_clock_test.go",
+      "sha256": "2b23805fa810c4c17ef8ee84127f7f672cc557ddf88d248ed876947eae830198"
+    },
+    {
+      "path": "backend/go-service/handlers/support_objective_position.go",
+      "sha256": "ef9cecc60204c5c02a3964c4e5718e5e751bbe484c4e0fd6fcc2e871515bcaf8"
+    },
+    {
+      "path": "backend/go-service/handlers/support_objective_position_test.go",
+      "sha256": "45135f85b9cc55829b2699811907ef97923796d3aeaac8fe5b78921d01ab5ee4"
+    },
+    {
+      "path": "backend/go-service/handlers/support_objective_test.go",
+      "sha256": "321aff7c508d8477414cab5be7dd01c6cc5feba789a6e2c4bd11802eb3fce866"
+    },
+    {
+      "path": "backend/go-service/handlers/support_observations.go",
+      "sha256": "5f91e9da87e5d0b6dc22cafa6f3aa02470fc046d788a9e82b68fc5155efc7efa"
+    },
+    {
+      "path": "backend/go-service/handlers/support_observations_test.go",
+      "sha256": "8c0f1c78ee3f545fcc4262e4b15aa2782a5aff089da2318a6169d9ea1c9ce885"
+    },
+    {
+      "path": "backend/go-service/handlers/support_physical.go",
+      "sha256": "7accde64c3316ba0199e865faf391d749db3e38a866ae30828a5cf16ba7d2189"
+    },
+    {
+      "path": "backend/go-service/handlers/support_physical_test.go",
+      "sha256": "5cca5cd9fe397e6ebfade5c1df2ad12d51c84479eaa404b0e1cf0d01d8c055b8"
+    },
+    {
+      "path": "backend/go-service/handlers/support_visual_contact.go",
+      "sha256": "d10b962b161b856567fc968a0deeeb228600c5e52d6725ee464bb4c22f8d2a4c"
+    },
+    {
+      "path": "backend/go-service/handlers/support_visual_contact_test.go",
+      "sha256": "baf856bbcdd1cefa5e246a2c42108e4034a6901ef641f6ad0effdbd95997a05a"
+    },
+    {
+      "path": "backend/go-service/handlers/support_weapon_timing.go",
+      "sha256": "e711c49e5079d0926023b1a0973d34d875e8ff6be366ea3e4494f03d49d7a321"
+    },
+    {
+      "path": "backend/go-service/handlers/support_weapon_timing_test.go",
+      "sha256": "fe521bd671ecca0acc5f0d0f3c2e33b07068c5f13457fb15f1aade577b55654d"
+    },
+    {
+      "path": "backend/go-service/handlers/timeline.go",
+      "sha256": "ff1fed8b789bf6a8fb27a5902c140af122ad433ac4a178f39e63efa6bcbc8875"
+    },
+    {
+      "path": "backend/go-service/handlers/timeline_test.go",
+      "sha256": "03fcf66d5bc9e1638268b358ec4478f7a07249142be46a7d1cdb2f65397e70d5"
+    },
+    {
+      "path": "backend/go-service/handlers/tracking.go",
+      "sha256": "46456239d531ac17d20333b360b1df08561f78a450eb27d37692a6c9c467465b"
+    },
+    {
+      "path": "backend/go-service/handlers/tracking_test.go",
+      "sha256": "1269ec7c383720a98f8a8e7b9150953b864527d1c1a80679a1c5edd332a04e97"
+    },
+    {
+      "path": "backend/go-service/handlers/velocity_observation_test.go",
+      "sha256": "10f38f5d2a91487d1f4558dafd6aa4937a658bb62ffbbb8645a9b73ba4b9ad0a"
+    },
+    {
+      "path": "backend/go-service/handlers/weapon_state_observation.go",
+      "sha256": "13ce75b5049585e4b084351e709e2fa9959928386cbdf8f19bc4f45ca32721c5"
+    },
+    {
+      "path": "backend/go-service/handlers/weapon_state_observation_test.go",
+      "sha256": "8664d0b3bfa11e9a5a1bc710c5b53b8f56b19097aaa230421e0c5683a1c5e9f2"
+    },
+    {
+      "path": "backend/go-service/main.go",
+      "sha256": "13763d6f6b10b0ec81de6fd7a1437e7022c7669d96c46ae173f41ebf405621b1"
+    },
+    {
+      "path": "backend/go-service/middleware/middleware.go",
+      "sha256": "4a8038ace09699f7c14ee54b00aef48f71e5b9942a9c4f2b326b87e0625e9507"
+    },
+    {
+      "path": "backend/go-service/middleware/middleware_test.go",
+      "sha256": "6fb3ac6b2e72391294ef01de8ab7a537f29dc1f736f624fdebb440faf6b6f898"
+    },
+    {
+      "path": "backend/go-service/models/ai_models.go",
+      "sha256": "b1b1c676da769d7bec5238ad4c69cada68dbafe14e3ddaaad8941035af4f0b2e"
+    },
+    {
+      "path": "backend/go-service/models/block6_models.go",
+      "sha256": "7f43295a5b6600f574231d61d08016ceb5c64ccc7b673e38184d10accb8466fc"
+    },
+    {
+      "path": "backend/go-service/models/block7_models.go",
+      "sha256": "26bc1b5634f3705f84d44cbadab8e35479bcc16788e4e3dadfae6bdf98256363"
+    },
+    {
+      "path": "backend/go-service/models/canonical_models.go",
+      "sha256": "a807c56c18de174c5beef879f80dcbac07b1fe284c608f60b673adf3dc80d4ab"
+    },
+    {
+      "path": "backend/go-service/models/context.go",
+      "sha256": "d6b12c6699430b566e13dd4ada915887f9c006eb051c7ca0839bba5f3226a0f3"
+    },
+    {
+      "path": "backend/go-service/models/economy_cashflow.go",
+      "sha256": "b64e971d48d579aaf94b488146cfb6bb5f42b4735191051e8702ee1be68b7fdc"
+    },
+    {
+      "path": "backend/go-service/models/economy_entries.go",
+      "sha256": "cc402a365713f3004784bc603142cb0bbeecfff2b935e833af0982773e91e7e3"
+    },
+    {
+      "path": "backend/go-service/models/economy_identity.go",
+      "sha256": "4df6468679d32d538b6cdcab0d5150e39d7dd07e78db42af2330a7b440eebdb7"
+    },
+    {
+      "path": "backend/go-service/models/economy_manifest.go",
+      "sha256": "dcf762f8cfe87ba8cd07d08f3cc378a80e93d558ca2255af6b225f2bcd9f8d7f"
+    },
+    {
+      "path": "backend/go-service/models/economy_ownership.go",
+      "sha256": "acfb58e3aa8d846ca21912e8610e1c5a1a920027a61406e34afa8b468dd519c7"
+    },
+    {
+      "path": "backend/go-service/models/economy_rule_context.go",
+      "sha256": "e3fef99749ce9767b6844b56841af7a873d69f7802c009f8910cc4998374c3da"
+    },
+    {
+      "path": "backend/go-service/models/economy_session_payload.go",
+      "sha256": "1283cb2b1669ec11af31581cf78ec6c9c085ecd73d0ce1078435e0ab4a58c7cb"
+    },
+    {
+      "path": "backend/go-service/models/economy_sources.go",
+      "sha256": "fdd73acf448c6fa44ca4b2afb0fce13f545aa01490070d49fa82df08c77bc680"
+    },
+    {
+      "path": "backend/go-service/models/economy_trace.go",
+      "sha256": "b0b41c38847dbf4181df8999817b48b71bf87d2dd631f849d2cb0fc1b3391786"
+    },
+    {
+      "path": "backend/go-service/models/events.go",
+      "sha256": "c21feeac913329b30bada1952d306fd0a6b25ccb8b8226b4e9912fd2ff861358"
+    },
+    {
+      "path": "backend/go-service/models/json_contract_test.go",
+      "sha256": "2666d720b03f171ff0b4bed194f4107ad9aa4f621f94b2ea30b198c5c5acd1bc"
+    },
+    {
+      "path": "backend/go-service/models/navigation_path.go",
+      "sha256": "1a1fb5bfe78f8fcae0d949162247bbf177472f4ca2f1a9b9e28d81022a7c8bf4"
+    },
+    {
+      "path": "backend/go-service/models/observed_economy.go",
+      "sha256": "d4316a14b10cbbb85d21d20385c6f8748e454c781a9b17dbc95968bdc84219f2"
+    },
+    {
+      "path": "backend/go-service/models/observed_last_known_position.go",
+      "sha256": "ac123bde97eb5a19f15b97851cd7766c5d26d2b4127a20a38a14ed95f515c770"
+    },
+    {
+      "path": "backend/go-service/models/observed_utility_initial_velocity.go",
+      "sha256": "3e828532cfdb82b17b306078ca7f9bddfb0a95d2102a9322073f297fa71a3d70"
+    },
+    {
+      "path": "backend/go-service/models/observed_weapon_state.go",
+      "sha256": "1c7ea5906e74dd1d58050913ffe6e8138e0140671f4e46eff7c2c0e090e3ddc3"
+    },
+    {
+      "path": "backend/go-service/models/replay.go",
+      "sha256": "902b45fa8750520da077db49c2da383a663b490b5200bfc93a01d6df524f9797"
+    },
+    {
+      "path": "backend/go-service/models/support_attempt_origin.go",
+      "sha256": "bb915fbf375d1b450529feab735f546f84f6e4b63122f32d4c00256ad5948abe"
+    },
+    {
+      "path": "backend/go-service/models/support_c4.go",
+      "sha256": "f1ff7fc54f13db1aa129d9f2a063d6ea1648440944f0d2ec33ce90f1b1216e3d"
+    },
+    {
+      "path": "backend/go-service/models/support_native_motion.go",
+      "sha256": "d490b64399e40ad102554e5777d2c74b18cd02a947a979960d3eb19f8858bb12"
+    },
+    {
+      "path": "backend/go-service/models/support_objective.go",
+      "sha256": "2a86595e13169f8fd10f3b8c3de7f860f8611051a84eed2699ca7aba5d361267"
+    },
+    {
+      "path": "backend/go-service/models/support_objective_clock.go",
+      "sha256": "8c54526364e6951da6631d99d069bea74e1ff8389768eee49d37b1da01c89937"
+    },
+    {
+      "path": "backend/go-service/models/support_objective_position.go",
+      "sha256": "92d88da7292106f8858c2a823ee5cf9aa3b29ea833bd08ebaf5626f6fa32bffb"
+    },
+    {
+      "path": "backend/go-service/models/support_observations.go",
+      "sha256": "a98aa8796e5c948b8a1842059473cfe75c84c58bc79bbe901b08303c0454279d"
+    },
+    {
+      "path": "backend/go-service/models/support_physical.go",
+      "sha256": "5773516ad4ae3d6dbd21d237e595ae13ef8023a44563e72d7fe519e7112d7801"
+    },
+    {
+      "path": "backend/go-service/models/support_visual_contact.go",
+      "sha256": "7a79f5d784b1fda54c2629fd58779dc444e8bd6ff301fe1329078c833b6dd3c5"
+    },
+    {
+      "path": "backend/go-service/models/support_weapon_timing.go",
+      "sha256": "fe2fbead329433809ec64172d6d57c6eb0c98d71571479a2ce158dc0fecc8f8a"
+    },
+    {
+      "path": "backend/go-service/models/tactical_models.go",
+      "sha256": "5827856b2eecf438bf350792352a4a64e525d7640ec47bc3dd43291b91ab8d3c"
+    },
+    {
+      "path": "backend/go-service/models/timeline.go",
+      "sha256": "3c4599ca880cffd959c7211dcf080851be63669131bd23189971378c784ce9fb"
+    },
+    {
+      "path": "backend/go-service/models/visual_contact.go",
+      "sha256": "c39da9b6f1426e16b18dbaa8e4dad6f0913f4c683aec50da6968504cc94b4054"
+    },
+    {
+      "path": "backend/go-service/models/weapon_data.go",
+      "sha256": "12e0b4efb560313f5055acf1d4aa568ff8583d7f78df3faa6877f0b4e636ae44"
+    },
+    {
+      "path": "backend/go-service/parser/ai_exporter.go",
+      "sha256": "a8a0a4558f673c168831b10deb9fac2f4b29c2b62489901b7614515a545cc654"
+    },
+    {
+      "path": "backend/go-service/parser/ai_exporter_test.go",
+      "sha256": "df1528f946c13848851e2835eab79e868e1c8981f3ab9911f8409ff9aa361011"
+    },
+    {
+      "path": "backend/go-service/parser/block6_export.go",
+      "sha256": "a02ddb5dab02eab0bb1cfe57da9de844ba62c7795cb1c59c4a667e1cb8f6f520"
+    },
+    {
+      "path": "backend/go-service/parser/block6_export_test.go",
+      "sha256": "09762329aaa6d709125a245da75940efc762ffc02fa4988c4310b8a0e5f38158"
+    },
+    {
+      "path": "backend/go-service/parser/block6_quality.go",
+      "sha256": "9e815de2c3c10a15de11d2e8ebab19c5ca80661be2fab64a28cfb0e3206825bc"
+    },
+    {
+      "path": "backend/go-service/parser/block6_quality_test.go",
+      "sha256": "b5d6c6a8ba2bb997b1f23b16a2c3d6f0efbce1335be9a00dfbbd8086421645ac"
+    },
+    {
+      "path": "backend/go-service/parser/block7_causal.go",
+      "sha256": "9c036e38a2663e53517cd6d0e247dc35629a8415e41f0d3375fd8ef66049ddf0"
+    },
+    {
+      "path": "backend/go-service/parser/block7_causal_test.go",
+      "sha256": "a548100c9df4af3ffdca9345d967c07c30fcc17dffe7f57eaca33c758e32d428"
+    },
+    {
+      "path": "backend/go-service/parser/block7_quality.go",
+      "sha256": "fa5fdd71d0ead127d6b77d7851ab292463053d4b54916dd9de7607fc31c4123e"
+    },
+    {
+      "path": "backend/go-service/parser/canonical_exporter.go",
+      "sha256": "b08b7acce1fa02aaec3e11fe64c926ea89261423f164589fc746139c764a36c5"
+    },
+    {
+      "path": "backend/go-service/parser/canonical_exporter_test.go",
+      "sha256": "82ae72c0a00bf92b5f0736dc10ecfa9cdbce476c8f8f2569e4d27447af8273f9"
+    },
+    {
+      "path": "backend/go-service/parser/canonical_replay.go",
+      "sha256": "456b9683d6b5d13cc15c458563e094180cf5f633113376a4e9dd074099ed7284"
+    },
+    {
+      "path": "backend/go-service/parser/canonical_replay_test.go",
+      "sha256": "bc48fae1c014af5198491c5800326a42289ad3787d99cc15b52f9080d822b293"
+    },
+    {
+      "path": "backend/go-service/parser/combat_quality.go",
+      "sha256": "0229b20874200d28ab4afa8cd69918392f7d4826dbbef67911fb52b6a6791e5d"
+    },
+    {
+      "path": "backend/go-service/parser/combat_quality_test.go",
+      "sha256": "69667fa74aaf7bd2f7d0214098b32798ea57534c310f56114b28ba411f67da8e"
+    },
+    {
+      "path": "backend/go-service/parser/economy_determinism_test.go",
+      "sha256": "25ac88e0dbd9010a23166d894d74766dd73e8f492058fde564ad946cc6c98dd6"
+    },
+    {
+      "path": "backend/go-service/parser/economy_ordered_parser.go",
+      "sha256": "e65254d48ffde8b98d09023de85c3d77b3844bf682b298b5592ac10af28116e9"
+    },
+    {
+      "path": "backend/go-service/parser/economy_ordered_parser_test.go",
+      "sha256": "f9303a2cd97296721ea2db7fc95217f5653831d220f0f1866b1132286bf856fa"
+    },
+    {
+      "path": "backend/go-service/parser/engagement_quality.go",
+      "sha256": "d9ce00e49addb74be979609b918a47583d7d7f1f8e7f0a2e59b9d1be919c767b"
+    },
+    {
+      "path": "backend/go-service/parser/engagement_quality_test.go",
+      "sha256": "a3d5bae0e6ce1014db631884ec47d8d3d6aaa3e21bd645ba8c208967f5f16970"
+    },
+    {
+      "path": "backend/go-service/parser/objective_quality.go",
+      "sha256": "239be9250dec00786661d8be05dcf70ad560c24cb7002659b19469ceef09eabc"
+    },
+    {
+      "path": "backend/go-service/parser/observed_cover_full_demo.go",
+      "sha256": "53e66bdb39b41994cc27b9df33583ca0b22e52e53e795e75e5f20e4f9e77e78c"
+    },
+    {
+      "path": "backend/go-service/parser/observed_cover_full_demo_test.go",
+      "sha256": "004b3bdbc79d848dd7b899b20666b017e2c67ebdafabd8039d7dc18c963cc07f"
+    },
+    {
+      "path": "backend/go-service/parser/observed_economy_candidate.go",
+      "sha256": "c5cff4b18fb8cb147d3655285d1d376d00c83b5c8be77727c35c512da35d266a"
+    },
+    {
+      "path": "backend/go-service/parser/observed_economy_candidate_test.go",
+      "sha256": "601f34ec6270983838d0764d8d884697c58de003c7920d6285ba784c963dcc93"
+    },
+    {
+      "path": "backend/go-service/parser/observed_economy_candidate_v2.go",
+      "sha256": "7c2ee57c4c0cd2c30fe9fe3c4fc906f5840dc7acee08cf9ba17066b99f9503b3"
+    },
+    {
+      "path": "backend/go-service/parser/observed_economy_candidate_v2_test.go",
+      "sha256": "96819b570c9a83b5b249c1cdf284d29f7e23c9226f226261ac65b86f49eb9421"
+    },
+    {
+      "path": "backend/go-service/parser/observed_exit_route_full_demo.go",
+      "sha256": "7ee325fe896379a063bfddba414f29ea084f35816672b5ff50794b11d3447385"
+    },
+    {
+      "path": "backend/go-service/parser/observed_exit_route_full_demo_test.go",
+      "sha256": "70b9c5b85521462af9d5b88d31083cd7382ec6eb96dd51d4aa130e3b193e9716"
+    },
+    {
+      "path": "backend/go-service/parser/observed_exposure_angle_full_demo.go",
+      "sha256": "e0e451fadff7d71697b0ea6785dfca56eadfb23a30b12ad5f09863f5908a9056"
+    },
+    {
+      "path": "backend/go-service/parser/observed_exposure_angle_full_demo_test.go",
+      "sha256": "f9d34901090a3f934f29a6c0baaf321bf745f314153b313f1129dc27529a30cc"
+    },
+    {
+      "path": "backend/go-service/parser/observed_last_known_position.go",
+      "sha256": "461a8e20dfe1605686faca2065d480a585736030c0fa6d98a5da2a40044fa799"
+    },
+    {
+      "path": "backend/go-service/parser/observed_last_known_position_full_demo.go",
+      "sha256": "45047a2cb28bd3465d13cb6d91cc2f77f6f72ea383e513eb658d7cf82ad9b2e7"
+    },
+    {
+      "path": "backend/go-service/parser/observed_last_known_position_full_demo_test.go",
+      "sha256": "0cf3269a687cb9968b1809531395cd5613c9d7f911e321a1192d8f96d0e3a286"
+    },
+    {
+      "path": "backend/go-service/parser/observed_last_known_position_test.go",
+      "sha256": "282f527f8c9bc763167b47ea2d3cf4d50a44daead068add28f4f1d8ab6be0602"
+    },
+    {
+      "path": "backend/go-service/parser/observed_navigation_full_demo.go",
+      "sha256": "3f52dc6f356dfca15fcd677db0245b07810b1415dcbf994e7af133cacf208316"
+    },
+    {
+      "path": "backend/go-service/parser/observed_navigation_full_demo_test.go",
+      "sha256": "ffdef451f7f32de5697068b40cd857cca772be26122b7b3c3110ba52fed6c039"
+    },
+    {
+      "path": "backend/go-service/parser/observed_navigation_path.go",
+      "sha256": "f214cefb564bfe1fa27e6b93a4a6151a53b47a77cbe5e34fab574aa315f0f307"
+    },
+    {
+      "path": "backend/go-service/parser/observed_navigation_path_test.go",
+      "sha256": "eafbc6b8d528c0a3fecfe7c9e229d89bc1a674de790a37a94e7f55f04993dffa"
+    },
+    {
+      "path": "backend/go-service/parser/observed_navigation_smoke.go",
+      "sha256": "4b15d7afdca3037ced982ff0ae9794f0c73996ef3f17548b1f6112c1ef9dc5b3"
+    },
+    {
+      "path": "backend/go-service/parser/observed_navigation_smoke_test.go",
+      "sha256": "d5e58822cda56e94c62f8bd9340c61837a246b745a48c1101198930b45327ed7"
+    },
+    {
+      "path": "backend/go-service/parser/observed_utility_initial_velocity.go",
+      "sha256": "abf2d442d9cbbf32321a9ac24500d8c2d98b14fea6228a4bb46fb813b6508a93"
+    },
+    {
+      "path": "backend/go-service/parser/observed_utility_initial_velocity_test.go",
+      "sha256": "b6e29b921bb38ef2d0c38b229c2a8104f85570b657bd784dc252ba7dc09735a7"
+    },
+    {
+      "path": "backend/go-service/parser/observed_visual_contact.go",
+      "sha256": "9b8733fc334ef4034b6cb8f17eaa0ffc1e06c8cd37b92068967fb899c2194af8"
+    },
+    {
+      "path": "backend/go-service/parser/observed_visual_contact_full_demo.go",
+      "sha256": "59859b4f34448438ed844ad94c9c02e4b1e68144d2a224e9a6d970d49a52f507"
+    },
+    {
+      "path": "backend/go-service/parser/observed_visual_contact_full_demo_test.go",
+      "sha256": "c89e0d1583a1a9f01577bbd9880749a739b7ad8464a6358246b7bd7d886881df"
+    },
+    {
+      "path": "backend/go-service/parser/observed_visual_contact_smoke.go",
+      "sha256": "6d145b29b222804cad75abe3a74d0464b6569c3d5d1a8809ea04a76a917a7956"
+    },
+    {
+      "path": "backend/go-service/parser/observed_visual_contact_smoke_test.go",
+      "sha256": "cc23288130e536167a07e7435accd7600907656cffad07bb217acdf0188ee603"
+    },
+    {
+      "path": "backend/go-service/parser/observed_visual_contact_test.go",
+      "sha256": "ebd70b3ed3597b72bbe4f7b7e4eb7e357c35fed2f02719abfc9ac969da4b112c"
+    },
+    {
+      "path": "backend/go-service/parser/observed_weapon_state.go",
+      "sha256": "c2095fe9c2220e5884baf63a148e86f75fcff79aca1c6f84e34cc4c8a462057e"
+    },
+    {
+      "path": "backend/go-service/parser/observed_weapon_state_full_demo.go",
+      "sha256": "9d0fc400d9834b6c604ceb9bc5c80050a14af28f6eee613e1ca399866db6e376"
+    },
+    {
+      "path": "backend/go-service/parser/observed_weapon_state_full_demo_test.go",
+      "sha256": "6ba0066ce38561a8e2ab31221c656a532c80775d3dc9234fb95a8badff11c866"
+    },
+    {
+      "path": "backend/go-service/parser/observed_weapon_state_test.go",
+      "sha256": "39bde5fbc9d7913e8ca6f7fcc4e4cd8cfe9464f40986c17eaf830cf1f9e84f95"
+    },
+    {
+      "path": "backend/go-service/parser/output.go",
+      "sha256": "2a13b806550094e911e44e56f700c5456753daa244c1615b627578ca048fa73d"
+    },
+    {
+      "path": "backend/go-service/parser/parser.go",
+      "sha256": "3b445897a321e534eef6eb06e33b45fc7b6bccd3c76a47dd14e4c986d9fa91a1"
+    },
+    {
+      "path": "backend/go-service/parser/spatial_fact_boundary.go",
+      "sha256": "db5bda692825aa57533d8bd81b21bab27192af6a882fa764a5b1a5eeb8eae76e"
+    },
+    {
+      "path": "backend/go-service/parser/spatial_participant_bridge.go",
+      "sha256": "d50a4d13ebba0650ab3ca55549805f936d59a651bf07ea7e710263e2577a176f"
+    },
+    {
+      "path": "backend/go-service/parser/spatial_participant_bridge_test.go",
+      "sha256": "b0fc1baa72a0e0364d66ddca785fde959f1eed024213b0e04d1ad480ac912e5e"
+    },
+    {
+      "path": "backend/go-service/parser/tactical_export.go",
+      "sha256": "ab361fda30f2f3b5e88de6dcdbf349d2756f2dab66bafc5d6c92364a33993e4c"
+    },
+    {
+      "path": "backend/go-service/parser/tactical_export_test.go",
+      "sha256": "e124db053106e36e4d7bb7fc95b25326c94901c4ca528419d221b7919faa46b5"
+    },
+    {
+      "path": "backend/go-service/parser/utility_quality.go",
+      "sha256": "c471d3182c22be43f735410d5a4818c0aa2133513fc590946f9c552a39d1cbe0"
+    },
+    {
+      "path": "backend/go-service/parser/utility_quality_test.go",
+      "sha256": "685097e1d9b8bc12c782947703a9bd4fb56047993c36a325bfabc5ea2a56e060"
+    },
+    {
+      "path": "backend/go-service/pkg/combat/summary.go",
+      "sha256": "48bf66f30f9486573f56418c60efe5e6e8e8376f9c269884638641e02afd8ddb"
+    },
+    {
+      "path": "backend/go-service/pkg/combat/tracker.go",
+      "sha256": "1714a4b8d0a2d7a4b8f535d16d454f49f089f23b2be96261189e16ccedc88180"
+    },
+    {
+      "path": "backend/go-service/pkg/combat/tracker_test.go",
+      "sha256": "395019422599dabf120699ee4c95e2eb83012bc24600a038dbb8e2f2bbbc8c9c"
+    },
+    {
+      "path": "backend/go-service/pkg/combat/types.go",
+      "sha256": "8f1b63322e243a3d68bc40a47c97edf76e8389cebf57093c0024add54dbe1d2a"
+    },
+    {
+      "path": "backend/go-service/pkg/cover/package.go",
+      "sha256": "bba70d2a3754c99fa221906095e88ac141166faa490010dea9abf9bb03c0307e"
+    },
+    {
+      "path": "backend/go-service/pkg/cover/package_test.go",
+      "sha256": "7f7f912189e137864e6035bd6dd3bc4800adc078cdd418552d51d4c9ad050e0d"
+    },
+    {
+      "path": "backend/go-service/pkg/economy/config.go",
+      "sha256": "d6c1e366b1cfc74e38dd82f30a6b42c1efc0404ee028e959b36cdba9493ff685"
+    },
+    {
+      "path": "backend/go-service/pkg/economy/config_test.go",
+      "sha256": "b09d967598133f9f6ace39206f41eeedb44606dc84a3fae22caf0917149510c3"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/build_engagements.go",
+      "sha256": "bfdd816652512e3cda8723471b575130c18f984379eb17a34f6cfdcb088904c8"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/config.go",
+      "sha256": "af80fcd38377763600e07b26da39b296559fc1f0e8714712e535214d3c18a066"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/context.go",
+      "sha256": "6564a85e3e77f63d64f1cbe682beedf1d72d920f5c46cacdf4b417244e263f17"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/derive.go",
+      "sha256": "ef88274a5683fa25525d8fb9cd79d70c0cd5e1c337d544ec49e09637b1c5ebe2"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/derive_test.go",
+      "sha256": "78b0eb789b296d19a9315c79657bd7dc27e81872aff174da1060e42a4e64a424"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/events.go",
+      "sha256": "c2da03e3732887e51bdcca198e42dcf4f01e1d91b713a1fed9336f92c6eadb23"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/roles.go",
+      "sha256": "15430954baf55b96a97f2d05d501d0e45342f6e9e81d54e0c986d7d043528256"
+    },
+    {
+      "path": "backend/go-service/pkg/engagement/trades.go",
+      "sha256": "f83c631cb07d3d8e67c1154a72dd0c6c10cfca8c525b95db1a4806e3c1f35229"
+    },
+    {
+      "path": "backend/go-service/pkg/exitroute/package.go",
+      "sha256": "3bbdaaf504f839e0e17edfff5f3352fb3a2fb5c5a1f63be6099815f41cb0cd05"
+    },
+    {
+      "path": "backend/go-service/pkg/exitroute/package_test.go",
+      "sha256": "b5cf6b3c5eacf3778002218c9f9b68cf8b08af4eb579b735731aa5848504cbfa"
+    },
+    {
+      "path": "backend/go-service/pkg/exposure/package.go",
+      "sha256": "9aa759a160b9cc3b878a6cc40f055ae71d7c4fc590b394f8eb61c28bacac3f22"
+    },
+    {
+      "path": "backend/go-service/pkg/exposure/package_test.go",
+      "sha256": "d1af9aea5d745a16c0d744d636d45976b4b6bd9e2bc174cb8a1733a6a5534dc1"
+    },
+    {
+      "path": "backend/go-service/pkg/geometry/mesh.go",
+      "sha256": "199445f4da5440aaa7df18d94923a79d72fc7421205be90de78e3c3f7e9b466a"
+    },
+    {
+      "path": "backend/go-service/pkg/geometry/mesh_test.go",
+      "sha256": "abf3dd4369d712e25beea4f7fe1e396dfb5ef29c3949c6033b9e5c12dcd91961"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/callouts.go",
+      "sha256": "77b36ca6d933ceddd63ef1288eee4a5ae34094824472bfe6e1cbbbda98424a61"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/manager.go",
+      "sha256": "00a734d1f131b55728283664ce537cc10a00d6b371e52bc3dd29633cb3e01307"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/manager_test.go",
+      "sha256": "0d9c5e84982f86bda0634b7358ec71621b6ee5685b136c477f1066d215b348e2"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/nav_parser.go",
+      "sha256": "17fd8f2022a54a213bb7a62eca40358361315a70fd566a6ecdacf7d7693b10ba"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/nav_parser_source2_test.go",
+      "sha256": "ac4d5ab21754fd1bf5611438d78caef0c01c3999b171d69ee52592a7faec77e8"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/navigation_asset.go",
+      "sha256": "0945fdb27f746f679d369dc5eb66780de3e32213660fdf520b5ea3839d5b7a1a"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/navigation_asset_test.go",
+      "sha256": "c78e3e672b86a9ac166d7bec6a965a02c90cae367b027f86a4f9de89b4b5b8b2"
+    },
+    {
+      "path": "backend/go-service/pkg/maps/navigation_graph_test.go",
+      "sha256": "66cca56612c02619b76166802156f259a55b46ff47bb9d0483809191e7bc3fbf"
+    },
+    {
+      "path": "backend/go-service/pkg/navigation/graph.go",
+      "sha256": "53c7fd652a60f515d98a4b910e87ab8227a2945949c4bb8e5fbaad236cf74f29"
+    },
+    {
+      "path": "backend/go-service/pkg/navigation/graph_test.go",
+      "sha256": "99713fd7bb8af7b74d7b369ceed6b3c6a7e0a0c778fbc18d2bbb64f6582ef76a"
+    },
+    {
+      "path": "backend/go-service/pkg/objective/tracker.go",
+      "sha256": "2e01e8af4fd55e030ca31f11bbb16ce4dcd12332c83e0b6b6062d28c89b559ee"
+    },
+    {
+      "path": "backend/go-service/pkg/objective/tracker_test.go",
+      "sha256": "653e647aab14f2900ff9d72de1293cbd2426e302b0aa3495b96084253e071474"
+    },
+    {
+      "path": "backend/go-service/pkg/objective/types.go",
+      "sha256": "50bd3568537faa3600af1e41576e5dac633f53a0f6e9ef553ae1858fb9c2b14b"
+    },
+    {
+      "path": "backend/go-service/pkg/playerstate/motion.go",
+      "sha256": "5cbee8359f0d9653583a8515ec19c9864a1da699deb38ef1ec52163cd3695334"
+    },
+    {
+      "path": "backend/go-service/pkg/playerstate/motion_test.go",
+      "sha256": "06e750cb4c0852b46336f4558a3d965155566b28b996a2c97444d95e640fded8"
+    },
+    {
+      "path": "backend/go-service/pkg/playerstate/playerstate.go",
+      "sha256": "a8fba3b41d08bd5bbe3cf9a62bfede030fd4ba2fc944af9adf5f7d09a2b61f8f"
+    },
+    {
+      "path": "backend/go-service/pkg/playerstate/playerstate_test.go",
+      "sha256": "ca5f2e72652f82e053aed9ef8d0e0cf273b0bc0e93ab38c131550fa5caddc931"
+    },
+    {
+      "path": "backend/go-service/pkg/utility/initial_velocity_candidate_test.go",
+      "sha256": "6ef937629143257dc964dc0cf9765359cfdda4d99fc4e24d1abb5247bfc4faab"
+    },
+    {
+      "path": "backend/go-service/pkg/utility/tracker.go",
+      "sha256": "b3557e8c4986b510e6a9384686f4a4d56b6c02c886e19305f368c34f28538500"
+    },
+    {
+      "path": "backend/go-service/pkg/utility/tracker_test.go",
+      "sha256": "7da5090974a91e1c0325e87bc18339728c0c94c621545ea314b4c563afd952a2"
+    },
+    {
+      "path": "backend/go-service/pkg/utility/types.go",
+      "sha256": "72d8d8f351edc9f8ffbcb3e3b00040f38397f4b59c0c0f8bf376d8cd019bf397"
+    },
+    {
+      "path": "backend/go-service/pkg/visualcontact/geometry.go",
+      "sha256": "4ec781c8ecf4243963b93446e8c53d9313092395dbfa974487fb5a2707d13c66"
+    },
+    {
+      "path": "backend/go-service/process_demo.go",
+      "sha256": "16ff7914f3002db1e11c23654f176922594d5a278b3b78ae4f728620347011e0"
+    }
+  ],
+  "reader_artifacts_unchanged": true,
+  "retention": {
+    "smoke_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0",
+    "work_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93",
+    "outputs_retained": true,
+    "cleanup_attempted": false,
+    "smoke_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\smoke-inventory.json",
+      "bytes": 26160,
+      "sha256": "05c688f90f67fef66d6008e4cdf3de4a05f6e536a1afe3ecdac6456de9b8fe00"
+    },
+    "work_inventory": {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\work-inventory.json",
+      "bytes": 22222,
+      "sha256": "a934352be79107e5f4cbbaa755da359c77b160c4713296ce441b756f5f2ec0be"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\preparation_weapon_timing_context\\support_preparation_weapon_timing_cuts.jsonl",
+      "bytes": 391194309,
+      "sha256": "464f50263685ec36c8209031baa33cbd9a12c51b08705dffbf9fe9c345638834"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\preparation_weapon_timing_context\\support_preparation_weapon_timing_manifest.json",
+      "bytes": 2462214,
+      "sha256": "0001115013d787b7712948e76182d3beba4b2a1a547d925c9a12b102b562c5f9"
+    }
+  ],
+  "source_artifacts": [
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_attempt_origin_observations.json",
+      "bytes": 11118146,
+      "sha256": "e657342356462aff71b9ba076e89b3c009a9149be028c3e7b10b66ef8231178e"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+      "bytes": 14368233,
+      "sha256": "3b8eb2346b012560eaaf6bccc3af931f66388d10bbe17b4f6f5911be66bdec81"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_native_motion_observations.json",
+      "bytes": 175838864,
+      "sha256": "c48bb898d161d4c831b601f45f61a7d750861083b8d48fea229ed2e80b53aecd"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+      "bytes": 166882152,
+      "sha256": "4b1dd189c171864869ee513ab0c0a70ab600c5db0fc57dbe7f3f86b5b0baf132"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+      "bytes": 112277226,
+      "sha256": "5505cb30d3dd78f6ba34c866db366e2fec78f55788f6c60b425e2fcb0c043d9a"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_position_observations.json",
+      "bytes": 17323488,
+      "sha256": "a2273e222088e56151ce3393dc2bf7c6ce138563337842af7778da486d5cd11a"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+      "bytes": 91847835,
+      "sha256": "1edcfff7ffb6b49421ba5bff79d89a8921c1a95e340bf97a5194e3c0b3cb0338"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+      "bytes": 177194951,
+      "sha256": "4d792dac35f42615b96ff719a30fec8994f120bfbd850508eab62b81184258cb"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_weapon_timing_observations.json",
+      "bytes": 112945593,
+      "sha256": "5cc6058c14b94403be4e26d39f89552ff0293cff277a034cadd8f77a706cc938"
+    }
+  ],
+  "graph_discovery": "MCP graph transport closed on search and list_projects retry; concrete source fallback; legacy Python and Go capture inspected",
+  "comparison_allowed": false,
+  "training_allowed": false,
+  "product_supported": false,
+  "eligible_decisions": 0,
+  "limits": [
+    "Weapon tick/fraction clocks remain unaccredited; pawn elapsed does not establish can_fire",
+    "Pawn deadline does not establish entry, commitment, intention, physical route or readiness",
+    "Prior C0 contexts read and recomputed, not rematerialized",
+    "All S2-S3 and other positive dependencies remain open",
+    "No cleanup, acquisition, batch migration, promotion, publication, training or CURRENT mutation"
+  ],
+  "next_action": "3E.21: native own/ally visual inputs at exact C0 cuts",
+  "third_phase_executed": false,
+  "workspace_preservation": {
+    "ok": true,
+    "baseline_files": 742,
+    "modified_existing": [
+      "ai_coach/contracts/runtime_contracts.py",
+      "ai_coach/tests/test_contract.py",
+      "ai_coach/tests/test_spatial_review_protocol.py",
+      "docs/ai-coach-validation.md",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/README.md",
+      "docs/prompts/AI_COACH_SUPPORT_PREPARATION_WEAPON_TIMING_PHASE_PROMPT.md",
+      "docs/archive/ai-coach/README.md",
+      "README.md"
+    ],
+    "product_interface_catalog_and_prior_phase_files_unchanged": true
+  },
+  "documentation_verification": {
+    "ok": true,
+    "documents": 66,
+    "local_links": 608,
+    "single_active_prompt": "AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_PHASE_PROMPT.md",
+    "git_diff_check": true,
+    "ruff": true,
+    "contract": true
+  },
+  "closure_files": [
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\canonical-support-preparation-weapon-timing-v1.md",
+      "bytes": 4271,
+      "sha256": "b0c93e40c8751053cd960a2ba764913d855b186e65ea9972c9d09cffb251f6ce"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 116781,
+      "sha256": "5961dfaad011c3ebdd50ab2da3f54854d86e7ffe2aa99e057cfc7f2d9e15f34e"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "bytes": 81664,
+      "sha256": "9dddaff3f2945f4030160d891ac275046626c634bfedcc0d5f10c9a9e8fe93cc"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\archive\\ai-coach\\AI_COACH_SUPPORT_PREPARATION_WEAPON_TIMING_PHASE_2026-09-15.md",
+      "bytes": 5158,
+      "sha256": "8e52af775479b0bd7f301f5de3e8ea24bd8dc12ebacbb24e5897c4a35d5bf07b"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\prompts\\AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_PHASE_PROMPT.md",
+      "bytes": 4417,
+      "sha256": "06b2bd1585504efb10409b686848e0d3123ae0a360efbbaf08e7937619a279e9"
+    }
+  ]
+}

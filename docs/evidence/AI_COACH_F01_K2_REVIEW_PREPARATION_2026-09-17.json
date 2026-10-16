@@ -1,0 +1,552 @@
+{
+  "id": "ICT-D1-F01-K2-P2",
+  "date": "2026-09-17",
+  "kind": "documentary_real_case_preparation",
+  "status": "prepared_pending_expert_interpretation",
+  "case_id": "F01-K2",
+  "case_version": "0.2",
+  "user_request_verbatim": "Hazlo",
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "build": "working-tree-support-preparation-visual-contact-3e21-20260915-r1",
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "approval_reference": "docs/evidence/AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_SINGLE_DEMO_SMOKE_2026-09-15.json",
+    "source_files": [
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\presentation\\replay\\round_001.json.gz",
+        "bytes": 162747,
+        "sha256": "3fe79f8a8d5bd7b3f60dbdf40c7e983ffcad42e489ff11262fb5b6d6a147cf1a"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\presentation\\replay\\index.json",
+        "bytes": 913078,
+        "sha256": "c245787ec38578462f48771f15a80bbf99f393267ba053995f25409b96e14624"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\states\\player_states\\round_001.jsonl",
+        "bytes": 1513537,
+        "sha256": "52b355df02b25657fcf51a9e8889fae6dcf905a4be4705c5a74d6df406d5d21d"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+        "bytes": 91847836,
+        "sha256": "c462c31356beb08755006011216aaf9ab42146e5eccee62b49bc9b30de0510ef"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+        "bytes": 177194952,
+        "sha256": "6520c64639d881fe0d792c73c311c72d4ea996130a4754980501761da793ec9c"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+        "bytes": 14368234,
+        "sha256": "177cb608b27f5c690303464b6597293c69f25c335d65c33cbe5845ebfe4c4446"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+        "bytes": 166882153,
+        "sha256": "21b641a604263083ee307c7f69dde565c6a1a7e4c98772d00fb80f55a7740fcf"
+      }
+    ]
+  },
+  "cut": {
+    "round": 1,
+    "tick": 8636,
+    "frame": 8654,
+    "source_sequence": 1417,
+    "instance": 2,
+    "epoch": 0,
+    "own_side": "T",
+    "native_seconds_remaining": 101.25,
+    "seconds_since_freeze_end": 13.75,
+    "seconds_since_K1": 1.75,
+    "score_before": [
+      0,
+      0
+    ],
+    "alive": {
+      "T": 5,
+      "CT": 5
+    }
+  },
+  "own_players": [
+    {
+      "alias": "T1",
+      "team": "T",
+      "x": -930,
+      "y": 605,
+      "z": -81.11322021484375,
+      "yaw": 165.81598,
+      "pitch": -2.1725464,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "Knife"
+      ],
+      "money": 150
+    },
+    {
+      "alias": "T2",
+      "team": "T",
+      "x": -812,
+      "y": 607,
+      "z": -79.7427978515625,
+      "yaw": 165.74661,
+      "pitch": 0,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "Knife"
+      ],
+      "money": 150,
+      "is_walking": true
+    },
+    {
+      "alias": "T3",
+      "team": "T",
+      "x": -745,
+      "y": 608,
+      "z": -80.5135498046875,
+      "yaw": 176.58359,
+      "pitch": -0.90740967,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "Knife"
+      ],
+      "money": 150,
+      "is_walking": true
+    },
+    {
+      "alias": "T4",
+      "team": "T",
+      "x": -659,
+      "y": 609,
+      "z": -79.7137451171875,
+      "yaw": -47.24327,
+      "pitch": 9.539917,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "C4",
+        "Knife"
+      ],
+      "has_c4": true,
+      "money": 150,
+      "is_walking": true
+    },
+    {
+      "alias": "T5",
+      "team": "T",
+      "x": -161,
+      "y": 576,
+      "z": -69.7674560546875,
+      "yaw": -154.76028,
+      "pitch": -7.8881836,
+      "health": 100,
+      "armor": 0,
+      "alive": true,
+      "weapon": "Smoke Grenade",
+      "weapons": [
+        "Glock-18",
+        "Flashbang",
+        "Smoke Grenade",
+        "Knife"
+      ],
+      "money": 100
+    }
+  ],
+  "selection": {
+    "policy_path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\selection-policy.json",
+    "policy_sha256": "16f656418a6a2a294869c94442c78ae22e47b80e3f4a2908ff2cdd1a272fbc85",
+    "inspected_own_prefix_end_tick": 8652,
+    "selected_cut_tick": 8636,
+    "exposure_after_selected_tick": 16,
+    "inspection_not_blind": true,
+    "selected_change": "First confirmed interruption of T1 horizontal advance at replay resolution; substantial earlier aim changes retained as context",
+    "witness_ticks": [
+      8628,
+      8632,
+      8636
+    ],
+    "witness_xy": [
+      -930,
+      605
+    ],
+    "confirmation_interval_seconds": 0.125,
+    "first_equal_position_pair": [
+      8628,
+      8632
+    ],
+    "selection_basis": "Documentary selection of the first repeated horizontal position of an advancing actor confirmed across two sampled intervals. This operational choice is recorded after inspecting bounded prefixes, not a preregistered tactical threshold or blind evaluation. Earlier orientation changes remain visible in the same prefix.",
+    "earlier_changes_accounted_for": [
+      "T5 pitch changes substantially before the selected locomotor change; this is included in the card, not dismissed as jitter or called tactically irrelevant.",
+      "T4 changes yaw substantially while keeping advance; included and distinguished from movement direction.",
+      "The general preinspection policy permits several change types. Selection here uses the first corroborated locomotor transition; it is not claimed to be the earliest possible tactical interpretation of any aim change."
+    ],
+    "no_own_event_or_equipment_change_through_cut": true,
+    "outcome_used": false,
+    "future_disclosed_in_card": false
+  },
+  "selection_evidence": {
+    "selected_locmotion_witness_ticks": [
+      8628,
+      8632,
+      8636
+    ],
+    "witness_interval_seconds": 0.125,
+    "physical_stop_claimed": false,
+    "deliberate_wait_claimed": false,
+    "earlier_orientation_changes_shown": true
+  },
+  "factual_availability": {
+    "canonical_player_states": {
+      "status": "no_exact_snapshot",
+      "sampling_step_ticks": 32,
+      "nearest_prior_tick": 8620,
+      "prior_snapshot_used_for_current_facts": false
+    },
+    "own_replay_events_stream_through_cut": 0,
+    "new_combat_shots_K1_to_K2": 0,
+    "combat_shot_records_before_K1": 9,
+    "combat_shot_prior_actor_or_knowledge_attributed": false,
+    "prefix_frames": 221,
+    "shown_future_frames": 0,
+    "legal_rival_contact": "not_accredited",
+    "communication": "unknown",
+    "physical_support": "not_accredited",
+    "tactical_error": "not_accredited"
+  },
+  "corroboration": {
+    "path": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1/corroboration/r1/verification.json",
+    "sha256": "5d0652175d8f1b13c8bb6eb0c314a6a731dc34723b1ea62fdec584b036aa9ce6",
+    "result": {
+      "status": "passed",
+      "case_id": "F01-K2",
+      "tick": 8636,
+      "frame": 8654,
+      "source_sequence": 1417,
+      "clock": {
+        "remaining": 101.25,
+        "elapsed": 13.75,
+        "now": 310.453125,
+        "interval": 0.015625,
+        "start": 296.703125,
+        "duration": 115
+      },
+      "seconds_since_K1": 1.75,
+      "five_actors_match_replay": true,
+      "identity_preserved_from_K1": true,
+      "pawn_identity_preserved": true,
+      "physical_actors_checked": 5,
+      "support_cuts_checked": 29,
+      "prefix_frames_checked": 221,
+      "future_frames_emitted": 0,
+      "alive_counts": {
+        "T": 5,
+        "CT": 5
+      },
+      "canonical_state_availability": {
+        "status": "no_exact_snapshot",
+        "sampling_step_ticks": 32,
+        "nearest_prior_tick": 8620,
+        "prior_snapshot_used_for_current_facts": false
+      },
+      "selected_motion_witness": {
+        "actor": "T1",
+        "ticks": [
+          8628,
+          8632,
+          8636
+        ],
+        "xy": [
+          -930,
+          605
+        ]
+      },
+      "witness_scope": "Repeated quantized replay XY, not zero native velocity, physical stop or deliberate waiting",
+      "earlier_orientation_changes": {
+        "T5": {
+          "field": "pitch",
+          "K1_value": 75.27214,
+          "earlier_tick": 8532,
+          "earlier_value": 24.496078,
+          "K2_value": -7.8881836,
+          "tactical_meaning": "not_assigned_or_dismissed"
+        },
+        "T4": {
+          "field": "yaw",
+          "K1_value": -158.23746,
+          "earlier_tick": 8552,
+          "earlier_value": -68.846855,
+          "K2_value": -47.24327,
+          "tactical_meaning": "not_assigned_or_dismissed"
+        }
+      },
+      "selection_exposure": {
+        "last_inspected_tick": 8652,
+        "future_ticks_not_used_as_case_features": 16,
+        "blind_evaluation": false,
+        "policy_scope": "First corroborated sampled-horizontal-advance interruption; not first global meaningful aim or tactical change"
+      },
+      "own_discrete_state_changes_in_interval": 0,
+      "replay_events_until_cut": 0,
+      "replay_combat_shots_until_cut": 9,
+      "sources": [
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\presentation\\replay\\round_001.json.gz",
+          "sha256": "3fe79f8a8d5bd7b3f60dbdf40c7e983ffcad42e489ff11262fb5b6d6a147cf1a",
+          "bytes": 162747
+        },
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\presentation\\replay\\index.json",
+          "sha256": "c245787ec38578462f48771f15a80bbf99f393267ba053995f25409b96e14624",
+          "bytes": 913078
+        },
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\states\\player_states\\round_001.jsonl",
+          "sha256": "52b355df02b25657fcf51a9e8889fae6dcf905a4be4705c5a74d6df406d5d21d",
+          "bytes": 1513537
+        },
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+          "sha256": "c462c31356beb08755006011216aaf9ab42146e5eccee62b49bc9b30de0510ef",
+          "bytes": 91847836
+        },
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+          "sha256": "6520c64639d881fe0d792c73c311c72d4ea996130a4754980501761da793ec9c",
+          "bytes": 177194952
+        },
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+          "sha256": "177cb608b27f5c690303464b6597293c69f25c335d65c33cbe5845ebfe4c4446",
+          "bytes": 14368234
+        },
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+          "sha256": "21b641a604263083ee307c7f69dde565c6a1a7e4c98772d00fb80f55a7740fcf",
+          "bytes": 166882153
+        }
+      ],
+      "cut_sha256": "c930bbfc8b324875eed8433529bd2e17b35477c8633389978eb15fd42d30e86a",
+      "script_sha256": "23a01a853e8e1a5fc6521be6384a0fd3a1852ef12b70b3aba0c00aaf7d64fc7f",
+      "claims_excluded": [
+        "zero instantaneous velocity",
+        "physical stop",
+        "deliberate wait",
+        "fixed tactical threshold",
+        "prior-state imputation",
+        "utility visual effect",
+        "legal enemy contact",
+        "intention",
+        "physical support",
+        "tactical correctness",
+        "model validation"
+      ],
+      "replay_combat_shots_in_K1_K2_interval": 0,
+      "earlier_combat_shots_scope": "Nine combat_shots precede K1; no attribution, sensory availability or tactical interpretation made here",
+      "checker_correction": "Initial overbroad empty-shot-prefix assertion corrected to absence of new shots in the selected K1-K2 interval; no cut or data changed"
+    }
+  },
+  "map_verification": {
+    "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\map-verification.json",
+    "sha256": "a583892f9667b971e076e87617e25439189cfa6b0f0d8d92fe3877d2996477c5",
+    "status": "complete",
+    "projection": {
+      "x": "(world_x + 3230) / 5",
+      "y": "(1713 - world_y) / 5",
+      "map_size": [
+        1024,
+        1024
+      ],
+      "view_box": [
+        120,
+        100,
+        540,
+        350
+      ]
+    },
+    "trace_records": [
+      {
+        "cut": 8524,
+        "first_tick": 8268,
+        "last_tick": 8524,
+        "frames": 65,
+        "aliases": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5"
+        ],
+        "future_points": 0,
+        "hollow_circle": "start of prior 4-second trail"
+      },
+      {
+        "cut": 8636,
+        "first_tick": 8524,
+        "last_tick": 8636,
+        "frames": 29,
+        "aliases": [
+          "T1",
+          "T2",
+          "T3",
+          "T4",
+          "T5"
+        ],
+        "future_points": 0,
+        "hollow_circle": "K1 position"
+      }
+    ],
+    "independent_visual_review": "root and renderer agent checked alias legibility, comparison, orientation/movement distinction and clocks"
+  },
+  "verification": {
+    "protected_files_unchanged": 68,
+    "protected_inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\protected.json",
+    "prior_workbooks_unchanged": [
+      {
+        "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+        "sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c"
+      },
+      {
+        "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx",
+        "sha256": "d7ac32d3fecd8229b60fcec6a6090f24708452b81d5bf4d74e2ada95fed925d7"
+      },
+      {
+        "path": "outputs/stratai-q1-feedback-20260917-df08ccc/StratAI_Plan_del_coach_Q1_v4.xlsx",
+        "sha256": "3efed696d72d2fa81b247f8dd38d61184f80d69e9b57ac8620fc539f0cafca14"
+      }
+    ],
+    "local_links_resolved": 239,
+    "prompt_count": 1,
+    "whitespace_checks": [
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/README.md",
+        "exit_code": 1,
+        "output": ""
+      }
+    ],
+    "local_opaque_aliases_only": true
+  },
+  "functional_suites": {
+    "status": "not_applicable",
+    "reason": "Read-only reconstruction of a documentary case from retained exports; no producer/schema/runtime change"
+  },
+  "real_demo_smoke": {
+    "status": "not_applicable",
+    "reason": "No new demo parsing or producer invocation; prior smoke not counted as current validation"
+  },
+  "human_review": {
+    "K1_preserved": true,
+    "K2_response_received": false,
+    "question": "Respecto a K1, ¿qué se mantiene y qué cambia en tu interpretación del plan y las funciones de los jugadores, y qué señales nuevas te llevan a esa lectura?",
+    "blind": false,
+    "agent_rubric_application_separate": true
+  },
+  "S2_S3": "open",
+  "eligible_capabilities": 0,
+  "training_allowed": false,
+  "K3_prepared": false,
+  "next_action": "Receive and record the expert reading of F01-K2; do not prepare K3 or implement before the dependent input.",
+  "retention": {
+    "work_directory": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1",
+    "cut": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\cut.json",
+    "cut_sha256": "c930bbfc8b324875eed8433529bd2e17b35477c8633389978eb15fd42d30e86a",
+    "output_directory": "outputs/stratai-f01-k2-review-20260917-75f20cf",
+    "inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\inventory.json",
+    "selection_policy": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\selection-policy.json",
+    "local_extraction_attempts": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\extraction-attempts.json"
+  },
+  "commands": [
+    [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\inspect-next.py"
+    ],
+    [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\inspect-next.py",
+      "8588"
+    ],
+    [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\inspect-state-sampling.py"
+    ],
+    [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\extract-k2.py"
+    ],
+    [
+      "backend/venv/Scripts/python.exe",
+      "-B",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\corroboration\\verify-k2.py"
+    ],
+    [
+      "C:/Users/kerch/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\render-map.mjs"
+    ],
+    [
+      "C:/Users/kerch/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1\\close-preparation.mjs",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k2-preparation-75f20cf4a3fa4229a1bb6b1bfdf322e1/corroboration/r1/verification.json"
+    ]
+  ],
+  "artifacts": [
+    {
+      "path": "docs/AI_COACH_F01_K2_REVIEW_v0.2.md",
+      "sha256": "047f21bd5598764590ce88890a6b7bf7670086efaeaa9a1321e6a2c7c322701c"
+    },
+    {
+      "path": "docs/archive/ai-coach/AI_COACH_F01_K2_PREPARATION_PHASE_2026-09-17.md",
+      "sha256": "4e3e31b1bfdad6619de135ebd3f5998eaabe0a473e4dc4fb980627cf6dffa659"
+    },
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "66ae621d2f9ae42f99954fab3506968eb6236258f0fd8f953549687b946e398c"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "d5843c4cf71a8f9e7faef0b0fd97b66a39fa0bcee4f5364cb12a76b8b758d38a"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "7c16d2e9ee519a3ca3b698afc2a653e38548c57f42f0aedee017e2b924425dc5"
+    },
+    {
+      "path": "outputs/stratai-f01-k2-review-20260917-75f20cf/F01-K2_v0.2_mapa.png",
+      "sha256": "28aa43082beabf9446ea04d0bc81a7eae9b26daddc074e5ffb4b5cd22d134c21"
+    },
+    {
+      "path": "outputs/stratai-f01-k2-review-20260917-75f20cf/F01-K2_v0.2_mapa.svg",
+      "sha256": "e7d9959ab521aeda1a9717fafd4ef1da42c86c68875d51faf11742cdfcaa58eb"
+    }
+  ]
+}

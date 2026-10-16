@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_protocol@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "protocol_id",
+    "design_reference",
+    "scope",
+    "selection",
+    "source_capture_contract",
+    "unit",
+    "t0",
+    "history_required",
+    "future_used_for_selection",
+    "enemy_geometry_used_for_selection",
+    "nominal_sample_hz",
+    "future_window_seconds",
+    "future_rule",
+    "future_censure_precedence",
+    "position_change",
+    "initial_features",
+    "pair_correlation",
+    "actor_reason_precedence",
+    "execution_statuses",
+    "decision_id",
+    "physical_entry_accredited",
+    "tactical_commitment_accredited",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_protocol@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "protocol_id": {
+      "const": "support_preparation_census/1.0.0-candidate.1"
+    },
+    "design_reference": {
+      "const": "support_preparation_census/0.1.0-design.1"
+    },
+    "scope": {
+      "const": "captured_preparation_checkpoints_research_only"
+    },
+    "selection": {
+      "const": "all_current_usable_directed_own_ally_pairs"
+    },
+    "source_capture_contract": {
+      "const": "fresh_replay_16hz_FrameDone_with_full_pawn_life@1"
+    },
+    "unit": {
+      "const": "match_protocol_epoch_instance_sequence_actor_ally"
+    },
+    "t0": {
+      "const": "current_FrameDone_before_future_window_not_necessarily_before_physical_movement"
+    },
+    "history_required": {
+      "const": false
+    },
+    "future_used_for_selection": {
+      "const": false
+    },
+    "enemy_geometry_used_for_selection": {
+      "const": false
+    },
+    "nominal_sample_hz": {
+      "const": 16
+    },
+    "future_window_seconds": {
+      "const": 2
+    },
+    "future_rule": {
+      "const": "open_t0_closed_exact_horizon_complete_cadence_identity_side_phase"
+    },
+    "future_censure_precedence": {
+      "const": "horizon_availability_then_first_boundary_identity_or_actor_availability_failure"
+    },
+    "position_change": {
+      "const": "exact_exported_quantized_xyz_difference_not_intent_or_continuous_motion"
+    },
+    "initial_features": {
+      "const": "only_current_self_ally_positions_alive_availability_from_prefix"
+    },
+    "pair_correlation": {
+      "const": "opposite_directions_multiple_allies_and_overlapping_windows_are_not_independent_decisions"
+    },
+    "actor_reason_precedence": {
+      "const": [
+        "ambiguous_actor_alias",
+        "shared_pawn_reference",
+        "unsupported_side",
+        "disconnected",
+        "native_identity_unavailable",
+        "alive_unavailable",
+        "not_alive",
+        "position_unavailable"
+      ]
+    },
+    "execution_statuses": {
+      "const": [
+        "sampled_displacement",
+        "no_sampled_displacement",
+        "censored:missing_exact_horizon_sample",
+        "censored:horizon_gap_or_boundary",
+        "censored:identity_unavailable_or_changed",
+        "censored:ambiguous_actor_alias",
+        "censored:shared_pawn_reference",
+        "censored:unsupported_side",
+        "censored:disconnected",
+        "censored:native_identity_unavailable",
+        "censored:alive_unavailable",
+        "censored:not_alive",
+        "censored:position_unavailable"
+      ]
+    },
+    "decision_id": {
+      "const": null
+    },
+    "physical_entry_accredited": {
+      "const": false
+    },
+    "tactical_commitment_accredited": {
+      "const": false
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    }
+  }
+}

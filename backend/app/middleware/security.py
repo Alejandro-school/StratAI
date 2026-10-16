@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
-from starlette.types import ASGIApp
+from starlette.types import ASGIApp, Scope, Receive, Send
 
 from ..config import ALLOWED_ORIGINS, IS_PRODUCTION
 
@@ -33,6 +33,8 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
         # Prevent information leakage in referrer
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        # Authenticated responses must not be reused across accounts by caches.
+        response.headers["Cache-Control"] = "no-store"
 
         # Restrict browser features
         response.headers["Permissions-Policy"] = (
@@ -61,40 +63,56 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         return response
 
 
-class RequestSizeLimitMiddleware(BaseHTTPMiddleware):
-    """Limit request body size to prevent DoS via large payloads."""
+class RequestSizeLimitMiddleware:
+    """Bound actual body bytes before any handler can parse or ignore them."""
 
     MAX_BODY_SIZE = 1024 * 1024
 
-    async def dispatch(self, request: Request, call_next: Callable[[Request], Any]) -> Response:
-        content_length = request.headers.get("content-length")
-        try:
-            parsed_content_length = int(content_length) if content_length else 0
-        except ValueError:
-            parsed_content_length = self.MAX_BODY_SIZE + 1
-        if parsed_content_length > self.MAX_BODY_SIZE:
-            return Response(
-                content='{"detail": "Request body too large"}',
-                status_code=413,
-                media_type="application/json",
-            )
-        return await call_next(request)
+    def __init__(self, app: ASGIApp):
+        self.app = app
 
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
 
-class SessionRefreshMiddleware(BaseHTTPMiddleware):
-    """Sliding window session: refreshes cookie expiry on each authenticated request."""
+        async def reject() -> None:
+            response = Response('{"detail":"Request body too large or invalid length"}',
+                                status_code=413, media_type="application/json")
+            await response(scope, receive, send)
 
-    def __init__(self, app: ASGIApp, max_age: int = 604800):
-        super().__init__(app)
-        self.max_age = max_age
+        lengths = [value for key, value in scope.get("headers", []) if key.lower() == b"content-length"]
+        if lengths and (
+            any(not value.isdigit() or len(value) > 20 for value in lengths)
+            or len(set(lengths)) != 1
+            or int(lengths[0]) > self.MAX_BODY_SIZE
+        ):
+            await reject()
+            return
+        # Buffer at most the configured limit; never trust Content-Length for enforcement.
+        body = bytearray()
+        while True:
+            message = await receive()
+            if message["type"] == "http.disconnect":
+                return
+            chunk = message.get("body", b"")
+            if len(body) + len(chunk) > self.MAX_BODY_SIZE:
+                await reject()
+                return
+            body.extend(chunk)
+            if not message.get("more_body", False):
+                break
 
-    async def dispatch(self, request: Request, call_next: Callable[[Request], Any]) -> Response:
-        response = await call_next(request)
-        # If the session has a steam_id, the user is active — refresh the cookie
-        if request.session.get("steam_id"):
-            # Touching any session key forces SessionMiddleware to re-set the cookie
-            request.session["_refreshed"] = True
-        return response
+        consumed = False
+
+        async def bounded_receive():
+            nonlocal consumed
+            if not consumed:
+                consumed = True
+                return {"type": "http.request", "body": bytes(body), "more_body": False}
+            return await receive()
+
+        await self.app(scope, bounded_receive, send)
 
 
 class CSRFMiddleware(BaseHTTPMiddleware):
@@ -140,11 +158,9 @@ def is_safe_path(base_path: str, target_path: str) -> bool:
 
 def sanitize_match_id(match_id: str) -> str:
     """
-    Sanitize match_id to prevent path traversal.
-    Only allows alphanumeric characters, hyphens, and underscores.
+    Reject malformed identifiers rather than aliasing them to another match.
     """
     import re
-    sanitized = re.sub(r'[^a-zA-Z0-9_\-]', '', match_id)
-    if not sanitized:
+    if not isinstance(match_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,128}", match_id):
         raise ValueError("Invalid match_id")
-    return sanitized
+    return match_id

@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_round_context_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "capture_contract",
+    "observations",
+    "support_source"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_round_context_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "capture_contract": {
+      "const": "same_support_FrameDone_public_round_configuration@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "messages",
+        "frames"
+      ],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "order",
+              "frame",
+              "tick",
+              "session",
+              "entries"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "session": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "entries": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "value"
+                  ],
+                  "properties": {
+                    "name": {
+                      "enum": [
+                        "mp_give_player_c4",
+                        "mp_t_default_primary",
+                        "mp_t_default_secondary",
+                        "mp_t_default_grenades",
+                        "mp_t_default_melee",
+                        "mp_ct_default_primary",
+                        "mp_ct_default_secondary",
+                        "mp_ct_default_grenades",
+                        "mp_ct_default_melee"
+                      ]
+                    },
+                    "value": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "maxLength": 1024
+                    }
+                  }
+                },
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "instance",
+              "order",
+              "tick",
+              "epoch",
+              "session",
+              "message_sequence",
+              "rules"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "session": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "message_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "rules": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "m_bTCantBuy",
+                  "m_bCTCantBuy",
+                  "m_bWarmupPeriod"
+                ],
+                "properties": {
+                  "m_bTCantBuy": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "native_type",
+                      "declared_type",
+                      "value"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "observed",
+                          "absent",
+                          "unsupported_type",
+                          "nonfinite"
+                        ]
+                      },
+                      "native_type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "declared_type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "value": {
+                        "type": [
+                          "boolean",
+                          "number",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "m_bCTCantBuy": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "native_type",
+                      "declared_type",
+                      "value"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "observed",
+                          "absent",
+                          "unsupported_type",
+                          "nonfinite"
+                        ]
+                      },
+                      "native_type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "declared_type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "value": {
+                        "type": [
+                          "boolean",
+                          "number",
+                          "null"
+                        ]
+                      }
+                    }
+                  },
+                  "m_bWarmupPeriod": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "native_type",
+                      "declared_type",
+                      "value"
+                    ],
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "observed",
+                          "absent",
+                          "unsupported_type",
+                          "nonfinite"
+                        ]
+                      },
+                      "native_type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "declared_type": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "value": {
+                        "type": [
+                          "boolean",
+                          "number",
+                          "null"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "support_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

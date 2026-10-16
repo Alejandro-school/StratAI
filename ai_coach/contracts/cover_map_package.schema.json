@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.cover_map_package@1",
+  "title": "Versioned objective cover-geometry map package",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "asset_version", "map_id",
+    "geometry_revision", "coordinates", "direction_convention", "player_volume",
+    "resolution", "bounds", "geometry_provenance", "geometry_samples", "coverage",
+    "geometry_validation", "tactical_review", "tactical_annotations", "limitations"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.cover_map_package@1"},
+    "contract_version": {"const": "1.0.0"},
+    "asset_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+    "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+    "geometry_revision": {"$ref": "#/$defs/sha256"},
+    "coordinates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["system", "units", "axis_convention", "origin_description"],
+      "properties": {
+        "system": {"const": "source2_world"},
+        "units": {"const": "source2_world_units"},
+        "axis_convention": {"const": "right_handed_z_up_x_forward_y_left"},
+        "origin_description": {"type": "string", "minLength": 1}
+      }
+    },
+    "direction_convention": {
+      "type": "object", "additionalProperties": false,
+      "required": ["units", "zero_direction", "positive_direction", "normalization", "meaning"],
+      "properties": {
+        "units": {"const": "degrees"},
+        "zero_direction": {"const": "+x"},
+        "positive_direction": {"const": "counter_clockwise_toward_+y"},
+        "normalization": {"const": "[0,360)"},
+        "meaning": {"const": "direction_from_player_volume_toward_possible_incoming_line"}
+      }
+    },
+    "player_volume": {
+      "type": "object", "additionalProperties": false,
+      "required": ["model_id", "radius_units", "lateral_offsets_units", "postures"],
+      "properties": {
+        "model_id": {"const": "cylinder_cross_section_probes@1"},
+        "radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "lateral_offsets_units": {"type": "array", "minItems": 3, "items": {"type": "number"}},
+        "postures": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/posture"}}
+      }
+    },
+    "resolution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["azimuth_step_degrees", "maximum_ray_distance_units", "protection_distance_units"],
+      "properties": {
+        "azimuth_step_degrees": {"type": "number", "exclusiveMinimum": 0, "maximum": 360},
+        "maximum_ray_distance_units": {"type": "number", "exclusiveMinimum": 0},
+        "protection_distance_units": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "bounds": {"$ref": "#/$defs/bounds"},
+    "geometry_provenance": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/source_asset"}},
+    "geometry_samples": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/geometry_sample"}},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["declaration", "full_map_coverage", "sample_count", "direction_count", "posture_ids"],
+      "properties": {
+        "declaration": {"const": "partial_reference_samples"},
+        "full_map_coverage": {"const": false},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "direction_count": {"type": "integer", "minimum": 1},
+        "posture_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}}
+      }
+    },
+    "geometry_validation": {"$ref": "#/$defs/review"},
+    "tactical_review": {"$ref": "#/$defs/review"},
+    "tactical_annotations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/tactical_annotation"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullable_string": {"type": ["string", "null"]},
+    "vector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+    },
+    "bounds": {
+      "type": "object", "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {"min": {"$ref": "#/$defs/vector"}, "max": {"$ref": "#/$defs/vector"}}
+    },
+    "source_asset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "reference", "sha256"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "reference": {"type": "string", "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "posture": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "volume_height_units", "probe_heights_units"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "volume_height_units": {"type": "number", "exclusiveMinimum": 0},
+        "probe_heights_units": {"type": "array", "minItems": 2, "items": {"type": "number", "exclusiveMinimum": 0}}
+      }
+    },
+    "probe": {
+      "type": "object", "additionalProperties": false,
+      "required": ["height_units", "lateral_offset_units", "hit_distance_units", "occluded_within_protection_distance"],
+      "properties": {
+        "height_units": {"type": "number", "exclusiveMinimum": 0},
+        "lateral_offset_units": {"type": "number"},
+        "hit_distance_units": {"type": ["number", "null"], "minimum": 0},
+        "occluded_within_protection_distance": {"type": "boolean"}
+      }
+    },
+    "profile": {
+      "type": "object", "additionalProperties": false,
+      "required": ["posture_id", "probe_count", "occluded_probe_count", "complete_volume_occlusion", "probes"],
+      "properties": {
+        "posture_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "probe_count": {"type": "integer", "minimum": 1},
+        "occluded_probe_count": {"type": "integer", "minimum": 0},
+        "complete_volume_occlusion": {"type": "boolean"},
+        "probes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/probe"}}
+      }
+    },
+    "direction": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "azimuth_degrees", "profiles"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^cover-sample-[0-9]{3}/direction-[0-9]{3}$"},
+        "azimuth_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "profiles": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/profile"}}
+      }
+    },
+    "geometry_sample": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "alias", "origin_world", "selection_radius_units", "vertical_tolerance_units", "origin_provenance", "directions"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^cover-sample-[0-9]{3}$"},
+        "alias": {"type": "string", "minLength": 1},
+        "origin_world": {"$ref": "#/$defs/vector"},
+        "selection_radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_tolerance_units": {"type": "number", "exclusiveMinimum": 0},
+        "origin_provenance": {
+          "type": "object", "additionalProperties": false,
+          "required": ["source_role", "source_reference", "source_coordinate", "interpretation"],
+          "properties": {
+            "source_role": {"type": "string", "minLength": 1},
+            "source_reference": {"type": "string", "minLength": 1},
+            "source_coordinate": {"type": "string", "minLength": 1},
+            "interpretation": {"type": "string", "minLength": 1}
+          }
+        },
+        "directions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/direction"}}
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "author_id", "reviewer_id", "evidence"],
+      "properties": {
+        "status": {"enum": ["pending_review", "approved"]},
+        "author_id": {"$ref": "#/$defs/nullable_string"},
+        "reviewer_id": {"$ref": "#/$defs/nullable_string"},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "tactical_annotation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "annotation_version", "geometry_direction_ref", "posture_id", "classification", "provenance", "evidence", "author_id", "reviewer_id", "review_status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^cover-annotation-[0-9]{4}$"},
+        "annotation_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+        "geometry_direction_ref": {"type": "string", "pattern": "^cover-sample-[0-9]{3}/direction-[0-9]{3}$"},
+        "posture_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "classification": {"$ref": "#/$defs/nullable_string"},
+        "provenance": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "author_id": {"$ref": "#/$defs/nullable_string"},
+        "reviewer_id": {"$ref": "#/$defs/nullable_string"},
+        "review_status": {"enum": ["pending_review", "approved"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "created_at": "2026-09-25T15:16:44.969801+00:00",
+  "case": "E02",
+  "literal": "Se ve un claro ejemplo de bomba plantada y defendiendo la bomba, en este caso paece que hay un jugador en A y otro debajo de palacio. Es una buena posición. No se cuantos enemigos quedan vivos. Estaría bien saberlo.",
+  "normalization": {
+    "schema_id": "stratai.contextual_review@2",
+    "episode_id": "dab404755d3e3ac166464b521ab42334f5d9b549a256ee4e6418070835e33273",
+    "context_id": "b20e095df6e3ad59f75cad952edb4e3fcc2ae436af16dc52491bae1e275f26b5",
+    "reviewer": "usuario experto",
+    "literal": "Se ve un claro ejemplo de bomba plantada y defendiendo la bomba, en este caso paece que hay un jugador en A y otro debajo de palacio. Es una buena posición. No se cuantos enemigos quedan vivos. Estaría bien saberlo.",
+    "strategy": {
+      "status": "interpretable",
+      "compatible_plans": [
+        "defend_planted_bomb"
+      ]
+    },
+    "destinations": [],
+    "roles": [],
+    "exposure": {
+      "prediction_seen": false,
+      "prior_exposure": "unknown",
+      "assisted_orientation": true
+    },
+    "training_allowed": false
+  },
+  "presentation": {
+    "case": "E02",
+    "original_episode_id": "dab404755d3e3ac166464b521ab42334f5d9b549a256ee4e6418070835e33273",
+    "original_context_id": "b20e095df6e3ad59f75cad952edb4e3fcc2ae436af16dc52491bae1e275f26b5",
+    "original_packet_sha256": "c72d5a9bd7b451e6b980c84ff083b8855faf3871ae8c769dea458235d1f888a6",
+    "original_html_sha256": "937c4cac22f508afffd597a59f7dd7c109976743204b57ff80a39a69fe629d66",
+    "new_context_id": "75e72fd5442e6aa2238ca6e14af3ee0bd14fbe641324be746756c59101a50b43",
+    "new_packet_sha256": "c488d09e2b503a31edc4c6b1601a0413919cd59de22e6e93ddd0724a86659844",
+    "new_html_sha256": "b952de50465a763ce808dfb90c13f63cffefb1df40b25e1bc312ff3e468623ae",
+    "schema_id": "stratai.contextual_review_packet@2",
+    "analysis_scope": "eligible",
+    "samples": 1105,
+    "old_facts_preserved": true,
+    "operator_viewed_own_ally_prefix_during_visual_qa": true,
+    "predictions_shown": false,
+    "new_predictions_generated": false,
+    "review_not_received": true,
+    "private_reviewer_exposure": "unknown",
+    "instrument_changed_after_E01_review": true,
+    "review_must_bind_original_episode_and_context_ids": true,
+    "original_selection_or_prediction_replaced": false
+  },
+  "diagnosis": {
+    "case": "E02",
+    "ok": true,
+    "cut": {
+      "epoch": 0,
+      "frame": 15703,
+      "instance": 3,
+      "phase": "playing",
+      "round_number": 2,
+      "sample_step": 4,
+      "sequence": 2222,
+      "tick": 15683,
+      "tick_rate": 64
+    },
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "source_refs": [
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_observations.json",
+        "sha256": "614f03792e7a651b6626a8f570ae5138ff496226d47638bed67aa8c98278f7f1",
+        "bytes": 70956352
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-tp10-pilot-fdcffys_\\demo-0beb9110ec408f80c39b\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_observations.json",
+        "sha256": "fb12f120a210f434cd930801f6759d3ff8cb6b417617a3e9c0afaf45087dce31",
+        "bytes": 70956370
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\manifest.json",
+        "sha256": "38cf5462919cb2e138f7d5164e9a2cfa5caad070413d0ca21c70a952aa87efd9",
+        "bytes": 30666
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-round-context-final-bve7b5zx\\capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\combat_events.jsonl",
+        "sha256": "46b5392ac6767765a98d48b17400593c6cf26375561373ed198066d37fd5d92c",
+        "bytes": 27481719
+      },
+      {
+        "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-round-context-20260925\\review\\E02.json",
+        "sha256": "c488d09e2b503a31edc4c6b1601a0413919cd59de22e6e93ddd0724a86659844",
+        "bytes": 12252394
+      }
+    ],
+    "counts": {
+      "T": {
+        "roster": 5,
+        "alive": 2,
+        "dead": 3
+      },
+      "CT": {
+        "roster": 5,
+        "alive": 1,
+        "dead": 4
+      }
+    },
+    "unknown_alive_records": 0,
+    "public_kill_cross_check": {
+      "distinct_deaths": 7,
+      "deaths_by_side": {
+        "T": 3,
+        "CT": 4
+      },
+      "end_tick": 15683,
+      "after_cut_events_used": false
+    },
+    "frozen_original_and_new_capture_alive_fields_equal": true,
+    "round_elapsed_seconds": 69.0,
+    "bomb_remaining_seconds": 39.265625,
+    "opponent_positions_resources_and_identity_mapping_retained": false,
+    "meaning": "Read-only factual audit of the final E02 cut, not a new runtime counter or detector input.",
+    "source_limit": "Native alive flags, corroborated by public deaths; no inference from missing positions or absent players.",
+    "human_position_reading": {
+      "literal": "paece que hay un jugador en A y otro debajo de palacio",
+      "attribution": "user",
+      "actors_not_identified_by_user": true,
+      "not_automatic_zone_validation": true
+    },
+    "human_quality_reading": {
+      "literal": "Es una buena posición.",
+      "attribution": "user",
+      "not_automatic_quality_or_recommendation": true
+    },
+    "normalized_plan_id": "defend_planted_bomb",
+    "normalization_author": "assistant",
+    "new_detector_plan_implemented": false,
+    "comparison_qualification": "Frozen entry detector abstains; this records a postplant coverage gap, not an independently established error rate.",
+    "requested_presentation_improvement": "Show ally/opponent alive counts at the selected cut, preserving unknowns, without opponent hidden positions or resources.",
+    "runtime_changed": false,
+    "new_parsing": 0,
+    "training_allowed": false
+  },
+  "exposure_qualification": "No prediction shown in this conversation before the reading. Private exposure unknown, optional question unanswered. Assisted review conservatively records prior factual clock/plant context from the conversation; no absolute blindness claim.",
+  "comparison": "compatible_plan_not_emitted",
+  "abstention_reasons": [
+    "sustained_carrier_retreat",
+    "unique_current_c4_carrier_unavailable"
+  ],
+  "counts": {
+    "original_selected": 36,
+    "excluded_knife_rounds": 1,
+    "remaining_pending_context_and_review": 34,
+    "historical_initial_tactical_readings": 2,
+    "scored_active_readings": 0,
+    "reviewed_active_cases": 1
+  },
+  "accuracy": null,
+  "runtime_changed": false,
+  "prediction_changed": false,
+  "new_parsing": 0,
+  "training_allowed": false,
+  "protected_files": 84
+}

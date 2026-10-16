@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_human_review_protocol@1",
+  "title": "Versioned protocol for independent spatial human review and adjudication",
+  "contract_version": "1.0.0",
+  "x-stratai-status": "deprecated_visual_qa_only",
+  "x-stratai-ground-truth-authorized": false,
+  "x-stratai-evaluation-authorized": false,
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "protocol_version", "handbook",
+    "published_at", "scope", "roles", "review_unit", "question_sets",
+    "evidence_policy", "blinding", "workflow", "disagreement_policy",
+    "privacy", "audit_controls", "change_policy", "authorization"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.spatial_human_review_protocol@1"},
+    "contract_version": {"const": "1.0.0"},
+    "protocol_version": {"const": "1.0.0"},
+    "handbook": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "relative_path", "sha256"],
+      "properties": {
+        "version": {"const": "1.0.0"},
+        "relative_path": {"const": "HANDBOOK.md"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "published_at": {"type": "string", "format": "date-time"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["map_agnostic", "families", "purpose", "excluded_uses"],
+      "properties": {
+        "map_agnostic": {"const": true},
+        "families": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "exposure"}, {"const": "cover"}, {"const": "exit_route"}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "purpose": {"const": "human_review_input_only"},
+        "excluded_uses": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independent_reviewer_count", "reviewer_slots", "adjudicator_required_on_conflict", "adjudicator_must_be_distinct", "identity_policy"],
+      "properties": {
+        "independent_reviewer_count": {"const": 2},
+        "reviewer_slots": {
+          "type": "array",
+          "prefixItems": [{"const": "reviewer_a"}, {"const": "reviewer_b"}],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "adjudicator_required_on_conflict": {"const": true},
+        "adjudicator_must_be_distinct": {"const": true},
+        "identity_policy": {"const": "opaque_pseudonym_no_public_identity_in_artifact"}
+      }
+    },
+    "review_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id_policy", "join_policy", "partitions", "initial_state", "allowed_states"],
+      "properties": {
+        "id_policy": {"const": "sha256_opaque_id_from_versioned_source_join"},
+        "join_policy": {"const": "coordinator_only_exact_package_sample_candidate_annotation_refs"},
+        "partitions": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "objective_geometry"},
+            {"const": "observed_context"},
+            {"const": "human_judgment"},
+            {"const": "adjudication"}
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "initial_state": {"const": "pending_review"},
+        "allowed_states": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "pending_review"}, {"const": "reviewed"},
+            {"const": "needs_adjudication"}, {"const": "adjudicated"},
+            {"const": "rejected"}, {"const": "unavailable"}
+          ],
+          "items": false,
+          "minItems": 6,
+          "maxItems": 6
+        }
+      }
+    },
+    "question_sets": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/question_set"}
+    },
+    "evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_partitions", "observed_cutoff", "package_only_context_status", "minimum_visible_evidence", "forbidden_information"],
+      "properties": {
+        "allowed_partitions": {
+          "type": "array",
+          "prefixItems": [{"const": "objective_geometry"}, {"const": "observed_context_up_to_t0"}],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "observed_cutoff": {"const": "availability_tick_lte_t0"},
+        "package_only_context_status": {"const": "unavailable"},
+        "minimum_visible_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exposure", "cover", "exit_route"],
+          "properties": {
+            "exposure": {"const": "origin_sector_bounds_and_supporting_rays"},
+            "cover": {"const": "origin_direction_posture_and_nine_probes"},
+            "exit_route": {"const": "origin_destination_and_objective_connectivity"}
+          }
+        },
+        "forbidden_information": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "blinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer_visible_partition", "hidden_fields", "ordering_algorithm", "option_order_policy", "prior_response_visibility"],
+      "properties": {
+        "reviewer_visible_partition": {"const": "reviewer_view_only"},
+        "hidden_fields": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "ordering_algorithm": {"const": "sha256_interleaved_deterministic@1"},
+        "option_order_policy": {"const": "identical_neutral_order_across_families"},
+        "prior_response_visibility": {"const": "none"}
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transitions", "timestamp_policy", "response_schema_id", "adjudication_schema_id", "support_auto_approval_allowed"],
+      "properties": {
+        "transitions": {
+          "type": "array",
+          "minItems": 7,
+          "items": {"type": "string", "pattern": "^[a-z_]+->[a-z_]+$"}
+        },
+        "timestamp_policy": {"const": "rfc3339_utc_recorded_at_human_action"},
+        "response_schema_id": {"const": "stratai.spatial_human_review_response@1"},
+        "adjudication_schema_id": {"const": "stratai.spatial_human_review_adjudication@1"},
+        "support_auto_approval_allowed": {"const": false}
+      }
+    },
+    "disagreement_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compatible_answers", "conflict_triggers", "adjudication_requires_reason", "adjudication_can_rewrite_geometry"],
+      "properties": {
+        "compatible_answers": {"const": "same_answer_id_from_two_independent_reviewers"},
+        "conflict_triggers": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "adjudication_requires_reason": {"const": true},
+        "adjudication_can_rewrite_geometry": {"const": false}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_identity", "forbidden_identity", "absolute_paths_allowed", "free_text_policy"],
+      "properties": {
+        "allowed_identity": {"const": "opaque_local_reviewer_pseudonym_only"},
+        "forbidden_identity": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "absolute_paths_allowed": {"const": false},
+        "free_text_policy": {"const": "no_names_ids_contact_details_or_external_urls"}
+      }
+    },
+    "audit_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_validation", "hash_validation", "duplicate_policy", "cross_split_policy", "completeness_policy", "retained_provenance"],
+      "properties": {
+        "schema_validation": {"const": "draft_2020_12_fail_closed"},
+        "hash_validation": {"const": "protocol_handbook_package_support_and_visible_evidence_sha256"},
+        "duplicate_policy": {"const": "no_duplicate_review_unit_or_source_join"},
+        "cross_split_policy": {"const": "source_group_never_crosses_review_partitions"},
+        "completeness_policy": {"const": "two_responses_then_agreement_or_adjudication"},
+        "retained_provenance": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "change_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["human_review_rewrites_geometry", "geometry_change_effect", "handbook_change_effect", "package_promotion_is_separate"],
+      "properties": {
+        "human_review_rewrites_geometry": {"const": false},
+        "geometry_change_effect": {"const": "invalidate_and_version_all_dependent_reviews"},
+        "handbook_change_effect": {"const": "new_explicit_version"},
+        "package_promotion_is_separate": {"const": true}
+      }
+    },
+    "authorization": {"$ref": "#/$defs/authorization"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "answer_option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer_id", "label", "requires_reason"],
+      "properties": {
+        "answer_id": {"enum": ["supported", "not_supported", "missing_context", "not_evaluable", "abstain"]},
+        "label": {"type": "string", "minLength": 1},
+        "requires_reason": {"type": "boolean"}
+      }
+    },
+    "question_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "prompt_id", "question", "claim_boundary", "options"],
+      "properties": {
+        "family": {"enum": ["exposure", "cover", "exit_route"]},
+        "prompt_id": {"type": "string", "pattern": "^spatial-question-[0-9]{2}$"},
+        "question": {"type": "string", "minLength": 20},
+        "claim_boundary": {"type": "string", "minLength": 20},
+        "options": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/answer_option"}
+        }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_execution_authorized", "training_use_authorized", "product_supported", "canonical_materialization", "release_authorized", "corpus_reprocessing_authorized"],
+      "properties": {
+        "review_execution_authorized": {"const": false},
+        "training_use_authorized": {"const": false},
+        "product_supported": {"const": false},
+        "canonical_materialization": {"const": false},
+        "release_authorized": {"const": false},
+        "corpus_reprocessing_authorized": {"const": false}
+      }
+    }
+  }
+}

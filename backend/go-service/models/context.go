@@ -15,6 +15,31 @@ import (
 type DemoContext struct {
 	Parser dem.Parser
 
+	// Opt-in candidate observer; absent in normal parsing/export flows.
+	EconomyObservations                  *EconomyObservationLedger
+	EconomyNativeSources                 *EconomyNativeSources
+	EconomyRuleContext                   *EconomyRuleContext
+	EconomySessionPayloads               *EconomySessionPayloads
+	EconomyManifestSessions              *[]EconomyManifestSession
+	EconomyTransactionTrace              *EconomyTransactionTrace
+	EconomyNativeIdentity                *EconomyNativeIdentity
+	EconomyOwnershipObservations         *EconomyOwnershipObservations
+	EconomyEntryObservations             *EconomyEntryObservations
+	EconomyCashflowObservations          *EconomyCashflowObservations
+	EconomyCashflowRuntime               *EconomyCashflowRuntime
+	SupportObservations                  *SupportObservations
+	SupportPhysicalObservations          *SupportPhysicalObservations
+	SupportObjectiveObservations         *SupportObjectiveObservations
+	SupportC4Observations                *SupportC4Observations
+	SupportInventoryObservations         *SupportInventoryObservations
+	SupportAttemptOriginObservations     *SupportAttemptOriginObservations
+	SupportObjectivePositionObservations *SupportObjectivePositionObservations
+	SupportNativeMotionObservations      *SupportNativeMotionObservations
+	SupportVisualObservations            *SupportVisualObservations
+	SupportWeaponTimingObservations      *SupportWeaponTimingObservations
+	SupportObjectiveClockObservations    *SupportObjectiveClockObservations
+	SupportRoundContextObservations      *SupportRoundContextObservations
+
 	// Map Manager for visibility checks
 	MapManager maps.VisibilityChecker
 	MapName    string
@@ -70,6 +95,10 @@ type DemoContext struct {
 	EnemyFirstSeenTick               map[uint64]map[uint64]FirstSeenData
 	FirstDamageTick                  map[uint64]map[uint64]int // Attacker -> Victim -> Tick of first damage
 	LastVisibleEnemies               map[uint64]map[uint64]bool
+	CaptureCalculatedVision          bool
+	CaptureUtilityVision             bool
+	CaptureSoundInformation          bool
+	CalculatedVisionSamples          map[int][]ReplayVisionSample
 	ActiveSmokes                     map[int64]r3.Vector
 	VisibilitySampledTicks           int
 	VisibilitySkippedTicks           int

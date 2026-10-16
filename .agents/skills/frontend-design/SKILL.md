@@ -1,42 +1,31 @@
 ---
 name: frontend-design
-description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.
+description: Design or restyle StratAI screens and components with a coherent visual direction. Use for visual UI work, not backend changes or routine logic fixes.
 license: Complete terms in LICENSE.txt
+metadata:
+  author: Anthropic; adapted for StratAI
+  upstream-ref: 683bc88e56f3e09ba94f7055977f3d3aa499f202
 ---
 
-This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
+# Frontend design for StratAI
 
-The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+Adapted from [Anthropic frontend-design](https://github.com/anthropics/skills/tree/683bc88e56f3e09ba94f7055977f3d3aa499f202/skills/frontend-design).
 
-## Design Thinking
+## Fit the existing product
 
-Before coding, understand the context and commit to a BOLD aesthetic direction:
-- **Purpose**: What problem does this interface solve? Who uses it?
-- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.
-- **Constraints**: Technical requirements (framework, performance, accessibility).
-- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?
+Inspect the affected screen, its styles, and neighbouring components before choosing a visual direction. Preserve the established typography, navigation, tokens and component patterns unless the brief calls for a redesign. StratAI is a CS2 analysis product; prioritise readable statistics, tactical context and actionable coaching. Consult the product definition for claims and feature scope.
 
-**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism and refined minimalism both work - the key is intentionality, not intensity.
+Use the existing React 18, JavaScript, Vite and CSS stack. Use installed icons and motion libraries when they help. A small UI edit does not require a new design system or dependency.
 
-Then implement working code (HTML/CSS/JS, React, Vue, etc.) that is:
-- Production-grade and functional
-- Visually striking and memorable
-- Cohesive with a clear aesthetic point-of-view
-- Meticulously refined in every detail
+## Design and build
 
-## Frontend Aesthetics Guidelines
+- Identify the main user action and information hierarchy. For a redesign, state a brief visual direction grounded in the screen's purpose; for a small edit, follow the existing direction.
+- Use deliberate type scale, contrast and spacing. Reuse project fonts; avoid arbitrary font bans and decorative changes that reduce readability.
+- Choose structure by content: tables for comparable statistics, grouped controls for replay, clear hierarchy for coaching. Do not force every item into an identical card.
+- Reserve motion for explaining interaction or drawing attention to a meaningful change. Respect reduced motion and protect replay responsiveness.
+- Write concise Spanish interface copy consistent with the surrounding UI. Keep loading, empty, error and unavailable-data states distinct. Do not invent statistics or present placeholder coaching as demonstrated capability.
+- Keep keyboard focus visible, controls labelled, and essential information available beyond colour or hover alone. On narrow screens preserve access to the primary action.
 
-Focus on:
-- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.
-- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.
-- **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.
-- **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.
-- **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.
+## Verify
 
-NEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.
-
-Interpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.
-
-**IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.
-
-Remember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.
+Inspect the result in the browser at desktop and narrow widths when the environment permits, including the affected interaction and its empty/error states. Report any visual check that could not be performed. Use the repository frontend checks for code changes; follow the temporary interface flow documented by the project when starting services.

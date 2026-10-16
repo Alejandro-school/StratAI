@@ -1,0 +1,188 @@
+{
+  "review_date": "2026-10-06",
+  "scope": "Repository skills; personal and plugin skills retained",
+  "sources": [
+    {
+      "repo": "anthropics/skills",
+      "ref": "683bc88e56f3e09ba94f7055977f3d3aa499f202",
+      "paths": [
+        "skills/frontend-design"
+      ],
+      "local_changes": "Rewritten entrypoint for StratAI; upstream LICENSE.txt preserved"
+    },
+    {
+      "repo": "vercel-labs/agent-skills",
+      "ref": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "paths": [
+        "skills/react-best-practices",
+        "skills/web-design-guidelines"
+      ],
+      "local_changes": "Scoped entrypoints; ten unmodified React rule references retained"
+    },
+    {
+      "url": "https://r3f.docs.pmnd.rs/advanced/pitfalls",
+      "kind": "primary documentation; locally authored skill"
+    },
+    {
+      "url": "https://r3f.docs.pmnd.rs/api/objects",
+      "kind": "primary documentation; locally authored skill"
+    },
+    {
+      "url": "https://docs.python.org/3.11/library/profile.html",
+      "kind": "primary documentation; locally authored skill"
+    },
+    {
+      "url": "https://docs.python.org/3.11/library/tracemalloc.html",
+      "kind": "primary documentation; locally authored skill"
+    },
+    {
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "kind": "Codex discovery and authoring guidance"
+    }
+  ],
+  "decisions": {
+    "audit-website": "removed; UX review covered by web-design-guidelines and available browser tooling",
+    "crafting-effective-readmes": "removed; existing repository documentation conventions suffice",
+    "frontend-design": "updated and locally adapted",
+    "vercel-react-best-practices": "updated and filtered for React 18/Vite",
+    "web-design-guidelines": "locally adapted from current upstream",
+    "python-performance-optimization": "locally rewritten for measured project workloads",
+    "threejs-fundamentals": "replaced by stratai-react-three-fiber",
+    "threejs-animation": "replaced by stratai-react-three-fiber",
+    "threejs-interaction": "replaced by stratai-react-three-fiber"
+  },
+  "preserved_personal_skills": [
+    "playwright",
+    "security-best-practices"
+  ],
+  "system_and_plugin_skills": "retained; assessed by declared scope, not an exhaustive internal audit",
+  "validation": {
+    "before_skills": 9,
+    "after_skills": 5,
+    "before_files": 81,
+    "after_files": 16,
+    "before_entrypoint_lines": 3235,
+    "after_entrypoint_lines": 161,
+    "validation": "official quick_validate plus unique names and local Markdown references",
+    "behavioural_eval": "not run"
+  },
+  "installed_hashes_verified": true,
+  "documentation_check": {
+    "command": "npm run check:docs",
+    "exit_code": 0,
+    "markdown_files": 219,
+    "local_links": 1601,
+    "relocations": 62
+  },
+  "diff_whitespace_check": "passed for changed scope",
+  "recovery_hashes_verified": true,
+  "runtime_tests": "not required; skill instructions and documentation only",
+  "demo_smoke": "not applicable; no producer, derived facts, schema or runtime contract changes",
+  "recovery": {
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-skills-review-38d731602a3442d5a627674ff669bc46",
+    "directory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-skills-review-38d731602a3442d5a627674ff669bc46\\previous-skills",
+    "zip": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-skills-review-38d731602a3442d5a627674ff669bc46\\skills-before.zip",
+    "zip_sha256": "5325933e4cb38e8b0ef6a1debd798faf1221d47061635b5add94af74a5b272ef"
+  },
+  "before_sha256": {
+    "audit-website/references/OUTPUT-FORMAT.md": "789fdf2ab6f202da959169ebbd5408ff24f235e85ad88d133ac38831361fa6bc",
+    "audit-website/SKILL.md": "4dea6934719713d1650f5b384e222413a0e3c295a49b5217617fef5ee8a39e37",
+    "crafting-effective-readmes/references/art-of-readme.md": "2c340ff8bb22dd323015988017d8fb023cc3bdfc6c1247aefaaace9566938d0c",
+    "crafting-effective-readmes/references/make-a-readme.md": "94a6d8e381f120a08cb7a214836724657139b7da98a443f150f87c6f8616e5d1",
+    "crafting-effective-readmes/references/standard-readme-example-maximal.md": "5906aaf57b976a37a89d90fa56b80224e47e857197325ed8a509be11dce4dcaf",
+    "crafting-effective-readmes/references/standard-readme-example-minimal.md": "43ab9fc49b0e7b150f228bc2c165819d4ee0ac0a734532763a2615d3bee407ec",
+    "crafting-effective-readmes/references/standard-readme-spec.md": "ff791acd1763aab56fe6e7cb822f57dafeb2c324fdc800f1fb6c7526c1a44198",
+    "crafting-effective-readmes/section-checklist.md": "a3205fe8bf35f42fe85de1bcebe120a339c71898d97a96f83c3bab5d12f35301",
+    "crafting-effective-readmes/SKILL.md": "619468a739d081ba1e4842002f6fda5e5a9e7d13a03771451033e943c6abaf09",
+    "crafting-effective-readmes/style-guide.md": "0ea0b18026f2bb4733dda324f8f5406fede457a70d4065afe648e50e09a18c77",
+    "crafting-effective-readmes/templates/internal.md": "7cf46108143977e07c5d9ac56a2eccb907f46131361de1f2f8ffac7bdd2016a7",
+    "crafting-effective-readmes/templates/oss.md": "4c196ba5ddc14be95b85e412fc19ac2a39323842ae23027af84c80aece1d1a3d",
+    "crafting-effective-readmes/templates/personal.md": "a1587279435bfacab6f15dc4b707b8ff65d4b8903bc9b82c35f7cb62e84f7d1c",
+    "crafting-effective-readmes/templates/xdg-config.md": "39b34c6e3724463926f8235f1dce1e375f0d1f9889b98dd6e12a7e8623db05a3",
+    "crafting-effective-readmes/using-references.md": "9a020ad8973704af8765c5a4eea759522b5167743e0701144b7b5e622ea09d22",
+    "frontend-design/LICENSE.txt": "eb3d7b5485466acbd81f2b496f595ab637d2792e268206b27d99e793bdb67549",
+    "frontend-design/SKILL.md": "70044bbc8e4c21d23b8c8b864956aa1515c1c6cb2f9df14148dbb8c4af6187e5",
+    "python-performance-optimization/SKILL.md": "759e03f806a283d9771ab5c9d2b830630c3e32a55ece2c37f82083fb5fdd1e35",
+    "threejs-animation/SKILL.md": "d5dbcda9d08614d6fde7cf38ab5e649feed72237f9ac3e649052e01a15a19b8c",
+    "threejs-fundamentals/SKILL.md": "c89027e35cf56629dcf1e9e51aa16ead5107f6551efecd9bdbbf90dfb749653a",
+    "threejs-interaction/SKILL.md": "6a2251ce5dc088ad16febbbd31c2bcdd0f98b99ae366f556ac683f0f91741343",
+    "vercel-react-best-practices/AGENTS.md": "fd50871738910af3b7b877f5d366c2cf8f5d3f2a6112f0f6e4352cd218350727",
+    "vercel-react-best-practices/rules/advanced-event-handler-refs.md": "029f0c929c665fb9263b8c72a44e50610caf94a6e22a8142821a84482eda825d",
+    "vercel-react-best-practices/rules/advanced-init-once.md": "3d209bc4b17c2a503fdbb53b39261bc5ee824703a8b387daef3f53bad1f32ce4",
+    "vercel-react-best-practices/rules/advanced-use-latest.md": "84b3504ef0dc85f171c6aa0c5d15ac6d252ba72e38fc4e87872c0a3b1728345f",
+    "vercel-react-best-practices/rules/async-api-routes.md": "adf38ea4f34fa74b275b908e49aa20de20af9d9935b4a656314a49217b182663",
+    "vercel-react-best-practices/rules/async-defer-await.md": "6a2b9e19555a17662755e01d129fa21b8c6a659731d860b7cc918ba47be2a942",
+    "vercel-react-best-practices/rules/async-dependencies.md": "4901341bd7f7b7036eb8d98b243515ce294e6e4079370b3187c1514c3e597ec6",
+    "vercel-react-best-practices/rules/async-parallel.md": "ff95abbb67b62a889d7ef71f1d06834238c47ecd3d49483f7823b4cd17d92680",
+    "vercel-react-best-practices/rules/async-suspense-boundaries.md": "8a6e88c6e5190e10d3e3ebca89a1bc4fefc4bdb0cbc9c6f406ce02452a5759df",
+    "vercel-react-best-practices/rules/bundle-barrel-imports.md": "f3a0d74c71aaa98547d970901d73d1bc4c082762e891244e9103def40846eecb",
+    "vercel-react-best-practices/rules/bundle-conditional.md": "16992beeaf9bdd1e7ff20989b8672cfffc8b918deb0783c058560c7a233dd37c",
+    "vercel-react-best-practices/rules/bundle-defer-third-party.md": "64de0f01dfe58b4d3a3865baa623f743ef1b8c363106c7dfaf2b2867f69b96d4",
+    "vercel-react-best-practices/rules/bundle-dynamic-imports.md": "0fb947cdfec5ce0e95a894c6b68220f88983eff73ce65b98e4f00c885ebd9b36",
+    "vercel-react-best-practices/rules/bundle-preload.md": "b673a49f4cf4bf385ddf6956ca704139ec2915802bade1925134f8cfabb2278c",
+    "vercel-react-best-practices/rules/client-event-listeners.md": "e2229c8e121dfdd6bad8063ba6c41213ff612e19e077f17ba805b70d48151775",
+    "vercel-react-best-practices/rules/client-localstorage-schema.md": "f9d177a557f4bd4bd1a81f30f841f75041821dd88f706a6b8c4eac86c7472e05",
+    "vercel-react-best-practices/rules/client-passive-event-listeners.md": "277118e32363381459bc7439fa942966da668d2c128d93968f9a289f0bb32861",
+    "vercel-react-best-practices/rules/client-swr-dedup.md": "866e6cc267f06df39129c44c68c5e6a2e62faa554bc8cdb6ada1f58afe4bcbbe",
+    "vercel-react-best-practices/rules/js-batch-dom-css.md": "d7343005afc6a9c7e86368e22318f49b88492973e673f7b0ba2eb65697597143",
+    "vercel-react-best-practices/rules/js-cache-function-results.md": "bbef6423ad250227e8c73a5d9be6fd687707dd187ef50236fd5b6883a41d49b6",
+    "vercel-react-best-practices/rules/js-cache-property-access.md": "bbecc553a5b51caab2ddc90423a23d4c3245669439ff91e5204e48d62aaf1c5e",
+    "vercel-react-best-practices/rules/js-cache-storage.md": "7710a2ceb421d9b6d3828d7f38ec8a093af4a372c2b3b4ea2299d5df2518f770",
+    "vercel-react-best-practices/rules/js-combine-iterations.md": "c43a02979586d39f341fa6da7fc61bdd6a6917fa0c4f9c926091fa540cdf8022",
+    "vercel-react-best-practices/rules/js-early-exit.md": "b6b967ab80d2a5fc19851d9db9464cf8e4d0e57dccb607a474b8f7818015951d",
+    "vercel-react-best-practices/rules/js-hoist-regexp.md": "86f4772c5d732c1f5f0656412713c6dc919360f0f3ea32bb1a45937eaaa5866e",
+    "vercel-react-best-practices/rules/js-index-maps.md": "752dd0803a7394a70e8d437b7eb025d1e085566e30ad733e75b9d2e04cc6c4d9",
+    "vercel-react-best-practices/rules/js-length-check-first.md": "9e57362d76e57ea6a2ff8cd137cf2a87b094aaff152eac61758305acb450a25c",
+    "vercel-react-best-practices/rules/js-min-max-loop.md": "f0054bcd1c3168ea8a6474df33c398bc0066eb1e813d59ae57fe36806ec900b6",
+    "vercel-react-best-practices/rules/js-set-map-lookups.md": "7143f8d7b71cdbc77a171fc801bdcf5e7a209e0f471ff17bb669acc986a6b064",
+    "vercel-react-best-practices/rules/js-tosorted-immutable.md": "2722514cac46990f3361fa35ee20d499a12da2539362e7871b670978664d158a",
+    "vercel-react-best-practices/rules/rendering-activity.md": "e23dd494d955db99d376b5bf62a59ce7df9f14576d94094f2e53cfdc388453a0",
+    "vercel-react-best-practices/rules/rendering-animate-svg-wrapper.md": "dca7f0251244489b3bbb6f5aaf7d70f280d91dc13de8ebd24403286f382ec0f4",
+    "vercel-react-best-practices/rules/rendering-conditional-render.md": "6db58f36c8b080c35e91f6504281f85ea2dbd133030610c860e60181d6d9556a",
+    "vercel-react-best-practices/rules/rendering-content-visibility.md": "45437e9594857ee1066ee061e946ed129731cf2e80f7e08f3cc621fa0554c567",
+    "vercel-react-best-practices/rules/rendering-hoist-jsx.md": "c5fa7274f067ce3760107196a9416df333a7b4187254ef66c547fad7c45cd8d3",
+    "vercel-react-best-practices/rules/rendering-hydration-no-flicker.md": "bfedc3a73f9687c7836acf915165fb845880453b6dfcf2fa6475dfec96b23027",
+    "vercel-react-best-practices/rules/rendering-hydration-suppress-warning.md": "7ec1623c69e1a82b09b8b5a6028005e3eb8485741898447af1bcaed8ff8c0139",
+    "vercel-react-best-practices/rules/rendering-svg-precision.md": "d57cdfaaaf660a28a9a5d6d10e97202a5eb13e1bc1675e024cb1ccbfa8bb2c32",
+    "vercel-react-best-practices/rules/rendering-usetransition-loading.md": "c2186f944b60630c67d42222f60ecb12b5a85395e7f31f193982f85983165720",
+    "vercel-react-best-practices/rules/rerender-defer-reads.md": "bb98d9b7c7622641887df6407406a8c4f61510af9cc1bd275574ebee71bac8c8",
+    "vercel-react-best-practices/rules/rerender-dependencies.md": "4f0a1806694c2391c0b5b79bb4dee89fdf2c02ee322acf308509c17542240446",
+    "vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": "1d50f7b1b86d24f987c557415590f79b06250e3ec1ca552da981e31a31f9edb9",
+    "vercel-react-best-practices/rules/rerender-derived-state.md": "6a501211aa53036905df7531deaf25fdb8582697366fd071d4c2607828662dcb",
+    "vercel-react-best-practices/rules/rerender-functional-setstate.md": "e46096d4c2c8fc89ab717bd7e56b8a884b612a88013a99b0c63e7dfc45d8cf25",
+    "vercel-react-best-practices/rules/rerender-lazy-state-init.md": "b8b9e6b6001a1e94979776e744eb38a98432858dd2369995731c9a095ecd1d2e",
+    "vercel-react-best-practices/rules/rerender-memo-with-default-value.md": "e69d637687b85967554df7d5fcfd83cc6fbb89237e9b80d10fbea7916244aa8b",
+    "vercel-react-best-practices/rules/rerender-memo.md": "8cc2d062f22ae762f7f5f93baf2bfc374c917079131896559721f9dfbd402a7c",
+    "vercel-react-best-practices/rules/rerender-move-effect-to-event.md": "00f5eaf8d4380c736c9177b67583f6b33f6b1f84addc252653cd6dea9551ad8d",
+    "vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": "1e41299336d72ce42ffe0b4d397496e520eae13ea544b1412b83761555f4e631",
+    "vercel-react-best-practices/rules/rerender-transitions.md": "b51a82fb6b223d13c585dfddaeb753c79d7da0524da87b708f61fd6939600ab6",
+    "vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": "26ddded1d59cc04cddf7c1412ffb05315dd1f358510edcce3c3474d5acb63f32",
+    "vercel-react-best-practices/rules/server-after-nonblocking.md": "86c8670ad8e6285753645c2cebd164c56baf6f0fa74f914c0ca496d0a0156bcc",
+    "vercel-react-best-practices/rules/server-auth-actions.md": "a413aba63b73f7f82cf2482646c8c1598eaa75753c8f73f33055b8508de99fea",
+    "vercel-react-best-practices/rules/server-cache-lru.md": "19d844eebd1fb7ef5f43f4d1e85baf1fc0160547400ab838ba4d40226eb891b9",
+    "vercel-react-best-practices/rules/server-cache-react.md": "7448470adc9f0066455f9cf45b658f5c3f1884a7990c89f880fbb272a4028b05",
+    "vercel-react-best-practices/rules/server-dedup-props.md": "5c4d4c9930812d3ab98e28ad97ca2f5af778effbf9b50b6a7558c18abf2e98b5",
+    "vercel-react-best-practices/rules/server-parallel-fetching.md": "f8f275fea2378e7707a50f2df4af6a2f65fe1fa84edb3ffc4720af805ebabe42",
+    "vercel-react-best-practices/rules/server-serialization.md": "567ce457f775d4e03e2a6ef7bf67213fee35c6c3b9d1bcfa783007d1df414d4b",
+    "vercel-react-best-practices/SKILL.md": "4497a52878b23f16ca55dfd57c54baf00e5aad2d685b2ff7a679d2fade28576b",
+    "web-design-guidelines/SKILL.md": "17e48da905f83a19c174079b50760a98c069527ba50079239b3c187236627c29"
+  },
+  "after_sha256": {
+    "frontend-design/LICENSE.txt": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+    "frontend-design/SKILL.md": "bee42e3b5051fe8ef486fb9726d360ee22c57de48a0ce94b8916cc088fc81848",
+    "python-performance-optimization/SKILL.md": "5115fb0ff1fa063c9aca92c83299a35d4e56b79ad86c11e86378262224adf892",
+    "stratai-react-three-fiber/SKILL.md": "afe8f735b29bfda937ca8dae9a263a6fd93aa4d62bc9965cf158daa93dcd7087",
+    "vercel-react-best-practices/rules/async-parallel.md": "6d2f841896279e976dfcdc1ac89e70771ac188baadfd43c096b5706cb838b961",
+    "vercel-react-best-practices/rules/client-passive-event-listeners.md": "1f35016f9053de69e884ee9be00654e37979c2ca85f5e57764dc2626ff7acb4b",
+    "vercel-react-best-practices/rules/js-index-maps.md": "5df1bdc2cfabb2c98abd55d26762e5c18189535c2e686184f426082e62920391",
+    "vercel-react-best-practices/rules/rerender-derived-state-no-effect.md": "cb11ec76f50aa7b6847269f02d79b120c889a30d9ecd2c1d578f75144419c77a",
+    "vercel-react-best-practices/rules/rerender-functional-setstate.md": "5e68df6b2ae8058e67f476ff1ac67bde159f5a9d18df439e46eabcdeb7b52e58",
+    "vercel-react-best-practices/rules/rerender-lazy-state-init.md": "4ae844740f266fc8cbf050701230286624a2440ec5be67b9a63d9edc3c580573",
+    "vercel-react-best-practices/rules/rerender-memo.md": "1f258990c2f27ff6256b3cc5c43300631bb3f0d81f749aed08d07fcdcc131dd1",
+    "vercel-react-best-practices/rules/rerender-no-inline-components.md": "1cc32907a770272524ba682eef9e7efdd8ad4533b6f89b718a1fcd7d1d0eb6a3",
+    "vercel-react-best-practices/rules/rerender-simple-expression-in-memo.md": "5bdcf2d1558ba5204e643c887b7b4060f89630969425651eb68e96427d97f800",
+    "vercel-react-best-practices/rules/rerender-use-ref-transient-values.md": "f1a649af9d1d0b5c762f6c9c4c1c70c90d7df82aa10296ee87aadb78c1b76c54",
+    "vercel-react-best-practices/SKILL.md": "f99ae5993b8fb6b74259c32216eb9a85e42e9044af8b8e786fc410177f9c99d8",
+    "web-design-guidelines/SKILL.md": "4cbe1268d79cc319e58137d87a8cdee638fda1f2c566c219c9f3942b36304e34"
+  }
+}

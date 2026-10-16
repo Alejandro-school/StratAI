@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"io"
+	"math"
 	"os"
 
 	"github.com/golang/geo/r3"
@@ -11,10 +12,11 @@ import (
 
 // NavArea represents a navigation area
 type NavArea struct {
-	ID      uint32
-	NW      r3.Vector // Used for v16 (AABB)
-	SE      r3.Vector // Used for v16 (AABB)
-	PlaceID uint16
+	ID          uint32
+	NW          r3.Vector // Used for v16 (AABB)
+	SE          r3.Vector // Used for v16 (AABB)
+	PlaceID     uint16
+	Connections []uint32 // Directed adjacent NAV-area IDs (ladder IDs are kept separate in the file format)
 
 	// v35 Geometry
 	Corners []r3.Vector
@@ -45,12 +47,6 @@ func LoadNavMesh(path string) (*NavMesh, error) {
 
 	mesh := &NavMesh{}
 
-	// Debug: Print first 32 bytes
-	headerBuf := make([]byte, 32)
-	f.Read(headerBuf)
-	fmt.Printf("Header Hex: %x\n", headerBuf)
-	f.Seek(0, 0)
-
 	// Read Magic
 	var magic uint32
 	if err := binary.Read(f, binary.LittleEndian, &magic); err != nil {
@@ -65,30 +61,27 @@ func LoadNavMesh(path string) (*NavMesh, error) {
 	if err := binary.Read(f, binary.LittleEndian, &version); err != nil {
 		return nil, err
 	}
-	fmt.Printf("Version: %d\n", version)
-
 	// SubVersion
 	var subVersion uint32
 	if err := binary.Read(f, binary.LittleEndian, &subVersion); err != nil {
 		return nil, err
 	}
-	fmt.Printf("SubVersion: %d\n", subVersion)
 
-	// BspSize
-	var bspSize uint32
-	if err := binary.Read(f, binary.LittleEndian, &bspSize); err != nil {
+	// Source 1 stores the BSP size here. Source 2 uses this word for flags,
+	// including the analyzed bit. Neither value is needed by this package.
+	var headerWord uint32
+	if err := binary.Read(f, binary.LittleEndian, &headerWord); err != nil {
 		return nil, err
 	}
-	fmt.Printf("BspSize: %d\n", bspSize)
 
 	// --- VERSION SPECIFIC PARSING ---
 
-	if version >= 31 {
+	if version >= 31 && version <= 35 {
 		// CS2 (Source 2) Logic
-		// In v35, it seems IsAnalyzed and PlaceCount are NOT present immediately after BspSize.
-		// Or at least, the data following BspSize looks like CornerCount (0x10A9 = 4265).
-		// So we jump straight to version specific parsing.
 		return parseSource2(f, mesh, version)
+	}
+	if version != 16 {
+		return nil, fmt.Errorf("unsupported nav version: %d", version)
 	}
 
 	// IsAnalyzed (Only for v16 / Source 1)
@@ -96,14 +89,12 @@ func LoadNavMesh(path string) (*NavMesh, error) {
 	if err := binary.Read(f, binary.LittleEndian, &isAnalyzed); err != nil {
 		return nil, err
 	}
-	fmt.Printf("IsAnalyzed: %d\n", isAnalyzed)
 
 	// PlaceCount
 	var placeCount uint16
 	if err := binary.Read(f, binary.LittleEndian, &placeCount); err != nil {
 		return nil, err
 	}
-	fmt.Printf("Place Count: %d\n", placeCount)
 
 	// Places
 	mesh.Places = make([]string, placeCount)
@@ -180,14 +171,20 @@ func parseSource1(r io.Reader, mesh *NavMesh) (*NavMesh, error) {
 			{X: float64(seX), Y: float64(seY), Z: float64(seZ)}, // SE
 			{X: float64(nwX), Y: float64(seY), Z: float64(swZ)}, // SW
 		}
+		area.Center = centerOfNavCorners(area.Corners)
 
 		// Connections (4 directions: N, E, S, W)
 		for dir := 0; dir < 4; dir++ {
 			var count uint32
-			binary.Read(r, binary.LittleEndian, &count)
+			if err := binary.Read(r, binary.LittleEndian, &count); err != nil {
+				return nil, fmt.Errorf("failed to read connection count for area %d: %v", area.ID, err)
+			}
 			for k := 0; k < int(count); k++ {
 				var connectID uint32
-				binary.Read(r, binary.LittleEndian, &connectID)
+				if err := binary.Read(r, binary.LittleEndian, &connectID); err != nil {
+					return nil, fmt.Errorf("failed to read connection for area %d: %v", area.ID, err)
+				}
+				area.Connections = append(area.Connections, connectID)
 			}
 		}
 
@@ -232,10 +229,15 @@ func parseSource1(r io.Reader, mesh *NavMesh) (*NavMesh, error) {
 		// Skip Ladder Connections (2 directions)
 		for dir := 0; dir < 2; dir++ {
 			var count uint32
-			binary.Read(r, binary.LittleEndian, &count)
+			if err := binary.Read(r, binary.LittleEndian, &count); err != nil {
+				return nil, fmt.Errorf("failed to read ladder connection count for area %d: %v", area.ID, err)
+			}
 			for k := 0; k < int(count); k++ {
 				var connectID uint32
-				binary.Read(r, binary.LittleEndian, &connectID)
+				if err := binary.Read(r, binary.LittleEndian, &connectID); err != nil {
+					return nil, fmt.Errorf("failed to read ladder connection for area %d: %v", area.ID, err)
+				}
+				area.Connections = append(area.Connections, connectID)
 			}
 		}
 
@@ -251,246 +253,308 @@ func parseSource1(r io.Reader, mesh *NavMesh) (*NavMesh, error) {
 	return mesh, nil
 }
 
-func parseSource2(r io.Reader, mesh *NavMesh, version uint32) (*NavMesh, error) {
-	fmt.Printf("Parsing Source 2 Nav Mesh (Version %d)\n", version)
-	// 1. Read Corners
-	var cornerCount uint32
-	if err := binary.Read(r, binary.LittleEndian, &cornerCount); err != nil {
-		return nil, fmt.Errorf("failed to read corner count: %v", err)
-	}
-	fmt.Printf("Corner Count: %d\n", cornerCount)
+const (
+	maxSource2CollectionEntries = uint32(1 << 24)
+	maxSource2StringBytes       = 1 << 20
+)
 
-	mesh.corners = make([]r3.Vector, cornerCount)
-	for i := 0; i < int(cornerCount); i++ {
+type source2Reader struct {
+	reader       io.Reader
+	remaining    uint64
+	hasRemaining bool
+}
+
+func newSource2Reader(r io.Reader) *source2Reader {
+	remaining, ok := source2RemainingBytes(r)
+	return &source2Reader{reader: r, remaining: remaining, hasRemaining: ok}
+}
+
+func (r *source2Reader) Read(p []byte) (int, error) {
+	n, err := r.reader.Read(p)
+	if r.hasRemaining {
+		if uint64(n) > r.remaining {
+			r.remaining = 0
+		} else {
+			r.remaining -= uint64(n)
+		}
+	}
+	return n, err
+}
+
+func (r *source2Reader) read(value any, label string) error {
+	if err := binary.Read(r, binary.LittleEndian, value); err != nil {
+		return fmt.Errorf("failed to read %s: %w", label, err)
+	}
+	return nil
+}
+
+func (r *source2Reader) readCount(label string, minimumElementBytes uint64) (uint32, error) {
+	var count uint32
+	if err := r.read(&count, label); err != nil {
+		return 0, err
+	}
+	if count > maxSource2CollectionEntries {
+		return 0, fmt.Errorf("invalid %s %d: exceeds safety limit %d", label, count, maxSource2CollectionEntries)
+	}
+	if r.hasRemaining && minimumElementBytes > 0 && uint64(count) > r.remaining/minimumElementBytes {
+		return 0, fmt.Errorf("invalid %s %d: requires at least %d bytes but only %d remain", label, count, uint64(count)*minimumElementBytes, r.remaining)
+	}
+	return count, nil
+}
+
+func source2RemainingBytes(r io.Reader) (uint64, bool) {
+	if reader, ok := r.(interface{ Len() int }); ok {
+		remaining := reader.Len()
+		if remaining >= 0 {
+			return uint64(remaining), true
+		}
+	}
+
+	seeker, ok := r.(io.Seeker)
+	if !ok {
+		return 0, false
+	}
+	position, err := seeker.Seek(0, io.SeekCurrent)
+	if err != nil {
+		return 0, false
+	}
+	end, err := seeker.Seek(0, io.SeekEnd)
+	if err != nil {
+		return 0, false
+	}
+	if _, err := seeker.Seek(position, io.SeekStart); err != nil || end < position {
+		return 0, false
+	}
+	return uint64(end - position), true
+}
+
+func (r *source2Reader) skipCString(label string) error {
+	var octet [1]byte
+	for i := 0; i < maxSource2StringBytes; i++ {
+		if _, err := io.ReadFull(r, octet[:]); err != nil {
+			return fmt.Errorf("failed to read %s: %w", label, err)
+		}
+		if octet[0] == 0 {
+			return nil
+		}
+	}
+	return fmt.Errorf("invalid %s: exceeds safety limit %d", label, maxSource2StringBytes)
+}
+
+func parseSource2(input io.Reader, mesh *NavMesh, version uint32) (*NavMesh, error) {
+	if version < 31 || version > 35 {
+		return nil, fmt.Errorf("unsupported Source 2 nav version: %d", version)
+	}
+	r := newSource2Reader(input)
+
+	cornerCount, err := r.readCount("corner count", 12)
+	if err != nil {
+		return nil, err
+	}
+	mesh.corners = make([]r3.Vector, int(cornerCount))
+	for i := range mesh.corners {
 		var x, y, z float32
-		if err := binary.Read(r, binary.LittleEndian, &x); err != nil {
-			return nil, fmt.Errorf("failed to read corner X at %d: %v", i, err)
+		if err := r.read(&x, fmt.Sprintf("corner X at %d", i)); err != nil {
+			return nil, err
 		}
-		if err := binary.Read(r, binary.LittleEndian, &y); err != nil {
-			return nil, fmt.Errorf("failed to read corner Y at %d: %v", i, err)
+		if err := r.read(&y, fmt.Sprintf("corner Y at %d", i)); err != nil {
+			return nil, err
 		}
-		if err := binary.Read(r, binary.LittleEndian, &z); err != nil {
-			return nil, fmt.Errorf("failed to read corner Z at %d: %v", i, err)
+		if err := r.read(&z, fmt.Sprintf("corner Z at %d", i)); err != nil {
+			return nil, err
+		}
+		if !source2Finite(float64(x)) || !source2Finite(float64(y)) || !source2Finite(float64(z)) {
+			return nil, fmt.Errorf("invalid non-finite corner at %d", i)
 		}
 		mesh.corners[i] = r3.Vector{X: float64(x), Y: float64(y), Z: float64(z)}
 	}
 
-	if f, ok := r.(*os.File); ok {
-		offset, _ := f.Seek(0, io.SeekCurrent)
-		fmt.Printf("Offset after corners: %d\n", offset)
+	minimumPolygonBytes := uint64(1)
+	if version >= 35 {
+		minimumPolygonBytes += 4
 	}
-
-	// 2. Read Polygons
-	var polygonCount uint32
-	if err := binary.Read(r, binary.LittleEndian, &polygonCount); err != nil {
-		return nil, fmt.Errorf("failed to read polygon count: %v", err)
+	polygonCount, err := r.readCount("polygon count", minimumPolygonBytes)
+	if err != nil {
+		return nil, err
 	}
-	fmt.Printf("Polygon Count: %d\n", polygonCount)
-
-	mesh.polygons = make([]navPolygon, polygonCount)
-	for i := 0; i < int(polygonCount); i++ {
-		var polyCornerCount uint8
-		if err := binary.Read(r, binary.LittleEndian, &polyCornerCount); err != nil {
-			return nil, fmt.Errorf("failed to read poly corner count at %d: %v", i, err)
+	mesh.polygons = make([]navPolygon, int(polygonCount))
+	for i := range mesh.polygons {
+		var polygonCornerCount uint8
+		if err := r.read(&polygonCornerCount, fmt.Sprintf("polygon corner count at %d", i)); err != nil {
+			return nil, err
+		}
+		if polygonCornerCount < 3 {
+			return nil, fmt.Errorf("invalid polygon corner count %d at %d", polygonCornerCount, i)
+		}
+		if r.hasRemaining && uint64(polygonCornerCount)*4 > r.remaining {
+			return nil, fmt.Errorf("invalid polygon corner count %d at %d: requires %d bytes but only %d remain", polygonCornerCount, i, uint64(polygonCornerCount)*4, r.remaining)
 		}
 
-		indices := make([]uint32, polyCornerCount)
-		if err := binary.Read(r, binary.LittleEndian, &indices); err != nil {
-			return nil, fmt.Errorf("failed to read poly indices at %d: %v", i, err)
+		indices := make([]uint32, int(polygonCornerCount))
+		if err := r.read(&indices, fmt.Sprintf("polygon indices at %d", i)); err != nil {
+			return nil, err
+		}
+		for corner, index := range indices {
+			if index >= cornerCount {
+				return nil, fmt.Errorf("invalid corner index %d at polygon %d corner %d (corner count %d)", index, i, corner, cornerCount)
+			}
 		}
 		mesh.polygons[i] = navPolygon{indices: indices}
 
-		// Skip UnkPoly (Version >= 35)
 		if version >= 35 {
-			var unkPoly uint32
-			if err := binary.Read(r, binary.LittleEndian, &unkPoly); err != nil {
-				return nil, fmt.Errorf("failed to read unkPoly at %d: %v", i, err)
+			var movableMeshID uint32
+			if err := r.read(&movableMeshID, fmt.Sprintf("movable mesh id at polygon %d", i)); err != nil {
+				return nil, err
 			}
 		}
 	}
 
-	// 3. Global Unknowns
 	if version >= 32 {
-		var unk2 uint32
-		if err := binary.Read(r, binary.LittleEndian, &unk2); err != nil {
-			return nil, fmt.Errorf("failed to read unk2: %v", err)
+		var unknown uint32
+		if err := r.read(&unknown, "Source 2 global unknown"); err != nil {
+			return nil, err
 		}
 	}
 	if version >= 35 {
-		var unk3 uint32
-		if err := binary.Read(r, binary.LittleEndian, &unk3); err != nil {
-			return nil, fmt.Errorf("failed to read unk3: %v", err)
+		movableMeshCount, err := r.readCount("movable mesh count", 49)
+		if err != nil {
+			return nil, err
+		}
+		for i := uint32(0); i < movableMeshCount; i++ {
+			if err := r.skipCString(fmt.Sprintf("movable mesh id at %d", i)); err != nil {
+				return nil, err
+			}
+			var referenceTransform [48]byte
+			if _, err := io.ReadFull(r, referenceTransform[:]); err != nil {
+				return nil, fmt.Errorf("failed to read movable mesh transform at %d: %w", i, err)
+			}
 		}
 	}
 
-	// 4. Areas
-	var areaCount uint32
-	if err := binary.Read(r, binary.LittleEndian, &areaCount); err != nil {
-		return nil, fmt.Errorf("failed to read area count: %v", err)
+	areaCount, err := r.readCount("area count", 34)
+	if err != nil {
+		return nil, err
 	}
-	fmt.Printf("Area Count: %d\n", areaCount)
-
-	mesh.Areas = make([]NavArea, areaCount)
-	for i := 0; i < int(areaCount); i++ {
+	mesh.Areas = make([]NavArea, int(areaCount))
+	areaIDs := make(map[uint32]struct{}, int(areaCount))
+	for i := range mesh.Areas {
 		area := NavArea{}
-
-		// Determine Byte Order
-		// Area 0 is Little Endian. Area 1+ seems to be Big Endian in v35?
-		var order binary.ByteOrder = binary.LittleEndian
-		if i > 0 {
-			order = binary.BigEndian
+		if err := r.read(&area.ID, fmt.Sprintf("area ID at %d", i)); err != nil {
+			return nil, err
 		}
-
-		// ID
-		if err := binary.Read(r, order, &area.ID); err != nil {
-			return nil, fmt.Errorf("failed to read area ID at %d: %v", i, err)
+		if area.ID == 0 {
+			return nil, fmt.Errorf("invalid zero area ID at %d", i)
 		}
+		if _, duplicate := areaIDs[area.ID]; duplicate {
+			return nil, fmt.Errorf("duplicate area ID %d at %d", area.ID, i)
+		}
+		areaIDs[area.ID] = struct{}{}
 
-		var flags uint64
-		var hullIndex uint32
+		var attributeFlags int64
+		if err := r.read(&attributeFlags, fmt.Sprintf("attribute flags at area %d", i)); err != nil {
+			return nil, err
+		}
+		var hullIndex uint8
+		if err := r.read(&hullIndex, fmt.Sprintf("hull index at area %d", i)); err != nil {
+			return nil, err
+		}
 		var polygonIndex uint32
-		var unkArea uint32
-		var padding uint8
-
-		var flags32 uint32
-		if err := binary.Read(r, order, &flags32); err != nil {
-			return nil, fmt.Errorf("failed to read flags at %d: %v", i, err)
+		if err := r.read(&polygonIndex, fmt.Sprintf("polygon index at area %d", i)); err != nil {
+			return nil, err
 		}
-		flags = uint64(flags32)
-
-		if err := binary.Read(r, order, &hullIndex); err != nil {
-			return nil, fmt.Errorf("failed to read hullIndex at %d: %v", i, err)
+		if polygonIndex >= polygonCount {
+			return nil, fmt.Errorf("invalid polygon index %d at area %d (polygon count %d)", polygonIndex, i, polygonCount)
+		}
+		var unknown float32
+		if err := r.read(&unknown, fmt.Sprintf("unknown float at area %d", i)); err != nil {
+			return nil, err
 		}
 
-		if err := binary.Read(r, order, &polygonIndex); err != nil {
-			return nil, fmt.Errorf("failed to read polygonIndex at %d: %v", i, err)
+		polygon := mesh.polygons[polygonIndex]
+		area.Corners = make([]r3.Vector, len(polygon.indices))
+		for corner, index := range polygon.indices {
+			area.Corners[corner] = mesh.corners[index]
 		}
+		setNavAreaGeometry(&area)
 
-		if err := binary.Read(r, order, &unkArea); err != nil {
-			return nil, fmt.Errorf("failed to read unkArea at %d: %v", i, err)
-		}
-
-		// Padding (1 byte)
-		if err := binary.Read(r, binary.LittleEndian, &padding); err != nil {
-			return nil, fmt.Errorf("failed to read padding at %d: %v", i, err)
-		}
-
-		// Reconstruct corners
-		if int(polygonIndex) < len(mesh.polygons) {
-			poly := mesh.polygons[polygonIndex]
-			area.Corners = make([]r3.Vector, len(poly.indices))
-			for k, idx := range poly.indices {
-				if int(idx) < len(mesh.corners) {
-					area.Corners[k] = mesh.corners[idx]
-				}
+		for edge := range area.Corners {
+			connectionCount, err := r.readCount(fmt.Sprintf("connection count at area %d edge %d", i, edge), 8)
+			if err != nil {
+				return nil, err
 			}
-			// Calculate AABB for compatibility
-			minX, minY, minZ := 1e9, 1e9, 1e9
-			maxX, maxY, maxZ := -1e9, -1e9, -1e9
-			for _, c := range area.Corners {
-				if c.X < minX {
-					minX = c.X
-				}
-				if c.Y < minY {
-					minY = c.Y
-				}
-				if c.Z < minZ {
-					minZ = c.Z
-				}
-				if c.X > maxX {
-					maxX = c.X
-				}
-				if c.Y > maxY {
-					maxY = c.Y
-				}
-				if c.Z > maxZ {
-					maxZ = c.Z
-				}
-			}
-			area.NW = r3.Vector{X: minX, Y: minY, Z: minZ}
-			area.SE = r3.Vector{X: maxX, Y: maxY, Z: maxZ}
-		}
-
-		// Skip UnkArea (Already read)
-		// var unkArea uint32
-		// if err := binary.Read(r, binary.LittleEndian, &unkArea); err != nil {
-		// 	return nil, fmt.Errorf("failed to read unkArea at %d: %v", i, err)
-		// }
-
-		if i < 5 {
-			fmt.Printf("Area %d: ID=%d Flags=%x Hull=%d Poly=%d Unk=%d\n", i, area.ID, flags, hullIndex, polygonIndex, unkArea)
-		}
-
-		// Connections (Per Edge)
-		edgeCount := len(area.Corners)
-		for k := 0; k < edgeCount; k++ {
-			var connCount uint32
-			if err := binary.Read(r, order, &connCount); err != nil {
-				return nil, fmt.Errorf("failed to read connCount at %d edge %d: %v", i, k, err)
-			}
-			for j := 0; j < int(connCount); j++ {
+			for connection := uint32(0); connection < connectionCount; connection++ {
 				var targetID uint32
-				if err := binary.Read(r, order, &targetID); err != nil {
-					return nil, fmt.Errorf("failed to read targetID at %d edge %d conn %d: %v", i, k, j, err)
+				if err := r.read(&targetID, fmt.Sprintf("target area ID at area %d edge %d connection %d", i, edge, connection)); err != nil {
+					return nil, err
+				}
+				var edgeID uint32
+				if err := r.read(&edgeID, fmt.Sprintf("target edge ID at area %d edge %d connection %d", i, edge, connection)); err != nil {
+					return nil, err
+				}
+				area.Connections = append(area.Connections, targetID)
+			}
+		}
+
+		var legacyHidingSpotCount uint8
+		if err := r.read(&legacyHidingSpotCount, fmt.Sprintf("legacy hiding spot count at area %d", i)); err != nil {
+			return nil, err
+		}
+		var legacyEncounterCount uint32
+		if err := r.read(&legacyEncounterCount, fmt.Sprintf("legacy encounter count at area %d", i)); err != nil {
+			return nil, err
+		}
+		if legacyHidingSpotCount != 0 || legacyEncounterCount != 0 {
+			return nil, fmt.Errorf("unsupported legacy data at area %d (hiding spots %d, encounters %d)", i, legacyHidingSpotCount, legacyEncounterCount)
+		}
+
+		for _, direction := range []string{"above", "below"} {
+			ladderCount, err := r.readCount(fmt.Sprintf("ladder %s count at area %d", direction, i), 4)
+			if err != nil {
+				return nil, err
+			}
+			for ladder := uint32(0); ladder < ladderCount; ladder++ {
+				var ladderID uint32
+				if err := r.read(&ladderID, fmt.Sprintf("ladder %s ID at area %d index %d", direction, i, ladder)); err != nil {
+					return nil, err
 				}
 			}
-		}
-
-		// Skip Legacy Data (2 bytes in v35?)
-		// Analysis of dump shows 2 bytes of zeros before LadderAboveCount
-		legacySkip := make([]byte, 2)
-		if err := binary.Read(r, binary.LittleEndian, &legacySkip); err != nil {
-			return nil, fmt.Errorf("failed to read legacySkip at %d: %v", i, err)
-		}
-
-		// Ladders Above
-		var ladderAboveCount uint32
-		if err := binary.Read(r, order, &ladderAboveCount); err != nil {
-			return nil, fmt.Errorf("failed to read ladderAboveCount at %d: %v", i, err)
-		}
-		for k := 0; k < int(ladderAboveCount); k++ {
-			var id uint32
-			if err := binary.Read(r, order, &id); err != nil {
-				return nil, fmt.Errorf("failed to read ladderAboveID at %d: %v", i, err)
-			}
-		}
-
-		// Ladders Below
-		var ladderBelowCount uint32
-		if err := binary.Read(r, order, &ladderBelowCount); err != nil {
-			return nil, fmt.Errorf("failed to read ladderBelowCount at %d: %v", i, err)
-		}
-		for k := 0; k < int(ladderBelowCount); k++ {
-			var id uint32
-			if err := binary.Read(r, order, &id); err != nil {
-				return nil, fmt.Errorf("failed to read ladderBelowID at %d: %v", i, err)
-			}
-		}
-
-		// PlaceID (Finally!)
-		if err := binary.Read(r, order, &area.PlaceID); err != nil {
-			return nil, fmt.Errorf("failed to read PlaceID at %d: %v", i, err)
-		}
-
-		// Earliest Occupier (2 teams)
-		for team := 0; team < 2; team++ {
-			var time float32
-			if err := binary.Read(r, order, &time); err != nil {
-				return nil, fmt.Errorf("failed to read time at %d team %d: %v", i, team, err)
-			}
-		}
-
-		// DEBUG: Read 4 extra bytes to fix alignment?
-		// It seems we are 4 bytes short in Area 0 reading.
-		if i == 0 {
-			dummy := make([]byte, 4)
-			r.Read(dummy)
 		}
 
 		mesh.Areas[i] = area
 	}
 
+	for _, area := range mesh.Areas {
+		for _, targetID := range area.Connections {
+			if _, exists := areaIDs[targetID]; !exists {
+				return nil, fmt.Errorf("area %d references missing area %d", area.ID, targetID)
+			}
+		}
+	}
+
 	return mesh, nil
+}
+
+func source2Finite(value float64) bool {
+	return !math.IsNaN(value) && !math.IsInf(value, 0)
+}
+
+func setNavAreaGeometry(area *NavArea) {
+	if len(area.Corners) == 0 {
+		return
+	}
+	min := area.Corners[0]
+	max := area.Corners[0]
+	for _, corner := range area.Corners[1:] {
+		min.X = math.Min(min.X, corner.X)
+		min.Y = math.Min(min.Y, corner.Y)
+		min.Z = math.Min(min.Z, corner.Z)
+		max.X = math.Max(max.X, corner.X)
+		max.Y = math.Max(max.Y, corner.Y)
+		max.Z = math.Max(max.Z, corner.Z)
+	}
+	area.NW = min
+	area.SE = max
+	area.Center = centerOfNavCorners(area.Corners)
 }
 
 // GetNearestArea returns the navigation area closest to the given position
@@ -549,4 +613,15 @@ func isPointInPolygon(p r3.Vector, poly []r3.Vector) bool {
 		j = i
 	}
 	return inside
+}
+
+func centerOfNavCorners(corners []r3.Vector) r3.Vector {
+	if len(corners) == 0 {
+		return r3.Vector{}
+	}
+	var center r3.Vector
+	for _, corner := range corners {
+		center = center.Add(corner)
+	}
+	return center.Mul(1 / float64(len(corners)))
 }

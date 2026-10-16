@@ -1,0 +1,2577 @@
+{
+  "analysis": {
+    "actor_cut_marginal": {
+      "c4.carrier_player_position": {
+        "not_applicable:not_a_carrier": 187540,
+        "observed:present": 11914
+      },
+      "c4.has_c4": {
+        "observed:present": 199454
+      },
+      "c4.physical_c4_position": {
+        "unavailable:not_observed_in_legal_view": 199454
+      },
+      "clock.attempt_progress": {
+        "not_applicable:no_current_own_attempt": 192515,
+        "observed:present": 160,
+        "unavailable:native_attempt_duration_unavailable": 550,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.attempt_remaining_seconds": {
+        "not_applicable:no_current_own_attempt": 192515,
+        "observed:present": 710,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.attempt_state": {
+        "observed:present": 193225,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.bomb_clock_state": {
+        "not_applicable:no_active_planted_phase": 174419,
+        "observed:present": 18806,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.bomb_remaining_seconds": {
+        "not_applicable:no_active_planted_phase": 174419,
+        "observed:present": 18806,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.clock_state": {
+        "observed:present": 193225,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 6229
+      },
+      "clock.defuse_deadline_margin_seconds": {
+        "not_applicable:no_current_own_attempt": 192515,
+        "not_applicable:not_a_defuse_attempt": 550,
+        "observed:present": 160,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.pause_state": {
+        "observed:present": 199454
+      },
+      "clock.round_clock_state": {
+        "not_applicable:round_clock_superseded_by_bomb": 18806,
+        "observed:present": 174419,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "clock.round_remaining_seconds": {
+        "not_applicable:round_clock_superseded_by_bomb": 18806,
+        "observed:present": 174419,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "motion.ground_contact": {
+        "observed:present": 199144,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+      },
+      "motion.ground_reference_state": {
+        "observed:present": 199144,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+      },
+      "motion.movement_mode_code": {
+        "observed:present": 199144,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+      },
+      "motion.native_horizontal_speed": {
+        "unavailable:native_current_velocity_source_absent": 199144,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+      },
+      "motion.native_speed": {
+        "unavailable:native_current_velocity_source_absent": 199144,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+      },
+      "motion.native_velocity": {
+        "unavailable:native_current_velocity_source_absent": 199144,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 310
+      },
+      "objective.defusing": {
+        "observed:present": 199454
+      },
+      "objective.has_defuse_kit": {
+        "observed:present": 199454
+      },
+      "objective.in_bomb_zone": {
+        "observed:present": 199454
+      },
+      "origin.planting_duration_seconds": {
+        "not_applicable:not_a_current_planting_attempt": 192675,
+        "observed:present": 550,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "origin.planting_elapsed_seconds": {
+        "not_applicable:not_a_current_planting_attempt": 192675,
+        "observed:present": 550,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "origin.planting_origin_state": {
+        "not_applicable:not_a_current_planting_attempt": 192675,
+        "observed:present": 550,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "origin.planting_progress": {
+        "not_applicable:not_a_current_planting_attempt": 192675,
+        "observed:present": 550,
+        "unavailable:objective_phase_unavailable": 6229
+      },
+      "physical.active_weapon": {
+        "observed:present": 198981,
+        "unavailable:weapon_identity_unavailable": 473
+      },
+      "physical.ammo_in_magazine": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "observed:present": 127568,
+        "unavailable:native_fields_absent_or_invalid": 298,
+        "unavailable:weapon_identity_unavailable": 473
+      },
+      "physical.ammo_reserve": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "observed:present": 127866,
+        "unavailable:weapon_identity_unavailable": 473
+      },
+      "physical.ducking": {
+        "observed:present": 199454
+      },
+      "physical.interval_average_velocity": {
+        "observed:present": 199175,
+        "unavailable:no_previous_sample": 9,
+        "unavailable:pawn_life_handle_or_side_changed": 10,
+        "unavailable:previous_actor_unavailable": 10,
+        "unavailable:previous_cut_incompatible": 250
+      },
+      "physical.reloading": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "observed:present": 126284,
+        "unavailable:reload_signal_unavailable": 1582,
+        "unavailable:weapon_identity_unavailable": 473
+      },
+      "physical.view_angles": {
+        "observed:present": 199454
+      },
+      "physical.walking": {
+        "observed:present": 199454
+      },
+      "position.objective_object_state": {
+        "observed:present": 4131,
+        "unavailable:legal_object_position_not_observed": 177211,
+        "unavailable:objective_phase_unavailable": 6229,
+        "unavailable:parent_transform_unavailable": 11883
+      },
+      "position.physical_objective_position": {
+        "observed:present": 4131,
+        "unavailable:legal_object_position_not_observed": 177211,
+        "unavailable:objective_phase_unavailable": 6229,
+        "unavailable:parent_transform_unavailable": 11883
+      },
+      "position.position_availability": {
+        "observed:present": 4131,
+        "unavailable:legal_object_position_not_observed": 177211,
+        "unavailable:objective_phase_unavailable": 6229,
+        "unavailable:parent_transform_unavailable": 11883
+      },
+      "timing.pawn_deadline_state": {
+        "observed:present": 193225,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 6229
+      },
+      "timing.pawn_remaining_seconds": {
+        "observed:present": 193225,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 6229
+      },
+      "timing.postpone_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "unavailable:current_weapon_unavailable": 473,
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 127866
+      },
+      "timing.postpone_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "unavailable:current_weapon_unavailable": 473,
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 127866
+      },
+      "timing.primary_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "unavailable:current_weapon_unavailable": 473,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866
+      },
+      "timing.primary_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "unavailable:current_weapon_unavailable": 473,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866
+      },
+      "timing.secondary_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "unavailable:current_weapon_unavailable": 473,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866
+      },
+      "timing.secondary_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 71115,
+        "unavailable:current_weapon_unavailable": 473,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 127866
+      },
+      "visual.flash_clear": {
+        "unavailable:rendered_flash_opacity_unaccredited": 199454
+      },
+      "visual.native_eye_offset": {
+        "observed:present": 199423,
+        "unavailable:native_visual_c0_actor_continuity_unaccredited": 31
+      },
+      "visual.reference_fov_degrees": {
+        "observed:present": 3625,
+        "unavailable:native_camera_fov_default_or_range_unaccredited": 181946,
+        "unavailable:native_camera_fov_transition_unaccredited": 13852,
+        "unavailable:native_visual_c0_actor_continuity_unaccredited": 31
+      },
+      "visual.smoke_clear": {
+        "unavailable:smoke_volume_and_coverage_unaccredited": 199454
+      },
+      "visual.visual_contact": {
+        "unavailable:legal_visual_contact_inputs_unaccredited": 199454
+      }
+    },
+    "actor_unavailable": {
+      "not_alive": 74113
+    },
+    "all_fields_available_actor_cuts": 0,
+    "all_fields_observed_actor_cuts": 0,
+    "candidate_id_stream_sha256": "4a9f75b3c797da423ce6e5c409e6934fe65cf0ad96c80af7d98cc82428d77a50",
+    "candidate_role_marginal": {
+      "ally.c4.carrier_player_position": {
+        "not_applicable:not_a_carrier": 622168,
+        "observed:present": 38518
+      },
+      "ally.c4.has_c4": {
+        "observed:present": 660686
+      },
+      "ally.c4.physical_c4_position": {
+        "unavailable:not_observed_in_legal_view": 660686
+      },
+      "ally.clock.attempt_progress": {
+        "not_applicable:no_current_own_attempt": 635288,
+        "observed:present": 320,
+        "unavailable:native_attempt_duration_unavailable": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.attempt_remaining_seconds": {
+        "not_applicable:no_current_own_attempt": 635288,
+        "observed:present": 1692,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.attempt_state": {
+        "observed:present": 636980,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.bomb_clock_state": {
+        "not_applicable:no_active_planted_phase": 600614,
+        "observed:present": 36366,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.bomb_remaining_seconds": {
+        "not_applicable:no_active_planted_phase": 600614,
+        "observed:present": 36366,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.clock_state": {
+        "observed:present": 636980,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706
+      },
+      "ally.clock.defuse_deadline_margin_seconds": {
+        "not_applicable:no_current_own_attempt": 635288,
+        "not_applicable:not_a_defuse_attempt": 1372,
+        "observed:present": 320,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.pause_state": {
+        "observed:present": 660686
+      },
+      "ally.clock.round_clock_state": {
+        "not_applicable:round_clock_superseded_by_bomb": 36366,
+        "observed:present": 600614,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.clock.round_remaining_seconds": {
+        "not_applicable:round_clock_superseded_by_bomb": 36366,
+        "observed:present": 600614,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.motion.ground_contact": {
+        "observed:present": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "ally.motion.ground_reference_state": {
+        "observed:present": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "ally.motion.movement_mode_code": {
+        "observed:present": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "ally.motion.native_horizontal_speed": {
+        "unavailable:native_current_velocity_source_absent": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "ally.motion.native_speed": {
+        "unavailable:native_current_velocity_source_absent": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "ally.motion.native_velocity": {
+        "unavailable:native_current_velocity_source_absent": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "ally.objective.defusing": {
+        "observed:present": 660686
+      },
+      "ally.objective.has_defuse_kit": {
+        "observed:present": 660686
+      },
+      "ally.objective.in_bomb_zone": {
+        "observed:present": 660686
+      },
+      "ally.origin.planting_duration_seconds": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.origin.planting_elapsed_seconds": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.origin.planting_origin_state": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.origin.planting_progress": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "ally.physical.active_weapon": {
+        "observed:present": 659251,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "ally.physical.ammo_in_magazine": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "observed:present": 401220,
+        "unavailable:native_fields_absent_or_invalid": 978,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "ally.physical.ammo_reserve": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "observed:present": 402198,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "ally.physical.ducking": {
+        "observed:present": 660686
+      },
+      "ally.physical.interval_average_velocity": {
+        "observed:present": 659575,
+        "unavailable:no_previous_sample": 32,
+        "unavailable:pawn_life_handle_or_side_changed": 40,
+        "unavailable:previous_actor_unavailable": 39,
+        "unavailable:previous_cut_incompatible": 1000
+      },
+      "ally.physical.reloading": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "observed:present": 398005,
+        "unavailable:reload_signal_unavailable": 4193,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "ally.physical.view_angles": {
+        "observed:present": 660686
+      },
+      "ally.physical.walking": {
+        "observed:present": 660686
+      },
+      "ally.position.objective_object_state": {
+        "observed:present": 8623,
+        "unavailable:legal_object_position_not_observed": 589963,
+        "unavailable:objective_phase_unavailable": 23706,
+        "unavailable:parent_transform_unavailable": 38394
+      },
+      "ally.position.physical_objective_position": {
+        "observed:present": 8623,
+        "unavailable:legal_object_position_not_observed": 589963,
+        "unavailable:objective_phase_unavailable": 23706,
+        "unavailable:parent_transform_unavailable": 38394
+      },
+      "ally.position.position_availability": {
+        "observed:present": 8623,
+        "unavailable:legal_object_position_not_observed": 589963,
+        "unavailable:objective_phase_unavailable": 23706,
+        "unavailable:parent_transform_unavailable": 38394
+      },
+      "ally.timing.pawn_deadline_state": {
+        "observed:present": 636980,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706
+      },
+      "ally.timing.pawn_remaining_seconds": {
+        "observed:present": 636980,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706
+      },
+      "ally.timing.postpone_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198
+      },
+      "ally.timing.postpone_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198
+      },
+      "ally.timing.primary_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "ally.timing.primary_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "ally.timing.secondary_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "ally.timing.secondary_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "ally.visual.flash_clear": {
+        "unavailable:rendered_flash_opacity_unaccredited": 660686
+      },
+      "ally.visual.native_eye_offset": {
+        "observed:present": 660562,
+        "unavailable:native_visual_c0_actor_continuity_unaccredited": 124
+      },
+      "ally.visual.reference_fov_degrees": {
+        "observed:present": 10263,
+        "unavailable:native_camera_fov_default_or_range_unaccredited": 605430,
+        "unavailable:native_camera_fov_transition_unaccredited": 44869,
+        "unavailable:native_visual_c0_actor_continuity_unaccredited": 124
+      },
+      "ally.visual.smoke_clear": {
+        "unavailable:smoke_volume_and_coverage_unaccredited": 660686
+      },
+      "ally.visual.visual_contact": {
+        "unavailable:legal_visual_contact_inputs_unaccredited": 660686
+      },
+      "global.objective.bomb_elapsed_seconds": {
+        "not_applicable:no_active_planted_phase": 600614,
+        "observed:present": 36366,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "global.objective.bomb_planted": {
+        "observed:present": 660686
+      },
+      "global.objective.freeze_period": {
+        "observed:present": 660686
+      },
+      "global.objective.objective_phase": {
+        "observed:present": 636980,
+        "unavailable:public_replay_phase_conflict": 23706
+      },
+      "global.objective.round_duration_seconds": {
+        "observed:present": 660686
+      },
+      "global.objective.round_elapsed_seconds": {
+        "observed:present": 660686
+      },
+      "global.objective.warmup": {
+        "observed:present": 660686
+      },
+      "self.c4.carrier_player_position": {
+        "not_applicable:not_a_carrier": 622168,
+        "observed:present": 38518
+      },
+      "self.c4.has_c4": {
+        "observed:present": 660686
+      },
+      "self.c4.physical_c4_position": {
+        "unavailable:not_observed_in_legal_view": 660686
+      },
+      "self.clock.attempt_progress": {
+        "not_applicable:no_current_own_attempt": 635288,
+        "observed:present": 320,
+        "unavailable:native_attempt_duration_unavailable": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.attempt_remaining_seconds": {
+        "not_applicable:no_current_own_attempt": 635288,
+        "observed:present": 1692,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.attempt_state": {
+        "observed:present": 636980,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.bomb_clock_state": {
+        "not_applicable:no_active_planted_phase": 600614,
+        "observed:present": 36366,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.bomb_remaining_seconds": {
+        "not_applicable:no_active_planted_phase": 600614,
+        "observed:present": 36366,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.clock_state": {
+        "observed:present": 636980,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706
+      },
+      "self.clock.defuse_deadline_margin_seconds": {
+        "not_applicable:no_current_own_attempt": 635288,
+        "not_applicable:not_a_defuse_attempt": 1372,
+        "observed:present": 320,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.pause_state": {
+        "observed:present": 660686
+      },
+      "self.clock.round_clock_state": {
+        "not_applicable:round_clock_superseded_by_bomb": 36366,
+        "observed:present": 600614,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.clock.round_remaining_seconds": {
+        "not_applicable:round_clock_superseded_by_bomb": 36366,
+        "observed:present": 600614,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.motion.ground_contact": {
+        "observed:present": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "self.motion.ground_reference_state": {
+        "observed:present": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "self.motion.movement_mode_code": {
+        "observed:present": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "self.motion.native_horizontal_speed": {
+        "unavailable:native_current_velocity_source_absent": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "self.motion.native_speed": {
+        "unavailable:native_current_velocity_source_absent": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "self.motion.native_velocity": {
+        "unavailable:native_current_velocity_source_absent": 659446,
+        "unavailable:native_motion_c0_actor_continuity_unaccredited": 1240
+      },
+      "self.objective.defusing": {
+        "observed:present": 660686
+      },
+      "self.objective.has_defuse_kit": {
+        "observed:present": 660686
+      },
+      "self.objective.in_bomb_zone": {
+        "observed:present": 660686
+      },
+      "self.origin.planting_duration_seconds": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.origin.planting_elapsed_seconds": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.origin.planting_origin_state": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.origin.planting_progress": {
+        "not_applicable:not_a_current_planting_attempt": 635608,
+        "observed:present": 1372,
+        "unavailable:objective_phase_unavailable": 23706
+      },
+      "self.physical.active_weapon": {
+        "observed:present": 659251,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "self.physical.ammo_in_magazine": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "observed:present": 401220,
+        "unavailable:native_fields_absent_or_invalid": 978,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "self.physical.ammo_reserve": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "observed:present": 402198,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "self.physical.ducking": {
+        "observed:present": 660686
+      },
+      "self.physical.interval_average_velocity": {
+        "observed:present": 659575,
+        "unavailable:no_previous_sample": 32,
+        "unavailable:pawn_life_handle_or_side_changed": 40,
+        "unavailable:previous_actor_unavailable": 39,
+        "unavailable:previous_cut_incompatible": 1000
+      },
+      "self.physical.reloading": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "observed:present": 398005,
+        "unavailable:reload_signal_unavailable": 4193,
+        "unavailable:weapon_identity_unavailable": 1435
+      },
+      "self.physical.view_angles": {
+        "observed:present": 660686
+      },
+      "self.physical.walking": {
+        "observed:present": 660686
+      },
+      "self.position.objective_object_state": {
+        "observed:present": 8623,
+        "unavailable:legal_object_position_not_observed": 589963,
+        "unavailable:objective_phase_unavailable": 23706,
+        "unavailable:parent_transform_unavailable": 38394
+      },
+      "self.position.physical_objective_position": {
+        "observed:present": 8623,
+        "unavailable:legal_object_position_not_observed": 589963,
+        "unavailable:objective_phase_unavailable": 23706,
+        "unavailable:parent_transform_unavailable": 38394
+      },
+      "self.position.position_availability": {
+        "observed:present": 8623,
+        "unavailable:legal_object_position_not_observed": 589963,
+        "unavailable:objective_phase_unavailable": 23706,
+        "unavailable:parent_transform_unavailable": 38394
+      },
+      "self.timing.pawn_deadline_state": {
+        "observed:present": 636980,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706
+      },
+      "self.timing.pawn_remaining_seconds": {
+        "observed:present": 636980,
+        "unavailable:current_actor_simulation_alignment_unaccredited": 23706
+      },
+      "self.timing.postpone_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198
+      },
+      "self.timing.postpone_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_zero_or_sentinel_unaccredited": 402198
+      },
+      "self.timing.primary_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "self.timing.primary_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "self.timing.secondary_deadline_state": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "self.timing.secondary_remaining_seconds": {
+        "not_applicable:non_ammunition_weapon": 257053,
+        "unavailable:current_weapon_unavailable": 1435,
+        "unavailable:native_weapon_tick_fraction_clock_unaccredited": 402198
+      },
+      "self.visual.flash_clear": {
+        "unavailable:rendered_flash_opacity_unaccredited": 660686
+      },
+      "self.visual.native_eye_offset": {
+        "observed:present": 660562,
+        "unavailable:native_visual_c0_actor_continuity_unaccredited": 124
+      },
+      "self.visual.reference_fov_degrees": {
+        "observed:present": 10263,
+        "unavailable:native_camera_fov_default_or_range_unaccredited": 605430,
+        "unavailable:native_camera_fov_transition_unaccredited": 44869,
+        "unavailable:native_visual_c0_actor_continuity_unaccredited": 124
+      },
+      "self.visual.smoke_clear": {
+        "unavailable:smoke_volume_and_coverage_unaccredited": 660686
+      },
+      "self.visual.visual_contact": {
+        "unavailable:legal_visual_contact_inputs_unaccredited": 660686
+      }
+    },
+    "counts": {
+      "actor_alias_cuts": 279437,
+      "actor_usable": 205324,
+      "cuts_admissible": 27948,
+      "cuts_excluded_phase": 2768,
+      "cuts_total": 30716,
+      "pairs_examined": 1117576,
+      "pairs_excluded_actor": 296452,
+      "pairs_excluded_ally": 160438,
+      "pairs_selected": 660686,
+      "roster_rows_total": 306740,
+      "selected_actor_cuts": 199454
+    },
+    "eligible_decisions": 0,
+    "execution_by_role": {
+      "ally": {
+        "censored:horizon_gap_or_boundary": 6619,
+        "censored:identity_unavailable_or_changed": 1056,
+        "censored:not_alive": 14774,
+        "no_sampled_displacement": 40390,
+        "sampled_displacement": 597847
+      },
+      "self": {
+        "censored:horizon_gap_or_boundary": 6619,
+        "censored:identity_unavailable_or_changed": 1056,
+        "censored:not_alive": 14774,
+        "no_sampled_displacement": 40390,
+        "sampled_displacement": 597847
+      }
+    },
+    "field_order": [
+      "c4.carrier_player_position",
+      "c4.has_c4",
+      "c4.physical_c4_position",
+      "clock.attempt_progress",
+      "clock.attempt_remaining_seconds",
+      "clock.attempt_state",
+      "clock.bomb_clock_state",
+      "clock.bomb_remaining_seconds",
+      "clock.clock_state",
+      "clock.defuse_deadline_margin_seconds",
+      "clock.pause_state",
+      "clock.round_clock_state",
+      "clock.round_remaining_seconds",
+      "motion.ground_contact",
+      "motion.ground_reference_state",
+      "motion.movement_mode_code",
+      "motion.native_horizontal_speed",
+      "motion.native_speed",
+      "motion.native_velocity",
+      "objective.defusing",
+      "objective.global.bomb_elapsed_seconds",
+      "objective.global.bomb_planted",
+      "objective.global.freeze_period",
+      "objective.global.objective_phase",
+      "objective.global.round_duration_seconds",
+      "objective.global.round_elapsed_seconds",
+      "objective.global.warmup",
+      "objective.has_defuse_kit",
+      "objective.in_bomb_zone",
+      "origin.planting_duration_seconds",
+      "origin.planting_elapsed_seconds",
+      "origin.planting_origin_state",
+      "origin.planting_progress",
+      "physical.active_weapon",
+      "physical.ammo_in_magazine",
+      "physical.ammo_reserve",
+      "physical.ducking",
+      "physical.interval_average_velocity",
+      "physical.reloading",
+      "physical.view_angles",
+      "physical.walking",
+      "position.objective_object_state",
+      "position.physical_objective_position",
+      "position.position_availability",
+      "timing.pawn_deadline_state",
+      "timing.pawn_remaining_seconds",
+      "timing.postpone_deadline_state",
+      "timing.postpone_remaining_seconds",
+      "timing.primary_deadline_state",
+      "timing.primary_remaining_seconds",
+      "timing.secondary_deadline_state",
+      "timing.secondary_remaining_seconds",
+      "visual.flash_clear",
+      "visual.native_eye_offset",
+      "visual.reference_fov_degrees",
+      "visual.smoke_clear",
+      "visual.visual_contact"
+    ],
+    "global_cut_marginal": {
+      "objective.global.bomb_elapsed_seconds": {
+        "not_applicable:no_active_planted_phase": 22396,
+        "observed:present": 4440,
+        "unavailable:objective_phase_unavailable": 654
+      },
+      "objective.global.bomb_planted": {
+        "observed:present": 27490
+      },
+      "objective.global.freeze_period": {
+        "observed:present": 27490
+      },
+      "objective.global.objective_phase": {
+        "observed:present": 26836,
+        "unavailable:public_replay_phase_conflict": 654
+      },
+      "objective.global.round_duration_seconds": {
+        "observed:present": 27490
+      },
+      "objective.global.round_elapsed_seconds": {
+        "observed:present": 27490
+      },
+      "objective.global.warmup": {
+        "observed:present": 27490
+      }
+    },
+    "group_availability": {
+      "actor_cuts": {
+        "all_groups": 17,
+        "cumulative": {
+          "c4_ownership_carrier": 190636,
+          "eye_and_reference_fov": 17,
+          "ground_and_mode": 4119,
+          "legal_objective_position": 4119,
+          "objective_clocks": 190086,
+          "objective_public_and_actor": 190636,
+          "pawn_deadline": 4119,
+          "physical_basic": 196823,
+          "plant_origin": 190086
+        },
+        "denominator": 199454,
+        "marginal": {
+          "c4_ownership_carrier": 199454,
+          "eye_and_reference_fov": 3625,
+          "ground_and_mode": 199144,
+          "legal_objective_position": 4131,
+          "objective_clocks": 192675,
+          "objective_public_and_actor": 193225,
+          "pawn_deadline": 193225,
+          "physical_basic": 196823,
+          "plant_origin": 193225
+        },
+        "pairwise": {
+          "c4_ownership_carrier & eye_and_reference_fov": 3625,
+          "c4_ownership_carrier & ground_and_mode": 199144,
+          "c4_ownership_carrier & legal_objective_position": 4131,
+          "c4_ownership_carrier & objective_clocks": 192675,
+          "c4_ownership_carrier & pawn_deadline": 193225,
+          "c4_ownership_carrier & plant_origin": 193225,
+          "ground_and_mode & eye_and_reference_fov": 3625,
+          "ground_and_mode & pawn_deadline": 193225,
+          "legal_objective_position & eye_and_reference_fov": 23,
+          "legal_objective_position & ground_and_mode": 4131,
+          "legal_objective_position & pawn_deadline": 4131,
+          "objective_clocks & eye_and_reference_fov": 3545,
+          "objective_clocks & ground_and_mode": 192675,
+          "objective_clocks & legal_objective_position": 4131,
+          "objective_clocks & pawn_deadline": 192675,
+          "objective_clocks & plant_origin": 192675,
+          "objective_public_and_actor & c4_ownership_carrier": 193225,
+          "objective_public_and_actor & eye_and_reference_fov": 3545,
+          "objective_public_and_actor & ground_and_mode": 193225,
+          "objective_public_and_actor & legal_objective_position": 4131,
+          "objective_public_and_actor & objective_clocks": 192675,
+          "objective_public_and_actor & pawn_deadline": 193225,
+          "objective_public_and_actor & plant_origin": 193225,
+          "pawn_deadline & eye_and_reference_fov": 3545,
+          "physical_basic & c4_ownership_carrier": 196823,
+          "physical_basic & eye_and_reference_fov": 1820,
+          "physical_basic & ground_and_mode": 196523,
+          "physical_basic & legal_objective_position": 4119,
+          "physical_basic & objective_clocks": 190086,
+          "physical_basic & objective_public_and_actor": 190636,
+          "physical_basic & pawn_deadline": 190636,
+          "physical_basic & plant_origin": 190636,
+          "plant_origin & eye_and_reference_fov": 3545,
+          "plant_origin & ground_and_mode": 193225,
+          "plant_origin & legal_objective_position": 4131,
+          "plant_origin & pawn_deadline": 193225
+        }
+      },
+      "ally": {
+        "all_groups": 34,
+        "cumulative": {
+          "c4_ownership_carrier": 629429,
+          "eye_and_reference_fov": 34,
+          "ground_and_mode": 8605,
+          "legal_objective_position": 8605,
+          "objective_clocks": 628057,
+          "objective_public_and_actor": 629429,
+          "pawn_deadline": 8605,
+          "physical_basic": 652973,
+          "plant_origin": 628057
+        },
+        "denominator": 660686,
+        "marginal": {
+          "c4_ownership_carrier": 660686,
+          "eye_and_reference_fov": 10263,
+          "ground_and_mode": 659446,
+          "legal_objective_position": 8623,
+          "objective_clocks": 635608,
+          "objective_public_and_actor": 636980,
+          "pawn_deadline": 636980,
+          "physical_basic": 652973,
+          "plant_origin": 636980
+        },
+        "pairwise": {
+          "c4_ownership_carrier & eye_and_reference_fov": 10263,
+          "c4_ownership_carrier & ground_and_mode": 659446,
+          "c4_ownership_carrier & legal_objective_position": 8623,
+          "c4_ownership_carrier & objective_clocks": 635608,
+          "c4_ownership_carrier & pawn_deadline": 636980,
+          "c4_ownership_carrier & plant_origin": 636980,
+          "ground_and_mode & eye_and_reference_fov": 10263,
+          "ground_and_mode & pawn_deadline": 636980,
+          "legal_objective_position & eye_and_reference_fov": 46,
+          "legal_objective_position & ground_and_mode": 8623,
+          "legal_objective_position & pawn_deadline": 8623,
+          "objective_clocks & eye_and_reference_fov": 9952,
+          "objective_clocks & ground_and_mode": 635608,
+          "objective_clocks & legal_objective_position": 8623,
+          "objective_clocks & pawn_deadline": 635608,
+          "objective_clocks & plant_origin": 635608,
+          "objective_public_and_actor & c4_ownership_carrier": 636980,
+          "objective_public_and_actor & eye_and_reference_fov": 9952,
+          "objective_public_and_actor & ground_and_mode": 636980,
+          "objective_public_and_actor & legal_objective_position": 8623,
+          "objective_public_and_actor & objective_clocks": 635608,
+          "objective_public_and_actor & pawn_deadline": 636980,
+          "objective_public_and_actor & plant_origin": 636980,
+          "pawn_deadline & eye_and_reference_fov": 9952,
+          "physical_basic & c4_ownership_carrier": 652973,
+          "physical_basic & eye_and_reference_fov": 5346,
+          "physical_basic & ground_and_mode": 651773,
+          "physical_basic & legal_objective_position": 8605,
+          "physical_basic & objective_clocks": 628057,
+          "physical_basic & objective_public_and_actor": 629429,
+          "physical_basic & pawn_deadline": 629429,
+          "physical_basic & plant_origin": 629429,
+          "plant_origin & eye_and_reference_fov": 9952,
+          "plant_origin & ground_and_mode": 636980,
+          "plant_origin & legal_objective_position": 8623,
+          "plant_origin & pawn_deadline": 636980
+        }
+      },
+      "both_roles": {
+        "all_groups": 0,
+        "cumulative": {
+          "c4_ownership_carrier": 622922,
+          "eye_and_reference_fov": 0,
+          "ground_and_mode": 0,
+          "legal_objective_position": 0,
+          "objective_clocks": 620278,
+          "objective_public_and_actor": 622922,
+          "pawn_deadline": 0,
+          "physical_basic": 646386,
+          "plant_origin": 620278
+        },
+        "denominator": 660686,
+        "marginal": {
+          "c4_ownership_carrier": 660686,
+          "eye_and_reference_fov": 214,
+          "ground_and_mode": 659446,
+          "legal_objective_position": 0,
+          "objective_clocks": 634236,
+          "objective_public_and_actor": 636980,
+          "pawn_deadline": 636980,
+          "physical_basic": 646386,
+          "plant_origin": 636980
+        },
+        "pairwise": {
+          "c4_ownership_carrier & eye_and_reference_fov": 214,
+          "c4_ownership_carrier & ground_and_mode": 659446,
+          "c4_ownership_carrier & legal_objective_position": 0,
+          "c4_ownership_carrier & objective_clocks": 634236,
+          "c4_ownership_carrier & pawn_deadline": 636980,
+          "c4_ownership_carrier & plant_origin": 636980,
+          "ground_and_mode & eye_and_reference_fov": 214,
+          "ground_and_mode & pawn_deadline": 636980,
+          "legal_objective_position & eye_and_reference_fov": 0,
+          "legal_objective_position & ground_and_mode": 0,
+          "legal_objective_position & pawn_deadline": 0,
+          "objective_clocks & eye_and_reference_fov": 186,
+          "objective_clocks & ground_and_mode": 634236,
+          "objective_clocks & legal_objective_position": 0,
+          "objective_clocks & pawn_deadline": 634236,
+          "objective_clocks & plant_origin": 634236,
+          "objective_public_and_actor & c4_ownership_carrier": 636980,
+          "objective_public_and_actor & eye_and_reference_fov": 186,
+          "objective_public_and_actor & ground_and_mode": 636980,
+          "objective_public_and_actor & legal_objective_position": 0,
+          "objective_public_and_actor & objective_clocks": 634236,
+          "objective_public_and_actor & pawn_deadline": 636980,
+          "objective_public_and_actor & plant_origin": 636980,
+          "pawn_deadline & eye_and_reference_fov": 186,
+          "physical_basic & c4_ownership_carrier": 646386,
+          "physical_basic & eye_and_reference_fov": 24,
+          "physical_basic & ground_and_mode": 645186,
+          "physical_basic & legal_objective_position": 0,
+          "physical_basic & objective_clocks": 620278,
+          "physical_basic & objective_public_and_actor": 622922,
+          "physical_basic & pawn_deadline": 622922,
+          "physical_basic & plant_origin": 622922,
+          "plant_origin & eye_and_reference_fov": 186,
+          "plant_origin & ground_and_mode": 636980,
+          "plant_origin & legal_objective_position": 0,
+          "plant_origin & pawn_deadline": 636980
+        }
+      },
+      "self": {
+        "all_groups": 34,
+        "cumulative": {
+          "c4_ownership_carrier": 629429,
+          "eye_and_reference_fov": 34,
+          "ground_and_mode": 8605,
+          "legal_objective_position": 8605,
+          "objective_clocks": 628057,
+          "objective_public_and_actor": 629429,
+          "pawn_deadline": 8605,
+          "physical_basic": 652973,
+          "plant_origin": 628057
+        },
+        "denominator": 660686,
+        "marginal": {
+          "c4_ownership_carrier": 660686,
+          "eye_and_reference_fov": 10263,
+          "ground_and_mode": 659446,
+          "legal_objective_position": 8623,
+          "objective_clocks": 635608,
+          "objective_public_and_actor": 636980,
+          "pawn_deadline": 636980,
+          "physical_basic": 652973,
+          "plant_origin": 636980
+        },
+        "pairwise": {
+          "c4_ownership_carrier & eye_and_reference_fov": 10263,
+          "c4_ownership_carrier & ground_and_mode": 659446,
+          "c4_ownership_carrier & legal_objective_position": 8623,
+          "c4_ownership_carrier & objective_clocks": 635608,
+          "c4_ownership_carrier & pawn_deadline": 636980,
+          "c4_ownership_carrier & plant_origin": 636980,
+          "ground_and_mode & eye_and_reference_fov": 10263,
+          "ground_and_mode & pawn_deadline": 636980,
+          "legal_objective_position & eye_and_reference_fov": 46,
+          "legal_objective_position & ground_and_mode": 8623,
+          "legal_objective_position & pawn_deadline": 8623,
+          "objective_clocks & eye_and_reference_fov": 9952,
+          "objective_clocks & ground_and_mode": 635608,
+          "objective_clocks & legal_objective_position": 8623,
+          "objective_clocks & pawn_deadline": 635608,
+          "objective_clocks & plant_origin": 635608,
+          "objective_public_and_actor & c4_ownership_carrier": 636980,
+          "objective_public_and_actor & eye_and_reference_fov": 9952,
+          "objective_public_and_actor & ground_and_mode": 636980,
+          "objective_public_and_actor & legal_objective_position": 8623,
+          "objective_public_and_actor & objective_clocks": 635608,
+          "objective_public_and_actor & pawn_deadline": 636980,
+          "objective_public_and_actor & plant_origin": 636980,
+          "pawn_deadline & eye_and_reference_fov": 9952,
+          "physical_basic & c4_ownership_carrier": 652973,
+          "physical_basic & eye_and_reference_fov": 5346,
+          "physical_basic & ground_and_mode": 651773,
+          "physical_basic & legal_objective_position": 8605,
+          "physical_basic & objective_clocks": 628057,
+          "physical_basic & objective_public_and_actor": 629429,
+          "physical_basic & pawn_deadline": 629429,
+          "physical_basic & plant_origin": 629429,
+          "plant_origin & eye_and_reference_fov": 9952,
+          "plant_origin & ground_and_mode": 636980,
+          "plant_origin & legal_objective_position": 8623,
+          "plant_origin & pawn_deadline": 636980
+        }
+      }
+    },
+    "groups": {
+      "c4_ownership_carrier": [
+        "c4.has_c4",
+        "c4.carrier_player_position"
+      ],
+      "eye_and_reference_fov": [
+        "visual.native_eye_offset",
+        "visual.reference_fov_degrees"
+      ],
+      "ground_and_mode": [
+        "motion.ground_contact",
+        "motion.ground_reference_state",
+        "motion.movement_mode_code"
+      ],
+      "legal_objective_position": [
+        "position.physical_objective_position",
+        "position.objective_object_state",
+        "position.position_availability"
+      ],
+      "objective_clocks": [
+        "clock.pause_state",
+        "clock.clock_state",
+        "clock.round_remaining_seconds",
+        "clock.round_clock_state",
+        "clock.bomb_remaining_seconds",
+        "clock.bomb_clock_state",
+        "clock.attempt_state",
+        "clock.attempt_remaining_seconds",
+        "clock.attempt_progress",
+        "clock.defuse_deadline_margin_seconds"
+      ],
+      "objective_public_and_actor": [
+        "objective.global.bomb_planted",
+        "objective.global.freeze_period",
+        "objective.global.warmup",
+        "objective.global.round_duration_seconds",
+        "objective.global.objective_phase",
+        "objective.global.round_elapsed_seconds",
+        "objective.global.bomb_elapsed_seconds",
+        "objective.in_bomb_zone",
+        "objective.defusing",
+        "objective.has_defuse_kit"
+      ],
+      "pawn_deadline": [
+        "timing.pawn_remaining_seconds",
+        "timing.pawn_deadline_state"
+      ],
+      "physical_basic": [
+        "physical.view_angles",
+        "physical.walking",
+        "physical.ducking",
+        "physical.active_weapon",
+        "physical.ammo_in_magazine",
+        "physical.ammo_reserve",
+        "physical.reloading",
+        "physical.interval_average_velocity"
+      ],
+      "plant_origin": [
+        "origin.planting_origin_state",
+        "origin.planting_duration_seconds",
+        "origin.planting_elapsed_seconds",
+        "origin.planting_progress"
+      ]
+    },
+    "joint_execution": {
+      "censored:horizon_gap_or_boundary / censored:horizon_gap_or_boundary": 6552,
+      "censored:horizon_gap_or_boundary / censored:not_alive": 67,
+      "censored:identity_unavailable_or_changed / censored:identity_unavailable_or_changed": 1056,
+      "censored:not_alive / censored:horizon_gap_or_boundary": 67,
+      "censored:not_alive / censored:not_alive": 660,
+      "censored:not_alive / no_sampled_displacement": 827,
+      "censored:not_alive / sampled_displacement": 13220,
+      "no_sampled_displacement / censored:not_alive": 827,
+      "no_sampled_displacement / no_sampled_displacement": 4726,
+      "no_sampled_displacement / sampled_displacement": 34837,
+      "sampled_displacement / censored:not_alive": 13220,
+      "sampled_displacement / no_sampled_displacement": 34837,
+      "sampled_displacement / sampled_displacement": 549790
+    },
+    "matrix_records_verified": 10400,
+    "ok": true,
+    "pair_same_fact_status": {
+      "c4.carrier_player_position": {
+        "N/N": 583650,
+        "N/O": 38518,
+        "O/N": 38518
+      },
+      "c4.has_c4": {
+        "O/O": 660686
+      },
+      "c4.physical_c4_position": {
+        "U/U": 660686
+      },
+      "clock.attempt_progress": {
+        "N/N": 633596,
+        "N/O": 320,
+        "N/U": 1372,
+        "O/N": 320,
+        "U/N": 1372,
+        "U/U": 23706
+      },
+      "clock.attempt_remaining_seconds": {
+        "N/N": 633596,
+        "N/O": 1692,
+        "O/N": 1692,
+        "U/U": 23706
+      },
+      "clock.attempt_state": {
+        "O/O": 636980,
+        "U/U": 23706
+      },
+      "clock.bomb_clock_state": {
+        "N/N": 600614,
+        "O/O": 36366,
+        "U/U": 23706
+      },
+      "clock.bomb_remaining_seconds": {
+        "N/N": 600614,
+        "O/O": 36366,
+        "U/U": 23706
+      },
+      "clock.clock_state": {
+        "O/O": 636980,
+        "U/U": 23706
+      },
+      "clock.defuse_deadline_margin_seconds": {
+        "N/N": 636340,
+        "N/O": 320,
+        "O/N": 320,
+        "U/U": 23706
+      },
+      "clock.pause_state": {
+        "O/O": 660686
+      },
+      "clock.round_clock_state": {
+        "N/N": 36366,
+        "O/O": 600614,
+        "U/U": 23706
+      },
+      "clock.round_remaining_seconds": {
+        "N/N": 36366,
+        "O/O": 600614,
+        "U/U": 23706
+      },
+      "motion.ground_contact": {
+        "O/O": 659446,
+        "U/U": 1240
+      },
+      "motion.ground_reference_state": {
+        "O/O": 659446,
+        "U/U": 1240
+      },
+      "motion.movement_mode_code": {
+        "O/O": 659446,
+        "U/U": 1240
+      },
+      "motion.native_horizontal_speed": {
+        "U/U": 660686
+      },
+      "motion.native_speed": {
+        "U/U": 660686
+      },
+      "motion.native_velocity": {
+        "U/U": 660686
+      },
+      "objective.defusing": {
+        "O/O": 660686
+      },
+      "objective.has_defuse_kit": {
+        "O/O": 660686
+      },
+      "objective.in_bomb_zone": {
+        "O/O": 660686
+      },
+      "origin.planting_duration_seconds": {
+        "N/N": 634236,
+        "N/O": 1372,
+        "O/N": 1372,
+        "U/U": 23706
+      },
+      "origin.planting_elapsed_seconds": {
+        "N/N": 634236,
+        "N/O": 1372,
+        "O/N": 1372,
+        "U/U": 23706
+      },
+      "origin.planting_origin_state": {
+        "N/N": 634236,
+        "N/O": 1372,
+        "O/N": 1372,
+        "U/U": 23706
+      },
+      "origin.planting_progress": {
+        "N/N": 634236,
+        "N/O": 1372,
+        "O/N": 1372,
+        "U/U": 23706
+      },
+      "physical.active_weapon": {
+        "O/O": 657816,
+        "O/U": 1435,
+        "U/O": 1435
+      },
+      "physical.ammo_in_magazine": {
+        "N/N": 156254,
+        "N/O": 99097,
+        "N/U": 1702,
+        "O/N": 99097,
+        "O/O": 301412,
+        "O/U": 711,
+        "U/N": 1702,
+        "U/O": 711
+      },
+      "physical.ammo_reserve": {
+        "N/N": 156254,
+        "N/O": 99364,
+        "N/U": 1435,
+        "O/N": 99364,
+        "O/O": 302834,
+        "U/N": 1435
+      },
+      "physical.ducking": {
+        "O/O": 660686
+      },
+      "physical.interval_average_velocity": {
+        "O/O": 659536,
+        "O/U": 39,
+        "U/O": 39,
+        "U/U": 1072
+      },
+      "physical.reloading": {
+        "N/N": 156254,
+        "N/O": 98465,
+        "N/U": 2334,
+        "O/N": 98465,
+        "O/O": 296270,
+        "O/U": 3270,
+        "U/N": 2334,
+        "U/O": 3270,
+        "U/U": 24
+      },
+      "physical.view_angles": {
+        "O/O": 660686
+      },
+      "physical.walking": {
+        "O/O": 660686
+      },
+      "position.objective_object_state": {
+        "O/U": 8623,
+        "U/O": 8623,
+        "U/U": 643440
+      },
+      "position.physical_objective_position": {
+        "O/U": 8623,
+        "U/O": 8623,
+        "U/U": 643440
+      },
+      "position.position_availability": {
+        "O/U": 8623,
+        "U/O": 8623,
+        "U/U": 643440
+      },
+      "timing.pawn_deadline_state": {
+        "O/O": 636980,
+        "U/U": 23706
+      },
+      "timing.pawn_remaining_seconds": {
+        "O/O": 636980,
+        "U/U": 23706
+      },
+      "timing.postpone_deadline_state": {
+        "N/N": 156254,
+        "N/U": 100799,
+        "U/N": 100799,
+        "U/U": 302834
+      },
+      "timing.postpone_remaining_seconds": {
+        "N/N": 156254,
+        "N/U": 100799,
+        "U/N": 100799,
+        "U/U": 302834
+      },
+      "timing.primary_deadline_state": {
+        "N/N": 156254,
+        "N/U": 100799,
+        "U/N": 100799,
+        "U/U": 302834
+      },
+      "timing.primary_remaining_seconds": {
+        "N/N": 156254,
+        "N/U": 100799,
+        "U/N": 100799,
+        "U/U": 302834
+      },
+      "timing.secondary_deadline_state": {
+        "N/N": 156254,
+        "N/U": 100799,
+        "U/N": 100799,
+        "U/U": 302834
+      },
+      "timing.secondary_remaining_seconds": {
+        "N/N": 156254,
+        "N/U": 100799,
+        "U/N": 100799,
+        "U/U": 302834
+      },
+      "visual.flash_clear": {
+        "U/U": 660686
+      },
+      "visual.native_eye_offset": {
+        "O/O": 660438,
+        "O/U": 124,
+        "U/O": 124
+      },
+      "visual.reference_fov_degrees": {
+        "O/O": 214,
+        "O/U": 10049,
+        "U/O": 10049,
+        "U/U": 640374
+      },
+      "visual.smoke_clear": {
+        "U/U": 660686
+      },
+      "visual.visual_contact": {
+        "U/U": 660686
+      }
+    },
+    "seconds": 270.586
+  },
+  "analysis_artifacts": [
+    {
+      "bytes": 25368,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\provenance.json",
+      "sha256": "e179b1b718b805ee34c05f3ada80815faafbc63251ef056638dfa9a0a520a1f5"
+    },
+    {
+      "bytes": 8107,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\original-inventory-verification.json",
+      "sha256": "3c409427a74d3c6bf5f4eeb2a391d1b58ea9645a7cb14e6679d599b201774e2a"
+    },
+    {
+      "bytes": 40031,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\joint-coverage.json",
+      "sha256": "61694d58c889aa06f3a058073fcb7c8c231dc13798f89a48f842ff62956b1e82"
+    },
+    {
+      "bytes": 31229,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\status-patterns.json",
+      "sha256": "33c51841126e247dfc0e6d6487f87edf1701675408996e23ceebf34c746ffce2"
+    },
+    {
+      "bytes": 342,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\analysis-verification.json",
+      "sha256": "1c92b33b0dc6bb4719c7c53e53bd3cf036afef8e02b30e1d6f153dc818dd6ae6"
+    },
+    {
+      "bytes": 221,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\interpretation-checks.json",
+      "sha256": "20317c7e2f59937a98319c33b8e68f6593a8e8dbde275c39108f68b0c30b043f"
+    }
+  ],
+  "closure_files": [
+    {
+      "bytes": 120024,
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "ccfd77c6943dee216ad87ff3e8ae8c9102a8be4ddad5b51d9b51c6eafd0c2b8c"
+    },
+    {
+      "bytes": 11458,
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\archive\\ai-coach\\AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_PHASE_2026-09-16.md",
+      "sha256": "3ec095862e1ec47f0348331ac59f2b0c897ba16fe8e4620aa0d6d6dc03dd2e41"
+    },
+    {
+      "bytes": 11631,
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "sha256": "6caf7f629700ef33ce989089d9d928f72886e644dcf489820fa0e3f3adc4f9c6"
+    },
+    {
+      "bytes": 3592,
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\prompts\\AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "f1439d9af046915186c1526e7685a42ba3d8ef7f429047f07d1240e9bdce5f95"
+    },
+    {
+      "bytes": 9155,
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\README.md",
+      "sha256": "4b7433ab77f9a916eaa631bd219665f3f2ca2d56dbc683179b78c5e0a6effd20"
+    },
+    {
+      "bytes": 120024,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\phase-closure-plan.md",
+      "sha256": "ccfd77c6943dee216ad87ff3e8ae8c9102a8be4ddad5b51d9b51c6eafd0c2b8c"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\setup.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\preserve_previous.py",
+        "before"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\protected_inventory.py",
+        "before"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\provenance.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\evidence_inventory.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\analyze.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\verify_results.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\summarize.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\preserve_previous.py",
+        "after"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\protected_inventory.py",
+        "after"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\update_plan.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\run_document_checks.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    },
+    {
+      "argv": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\close_phase.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI"
+    }
+  ],
+  "comparison_allowed": false,
+  "date": "2026-09-16",
+  "development_corrections": [
+    "Local inspect.py renamed to avoid standard-library shadowing",
+    "Null global context in cuts without candidates handled explicitly",
+    "Historical inventories read via their original three reference-key variants"
+  ],
+  "document_checks": {
+    "commands": [
+      {
+        "command": [
+          "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+          "-B",
+          "-m",
+          "ai_coach.contracts.validate_contract"
+        ],
+        "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+        "exit_code": 0,
+        "log": {
+          "bytes": 222,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\contract.log",
+          "sha256": "c6cd66f0bd7977ff32251e87570453442348a2dbcfa118d4e50f9d83a185cbf3"
+        },
+        "name": "contract",
+        "seconds": 5.697
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+        "exit_code": 0,
+        "log": {
+          "bytes": 3145,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\diff-check.log",
+          "sha256": "9a4559ba1a6826c0ff17860277085cce10676217b466582f46b607a3d0a6fd4f"
+        },
+        "name": "diff-check",
+        "seconds": 0.719
+      }
+    ],
+    "ok": true
+  },
+  "documentation_verification": {
+    "local_links": 580,
+    "markdown_files": 55,
+    "missing_links": 0,
+    "ok": true,
+    "sole_prompt": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+    "utf8_whitespace_ok": true
+  },
+  "eligible_decisions": 0,
+  "functional_suites_executed": false,
+  "graph_discovery": "list_projects succeeded; structural searches returned insufficient preparation coverage; focused retained auditor/source reading used as documented fallback",
+  "independent_aggregate_verification": {
+    "aggregate_cross_checks": 168,
+    "id_stream_sha256": "4a9f75b3c797da423ce6e5c409e6934fe65cf0ad96c80af7d98cc82428d77a50",
+    "method": "Independent aggregation from complete joint signatures; original candidate IDs recomputed from source/protocol/epoch/instance/sequence/actor/ally",
+    "ok": true,
+    "seconds": 12.523,
+    "unique_ids_recomputed": 660686
+  },
+  "interpretation_checks": {
+    "all_field_actor_patterns": 42,
+    "all_field_pair_patterns": 166,
+    "clock_progress_absent_origin_observed": 550,
+    "clock_progress_observed": 160,
+    "position_and_fov_observed": 23,
+    "position_observed_c4_physical_absent": 4131
+  },
+  "limits": [
+    "Marginal and joint presence are not eligibility",
+    "N means not applicable, not observed positive",
+    "All-field conjunction is descriptive, not an eligibility rule",
+    "One development match; correlated pair directions and overlapping windows",
+    "NAV and rays are internal proxies; no physical route or legal contact accreditation",
+    "No cleanup, download, acquisition, corpus migration, promotion, publication, training or CURRENT changes"
+  ],
+  "new_demo_passes": 0,
+  "next_action": "Receive and verify positive material for one pending dependency; otherwise stop dependent work without repeating negative inventory",
+  "original_inventory_verification": {
+    "ok": true,
+    "records": [
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_CENSUS_SINGLE_DEMO_SMOKE_2026-09-13.json",
+        "evidence_sha256": "d7828fea3125144d806080451a90715c1b35aaa89673ae23536c94d9e643bb25",
+        "original_inventory": {
+          "bytes": 18826,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-work-i69iclbs\\smoke-inventory.json",
+          "sha256": "da2ad79b0a12df4fd7b082dc9694f7975fc492ef9b435d200e62162f3bb9cc51"
+        },
+        "original_inventory_bytes": 1757279216,
+        "original_inventory_files_verified": 79,
+        "phase": "3E.12",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "frozen_design": "support_preparation_census/0.1.0-design.1",
+          "human_contract": "1.39",
+          "parser": "v16",
+          "plan": "2.32",
+          "protocol": "support_preparation_census/1.0.0-candidate.1",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 86
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_PHYSICAL_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-14.json",
+        "evidence_sha256": "1a2ffe5ac7a7e5f6dd01649e2d835f2f607ddd3581a7e5a94a6055e6baa7116b",
+        "original_inventory": {
+          "bytes": 24681,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e13-work-29057b490c804c73a5dc54b88a3011e2\\smoke-inventory.json",
+          "sha256": "a963d013d11e6906491bbe1136e71552accd3f9366b78b3231aa8bdecb476f66"
+        },
+        "original_inventory_bytes": 1631414216,
+        "original_inventory_files_verified": 79,
+        "phase": "3E.13",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.40",
+          "parser": "v16",
+          "plan": "2.33",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 88
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-14.json",
+        "evidence_sha256": "333ded9bf847dda7a8322e8048cb3a676faee490f11842f8a23da14b6fbfa357",
+        "original_inventory": {
+          "bytes": 24469,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e14-work-b82dcc6731934cfca5f51c3a1335d18f\\smoke-inventory.json",
+          "sha256": "4201559a4cdc0ec2392464ab64068b4d2feab2db2015dfd481e9bf182c463016"
+        },
+        "original_inventory_bytes": 1425896968,
+        "original_inventory_files_verified": 78,
+        "phase": "3E.14",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.41",
+          "parser": "v16",
+          "plan": "2.34",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 90
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_C4_CONTEXT_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "32205ec01434d06a2aadf324de4e6071021203e9c63d39341bf7e43b447d66b7",
+        "original_inventory": {
+          "bytes": 24709,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e15-work-e1e91612c88b42d5887d75aab7b9ad3d\\smoke-inventory.json",
+          "sha256": "ae5cf4346416077c1bce3329e6e2be2af9eac90d63536fc756d364d6f9148a33"
+        },
+        "original_inventory_bytes": 1453476993,
+        "original_inventory_files_verified": 79,
+        "phase": "3E.15",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.42",
+          "parser": "v16",
+          "plan": "2.35",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 92
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_CLOCK_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "8bf330eaf17474b45b2e6d178fbfdc6cb008c241276e2e5086e9c5f1548dc301",
+        "original_inventory": {
+          "bytes": 25044,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-work-7003cfb8eef3495ea9f47f2a55a0d8ca\\smoke-inventory.json",
+          "sha256": "401138c3b406bd917cc2061c91406cb62052b87636f96912267c70ae791fef97"
+        },
+        "original_inventory_bytes": 1653624648,
+        "original_inventory_files_verified": 80,
+        "phase": "3E.16",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.43",
+          "parser": "v16",
+          "plan": "2.36",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 94
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_ATTEMPT_ORIGIN_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "9e4a01dddadc7352447794037a2a2af29aec2e24bdd78cadead214a6a8be93de",
+        "original_inventory": {
+          "bytes": 25320,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-work-4079b11f8d89494e9f893fe7394f162d\\smoke-inventory.json",
+          "sha256": "7eea1064582f67ddd229526a7e70aa1c7a3784449e3b192c376453358ebbf22d"
+        },
+        "original_inventory_bytes": 1571700828,
+        "original_inventory_files_verified": 81,
+        "phase": "3E.17",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.44",
+          "parser": "v16",
+          "plan": "2.37",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 96
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_OBJECTIVE_POSITION_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "3604a81d3a8006403a9df245f3b0ef3453bf2e54e3b2251da83aea5aed68fe5e",
+        "original_inventory": {
+          "bytes": 25619,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-work-ba691f29c3984c7898f2944190b403fe\\smoke-inventory.json",
+          "sha256": "f70d2c736ae3ee28e857a24544ebcd38ba0b351804d442e2665a9352c1b621fc"
+        },
+        "original_inventory_bytes": 1570266051,
+        "original_inventory_files_verified": 82,
+        "phase": "3E.18",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.45",
+          "parser": "v16",
+          "plan": "2.38",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 98
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_NATIVE_MOTION_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "b697ef25412488d968eee3ce4df06040b694e9f82d2489f303d0de999da59d18",
+        "original_inventory": {
+          "bytes": 25880,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-r2-work-cusgwnz1\\smoke-inventory.json",
+          "sha256": "d5d8d1d8b00f051c34373d7cbd55e807380a95f1588e97ae8563486cd9c31e52"
+        },
+        "original_inventory_bytes": 1811713874,
+        "original_inventory_files_verified": 83,
+        "phase": "3E.19",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.46",
+          "parser": "v16",
+          "plan": "2.39",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 100
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_WEAPON_TIMING_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "2fd8362a7dc5784717a2375c222080ada82f8ecac44b43216868a0eb2e042ea2",
+        "original_inventory": {
+          "bytes": 26160,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-work-1jk4js93\\smoke-inventory.json",
+          "sha256": "05c688f90f67fef66d6008e4cdf3de4a05f6e536a1afe3ecdac6456de9b8fe00"
+        },
+        "original_inventory_bytes": 2008739394,
+        "original_inventory_files_verified": 84,
+        "phase": "3E.20",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.47",
+          "parser": "v16",
+          "plan": "2.40",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 102
+        }
+      },
+      {
+        "evidence_path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_SINGLE_DEMO_SMOKE_2026-09-15.json",
+        "evidence_sha256": "53fb488bac1c8652700a70335c35b61e25dbd652db78ceb9efd358bf62335f67",
+        "original_inventory": {
+          "bytes": 26445,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-work-23af7e07276246bdaa9e522cb3a14404\\smoke-inventory.json",
+          "sha256": "4f0f5360b4aef2f0feb3fd0260e1601b7c7658181911c477eba8a89366c04b20"
+        },
+        "original_inventory_bytes": 2408068406,
+        "original_inventory_files_verified": 85,
+        "phase": "3E.21",
+        "versions": {
+          "canonical_export": "3.8.0",
+          "catalog": "1.7.0",
+          "contract": "1.0.0-candidate.1",
+          "human_contract": "1.48",
+          "parser": "v16",
+          "plan": "2.41",
+          "quality": 12,
+          "reason_codes": 19,
+          "runtime_schemas": 104
+        }
+      }
+    ]
+  },
+  "original_provenance": {
+    "method": "Original manifest references matched against freshly hashed retained inventory; complete support observations canonical JSON equality, metadata/builds kept separate; no runtime rematerialization",
+    "ok": true,
+    "records": [
+      {
+        "build": "working-tree-support-preparation-3e12-20260913-r1",
+        "context": "c0",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 1160427,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_manifest.json",
+          "sha256": "18a6472ce83f58adf845c45345cbb24b1ba2a7b80504777db59aa1bb49956564"
+        },
+        "phase": "3E.12",
+        "references": [
+          {
+            "bytes": 91847821,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "source_observations",
+            "sha256": "dfd91c63e6fe342a547ef5c7166e87ba880a4430782a8892f525aa2f618079f7"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 48850549,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "11b71915ab1cc7cd211a6f513f86de0022720bb2a659358ac63efca202f5cb39"
+          },
+          {
+            "bytes": 826058950,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_pairs.jsonl",
+            "role": "artifact_1",
+            "sha256": "7d25f299c634f0cef774ee090fb6e635ae25247806da9a2a0ec6edb9ffe01f00"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-physical-3e13-20260914-r1",
+        "context": "physical",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 1408567,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e13-smoke-zjk_f2hm\\preparation_physical_context\\support_preparation_physical_manifest.json",
+          "sha256": "48ccb1890367603dbe15f3206b2c93702876640e92255bd632a2e50f95054d9f"
+        },
+        "phase": "3E.13",
+        "references": [
+          {
+            "bytes": 177194946,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e13-smoke-zjk_f2hm\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+            "role": "physical_source",
+            "sha256": "d18b29b00082ee401a01a581d51d2b08a25cf5f7491d1805f81bd1b3ab764dba"
+          },
+          {
+            "bytes": 91847830,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e13-smoke-zjk_f2hm\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "c0629c8f2d59fb8db4bbbd7f5c9afa555d468e32c3c3433dd28795c7b55433fa"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 493295193,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e13-smoke-zjk_f2hm\\preparation_physical_context\\support_preparation_physical_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "88b44a6b8e61a384f3e33db2a09785d66ebdfd8e8e2b66a5d826349fc2a97643"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-objective-3e14-20260914-r1",
+        "context": "objective",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 963482,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e14-smoke-3mxqn14v\\preparation_objective_context\\support_preparation_objective_manifest.json",
+          "sha256": "0183186e2988110dc83e9d5de7b63b774079215d009103bfd0fd1fc05e3106db"
+        },
+        "phase": "3E.14",
+        "references": [
+          {
+            "bytes": 112277222,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e14-smoke-3mxqn14v\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "c73e21aee9eebc6605d2e148af28c7c40684ce99ceb003b6dcb3455164f00e80"
+          },
+          {
+            "bytes": 91847831,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e14-smoke-3mxqn14v\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "0006236bb5a452f961e7b5caf04e6badea674de6a302e5ff31351a8844264b45"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 308327107,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e14-smoke-3mxqn14v\\preparation_objective_context\\support_preparation_objective_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "660a990e17b70379b0f4ba9d2ab4dc5bb235bb3e776f4d3cbcd750d956954bb7"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-c4-3e15-20260915-r1",
+        "context": "c4",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 798938,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e15-smoke-gxyzz9ce\\preparation_c4_context\\support_preparation_c4_manifest.json",
+          "sha256": "d3716ffb7eb5a10e1cf522230865c340995b618701f617221f5a114503ed9d9b"
+        },
+        "phase": "3E.15",
+        "references": [
+          {
+            "bytes": 14368222,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e15-smoke-gxyzz9ce\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "509a203edeb99c5edbc4e84692628d4bbed79ac35f2df896784ee8655518ba71"
+          },
+          {
+            "bytes": 112277215,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e15-smoke-gxyzz9ce\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "6b4ef53d51b00918f6efdc7a9d0dd3efff3496de08f11d13b4f711781dd89b9e"
+          },
+          {
+            "bytes": 91847824,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e15-smoke-gxyzz9ce\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "6544de7ebe1e5568d615bbb75b7ef68be5b12e2057f47b77e49b9f797b79a06b"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 321703482,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e15-smoke-gxyzz9ce\\preparation_c4_context\\support_preparation_c4_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "954cda24064d3cb7fc2aa8e87dd6ef276dcd04fde32aa6ca057a136980e51330"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-objective-clock-3e16-20260915-r1",
+        "context": "clock",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 1857971,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-smoke-lvtd21_g\\preparation_objective_clock_context\\support_preparation_objective_clock_manifest.json",
+          "sha256": "df87956e4078863f65062af34b34919a533a9673336a4dd42c74b9b12392cf37"
+        },
+        "phase": "3E.16",
+        "references": [
+          {
+            "bytes": 166882154,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-smoke-lvtd21_g\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+            "role": "clock_source",
+            "sha256": "d11668e8240923c8a6b261643907d15c441daef1a8748d247a680ea387dae60f"
+          },
+          {
+            "bytes": 14368235,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-smoke-lvtd21_g\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "2b837392f805ff7b8168d9d34d40b670a8810ba684e8520f7efcc375e31a124f"
+          },
+          {
+            "bytes": 112277228,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-smoke-lvtd21_g\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "81a93d9367daeff24ee35a8a01aea5ab1738b8ba84591e8cb55420d4f7b03909"
+          },
+          {
+            "bytes": 91847837,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-smoke-lvtd21_g\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "40466ae3f788c5d50756f393719c5000cc1c04b57de933ee2c37b42d441d6fb7"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 353909885,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e16-smoke-lvtd21_g\\preparation_objective_clock_context\\support_preparation_objective_clock_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "933ae012c42be1e23a61c63d370ef3b64aba3c45f337909eb96454c89ccae363"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-attempt-origin-3e17-20260915-r1",
+        "context": "origin",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 1042578,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\preparation_attempt_origin_context\\support_preparation_attempt_origin_manifest.json",
+          "sha256": "4c1af9fb7ca30f6fb71ca9db2fe391f636c601b9cd355a35242309ee3757cbdb"
+        },
+        "phase": "3E.17",
+        "references": [
+          {
+            "bytes": 14368234,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "95ad46cebffebfe3c26fce964c2426c6a4fd16beac3464f9694c270ae3909bda"
+          },
+          {
+            "bytes": 166882153,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+            "role": "clock_source",
+            "sha256": "a5c984f1953fd6c61eecac0a775b04c997971ec025e190e2f757a9a648835e9f"
+          },
+          {
+            "bytes": 112277227,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "6807cd8a200e4525d38e30b0118c6f3d6a03f4fca7f5505db8b2bce610e20166"
+          },
+          {
+            "bytes": 91847836,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "ebc8e5355ebd1671c87849f0eeaa57f3d79ec3e6e2f4ff416d091618da1bd3dc"
+          },
+          {
+            "bytes": 11118147,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\smoke_run_demo-a11eb0d600ee702c9edb\\support_attempt_origin_observations.json",
+            "role": "attempt_source",
+            "sha256": "326252347f1f411f5dd9e751f7aa55865cf47b12b378111ef66d2e19331f4b4b"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 261683317,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e17-smoke-f93r2sik\\preparation_attempt_origin_context\\support_preparation_attempt_origin_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "18a15c7e080743a15d9b5584e63ad98b70d3e623fbc999bfb3046c0e2059a42b"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-objective-position-3e18-20260915-r1",
+        "context": "position",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 883009,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\preparation_objective_position_context\\support_preparation_objective_position_manifest.json",
+          "sha256": "76bce83a0705d9c5ef1b7ee191ae55a7d8ed9309edf0121eb3d257467fe09fbd"
+        },
+        "phase": "3E.18",
+        "references": [
+          {
+            "bytes": 11118151,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\smoke_run_demo-a11eb0d600ee702c9edb\\support_attempt_origin_observations.json",
+            "role": "attempt_source",
+            "sha256": "51d467a1dd047bfcb736234e4b96746d88c70eccebd044a7ea6663a75a2fe5ba"
+          },
+          {
+            "bytes": 14368238,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "904dc777833d47455ddae901b468887e6e72669188775c1b15653bc7dc01f06c"
+          },
+          {
+            "bytes": 166882157,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+            "role": "clock_source",
+            "sha256": "15d7bb9c22603ff1eb4087a4d2d4efd3924a857423fbb977f7626f2f97ecf09e"
+          },
+          {
+            "bytes": 112277231,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "5b4f14711c04ac71295974b87587bcd399a927c6d4beb123553f969c592a01a7"
+          },
+          {
+            "bytes": 91847840,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "a210c0f3a0acd3f0663c7b89311151b5687b86cea30ec6138ad00baab69abf42"
+          },
+          {
+            "bytes": 17323493,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_position_observations.json",
+            "role": "position_source",
+            "sha256": "645b440b2c7bf2fbedcae2027156a1d2bdac79d411192fe0e39dc64fad200f88"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 243084588,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e18-smoke-0l75u5cp\\preparation_objective_position_context\\support_preparation_objective_position_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "3499794e2394fb1d041bd274b1e4a7c5fd02a9ddb180a31fa4ddfa1ca343f212"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-native-motion-3e19-20260915-r2",
+        "context": "motion",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 1201347,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\preparation_native_motion_context\\support_preparation_native_motion_manifest.json",
+          "sha256": "5ac0cc634c079b09363b2c42838b6299ea43688abc472043ae9238bdbc79801b"
+        },
+        "phase": "3E.19",
+        "references": [
+          {
+            "bytes": 11118146,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_attempt_origin_observations.json",
+            "role": "attempt_source",
+            "sha256": "c4c01d822535a7728ed369f1426848f660b3d9d27c74b3739d97e76126b3391e"
+          },
+          {
+            "bytes": 14368233,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "bb5f77bd9360dc9402492ff95f239d49b2b0923246df2149eb38eff2195b4057"
+          },
+          {
+            "bytes": 166882152,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+            "role": "clock_source",
+            "sha256": "a4932fe518eec8f484e2a51cb285f35d8397d6466e8b9af429550c2c5d018758"
+          },
+          {
+            "bytes": 112277226,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "dddab1577e0a639c00350d8534acd44b21209c22b58492c0df76eaa9302acc58"
+          },
+          {
+            "bytes": 17323488,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_position_observations.json",
+            "role": "position_source",
+            "sha256": "d974a12e5e6ceb7aa269f04b36e0ec190465e7238bbaf663d3d87f5b726a209e"
+          },
+          {
+            "bytes": 91847835,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "a77953967bc8a75f5f1737076025e30d993f9c5e5670a945c98831c64e04010e"
+          },
+          {
+            "bytes": 175838864,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\smoke_run_demo-a11eb0d600ee702c9edb\\support_native_motion_observations.json",
+            "role": "motion_source",
+            "sha256": "973810fd3f01cdb264bf74be726e9811c8e09e23b7832ea274e28ef76f481bd4"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 308375249,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e19-smoke-nj1xxvhl\\preparation_native_motion_context\\support_preparation_native_motion_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "2fa9ef3db8106a7ab3350257d6d3e96a07bc0d0b5eeb9fe537025d223d4854aa"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-weapon-timing-3e20-20260915-r1",
+        "context": "timing",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 2462214,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\preparation_weapon_timing_context\\support_preparation_weapon_timing_manifest.json",
+          "sha256": "0001115013d787b7712948e76182d3beba4b2a1a547d925c9a12b102b562c5f9"
+        },
+        "phase": "3E.20",
+        "references": [
+          {
+            "bytes": 11118146,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_attempt_origin_observations.json",
+            "role": "attempt_source",
+            "sha256": "e657342356462aff71b9ba076e89b3c009a9149be028c3e7b10b66ef8231178e"
+          },
+          {
+            "bytes": 14368233,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "3b8eb2346b012560eaaf6bccc3af931f66388d10bbe17b4f6f5911be66bdec81"
+          },
+          {
+            "bytes": 166882152,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+            "role": "clock_source",
+            "sha256": "4b1dd189c171864869ee513ab0c0a70ab600c5db0fc57dbe7f3f86b5b0baf132"
+          },
+          {
+            "bytes": 175838864,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_native_motion_observations.json",
+            "role": "motion_source",
+            "sha256": "c48bb898d161d4c831b601f45f61a7d750861083b8d48fea229ed2e80b53aecd"
+          },
+          {
+            "bytes": 112277226,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "5505cb30d3dd78f6ba34c866db366e2fec78f55788f6c60b425e2fcb0c043d9a"
+          },
+          {
+            "bytes": 177194951,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+            "role": "physical_source",
+            "sha256": "4d792dac35f42615b96ff719a30fec8994f120bfbd850508eab62b81184258cb"
+          },
+          {
+            "bytes": 17323488,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_position_observations.json",
+            "role": "position_source",
+            "sha256": "a2273e222088e56151ce3393dc2bf7c6ce138563337842af7778da486d5cd11a"
+          },
+          {
+            "bytes": 91847835,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "1edcfff7ffb6b49421ba5bff79d89a8921c1a95e340bf97a5194e3c0b3cb0338"
+          },
+          {
+            "bytes": 112945593,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\smoke_run_demo-a11eb0d600ee702c9edb\\support_weapon_timing_observations.json",
+            "role": "timing_source",
+            "sha256": "5cc6058c14b94403be4e26d39f89552ff0293cff277a034cadd8f77a706cc938"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 391194309,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e20-smoke-eorwgea0\\preparation_weapon_timing_context\\support_preparation_weapon_timing_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "464f50263685ec36c8209031baa33cbd9a12c51b08705dffbf9fe9c345638834"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      },
+      {
+        "build": "working-tree-support-preparation-visual-contact-3e21-20260915-r1",
+        "context": "visual",
+        "contract": "1.0.0-candidate.1",
+        "manifest": {
+          "bytes": 1132912,
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\preparation_visual_contact_context\\support_preparation_visual_contact_manifest.json",
+          "sha256": "99a1d80dec4aa961779c1b112e8356cade68ec4c9d86bc0769d6bc5ec5069c33"
+        },
+        "phase": "3E.21",
+        "references": [
+          {
+            "bytes": 11118147,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_attempt_origin_observations.json",
+            "role": "attempt_source",
+            "sha256": "78595a38d5035bb64bdd6a80632addadb372015b8b3b02d1c1ad776d472b8edd"
+          },
+          {
+            "bytes": 14368234,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+            "role": "c4_source",
+            "sha256": "177cb608b27f5c690303464b6597293c69f25c335d65c33cbe5845ebfe4c4446"
+          },
+          {
+            "bytes": 166882153,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+            "role": "clock_source",
+            "sha256": "21b641a604263083ee307c7f69dde565c6a1a7e4c98772d00fb80f55a7740fcf"
+          },
+          {
+            "bytes": 175838865,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_native_motion_observations.json",
+            "role": "motion_source",
+            "sha256": "d3c0252c4f23f31885b73df456dcd52d98136de244de82105720b38386cfcf04"
+          },
+          {
+            "bytes": 112277227,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_observations.json",
+            "role": "objective_source",
+            "sha256": "d21680888d0591809b5afa6fe7f995c6971ca1e7a4f9e3fc603b4c6fcf281950"
+          },
+          {
+            "bytes": 177194952,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+            "role": "physical_source",
+            "sha256": "6520c64639d881fe0d792c73c311c72d4ea996130a4754980501761da793ec9c"
+          },
+          {
+            "bytes": 17323489,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_position_observations.json",
+            "role": "position_source",
+            "sha256": "c8ca2a85fdaba55534c35dd787e7a76fb36415330e3f18809a49e1248c2ce7e9"
+          },
+          {
+            "bytes": 91847836,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+            "role": "support_source",
+            "sha256": "c462c31356beb08755006011216aaf9ab42146e5eccee62b49bc9b30de0510ef"
+          },
+          {
+            "bytes": 112945594,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_weapon_timing_observations.json",
+            "role": "timing_source",
+            "sha256": "8c908b37ae98463be301ff710a4abc770c181ca32dce17f56a619377785bbffc"
+          },
+          {
+            "bytes": 492430912,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_visual_contact_observations.json",
+            "role": "visual_source",
+            "sha256": "6ba212a9b7811fce08b737e59d23cdedc6f5a967673297a6deccaf6f12c98028"
+          },
+          {
+            "bytes": 2252,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e12-smoke-67de7pdb\\preparation_context\\support_preparation_protocol.json",
+            "role": "preparation_protocol",
+            "sha256": "424313f04d793a1a939880dc9bcf752693e0f413fe26df479994bedea42da524"
+          },
+          {
+            "bytes": 299421701,
+            "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\preparation_visual_contact_context\\support_preparation_visual_contact_cuts.jsonl",
+            "role": "artifact_0",
+            "sha256": "efb920411f6f514ca0f45f92beb36855f65446884208617b1f1d485cafa5b4aa"
+          }
+        ],
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "support_observations_content_sha256": "c7e5edc02e78e5c4920b30cdadf34e903c26f55ead5f667c69f96a77da01e099"
+      }
+    ],
+    "seconds": 25.656
+  },
+  "phase": "3E.22",
+  "producer_passes": 0,
+  "product_supported": false,
+  "protection": {
+    "after": {
+      "bytes": 317672,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\previous-after.json",
+      "sha256": "4dc48a87c1d9ed0bc9913d2c6e4d05cca994767c33f78de5c05dcabf2aeb6484"
+    },
+    "before": {
+      "bytes": 317672,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\previous-before.json",
+      "sha256": "4dc48a87c1d9ed0bc9913d2c6e4d05cca994767c33f78de5c05dcabf2aeb6484"
+    },
+    "corpus": {
+      "approved_bundles": 44,
+      "bytes": 42372398910,
+      "files": 4356,
+      "hashed_files": 181,
+      "seconds": 7.955,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+      "source_files": 50,
+      "unchanged": true
+    },
+    "retained_previous_bytes": 22232117945,
+    "retained_previous_files": 1170,
+    "unchanged": true
+  },
+  "reproduction": "Copy config.py, analyze.py, verify_results.py and summarize.py to another new empty dedicated directory under the same TEMP parent; run with repository Python from repository root, sequentially. They read original retained outputs and write only new analysis results; no producer or runtime imports.",
+  "retention": {
+    "cleanup_attempted": false,
+    "outputs_retained": true,
+    "prior_outputs_read_only": true,
+    "work_files_excluding_inventory_and_seal": 37,
+    "work_inventory": {
+      "bytes": 8700,
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d\\work-inventory.json",
+      "sha256": "bf78313cdb466459ffc45c7644447ab646666ed80af0292d99167680a40df182"
+    },
+    "work_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e22-work-5c399a2e7b694b32a729d5eb813b444d"
+  },
+  "runtime_changes": false,
+  "s2_s3_closed": false,
+  "scope": "Original C0 and nine retained contexts; no runtime mutation, producer, new demo or rematerialization",
+  "second_phase": {
+    "acquisition_authorized": false,
+    "closed": false,
+    "executed": false,
+    "minimum_next_input": "For S2 anteriority: prior oriented boundary, demo-bound geometry/transforms and sufficient causal temporal evidence; alternative independent factual components require their specific positive evidence in docs/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+    "reason": "No functional defect or newly accredited positive source identified. Further dependent work requires new verifiable material for a pending requirement.",
+    "status": "blocked_before_start"
+  },
+  "smoke_gate": {
+    "applicable": false,
+    "historical_smokes_not_claimed_as_current_validation": true,
+    "reason": "Current prompt explicitly limits 3E.22 to retained-data read-only analysis and prohibits new demo/rematerialization; functional closure gate not triggered"
+  },
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262"
+  },
+  "status": "read_only_analysis_validated_temporaries_retained",
+  "third_phase_executed": false,
+  "training_allowed": false,
+  "versions": {
+    "canonical_export": "3.8.0",
+    "catalog": "1.7.0",
+    "parser": "v16",
+    "plan": "2.42",
+    "protocol": "support_preparation_census/1.0.0-candidate.1",
+    "quality": 12,
+    "reason_codes": 19,
+    "schemas": 104
+  },
+  "workspace_preservation": {
+    "baseline_files": 1268,
+    "changed_baseline_paths": [
+      "README.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/prompts/AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_PHASE_PROMPT.md"
+    ],
+    "new_paths": [
+      "docs/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "docs/archive/ai-coach/AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_PHASE_2026-09-16.md",
+      "docs/evidence/AI_COACH_SUPPORT_PREPARATION_JOINT_COVERAGE_AUDIT_2026-09-16.json",
+      "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md"
+    ],
+    "runtime_product_interface_catalog_unchanged": true
+  }
+}

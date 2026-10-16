@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_human_review_adjudication@1",
+  "title": "Pseudonymous adjudication of two independent spatial reviews",
+  "contract_version": "1.0.0",
+  "x-stratai-status": "deprecated_visual_qa_only",
+  "x-stratai-ground-truth-authorized": false,
+  "x-stratai-evaluation-authorized": false,
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "adjudication_id", "batch_id",
+    "review_unit_id", "response_ids", "adjudicator_pseudonym", "state",
+    "decision_answer_id", "disagreement_reason_codes", "adjudicated_at",
+    "protocol_version", "handbook_version", "geometry_rewritten",
+    "support_approval_granted"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.spatial_human_review_adjudication@1"},
+    "contract_version": {"const": "1.0.0"},
+    "adjudication_id": {"type": "string", "pattern": "^sra-[0-9a-f]{24}$"},
+    "batch_id": {"type": "string", "pattern": "^spatial-pilot-[0-9a-f]{24}$"},
+    "review_unit_id": {"type": "string", "pattern": "^sru-[0-9a-f]{24}$"},
+    "response_ids": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string", "pattern": "^srr-[0-9a-f]{24}$"}},
+    "adjudicator_pseudonym": {"type": "string", "pattern": "^adjudicator-[0-9a-f]{16}$"},
+    "state": {"enum": ["adjudicated", "rejected", "unavailable"]},
+    "decision_answer_id": {"type": ["string", "null"], "enum": ["supported", "not_supported", "missing_context", "not_evaluable", "abstain", null]},
+    "disagreement_reason_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}},
+    "adjudicated_at": {"type": "string", "format": "date-time"},
+    "protocol_version": {"const": "1.0.0"},
+    "handbook_version": {"const": "1.0.0"},
+    "geometry_rewritten": {"const": false},
+    "support_approval_granted": {"const": false}
+  }
+}

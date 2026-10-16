@@ -1,0 +1,241 @@
+{
+  "phase": "CS3.available_information",
+  "status": "functional_closure_with_existing_factual_callback_repair",
+  "created_at_utc": "2026-10-10T16:27:03.861615+00:00",
+  "canonical_plan_version": "3.34",
+  "user_framing": {
+    "literal": "Manten el modelo inicial. Eso si, ten en cuenta el que es posible que tenga la información.",
+    "communication": "immediate_simulated_possible_reception",
+    "present_dead_teammates_possible_recipients": true,
+    "latest_direct_and_shared_reports_separate": true,
+    "actual_reception": "not_confirmed",
+    "enemy_identity": "opaque_demo_tracks_not_recognized_people"
+  },
+  "contracts": {
+    "input": "stratai.replay_context_input@7",
+    "projection": "stratai.team_replay_projection@9",
+    "information": "stratai.replay_information@1",
+    "round": "stratai.replay_round_context@2",
+    "inventory": "stratai.replay_inventory@1",
+    "factual_reading": "stratai.replay_factual_reading@1",
+    "bundle": "3.8_unchanged"
+  },
+  "automated_checks": {
+    "receipt": "outputs/stratai-information-20261010/callbacks-automated-checks.json",
+    "sha256": "d4cca7d0e28ced7dabf338d0649919a073d08ba2c035a6f519a6997dde29ba42",
+    "python_passed": 2522,
+    "backend_included": 43,
+    "frontend_passed": 284,
+    "node_passed": 18,
+    "node_preexisting_skips": 3,
+    "go": "all packages passed, including both callback permutations",
+    "lint_build": "passed",
+    "sources_unchanged": true
+  },
+  "smoke": {
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_matches": 1,
+    "captures_retained": 3,
+    "final_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-information-smoke-er6b7yre",
+    "command": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-information-smoke-er6b7yre\\team-replay-smoke.exe",
+      "--demo",
+      "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-1283ff87-ce52-4330-8828-de5e8ffb13e0.dem",
+      "--output",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-information-smoke-er6b7yre\\capture",
+      "--checksum",
+      "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7"
+    ],
+    "parser": "v16",
+    "go_version": "go version go1.26.2 windows/amd64",
+    "binary_sha256": "54dfc91cd343e1d8994f96b246d740c60f63204e0ba3815c9309408d2dd0c809",
+    "seconds": 34.44,
+    "rounds": 20,
+    "frames": 23398,
+    "native_calculated_contacts": 5495,
+    "confirmed_contacts": 0,
+    "unavailable_samples": 0,
+    "manifest_hashes_unchanged": true,
+    "affected_producer_pipeline": {
+      "ok": true,
+      "stages": [
+        {
+          "stage": "verify-callbacks",
+          "argv": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\verify_callbacks.py"
+          ],
+          "exit_code": 0,
+          "seconds": 6.145,
+          "log": "verify-callbacks.log",
+          "log_sha256": "450510cacc69757f6c743363220b6b94bf89aeb1a7a2a70f1efb20ea369d7bbf"
+        },
+        {
+          "stage": "projection-build",
+          "argv": [
+            "node",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\build_projection.mjs"
+          ],
+          "exit_code": 0,
+          "seconds": 0.402,
+          "log": "projection-build.log",
+          "log_sha256": "7d3507351196720f905a6faccaac71147865d356e10aec7d39261372501a111f"
+        },
+        {
+          "stage": "package-data",
+          "argv": [
+            "node",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\package_data.mjs"
+          ],
+          "exit_code": 0,
+          "seconds": 9.316,
+          "log": "package-data.log",
+          "log_sha256": "9e53899eaa13c0047590f5982fbd4fbd84940d81aca23a85115abbec956db9dc"
+        },
+        {
+          "stage": "verify-information",
+          "argv": [
+            "node",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\verify_information.mjs"
+          ],
+          "exit_code": 0,
+          "seconds": 34.008,
+          "log": "verify-information.log",
+          "log_sha256": "638b8a7ff27da34b2c36c7f081a94acb6d32ce50ca1a6eee8cd5a62b396042a1"
+        },
+        {
+          "stage": "install-information",
+          "argv": [
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\install_information.py"
+          ],
+          "exit_code": 0,
+          "seconds": 26.095,
+          "log": "install-information.log",
+          "log_sha256": "4207412b3643974f27df106eda23c04414e1febc3313cc7b93983e26eda8b33f"
+        },
+        {
+          "stage": "viewer-build",
+          "argv": [
+            "node",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\build_offline.mjs"
+          ],
+          "exit_code": 0,
+          "seconds": 0.605,
+          "log": "viewer-build.log",
+          "log_sha256": "e366a23556bb988ae5c0870acafc82aa9008feb25dd60cbcaa2a7561e4243eab"
+        },
+        {
+          "stage": "viewer-browser",
+          "argv": [
+            "node",
+            "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-information-20261010\\browser_check.mjs",
+            "viewer"
+          ],
+          "exit_code": 0,
+          "seconds": 6.276,
+          "log": "viewer-browser.log",
+          "log_sha256": "6076d1cf1df6f61f6b50c2872aac537bd9afde521065e44a6c843837328618af"
+        }
+      ],
+      "source_hashes_unchanged": true,
+      "distinct_demo_matches": 1,
+      "model_calls": 0
+    },
+    "information_independent_counts": {
+      "views": 46796,
+      "observations_checked": 217422,
+      "recipients_checked": 1086189,
+      "direct_observations": 217422,
+      "possible_receipts": 868767,
+      "memories": 58348,
+      "current_contacts": 2647,
+      "multiple_observers": 107,
+      "dead_recipients_possible": 219355,
+      "death_history": 124611,
+      "reverse_seek": 40,
+      "ct_views": 23398
+    },
+    "information_count_unit": "occurrences checked per projected view; not distinct contacts or actual communications",
+    "callback_counts": {
+      "independent_launch_positions": 347,
+      "positive_effect_launch_links": 375,
+      "native_launches": 347,
+      "replay_launches": 347,
+      "unavailable_launch_links": 3,
+      "inferno_starts": 75,
+      "inferno_expiries_without_reobserved_position": 74
+    }
+  },
+  "inputs": {
+    "cases": 10,
+    "views": 6840,
+    "model_calls": 0,
+    "original_variants_and_review_bindings": "preserved"
+  },
+  "browser": {
+    "version": "149.0.7827.55",
+    "case": "N02",
+    "keyboard_details_without_playback": true,
+    "export_matches_input": true,
+    "svg_images_loaded": true,
+    "errors": [],
+    "visual_screenshot_inspected": true,
+    "scope": "N02 T browser check; all T/CT projected frames independently checked separately"
+  },
+  "excel": {
+    "ok": true,
+    "output_sha256": "3fc85ddd4fba1ea7254c08471e3adbfd3f224a38b2ffa2d2319cf248ea47a64f",
+    "prior_attempt_sha256": "5abdd74b3ab5fe21f37603392c84e18473b94c1f5522c2542237ca5347f09004",
+    "source_sha256": "94ea1c4ce514dfc5493c613fb6a028ce84cc743b5cf602206a607a4f5ebb26d6",
+    "sheets_preserved": 14,
+    "only_added_range": "Contexto colectivo!A59:G59",
+    "all_original_package_members_unchanged_except": "xl/worksheets/sheet11.xml",
+    "all_original_rows_styles_and_comments_preserved": true,
+    "corrected_only": "F59 in this unsealed delivery",
+    "preview": "HTML from worksheet XML; no native Excel-engine rendering claimed"
+  },
+  "preservation": {
+    "ok": true,
+    "sealed_prior_files": 386,
+    "prior_inventory_sha256": "5c1bd270b21fa2285abd25447f5d3bdf8afd197e98d883c95943fbe58a6d5dbd",
+    "original_notes_sha256": "f34a3094c70cfbc8a34d3d27c979760352c81eec76bbdf6900380ccb586fe617",
+    "original_workbook_sha256": "94ea1c4ce514dfc5493c613fb6a028ce84cc743b5cf602206a607a4f5ebb26d6",
+    "changed": [],
+    "seconds": 8.744
+  },
+  "retention": {
+    "temp_roots": 22,
+    "files": 10213,
+    "inventory_path": "outputs/stratai-information-20261010/retained-temp-inventory.json",
+    "inventory_sha256": "0387b070ca270008c9e08f658a3ebe749180bb172d7b572bb20cf7451578b986",
+    "prior_attempts": [
+      "attempts/ui-1",
+      "attempts/ui-2",
+      "attempts/StratAI_Plan_del_coach_TP10_v44_before_receiver_review.xlsx"
+    ],
+    "cleanup": "none"
+  },
+  "limits": [
+    "calculated vision estimated; no new positive human perception source",
+    "voice/hearing/attention/memory not confirmed",
+    "contextual consumer still T only; projection T/CT",
+    "no interpretation generation or tactical-quality evaluation",
+    "confirmed delayed source covered synthetically only",
+    "three unavailable utility launch links remain abstentions",
+    "CS3 partial; no training, acquisition, publication or promotion"
+  ],
+  "next_action": "Expert scope review for grenades; interpretation comparison after information plus grenades, fixed cases/model/configuration.",
+  "artifact_hashes": {
+    "docs/AI_COACH_IMPLEMENTATION_PLAN.md": "083b1ff4fc61db2c4a34f281332e8d38ad9c389ab291212dec2bd1b3d7fd2fc2",
+    "docs/prompts/AI_COACH_CONTEXT_COMPARISON_PHASE_PROMPT.md": "d12d9dea1be3f0cdf341e4745d3ed8df228fc53748b859433cbc8f50cda2b650",
+    "docs/contracts/context/replay-information-v1.md": "08ac9eba7505a0a76659fecbd0f0ba292be332c20322ab90e6ff60f3e40bf649",
+    "docs/ai-coach/AI_COACH_AVAILABLE_INFORMATION_SCOPE_v0.1.md": "7375226b37c3107b84243c67819802d74024b2b70fe639399d4e4de502626e03",
+    "outputs/stratai-information-20261010/RESULTADO.md": "31d5a871f6b105963def272d70a7687bfae22264d5bb6fe619284b6b927b072e",
+    "outputs/stratai-information-20261010/information-verification.json": "1f8ff0813a93961982dc258f6e56430bf83e3abb17a115d8885646b64e196dab",
+    "outputs/stratai-information-20261010/callback-verification.json": "81afeb2909910a3bb9139f9939f8b731c14c4cb3ff121215995ec4174fdceb4b",
+    "outputs/stratai-information-20261010/viewer-browser.png": "4837d0a1b538fe5396a32efecf1c55eae33fbdc56eb63e0cf4930d5eae24cb25",
+    "outputs/stratai-information-20261010/StratAI_Plan_del_coach_TP10_v44.xlsx": "3fc85ddd4fba1ea7254c08471e3adbfd3f224a38b2ffa2d2319cf248ea47a64f"
+  }
+}

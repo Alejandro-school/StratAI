@@ -5,6 +5,7 @@ No external dependencies beyond redis.asyncio (already used).
 """
 import time
 import logging
+import secrets
 from typing import Any, Callable, Optional, cast
 from functools import wraps
 from fastapi import Request, HTTPException
@@ -35,7 +36,9 @@ class RateLimiter:
             # Count current entries
             pipe.zcard(pipe_key)
             # Add current request
-            pipe.zadd(pipe_key, {str(now): now})
+            pipe.zadd(pipe_key, {f"{now}:{secrets.token_hex(8)}": now})
+            # Rejected traffic must not grow the rate-limit set without bound.
+            pipe.zremrangebyrank(pipe_key, 0, -max_requests - 1)
             # Set expiry on the key
             pipe.expire(pipe_key, window_seconds)
             results: list[Any] = cast(list[Any], await pipe.execute())
@@ -46,9 +49,9 @@ class RateLimiter:
             if current_count >= max_requests:
                 return True, 0
             return False, max_requests - int(current_count) - 1
-        except Exception as e:
-            logging.warning(f"Rate limiter Redis error: {e}. Allowing request.")
-            return False, max_requests  # Fail open
+        except Exception as error:
+            logging.warning("Rate limiter unavailable: %s", type(error).__name__)
+            raise HTTPException(503, "Control de frecuencia no disponible.") from error
 
     def limit(self, max_requests: int, window_seconds: int, key_func: Optional[Callable[[Request], str]] = None) -> Callable[..., Any]:
         """
@@ -78,7 +81,7 @@ class RateLimiter:
                     rate_key = key_func(request)
                 else:
                     # Use steam_id for authenticated users (per-user), IP for unauthenticated (per-IP)
-                    steam_id = request.session.get("steam_id") if hasattr(request, "session") else None
+                    steam_id = getattr(getattr(request.state, "steam_user", None), "steam_id", None)
                     if steam_id:
                         rate_key = f"{func.__name__}:user:{steam_id}"
                     else:

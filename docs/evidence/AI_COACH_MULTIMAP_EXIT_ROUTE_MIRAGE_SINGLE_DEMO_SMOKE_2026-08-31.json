@@ -1,0 +1,323 @@
+{
+  "schema_id": "stratai.ai_coach_exit_route_single_demo_smoke_evidence@1",
+  "date": "2026-08-31",
+  "status": "passed",
+  "phase": "1B.9",
+  "gate_1b": "pending",
+  "training_allowed": false,
+  "scope": "map-agnostic objective exit-route contract plus one partial de_mirage candidate; sidecar only",
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "producer_attempts": 3,
+    "same_match_and_sha_for_all_attempts": true,
+    "downloads": 0,
+    "corpus_reprocessing": false,
+    "publication_or_promotion": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "map_id": "de_mirage",
+    "rounds": 24,
+    "input_frames": 29520,
+    "parser_schema_version": "v16",
+    "export_format_version": "3.8.0",
+    "approved_manifest_status": "passed",
+    "approved_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5"
+  },
+  "contracts": {
+    "map_package": "stratai.exit_route_map_package@1",
+    "support_manifest": "stratai.exit_route_support_manifest@1",
+    "observed_diagnostic": "stratai.observed_exit_route_diagnostic@1",
+    "contract_version": "1.0.0",
+    "navigation_reused": "stratai.observed_navigation_path@2",
+    "navigation_contract_version": "2.0.0",
+    "nav_graph": "nav_area_connections_with_polygons@2",
+    "endpoint_association": "containing_nav_polygon_xy_then_nearest_center_3d@2",
+    "shortest_path": "directed_dijkstra_stable_ties@1",
+    "timing_policy": {
+      "intended_use": "internal_decision_support_only",
+      "user_facing_mode": "qualitative_conditional_with_uncertainty_only",
+      "decision_semantics": "constraint_signal_not_recommendation",
+      "estimate_semantics": "scenario_reference_not_arrival_prediction",
+      "exact_user_facing_time_allowed": false,
+      "arrival_prediction": false
+    }
+  },
+  "source_asset_audit": [
+    {
+      "role": "nav_mesh",
+      "reference": "de_mirage/de_mirage.nav",
+      "bytes": 471905,
+      "sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e",
+      "proves": "NAV polygons, directed edges, endpoint association and graph connectivity",
+      "does_not_prove": "human tactical quality, safety, intent or recommendation"
+    },
+    {
+      "role": "physics_gltf",
+      "reference": "de_mirage/de_mirage_physics.gltf",
+      "bytes": 60726,
+      "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451",
+      "proves": "audited collision/obstruction geometry only",
+      "does_not_prove": "navigability or tactical exit value"
+    },
+    {
+      "role": "physics_buffer",
+      "reference": "de_mirage/de_mirage_physics.bin",
+      "bytes": 14378364,
+      "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e",
+      "proves": "binary geometry backing the audited physics mesh",
+      "does_not_prove": "navigability or tactical exit value"
+    },
+    {
+      "role": "sample_seed_catalog",
+      "reference": "de_mirage/de_mirage_places.json",
+      "bytes": 4268,
+      "sha256": "6ba2ed20019e0bcc0bf7762cebcbd4f84fa0849c2f8d1ddb64e2cb10436e32cf",
+      "proves": "coordinate seeds only",
+      "does_not_prove": "normative callouts, escape labels, safety or recommendation"
+    },
+    {
+      "role": "exposure_package_audit",
+      "schema_id": "stratai.exposure_angle_map_package@1",
+      "bytes": 43328,
+      "sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+      "use": "separate geometry only; not consumed as exit-route truth"
+    },
+    {
+      "role": "cover_package_audit",
+      "schema_id": "stratai.cover_map_package@1",
+      "bytes": 1090654,
+      "sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "use": "separate geometry only; not consumed as exit-route truth"
+    }
+  ],
+  "mirage_candidate_package": {
+    "asset_version": "1.0.0-candidate.1",
+    "bytes": 19945,
+    "sha256": "6007fb5680eb331b2433e3a0377e613a1e6a219f96c4ed3fbf37260ee8440200",
+    "geometry_revision": "f02deca7d5d4a2f4f2aee448f976831aa12a1465e39410e8fff1046a455f8ca7",
+    "samples": 8,
+    "directed_candidates": 8,
+    "static_reachable": 8,
+    "static_unreachable": 0,
+    "static_unavailable": 0,
+    "static_path_distance_min_world_units": 1047.4403860909106,
+    "static_path_distance_max_world_units": 8086.618578394748,
+    "full_map_coverage": false,
+    "objective_validation": "approved",
+    "tactical_review": "pending_review",
+    "tactical_annotations": 8,
+    "fabricated_human_labels": 0,
+    "product_supported": false,
+    "training_use_authorized": false,
+    "double_regeneration_sha256": [
+      "6007fb5680eb331b2433e3a0377e613a1e6a219f96c4ed3fbf37260ee8440200",
+      "6007fb5680eb331b2433e3a0377e613a1e6a219f96c4ed3fbf37260ee8440200"
+    ]
+  },
+  "map_support": {
+    "registered_maps": ["de_mirage"],
+    "candidate_maps": ["de_mirage"],
+    "product_supported_maps": [],
+    "unknown_map_behavior": "unavailable:map_not_registered; no Mirage fallback",
+    "support_manifest_bytes": 604,
+    "support_manifest_sha256": "dc180bf6e2840a300adda02a559f4a01c79a8e819ea182d8ef3d2ca664bf0650"
+  },
+  "preparse_rejections": {
+    "non_temporary_output": "rejected at publication with smoke_output_rejected before parse",
+    "non_empty_destination": "rejected at publication with smoke_output_rejected before parse",
+    "overwrite": "rejected at publication with smoke_output_rejected before parse",
+    "mode_combination": "rejected by parseOptions before source inspection"
+  },
+  "attempts": [
+    {
+      "id": "r1",
+      "producer_exit_code": 0,
+      "duration_ms": 83289,
+      "independent_validator_exit_code": 2,
+      "validator_duration_ms": 310,
+      "result": "invalidated",
+      "defect": "available package summary serialized reason_codes as null instead of an explicit empty array",
+      "fix": "non-nil empty summary reason array plus regression"
+    },
+    {
+      "id": "r2",
+      "producer_exit_code": 0,
+      "duration_ms": 83721,
+      "independent_validator_exit_code": 1,
+      "validator_duration_ms": 564,
+      "result": "invalidated",
+      "defect": "reachable objective rows serialized reason_codes as null instead of an explicit empty array",
+      "fix": "non-nil empty objective reason array plus regression"
+    },
+    {
+      "id": "r3",
+      "producer_exit_code": 0,
+      "duration_ms": 83732,
+      "independent_validator_exit_code": 0,
+      "validator_duration_ms": 6745,
+      "result": "passed"
+    }
+  ],
+  "exact_producer_shell": "Windows PowerShell",
+  "exact_producer_working_directory": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+  "exact_successful_producer_command": "go run ./cmd/canonical-export --demo 'E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem' --output 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-exit-route-1b9-20260831-r3' --alias 'demo-a11eb0d600ee702c9edb' --checksum 'a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262' --maps-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps' --exit-route-packages-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\spatial\\exit_route' --build-id 'working-tree-exit-route-mirage-1b9-20260831-r3' --ai-coach-exit-route-validation",
+  "exact_independent_validator_command": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe -m ai_coach.contracts.validate_exit_route_full_demo <r3>/smoke_run_demo-a11eb0d600ee702c9edb/observed_exit_route_full_demo.json --registry-root E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\spatial\\exit_route --maps-root E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps --expected-source-alias demo-a11eb0d600ee702c9edb --expected-source-sha256 a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --expected-map-id de_mirage --require-observed",
+  "successful_result": {
+    "sampling_hz": 1,
+    "participant_aliases": 10,
+    "records": 12802,
+    "samples_observed": 883,
+    "samples_unavailable": 11919,
+    "candidate_evaluations": 883,
+    "reachable": 878,
+    "unreachable": 0,
+    "reachability_unavailable": 5,
+    "physical_path_available": 878,
+    "physical_path_unavailable": 5,
+    "active_weapon_scenario_available": 828,
+    "active_weapon_scenario_unavailable": 55,
+    "observed_pace_scenario_available": 750,
+    "observed_pace_scenario_unavailable": 133,
+    "tactical_observed": 0,
+    "tactical_abstentions": 883,
+    "reason_counts": {
+      "human_review_pending": 883,
+      "origin_outside_nav_tolerance": 5,
+      "outside_declared_sample_coverage": 11919
+    },
+    "samples_hit": {
+      "exit-sample-001": 55,
+      "exit-sample-002": 22,
+      "exit-sample-003": 63,
+      "exit-sample-004": 105,
+      "exit-sample-005": 193,
+      "exit-sample-006": 61,
+      "exit-sample-007": 208,
+      "exit-sample-008": 176
+    },
+    "causal_semantic_and_privacy_checks": {
+      "schema_errors": 0,
+      "package_or_asset_hash_mismatches": 0,
+      "selection_or_destination_mismatches": 0,
+      "direct_distance_or_timing_mismatches": 0,
+      "future_or_oracle_outcome_fields": 0,
+      "raw_identity_fields": 0,
+      "human_labels_or_recommendations": 0,
+      "count_mismatches": 0
+    }
+  },
+  "artifacts": [
+    {
+      "path": "observed_exit_route_full_demo.json",
+      "bytes": 2555,
+      "sha256": "80d1fac1e8be71a3aa4425396c16ab5f760825a5ba04a8ea1b40c50321de03e9"
+    },
+    {
+      "path": "observed_exit_route_diagnostic.jsonl.gz",
+      "bytes": 644215,
+      "sha256": "f2a9a03a8463d458e49834f80794d4915526b9beaa0524c82dc5d69d22ba4ba8",
+      "logical_bytes": 22387194,
+      "logical_sha256": "bca59cb6e87492b8904411c4c6612ee7e556068ecc16b5210d8f5e8f202f274c"
+    },
+    {
+      "path": "match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+      "bytes": 33482,
+      "sha256": "ac06c786ca0a0ee45b527619a29a7ad9b63b501db94c6ce8ff0be340b3780d64"
+    }
+  ],
+  "canonical_bundle": {
+    "semantic_errors": 0,
+    "semantic_validation_duration_ms": 280493,
+    "files": 73,
+    "bytes": 735286366,
+    "declared_artifacts": 72,
+    "decision_examples": 918,
+    "joins_succeeded": 918,
+    "joins_failed": 0,
+    "decision_example_audit_duration_ms": 7314,
+    "export_format_version": "3.8.0",
+    "parser_version": "v16"
+  },
+  "automated_verification": [
+    {
+      "command": "go test -count=1 ./pkg/exitroute ./parser ./cmd/canonical-export",
+      "status": "passed"
+    },
+    {
+      "command": "go vet ./pkg/exitroute ./parser ./cmd/canonical-export ./cmd/exit-route-package-generator",
+      "status": "passed"
+    },
+    {
+      "command": "python -m pytest ai_coach/tests -q",
+      "status": "passed; 181 tests"
+    },
+    {
+      "command": "python -m ruff check ai_coach --select E9,F63,F7,F82",
+      "status": "passed"
+    },
+    {
+      "command": "python -m ai_coach.contracts.validate_contract",
+      "status": "passed; 17 capabilities, 15 decisions, 51 actions, 18 outcomes, 55 fields, 17 runtime schemas, 18 reason codes"
+    },
+    {
+      "command": "npm run check:all",
+      "status": "passed; frontend 88, Node 14 passed/3 skipped, all Go packages, backend Python 43, frontend build"
+    },
+    {
+      "command": "exit-route-package-generator twice from protected Mirage inputs",
+      "status": "passed; both outputs byte-identical to stored package"
+    },
+    {
+      "command": "python -m ai_coach.contracts.validate_exit_route_full_demo ... --require-observed",
+      "status": "passed on r3; schema, hashes, package/assets, sample/destination, distance, timing algebra, counts, privacy and abstention independently checked"
+    },
+    {
+      "command": "golden_demo_semantic_runner.validate_direct_bundle(...) / build_direct_bundle_audit_summary(...) ",
+      "status": "passed; 0 errors, 918 examples, 918 joins succeeded, 0 failed"
+    }
+  ],
+  "protected_state": {
+    "pre_utc": "2026-08-31T17:36:27.2966941Z",
+    "post_utc": "2026-08-31T17:53:07.9273361Z",
+    "all_equal": true,
+    "trees": {
+      "demos": {"files": 100, "bytes": 13589310951, "newest_utc": "2026-08-25T13:44:10.7561159Z"},
+      "analyzed_demos": {"files": 3013, "bytes": 27264064316, "newest_utc": "2026-08-25T16:55:21.8954941Z"},
+      "failed": {"files": 727, "bytes": 5245908800, "newest_utc": "2026-08-25T12:58:53.9269942Z"},
+      "staging": {"files": 0, "bytes": 0},
+      "backend_data_exports": {"files": 1242, "bytes": 1353261344, "newest_utc": "2026-08-21T16:16:08.8696869Z"}
+    },
+    "approved_manifests": {"count": 44, "manifest_set_sha256": "59a00326538be28d063bc3d3b9cbc331b2ad9c0d95747b5f056bc2df8fae118c"},
+    "faceit_demos_git": {"head": "f132c8de4bcc97650352ec5a647fdf3985f11353", "clean": true},
+    "release": {"current": "stratai-2c6db440231d463a", "current_sha256": "600d3f69631c12112fa2af11fdf2a23813529bfba536806ba19627db3a8ee799", "files": 9, "bytes": 24047407, "content_sha256": "d1ae13091d2f45a0ca22af841dfe96522a71ef628e1704ce85aac7f5cb2e634a"},
+    "source_demo_unchanged": true,
+    "map_and_related_assets_unchanged": true
+  },
+  "cleanup": {
+    "status": "passed",
+    "temporary_roots": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-exit-route-1b9-20260831-r1",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-exit-route-1b9-20260831-r2",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-exit-route-1b9-20260831-r3",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-exit-route-generation-82dd634584fe4ce1b9d6998d7e44db13",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-exit-route-generation-ccd1bb27e75e4a5c9f9975552d777289",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-exit-route-reject-nonempty-f25f44e443b04adfa23f32c7ec874e8b",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-exit-route-reject-overwrite-a41ee8dbf8ee40aeb75d44a335e424bb"
+    ],
+    "pre_cleanup_files": 228,
+    "pre_cleanup_bytes": 2207839838,
+    "all_absent_after_cleanup": true,
+    "recoverable": false
+  },
+  "limitations": [
+    "Gate 1B remains pending and training is not authorized.",
+    "The Mirage package is a partial reference and is not product support.",
+    "NAV connectivity and physical cost do not establish safety, tactical reasonableness or recommendation.",
+    "All human tactical annotations remain pending with no author, reviewer, evidence or classification.",
+    "The candidate remains outside canonical bundle 3.8.0 and publication manifests."
+  ],
+  "next_phase": "1B.10: freeze the human spatial review and adjudication protocol, and prepare a review-only Mirage pilot batch for exposure, cover and exit routes without fabricating labels or changing canonical data"
+}

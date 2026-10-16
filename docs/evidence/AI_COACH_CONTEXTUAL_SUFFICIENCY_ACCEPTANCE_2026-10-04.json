@@ -1,0 +1,38 @@
+{
+  "kind": "expert_contextual_sufficiency_acceptance",
+  "date": "2026-10-04",
+  "recorded_at_utc": "2026-10-04T11:05:34.430885+00:00",
+  "source": "User reply to the immediately preceding contextual-criterion proposal in this conversation",
+  "literal": "Si, me parece bien.",
+  "literal_utf8_sha256": "0b82ad78ed02fb54640edcd6a92ab512fdbbaf809a4d9e95bbfa1a2fad258dc0",
+  "proposal_criterion_literal": "una lectura resulta insuficiente si acierta el destino pero omite información disponible que cambia el significado de la situación —por ejemplo, bomba plantada, pérdida de compañeros o recursos relevantes—. Puede mantener varias hipótesis si las justifica.",
+  "proposal_criterion_utf8_sha256": "75258090c32b7fc371b437e8aaae3f6e31c1c5f0cbc6250566c548b0db6e7424",
+  "question_literal": "¿Ese criterio refleja cómo evaluarías tú que la IA entiende el caso, o añadirías algo esencial?",
+  "accepted_expert_criterion": {
+    "destination_alone_not_sufficient": true,
+    "omission_of_available_context_changing_meaning_is_insufficient": true,
+    "multiple_grounded_hypotheses_allowed": true
+  },
+  "accepted_review_presentation": [
+    "situación",
+    "evolución",
+    "interpretación",
+    "incertidumbre"
+  ],
+  "presentation_attribution": "Four-part proposal shown before the accepted criterion; nine technical dimensions remain an agent mapping, not nine verbatim expert statements.",
+  "technical_operationalization_by_agent": [
+    "Distinguish available/relevant/meaning-changing omissions from absent or irrelevant information.",
+    "An explicit unknown can coexist with a valid factual description.",
+    "Per-claim references, perspective, causal availability and support remain mandatory."
+  ],
+  "workbook_criterion_id": "IC39",
+  "scope": "CS1 documentary representation and sufficiency rubric; no runtime implementation.",
+  "not_accepted_by_this_short_reply": [
+    "New model/provider/semantic architecture execution",
+    "Specific CT tactical judgments or training labels",
+    "CS2 dependent runtime implementation without phase framing",
+    "Acquisition, training, publication or promotion"
+  ],
+  "training": false,
+  "expert_free_text_auto_labeled": false
+}

@@ -1,3 +1,4 @@
+import base64
 import hashlib
 import hmac
 import json
@@ -45,9 +46,13 @@ def test_credential_encryption_roundtrip_and_tamper_detection() -> None:
     assert secret not in envelope
     assert decrypt_credential(envelope) == secret
 
-    replacement = "A" if envelope[-1] != "A" else "B"
+    version, payload = envelope.split(".", 1)
+    raw = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+    # Change authenticated bytes; the final base64 character has unused bits.
+    tampered = raw[:-1] + bytes([raw[-1] ^ 1])
+    encoded = base64.urlsafe_b64encode(tampered).decode().rstrip("=")
     with pytest.raises(ValueError):
-        decrypt_credential(envelope[:-1] + replacement)
+        decrypt_credential(f"{version}.{encoded}")
 
 
 @pytest.mark.asyncio
@@ -56,6 +61,9 @@ async def test_onboarding_keeps_credentials_out_of_internal_payload(monkeypatch)
     outbound: dict = {}
 
     class FakeRedis:
+        async def set(self, *_args, **_kwargs):
+            return True
+
         async def hset(self, _key, mapping):
             stored.update(mapping)
 
@@ -72,7 +80,7 @@ async def test_onboarding_keeps_credentials_out_of_internal_payload(monkeypatch)
     result = await sharecodes.onboarding(
         sharecodes.OnboardingRequest(
             auth_code=auth_code,
-            known_code="N/A",
+            known_code="CSGO-AAAAA-BBBBB-CCCCC-DDDDD-EEEEE",
         ),
         SteamUser(steam_id="76561198000000000"),
     )

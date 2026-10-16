@@ -18,8 +18,6 @@ const SteamUser = require("steam-user");
 const GlobalOffensive = require("globaloffensive");
 const SteamTotp = require("steam-totp");
 const config = require("./config");
-const { redisClient, ensureRedis } = require("./redisClient");
-const { getFriendStatus } = require("./friendship");
 
 class BotInstance {
   constructor(username, password, sharedSecret, id) {
@@ -30,7 +28,6 @@ class BotInstance {
     this.client = new SteamUser();
     this.csgo = new GlobalOffensive(this.client);
     this.ready = false;
-    this.friendsListReady = false;
     this.activeRequests = 0;
     this._setupListeners();
   }
@@ -38,7 +35,6 @@ class BotInstance {
   _setupListeners() {
     this.client.on("loggedOn", () => {
       console.log(`✅ [Bot ${this.id}] ${this.username} conectado a Steam`);
-      this.friendsListReady = false;
       this.client.setPersona(SteamUser.EPersonaState.Online);
       this.client.gamesPlayed(730);
     });
@@ -46,13 +42,11 @@ class BotInstance {
     this.client.on("error", (err) => {
       console.error(`❌ [Bot ${this.id}] Error: ${err.message}`);
       this.ready = false;
-      this.friendsListReady = false;
     });
 
     this.client.on("disconnected", (eresult, msg) => {
       console.error(`❌ [Bot ${this.id}] Desconectado: ${msg}. Reconectando en ${config.retry.steamReconnect / 1000}s...`);
       this.ready = false;
-      this.friendsListReady = false;
       setTimeout(() => this.login(), config.retry.steamReconnect);
     });
 
@@ -64,35 +58,6 @@ class BotInstance {
     this.csgo.on("disconnectedFromGC", (reason) => {
       console.error(`❌ [Bot ${this.id}] Desconectado del GC: ${reason}`);
       this.ready = false;
-    });
-
-    // Detect when friends list is fully loaded
-    this.client.on("friendsList", () => {
-      console.log(`👥 [Bot ${this.id}] friendsList loaded`);
-      this.friendsListReady = true;
-    });
-
-    // Real-time detection of friend relationship changes (accept/decline/remove)
-    this.client.on("friendRelationship", async (steamID, relationship) => {
-      const sid = steamID.getSteamID64();
-      const relName = Object.keys(SteamUser.EFriendRelationship)
-        .find(k => SteamUser.EFriendRelationship[k] === relationship) || relationship;
-      console.log(`👥 [Bot ${this.id}] Friend relationship changed: ${sid} → ${relName}`);
-
-      try {
-        await ensureRedis();
-        const status = getFriendStatus(relationship);
-        const ttl = status === "pending"
-          ? config.ttl.friendStatusPending
-          : config.ttl.friendStatus;
-        await Promise.all([
-          redisClient.set(`${config.pipelineNamespace}:friend-status:${sid}`, status, { EX: ttl }),
-          redisClient.set(`${config.pipelineNamespace}:friend-status-ts:${sid}`, new Date().toISOString(), { EX: ttl }),
-        ]);
-        console.log(`✅ [Bot ${this.id}] Redis friend_status:${sid} → ${status}`);
-      } catch (err) {
-        console.error(`❌ [Bot ${this.id}] Failed to update friend status in Redis: ${err.message}`);
-      }
     });
   }
 

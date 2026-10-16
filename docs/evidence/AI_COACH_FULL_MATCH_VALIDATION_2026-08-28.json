@@ -1,0 +1,412 @@
+{
+  "schema_id": "stratai.ai_coach_full_match_validation_evidence@1",
+  "date": "2026-08-28",
+  "status": "passed",
+  "scope": "one_complete_approved_match_navigation_temporal_sweep_visual_pair_sweep_and_integrated_bundle_audit",
+  "training_allowed": false,
+  "single_demo_policy": {
+    "approved_bundle_count": 44,
+    "distinct_demo_count": 1,
+    "demo_processing_attempt_count": 2,
+    "all_attempts_used_same_sha256": true,
+    "retry_rule": "fix_and_retry_same_match",
+    "corpus_wide_reprocessing": false,
+    "downloaded_demos": 0,
+    "trained_models": 0,
+    "published_or_promoted_bundles": 0
+  },
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "file_name": "1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem",
+    "bytes": 330945844,
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "map_name": "de_mirage",
+    "approved_bundle_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "approved_manifest_count_at_preflight": 44,
+    "read_only": true
+  },
+  "implementation": {
+    "cli_mode": "--ai-coach-full-demo-validation",
+    "parse_count_per_attempt": 1,
+    "navigation_report_schema_id": "stratai.observed_navigation_full_demo_sweep@1",
+    "navigation_selection_contract": "one_deterministic_stress_pair_per_eligible_replay_frame@1",
+    "navigation_pair_exhaustive": false,
+    "visual_report_schema_id": "stratai.observed_visual_contact_full_demo_validation@1",
+    "visual_selection_contract": "all_valid_replay_rounds_per_round_t0@1",
+    "visual_pair_scope": "all_alive_opponent_directed_pairs_in_every_available_sample",
+    "streams": "deterministic_gzip_jsonl_with_physical_and_logical_bytes_and_sha256",
+    "publication": "single_atomic_rename_inside_isolated_temp_root"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "build_identifier": "working-tree-ai-coach-full-demo-20260828",
+      "producer_exit_code": 0,
+      "downstream_full_validator_status": "failed_closed",
+      "failed_stage": "navigation_row_provenance",
+      "failure": "rows[37].internal_timing.scenarios.observed_pace_projection: provenance drift",
+      "root_cause": "path-unavailable rows retained the observed speed but omitted its position_delta suffix from speed_source",
+      "fix": "preserve causal_horizontal_speed_at_t0:position_delta even when path distance is unavailable",
+      "navigation_summary_was_unchanged_by_fix": true,
+      "visual_summary_was_unchanged_by_fix": true,
+      "visual_logical_sha256": "8ad062fdc9164fc4beeaec17c7e79c1337653629757e5c965bf18e040d191144",
+      "temporary_output_created": true
+    },
+    {
+      "attempt": 2,
+      "build_identifier": "working-tree-ai-coach-full-demo-20260828-r2",
+      "producer_exit_code": 0,
+      "downstream_full_validator_status": "passed",
+      "full_validator_wall_duration_ms": 52977,
+      "producer_wall_duration_ms_approx": 106196,
+      "temporary_output_created": true
+    }
+  ],
+  "command": "go run ./cmd/canonical-export --demo <approved-demo-path>/1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem --output <new-empty-temp-root> --alias demo-a11eb0d600ee702c9edb --checksum a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --maps-root <stratai-root>/backend/data/maps --build-id working-tree-ai-coach-full-demo-20260828-r2 --ai-coach-full-demo-validation --navigation-smoke-queries 64 --visual-contact-smoke-frames 256",
+  "complete_navigation": {
+    "status": "passed",
+    "rounds": 24,
+    "tick_rate": 64,
+    "sample_stride_ticks": 4,
+    "sample_interval_ms": 62.5,
+    "replay_frames": 29520,
+    "eligible_frames": 28718,
+    "ineligible_frames": 802,
+    "eligible_percent": 97.283,
+    "queries": 28718,
+    "selection": "one_fastest_moving_origin_and_farthest_alive_teammate_per_eligible_frame",
+    "pair_exhaustive": false,
+    "reachable_queries": 28277,
+    "reachable_percent": 98.464,
+    "disconnected_queries": 209,
+    "endpoint_unavailable_queries": 232,
+    "abstention_reasons": {
+      "no_navigable_connection": 209,
+      "origin_outside_nav_tolerance": 197,
+      "target_outside_nav_tolerance": 35
+    },
+    "timing_scenarios": {
+      "optimistic_baseline_estimated": 28277,
+      "active_weapon_baseline_estimated": 26512,
+      "active_weapon_baseline_unavailable": 2206,
+      "active_weapon_speed_unknown": 1765,
+      "observed_pace_projection_estimated": 27761,
+      "observed_pace_projection_unavailable": 957,
+      "observed_stationary_not_projectable": 516,
+      "exact_user_facing_time_violations": 0,
+      "arrival_prediction_violations": 0
+    },
+    "movement_contexts": {
+      "observed_moving": 28201,
+      "observed_stationary": 517,
+      "motion_unavailable": 0,
+      "walking": 3179,
+      "non_walking_moving": 25074,
+      "ducking": 880,
+      "scoped": 161,
+      "knife": 14329
+    },
+    "active_weapon_contexts": {
+      "AK-47": 3924,
+      "AWP": 913,
+      "C4": 125,
+      "Decoy Grenade": 1,
+      "Desert Eagle": 848,
+      "Five-SeveN": 182,
+      "Flashbang": 418,
+      "Galil AR": 251,
+      "Glock-18": 406,
+      "HE Grenade": 382,
+      "Incendiary Grenade": 178,
+      "Knife": 14329,
+      "M4A1": 3444,
+      "M4A4": 894,
+      "MAC-10": 397,
+      "MP7": 178,
+      "MP9": 415,
+      "Molotov": 217,
+      "SSG 08": 64,
+      "Smoke Grenade": 465,
+      "Tec-9": 297,
+      "USP-S": 390
+    },
+    "weapon_baseline_speed_contexts_world_units_per_second": {
+      "200": 903,
+      "215": 3827,
+      "220": 429,
+      "225": 4308,
+      "230": 908,
+      "240": 2065,
+      "250": 14072
+    },
+    "distributions": {
+      "direct_distance_world_units": {
+        "count": 28718,
+        "p50": 1819.1011307448016,
+        "p95": 3254.527580520993,
+        "max": 4186.359277462937
+      },
+      "path_distance_world_units": {
+        "count": 28277,
+        "p50": 3330.2760267618764,
+        "p95": 6017.610340761634,
+        "max": 8140.042423347417
+      },
+      "path_to_direct_ratio": {
+        "count": 28277,
+        "p50": 1.6655353638460708,
+        "p95": 2.9423567062408305,
+        "max": 33.01217948446371
+      },
+      "observed_horizontal_speed_world_units_per_second": {
+        "count": 28718,
+        "p50": 238.62823621614632,
+        "p95": 267.9409889045651,
+        "max": 570.5733295891744
+      },
+      "optimistic_baseline_ms": {
+        "count": 28277,
+        "p50": 13321.104107047506,
+        "p95": 24070.441363046535,
+        "max": 32560.169693389667
+      },
+      "active_weapon_baseline_ms": {
+        "count": 26512,
+        "p50": 13993.998637661123,
+        "p95": 25568.091252320653,
+        "max": 35707.91841172343
+      },
+      "observed_pace_projection_ms": {
+        "count": 27761,
+        "p50": 15294.778359560763,
+        "p95": 42367.435481115484,
+        "max": 3207885.638587806
+      }
+    },
+    "interpretation": [
+      "The timing values are conditional internal scenarios, not arrival predictions.",
+      "The stress-pair selection biases movement and distance distributions and is not representative of all players or pairs.",
+      "The 570.57 UPS maximum and 53.46 minute observed-pace maximum expose discontinuities or near-zero pace and must not be shown as exact coaching claims."
+    ],
+    "graph": {
+      "contract_version": "nav_area_connections_with_polygons@2",
+      "reference": "de_mirage/de_mirage.nav",
+      "sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e",
+      "nodes": 2544,
+      "edges": 6381
+    },
+    "stream": {
+      "rows": 28718,
+      "logical_bytes": 100693032,
+      "logical_sha256": "00816bca4237178b0c878818bd850d319308fc7ce58a401c486f1101e99ade8f",
+      "gzip_bytes": 3346479,
+      "gzip_sha256": "fa0b3ffba4debf9398c3317f866e493cf94801346adc0c25f52ef854cb148a3c"
+    },
+    "processing_duration_ms": 11920
+  },
+  "complete_visual_contact": {
+    "status": "passed",
+    "rounds": 24,
+    "input_source_frames": 29520,
+    "canonical_source_frames": 29520,
+    "evaluated_source_frames": 27200,
+    "evaluated_source_frames_percent": 92.141,
+    "source_frames_with_valid_active_smoke": 16316,
+    "source_frames_with_valid_active_smoke_percent": 55.271,
+    "evaluations": 777284,
+    "observed_evaluations": 777284,
+    "unavailable_evaluations": 0,
+    "line_of_sight_clear_pair_samples": 52004,
+    "line_of_sight_blocked_pair_samples": 725280,
+    "fov_inside_pair_samples": 392808,
+    "fov_outside_pair_samples": 384476,
+    "visual_contact_pair_samples": 24893,
+    "visual_contact_percent": 3.203,
+    "no_visual_contact_pair_samples": 752391,
+    "unique_valid_active_smoke_effects": 108,
+    "active_smoke_pair_sample_evaluations": 480796,
+    "smoke_pair_sample_intersections": 99690,
+    "smoke_intersection_percent": 12.825,
+    "otherwise_visible_pair_samples_blocked_by_smoke": 4717,
+    "actual_smoke_block_percent_of_all_evaluations": 0.607,
+    "actual_smoke_blocks_percent_of_intersections": 4.732,
+    "geometry_and_fov_potential_contacts": 29610,
+    "smoke_share_of_potential_contacts_percent": 15.93,
+    "directional_episodes": 2992,
+    "closed_directional_episodes": 2703,
+    "right_censored_directional_episodes": 289,
+    "reacquisition_episodes_within_round": 2130,
+    "participants": 10,
+    "unique_match_directed_pairs_with_contact": 50,
+    "unique_match_unordered_pairs_with_contact": 25,
+    "unique_round_directed_pairs_with_contact": 862,
+    "rounds_with_visual_contact": 24,
+    "rounds_with_valid_active_smoke": 24,
+    "rounds_with_smoke_intersection": 24,
+    "rounds_with_otherwise_visible_smoke_block": 21,
+    "raw_steam_id_violations": 0,
+    "abstention_reasons": {},
+    "boundary_counts": {
+      "started": 2992,
+      "continued": 21901,
+      "ended": 2703,
+      "inactive": 749688,
+      "unavailable": 0
+    },
+    "interpretation": [
+      "A smoke pair-sample intersection is one observer-subject line at one 16 Hz sample crossing active smoke; it is not one human-visible event.",
+      "Only otherwise_visible_pair_samples_blocked_by_smoke counts cases where line of sight and FOV were clear and smoke was the final blocker.",
+      "A directional episode is one continuous observer-to-subject contact streak; it is not a count of unique enemies seen.",
+      "All 25 possible cross-team unordered pairs and both directions had at least one contact somewhere in the match."
+    ],
+    "rounds": [
+      {"round": 1, "frames": 1190, "evaluations": 26664, "contacts": 1105, "episodes": 118, "smoke_intersections": 2508, "smoke_blocks": 77},
+      {"round": 2, "frames": 891, "evaluations": 24582, "contacts": 384, "episodes": 59, "smoke_intersections": 4130, "smoke_blocks": 500},
+      {"round": 3, "frames": 1351, "evaluations": 27598, "contacts": 600, "episodes": 64, "smoke_intersections": 1892, "smoke_blocks": 222},
+      {"round": 4, "frames": 707, "evaluations": 19516, "contacts": 638, "episodes": 62, "smoke_intersections": 3428, "smoke_blocks": 379},
+      {"round": 5, "frames": 779, "evaluations": 27038, "contacts": 753, "episodes": 71, "smoke_intersections": 8142, "smoke_blocks": 797},
+      {"round": 6, "frames": 1094, "evaluations": 26276, "contacts": 1175, "episodes": 119, "smoke_intersections": 2768, "smoke_blocks": 71},
+      {"round": 7, "frames": 1764, "evaluations": 46018, "contacts": 1911, "episodes": 224, "smoke_intersections": 3966, "smoke_blocks": 128},
+      {"round": 8, "frames": 2267, "evaluations": 71136, "contacts": 1715, "episodes": 193, "smoke_intersections": 9418, "smoke_blocks": 403},
+      {"round": 9, "frames": 1269, "evaluations": 25084, "contacts": 836, "episodes": 124, "smoke_intersections": 6610, "smoke_blocks": 146},
+      {"round": 10, "frames": 881, "evaluations": 24274, "contacts": 1458, "episodes": 137, "smoke_intersections": 1990, "smoke_blocks": 40},
+      {"round": 11, "frames": 1921, "evaluations": 47688, "contacts": 1176, "episodes": 174, "smoke_intersections": 1928, "smoke_blocks": 177},
+      {"round": 12, "frames": 1869, "evaluations": 22582, "contacts": 925, "episodes": 106, "smoke_intersections": 4218, "smoke_blocks": 273},
+      {"round": 13, "frames": 444, "evaluations": 11232, "contacts": 467, "episodes": 79, "smoke_intersections": 286, "smoke_blocks": 8},
+      {"round": 14, "frames": 1462, "evaluations": 29256, "contacts": 1993, "episodes": 188, "smoke_intersections": 458, "smoke_blocks": 0},
+      {"round": 15, "frames": 953, "evaluations": 24596, "contacts": 1023, "episodes": 145, "smoke_intersections": 372, "smoke_blocks": 0},
+      {"round": 16, "frames": 489, "evaluations": 15388, "contacts": 293, "episodes": 72, "smoke_intersections": 8, "smoke_blocks": 0},
+      {"round": 17, "frames": 576, "evaluations": 14194, "contacts": 799, "episodes": 123, "smoke_intersections": 708, "smoke_blocks": 52},
+      {"round": 18, "frames": 1019, "evaluations": 31610, "contacts": 648, "episodes": 106, "smoke_intersections": 4388, "smoke_blocks": 25},
+      {"round": 19, "frames": 1242, "evaluations": 27800, "contacts": 1377, "episodes": 163, "smoke_intersections": 5598, "smoke_blocks": 456},
+      {"round": 20, "frames": 2211, "evaluations": 60536, "contacts": 1523, "episodes": 142, "smoke_intersections": 14482, "smoke_blocks": 669},
+      {"round": 21, "frames": 884, "evaluations": 27350, "contacts": 982, "episodes": 117, "smoke_intersections": 4552, "smoke_blocks": 31},
+      {"round": 22, "frames": 1196, "evaluations": 32440, "contacts": 1063, "episodes": 149, "smoke_intersections": 4428, "smoke_blocks": 128},
+      {"round": 23, "frames": 2166, "evaluations": 82996, "contacts": 1509, "episodes": 167, "smoke_intersections": 10640, "smoke_blocks": 134},
+      {"round": 24, "frames": 895, "evaluations": 31430, "contacts": 540, "episodes": 90, "smoke_intersections": 2772, "smoke_blocks": 1}
+    ],
+    "geometry_assets": [
+      {"reference": "de_mirage/de_mirage_physics.bin", "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e", "role": "physics_buffer"},
+      {"reference": "de_mirage/de_mirage_physics.gltf", "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451", "role": "physics_gltf"}
+    ],
+    "stream": {
+      "evaluations": 777284,
+      "episodes": 2992,
+      "records": 780276,
+      "logical_bytes": 1105661309,
+      "logical_sha256": "8ad062fdc9164fc4beeaec17c7e79c1337653629757e5c965bf18e040d191144",
+      "gzip_bytes": 8788325,
+      "gzip_sha256": "6d923f254e6d3cb29cd9a10a3615dbb20d360b4c418bb7a8a4b803a9e50f7da7"
+    },
+    "processing_duration_ms": 13757
+  },
+  "bounded_smokes_rechecked": {
+    "navigation": {
+      "status": "passed",
+      "rows": 64,
+      "reachable": 64,
+      "active_weapon_baseline_rows": 60,
+      "observed_pace_projection_rows": 51,
+      "walking_contexts": 13,
+      "non_walking_moving_contexts": 39,
+      "knife_contexts": 19,
+      "ducking_contexts": 4,
+      "scoped_contexts": 2,
+      "exact_user_facing_time_violations": 0
+    },
+    "visual": {
+      "status": "passed",
+      "scope": "bounded_256_sample_round_prefix_not_complete_match",
+      "evaluations": 12800,
+      "visual_contact_pair_samples": 16,
+      "smoke_pair_sample_intersections": 1796,
+      "directional_episodes": 10,
+      "raw_steam_id_violations": 0,
+      "clarification": "The historic 1796 value is not 1796 human-visible smoke blocks; it counts directional pair-samples whose line crossed smoke in the bounded window."
+    }
+  },
+  "canonical_bundle": {
+    "status": "passed",
+    "format_version": "3.8.0",
+    "parser_schema_version": "v16",
+    "artifact_count": 72,
+    "semantic_validator_error_count": 0,
+    "semantic_validator_wall_duration_ms_approx": 283400,
+    "manifest_sha256": "c79c4f31967a552edb526b037ae386c8d1d95d3a7e2517d447cf05b1e6dabb59",
+    "files": 73,
+    "bytes": 735286363
+  },
+  "decision_example_and_task_eligibility": {
+    "status": "passed",
+    "deterministic_two_runs": true,
+    "sha256_first": "02a69f5e897500d8f8f3d11801637f30796b09de25c0ad091eb3e2e7e3a6fb21",
+    "sha256_second": "02a69f5e897500d8f8f3d11801637f30796b09de25c0ad091eb3e2e7e3a6fb21",
+    "decision_examples_total": 918,
+    "decision_examples_by_family": {
+      "peek_hold_or_reposition": 246,
+      "spacing_or_trade_connection": 672
+    },
+    "actions_by_family": {
+      "peek_hold_or_reposition": {"hold": 131, "peek": 115},
+      "spacing_or_trade_connection": {"connected": 34, "disconnected": 638}
+    },
+    "joins_succeeded": 918,
+    "joins_failed": 0,
+    "availability_tick_after_t0": 0,
+    "outcome_before_t0": 0,
+    "oracle_fields_in_observed": 0,
+    "persisted_individual_examples": 0,
+    "task_eligibility": {
+      "capabilities_evaluated": 17,
+      "eligible": 0,
+      "ineligible": 3,
+      "not_materialized": 14
+    }
+  },
+  "automated_verification": {
+    "ai_coach_pytest": "59 passed",
+    "ai_coach_ruff": "passed",
+    "contract_validator": "17 capabilities, 15 decisions, 51 actions, 18 outcomes, 55 fields, 5 runtime schemas, 18 reason codes",
+    "targeted_go_tests_and_vet": "passed: pkg/navigation, parser, cmd/canonical-export",
+    "npm_run_check_all": "passed: frontend 88; node 14 passed and 3 skipped; all Go packages; backend Python 43; frontend build",
+    "canonical_semantic_validator": "passed with 0 errors",
+    "full_streaming_validator": "passed",
+    "bounded_navigation_validator": "passed",
+    "bounded_visual_validator": "passed"
+  },
+  "final_temporary_output": {
+    "files": 79,
+    "bytes": 773614151,
+    "navigation_report_bytes": 34069,
+    "navigation_report_sha256": "3fb9646b12212d8cc1b8d8b052de3a6229e22569e569d9d9d37e8e087ad5dc62",
+    "visual_report_bytes": 41752,
+    "visual_report_sha256": "98f892cdfd6edb7258f739e6cdaae75800947a4e55c734e33388609dc2aaadf1",
+    "published_or_promoted": false,
+    "cleanup_verified": true,
+    "temporary_roots_deleted": 2,
+    "temporary_files_deleted": 158,
+    "temporary_bytes_deleted": 1547228478,
+    "deletion_recoverable": false
+  },
+  "pre_post_invariants": {
+    "source_demo_files": {"before": 100, "after": 100},
+    "source_demo_bytes": {"before": 13589310951, "after": 13589310951},
+    "approved_bundle_tree_files": {"before": 3013, "after": 3013},
+    "approved_bundle_tree_bytes": {"before": 27264064316, "after": 27264064316},
+    "failed_files": {"before": 727, "after": 727},
+    "failed_bytes": {"before": 5245908800, "after": 5245908800},
+    "staging_files": {"before": 0, "after": 0},
+    "staging_bytes": {"before": 0, "after": 0},
+    "source_demo_sha256_unchanged": true,
+    "approved_manifest_sha256_unchanged": true,
+    "faceit_demos_git_clean": true
+  },
+  "limitations": [
+    "The full navigation sweep covers time, not every possible participant pair.",
+    "Navigation stress-pair distributions are intentionally biased toward a fast origin and a distant teammate.",
+    "Observed pace is a conditional projection and may amplify very low speeds or discontinuities; it is not user-facing ETA.",
+    "Visual contact uses static raycast geometry, FOV and the current two-dimensional smoke-cylinder model; flash blindness is not part of this candidate.",
+    "The full reports are diagnostic sidecars and are not materialized into canonical DecisionExample fields.",
+    "Gate 1B remains open and training_allowed remains false."
+  ]
+}

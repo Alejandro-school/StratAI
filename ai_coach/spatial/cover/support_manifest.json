@@ -1,0 +1,18 @@
+{
+  "schema_id": "stratai.cover_support_manifest@1",
+  "contract_version": "1.0.0",
+  "packages": [
+    {
+      "map_id": "de_mirage",
+      "contract_version": "1.0.0",
+      "asset_version": "1.0.0-candidate.1",
+      "package_path": "packages/de_mirage/1.0.0-candidate.1/package.json",
+      "package_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "implementation_status": "candidate",
+      "geometry_status": "validated",
+      "tactical_review_status": "pending_review",
+      "product_supported": false,
+      "training_use_authorized": false
+    }
+  ]
+}

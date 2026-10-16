@@ -8,6 +8,14 @@ const excludedWeapons = /grenade|flash|smoke|molotov|incendiary|decoy|knife|c4/i
 export const drawShots = (context, frame, config, viewport, tick, tickRate) => {
   for (const shot of frame?.shots || []) {
     if (excludedWeapons.test(shot.weapon || "")) continue;
+    if (shot.type === 'weapon_fire') {
+      if (!Number.isFinite(shot.x) || !Number.isFinite(shot.y)) continue;
+      const point = worldToScreen(shot, config, viewport);
+      context.beginPath(); context.arc(point.x, point.y, 5, 0, Math.PI * 2);
+      context.strokeStyle = TEAM_COLORS[shot.actor_team || 'T'].solid;
+      context.lineWidth = 1.5; context.stroke();
+      continue; // Atomic fire has no factual impact endpoint.
+    }
     const from = worldToScreen({ x: shot.from_x, y: shot.from_y }, config, viewport);
     const target = worldToScreen({ x: shot.to_x, y: shot.to_y }, config, viewport);
     const shooter = frame.players?.find((player) => String(player.steam_id) === String(shot.shooter_id));
@@ -27,9 +35,17 @@ export const drawShots = (context, frame, config, viewport, tick, tickRate) => {
 };
 
 export const drawBomb = (context, bomb, config, viewport, tick, tickRate) => {
-  if (!bomb || !Number.isFinite(bomb.x) || !Number.isFinite(bomb.y)) return;
+  if (!bomb) return;
+  const historical = !Number.isFinite(bomb.x) && bomb.last_observed_position;
+  if (!historical && bomb.position_status && bomb.position_status !== "observed") return;
+  const point = historical || bomb;
+  if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) return;
   if (bomb.state === "carried" || bomb.state === "resolved" || (bomb.plant_tick && tick < bomb.plant_tick)) return;
-  const position = worldToScreen(bomb, config, viewport);
+  const position = worldToScreen(point, config, viewport);
+  if (historical) {
+    context.save(); context.setLineDash([3, 3]);
+    context.globalAlpha = 0.7;
+  }
   const color = bomb.state === "defused" ? "#69c7ff" : bomb.state === "exploded" ? "#ff665b" : "#ffbd54";
   context.beginPath();
   context.arc(position.x, position.y, bomb.state === "exploded" ? 30 : 9, 0, TAU);
@@ -41,7 +57,12 @@ export const drawBomb = (context, bomb, config, viewport, tick, tickRate) => {
   context.fillStyle = "#fff";
   context.font = "700 10px system-ui";
   context.textAlign = "center";
-  if ((bomb.state === "planted" || bomb.state === "defusing") && bomb.plant_tick) {
+  if (historical) {
+    context.fillText(`C4 · hace ${((tick - point.observation_tick) / tickRate).toFixed(2)} s`, position.x, position.y + 23);
+    context.restore();
+  } else if (bomb.state === "dropped") {
+    context.fillText("C4", position.x, position.y + 23);
+  } else if ((bomb.state === "planted" || bomb.state === "defusing") && bomb.plant_tick) {
     const remaining = Math.max(0, 40 - (tick - bomb.plant_tick) / tickRate);
     context.fillStyle = remaining <= 10 ? "#ff7772" : "#fff";
     context.fillText(`${remaining.toFixed(1)}s`, position.x, position.y + 23);

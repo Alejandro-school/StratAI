@@ -1,0 +1,423 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_objective_manifest@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "decision_eligible",
+    "physical_entry_status",
+    "tactical_commitment_status",
+    "references",
+    "artifact",
+    "coverage"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_objective_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "decision_eligible": {
+      "const": false
+    },
+    "physical_entry_status": {
+      "const": "not_accredited"
+    },
+    "tactical_commitment_status": {
+      "const": "not_accredited"
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "objective_source",
+        "support_source",
+        "preparation_protocol"
+      ],
+      "properties": {
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "preparation_protocol": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256",
+        "records"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "const": "support_preparation_objective_cuts.jsonl"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "records": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "counts",
+        "matrix"
+      ],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cuts",
+            "actor_cuts",
+            "candidates"
+          ],
+          "properties": {
+            "cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "candidates": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "matrix": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "actor_alias",
+              "ally_alias",
+              "side",
+              "instance",
+              "epoch",
+              "candidates",
+              "phase_observed",
+              "both_available",
+              "fact_status_counts"
+            ],
+            "properties": {
+              "actor_alias": {
+                "type": "string",
+                "pattern": "^support-actor-[0-9a-f]{20}$"
+              },
+              "ally_alias": {
+                "type": "string",
+                "pattern": "^support-actor-[0-9a-f]{20}$"
+              },
+              "side": {
+                "enum": [
+                  "CT",
+                  "T"
+                ]
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidates": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "phase_observed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "both_available": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "in_bomb_zone",
+                  "defusing",
+                  "has_defuse_kit"
+                ],
+                "properties": {
+                  "in_bomb_zone": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "defusing": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "has_defuse_kit": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "fact_status_counts": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "global.bomb_planted",
+                  "global.freeze_period",
+                  "global.warmup",
+                  "global.round_duration_seconds",
+                  "global.objective_phase",
+                  "global.round_elapsed_seconds",
+                  "global.bomb_elapsed_seconds",
+                  "self.in_bomb_zone",
+                  "self.defusing",
+                  "self.has_defuse_kit",
+                  "ally.in_bomb_zone",
+                  "ally.defusing",
+                  "ally.has_defuse_kit"
+                ],
+                "properties": {
+                  "global.bomb_planted": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "global.freeze_period": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "global.warmup": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "global.round_duration_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "global.objective_phase": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "global.round_elapsed_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "global.bomb_elapsed_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.in_bomb_zone": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.defusing": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.has_defuse_kit": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.in_bomb_zone": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.defusing": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.has_defuse_kit": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

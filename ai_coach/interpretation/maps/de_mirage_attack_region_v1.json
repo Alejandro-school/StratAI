@@ -1,0 +1,19 @@
+{
+  "schema_id": "stratai.attack_region@1",
+  "id": "mirage_b_apps_advanced_v1",
+  "map_name": "de_mirage",
+  "parent_zone": "Apartments",
+  "parent_place_reference_id": "a0b0d249fe7fafcbfdf4f51b14dcc1ca6859441e34a6c2bb4a6b6fdbd06602f7",
+  "polygon_xy": [[-1500,850],[-1024,850],[-1024,408],[-1208,408],[-1208,675],[-1500,675]],
+  "height_policy": "intersection with unique interior of the original 3D Apartments hull; no vertical extrusion",
+  "geometry_status": "expert_reviewed_radar_trace_approximation",
+  "build_compatibility": "unverified",
+  "expert_approval": {"date":"2026-10-16","literal":"Sí, ese tramo completo","extent":"Desde el paso del tabique junto a 2 hasta la salida B, incluido el codo junto a 3"},
+  "provenance": {
+    "review_image": "outputs/stratai-attack-region-framing-20261016/revision-region-b-apps.png",
+    "review_image_sha256": "d72e36081986e9a9c47ae4aa7e1815c227def011fb141cf4840cd5c755dbc4b7",
+    "draft_sha256": "158a87cd4cb6f1e6564896a1e0ca164d5c73b90f35bfce3b862f9a489148b4b9",
+    "radar_to_world": "x=5*u-3230; y=1713-5*v",
+    "radar_vertices": [[346,172.6],[441.2,172.6],[441.2,261],[404.4,261],[404.4,207.6],[346,207.6]]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-23",
+  "phase": "ICT-I2",
+  "proposed_by": "assistant",
+  "accepted_by": "user_expert",
+  "question": "Para la primera regla automática propongo emitir solo «organización compatible con preparar una entrada»: varios aliados y el portador de C4 progresan hacia una misma zona trazable; un jugador retrasado con utilidad equipada puede tener una función de preparación, sin afirmar lanzamiento ni cobertura. Las pausas se conservan mientras la trayectoria siga disponible; dispersión, retroceso o datos insuficientes obligan a revisar o abstenerse. ¿Qué corregirías de este criterio? Necesito este encuadre nuevo antes de fijar la regla, conforme al trabajo por fases de AGENTS.md; mientras tanto avanzo con la entrada causal y el mapa.",
+  "answer_verbatim": "Aplicar este criterio provisional",
+  "criterion_status": "provisional",
+  "workbook": "outputs/stratai-contextual-20260923/StratAI_Plan_del_coach_ICT_I2_v9.xlsx",
+  "cells": "Contexto colectivo!A24:G24",
+  "does_not_accredit": [
+    "map_build_compatibility",
+    "semantic_zone_containment",
+    "physical_route_or_cover",
+    "mental_intent",
+    "independent_evaluation",
+    "superior_viable_alternative",
+    "training_or_promotion"
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "schema_id": "stratai.spatial_contextual_review_instrument_repair_evidence@1",
+  "date": "2026-09-02",
+  "status": "passed_human_responses_pending",
+  "phase": "1B.10-repair",
+  "gate_1b": "pending",
+  "supersedes": {
+    "batch_schema_id": "stratai.spatial_human_review_batch@1",
+    "batch_sha256": "19648364aee7716221eba7ebded9c0c44a71ad6c513e9a6b9a5f7f9a21bf1b06",
+    "reason": "package-only units omitted the observed situation and route polylines; not a valid tactical human-review instrument",
+    "responses_collected": 0
+  },
+  "source": {
+    "distinct_matches": 1,
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "map_id": "de_mirage",
+    "rounds": 24,
+    "input_frames": 29520,
+    "specialized_passes_over_same_match": 3,
+    "downloads": 0,
+    "corpus_reprocessing": false
+  },
+  "producer_runs": {
+    "exposure": {
+      "build_id": "working-tree-spatial-context-review-v2-exposure-20260902",
+      "mode": "--ai-coach-exposure-angle-validation",
+      "observed_wall_seconds": 85.9,
+      "temporary_export_files": 75,
+      "temporary_export_bytes": 735710629,
+      "report_sha256": "4b27152b01ceae5c5b436fcdc77508649c29f78df465d8f34ddc59c6d7a4980a",
+      "rows_sha256": "20b86c93ad7c014db06a7257b66a0d7f552be8b9576dbcb71d2dce46d0b3aa4a",
+      "records": 12802,
+      "geometry_observed": 883,
+      "geometry_unavailable": 11919,
+      "validator_status": "passed"
+    },
+    "cover": {
+      "build_id": "working-tree-spatial-context-review-v2-cover-20260902",
+      "mode": "--ai-coach-cover-validation",
+      "observed_wall_seconds": 87.2,
+      "temporary_export_files": 75,
+      "temporary_export_bytes": 735860032,
+      "report_sha256": "c2c30c26fb74b997b4a532e9242edc4763174e2ce3f23fd345cfd4216b7c1e4d",
+      "rows_sha256": "8d4cab6d6cde0ba3790f5486014285f43dcb7a54d4d9ca3cfbcc1a7c32d3d959",
+      "records": 12802,
+      "geometry_observed": 883,
+      "directions_observed": 21192,
+      "validator_status": "passed"
+    },
+    "exit_route": {
+      "build_id": "working-tree-spatial-context-review-v2-exit-20260902",
+      "mode": "--ai-coach-exit-route-validation",
+      "observed_wall_seconds": 83.5,
+      "temporary_export_files": 75,
+      "temporary_export_bytes": 735933148,
+      "report_sha256": "715ada68ff3aa6cd96036071cfd22babd839ffdb46ae2d7fec27bb9f18a881b5",
+      "rows_sha256": "f2a9a03a8463d458e49834f80794d4915526b9beaa0524c82dc5d69d22ba4ba8",
+      "records": 12802,
+      "geometry_observed": 883,
+      "physical_path_available": 878,
+      "physical_path_unavailable": 5,
+      "validator_status": "passed"
+    }
+  },
+  "contracts": {
+    "protocol": "stratai.spatial_context_review_protocol@2",
+    "batch": "stratai.spatial_context_review_batch@2",
+    "response": "stratai.spatial_context_review_response@2",
+    "adjudication": "stratai.spatial_context_review_adjudication@2",
+    "contract_version": "2.0.0",
+    "render_contract": "mirage_radar_context_overlay@2",
+    "route_trace_contract": "nav_area_centres_polyline@1"
+  },
+  "batch": {
+    "batch_id": "spatial-context-pilot-f4f947d350253af23ecbca1b",
+    "bytes": 57606,
+    "sha256": "bf614a09347433f5118e1b78fc2b5de4607eb8510eb66aebf03587089ae95e3c",
+    "review_units": 12,
+    "family_counts": {"exposure": 4, "cover": 4, "exit_route": 4},
+    "observed_context_available": 12,
+    "radar_registered": 12,
+    "route_polylines_available": 4,
+    "route_polyline_points": 248,
+    "responses": 0,
+    "adjudications": 0,
+    "training_allowed": false,
+    "independent_validator": "passed"
+  },
+  "route_trace_artifacts": {
+    "request_bytes": 738,
+    "request_sha256": "a02437e0767be6d99ec7772dc775fc6521d55b6f2e1e9a0e32645780db7e6b4f",
+    "trace_bytes": 31540,
+    "trace_sha256": "c8f3173b65f8c4903320b72f138befef4e6243e3e76273f03010efb96ff38c36"
+  },
+  "forms": {
+    "session_id": "spatial-context-session-f8efec8ac91fa3694a1be1c0",
+    "reviewer_a": {"bytes": 431393, "sha256": "623b888e3cf94eb1f22c0b8f32ee91670388c292c31edfe809dbc56717b6b89d"},
+    "reviewer_b": {"bytes": 431393, "sha256": "9d366a634ba553a73f5a1407d6620bec48b08e01fcda8a461550329e32052bf4"},
+    "manifest": {"bytes": 1531, "sha256": "99848f507493fdbb65b78ae4f9dafab7ee2684c56a910759059f6ecdfa033cea"},
+    "self_contained": true,
+    "network_dependencies": 0,
+    "responses_generated_during_qa": 0,
+    "browser_qa": {
+      "desktop": "1440x1100 passed",
+      "mobile": "390x844 passed",
+      "families_inspected": ["exposure", "cover", "exit_route"],
+      "console_errors": 0,
+      "console_warnings": 0
+    }
+  },
+  "protected_state": {
+    "source_demo_unchanged": true,
+    "approved_top_manifests": 44,
+    "approved_bundles_modified": 0,
+    "radar_sha256": "062729376c7ad5cd86db90f8cb48eddaf11a410483804d0426e133254e70f799",
+    "nav_sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e",
+    "package_and_support_hashes_unchanged": true,
+    "exports_staging_current_releases_modified": false
+  },
+  "verification": {
+    "go_targeted": "passed",
+    "review_tests": "20 passed",
+    "ai_coach_tests": "201 passed",
+    "check_all": "passed: frontend 23 files/88 tests; node 14 passed/3 skipped; Go all packages; backend Python 43 passed; frontend build"
+  },
+  "cleanup": {
+    "large_temporary_exports_removed": 3,
+    "large_temporary_export_bytes_removed": 2207503809,
+    "invalid_v1_batch_and_forms_removed": true,
+    "discarded_v2_form_iterations": 2,
+    "final_batch_retained_under_temp": true,
+    "final_forms_retained_under_temp": true,
+    "validated_small_sidecars_retained_under_temp": true
+  },
+  "authorization": {
+    "human_review_execution": true,
+    "training": false,
+    "product_support": false,
+    "canonical_materialization": false,
+    "release": false,
+    "corpus_reprocessing": false,
+    "publication_or_promotion": false
+  },
+  "next_action": "two independent humans complete only their assigned v2 HTML; a distinct human adjudicates conflicts; no simulated responses"
+}

@@ -1,0 +1,108 @@
+{
+  "id": "RADAR-HUD-CONTRAST-PREPARATION-20260922",
+  "status": "preparation_complete_actual_visual_comparison_pending_material",
+  "local_material": {
+    "steam_inf": "J:\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\game\\csgo\\steam.inf",
+    "sha256": "1f576931d34c28e746c42832e38312493ee3b585e39ebc66d4f41b30e8ff36c3",
+    "values": {
+      "ClientVersion": "2000908",
+      "ServerVersion": "2000908",
+      "PatchVersion": "1.41.8.1",
+      "ProductName": "cs2",
+      "appID": "730",
+      "ServerAppID": "2347773",
+      "SourceRevision": "10981323",
+      "VersionDate": "Sep 09 2026",
+      "VersionTime": "15:23:58"
+    },
+    "demo_build": 10896,
+    "demo_protocol": 14177,
+    "compatibility_verified": false,
+    "video_search_scope": "Repository paths returned by rg --files excluding dependencies, plus top-level game/csgo files; no claim about all user disks",
+    "matching_gameplay_video_found_in_scope": false,
+    "game_started": false
+  },
+  "historical_reference": {
+    "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+    "source": {
+      "url": "https://api.github.com/repos/SteamTracking/GameTracking-CS2/git/trees/fd04856b8668f11cb31ed2b22574607dd9c365e0?recursive=1",
+      "bytes": 2454697,
+      "sha256": "4481462e0cfba9a016aa9fbc6b419ef2e4e5af63688240845cf87b9b062dbfe0",
+      "capture": "historical-tree.json"
+    },
+    "tree_truncated": false,
+    "radar_paths": [
+      "game/csgo/pak01_dir/panorama/layout/hud/hudradar.xml",
+      "game/csgo/pak01_dir/panorama/styles/hud/hudradar.css"
+    ],
+    "files": [
+      {
+        "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/pak01_dir/panorama/layout/hud/hudradar.xml",
+        "bytes": 7171,
+        "sha256": "799b8acf0f9357093cc118518a166c5b9bdf69514bf8deb2ed84e26d2766a01e",
+        "capture": "radar-reference-0.txt",
+        "repository_path": "game/csgo/pak01_dir/panorama/layout/hud/hudradar.xml"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/pak01_dir/panorama/styles/hud/hudradar.css",
+        "bytes": 12295,
+        "sha256": "a96853aae039c4dcb3e51635753006004950b0980ba86d7b648ed3a3c86dc758",
+        "capture": "radar-reference-1.txt",
+        "repository_path": "game/csgo/pak01_dir/panorama/styles/hud/hudradar.css"
+      }
+    ],
+    "limit": "Tracker snapshot is a candidate reference, not an exact demo/client binary binding."
+  },
+  "review_packet": {
+    "path": "outputs\\stratai-radar-hud-binding-20260922\\review-cuts.json",
+    "sha256": "50dcfae7ec4a654ea8187834b59b7419a0fbd4281121cad8496d71ed8f312d39",
+    "cases": 6,
+    "categories": [
+      "clearing",
+      "activation",
+      "death",
+      "reactivation",
+      "multiple",
+      "side_change"
+    ],
+    "missing_categories": [],
+    "source_sha256": "839a04a0064da9da06ac48824152aa4c37abed6805baad8c68dafe963fd0b20c"
+  },
+  "source_hashes": {
+    "outputs\\stratai-radar-hud-binding-20260922\\close.py": "6df3732fdb729d738d1b00bb127898c206880111939583e1ea4fe31c0171042c",
+    "outputs\\stratai-radar-hud-binding-20260922\\Cortes_para_contrastar_el_radar.md": "1b266fe96b8d022a3f6cce91713d5eb4b1897b4d0dbd074457dfa67b2cc3edf4",
+    "outputs\\stratai-radar-hud-binding-20260922\\historical-tree.json": "4481462e0cfba9a016aa9fbc6b419ef2e4e5af63688240845cf87b9b062dbfe0",
+    "outputs\\stratai-radar-hud-binding-20260922\\local-material.json": "16aa7d66b8b193a796e678fa9be940020c514413fa5b492389db668b1777973b",
+    "outputs\\stratai-radar-hud-binding-20260922\\prepare_review.py": "33e72e3f2d7d8eec816aeafc96452eee7b47cec0bbc916b8a01743c1b7fa7c24",
+    "outputs\\stratai-radar-hud-binding-20260922\\radar-reference-0.txt": "799b8acf0f9357093cc118518a166c5b9bdf69514bf8deb2ed84e26d2766a01e",
+    "outputs\\stratai-radar-hud-binding-20260922\\radar-reference-1.txt": "a96853aae039c4dcb3e51635753006004950b0980ba86d7b648ed3a3c86dc758",
+    "outputs\\stratai-radar-hud-binding-20260922\\research.json": "9ce5882937da1329caf4f617511738a584e9bd8fdead12fe76fc47403476baed",
+    "outputs\\stratai-radar-hud-binding-20260922\\research.py": "5f226a44e3071bfb8502104a63c488ebc7550e7f55450f6b62f802c4c5b11d4f",
+    "outputs\\stratai-radar-hud-binding-20260922\\review-cuts.json": "50dcfae7ec4a654ea8187834b59b7419a0fbd4281121cad8496d71ed8f312d39"
+  },
+  "verification": {
+    "protected_existing_files": 599,
+    "probe_sources_unchanged": true,
+    "approved_manifest_hashes_unchanged": 44,
+    "review_rows_valid": true,
+    "visual_comparison_performed": false,
+    "receiver_binding_verified": false,
+    "user_recording_location_response_received": false
+  },
+  "execution": {
+    "demos_processed": 0,
+    "runtime_changes": false,
+    "game_started": false,
+    "binary_downloads": 0,
+    "demo_downloads": 0,
+    "game_asset_package_downloads": 0,
+    "training": false,
+    "promotion": false
+  },
+  "research_limits": [
+    "Repository media search only, not all personal folders",
+    "One pinned historical tracker tree and its two radar layout/style files",
+    "Native computer UI unavailable in this session",
+    "No source found in inspected material certifying the current client replay as original player HUD"
+  ]
+}

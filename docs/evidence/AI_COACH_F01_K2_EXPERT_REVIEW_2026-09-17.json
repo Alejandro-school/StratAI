@@ -1,0 +1,360 @@
+{
+  "id": "ICT-D1-F01-K2-EXPERT-REVIEW",
+  "date": "2026-09-17",
+  "kind": "documentary_expert_response_receipt",
+  "status": "received_and_documented",
+  "case_id": "F01-K2",
+  "case_version": "0.2",
+  "response": {
+    "path": "docs/evidence/AI_COACH_F01_K2_EXPERT_RESPONSE_2026-09-17.json",
+    "sha256": "5d26a547090f5ed9908e35bdedb56b273fa746b2a468bd9c30ea49429272341b",
+    "author": "user_expert",
+    "literal": "Mantengo la lectura anterior. Parece un push hacia B ya que se encuentran todos los jugadores avanzando"
+  },
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "preparation_evidence": "docs/evidence/AI_COACH_F01_K2_REVIEW_PREPARATION_2026-09-17.json",
+    "preparation_sha256": "25eaa96b4a253a2e0b71b02e4579669373cc6d7c31c707ad52c2253318b91e8a",
+    "producer_passes": 0
+  },
+  "interpretation": {
+    "classification": "continuity_of_contextual_interpretation",
+    "previous_reading_retained_by_reference": true,
+    "new_individual_roles": false,
+    "literal_collective_motion_not_used_as_five_player_physical_fact": true,
+    "tactical_transition_forced": false
+  },
+  "workbook": {
+    "path": "outputs/stratai-f01-k2-feedback-20260917-66faa56/StratAI_Plan_del_coach_F01_K2_v5.xlsx",
+    "sha256": "16d7ca5ae6d25247023583d5b02e352b683613f7e0d94c4c01cba5ab6a3e64dd",
+    "verification": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-k2-workbook-66faa56b77d14526be96bd1b394ff0c8\\verification.json",
+    "verification_sha256": "0a1e190ca2a0276076ea2dfd2f8de36adc79658c90870f1f8c58eaa795648f90",
+    "checks": {
+      "source": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-q1-feedback-20260917-df08ccc/StratAI_Plan_del_coach_Q1_v4.xlsx",
+      "source_sha256": "3efed696d72d2fa81b247f8dd38d61184f80d69e9b57ac8620fc539f0cafca14",
+      "output": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k2-feedback-20260917-66faa56/StratAI_Plan_del_coach_F01_K2_v5.xlsx",
+      "output_sha256": "16d7ca5ae6d25247023583d5b02e352b683613f7e0d94c4c01cba5ab6a3e64dd",
+      "literal": "Mantengo la lectura anterior. Parece un push hacia B ya que se encuentran todos los jugadores avanzando",
+      "question": "Respecto a K1, ¿qué se mantiene y qué cambia en tu interpretación del plan y las funciones de los jugadores, y qué señales nuevas te llevan a esa lectura?",
+      "changes": 34,
+      "marker": {
+        "operation": "edit",
+        "expected_output_count": 1,
+        "run_once": true
+      },
+      "skill": "spreadsheets:Spreadsheets",
+      "status": "complete",
+      "sheet_count": 14,
+      "changed_cells": [
+        {
+          "sheet": "Guía",
+          "cell": "C15"
+        },
+        {
+          "sheet": "Guía",
+          "cell": "A2"
+        },
+        {
+          "sheet": "Guía",
+          "cell": "B12"
+        },
+        {
+          "sheet": "Guía",
+          "cell": "B5"
+        },
+        {
+          "sheet": "Guía",
+          "cell": "C12"
+        },
+        {
+          "sheet": "Guía",
+          "cell": "B15"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "A24"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "F23"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "B24"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "F24"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "B22"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "D24"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "B23"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "E22"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "C22"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "C23"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "F22"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "D23"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "E23"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "C24"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "E24"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "A22"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "A23"
+        },
+        {
+          "sheet": "Fuentes",
+          "cell": "D22"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "D25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "C25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "H25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "I25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "B25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "A2"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "F25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "A25"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "A3"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "cell": "E25"
+        }
+      ],
+      "feature_changes": [
+        {
+          "sheet": "Fuentes",
+          "feature": "table range",
+          "before": "A5:F21",
+          "after": "A5:F24"
+        },
+        {
+          "sheet": "Fichas tácticas",
+          "feature": "table range",
+          "before": "A5:I24",
+          "after": "A5:I25"
+        }
+      ],
+      "prior_styles_changed": [],
+      "prior_rows_columns_validations_panes_objects_protection_preserved": true,
+      "literal_matches_user": true,
+      "author_and_case_scope_explicit": true,
+      "synthesis_separate_from_literal": true,
+      "Q1_responses_preserved": 36,
+      "Q1_clarifications_preserved": 3,
+      "pending_hypotheses_preserved": 18,
+      "previous_tactical_cards_preserved": 19,
+      "previous_case_ratings_and_notes_preserved": true,
+      "formula_errors": [],
+      "source_unchanged": true,
+      "no_new_tactical_truth_or_roles": true,
+      "facts_note": "T5 rounded XY unchanged between K1 and K2; T1 repeated final three XY samples. Human collective reading retained literally.",
+      "style_changes": [
+        {
+          "sheet": "Fichas tácticas",
+          "range": "A25:I25",
+          "scope": "new row only",
+          "description": "Existing Arial 11, wrapped and top aligned. Yellow user-input F:G. 190-point row height."
+        },
+        {
+          "sheet": "Fuentes",
+          "range": "A22:F24",
+          "scope": "new source rows only",
+          "description": "Prior source style with wrapping, top alignment and 100-point height."
+        }
+      ],
+      "visual_review": {
+        "status": "passed",
+        "reviewed": [
+          "k2-facts.png",
+          "k2-response.png",
+          "k2-card-header.png",
+          "k2-guide-header.png",
+          "k2-guide.png",
+          "k2-sources.png"
+        ],
+        "notes": "New K2 facts/response have complete visible wrapping; headers, guide and sources match existing layout. First export retained in TEMP after visual QA detected missing wrapping in new row; corrected locally."
+      },
+      "retained_temp": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-k2-workbook-66faa56b77d14526be96bd1b394ff0c8",
+      "rejected_first_export_sha256": "397beaecf9bacc4a88a171c13299eae003008e3e2d729ff3de79e9fa8c96151d",
+      "builder": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-k2-workbook-66faa56b77d14526be96bd1b394ff0c8\\update-k2.mjs"
+    }
+  },
+  "preserved_workbooks": [
+    {
+      "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+      "sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c"
+    },
+    {
+      "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx",
+      "sha256": "d7ac32d3fecd8229b60fcec6a6090f24708452b81d5bf4d74e2ada95fed925d7"
+    },
+    {
+      "path": "outputs/stratai-q1-feedback-20260917-df08ccc/StratAI_Plan_del_coach_Q1_v4.xlsx",
+      "sha256": "3efed696d72d2fa81b247f8dd38d61184f80d69e9b57ac8620fc539f0cafca14"
+    }
+  ],
+  "verification": {
+    "literal_equals_user": true,
+    "cut_equals_preparation": true,
+    "presented_card_and_maps_unchanged": true,
+    "protected_files_unchanged": 73,
+    "protected_inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-feedback-fe8701b63e4441dcb0a28242462eb84f\\protected.json",
+    "local_links_resolved": 259,
+    "prompt_count": 1,
+    "whitespace_checks": [
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/README.md",
+        "exit_code": 1,
+        "output": ""
+      }
+    ],
+    "independent_document_review": "Passed: literal fidelity, factual/interpretative separation, no forced change or added roles, bounded next proposal; workbook checked separately"
+  },
+  "tests": {
+    "functional_suites": "not_applicable",
+    "one_demo_smoke": "not_applicable",
+    "reason": "Only expert response, versioned workbook and documentation; no parsing, producer, schema or runtime changes"
+  },
+  "next": {
+    "action": "Prepare scoped descriptive temporal interpreter proposal, inputs/outputs/examples/exceptions and verification, then obtain new expert framing before dependent implementation",
+    "executed": false,
+    "K3_prepared": false,
+    "implementation_started": false
+  },
+  "limits": {
+    "blind_evaluation": false,
+    "same_round_cuts_independent": false,
+    "model_executed": false,
+    "tactical_correctness": false,
+    "physical_support": false,
+    "full_rubric_approved": false,
+    "design_hypotheses_pending": 18,
+    "S2_S3": "open",
+    "eligible_capabilities": 0,
+    "training_allowed": false
+  },
+  "retention": {
+    "directory": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k2-feedback-fe8701b63e4441dcb0a28242462eb84f",
+    "inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-feedback-fe8701b63e4441dcb0a28242462eb84f\\inventory.json",
+    "workbook_temp": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-k2-workbook-66faa56b77d14526be96bd1b394ff0c8",
+    "workbook_inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-k2-workbook-66faa56b77d14526be96bd1b394ff0c8\\inventory.json",
+    "previous_temporary_outputs_read_only": true
+  },
+  "commands": [
+    [
+      "C:/Users/kerch/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-feedback-fe8701b63e4441dcb0a28242462eb84f\\update-followup.mjs"
+    ],
+    [
+      "C:/Users/kerch/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-f01-k2-feedback-fe8701b63e4441dcb0a28242462eb84f\\close-feedback.mjs",
+      "outputs/stratai-f01-k2-feedback-20260917-66faa56/StratAI_Plan_del_coach_F01_K2_v5.xlsx",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-k2-workbook-66faa56b77d14526be96bd1b394ff0c8/verification.json"
+    ]
+  ],
+  "artifacts": [
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "30b3d11bf50840faf566d8276f62a72411643ff681d4df0fb9776f2e8cf72860"
+    },
+    {
+      "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "sha256": "3c7cf97aa064de8d716a3ef00c9d6d6934c3965308a9c3d72c6d0cea7ea1ae4b"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "25f7b3d56565f4c0d5a82ba2f0ba92720720f1d61387bd52d411d480bbfc4abd"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "6c7969aa8ac94cb3f28d50379a3e53086d639bf310ed5c8dfc89c7a8e5f37cbd"
+    },
+    {
+      "path": "docs/archive/ai-coach/AI_COACH_F01_K2_EXPERT_REVIEW_2026-09-17.md",
+      "sha256": "8fc07a02026df8bb63d96b829be91e8f578ca51db6dfb2df952a51d55814f2a4"
+    },
+    {
+      "path": "docs/evidence/AI_COACH_F01_K2_EXPERT_RESPONSE_2026-09-17.json",
+      "sha256": "5d26a547090f5ed9908e35bdedb56b273fa746b2a468bd9c30ea49429272341b"
+    }
+  ]
+}

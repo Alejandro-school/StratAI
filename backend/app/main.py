@@ -25,9 +25,9 @@ from .middleware.security import (
     CSRFMiddleware,
     RequestSizeLimitMiddleware,
     SecurityHeadersMiddleware,
-    SessionRefreshMiddleware,
 )
 from .logging_config import configure_logging
+from .auth import sessions
 
 configure_logging()
 
@@ -39,10 +39,8 @@ app = FastAPI(
     redoc_url=None if IS_PRODUCTION else "/redoc",
 )
 
-# ── Security Middleware (applied first = runs last, wraps everything) ──
-app.add_middleware(SecurityHeadersMiddleware)
+# Starlette runs the last registered middleware outermost.
 app.add_middleware(RequestSizeLimitMiddleware)
-app.add_middleware(SessionRefreshMiddleware, max_age=SESSION_MAX_AGE)
 app.add_middleware(CSRFMiddleware)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=TRUSTED_HOSTS)
 
@@ -58,7 +56,6 @@ app.add_middleware(
 # ── Conexión a Redis ──
 redis = aioredis.from_url(REDIS_URL, decode_responses=True)
 
-# Configuración del backend de autenticación (FastAPI Users)
 # ── Session Middleware (hardened) ──
 app.add_middleware(
     SessionMiddleware,
@@ -68,6 +65,7 @@ app.add_middleware(
     same_site=SESSION_SAME_SITE,
     https_only=SESSION_HTTPS_ONLY,
 )
+app.add_middleware(SecurityHeadersMiddleware)
 
 # Incluir Routers
 app.include_router(steam_auth.router)      # <--- Asegúrate de que exista
@@ -100,5 +98,6 @@ async def ready():
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
+    await sessions.session_store.redis.aclose()
     await redis.aclose()
 

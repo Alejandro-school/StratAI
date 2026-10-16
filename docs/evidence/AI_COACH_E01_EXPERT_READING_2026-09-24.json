@@ -1,0 +1,55 @@
+{
+  "created_at": "2026-09-24T17:38:13.368385+00:00",
+  "case": "E01",
+  "literal": "No he visto la partida, la dirección que toman los 5 jugadores es ir hacia A. Por lo tanto parece bastante claro que van a hacer un execute en A. Pero me sorprende la indicación de que ningún jugador lleve el c4. Por otro lado, tampoco muesta el tiempo de la ronda que estamos.",
+  "reviewer": "session_user_expert",
+  "normalization_author": "assistant",
+  "normalization": {
+    "schema_id": "stratai.contextual_review@2",
+    "episode_id": "49238b282e6e7f9e7cf7d0fd2f111fd8844779c4c43e7b9a8709e1de97e7ff0b",
+    "context_id": "b2d196aebaf8f2bbcd9dc5a345f77d014eaf2d0d73b1412a69985b497667750e",
+    "reviewer": "session_user_expert",
+    "literal": "No he visto la partida, la dirección que toman los 5 jugadores es ir hacia A. Por lo tanto parece bastante claro que van a hacer un execute en A. Pero me sorprende la indicación de que ningún jugador lleve el c4. Por otro lado, tampoco muesta el tiempo de la ronda que estamos.",
+    "strategy": {
+      "status": "interpretable",
+      "compatible_plans": [
+        "prepare_entry"
+      ]
+    },
+    "destinations": [
+      {
+        "destination": "A",
+        "judgement": "supported"
+      }
+    ],
+    "roles": [],
+    "exposure": {
+      "prediction_seen": false,
+      "prior_exposure": "unexposed",
+      "assisted_orientation": false
+    },
+    "training_allowed": false
+  },
+  "presentation": {
+    "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-tp10-pilot-20260924\\review\\E01.html",
+    "sha256": "a4144dcc5d32cb110cb67f5f6984f8fd477a98be83a82747d309536bb4549c4d",
+    "context_id": "b2d196aebaf8f2bbcd9dc5a345f77d014eaf2d0d73b1412a69985b497667750e",
+    "episode_id": "49238b282e6e7f9e7cf7d0fd2f111fd8844779c4c43e7b9a8709e1de97e7ff0b"
+  },
+  "exposure_qualification": "Unexposed is the user self-report of not having seen this match. Prediction not disclosed in this session. Private prediction/log exposure not independently verified; no absolute blindness claim.",
+  "comparison": "compatible_plan_not_emitted",
+  "abstention_reasons": [
+    "unique_current_c4_carrier_unavailable"
+  ],
+  "reviewed_episodes": 1,
+  "unreviewed_episodes": 35,
+  "agreement": null,
+  "comparison_qualification": "A compatible plan not emitted records disagreement with the received reading; incomplete round context prevents assigning an independent tactical error or hit.",
+  "diagnosis": "outputs/stratai-e01-review-20260924/E01-diagnosis.json",
+  "runtime_changed": false,
+  "prediction_changed": false,
+  "selection_changed": false,
+  "new_parsing": 0,
+  "training_allowed": false,
+  "protected_files": 227
+}

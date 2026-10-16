@@ -1,0 +1,485 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_initial_features_or_player_knowledge"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "schema_id": {
+      "const": "stratai.economy_entry_identity_links@1"
+    },
+    "source_observations": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_entry_observations.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "state_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "first_cut": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "ownership_state_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "frame": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "demo_tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lists": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pawn_alias": {
+                  "type": "string",
+                  "pattern": "^native-entity-[0-9]{6}$"
+                },
+                "actor_alias": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^p[0-9]{4}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "side": {
+                  "enum": [
+                    "CT",
+                    "T",
+                    null
+                  ]
+                },
+                "status": {
+                  "enum": [
+                    "observed",
+                    "partial",
+                    "absent",
+                    "unsupported_type",
+                    "outside_probe"
+                  ]
+                },
+                "length": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "pawn_alias",
+                "actor_alias",
+                "side",
+                "status",
+                "length"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pawn_alias": {
+                  "type": "string",
+                  "pattern": "^native-entity-[0-9]{6}$"
+                },
+                "entry_index": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "actor_alias": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^p[0-9]{4}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "side": {
+                  "enum": [
+                    "CT",
+                    "T",
+                    null
+                  ]
+                },
+                "entity_alias": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^native-entity-[0-9]{6}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "item_status": {
+                  "enum": [
+                    "absent",
+                    "unsupported_type",
+                    "invalid_sentinel",
+                    "entity_unavailable",
+                    "serial_mismatch",
+                    "kind_mismatch",
+                    "resolved"
+                  ]
+                },
+                "status": {
+                  "enum": [
+                    "exact_link",
+                    "reference_unresolved",
+                    "identity_ambiguous",
+                    "special_entry_without_entity",
+                    "ownership_disagreement",
+                    "ownership_unaccredited",
+                    "partial_list",
+                    "invalid_member_value",
+                    "actor_unavailable",
+                    "definition_unavailable",
+                    "definition_disagreement"
+                  ]
+                },
+                "duplicate_entry_count": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "resolved_entry_claims": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "ownership_status": {
+                  "enum": [
+                    "consistent",
+                    "pair_with_incomplete_inventory",
+                    "actor_unavailable",
+                    "actor_binding_nonunique",
+                    "owner_inventory_conflict",
+                    "duplicate_inventory_claim",
+                    "owner_only",
+                    "inventory_only",
+                    "no_resolved_claim",
+                    "unassigned_in_observed_scope",
+                    null
+                  ]
+                },
+                "recorded_cost": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "opportunity_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^demo-[a-f0-9]{20}:economy:[0-9]{5}:(CT|T)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "cause": {
+                  "const": "not_accredited"
+                },
+                "refund_amount": {
+                  "const": null
+                },
+                "decision_eligible": {
+                  "const": false
+                }
+              },
+              "required": [
+                "pawn_alias",
+                "entry_index",
+                "actor_alias",
+                "side",
+                "entity_alias",
+                "item_status",
+                "status",
+                "duplicate_entry_count",
+                "resolved_entry_claims",
+                "ownership_status",
+                "recorded_cost",
+                "opportunity_id",
+                "cause",
+                "refund_amount",
+                "decision_eligible"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "state_sequence",
+          "first_cut",
+          "ownership_state_sequence",
+          "instance",
+          "frame",
+          "demo_tick",
+          "lists",
+          "records"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string",
+            "pattern": "^demo-[a-f0-9]{20}:economy:[0-9]{5}:(CT|T)$"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T"
+            ]
+          },
+          "exact_entry_state_records": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "comparison_allowed": {
+            "const": false
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "instance",
+          "side",
+          "exact_entry_state_records",
+          "comparison_allowed"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "cuts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "states": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "entry_state_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_counts": {
+          "type": "object",
+          "properties": {
+            "exact_link": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "reference_unresolved": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "identity_ambiguous": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "special_entry_without_entity": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ownership_disagreement": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ownership_unaccredited": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "partial_list": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "invalid_member_value": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "definition_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "definition_disagreement": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "exact_link",
+            "reference_unresolved",
+            "identity_ambiguous",
+            "special_entry_without_entity",
+            "ownership_disagreement",
+            "ownership_unaccredited",
+            "partial_list",
+            "invalid_member_value",
+            "actor_unavailable",
+            "definition_unavailable",
+            "definition_disagreement"
+          ],
+          "additionalProperties": false
+        },
+        "exact_unique_objects": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exact_opportunities": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "list_status_counts": {
+          "type": "object",
+          "properties": {
+            "observed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "partial": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "absent": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unsupported_type": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "outside_probe": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "verified_itemized_transactions": {
+          "const": 0
+        }
+      },
+      "required": [
+        "cuts",
+        "states",
+        "entry_state_records",
+        "status_counts",
+        "exact_unique_objects",
+        "exact_opportunities",
+        "list_status_counts",
+        "verified_itemized_transactions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "schema_id",
+    "source_observations",
+    "states",
+    "opportunities",
+    "summary"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_entry_identity_links@1",
+  "x-stratai-training-authorized": false
+}

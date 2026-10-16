@@ -1,0 +1,89 @@
+{
+  "id": "ICT-I1-R2-20260923",
+  "date": "2026-09-23",
+  "kind": "documentary_contextual_proposal",
+  "status": "prepared_and_checked",
+  "cases": [
+    "F01-K1-v0.2",
+    "F01-K2-v0.2"
+  ],
+  "sources": [
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_REPLAY_DESCRIPTION_REPORT_2026-09-22.json",
+      "sha256": "f26dad841023043cebd7f0189cdbb940e41f799a21b3c2d5587961e098b22c13"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\report\\replay_report.md",
+      "sha256": "345a389bae4e711e419ed4dcb49201eb7df779d4bb76f74689068c81424329d3"
+    },
+    {
+      "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-replay-report-smoke-ikunpp9n\\report\\replay_report_records.jsonl",
+      "sha256": "2a579f9d18b968cf470251bd0b2e830f7ed360f7e99278e5b37ed8d6cf05fd20"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_F01_K1_REVIEW_PREPARATION_2026-09-17.json",
+      "sha256": "de8fdf8dd5eb3824cf77d7b0f71c734061f53fbd15f5b6b101ad4856ba21b764"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_F01_K2_REVIEW_PREPARATION_2026-09-17.json",
+      "sha256": "25eaa96b4a253a2e0b71b02e4579669373cc6d7c31c707ad52c2253318b91e8a"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.json",
+      "sha256": "b9951a6ef7a0ad958a783cadbebc31db557502908cc5b4ba8515ddd9966c464f"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_F01_K2_EXPERT_RESPONSE_2026-09-17.json",
+      "sha256": "5d26a547090f5ed9908e35bdedb56b273fa746b2a468bd9c30ea49429272341b"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_Q1_EXPERT_RESPONSES_2026-09-17.json",
+      "sha256": "be08035b548b5f6d11a948feacb4ae3bbb43c186ef8e6a4b76875f9c556e483a"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_ICT_I1_EXPERT_RESPONSE_2026-09-21.json",
+      "sha256": "745f635b1f183ec75ebe16e85b0195a7bc51d74e6997af77171db0829d7c23a8"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_ICT_I1B_EXPERT_CORRECTION_2026-09-22.json",
+      "sha256": "03e4b02911d9cabcefa774cadd37ed6ad23f71d44297ca27977011dc49be4228"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\docs\\evidence\\AI_COACH_REPLAY_ONLY_SCOPE_CORRECTION_2026-09-22.json",
+      "sha256": "209c497fa4322473dc4d09d4d654295f987b86ea69482dd9affdf96434753609"
+    },
+    {
+      "path": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-scope-20260922\\StratAI_Plan_del_coach_ICT_I1_v8.xlsx",
+      "sha256": "4d85a5bdbd088fd6d22cd1be964deadd5730e2fefa5145f14f9979842d058a76"
+    }
+  ],
+  "local_case_alias_correspondence": {
+    "T1": "support-actor-5417ff890f2bbdaa3713",
+    "T2": "support-actor-c125cc38a2f6a91fa886",
+    "T3": "support-actor-89dd22ca9c19fc02fd8b",
+    "T4": "support-actor-9a57fae8f2ab9f519fec",
+    "T5": "support-actor-876cc87fa226ac66bbb7"
+  },
+  "correspondence_scope": "Unique exact positions in both known cuts plus side, life state, weapon and C4; documentary consistency check, not a new runtime identity bridge",
+  "checked_actor_cuts": 10,
+  "checked_records": 2,
+  "new_expert_answers": 0,
+  "workbook_changed": false,
+  "runtime_changed": false,
+  "parser_runs": 0,
+  "model_executed": false,
+  "independent_tactical_evaluation": false,
+  "training_allowed": false,
+  "promotion": false,
+  "ammo_semantics_used_for_inference": false,
+  "interpretation_origin": "Agent application of existing expert readings, explicitly known development cases",
+  "verification": "Retained artifact hashes, temporal record schema/hash/provenance, card-to-record exact-state consistency and workbook hash",
+  "functional_tests_and_smoke": "Not applicable: documentary-only phase; prior results are not reported as rerun",
+  "command": [
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-replay-context-20260923\\verify.py"
+  ]
+}

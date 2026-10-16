@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import gzip
 import json
+import re
 from collections.abc import Iterator, Mapping, Sequence
 from functools import lru_cache
 from pathlib import Path
@@ -242,8 +243,8 @@ def iter_canonical_matches(exports_directory: Path | str) -> Iterator[CanonicalM
     for directory in directories:
         if not directory.is_dir() or not directory.name.startswith("match_"):
             continue
-        match = CanonicalMatch(directory)
-        if match.has_canonical_bundle():
+        match = find_canonical_match(root, directory.name)
+        if match is not None:
             yield match
 
 
@@ -251,7 +252,19 @@ def find_canonical_match(
     exports_directory: Path | str,
     match_id: str,
 ) -> CanonicalMatch | None:
+    if not isinstance(match_id, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,128}", match_id):
+        return None
     normalized = str(match_id).removeprefix("match_")
-    candidate = Path(exports_directory).resolve() / f"match_{normalized}"
+    if not normalized:
+        return None
+    root = Path(exports_directory).resolve()
+    try:
+        candidate = (root / f"match_{normalized}").resolve()
+        # Resolve links as well as '..'; the match root itself is a trust boundary.
+        candidate.relative_to(root)
+    except (ValueError, OSError, RuntimeError):
+        return None
+    if candidate == root:
+        return None
     match = CanonicalMatch(candidate)
     return match if candidate.is_dir() and match.has_canonical_bundle() else None

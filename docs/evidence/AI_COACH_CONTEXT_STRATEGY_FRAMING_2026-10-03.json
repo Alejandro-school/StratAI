@@ -1,0 +1,26 @@
+{
+  "kind": "expert_context_strategy_framing",
+  "date": "2026-10-03",
+  "source": "User message in this conversation",
+  "workbook_criterion_id": "IC38",
+  "literal": "Vamos a ver. \n1.- Hemos definido una serie de casuísticas para que la IA vaya aprendiendo a interpretar casos. Eso si, todos de T. La cosa es, preparación de entrada? Siempre hay un minimo de movilización, no te se decir cuando, a veces es mas, a veces es menos, es algo que no se puede registrar de manera determisita. La idea no es que solo la IA aprenda, ahora van a B, ahora van a medio. No, la idea es que entiendo todo lo que esta pasando. Que sepa el contexto conmpleto. \n\nCreo que hay que deifinir un plan mucho mas pulcro y potente para utilizar este enfoque que le estamos dando. \n\nVamos a realizar una auditoria completa de esto, revisar que sabe ya, y la dirección que tomamos ahora. Y ver en que puntos es mas débil, que hay que reforzar y el plan de acción a seguir. Eso si, lo que no quiero yo es tirarme 1 año enseñando todas las casuísticas probables a la IA",
+  "literal_utf8_sha256": "133b37d5ce285499b228680b390c220fe6acd218c9f3fcc37ef1b2926c6232a6",
+  "hash_definition": "SHA-256 of the preserved displayed UTF-8 literal, not a platform transport-message checksum",
+  "agreed_framing": {
+    "audit_requested": true,
+    "target": "Interpret the observable context as a whole beyond destination or preparation alone",
+    "initial_mobilization": "Variable and contextual; user supplies no universal time threshold",
+    "human_effort_constraint": "Avoid exhaustive manual teaching of every likely case over a year",
+    "preserve_previous_readings": true
+  },
+  "agent_proposals_not_expert_acceptances": [
+    "Nine contextual dimensions and per-claim support rubric",
+    "T/CT staged experimental coverage with perspective and eligibility gates",
+    "Compare rules, reviewed principles/case retrieval and an isolated pretrained semantic specialist",
+    "Exploratory 16 episodes, maximum two iterations and up to three hours of user review for CS1-CS3"
+  ],
+  "implementation_authorized_by_this_receipt": false,
+  "training_authorized": false,
+  "new_tactical_labels": false,
+  "next_phase_expert_review_required": "AGENTS.md AI Coach phase collaboration; implementation plan Forma de trabajo por fase"
+}

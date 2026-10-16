@@ -1,0 +1,65 @@
+{
+  "schema_id": "stratai.economy_rule_source_registry@1",
+  "contract_version": "1.0.0-candidate.1",
+  "repository": "https://github.com/SteamTracking/GameTracking-CS2",
+  "status": "historical_reference_only",
+  "comparison_allowed": false,
+  "training_allowed": false,
+  "product_supported": false,
+  "sources": [
+    {
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "kind": "version",
+      "repository_path": "game/csgo/steam.inf",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/steam.inf",
+      "file": "fd04856b8668f11cb31ed2b22574607dd9c365e0-version.txt",
+      "bytes": 181,
+      "sha256": "13b55afcb23dd39499f819293bce05cf820a5170111cbb0e6a8c23832f1eb6a9"
+    },
+    {
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "kind": "weapons",
+      "repository_path": "game/csgo/pak01_dir/scripts/weapons.vdata",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/pak01_dir/scripts/weapons.vdata",
+      "file": "fd04856b8668f11cb31ed2b22574607dd9c365e0-weapons.txt",
+      "bytes": 524235,
+      "sha256": "fbd0d6f754c234efb24ec5c6b8c335f190e67f17ac7ec98dc2cd2ea2ddb4037e"
+    },
+    {
+      "revision": "fd04856b8668f11cb31ed2b22574607dd9c365e0",
+      "kind": "competitive",
+      "repository_path": "game/csgo/cfg/gamemode_competitive.cfg",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/fd04856b8668f11cb31ed2b22574607dd9c365e0/game/csgo/cfg/gamemode_competitive.cfg",
+      "file": "fd04856b8668f11cb31ed2b22574607dd9c365e0-competitive.txt",
+      "bytes": 4280,
+      "sha256": "9418a81a62edbb7eb67afaca9c53d58f0b7030b60ae497ff25e7fd89d3e4f955"
+    },
+    {
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "kind": "version",
+      "repository_path": "game/csgo/steam.inf",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/game/csgo/steam.inf",
+      "file": "acfe24d588d2df0a26da0f964e44d780bd3070eb-version.txt",
+      "bytes": 181,
+      "sha256": "a379ba7f7536b5dab10fb908339b418bccd0bc1dcb666580d2ee35f34cbaa8e1"
+    },
+    {
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "kind": "weapons",
+      "repository_path": "game/csgo/pak01_dir/scripts/weapons.vdata",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/game/csgo/pak01_dir/scripts/weapons.vdata",
+      "file": "acfe24d588d2df0a26da0f964e44d780bd3070eb-weapons.txt",
+      "bytes": 524235,
+      "sha256": "fbd0d6f754c234efb24ec5c6b8c335f190e67f17ac7ec98dc2cd2ea2ddb4037e"
+    },
+    {
+      "revision": "acfe24d588d2df0a26da0f964e44d780bd3070eb",
+      "kind": "competitive",
+      "repository_path": "game/csgo/cfg/gamemode_competitive.cfg",
+      "url": "https://raw.githubusercontent.com/SteamTracking/GameTracking-CS2/acfe24d588d2df0a26da0f964e44d780bd3070eb/game/csgo/cfg/gamemode_competitive.cfg",
+      "file": "acfe24d588d2df0a26da0f964e44d780bd3070eb-competitive.txt",
+      "bytes": 4280,
+      "sha256": "9418a81a62edbb7eb67afaca9c53d58f0b7030b60ae497ff25e7fd89d3e4f955"
+    }
+  ]
+}

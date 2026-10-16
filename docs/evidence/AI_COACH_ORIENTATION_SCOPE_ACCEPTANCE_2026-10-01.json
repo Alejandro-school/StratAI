@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-01",
+  "source": "user message in this conversation",
+  "recorded_at_utc": "2026-10-01T16:05:01.265972+00:00",
+  "preceding_question": "Mantener sólo preparación de entrada o añadir orientación probable A/B por separado.",
+  "answer_verbatim": "Añadelo también ya que es posible que vaya hacia B. Aunque es mas propable A",
+  "answer_utf8_sha256": "5ee046319b0a7db02c4747a0ba01c4c7678bd519c7e7e7ddd92a8f99afa02165",
+  "accepted_scope": "Añadir hipótesis de orientación probable A/B separada de organización compatible con preparar una entrada.",
+  "case_E06_expert_reading": {
+    "more_likely": "A",
+    "still_possible": "B"
+  },
+  "agent_translation": [
+    "Preferencia ordinal, sin probabilidades numéricas ni certeza de intención.",
+    "El compañero ya situado en A fundamenta la inferencia recibida, no la posesión C4.",
+    "B permanece no excluida; A más probable no implica B imposible.",
+    "Primera regla de desarrollo acotada a dos T vivos acreditados, fase preplant y elegibilidad positiva; un lugar nominal nativo BombsiteA/B y otro Middle.",
+    "Esta codificación y la simetría A/B son propuestas técnicas del agente, no citas adicionales del usuario.",
+    "Fuera del patrón, con datos insuficientes o fase no acreditada, conservar abstención y su motivo; posplantado fuera del alcance."
+  ],
+  "not_authorized_or_accredited": [
+    "automatic free-text training labels",
+    "training",
+    "promotion",
+    "calibrated probabilities",
+    "independent tactical accuracy",
+    "native name as certified geometric boundary"
+  ],
+  "scope_question_answered": true,
+  "previous_case_questions_answered": true,
+  "original_predictions_preserved": true
+}

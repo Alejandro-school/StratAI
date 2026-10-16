@@ -1,0 +1,411 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_transaction_trace@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_candidate": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_candidate_manifest.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "sdk_version": {
+      "const": "demoinfocs-golang/v5@v5.2.0"
+    },
+    "order_contract": {
+      "const": "observer_delivery_sequence_not_server_subtick"
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_player_knowledge_or_initial_features"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "observations": {
+      "type": "object",
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "channel": {
+                "enum": [
+                  "probe",
+                  "property_baseline",
+                  "property_update",
+                  "native_event",
+                  "sdk_generic",
+                  "sdk_callback"
+                ]
+              },
+              "source": {
+                "type": "string"
+              },
+              "actor_alias": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^p[0-9]{4,}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "side": {
+                "enum": [
+                  "CT",
+                  "T",
+                  null
+                ]
+              },
+              "entity_alias": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^trace-entity-[0-9]{6,}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "instance": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "value": {}
+            },
+            "required": [
+              "sequence",
+              "tick",
+              "frame",
+              "channel",
+              "source",
+              "actor_alias",
+              "side",
+              "entity_alias",
+              "instance",
+              "value"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "channel": {
+                      "enum": [
+                        "property_baseline",
+                        "property_update"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "source": {
+                      "enum": [
+                        "m_pInGameMoneyServices.m_iAccount",
+                        "m_pInGameMoneyServices.m_iCashSpentThisRound"
+                      ]
+                    },
+                    "value": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "enum": [
+                            "observed",
+                            "absent",
+                            "unsupported_type"
+                          ]
+                        },
+                        "value": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "channel": {
+                      "const": "native_event"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "value": {
+                      "type": "object",
+                      "properties": {
+                        "server_tick": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "fields": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "ordinal": {
+                                "type": "integer",
+                                "minimum": 0
+                              },
+                              "name": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "descriptor_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "wire_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unmapped",
+                                  "identity_redacted",
+                                  "outside_probe",
+                                  "type_mismatch"
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "integer",
+                                  "number",
+                                  "boolean",
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "ordinal",
+                              "name",
+                              "descriptor_type",
+                              "wire_type",
+                              "status",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "server_tick",
+                        "fields"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "channel": {
+                      "const": "sdk_callback"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "source": {
+                      "enum": [
+                        "ItemPickup",
+                        "ItemDrop",
+                        "ItemRefund"
+                      ]
+                    },
+                    "value": {
+                      "type": "object",
+                      "properties": {
+                        "item": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "item"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "channel": {
+                      "const": "sdk_generic"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "value": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "channel": {
+                      "const": "probe"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "value": {
+                      "enum": [
+                        "class_absent",
+                        "property_absent"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "unmapped_native_events": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "native_descriptor_lists": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "rows",
+        "unmapped_native_events",
+        "native_descriptor_lists"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "source_candidate",
+    "sdk_version",
+    "order_contract",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "observations"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_transaction_trace@1",
+  "x-stratai-training-authorized": false
+}

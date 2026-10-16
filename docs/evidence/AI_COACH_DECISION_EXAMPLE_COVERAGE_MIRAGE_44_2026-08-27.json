@@ -1,0 +1,1795 @@
+{
+  "bundles": {
+    "expected": 44,
+    "export_format_versions": {
+      "3.8.0": 44
+    },
+    "found": 44,
+    "parser_schema_versions": {
+      "v16": 44
+    },
+    "processed": 44
+  },
+  "contracts": {
+    "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+    "catalog_version": "1.0.0",
+    "contract_version": "1.0.0",
+    "decision_example": "stratai.ai_coach_decision_example@1",
+    "task_eligibility": "stratai.ai_coach_task_eligibility@1"
+  },
+  "decision_examples": {
+    "actions_by_family": {
+      "peek_hold_or_reposition": {
+        "engage": 17,
+        "hold": 5153,
+        "peek": 4363
+      },
+      "spacing_or_trade_connection": {
+        "connected": 1453,
+        "disconnected": 25195
+      }
+    },
+    "by_family": {
+      "peek_hold_or_reposition": 9533,
+      "spacing_or_trade_connection": 26648
+    },
+    "persisted_individual_examples": 0,
+    "total": 36181
+  },
+  "errors": [],
+  "exclusions": {
+    "approved_bundles": 44,
+    "documented_source_demos": 50,
+    "documented_source_exclusions": 6,
+    "excluded_bundles_opened": 0,
+    "note": "Las exclusiones de Gate 1A se conservan fuera de analyzed_demos y no se abren en esta fase."
+  },
+  "fields": {
+    "capability_required": [
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "DERIVABLE",
+        "field_id": "FLD-ALIVE-COUNTS"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 8408,
+            "present": 1125
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 26648,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-BOMB-CLOCK"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-COMBAT-EVENT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 9533,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-CONNECTION-TIME"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "REQUIERE_CLASIFICACION",
+        "field_id": "FLD-COVER"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-CROSSHAIR-ERROR"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-DEFUSE-KIT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "REQUIERE_CLASIFICACION",
+        "field_id": "FLD-EXIT-ROUTE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "REQUIERE_CLASIFICACION",
+        "field_id": "FLD-EXPOSURE-ANGLES"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 9533,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-FACING-DELTA"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-FOV-CONTACT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-HEALTH-ARMOR"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-INFORMATION-AGE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-LAST-KNOWN-POSITION"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 9533,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-LINE-OF-SIGHT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "REQUIERE_CLASIFICACION",
+        "field_id": "FLD-MAP-ZONE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-MONEY"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "DERIVABLE",
+        "field_id": "FLD-MOVEMENT-DIRECTION"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "REQUIERE_CLASIFICACION",
+        "field_id": "FLD-NAV-ROUTE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-OBJECTIVE-EVENT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 0,
+            "present": 9533
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-OBJECTIVE-STATE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-PATH-DISTANCE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-POSITION-2HZ"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-PRIOR-EXECUTION"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-PRIOR-MATCH-CONTEXT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-PRIOR-MATCH-FINDINGS"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-REACHABILITY"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 1125,
+            "present": 8408
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 26648,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-ROUND-CLOCK"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-SCORE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 0,
+            "present": 9533
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-SELF-STATE-16HZ"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-SHOT-STATE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-SMOKE-OCCLUSION"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-STANCE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-TEAM-ECONOMY"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 0,
+            "present": 9533
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-TEAMMATE-STATES"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 9533,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-TRADE-POSSIBLE"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "FALTA_EXTRAER",
+        "field_id": "FLD-TRAVEL-TIME"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-UTILITY-EVENT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-UTILITY-IN-FLIGHT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-UTILITY-INVENTORY"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-UTILITY-TRAJECTORY"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-VELOCITY-2HZ"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "EXISTE_VERIFICADO",
+        "field_id": "FLD-VIEW-ANGLES"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 0,
+            "null": 9533,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 0,
+            "null": 0,
+            "present": 26648
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-VISIBLE-CONTACT"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-WEAPON-AMMO"
+      },
+      {
+        "by_family": {
+          "peek_hold_or_reposition": {
+            "missing": 9533,
+            "null": 0,
+            "present": 0
+          },
+          "spacing_or_trade_connection": {
+            "missing": 26648,
+            "null": 0,
+            "present": 0
+          }
+        },
+        "catalog_availability_status": "PARCIAL",
+        "field_id": "FLD-WEAPON-INVENTORY"
+      }
+    ],
+    "structural_required": [
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "decision.actor_player_id",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "decision.availability_tick",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "decision.observed_state_ref",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "decision_features.availability_tick_max",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 35056,
+        "path": "decision_features.bomb_time_remaining_ms",
+        "present": 1125
+      },
+      {
+        "missing": 0,
+        "null": 27773,
+        "path": "decision_features.round_clock_remaining_ms",
+        "present": 8408
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "observed.referenced_state",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "observed.tactical_state",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "oracle.available",
+        "present": 36181
+      },
+      {
+        "missing": 0,
+        "null": 0,
+        "path": "outcomes.outcome_tick",
+        "present": 36181
+      }
+    ]
+  },
+  "joins": {
+    "failed": 0,
+    "succeeded": 36181
+  },
+  "limitations": [
+    "La fase valida estructura, joins, tiempo y disponibilidad; no juzga si una acción fue correcta.",
+    "No se crean candidatos, recomendaciones ni labels contrafactuales.",
+    "enemy_los sigue siendo un proxy geométrico parcial sin FOV ni humo completos.",
+    "Los hashes ya validados por el manifest no se recalculan para evitar repetir Gate 1A.",
+    "El perfil histórico aún no está materializado."
+  ],
+  "samples": [
+    {
+      "action_taken": "hold",
+      "decision_family": "peek_hold_or_reposition",
+      "observed_availability_ticks": {
+        "action": 6712,
+        "context": 6698,
+        "referenced_state": 6698,
+        "tactical_state": 6710
+      },
+      "oracle_status": "unavailable",
+      "outcome_tick": 6712,
+      "quality_warning_flags": [
+        "one or more causal observations are unavailable"
+      ],
+      "t0_tick": 6712
+    },
+    {
+      "action_taken": "hold",
+      "decision_family": "peek_hold_or_reposition",
+      "observed_availability_ticks": {
+        "action": 6820,
+        "context": 6794,
+        "referenced_state": 6794,
+        "tactical_state": 6818
+      },
+      "oracle_status": "unavailable",
+      "outcome_tick": 6834,
+      "quality_warning_flags": [
+        "one or more causal observations are unavailable"
+      ],
+      "t0_tick": 6820
+    },
+    {
+      "action_taken": "disconnected",
+      "decision_family": "spacing_or_trade_connection",
+      "observed_availability_ticks": {
+        "action": 7076,
+        "context": 7076,
+        "referenced_state": 7050,
+        "tactical_state": 7074
+      },
+      "oracle_status": "unavailable",
+      "outcome_tick": 7396,
+      "quality_warning_flags": [
+        "one or more causal observations are unavailable"
+      ],
+      "t0_tick": 7076
+    },
+    {
+      "action_taken": "disconnected",
+      "decision_family": "spacing_or_trade_connection",
+      "observed_availability_ticks": {
+        "action": 7076,
+        "context": 7076,
+        "referenced_state": 7050,
+        "tactical_state": 7074
+      },
+      "oracle_status": "unavailable",
+      "outcome_tick": 7396,
+      "quality_warning_flags": [
+        "one or more causal observations are unavailable"
+      ],
+      "t0_tick": 7076
+    }
+  ],
+  "schema_id": "stratai.ai_coach_decision_example_coverage@1",
+  "status": "passed",
+  "streaming": {
+    "all_tactical_observation_rows_streamed": true,
+    "anonymous_sample_limit": 4,
+    "artifact_discovery": "root manifest -> canonical_manifest descriptor -> canonical artifacts[]",
+    "bundle_processing": "one_at_a_time",
+    "gzip_method": "gzip.open binary stream; no persistent decompression",
+    "gzip_rows_json_decoded": 36063,
+    "gzip_rows_streamed": 59909699,
+    "individual_examples_retained": false,
+    "jsonl_method": "binary line iterator with a bounded line size",
+    "jsonl_rows_streamed": 1384633,
+    "max_bundles_with_loaded_rows": 1
+  },
+  "task_eligibility": {
+    "by_reason_code": {
+      "DECISION_FAMILY_NOT_MATERIALIZED": 14,
+      "PARTIAL_PROXY_ONLY": 8,
+      "REQUIRED_FIELD_UNAVAILABLE": 12
+    },
+    "by_status": {
+      "eligible": 0,
+      "ineligible": 3,
+      "not_materialized": 14
+    },
+    "capabilities_evaluated": 17,
+    "results": [
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          }
+        ],
+        "capability_id": "CAP-ADVANTAGE-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 4,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-LAST-KNOWN-POSITION",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-CLUTCH-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 6,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-LAST-KNOWN-POSITION"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-SHOT-STATE",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-WEAPON-AMMO",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          }
+        ],
+        "capability_id": "CAP-COMBAT-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 5,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-SHOT-STATE",
+          "FLD-WEAPON-AMMO"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "PARTIAL_PROXY_ONLY"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-CROSSHAIR-ERROR",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-VISIBLE-CONTACT",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          }
+        ],
+        "capability_id": "CAP-CROSSHAIR-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 4,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-CROSSHAIR-ERROR",
+          "FLD-VISIBLE-CONTACT"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "PARTIAL_PROXY_ONLY"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-WEAPON-INVENTORY",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          }
+        ],
+        "capability_id": "CAP-ECONOMY-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 5,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-WEAPON-INVENTORY"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "PARTIAL_PROXY_ONLY"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-UTILITY-IN-FLIGHT",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-VISIBLE-CONTACT",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-MAP-ZONE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-ENTRY-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 5,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-MAP-ZONE",
+          "FLD-UTILITY-IN-FLIGHT",
+          "FLD-VISIBLE-CONTACT"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "PARTIAL_PROXY_ONLY",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-VISIBLE-CONTACT",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-INFORMATION-AGE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-LAST-KNOWN-POSITION",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-INFO-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 5,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-INFORMATION-AGE",
+          "FLD-LAST-KNOWN-POSITION",
+          "FLD-VISIBLE-CONTACT"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "PARTIAL_PROXY_ONLY",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-SHOT-STATE",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          }
+        ],
+        "capability_id": "CAP-MOVEMENT-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 4,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-SHOT-STATE"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "PARTIAL_PROXY_ONLY"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-NAV-ROUTE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-TRAVEL-TIME",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-OBJECTIVE-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 8,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-NAV-ROUTE",
+          "FLD-TRAVEL-TIME"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-VISIBLE-CONTACT",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-COVER",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-EXIT-ROUTE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-EXPOSURE-ANGLES",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-FOV-CONTACT",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-SMOKE-OCCLUSION",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-PEEK-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 7,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          },
+          {
+            "count": 9533,
+            "kind": "decision_family",
+            "reference": "peek_hold_or_reposition"
+          },
+          {
+            "count": 9533,
+            "kind": "field_coverage",
+            "reference": "DecisionExample observed partitions"
+          }
+        ],
+        "materialized_decision_types": [
+          "DEC-PEEK-001"
+        ],
+        "missing_required_fields": [
+          "FLD-COVER",
+          "FLD-EXIT-ROUTE",
+          "FLD-EXPOSURE-ANGLES",
+          "FLD-FOV-CONTACT",
+          "FLD-SMOKE-OCCLUSION",
+          "FLD-VISIBLE-CONTACT"
+        ],
+        "reason_codes": [
+          "PARTIAL_PROXY_ONLY",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "ineligible"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-COVER",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-EXIT-ROUTE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-EXPOSURE-ANGLES",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-MAP-ZONE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-POSITION-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 6,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-COVER",
+          "FLD-EXIT-ROUTE",
+          "FLD-EXPOSURE-ANGLES",
+          "FLD-MAP-ZONE"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-PRIOR-EXECUTION",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-PRIOR-MATCH-CONTEXT",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-PRIOR-MATCH-FINDINGS",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-PROFILE-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 3,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-PRIOR-EXECUTION",
+          "FLD-PRIOR-MATCH-CONTEXT",
+          "FLD-PRIOR-MATCH-FINDINGS"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-COVER",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-EXPOSURE-ANGLES",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-RISK-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 6,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-COVER",
+          "FLD-EXPOSURE-ANGLES"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-LAST-KNOWN-POSITION",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-MAP-ZONE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-NAV-ROUTE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-REACHABILITY",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-TRAVEL-TIME",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-ROTATE-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 7,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-LAST-KNOWN-POSITION",
+          "FLD-MAP-ZONE",
+          "FLD-NAV-ROUTE",
+          "FLD-REACHABILITY",
+          "FLD-TRAVEL-TIME"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "El catálogo sólo autoriza esta señal como proxy parcial.",
+            "field_id": "FLD-LINE-OF-SIGHT",
+            "reason_code": "PARTIAL_PROXY_ONLY"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-PATH-DISTANCE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-TEAM-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 6,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          },
+          {
+            "count": 26648,
+            "kind": "decision_family",
+            "reference": "spacing_or_trade_connection"
+          },
+          {
+            "count": 26648,
+            "kind": "field_coverage",
+            "reference": "DecisionExample observed partitions"
+          }
+        ],
+        "materialized_decision_types": [
+          "DEC-TRADE-001"
+        ],
+        "missing_required_fields": [
+          "FLD-LINE-OF-SIGHT",
+          "FLD-PATH-DISTANCE"
+        ],
+        "reason_codes": [
+          "PARTIAL_PROXY_ONLY",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "ineligible"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Disponibilidad declarada por el catálogo: FALTA_EXTRAER.",
+            "field_id": "FLD-TRAVEL-TIME",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-TIME-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 4,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          },
+          {
+            "count": 9533,
+            "kind": "decision_family",
+            "reference": "peek_hold_or_reposition"
+          },
+          {
+            "count": 9533,
+            "kind": "field_coverage",
+            "reference": "DecisionExample observed partitions"
+          }
+        ],
+        "materialized_decision_types": [
+          "DEC-PEEK-001"
+        ],
+        "missing_required_fields": [
+          "FLD-TRAVEL-TIME"
+        ],
+        "reason_codes": [
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "ineligible"
+      },
+      {
+        "blockers": [
+          {
+            "detail": "Los bundles no contienen ninguno de los tipos de decisión de esta capacidad.",
+            "field_id": null,
+            "reason_code": "DECISION_FAMILY_NOT_MATERIALIZED"
+          },
+          {
+            "detail": "Disponibilidad declarada por el catálogo: REQUIERE_CLASIFICACION.",
+            "field_id": "FLD-MAP-ZONE",
+            "reason_code": "REQUIRED_FIELD_UNAVAILABLE"
+          }
+        ],
+        "capability_id": "CAP-UTILITY-001",
+        "catalog_schema_id": "stratai.ai_coach_capability_catalog@1",
+        "catalog_version": "1.0.0",
+        "contract_version": "1.0.0",
+        "evidence_used": [
+          {
+            "count": 44,
+            "kind": "bundle_validation",
+            "reference": "root manifest validation_status=passed"
+          },
+          {
+            "count": 6,
+            "kind": "catalog",
+            "reference": "ai_coach/contracts/capability_catalog.json"
+          }
+        ],
+        "materialized_decision_types": [],
+        "missing_required_fields": [
+          "FLD-MAP-ZONE"
+        ],
+        "reason_codes": [
+          "DECISION_FAMILY_NOT_MATERIALIZED",
+          "REQUIRED_FIELD_UNAVAILABLE"
+        ],
+        "schema_id": "stratai.ai_coach_task_eligibility@1",
+        "status": "not_materialized"
+      }
+    ]
+  },
+  "temporal_checks": {
+    "availability_tick_after_t0": 0,
+    "oracle_fields_in_observed": 0,
+    "outcome_before_t0": 0
+  },
+  "training_allowed": false,
+  "version": "1.0.0"
+}

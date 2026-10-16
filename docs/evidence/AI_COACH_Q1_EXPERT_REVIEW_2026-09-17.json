@@ -1,0 +1,139 @@
+{
+  "id": "AI-COACH-Q1-EXPERT-REVIEW",
+  "date": "2026-09-17",
+  "kind": "documentary_expert_response_receipt",
+  "status": "received_and_documented",
+  "response_count": 36,
+  "clarification_count": 3,
+  "clarified_questions": [
+    1,
+    18,
+    26
+  ],
+  "pending_priority_clarifications": [],
+  "partial_limits_retained": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    12,
+    15,
+    16,
+    19,
+    20,
+    21,
+    27,
+    28,
+    29,
+    30,
+    32,
+    33,
+    34,
+    35
+  ],
+  "receipt": {
+    "path": "docs/evidence/AI_COACH_Q1_EXPERT_RESPONSES_2026-09-17.json",
+    "sha256": "be08035b548b5f6d11a948feacb4ae3bbb43c186ef8e6a4b76875f9c556e483a"
+  },
+  "workbook": {
+    "path": "outputs/stratai-q1-feedback-20260917-df08ccc/StratAI_Plan_del_coach_Q1_v4.xlsx",
+    "sha256": "3efed696d72d2fa81b247f8dd38d61184f80d69e9b57ac8620fc539f0cafca14",
+    "verification": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-q1-feedback-df08ccc6f07b45b2babea6dd66eef49f\\excel\\verification.json",
+    "verification_sha256": "b829c40a4c1466db678517834680f1b389314564243c07fa0557cd294a0b4bc4"
+  },
+  "preserved_workbooks": [
+    {
+      "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+      "sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c"
+    },
+    {
+      "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx",
+      "sha256": "d7ac32d3fecd8229b60fcec6a6090f24708452b81d5bf4d74e2ada95fed925d7"
+    }
+  ],
+  "verification": {
+    "literal_answers_equal_source": 36,
+    "literal_clarifications_equal_source": 3,
+    "questions_equal_bank": 36,
+    "capability_ids_valid": true,
+    "protected_files_unchanged": 62,
+    "protected_inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-q1-feedback-df08ccc6f07b45b2babea6dd66eef49f\\protected.json",
+    "local_links_resolved": 246,
+    "prompt_count": 1,
+    "whitespace_checks": [
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/AI_COACH_EXPERT_QUESTIONS.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "exit_code": 1,
+        "output": ""
+      },
+      {
+        "path": "docs/README.md",
+        "exit_code": 1,
+        "output": ""
+      }
+    ],
+    "expert_review": "Independent agent checked literal fidelity and contextual synthesis; no tactical correctness claimed"
+  },
+  "tests": {
+    "functional_suites": "not_applicable",
+    "one_demo_smoke": "not_applicable",
+    "reason": "Only documentation, expert response receipt and versioned workbook changed. No producer/schema/runtime change."
+  },
+  "next_action": "Prepare a bounded documentary rubric for contextual entry/support interpretation and decision review in Mirage; F01-K1 anchor, F01-K2 only if needed.",
+  "next_action_executed": false,
+  "S2_S3": "open",
+  "eligible_capabilities": 0,
+  "training_allowed": false,
+  "artifacts": [
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "903b3965a88ab62055a1d216b1ecf35292ba3532f875f471391a89623cf7afdd"
+    },
+    {
+      "path": "docs/AI_COACH_EXPERT_QUESTIONS.md",
+      "sha256": "66c38a48ef6de338bb3efa058702d25c941489766a3fc63840f5920ff0411b38"
+    },
+    {
+      "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "sha256": "e07affd7b985ff63e7af5d4e7e6c544cce6e9068435f859e237eeb3b3a07b45a"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "5d757233292d911c569f94318520fdedb1cc777fc28600004ddbb7971fdf4df4"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "75c95e76a7671dc8b7d964f21e75f82f15e51fa6c93ad0e480f16261a04a6561"
+    },
+    {
+      "path": "docs/archive/ai-coach/AI_COACH_Q1_EXPERT_REVIEW_2026-09-17.md",
+      "sha256": "4d8abfd4d4074dabd6e0183d274f012011dd68eecda04b57bbd33d5eda238189"
+    }
+  ],
+  "retained_temp": "C:/Users/kerch/AppData/Local/Temp/stratai-q1-feedback-df08ccc6f07b45b2babea6dd66eef49f",
+  "limitations": [
+    "No validated rule engine or training labels",
+    "Contextual expert contributions do not verify physical or mechanical claims",
+    "18 prior design hypothesis ratings remain pending",
+    "Unresolved partial criteria are retained for the relevant development step"
+  ]
+}

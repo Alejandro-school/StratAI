@@ -1,0 +1,1161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_native_sources@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "source_candidate_manifest_sha256",
+    "sampling_policy",
+    "partition",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_native_sources@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "source_candidate_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sampling_policy": {
+      "const": "every_freeze_frame_retain_changes_and_boundaries_no_intermediate_transaction_guarantee"
+    },
+    "partition": {
+      "const": "execution_evidence_only_not_initial_features"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version_observations",
+        "snapshots",
+        "generic_event_counts",
+        "snapshot_checks"
+      ],
+      "properties": {
+        "version_observations": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "source",
+                  "tick",
+                  "fields"
+                ],
+                "properties": {
+                  "source": {
+                    "const": "CDemoFileHeader"
+                  },
+                  "tick": {
+                    "type": "integer",
+                    "minimum": -1
+                  },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "build_num",
+                      "patch_version"
+                    ],
+                    "properties": {
+                      "build_num": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "value",
+                          "status",
+                          "source",
+                          "observation_tick",
+                          "availability_tick"
+                        ],
+                        "properties": {
+                          "value": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 2147483647
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "source": {
+                            "const": "CDemoFileHeader.build_num"
+                          },
+                          "observation_tick": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "availability_tick": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "patch_version": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "value",
+                          "status",
+                          "source",
+                          "observation_tick",
+                          "availability_tick"
+                        ],
+                        "properties": {
+                          "value": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 2147483647
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "source": {
+                            "const": "CDemoFileHeader.patch_version"
+                          },
+                          "observation_tick": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "availability_tick": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "source",
+                  "tick",
+                  "fields"
+                ],
+                "properties": {
+                  "source": {
+                    "const": "CSVCMsg_ServerInfo"
+                  },
+                  "tick": {
+                    "type": "integer",
+                    "minimum": -1
+                  },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "network_protocol"
+                    ],
+                    "properties": {
+                      "network_protocol": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "value",
+                          "status",
+                          "source",
+                          "observation_tick",
+                          "availability_tick"
+                        ],
+                        "properties": {
+                          "value": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 1,
+                                "maximum": 2147483647
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "source": {
+                            "const": "CSVCMsg_ServerInfo.protocol"
+                          },
+                          "observation_tick": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "availability_tick": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -1
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "snapshots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "observation_id",
+              "instance",
+              "tick",
+              "actor_alias",
+              "side",
+              "connected",
+              "money",
+              "spent_native",
+              "sellback",
+              "purchases_round",
+              "purchases_match"
+            ],
+            "properties": {
+              "observation_id": {
+                "type": "string",
+                "pattern": "^n[0-9]{8}$"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "actor_alias": {
+                "type": "string",
+                "pattern": "^p[0-9]{4,}$"
+              },
+              "side": {
+                "enum": [
+                  "CT",
+                  "T",
+                  "unknown"
+                ]
+              },
+              "connected": {
+                "type": "boolean"
+              },
+              "money": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status",
+                  "source",
+                  "observation_tick",
+                  "availability_tick"
+                ],
+                "properties": {
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "unavailable"
+                    ]
+                  },
+                  "source": {
+                    "const": "m_pInGameMoneyServices.m_iAccount"
+                  },
+                  "observation_tick": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": -1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "availability_tick": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": -1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "spent_native": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "status",
+                  "source",
+                  "observation_tick",
+                  "availability_tick"
+                ],
+                "properties": {
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2147483647
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "unavailable"
+                    ]
+                  },
+                  "source": {
+                    "const": "m_pInGameMoneyServices.m_iCashSpentThisRound"
+                  },
+                  "observation_tick": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": -1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "availability_tick": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": -1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "sellback": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "source",
+                  "reason",
+                  "length",
+                  "entries"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "partial",
+                      "unavailable"
+                    ]
+                  },
+                  "source": {
+                    "const": "m_pBuyServices.m_vecSellbackPurchaseEntries"
+                  },
+                  "reason": {
+                    "enum": [
+                      "native_array_unavailable",
+                      "native_array_shape_unsupported",
+                      "native_array_and_members_observed",
+                      "native_member_unavailable"
+                    ]
+                  },
+                  "length": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 256
+                  },
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_unDefIdx",
+                        "m_nCost",
+                        "m_nPrevArmor",
+                        "m_bPrevHelmet",
+                        "m_hItem"
+                      ],
+                      "properties": {
+                        "m_unDefIdx": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 65535
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "m_nCost": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 2147483647
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "m_nPrevArmor": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -2147483648,
+                                  "maximum": 4294967295
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "m_bPrevHelmet": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "m_hItem": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 4294967295
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "maxItems": 256
+                  }
+                }
+              },
+              "purchases_round": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "source",
+                  "reason",
+                  "length",
+                  "entries"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "partial",
+                      "unavailable"
+                    ]
+                  },
+                  "source": {
+                    "const": "m_pActionTrackingServices.m_weaponPurchasesThisRound.m_weaponPurchases"
+                  },
+                  "reason": {
+                    "enum": [
+                      "native_array_unavailable",
+                      "native_array_shape_unsupported",
+                      "native_array_and_members_observed",
+                      "native_member_unavailable"
+                    ]
+                  },
+                  "length": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 256
+                  },
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_nItemDefIndex",
+                        "m_nCount"
+                      ],
+                      "properties": {
+                        "m_nItemDefIndex": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 65535
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "m_nCount": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 65535
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "maxItems": 256
+                  }
+                }
+              },
+              "purchases_match": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "source",
+                  "reason",
+                  "length",
+                  "entries"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "partial",
+                      "unavailable"
+                    ]
+                  },
+                  "source": {
+                    "const": "m_pActionTrackingServices.m_weaponPurchasesThisMatch.m_weaponPurchases"
+                  },
+                  "reason": {
+                    "enum": [
+                      "native_array_unavailable",
+                      "native_array_shape_unsupported",
+                      "native_array_and_members_observed",
+                      "native_member_unavailable"
+                    ]
+                  },
+                  "length": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 256
+                  },
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "m_nItemDefIndex",
+                        "m_nCount"
+                      ],
+                      "properties": {
+                        "m_nItemDefIndex": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 65535
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "m_nCount": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "value",
+                            "status",
+                            "source",
+                            "observation_tick",
+                            "availability_tick"
+                          ],
+                          "properties": {
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 65535
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "status": {
+                              "enum": [
+                                "observed",
+                                "unavailable"
+                              ]
+                            },
+                            "source": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observation_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "availability_tick": {
+                              "anyOf": [
+                                {
+                                  "type": "integer",
+                                  "minimum": -1
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "maxItems": 256
+                  }
+                }
+              }
+            }
+          }
+        },
+        "generic_event_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "item_purchase": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "item_pickup": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "item_refund": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "buytime_ended": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "snapshot_checks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

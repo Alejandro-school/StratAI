@@ -1,0 +1,855 @@
+{
+  "schema_id": "stratai.ai_coach_context_packing_evidence@1",
+  "status": "technical_closed; tactical_quality_not_demonstrated",
+  "source": {
+    "ok": true,
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl",
+    "capture": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl\\capture",
+    "distinct_matches": 1,
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "rounds": 20,
+    "frames": 23398,
+    "kills": 148,
+    "reactions": 251,
+    "visibility_raycasts": 769834,
+    "visibility_sampled_ticks": 30252,
+    "confirmed_contacts": 0,
+    "calculated_contacts": 5495,
+    "contact_samples": 30252,
+    "unavailable_samples": 0,
+    "independently_recomputed_positions": 1008,
+    "objective_events": {
+      "bomb_carrier_snapshot": 8,
+      "bomb_drop": 33,
+      "bomb_pickup": 24,
+      "bomb_plant_start": 12,
+      "bomb_plant": 10,
+      "bomb_plant_abort": 2,
+      "bomb_defuse_start": 2,
+      "bomb_defuse": 1,
+      "bomb_explode": 2
+    },
+    "objective_states": {
+      "carried": 9619,
+      "dropped": 7700,
+      "planting": 507,
+      "planted": 3113,
+      "resolved": 1926,
+      "defusing": 197,
+      "defused": 112,
+      "exploded": 224
+    },
+    "current_positions_observed": 23398,
+    "position_abstentions": 0,
+    "independent_carrier_checks": 23398,
+    "inventory_checks": {
+      "frames": 23398,
+      "player_rows": 233183,
+      "native_active_weapon_cross_checks": 153568,
+      "fresh_snapshots_checked": 153568,
+      "historical_snapshots_recomputed": 79615,
+      "dead_history_checked": 79615
+    },
+    "inventory_statuses": {
+      "observed": 153568,
+      "alive_observed": 153568,
+      "last_observed": 79615,
+      "dead_last_observed": 79615
+    },
+    "round_context_schema": "stratai.replay_round_context@2",
+    "inventory_schema": "stratai.replay_inventory@1",
+    "projection_schema": "stratai.team_replay_projection@10",
+    "input_schema": "stratai.replay_context_input@8",
+    "vision_status": "calculated_estimate",
+    "manifest_hashes_unchanged": true,
+    "inventory": [
+      {
+        "path": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "capture\\combat-audit.json",
+        "bytes": 488177,
+        "sha256": "74440f3333fa103db4c47e5e555613c1d7b646500cd46615033c54335e6e1570"
+      },
+      {
+        "path": "capture\\inventory-audit.json",
+        "bytes": 37646121,
+        "sha256": "f3f62d0ddd963fb6fd83503c42bc05541da63fa6bf6b8daec89be00100987e87"
+      },
+      {
+        "path": "capture\\metrics.json",
+        "bytes": 40139,
+        "sha256": "73074347853e023bab47efe99178cf22d55f8969a90e41313ef7aa403d83481c"
+      },
+      {
+        "path": "capture\\objective-ledger.json",
+        "bytes": 55731,
+        "sha256": "77e69d89a96d71c5a319b401a1e1c36f41b37f61c6f16a40be4283636937aab4"
+      },
+      {
+        "path": "capture\\replay.json",
+        "bytes": 276882227,
+        "sha256": "7761b922e4e54156e7bfa8f1f1ecfecded9971a5c83b72f5fd9a46a330d04008"
+      },
+      {
+        "path": "capture\\utility-launch-audit.json",
+        "bytes": 72885,
+        "sha256": "ef2094681cd4b3bc84b892c01f96d71ea63e7b3a9f4db8d7fb48c32064f8191d"
+      },
+      {
+        "path": "parse.log",
+        "bytes": 5678,
+        "sha256": "bf7eaf93b5f1fc3d9eac99689ab981b92316ccbf47fe5d7254ba6c1bde461364"
+      },
+      {
+        "path": "team-replay-smoke.exe",
+        "bytes": 18777600,
+        "sha256": "1de2db1f7f05b3f1cc932054c85a1c4f7855821886d0d552bb0faab1eee76d23"
+      }
+    ]
+  },
+  "command": {
+    "argv": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl\\team-replay-smoke.exe",
+      "--demo",
+      "E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-1283ff87-ce52-4330-8828-de5e8ffb13e0.dem",
+      "--output",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl\\capture",
+      "--checksum",
+      "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7"
+    ],
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+    "build": [
+      "go",
+      "build",
+      "-o",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl\\team-replay-smoke.exe",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-context-packing-20261011\\smoke_producer.go"
+    ],
+    "binary_sha256": "1de2db1f7f05b3f1cc932054c85a1c4f7855821886d0d552bb0faab1eee76d23",
+    "producer_sha256": "fa642c1f1de402df503cb8ee54fa8ce348f0ac89c8989950378b3d0885c745f2",
+    "exit_code": 0,
+    "seconds": 50.024,
+    "parser": "v16",
+    "replay_schema": 5,
+    "calculated_contact_schema": "stratai.calculated_vision@2",
+    "projection_schema": "stratai.team_replay_projection@10",
+    "objective_schema": "stratai.replay_objective@2",
+    "input_schema": "stratai.replay_context_input@8",
+    "round_context_schema": "stratai.replay_round_context@2",
+    "inventory_schema": "stratai.replay_inventory@1",
+    "factual_reading_schema": "stratai.replay_factual_reading@1",
+    "go_version": "go version go1.26.2 windows/amd64",
+    "retained_temp": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl",
+    "inventory_after_parse": [
+      {
+        "path": "build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "capture\\combat-audit.json",
+        "bytes": 488177,
+        "sha256": "74440f3333fa103db4c47e5e555613c1d7b646500cd46615033c54335e6e1570"
+      },
+      {
+        "path": "capture\\inventory-audit.json",
+        "bytes": 37646121,
+        "sha256": "f3f62d0ddd963fb6fd83503c42bc05541da63fa6bf6b8daec89be00100987e87"
+      },
+      {
+        "path": "capture\\metrics.json",
+        "bytes": 40139,
+        "sha256": "73074347853e023bab47efe99178cf22d55f8969a90e41313ef7aa403d83481c"
+      },
+      {
+        "path": "capture\\objective-ledger.json",
+        "bytes": 55731,
+        "sha256": "77e69d89a96d71c5a319b401a1e1c36f41b37f61c6f16a40be4283636937aab4"
+      },
+      {
+        "path": "capture\\replay.json",
+        "bytes": 276882227,
+        "sha256": "7761b922e4e54156e7bfa8f1f1ecfecded9971a5c83b72f5fd9a46a330d04008"
+      },
+      {
+        "path": "capture\\utility-launch-audit.json",
+        "bytes": 72885,
+        "sha256": "ef2094681cd4b3bc84b892c01f96d71ea63e7b3a9f4db8d7fb48c32064f8191d"
+      },
+      {
+        "path": "parse.log",
+        "bytes": 5678,
+        "sha256": "bf7eaf93b5f1fc3d9eac99689ab981b92316ccbf47fe5d7254ba6c1bde461364"
+      },
+      {
+        "path": "team-replay-smoke.exe",
+        "bytes": 18777600,
+        "sha256": "1de2db1f7f05b3f1cc932054c85a1c4f7855821886d0d552bb0faab1eee76d23"
+      }
+    ]
+  },
+  "changed_producer": "ai_coach/interpretation/replay_model_context.py",
+  "verification_tool_sha256": {
+    "verify_context_packing.py": "49af96befd0234544f353ded40d1c9e2d5df19cd9b1fc56fd363f771a2dc08ab",
+    "tools/verify_smoke_context.py": "14d2bc096da48c7bf95b101efcb7853eed3483df443e25bb5ae6aa1d4abb1866"
+  },
+  "wire_schema": "stratai.replay_model_context@2",
+  "experiment_version": "1.2.0-local.1",
+  "factual_input_unchanged": "stratai.replay_context_input@8",
+  "projection_unchanged": "stratai.team_replay_projection@10",
+  "real_changed_producer_checks": {
+    "ok": true,
+    "rows": [
+      {
+        "case_id": "N01",
+        "input_sha256": "844758e4ed685946d3debea7fd282d6628698505e52e950494b35a29a6ef31bd",
+        "source_bytes": 52103,
+        "wire_bytes": 39732,
+        "definitions": 41,
+        "samples": 241,
+        "facts": 8284,
+        "receipt": {
+          "input_hash": "2d1342037551ada81018b0ffe951e00d40d206b6a20aa9f3863545abb01bfe37",
+          "projected_packet_hash": "3504badc39ffd7c0ac4d8ed5ec065dc11c2ad285944a2d7fa49138970d095747",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N02",
+        "input_sha256": "ed1a52c8b667ddef79223cb11819150d8c80faa54ecafebb802e6a7746819133",
+        "source_bytes": 95293,
+        "wire_bytes": 68610,
+        "definitions": 50,
+        "samples": 481,
+        "facts": 23057,
+        "receipt": {
+          "input_hash": "4330b8f8bd51edf8bdb3faf30887c4481d35f092a103834ac08875efd567e69f",
+          "projected_packet_hash": "4643a84614794d6ff172374e7910968b36e7f86d32dfbd5b02b29b3ef0915b94",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N03",
+        "input_sha256": "615737439c870045647128f50f71bbc9bf867e2dc7ca8c1bda00fa59ce96e394",
+        "source_bytes": 116746,
+        "wire_bytes": 80419,
+        "definitions": 78,
+        "samples": 721,
+        "facts": 42184,
+        "receipt": {
+          "input_hash": "ecfa96c22b0eb34cae3672392224ce3b9662fb4f77c25be7d8b6819d363b72e0",
+          "projected_packet_hash": "bd2c6aedd77a70867b23c0370af570760fbec112cccd8b6fed04d3abd9e4eead",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N04",
+        "input_sha256": "7faefc58935775f4c25e13b7a29cc11b6b9eb37faacedcd0c86508901b0b4c7f",
+        "source_bytes": 106010,
+        "wire_bytes": 70202,
+        "definitions": 78,
+        "samples": 938,
+        "facts": 47575,
+        "receipt": {
+          "input_hash": "a266dfb5576f1a9d3c3680ed84948240706abbe0ba9b9bfb0710ab427cda3a60",
+          "projected_packet_hash": "1f3d77a2a3f9ddf23196b96d3f0f5326e017d35f032959ebcff5a4ab164b3b16",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N05",
+        "input_sha256": "33e7377148b4a8ab8bb2dcb6878eff7a1bf6b8da69a10ddcf6a48402b39bbdc1",
+        "source_bytes": 187344,
+        "wire_bytes": 135572,
+        "definitions": 90,
+        "samples": 854,
+        "facts": 63092,
+        "receipt": {
+          "input_hash": "3e49e20f413504fac555e03d04076ada9f248e0eb5b0d37fcbd5c98c16579db7",
+          "projected_packet_hash": "7e60a185c387a77ff8a835e191beac3229a0fe674a9750c72061b72488845cbc",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N06",
+        "input_sha256": "daeb9d1b780cf2c1683ed922228c631d6f5efe5f518676fe94393a9fd3d3e1aa",
+        "source_bytes": 84723,
+        "wire_bytes": 62656,
+        "definitions": 42,
+        "samples": 241,
+        "facts": 12226,
+        "receipt": {
+          "input_hash": "d5c460cfc1f95d53542a187832ef6ee9a0167a31b578a61fde23e0c4854452d5",
+          "projected_packet_hash": "9879fb62a82d82cf852f3f603dd0fb3686e5217b8267e508f9daef6d0893a6ae",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N07",
+        "input_sha256": "79768a775464180c186c910242ce4b27f7c3164c4fd4c92815ea5a4fb6a43250",
+        "source_bytes": 124367,
+        "wire_bytes": 85781,
+        "definitions": 83,
+        "samples": 481,
+        "facts": 22154,
+        "receipt": {
+          "input_hash": "4d09bfddc017251630a2c5998fca09a5151169160a15f66d8edda4cfe1c3d994",
+          "projected_packet_hash": "1ebd180a61883c722bf2a2635137c4dfae6db3accd67112fa1cdc3067cc21686",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N08",
+        "input_sha256": "7c44cc97667b243112f572d1689a39f98a962cb4ea4dbaaa2eb4125724b6684f",
+        "source_bytes": 153211,
+        "wire_bytes": 113104,
+        "definitions": 68,
+        "samples": 721,
+        "facts": 45588,
+        "receipt": {
+          "input_hash": "1ce43c5e2674d6acd6a8e728c9d363f46905ffca205a44222415cdfd8ccfe1c4",
+          "projected_packet_hash": "a79cf81b6415755834e3b072327d4e6c344544d33be43db1b60ff0e0935fed10",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N09",
+        "input_sha256": "099d604cff606f22ee1e402611b8a145ebda4fe1047453edc7b0a26c971628c5",
+        "source_bytes": 141138,
+        "wire_bytes": 107892,
+        "definitions": 42,
+        "samples": 961,
+        "facts": 76903,
+        "receipt": {
+          "input_hash": "cf4c6acab200bf629f0d3e66bcbb83ca042a7431e591347efad7ade24e4c9c35",
+          "projected_packet_hash": "5798787ef8e13578b02e7740c930ebc2de08a1baf6efaf876cecd09060dc7a2f",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N10",
+        "input_sha256": "02034618d03593e45747c76d04e33817d2de94f87f0679887f6c1a3aeef70e6e",
+        "source_bytes": 166727,
+        "wire_bytes": 120942,
+        "definitions": 94,
+        "samples": 1201,
+        "facts": 65111,
+        "receipt": {
+          "input_hash": "d8d26a33ef476df6e1d0b77902defb2759f1bcb1e1ee0b566da0d8f247f546b9",
+          "projected_packet_hash": "2937f953298024325e52b3a63d76cb33d51ddaeb324f471acc26896d1719c20b",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      }
+    ],
+    "samples": 6840,
+    "facts": 406174,
+    "seconds": 260.985,
+    "wire_schema": "stratai.replay_model_context@2",
+    "producer_version": "1.2.0-local.1",
+    "future_queries_allowed": false,
+    "factual_changes": false
+  },
+  "changed_producer_command": {
+    "argv": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-context-packing-20261011\\tools\\verify_smoke_context.py",
+      "--smoke",
+      "--label",
+      "tables"
+    ],
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+    "source_capture": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-context-packing-smoke-g9_v4trl\\capture",
+    "exit_code": 0,
+    "seconds": 260.985,
+    "cases": 10,
+    "samples": 6840,
+    "facts": 406174,
+    "same_distinct_match": true,
+    "result_sha256": "c07d2f524d634ddeb5c781c3fec50258c3e4eb6b6acb7413dcff2001e35ac44e"
+  },
+  "prior_input_checks": {
+    "ok": true,
+    "rows": [
+      {
+        "case_id": "N01",
+        "input_sha256": "844758e4ed685946d3debea7fd282d6628698505e52e950494b35a29a6ef31bd",
+        "source_bytes": 52103,
+        "wire_bytes": 39732,
+        "definitions": 41,
+        "samples": 241,
+        "facts": 8284,
+        "receipt": {
+          "input_hash": "2d1342037551ada81018b0ffe951e00d40d206b6a20aa9f3863545abb01bfe37",
+          "projected_packet_hash": "3504badc39ffd7c0ac4d8ed5ec065dc11c2ad285944a2d7fa49138970d095747",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": {
+          "causal_replay": true,
+          "citation_integrity": false,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "lossless": true
+      },
+      {
+        "case_id": "N02",
+        "input_sha256": "1208ffe7e9158f002b91a86a73f9f15b7103b67fc03dede546206c2ba8fecbe0",
+        "source_bytes": 95293,
+        "wire_bytes": 68610,
+        "definitions": 50,
+        "samples": 481,
+        "facts": 23057,
+        "receipt": {
+          "input_hash": "9c753dcda5ca03d0bcb69469a1cce56925b86fbbb172b869471b6957f7ff2631",
+          "projected_packet_hash": "7dbfc5f3314505fd5bd0b40a1e200468097efb25a957ee2555f82cf11bcfdd30",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N03",
+        "input_sha256": "cdd7d64ce233a32d746b56bd38a328d2695cf2c40d7d4fe39f1eb0da6e2fb1b7",
+        "source_bytes": 116746,
+        "wire_bytes": 80419,
+        "definitions": 78,
+        "samples": 721,
+        "facts": 42184,
+        "receipt": {
+          "input_hash": "5e29593d46fcc87fd53cdc786eaa7b41dcb666871aff48b6d3b68f9e53098b7e",
+          "projected_packet_hash": "c419c862c3c13919e22ec66a03f888295b582984f23c38c9c5161bbce2c350c3",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N04",
+        "input_sha256": "e3985fe1dd516fb4ad13cae35871ee8d3977522d617e5bd1825d6a0d886e776c",
+        "source_bytes": 106010,
+        "wire_bytes": 70202,
+        "definitions": 78,
+        "samples": 938,
+        "facts": 47575,
+        "receipt": {
+          "input_hash": "ea7a9a957c57ebbab8cc4dba84ee8c1031d0a5a97cc3e24fd56e920c5ae2bce9",
+          "projected_packet_hash": "aa2795fb63fe50b01649026fd084de4ef21010a6a0da56454cf6974c460e23dd",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "lossless": true
+      },
+      {
+        "case_id": "N05",
+        "input_sha256": "a7ecad4e201e2cf58999bd8db983b1846ff3801bd3dc0edf3c083b36953a5b58",
+        "source_bytes": 187344,
+        "wire_bytes": 135572,
+        "definitions": 90,
+        "samples": 854,
+        "facts": 63092,
+        "receipt": {
+          "input_hash": "3206aaaa2ca6dfa0dc2c85de4093dd2f7f625984ed07e83e7a17c23e6ab3cafb",
+          "projected_packet_hash": "acfdfdfb7e4fbf1f272b6fb4c09688fda0195e13c9a7aaf6f01e62f4ced10c07",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N06",
+        "input_sha256": "8f10d802455457a22fa509abfb217d73271ad213d922a341229d434e88eeb402",
+        "source_bytes": 84723,
+        "wire_bytes": 62656,
+        "definitions": 42,
+        "samples": 241,
+        "facts": 12226,
+        "receipt": {
+          "input_hash": "d9967df6c15b3b79533c3f07d7842df5c01d662412cf9cde0826a5c0752c4413",
+          "projected_packet_hash": "5f93238196ad36ac170ab8e112c4dd8de402727794cfc88c26235355e43b9358",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N07",
+        "input_sha256": "7e7e846bd47eb794863e2b3107d82e3bbd3578aa6164ddfe16b07ed7dfd27541",
+        "source_bytes": 124367,
+        "wire_bytes": 85781,
+        "definitions": 83,
+        "samples": 481,
+        "facts": 22154,
+        "receipt": {
+          "input_hash": "6b0c23890d973674a5e5514abd16047444fd54095397aa206018da926fbf7285",
+          "projected_packet_hash": "f44fcbec7c1ae0c4e4ff62816323c65f8330aeadd9d2243b840cd00b698b0650",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N08",
+        "input_sha256": "23836a56766a05123cb6ba4f21f21e9b149e4089fdf307c0c75a76e58d446584",
+        "source_bytes": 153213,
+        "wire_bytes": 113106,
+        "definitions": 68,
+        "samples": 721,
+        "facts": 45588,
+        "receipt": {
+          "input_hash": "3f3576b93bf70be995d3fd01c78afc943c9c3be0f32f2177db134948a1a78f2a",
+          "projected_packet_hash": "d6a7503f3cfae58cea9f482c160656ab299494b4e75f7b4abdc1fdaba96d3509",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N09",
+        "input_sha256": "7e33032f490f51c6c3e156a0708509247c8fb1be053d7f0e12c71c5f21d5973d",
+        "source_bytes": 141138,
+        "wire_bytes": 107892,
+        "definitions": 42,
+        "samples": 961,
+        "facts": 76903,
+        "receipt": {
+          "input_hash": "f7d22dda3e2c486b2999520e77c4abc66314a2188aef2fd5fc2ab95ff214508b",
+          "projected_packet_hash": "3807edb396a87bd890e81de282bc861d762a5218177cd3dcba17bb061feb5c29",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": null,
+        "lossless": true
+      },
+      {
+        "case_id": "N10",
+        "input_sha256": "a8c6226cbdbfa25d6daef1f6ce05096238d5be538c6c19d5d8f94409c7cdf354",
+        "source_bytes": 166727,
+        "wire_bytes": 120942,
+        "definitions": 94,
+        "samples": 1201,
+        "facts": 65111,
+        "receipt": {
+          "input_hash": "67f03f14a9150f9f44b8779e3ab5672ea3289fee76bec131a27758e9466b7ea7",
+          "projected_packet_hash": "ae746fcce0dca53148c9908fdb5cef23231ce44e930927f144e340b2e05f6985",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "legacy_replay": {
+          "causal_replay": true,
+          "citation_integrity": false,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "lossless": true
+      }
+    ],
+    "samples": 6840,
+    "facts": 406174,
+    "seconds": 306.568,
+    "wire_schema": "stratai.replay_model_context@2",
+    "producer_version": "1.2.0-local.1",
+    "future_queries_allowed": false,
+    "factual_changes": false
+  },
+  "comparison": {
+    "cases": [
+      {
+        "case_id": "N01",
+        "status": "mechanically_valid",
+        "seconds": 29.101,
+        "local_calls": 1,
+        "result_sha256": "e6f34c816a61201dae5c8625d464d8f16da08e71ed2355194d24599798c69df8",
+        "receipt": {
+          "input_hash": "2d1342037551ada81018b0ffe951e00d40d206b6a20aa9f3863545abb01bfe37",
+          "projected_packet_hash": "3504badc39ffd7c0ac4d8ed5ec065dc11c2ad285944a2d7fa49138970d095747",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N04",
+        "status": "mechanically_valid",
+        "seconds": 35.9,
+        "local_calls": 1,
+        "result_sha256": "00574645f3b0267f1a75da7e8d98c277fbddc22bafbe1a27625ba3075ea4c4eb",
+        "receipt": {
+          "input_hash": "ea7a9a957c57ebbab8cc4dba84ee8c1031d0a5a97cc3e24fd56e920c5ae2bce9",
+          "projected_packet_hash": "aa2795fb63fe50b01649026fd084de4ef21010a6a0da56454cf6974c460e23dd",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N10",
+        "status": "mechanically_valid",
+        "seconds": 61.399,
+        "local_calls": 1,
+        "result_sha256": "c6f964b996b1099bda53db1aaecb2402d87054cea623824844c1d2d9ca0f15bf",
+        "receipt": {
+          "input_hash": "67f03f14a9150f9f44b8779e3ab5672ea3289fee76bec131a27758e9466b7ea7",
+          "projected_packet_hash": "ae746fcce0dca53148c9908fdb5cef23231ce44e930927f144e340b2e05f6985",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      }
+    ],
+    "local_calls": 3,
+    "external_calls": 0,
+    "provider_cost_usd": 0,
+    "training": false,
+    "independent_evaluation": false
+  },
+  "previous_complete_batch": {
+    "cases": [
+      {
+        "case_id": "N01",
+        "status": "mechanically_valid",
+        "seconds": 70.722,
+        "local_calls": 1,
+        "result_sha256": "fb4df34f6c28a3463f9dcdd9d9c255c5316b7a6db880a3af319542ec0ec149f6",
+        "receipt": {
+          "input_hash": "2d1342037551ada81018b0ffe951e00d40d206b6a20aa9f3863545abb01bfe37",
+          "projected_packet_hash": "3504badc39ffd7c0ac4d8ed5ec065dc11c2ad285944a2d7fa49138970d095747",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N04",
+        "status": "mechanically_valid",
+        "seconds": 115.969,
+        "local_calls": 1,
+        "result_sha256": "00a496c63879466ae47fa69266c5971cadeee33f98beb98fd19ecce79f84cd8a",
+        "receipt": {
+          "input_hash": "ea7a9a957c57ebbab8cc4dba84ee8c1031d0a5a97cc3e24fd56e920c5ae2bce9",
+          "projected_packet_hash": "aa2795fb63fe50b01649026fd084de4ef21010a6a0da56454cf6974c460e23dd",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": null,
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": true,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": "checked_reference_rendering",
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      },
+      {
+        "case_id": "N10",
+        "status": "rejected_or_incomplete",
+        "seconds": 240.063,
+        "local_calls": 1,
+        "result_sha256": "bf09701d098244afa343317932c0ce0f50fb3af600e532c62aa9cccc0924f9db",
+        "receipt": {
+          "input_hash": "67f03f14a9150f9f44b8779e3ab5672ea3289fee76bec131a27758e9466b7ea7",
+          "projected_packet_hash": "ae746fcce0dca53148c9908fdb5cef23231ce44e930927f144e340b2e05f6985",
+          "version": "stratai.replay_context_input@8",
+          "training_allowed": false,
+          "product_supported": false,
+          "independent_evaluation": false
+        },
+        "failure": "timed out",
+        "offline_verification": {
+          "causal_replay": true,
+          "citation_integrity": false,
+          "semantic_truth": "not_evaluated",
+          "tactical_quality": "not_evaluated"
+        },
+        "factual_integrity": null,
+        "semantic_truth": "not_evaluated",
+        "tactical_quality": "not_evaluated"
+      }
+    ],
+    "local_calls": 3,
+    "external_calls": 0,
+    "provider_cost_usd": 0,
+    "training": false,
+    "independent_evaluation": false
+  },
+  "tests": {
+    "path": "outputs\\stratai-context-packing-20261011\\tables-automated-checks.json",
+    "sha256": "a1cf25f51c6b806759dccc43292af6af169eddc44bd2b6eb079aac5975da140f",
+    "python_full_snapshot_before_columns": 2552,
+    "python_final_affected_backend": 108,
+    "frontend": 300,
+    "node_pass": 18,
+    "node_preexisting_skips": 3,
+    "go": "all passed"
+  },
+  "retained_temp_inventory_sha256": "629f9132837a0d7ffe79ddc69b2d8ca19878d5c43c1ed0fb7876d4b79ace027d",
+  "preservation": {
+    "ok": true,
+    "deliveries": [
+      {
+        "folder": "stratai-factual-repair-20261010",
+        "files": 386,
+        "inventory_sha256": "5c1bd270b21fa2285abd25447f5d3bdf8afd197e98d883c95943fbe58a6d5dbd",
+        "seal_sha256": null
+      },
+      {
+        "folder": "stratai-information-20261010",
+        "files": 377,
+        "inventory_sha256": "8c481ae733b42cbe135de8a2af33e9366969449c13884b64b81268cc0e13cc24",
+        "seal_sha256": null
+      },
+      {
+        "folder": "stratai-grenades-framing-20261011",
+        "files": 21,
+        "inventory_sha256": "69754a2de94ad68b273ff6ab72b0da32f7a69889f2672ac89b65f036c4059a2c",
+        "seal_sha256": "eb2490f1d00afd2fab4458c4a833583270d856536b45fb8c95c50a690fb6d86a"
+      },
+      {
+        "folder": "stratai-grenades-20261011",
+        "files": 436,
+        "inventory_sha256": "cb1cf23132f5ca4827c3af12458fc190cb631c7d79ee61c382bf919c92feaad7",
+        "seal_sha256": "7e0f2246fa2443a089a9e64bc9082820a6f509839c2e572b58fcd5bc9f7f1a9a"
+      }
+    ],
+    "original_notes_sha256": "f34a3094c70cfbc8a34d3d27c979760352c81eec76bbdf6900380ccb586fe617",
+    "deletions": 0
+  },
+  "training": false,
+  "promotion": false,
+  "corpus_migration": false,
+  "independent_evaluation": false
+}

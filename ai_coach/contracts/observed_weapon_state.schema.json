@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_weapon_state@1",
+  "title": "ObservedWeaponStateLedger",
+  "contract_version": "1.0.0",
+  "description": "Contrato candidato factual y causal de arma activa, ammo, reserva y reload a 16 Hz. Permanece separado de los bundles canonicos 3.8.0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "identity_semantics",
+    "causal_role",
+    "sampling",
+    "rows"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_weapon_state@1"},
+    "contract_version": {"const": "1.0.0"},
+    "identity_semantics": {"const": "join_only"},
+    "causal_role": {"const": "model_input_observation"},
+    "sampling": {"$ref": "#/$defs/sampling"},
+    "rows": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/row"}
+    }
+  },
+  "$defs": {
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_hz", "strategy"],
+      "properties": {
+        "target_hz": {"const": 16},
+        "strategy": {"const": "round_anchored_right_closed_no_carry_forward"}
+      }
+    },
+    "joinKeys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["match_id", "round_id", "player_id", "observation_id"],
+      "properties": {
+        "match_id": {"type": "string", "minLength": 1},
+        "round_id": {"type": "string", "minLength": 1},
+        "player_id": {
+          "type": "string",
+          "pattern": "^participant-[0-9]{3,}$"
+        },
+        "observation_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "source_tick", "reconciliation"],
+      "properties": {
+        "source": {
+          "enum": [
+            "replay_active_weapon_snapshot",
+            "demoinfocs_active_weapon_ammo",
+            "demoinfocs_causal_reload_tracker",
+            "unavailable"
+          ]
+        },
+        "source_tick": {"type": ["integer", "null"], "minimum": 0},
+        "reconciliation": {
+          "enum": [
+            "not_applicable",
+            "confirmed_weapon_fire",
+            "confirmed_weapon_reload",
+            "ambiguous",
+            "unavailable"
+          ]
+        }
+      }
+    },
+    "unavailableFact": {
+      "properties": {
+        "value": {"const": null},
+        "availability_tick": {"const": null},
+        "provenance": {
+          "properties": {
+            "source": {"const": "unavailable"},
+            "source_tick": {"const": null},
+            "reconciliation": {
+              "enum": ["not_applicable", "ambiguous", "unavailable"]
+            }
+          }
+        }
+      }
+    },
+    "stringFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "availability_tick", "provenance"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "value": {"type": ["string", "null"], "minLength": 1},
+        "availability_tick": {"type": ["integer", "null"], "minimum": 0},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "observed"}}},
+          "then": {
+            "properties": {
+              "value": {"type": "string", "minLength": 1},
+              "availability_tick": {"type": "integer", "minimum": 0},
+              "provenance": {
+                "properties": {
+                  "source": {"const": "replay_active_weapon_snapshot"},
+                  "source_tick": {"type": "integer", "minimum": 0},
+                  "reconciliation": {
+                    "enum": [
+                      "not_applicable",
+                      "confirmed_weapon_fire",
+                      "confirmed_weapon_reload"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"$ref": "#/$defs/unavailableFact"}
+        }
+      ]
+    },
+    "integerFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "availability_tick", "provenance"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "value": {"type": ["integer", "null"], "minimum": 0},
+        "availability_tick": {"type": ["integer", "null"], "minimum": 0},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "observed"}}},
+          "then": {
+            "properties": {
+              "value": {"type": "integer", "minimum": 0},
+              "availability_tick": {"type": "integer", "minimum": 0},
+              "provenance": {
+                "properties": {
+                  "source": {"const": "demoinfocs_active_weapon_ammo"},
+                  "source_tick": {"type": "integer", "minimum": 0},
+                  "reconciliation": {
+                    "enum": [
+                      "not_applicable",
+                      "confirmed_weapon_fire",
+                      "confirmed_weapon_reload"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"$ref": "#/$defs/unavailableFact"}
+        }
+      ]
+    },
+    "booleanFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "availability_tick", "provenance"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "value": {"type": ["boolean", "null"]},
+        "availability_tick": {"type": ["integer", "null"], "minimum": 0},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "observed"}}},
+          "then": {
+            "properties": {
+              "value": {"type": "boolean"},
+              "availability_tick": {"type": "integer", "minimum": 0},
+              "provenance": {
+                "properties": {
+                  "source": {"const": "demoinfocs_causal_reload_tracker"},
+                  "source_tick": {"type": "integer", "minimum": 0},
+                  "reconciliation": {
+                    "enum": ["not_applicable", "confirmed_weapon_reload"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"$ref": "#/$defs/unavailableFact"}
+        }
+      ]
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "contract_version",
+        "identity_semantics",
+        "causal_role",
+        "join_keys",
+        "round_number",
+        "tick",
+        "t0_tick",
+        "active_weapon",
+        "ammo_in_magazine",
+        "ammo_reserve",
+        "is_reloading",
+        "abstention_reasons"
+      ],
+      "properties": {
+        "schema_id": {"const": "stratai.observed_weapon_state@1"},
+        "contract_version": {"const": "1.0.0"},
+        "identity_semantics": {"const": "join_only"},
+        "causal_role": {"const": "model_input_observation"},
+        "join_keys": {"$ref": "#/$defs/joinKeys"},
+        "round_number": {"type": "integer", "minimum": 1},
+        "tick": {"type": "integer", "minimum": 0},
+        "t0_tick": {"type": "integer", "minimum": 0},
+        "active_weapon": {"$ref": "#/$defs/stringFact"},
+        "ammo_in_magazine": {"$ref": "#/$defs/integerFact"},
+        "ammo_reserve": {"$ref": "#/$defs/integerFact"},
+        "is_reloading": {"$ref": "#/$defs/booleanFact"},
+        "abstention_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+(?::[a-z0-9_]+)?$"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "active_weapon": {
+                "properties": {"status": {"const": "unavailable"}}
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ammo_in_magazine": {
+                "properties": {"status": {"const": "unavailable"}}
+              },
+              "ammo_reserve": {
+                "properties": {"status": {"const": "unavailable"}}
+              },
+              "is_reloading": {
+                "properties": {"status": {"const": "unavailable"}}
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

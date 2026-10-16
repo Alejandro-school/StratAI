@@ -1,0 +1,198 @@
+{
+  "schema_id": "stratai.c4_output_root_cause_audit@1",
+  "date": "2026-10-10",
+  "status": "diagnosis_complete_repair_pending",
+  "case": "N01",
+  "instruction": "Stop new phases and exhaustively identify why two C4 are invented",
+  "source_demo": {
+    "alias": "demo-0beb9110ec408f80c39b",
+    "sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "new_parse": false
+  },
+  "conclusions": {
+    "simultaneous_duplicate_in_audited_source_data": false,
+    "earliest_boundary_with_false_claim": "raw Ollama response message.content",
+    "output_failure": "historical P07 inventory asserted as current together with current P06 carrier",
+    "trigger_evidence": "A exact reproduction; C removal of initial snapshot and E removal only of initial P07 weapons suppress this false possession in one run each",
+    "independent_citation_bug": "17 delivered start fact IDs excluded from allowed enum until redundant sample(0)",
+    "acceptance_gap": "response validates citation membership, not asserted subject/time/value/polarity or contradiction",
+    "prior_repair_scope": "fixed objective data loss; did not implement factual prose guarantee",
+    "internal_neural_cause": "not observable or claimed"
+  },
+  "data_coverage": {
+    "retained_captures_same_match": 4,
+    "n01_samples": 964,
+    "complete_round1_samples": 2952,
+    "per_tick_causal_projections": 3844,
+    "duplicate_or_conflict_count": 0
+  },
+  "model_experiments": {
+    "all_predeclared_interventions_verified": true,
+    "exact_A_reproduces_original_content": true,
+    "D_checked_against_projected_frames": true,
+    "calls": 5,
+    "external_calls": 0,
+    "results": [
+      {
+        "name": "A_exact_request",
+        "seconds": 51.772,
+        "request_sha256": "c2d3b34c287399aa368d5b8a118b291e84bc0c9e03c567249e0f31a94af27dd9",
+        "result_sha256": "9fd30edd8ac4a787635bb20350f2c4b8acad5db9a2cae126d42b23cb0b3c2704",
+        "response_content_sha256": "93f878db176cfff7a360af868a0bc8e6dd0370d5c2597344a0b271862a2bb824",
+        "prompt_tokens": 10239,
+        "generated_tokens": 3123,
+        "schema_valid": true,
+        "done_reason": "stop"
+      },
+      {
+        "name": "B_allow_delivered_start_citations",
+        "seconds": 36.815,
+        "request_sha256": "68ec7ce4dd93020161c95eb8e2a8d49497767e5ebd0d0cffe8ee9582781669f3",
+        "result_sha256": "19f31d1ce0066d571715dd524f85763f3a3e1a24c95f144e725edc7d2986c513",
+        "response_content_sha256": "98ccf7465f69daceb4adf443c7233a383ddadc5892ff236af00f48a608edeeac",
+        "prompt_tokens": 10239,
+        "generated_tokens": 3056,
+        "schema_valid": true,
+        "done_reason": "stop"
+      },
+      {
+        "name": "C_omit_start_boundary_only",
+        "seconds": 24.23,
+        "request_sha256": "d57fa6daccc427705baa18394d1a1131b47e2a769ab60ca87652d111107252bc",
+        "result_sha256": "0f0d3b4fdb642184720a93917a8e71792222f7de9a4e1380ba58e7ff635b06da",
+        "response_content_sha256": "2cfc0fd274420d50e47e12af28e6a1185bb19832cbfb907c1b3a436e903e071e",
+        "prompt_tokens": 8189,
+        "generated_tokens": 1768,
+        "schema_valid": true,
+        "done_reason": "stop"
+      },
+      {
+        "name": "D_same_full_input_c4_extraction",
+        "seconds": 6.19,
+        "request_sha256": "607ddc611ec8106868bb6c86d7422cfe82a1260d090182eaa51f5de5d75fa3a8",
+        "result_sha256": "5dc2801166855eb836688bf425e79ce7c8b1f7f193e6004754500fd5a935e0b6",
+        "response_content_sha256": "6927c1c85cc71a5be847874bcb78b390e94b3e32314a82304708eefbb0b67d73",
+        "prompt_tokens": 10012,
+        "generated_tokens": 166,
+        "schema_valid": true,
+        "done_reason": "stop"
+      },
+      {
+        "name": "E_omit_only_initial_p07_weapons",
+        "seconds": 17.31,
+        "request_sha256": "a2a89c5b4277ba301e98b4f908f6c910620c7c35acf7b593c85bb93fa28376f5",
+        "result_sha256": "00bfaa9c5bf0858623291c2f01468bea6030435a02925d45d34896a99d70cf34",
+        "response_content_sha256": "20321aba1e70170ecfd885b356a96e899021c76d40a0d8371dd5dbd40b85a256",
+        "prompt_tokens": 10226,
+        "generated_tokens": 1077,
+        "schema_valid": true,
+        "done_reason": "stop"
+      }
+    ],
+    "production_fix": false,
+    "limits": "C/E remove historical context only as diagnostic probes; other factual/tactical errors remain. A single result per intervention is not general reliability."
+  },
+  "validator_probes": {
+    "offline_script": {
+      "exit_code": 0,
+      "probes": 20,
+      "accepted": 15,
+      "rejected": 5
+    },
+    "public_red_tests": {
+      "command": "npm run test:python -- outputs/stratai-c4-root-cause-20261010/validator/reproduce_validator_gap.py -k validator_guard -p no:cacheprovider",
+      "exit_code": 1,
+      "failed": 3,
+      "deselected": 43,
+      "elapsed_seconds": 1.64
+    },
+    "presentation_probe": {
+      "command": "node outputs/stratai-c4-root-cause-20261010/validator/probe_ui_text.mjs",
+      "exit_code": 0
+    },
+    "source_preservation": "4 sealed input/trace/result files and 6 cited current sources hashed before/after offline reproduction; no differences.",
+    "network_calls": 0,
+    "models_called": 0
+  },
+  "preservation": {
+    "sealed_phase_artifacts": [
+      {
+        "directory": "stratai-c4-repair-20261009",
+        "files": 456,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-zones-20261009",
+        "files": 380,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-round-context-20261010",
+        "files": 180,
+        "changed": 0
+      },
+      {
+        "directory": "stratai-replay-events-20261010",
+        "files": 498,
+        "changed": 0
+      }
+    ],
+    "sealed_total": 1514,
+    "historical_non_dependency_files": 222,
+    "original_readings": 10,
+    "human_notes_sha256": "f34a3094c70cfbc8a34d3d27c979760352c81eec76bbdf6900380ccb586fe617",
+    "source_check": {
+      "files": 20,
+      "all_unchanged": true,
+      "hashes": {
+        "backend/go-service/handlers/replay.go": "bf202ad82cde359b46e5100c273fd379c5f33cad857da69b64eee74155b6bdb9",
+        "backend/go-service/handlers/bomb.go": "f513684a738ee5fce4e95d0392f5c2f54bf0233f4e1799d8f938d343db43e14f",
+        "backend/go-service/handlers/objective_helpers.go": "2d44e04a7bc3aa1eb98c4ad7ecf8d309fbde1315a694cc0dd5805050d096829e",
+        "backend/go-service/handlers/tracking.go": "46456239d531ac17d20333b360b1df08561f78a450eb27d37692a6c9c467465b",
+        "backend/go-service/pkg/objective/tracker.go": "2e01e8af4fd55e030ca31f11bbb16ce4dcd12332c83e0b6b6062d28c89b559ee",
+        "frontend/src/features/replay2d/domain/replayModel.js": "809b8fe9c5ed108131ca6aad381075870f79fe68bdc11e70c43826f76f871243",
+        "frontend/src/features/replay2d/domain/replayObjectiveProjection.js": "26862bf264be870dae469fbbc92da74e7aeff5515a97e5ca263f1eef2d46d899",
+        "frontend/src/features/replay2d/domain/teamReplayProjection.js": "cdf343ca5227a94266bbfb2f64cee6d41090677e0598f8321f825d02f0c8d357",
+        "ai_coach/interpretation/replay_reading_context.py": "a9101084cb62157080032c03840dba3bb543b4977423955a669a2896de26dc4d",
+        "ai_coach/interpretation/context_comparison.py": "84188415fff50f7203e9b0807d75f92f5f92bd4ab6b070cbd8732d77137cd345",
+        "outputs/stratai-replay-events-20261010/smoke_producer.go": "e9507037af985cffc2c08e286fdb7324462b60b30da06388e7ade24e02c2b15e",
+        "outputs/stratai-replay-events-20261010/package_data.mjs": "a57d2df0439a658931861e28b4bb915176ff18e96a1acbe487ae60a2fe140c92",
+        "outputs/stratai-replay-events-20261010/inputs/N01.json": "184a7f687dfa5f637e5417222e692d2f4974b63e929293c853522bc640c1da6b",
+        "outputs/stratai-replay-events-20261010/inputs/N01-initial-view.json": "5da667568e490f11541635427b470356798d869c166820a708a2ee345038003f",
+        "outputs/stratai-replay-events-20261010/paired-readings/N01.json": "91234a44d63352a7380d80649bbec2f178bd67af043ac202ba31e7521b17805e",
+        "outputs/stratai-replay-events-20261010/paired-readings/N01.trace.jsonl": "53447dc7d4be88d79c1ad6da621bf1219321d1b74542439e4d068cb86db3332b",
+        "ai_coach/interpretation/context_comparison_ollama.py": "3d07d30b187eb04fbfcb881108d87147600f8bf5f36427a57c67e871ff10da7a",
+        "ai_coach/tests/test_context_comparison.py": "d7696c8b52844828796f316f4fddce511cab1aa47f56e2da7fb6e31fcd4a419c",
+        "frontend/src/features/replay2d/components/ReplayCoachReading.jsx": "e52c4e1a7801af92bfcdcee8bd6bd5f94eb983e672c5f8cdeda6891769044d68",
+        "frontend/src/features/replay2d/domain/replayPlayerLabels.js": "ec9310ae82f0bf35284b1b104d8123daac4946043f1942ebf36a5212d45fc1a0"
+      }
+    }
+  },
+  "production_changes": false,
+  "runtime_contract_changes": false,
+  "new_phase_started": false,
+  "workbook_changed": false,
+  "training_allowed": false,
+  "product_supported": false,
+  "report": "outputs/stratai-c4-root-cause-20261010/RESULTADO.md",
+  "report_sha256": "924367bf0eafced08ac2f060046071953b6df283a6aae5feb2c5d4f7232d9045",
+  "commands": [
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py prepare",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py A_exact_request",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py B_allow_delivered_start_citations",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py C_omit_start_boundary_only",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py D_same_full_input_c4_extraction",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py E_omit_only_initial_p07_weapons",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/audit_requests.py prepare_inventory_ablation (before E)",
+    ".\\backend\\venv\\Scripts\\python.exe outputs/stratai-c4-root-cause-20261010/verify_experiments.py",
+    "npm run test:python -- outputs/stratai-c4-root-cause-20261010/validator/reproduce_validator_gap.py -k validator_guard -p no:cacheprovider",
+    "node outputs/stratai-c4-root-cause-20261010/validator/probe_ui_text.mjs"
+  ],
+  "limitations": [
+    "Retained captures, not a fresh parse or audit of every native unsampled tick or another match.",
+    "One model call per variant; no general quality or statistical reliability claim.",
+    "C/E are diagnostic ablations with other errors, never substitute repaired production outputs.",
+    "Three expected red guards demonstrate missing guarantees; no production fix or green closure claimed.",
+    "Presentation function exercised; no new browser QA."
+  ]
+}

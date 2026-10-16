@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.exposure_angle_map_package@1",
+  "title": "Versioned map exposure-angle package",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id", "contract_version", "asset_version", "map_id",
+    "geometry_revision", "coordinates", "angular_convention", "resolution",
+    "bounds", "geometry_provenance", "geometry_samples", "coverage",
+    "geometry_validation", "tactical_review", "tactical_annotations", "limitations"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.exposure_angle_map_package@1"},
+    "contract_version": {"const": "1.0.0"},
+    "asset_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+    "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+    "geometry_revision": {"$ref": "#/$defs/sha256"},
+    "coordinates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["system", "units", "axis_convention", "origin_description"],
+      "properties": {
+        "system": {"const": "source2_world"},
+        "units": {"const": "source2_world_units"},
+        "axis_convention": {"const": "right_handed_z_up_x_forward_y_left"},
+        "origin_description": {"type": "string", "minLength": 1}
+      }
+    },
+    "angular_convention": {
+      "type": "object", "additionalProperties": false,
+      "required": ["units", "zero_direction", "positive_direction", "normalization", "interval", "sector_encoding"],
+      "properties": {
+        "units": {"const": "degrees"},
+        "zero_direction": {"const": "+x"},
+        "positive_direction": {"const": "counter_clockwise_toward_+y"},
+        "normalization": {"const": "[0,360)"},
+        "interval": {"const": "start_inclusive_end_exclusive"},
+        "sector_encoding": {"const": "normalized_start_plus_width"}
+      }
+    },
+    "resolution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["azimuth_step_degrees", "maximum_ray_distance", "minimum_clearance_distance", "sampling_height_units"],
+      "properties": {
+        "azimuth_step_degrees": {"type": "number", "exclusiveMinimum": 0, "maximum": 360},
+        "maximum_ray_distance": {"type": "number", "exclusiveMinimum": 0},
+        "minimum_clearance_distance": {"type": "number", "exclusiveMinimum": 0},
+        "sampling_height_units": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "bounds": {"$ref": "#/$defs/bounds"},
+    "geometry_provenance": {
+      "type": "array", "minItems": 2, "items": {"$ref": "#/$defs/source_asset"}
+    },
+    "geometry_samples": {
+      "type": "array", "minItems": 1, "items": {"$ref": "#/$defs/geometry_sample"}
+    },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["declaration", "full_map_coverage", "sample_count", "sector_count"],
+      "properties": {
+        "declaration": {"const": "partial_reference_samples"},
+        "full_map_coverage": {"const": false},
+        "sample_count": {"type": "integer", "minimum": 1},
+        "sector_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "geometry_validation": {"$ref": "#/$defs/review"},
+    "tactical_review": {"$ref": "#/$defs/review"},
+    "tactical_annotations": {
+      "type": "array", "items": {"$ref": "#/$defs/tactical_annotation"}
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullable_string": {"type": ["string", "null"]},
+    "vector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+    },
+    "bounds": {
+      "type": "object", "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {"min": {"$ref": "#/$defs/vector"}, "max": {"$ref": "#/$defs/vector"}}
+    },
+    "source_asset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "reference", "sha256"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "reference": {"type": "string", "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "ray": {
+      "type": "object", "additionalProperties": false,
+      "required": ["azimuth_degrees", "hit_distance_units", "clearance_met"],
+      "properties": {
+        "azimuth_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "hit_distance_units": {"type": ["number", "null"], "minimum": 0},
+        "clearance_met": {"type": "boolean"}
+      }
+    },
+    "sector": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "start_degrees", "width_degrees"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sample-[0-9]{3}/sector-[0-9]{3}$"},
+        "start_degrees": {"type": "number", "minimum": 0, "exclusiveMaximum": 360},
+        "width_degrees": {"type": "number", "exclusiveMinimum": 0, "maximum": 360}
+      }
+    },
+    "geometry_sample": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "alias", "origin_world", "selection_radius_units", "vertical_tolerance_units", "origin_provenance", "rays", "geometry_sectors"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sample-[0-9]{3}$"},
+        "alias": {"type": "string", "minLength": 1},
+        "origin_world": {"$ref": "#/$defs/vector"},
+        "selection_radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_tolerance_units": {"type": "number", "exclusiveMinimum": 0},
+        "origin_provenance": {
+          "type": "object", "additionalProperties": false,
+          "required": ["source_role", "source_reference", "source_coordinate", "interpretation"],
+          "properties": {
+            "source_role": {"type": "string", "minLength": 1},
+            "source_reference": {"type": "string", "minLength": 1},
+            "source_coordinate": {"type": "string", "minLength": 1},
+            "interpretation": {"type": "string", "minLength": 1}
+          }
+        },
+        "rays": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/ray"}},
+        "geometry_sectors": {"type": "array", "items": {"$ref": "#/$defs/sector"}}
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "author_id", "reviewer_id", "evidence"],
+      "properties": {
+        "status": {"enum": ["pending_review", "approved"]},
+        "author_id": {"$ref": "#/$defs/nullable_string"},
+        "reviewer_id": {"$ref": "#/$defs/nullable_string"},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "tactical_annotation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "geometry_sector_ref", "classification", "provenance", "evidence", "author_id", "reviewer_id", "review_status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^annotation-[0-9]{3}$"},
+        "geometry_sector_ref": {"type": "string", "pattern": "^sample-[0-9]{3}/sector-[0-9]{3}$"},
+        "classification": {"$ref": "#/$defs/nullable_string"},
+        "provenance": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "author_id": {"$ref": "#/$defs/nullable_string"},
+        "reviewer_id": {"$ref": "#/$defs/nullable_string"},
+        "review_status": {"enum": ["pending_review", "approved"]}
+      }
+    }
+  }
+}

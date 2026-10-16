@@ -1,0 +1,373 @@
+{
+  "id": "ICT-ENTRY-SUPPORT-RUBRIC-D1",
+  "date": "2026-09-17",
+  "kind": "documentary_rubric_preparation",
+  "status": "prepared_and_documentarily_reviewed",
+  "user_request_verbatim": "Vamos a ello",
+  "rubric": {
+    "path": "docs/AI_COACH_ENTRY_SUPPORT_REVIEW_RUBRIC.md",
+    "version": "0.1",
+    "author": "agent",
+    "human_approval_of_all_proposals": false,
+    "criteria": [
+      {
+        "id": "R1",
+        "title": "Interpretar el plan que se está construyendo"
+      },
+      {
+        "id": "R2",
+        "title": "Reconocer avance, control y continuidad"
+      },
+      {
+        "id": "R3",
+        "title": "Relacionar funciones, equipamiento y C4"
+      },
+      {
+        "id": "R4",
+        "title": "Respetar la información disponible"
+      },
+      {
+        "id": "R5",
+        "title": "Comprobar qué apoyo era posible"
+      },
+      {
+        "id": "R6",
+        "title": "Valorar utilidad y coordinación"
+      },
+      {
+        "id": "R7",
+        "title": "Decidir si existe una corrección justificable"
+      },
+      {
+        "id": "R8",
+        "title": "Convertir una mejora respaldada en aprendizaje"
+      }
+    ],
+    "traceability_to_Q1": {
+      "R1": [
+        1,
+        2,
+        3,
+        35
+      ],
+      "R2": [
+        1,
+        4
+      ],
+      "R3": [
+        5,
+        6
+      ],
+      "R4": [
+        7,
+        10,
+        11,
+        12,
+        14
+      ],
+      "R5": [
+        5,
+        6,
+        7,
+        8,
+        14
+      ],
+      "R6": [
+        7,
+        8,
+        17,
+        18,
+        19,
+        20
+      ],
+      "R7": [
+        8,
+        14,
+        29,
+        33,
+        34,
+        35
+      ],
+      "R8": [
+        29,
+        30,
+        31,
+        32,
+        35
+      ]
+    },
+    "capability_ids": [
+      "CAP-ENTRY-001",
+      "CAP-TEAM-001"
+    ]
+  },
+  "case_application": {
+    "case": "F01-K1",
+    "version": "0.2",
+    "cut": {
+      "round": 1,
+      "tick": 8524,
+      "frame": 8542,
+      "source_sequence": 1389,
+      "instance": 2,
+      "epoch": 0,
+      "own_side": "T",
+      "perspective": "retrospective own-team descriptive state; rival legal contact not reconstructed",
+      "native_seconds_remaining": 103,
+      "seconds_since_freeze_end": 12,
+      "score_before": [
+        0,
+        0
+      ],
+      "alive": {
+        "T": 5,
+        "CT": 5
+      }
+    },
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_demo_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "source_validation": "Previously retained preparation and expert receipt; no fresh parsing or factual derivation.",
+    "expert_reading": {
+      "players_identifiable": true,
+      "presentation_better": true,
+      "plan": "entrar en B",
+      "explicit_signal": "se estan dirigiendo a B",
+      "T5": "encargado de lanzar la utilidad del equipo",
+      "remaining_group": "entrar, cubriendo a T4",
+      "T4": "portador de la bomba",
+      "additional_missing_information": "not separately enumerated; no exhaustive absence claim"
+    },
+    "interpretation_reasked": false,
+    "prescriptive_error_accredited": false,
+    "physically_viable_better_alternative_accredited": false,
+    "corrective_mission_assigned": false
+  },
+  "temporal_followup": {
+    "K2_prepared": false,
+    "reason_not_needed_now": "K1 suffices to demonstrate fact/interpretation/prescriptive abstention in this documentary rubric.",
+    "reason_for_next_step": "A second causally bounded cut is needed to review how interpretation changes after a new relevant fact.",
+    "next_action": "Prepare only F01-K2 from first relevant supported change in same round and aliases, without outcome selection."
+  },
+  "specified_future_tests": [
+    {
+      "id": "V01",
+      "risk": "Añadir o cambiar desenlace posterior a un corte congelado.",
+      "expected_behavior": "La lectura del prefijo y su evidencia no cambian por ese futuro.",
+      "criteria": "R1, R4",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V02",
+      "risk": "Añadir información nueva disponible en el siguiente corte.",
+      "expected_behavior": "La lectura puede cambiar; se explica el hecho nuevo sin reescribir la anterior.",
+      "criteria": "R1, R2",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V03",
+      "risk": "Mantener separación de T5 pero variar contexto de utilidad/función.",
+      "expected_behavior": "No asignar lurker, abandono o error sólo por estar separado. Una nueva lectura requiere señales.",
+      "criteria": "R3, R7",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V04",
+      "risk": "Retirar traza de comunicación o contacto.",
+      "expected_behavior": "Conocimiento/comunicación quedan desconocidos, sin inventar silencio ni información exclusiva.",
+      "criteria": "R4",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V05",
+      "risk": "Mostrar cercanía, orientación o NAV sin prueba física suficiente.",
+      "expected_behavior": "No afirmar cobertura, trade o ruta viable.",
+      "criteria": "R5",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V06",
+      "risk": "Proponer flash posterior al asomo con efecto aliado no acreditado.",
+      "expected_behavior": "No dar veredicto por reloj solo; conservar la dependencia del efecto.",
+      "criteria": "R6",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V07",
+      "risk": "Variar posición/efecto acreditado de una flash manteniendo el mismo timing.",
+      "expected_behavior": "La valoración del efecto puede cambiar, con fuente explícita; victoria no suple causalidad.",
+      "criteria": "R6, R7",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V08",
+      "risk": "Mostrar dos humos o granadas del mismo tipo.",
+      "expected_behavior": "Examinar espacio, solapamiento temporal y función antes de declarar redundancia.",
+      "criteria": "R6",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V09",
+      "risk": "Mantener decisión/prefijo y cambiar victoria por derrota.",
+      "expected_behavior": "No convertir el resultado aislado en error o acierto; ejecución se evalúa aparte.",
+      "criteria": "R7",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V10",
+      "risk": "Proponer una alternativa sin lugar, tiempo, viabilidad o soporte.",
+      "expected_behavior": "No publicar corrección; conservar la causa concreta de abstención.",
+      "criteria": "R5, R7",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V11",
+      "risk": "Introducir hueco temporal, cambio de vida/identidad o perspectiva.",
+      "expected_behavior": "No coser una transición como continua; localizar la carencia sin borrar hechos independientes.",
+      "criteria": "R2, R4",
+      "execution_status": "specified_not_executed"
+    },
+    {
+      "id": "V12",
+      "risk": "No encontrar oportunidades de aplicar una misión o sólo registrar que se completó.",
+      "expected_behavior": "«Sin oportunidad» o «práctica completada», sin inventar fracaso, dominio o eficacia causal.",
+      "criteria": "R8",
+      "execution_status": "specified_not_executed"
+    }
+  ],
+  "model_tests_executed": 0,
+  "real_cases_newly_extracted": 0,
+  "explanation_and_mission_format_prepared": true,
+  "verification": {
+    "protected_files_unchanged": 68,
+    "protected_inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-entry-support-rubric-53b1d436434943a1bf988d8176e66485\\protected.json",
+    "prior_workbooks_unchanged": [
+      {
+        "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+        "sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c"
+      },
+      {
+        "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx",
+        "sha256": "d7ac32d3fecd8229b60fcec6a6090f24708452b81d5bf4d74e2ada95fed925d7"
+      },
+      {
+        "path": "outputs/stratai-q1-feedback-20260917-df08ccc/StratAI_Plan_del_coach_Q1_v4.xlsx",
+        "sha256": "3efed696d72d2fa81b247f8dd38d61184f80d69e9b57ac8620fc539f0cafca14"
+      }
+    ],
+    "capability_ids_valid": [
+      "CAP-ENTRY-001",
+      "CAP-TEAM-001"
+    ],
+    "criteria_count": 8,
+    "future_test_specifications": 12,
+    "Q1_answers_preserved": 36,
+    "Q1_clarifications_preserved": 3,
+    "K1_metadata_matches_retained_evidence": true,
+    "local_links_resolved": 243,
+    "single_prompt": "AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+    "whitespace_checks": [
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "path": "docs/README.md",
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "independent_reviews": [
+      {
+        "agent": "review_tactical_design",
+        "scope": "K1 facts, human interpretation, physical/prescriptive limits and necessity of K2",
+        "result": "K1 sufficient for rubric; no support or correction claim accredited."
+      },
+      {
+        "agent": "review_expert_feedback",
+        "scope": "Rubric consistency against Q1/product, universal-rule risk, future-test status and case claims",
+        "result": "No substantive defects or mandatory changes."
+      }
+    ]
+  },
+  "validation_limits": [
+    "Documentary consistency review, not model or tactical accuracy measurement",
+    "F01 and Q1 remain open development material",
+    "No independently evaluated recommendation or learning effect"
+  ],
+  "functional_suites": {
+    "status": "not_applicable",
+    "reason": "Documentation only; no code, producer, schema, runtime or derived-fact change"
+  },
+  "one_demo_smoke": {
+    "status": "not_applicable",
+    "reason": "No producer executed or changed; prior smoke is not counted as new validation"
+  },
+  "conserved_gates": {
+    "S2_S3": "open",
+    "eligible_capabilities": 0,
+    "training_allowed": false,
+    "previous_hypothesis_ratings_pending": 18
+  },
+  "source_references": [
+    {
+      "path": "docs/evidence/AI_COACH_F01_K1_REVIEW_PREPARATION_2026-09-17.json",
+      "sha256": "de8fdf8dd5eb3824cf77d7b0f71c734061f53fbd15f5b6b101ad4856ba21b764"
+    },
+    {
+      "path": "docs/evidence/AI_COACH_F01_K1_EXPERT_REVIEW_2026-09-17.json",
+      "sha256": "b9951a6ef7a0ad958a783cadbebc31db557502908cc5b4ba8515ddd9966c464f"
+    },
+    {
+      "path": "docs/evidence/AI_COACH_Q1_EXPERT_RESPONSES_2026-09-17.json",
+      "sha256": "be08035b548b5f6d11a948feacb4ae3bbb43c186ef8e6a4b76875f9c556e483a"
+    },
+    {
+      "path": "docs/AI_COACH_PRODUCT_DEFINITION.md",
+      "sha256": "540d0fa12c653aaf1982c9445234a41a0ab3152567b8d0997706e50085f2d711"
+    },
+    {
+      "path": "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "sha256": "4c44b8e6b0d8e9e6d59d72d4edf8712c53dd128ed68e94f17810e779c20fa75a"
+    },
+    {
+      "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "sha256": "e07affd7b985ff63e7af5d4e7e6c544cce6e9068435f859e237eeb3b3a07b45a"
+    },
+    {
+      "path": "docs/AI_COACH_SUPPORT_C0_DEPENDENCIES.md",
+      "sha256": "643283870d46c44787faf9c1e5a68bc834012188d6b29df8a171364ca4141233"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/AI_COACH_ENTRY_SUPPORT_REVIEW_RUBRIC.md",
+      "sha256": "7d3708374c4f8c63b7e6da7584bc17e72594359c6424bd9a9f9e85ccba706c4d"
+    },
+    {
+      "path": "docs/archive/ai-coach/AI_COACH_ENTRY_SUPPORT_RUBRIC_PHASE_2026-09-17.md",
+      "sha256": "f8aa785318a37bf994ba028cdfe5041e04f90a475b8c23ea966223a11c217982"
+    },
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "d08fa953a94d2e0a59fa738a95641e3d55aa8e6abd4942348466b9b9d15fa775"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "eadce1b9602d60c89a2196875bbaed2cff4b0807798e17b8d2809a5dbe5cd867"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "a93cbc2d0e5f9f842540ac5f5130a7363324d561147dce5551400bd224818f9d"
+    }
+  ],
+  "retained_temp": "C:/Users/kerch/AppData/Local/Temp/stratai-entry-support-rubric-53b1d436434943a1bf988d8176e66485"
+}

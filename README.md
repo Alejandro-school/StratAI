@@ -1,6 +1,8 @@
 # StratAI
 
-StratAI es una plataforma de análisis y coaching para partidas de Counter-Strike 2. Convierte demos de Steam en estadísticas, repeticiones 2D y recomendaciones tácticas.
+StratAI analiza partidas de Counter-Strike 2 a partir de demos de Steam y presenta estadísticas y repeticiones 2D. El AI Coach desarrolla el ciclo de análisis, prioridades y práctica; su alcance demostrado y siguiente paso se consultan en el [plan canónico](docs/AI_COACH_IMPLEMENTATION_PLAN.md).
+
+Si te incorporas al proyecto, empieza por la [guía de incorporación](docs/getting-started.md).
 
 ## Mapa rápido
 
@@ -26,8 +28,10 @@ Analizador de demos (Go) :8080 ───────┘
 | `backend/app/` | API pública FastAPI, autenticación y agregación de datos. |
 | `backend/node-service/` | Integración con Steam, descargas y orquestación del pipeline. |
 | `backend/go-service/` | Análisis de demos y generación de datos de partida. |
+| `ai_coach/` | Motor Python del coach: contratos, contextos, interpretación y validación. |
 | `backend/tests/` | Pruebas de la API FastAPI. |
-| `docs/` | Guías operativas y documentación transversal. |
+| `docs/` | Producto, plan, diseño, contratos, operación e histórico. |
+| `outputs/` | Entregables y evidencia fechada; no es una aplicación. |
 | `.github/` y `.agents/` | Automatización y configuración de asistentes; no contienen lógica del producto. |
 
 Consulta [la guía de estructura](docs/repository-structure.md) para saber dónde realizar cada tipo de cambio.
@@ -42,9 +46,9 @@ Consulta [la guía de estructura](docs/repository-structure.md) para saber dónd
 
 ## Requisitos
 
-- Node.js 20.19 o superior.
+- Node.js 24 LTS (versión fijada en `.nvmrc`).
 - Python 3.11 o 3.12.
-- Go 1.23.4.
+- Go 1.26.9 o posterior compatible, conforme a `backend/go-service/go.mod`.
 - Redis.
 
 ## Preparación local
@@ -61,7 +65,8 @@ Prepara Python:
 
 ```powershell
 python -m venv backend/venv
-backend\venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
+backend\venv\Scripts\python.exe -m pip install --upgrade pip==26.2.1
+backend\venv\Scripts\python.exe -m pip install --require-hashes -r backend/requirements-dev.txt
 Copy-Item backend/.env.example backend/.env
 ```
 
@@ -85,6 +90,17 @@ Inicia Redis y ejecuta desde la raíz:
 ```powershell
 npm run start:all
 ```
+
+`start:all` comprueba la configuración compartida y la conexión con Redis antes
+de iniciar FastAPI, Node, Go y el frontend. Si un servicio termina, cierra los
+demás para evitar un arranque parcial. No hay un modo de interfaz que omita la
+validación de Steam. Puedes ejecutar la comprobación por separado con
+`npm run check:services`.
+
+El usuario inicia sesión con Steam y conecta los códigos de su historial una
+vez. Se importa la partida introducida, después de validar el acceso con Steam,
+y se buscan las posteriores automáticamente. La cuenta técnica de Steam es
+interna; no hay que agregarla como amigo. Consulta el [flujo de demos](backend/README.md#acceso-al-historial-y-descarga-de-demos).
 
 | Servicio | Dirección | Arranque individual |
 | --- | --- | --- |
@@ -111,72 +127,32 @@ npm run test:go
 npm run test:python
 npm run lint:python
 npm run build:frontend
+npm run check:docs
 ```
 
-GitHub Actions ejecuta pruebas para React, Python, Node.js y Go.
+GitHub Actions ejecuta pruebas para React, Python, Node.js y Go, análisis de dependencias y detección de secretos. Consulta la [configuración de seguridad y despliegue](docs/operations/security-hardening-2026-10-15.md).
 
-### Export canónico y republicación
+## Documentación por responsabilidad
 
-El contrato de datos vigente es parser `v16`, export `3.8.0`, quality schema
-`12` y manifest `stratai.canonical_manifest@3`. La publicación se valida en
-staging y se confirma de forma compensable entre filesystem y Redis.
+| Para qué | Entrada |
+|---|---|
+| Entender el repositorio y ubicar un cambio | [Mapa del proyecto](docs/repository-structure.md) |
+| Trabajar en la interfaz | [Frontend](frontend/README.md) |
+| Trabajar en API, Steam o parsing | [Backend y servicios](backend/README.md) |
+| Trabajar en contextos e interpretación | [Motor AI Coach](ai_coach/README.md) |
+| Consultar producto, diseño y contratos | [Índice documental](docs/README.md) |
+| Validar o publicar datos | [Operación](docs/operations/README.md) |
+| Consultar revisiones y workbooks | [Entregables](outputs/README.md), referenciados desde el plan |
 
-Para republicar una demo, inicia Redis y el servicio Go con el mismo
-`INTERNAL_SERVICE_SECRET` de al menos 32 caracteres. Ejecuta primero el dry-run
-desde la raíz:
-
-```powershell
-backend\venv\Scripts\python.exe backend\go-service\scripts\reprocess_parallel.py `
-  --workers 1 `
-  --retries 2 `
-  --timeout 1500 `
-  --skip-aggregate-rebuild `
-  --match-id <match-id> `
-  --dry-run
-```
-
-Si el preflight pasa, repite el mismo comando sin `--dry-run`. El script
-verifica sidecars SHA-256, crea un backup fuera de `exports`, procesa de forma
-secuencial y se detiene en el primer fallo. Consulta el
-[runbook completo](docs/canonical-publication-rollback.md) antes de operar un
-lote.
-
-## Documentación
-
-- [Estructura y convenciones del repositorio](docs/repository-structure.md)
-- [Backend y responsabilidades de sus servicios](backend/README.md)
-- [Frontend](frontend/README.md)
-
-### AI Coach
-
-Estas son las fuentes activas. El plan de implementación es el único documento que indica el estado y la siguiente acción:
-
-Estado actual: Gate 1A cerrado, `training_allowed=false`. La fase vigente construye contratos y ejemplos estructurales de solo lectura; todavía no entrena modelos.
-
-- [Definición del producto AI Coach](docs/AI_COACH_PRODUCT_DEFINITION.md)
-- [Plan de implementación del AI Coach](docs/AI_COACH_IMPLEMENTATION_PLAN.md)
-- [Contrato humano de capacidades y datos](docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md)
-- [Catálogo máquina de capacidades](ai_coach/contracts/capability_catalog.json)
-
-Referencias necesarias para la implementación actual:
-
-- [Arquitectura de modelos](docs/AI_COACH_MODEL_ARCHITECTURE.md)
-- [Prompt vigente: contrato y constructor read-only de ejemplos](docs/prompts/AI_COACH_DECISION_DATASET_CONTRACT_PHASE_PROMPT.md)
-
-Las auditorías fechadas y las evidencias conservan la historia de cada gate. `docs/prompts/` contiene únicamente el prompt vigente; cada prompt ejecutado se elimina después de trasladar su resultado al plan y al informe de cierre.
-
-### Operación y contratos canónicos
-
-- [Despliegue progresivo del pipeline v2](docs/pipeline-v2-rollout.md)
-- [Contrato de export canónico 3.8](docs/canonical-export-schema-v3.8.md)
-- [Publicación y rollback](docs/canonical-publication-rollback.md)
-- [Corpus golden](docs/golden-corpus.md)
+`check:all` reúne las comprobaciones de frontend, backend Python, Node y Go. Las pruebas específicas del motor se ejecutan además según [ai_coach/README.md](ai_coach/README.md).
 
 ## Problemas habituales
 
 - Si FastAPI no arranca, revisa los secretos obligatorios de `backend/.env`.
-- Si no se detectan partidas, comprueba Redis, las credenciales de Steam y `STEAM_API_KEY`.
 - Si el frontend no conecta, revisa `VITE_API_URL`.
-- Si Go no puede procesar una demo, comprueba `GO_SERVICE_URL`, Redis y los permisos de `backend/data/`.
+- Si trabajas con demos, comprueba Redis, las credenciales de Steam, `STEAM_API_KEY`, `GO_SERVICE_URL` y los permisos de `backend/data/`.
+- Si Ubuntu se cierra al abrirse, consulta [Redis y WSL en Windows](backend/README.md#redis-y-wsl-en-windows). Un fallo de WSL impide arrancar Redis y el pipeline completo.
 
-Última revisión: 27 de agosto de 2026.
+Conserva los datos locales, las salidas retenidas y los cambios previos del directorio de trabajo. Las reglas de colaboración y verificación están en [AGENTS.md](AGENTS.md).
+
+Última revisión de estructura: 5 de octubre de 2026.

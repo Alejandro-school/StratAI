@@ -40,6 +40,11 @@ npm run go-service
 
 El servicio escucha en `http://localhost:8080` y requiere Redis. Sus endpoints de procesamiento están protegidos para comunicación interna.
 
+Comparte `REDIS_URL` con FastAPI y Node, incluidos autenticación, base de datos y
+TLS (`rediss://`). Si no existe esa variable, conserva la alternativa `REDIS_ADDR`.
+El servidor escucha en loopback por defecto; `GO_SERVICE_ADDR` permite configurar
+la dirección de despliegue.
+
 ## Pruebas
 
 ```powershell

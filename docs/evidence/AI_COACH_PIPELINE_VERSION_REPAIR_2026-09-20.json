@@ -1,0 +1,968 @@
+{
+  "phase": "AUD-F01",
+  "date": "2026-09-20",
+  "status": "repaired_and_verified_before_publication",
+  "report": {
+    "path": "docs/archive/ai-coach/AI_COACH_PIPELINE_VERSION_REPAIR_2026-09-20.md",
+    "bytes": 14824,
+    "sha256": "c6bc395a3833acabe84480a1c6ae87c7c933fc297470ea6fcd04457adb9a5a9d"
+  },
+  "next_action": {
+    "id": "AUD-C01",
+    "executed": false
+  },
+  "runtime_changes": [
+    {
+      "path": ".github/workflows/quality.yml",
+      "bytes": 2234,
+      "sha256": "fc6496b998466d2edd78c1d1ba5b86e3d1797404de2fe8d0161946d556730b6c"
+    },
+    {
+      "path": "backend/go-service/api/handlers.go",
+      "bytes": 24255,
+      "sha256": "80240fd74f29f77e75cf84f2f96971561b54c8e7af8cc4b892926c55e1940fdc"
+    },
+    {
+      "path": "backend/node-service/services/pipelineV2.js",
+      "bytes": 27751,
+      "sha256": "784490612315d02765a10b8ac42cd88164f12d07c7e769f94dac0cda5b8f7800"
+    },
+    {
+      "path": "backend/node-service/test/pipeline.integration.test.js",
+      "bytes": 9350,
+      "sha256": "35f97a899d617fde869958ff491722776ed461f24a274c6875ea3fa9df10ec84"
+    },
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 143496,
+      "sha256": "a9d9a2d3070c0d05f8e970f9135e34bba0bef8432e128b9f53bed5a5bcaacb75"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 4381,
+      "sha256": "28bff8495b8b60c22d7caa114322052e9d84faeabea68805a7de08cb3008d998"
+    }
+  ],
+  "new_tests_and_helpers": [
+    {
+      "path": "backend/node-service/test/pipeline.contract.test.js",
+      "bytes": 2748,
+      "sha256": "204bc0860629af7c922dd22f64379b4af7c6808094491e6e89da1714548a1ef6"
+    },
+    {
+      "path": "backend/node-service/test/helpers/pipelineHarness.js",
+      "bytes": 3219,
+      "sha256": "cfa2b9a153f0e7b24e6fb98162b8e083ba552977bc859cbe1eda692884d426d4"
+    },
+    {
+      "path": "backend/node-service/test/helpers/emitAnalysisRequest.js",
+      "bytes": 1416,
+      "sha256": "ea3c8a213c6a45022517f49c281720650670e059a4368b0f27a065fcefc99860"
+    },
+    {
+      "path": "backend/go-service/api/request_contract_test.go",
+      "bytes": 3104,
+      "sha256": "9cb3c746978224ca2dd348b09ff148157ad19994d3985534c4168be637e3cd0c"
+    },
+    {
+      "path": "backend/go-service/scripts/test_node_parser_contract.py",
+      "bytes": 1701,
+      "sha256": "bb6282f3c0b1e24d496ccbd1e4f71529df1055eaa4c8290a6b4b6be97d97fde7"
+    }
+  ],
+  "receipts": {
+    "build-smoke-r2": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/build-smoke-r2.json",
+        "bytes": 719,
+        "sha256": "1fbbc3b0414d55630e8c3b4a708c872c75f7f523d006144fed23f5cd1f637e48"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/build-smoke-r2.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 2.121
+    },
+    "build-smoke": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/build-smoke.json",
+        "bytes": 716,
+        "sha256": "8b0e85b64d9b4c95da7223ab722be8f7393705d51f0281b11f785dd1035df7f5"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/build-smoke.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "exit_code": 0,
+      "seconds": 2.975
+    },
+    "check-all-final": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/check-all-final.json",
+        "bytes": 511,
+        "sha256": "7a78e3e84bdaabf54af66367619edfd514a5015a41166fdb3c3e46e9a109eb5f"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/check-all-final.log",
+        "bytes": 13005,
+        "sha256": "503e4a125c612fee39c37eceaff4e67ad2b390af5649ad1261fa9d42226c0948"
+      },
+      "exit_code": 0,
+      "seconds": 22.036
+    },
+    "check-all": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/check-all.json",
+        "bytes": 505,
+        "sha256": "48bf413ee435f83f62560e17c2f33ee28951e6e9b56312f6a286ff638a28003d"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/check-all.log",
+        "bytes": 13366,
+        "sha256": "0879dab4eff4d6c37b9e276f1e598cf2602d6d44954aadbf8b5dd46df20d3455"
+      },
+      "exit_code": 0,
+      "seconds": 108.48
+    },
+    "contract": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/contract.json",
+        "bytes": 578,
+        "sha256": "9378aae6d564a322ef8a90f47f1aab2e72e2edd123c7ce697a82af379ffb659d"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/contract.log",
+        "bytes": 222,
+        "sha256": "c6cd66f0bd7977ff32251e87570453442348a2dbcfa118d4e50f9d83a185cbf3"
+      },
+      "exit_code": 0,
+      "seconds": 5.54
+    },
+    "go-contract-after": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/go-contract-after.json",
+        "bytes": 545,
+        "sha256": "70be733b6901217869eb534020c02641fde05ed18c50bb5d2bd70db8debb6c0a"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/go-contract-after.log",
+        "bytes": 33,
+        "sha256": "703d1094138581323406cc3cf47d43ea1a7fcd7e3a1b7d30368a82c190d53123"
+      },
+      "exit_code": 0,
+      "seconds": 2.966
+    },
+    "go-contract-before": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/go-contract-before.json",
+        "bytes": 547,
+        "sha256": "fbbf0df3844cb6efacc7af0f5553c43ac997dc7b17f3ced4f28757c1046dbf0a"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/go-contract-before.log",
+        "bytes": 542,
+        "sha256": "1f52346b572131f66f6c6aed398d6da8d7e53c6b0770a3b23a7b696ea33b1c49"
+      },
+      "exit_code": 1,
+      "seconds": 15.795
+    },
+    "go-final": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/go-final.json",
+        "bytes": 501,
+        "sha256": "f492de3239be9223bcd9de66df04493d5bb20c08e79576e2028113b6d0e85dd3"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/go-final.log",
+        "bytes": 1431,
+        "sha256": "d2c22224e0ff1e7069880b499376dd47b57164022b538c9a5d446ce0ac934d4f"
+      },
+      "exit_code": 0,
+      "seconds": 8.544
+    },
+    "independent-verification": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/independent-verification.json",
+        "bytes": 651,
+        "sha256": "6ad562528f9c6c6606e75533b78d7927b92d8f13fb50f422691cf56dff5350e0"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/independent-verification.log",
+        "bytes": 1217,
+        "sha256": "2d38273793cd8b3c5e5162073192e90ee7146efec6e3fe2a1c3dbf4e107d2576"
+      },
+      "exit_code": 0,
+      "seconds": 1.612
+    },
+    "new-python-lint": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/new-python-lint.json",
+        "bytes": 632,
+        "sha256": "5ad98aa3a36ff1b44895a9ebc7019eaa3ae5878485e4eb1868edb1a6c22a5965"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/new-python-lint.log",
+        "bytes": 74,
+        "sha256": "a49ed77daff176c882080e57ee654d8b3fae7dda54c72d19b079a5c9432fd0a2"
+      },
+      "exit_code": 0,
+      "seconds": 0.346
+    },
+    "node-contract-after": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-contract-after.json",
+        "bytes": 522,
+        "sha256": "27f45823719f6097a13456b2fba03d0a1460b8e7b25244cc1b74dba8810b87ec"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-contract-after.log",
+        "bytes": 368,
+        "sha256": "8ab3539c58513db2f1e7988fde2419e337bb2c90bcfeb4330b6e65b498f4248b"
+      },
+      "exit_code": 0,
+      "seconds": 0.316
+    },
+    "node-contract-before": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-contract-before.json",
+        "bytes": 523,
+        "sha256": "c75fa8d1bc8702dadc8a6c53ce9866ab9729d5267a774683769d6effed3b9472"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-contract-before.log",
+        "bytes": 2660,
+        "sha256": "96e0938ff959c46f415acd8f5368e670b58719fde8fc7b622534eb375637f7de"
+      },
+      "exit_code": 1,
+      "seconds": 0.441
+    },
+    "node-stale-after": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-stale-after.json",
+        "bytes": 519,
+        "sha256": "2d7bb4bb88de218c79265da554f2938e09776166632a389e87270f77df03dde5"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-stale-after.log",
+        "bytes": 461,
+        "sha256": "3754203723adc63941dcdec02583b89faaaf457ff815948d6b1fe50c8322456d"
+      },
+      "exit_code": 0,
+      "seconds": 0.344
+    },
+    "node-stale-before": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-stale-before.json",
+        "bytes": 519,
+        "sha256": "59e019b20f02b961115a1ab5193fba64feb4c420518f090290311ca9f4a97045"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/node-stale-before.log",
+        "bytes": 1533,
+        "sha256": "0038060940ce45dbbe1621853edb62fe4d88df2973f2c14623907cf62dd20cdf"
+      },
+      "exit_code": 1,
+      "seconds": 0.34
+    },
+    "python-node-contract-final": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/python-node-contract-final.json",
+        "bytes": 642,
+        "sha256": "2df0435e3a92240cec9a2d5da0995a5ac833ca613982468491af84389e367499"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/python-node-contract-final.log",
+        "bytes": 155,
+        "sha256": "2a684f3fdf5a1adc9f5de06fae8bd10b47afcfb34b5a888d17fd543199c5575b"
+      },
+      "exit_code": 0,
+      "seconds": 0.932
+    },
+    "python-node-contract": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/python-node-contract.json",
+        "bytes": 635,
+        "sha256": "25e8ff650ada09cbde704516a3ed561367dc119da49aa2c81ab777dd3a12046f"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/python-node-contract.log",
+        "bytes": 155,
+        "sha256": "37f82dc3c137613c0aa676ff1cf7f356768f6c037bb8fe261d3d062a74dc04f1"
+      },
+      "exit_code": 0,
+      "seconds": 5.27
+    },
+    "real-api-smoke-r2": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/real-api-smoke-r2.json",
+        "bytes": 664,
+        "sha256": "9450119c6a61203b4c86b785a811264cf55293db811a90caf015f5a84e4b896a"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/real-api-smoke-r2.log",
+        "bytes": 7483,
+        "sha256": "923c000e9b6901f4ed084e210c66ba849b914d1db81195ee1eb4903281ebf7b8"
+      },
+      "exit_code": 0,
+      "seconds": 433.506
+    },
+    "real-api-smoke": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/real-api-smoke.json",
+        "bytes": 661,
+        "sha256": "6b6ced537b600bf5bfa85e261ef6554856e231fe23986b00b21cea0479f97e41"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/real-api-smoke.log",
+        "bytes": 7483,
+        "sha256": "44aa27744f7c000d19fa3185c80a5061308def658bac2ced220c14d60a77ed4d"
+      },
+      "exit_code": 0,
+      "seconds": 426.693
+    },
+    "scripts-tests-final": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/scripts-tests-final.json",
+        "bytes": 607,
+        "sha256": "697af9a055ddcefe8a58f5c86b2e91351c3bf426ebae416fa9654baa32ecdc8e"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/scripts-tests-final.log",
+        "bytes": 320,
+        "sha256": "a1af52d82e7793672a3bcc580211d1283f58bd60cf65e4a7f19bb7b2a949dcff"
+      },
+      "exit_code": 0,
+      "seconds": 26.774
+    },
+    "scripts-tests": {
+      "receipt": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/scripts-tests.json",
+        "bytes": 601,
+        "sha256": "d94bc6b1d8439c3c53fa1b634602d4dbbc421d437e1d692096172aafbb0bffcc"
+      },
+      "log": {
+        "path": "outputs/stratai-aud-f01-repair-20260920/scripts-tests.log",
+        "bytes": 320,
+        "sha256": "77c7010762d252132feb2b37582044f20624ad7472b52facb55acef2ba3361df"
+      },
+      "exit_code": 0,
+      "seconds": 26.973
+    }
+  },
+  "smoke": {
+    "bundle": "..\\data\\exports\\.tmp\\demo-a11eb0d600ee702c9edb-2326543019\\match_demo-a11eb0d600ee702c9edb",
+    "distinct_demos": 1,
+    "http_status_at_intentional_barrier": 422,
+    "obsolete_version_http_status": 422,
+    "ok": true,
+    "omitted_version_cancellation_status": 408,
+    "parse_calls": 1,
+    "parser_schema_version": "v16",
+    "published": false,
+    "redis_calls": [
+      "set",
+      "eval"
+    ],
+    "redis_real": false,
+    "retained": true,
+    "root_artifacts": 73,
+    "scope": "Real Node payload, Go HandleProcessDemo, parser/export/root manifest and Python validator. Redis and HTTP transport isolated; retention-only overlay; stop before publication.",
+    "seconds": 433.1927674,
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "validator": {
+      "status": "passed",
+      "validator_version": "stratai.canonical_validator@2",
+      "failure_type": null,
+      "errors": [],
+      "warnings": [
+        "causal_availability",
+        "combat_consistency",
+        "corpus_quality",
+        "economy_consistency",
+        "engagement_consistency",
+        "lineage_completeness",
+        "utility_consistency"
+      ]
+    },
+    "validator_seconds": 332.1721952
+  },
+  "independent": {
+    "ok": true,
+    "seconds": 1.5,
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "root_artifacts_hashed": 73,
+    "canonical_artifacts_unchanged_from_audit": 72,
+    "root_version_equals_node_and_canonical": true,
+    "causal_rows_per_partition": 918,
+    "partitions": 5,
+    "state_rows": 33650,
+    "observed_state_joins_checked": 918,
+    "oracle_abstentions": 918,
+    "feature_status_counts": {
+      "initial_distance_status:unavailable": 918,
+      "bomb_context_status:observed": 246,
+      "economy_context_status:unavailable": 918,
+      "enemies_exposed_status:unavailable": 918,
+      "trade_possible_status:unavailable": 246,
+      "nearest_teammate_distance_status:unavailable": 246,
+      "nearest_connection_time_status:unavailable": 246,
+      "line_of_sight_status:unavailable": 246,
+      "facing_status:unavailable": 246,
+      "bomb_context_status:unavailable": 672,
+      "trade_possible_status:derived": 672,
+      "nearest_teammate_distance_status:derived": 672,
+      "nearest_connection_time_status:derived": 672,
+      "line_of_sight_status:derived": 672,
+      "facing_status:derived": 672
+    },
+    "unavailable_field_counts": {
+      "any_line_of_sight": 246,
+      "bomb_time_remaining_ms": 888,
+      "economy_context": 918,
+      "enemies_exposed_count": 918,
+      "initial_distance_world_units": 918,
+      "minimum_facing_delta_deg": 246,
+      "nearest_connection_time_ms": 246,
+      "nearest_teammate_distance_world_units": 246,
+      "trade_possible": 246,
+      "bomb_context": 672,
+      "round_clock_remaining_ms": 702
+    },
+    "quality_flags": [
+      "bullet_damage_correlation:not_available",
+      "combat_observation_coverage:warning",
+      "economy_freeze_native_reconciliation:warning",
+      "economy_native_calculated_differences:warning",
+      "economy_observation_coverage:warning",
+      "economy_round_end_native_reconciliation:warning",
+      "engagement_observation_coverage:warning",
+      "purchase_itemization_coverage:warning",
+      "utility_observation_coverage:warning"
+    ],
+    "rounds": 24,
+    "participants": 10,
+    "artifacts": [
+      {
+        "path": "causal/decision_features.jsonl",
+        "sha256": "f7aecaf6e422fcf40881939321dd5252f2ec9c846fb996a0cf955b5e76f6093c",
+        "records": 918
+      },
+      {
+        "path": "causal/decisions.jsonl",
+        "sha256": "71b9b12adbfae51a3e0a0829d9447572eddef9d884e278e06fda35fbd5a320f3",
+        "records": 918
+      },
+      {
+        "path": "causal/oracle_context.jsonl",
+        "sha256": "d064f5095d1919b799e11c830a5794480992319af5eeb00e4e3b8d6a16591fd0",
+        "records": 918
+      },
+      {
+        "path": "causal/outcomes.jsonl",
+        "sha256": "1a695b21cf1e2730484b24a30459ac01144c9527a334fa0ea9a07f61de0a62fe",
+        "records": 918
+      },
+      {
+        "path": "causal/quality_masks.jsonl",
+        "sha256": "f73b62a72f9691a98f4a9468c220c8a41c7a0b48f70f540a48fda891f9d7edb8",
+        "records": 918
+      },
+      {
+        "path": "core/match.json",
+        "sha256": "58abe622323076c3f5dd3141a39af2ef20ae787279a22e1b210b2788a83d3cd5",
+        "records": 1
+      },
+      {
+        "path": "core/match_metadata.json",
+        "sha256": "b3926d8b69c01063aae6263f45992c31803667095900cb970e803d31f3fe7ad2",
+        "records": 1
+      },
+      {
+        "path": "core/participants.json",
+        "sha256": "5b7260c9c683284c70860b31fa86d4d4220cd211552ae9e921c1bf46998e18a0",
+        "records": 10
+      },
+      {
+        "path": "core/rounds.json",
+        "sha256": "9d91425d55b922d710f5c5f6efe415bc0c15282df878ad440a8445552bd483b1",
+        "records": 24
+      },
+      {
+        "path": "derived/clutch_events.json",
+        "sha256": "d3dd0af96d9db07aa94d1ca86367f0ee25ef60fc79d0d35f1f6cfd241e2d3ca1",
+        "records": 27
+      },
+      {
+        "path": "derived/economy_players.json",
+        "sha256": "99c77dbbac7150a9a145b1e5c13cf4809d1830f8c08107c1b002bc0b65f225f5",
+        "records": 240
+      },
+      {
+        "path": "derived/economy_rounds.json",
+        "sha256": "282fee3457a3164d16fbe1ba197aacb2ee6a04915f3bca6b40c9d4b20dbc28e1",
+        "records": 48
+      },
+      {
+        "path": "derived/engagements.json",
+        "sha256": "d2d937d917bcbe5a5181ff636a9deaef07e5358fec5a8759424e5c9b1606fd5e",
+        "records": 248
+      },
+      {
+        "path": "derived/player_stats.json",
+        "sha256": "e1893fc9c785f94bc283d720a986bdcec92f894e011aa5ae09a663071559ffc6",
+        "records": 10
+      },
+      {
+        "path": "derived/trades.json",
+        "sha256": "8f72c8b3a981211221eb8df7af96258d58b07442e8e1272561da44ddd7df2e1d",
+        "records": 168
+      },
+      {
+        "path": "diagnostics/quality_report.json",
+        "sha256": "a441b0bde3a0dc5864a25c277f79e3c9cfe3de03402a79a57ddb667704eea4d6",
+        "records": 1
+      },
+      {
+        "path": "events/combat_events.jsonl",
+        "sha256": "38e32a9fe52721f36cfe4cd34d7a19c51f11a953d5560a852b46e6f0f08f7001",
+        "records": 11222
+      },
+      {
+        "path": "events/objective_events.jsonl",
+        "sha256": "10133351f5519724c81aa70bdb9671e8b7415c56a6b857a2954f1872a5c2c6cd",
+        "records": 125
+      },
+      {
+        "path": "events/utility_events.jsonl",
+        "sha256": "cad3638efdf4adc004d8a3716ec48cdf73020dd6fac3f5d6facd274fe190565b",
+        "records": 403
+      },
+      {
+        "path": "presentation/replay/index.json",
+        "sha256": "c245787ec38578462f48771f15a80bbf99f393267ba053995f25409b96e14624",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_001.json.gz",
+        "sha256": "3fe79f8a8d5bd7b3f60dbdf40c7e983ffcad42e489ff11262fb5b6d6a147cf1a",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_002.json.gz",
+        "sha256": "e338e282a4382255a7cadc805d33ca07b468367822262b3ca858d20ee4bc9079",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_003.json.gz",
+        "sha256": "0bab0f7cbd377d2722dd077653fa30c2f28bf5db8db070acd9cd0270ef095aa2",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_004.json.gz",
+        "sha256": "6bcb21328aff54660ef8d05d84793ef81d5057c95cd72312618fc73154d14566",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_005.json.gz",
+        "sha256": "ad622ac68deb114ccbbddf7cab26d306830bfa06b7c2eaae1a5e9f223ccde8f3",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_006.json.gz",
+        "sha256": "722843c30c56e9ed796fdad2600525478cbefa26874e13209a8cadf8d15524a1",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_007.json.gz",
+        "sha256": "08590d83388196d4868fb484d239b1310c98d1113ba2b0efcd38d7380a0af4cf",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_008.json.gz",
+        "sha256": "c512ab2614ba76449006873f863e6cee02410ceb9393d95f5cd776a029aabada",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_009.json.gz",
+        "sha256": "6227f1b638614bcb683514bd31a19b6aa1b73576e10db16202c3cfe3181f1b64",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_010.json.gz",
+        "sha256": "3ec9a6a84edad3e92a9cd8eb6bc031a2e1eb3e84a92d2b97a024492964dfae02",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_011.json.gz",
+        "sha256": "88cb9d581954bde20b80994f12962deaa768e1f9dd52f981288bb103ea1460d2",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_012.json.gz",
+        "sha256": "b84976d2001a8bcfc0202f2059e1da5f6b1959185ed2ef0667b7fd6b0337011c",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_013.json.gz",
+        "sha256": "63829342a74264f88e4ecbe9002f268d3dcdee981558b05dc204dc77a2e3a4e3",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_014.json.gz",
+        "sha256": "b274472dcaaf7c1f57926bf9c3d02fa33944f250db2312061af6eccfcb506d36",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_015.json.gz",
+        "sha256": "bfb52cf53f6ca1b0b46990ea2e171731eb7e3ac07e7cf1e00fea2a3920c6c2e1",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_016.json.gz",
+        "sha256": "d6faace8be32c151f08e447b30452f3c01251cb08a3a39b7c815977e7bcbd2b7",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_017.json.gz",
+        "sha256": "881d6426b3a5057b7bed785bf33b8cee3a36ad13ae01a62aafe4447bd8045652",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_018.json.gz",
+        "sha256": "45a9ba636b6d36c557056411e041d9d84af1ec4aea828b92abaa5d25db133203",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_019.json.gz",
+        "sha256": "df6b72f4c35dd0e993b8ba7290e6542b05e77595842c9a1cc0c3883115ee32a2",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_020.json.gz",
+        "sha256": "a0545914a3c7f4b30d5044e021a317b73f2302d45448ce57846b12c71ee670ee",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_021.json.gz",
+        "sha256": "050ffa986538fecaef9aad8aed5feda54386ccb600a6405d817dfe36f9bfd42a",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_022.json.gz",
+        "sha256": "529ec42070ad5701c921ad755a09e4a87a23239f7b9ad3eef3f850edc0c8837a",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_023.json.gz",
+        "sha256": "9d5e195e7f122a276f25f3ca8b41958b16bd337c12c5807a63271e9744731a0c",
+        "records": 1
+      },
+      {
+        "path": "presentation/replay/round_024.json.gz",
+        "sha256": "049a4533d39667e5b40dbb968a80d8773bf4365cfb943d0643a6c244a8fb90cd",
+        "records": 1
+      },
+      {
+        "path": "states/player_states/round_001.jsonl",
+        "sha256": "52b355df02b25657fcf51a9e8889fae6dcf905a4be4705c5a74d6df406d5d21d",
+        "records": 1350
+      },
+      {
+        "path": "states/player_states/round_002.jsonl",
+        "sha256": "9774084281375e918c2b715d75bc66e5c652e080195750244ef8979831994e06",
+        "records": 980
+      },
+      {
+        "path": "states/player_states/round_003.jsonl",
+        "sha256": "1c7f11b8112f4d71602c008a2817e262e7f8ba5b5f12cc0cc6d6698494a19b33",
+        "records": 1550
+      },
+      {
+        "path": "states/player_states/round_004.jsonl",
+        "sha256": "6f4fd5463e9a142f6321db456bfbeb416d09ddb2c610f2262ca5e6c200909a7e",
+        "records": 750
+      },
+      {
+        "path": "states/player_states/round_005.jsonl",
+        "sha256": "02dd9892c8f749f5dd49a3001420d3a42b1231de7b5e6ee40dacc449b3867c9a",
+        "records": 840
+      },
+      {
+        "path": "states/player_states/round_006.jsonl",
+        "sha256": "28acac3b4a25cff0571af2a9d95333ef369419292d0a485057a447b6e5ea8b48",
+        "records": 1230
+      },
+      {
+        "path": "states/player_states/round_007.jsonl",
+        "sha256": "bf7e886420ded8495413c230796386c2162f849720bf0316bc557873f0486a5e",
+        "records": 2070
+      },
+      {
+        "path": "states/player_states/round_008.jsonl",
+        "sha256": "60aed38b1ba112a36fc307ef09bb0813dea6adb455f04a2a2d4abee7d1caf496",
+        "records": 2700
+      },
+      {
+        "path": "states/player_states/round_009.jsonl",
+        "sha256": "9614d710935a67851562fb1d5da2be06bab11fd39a268766a5d41327afefe22e",
+        "records": 1450
+      },
+      {
+        "path": "states/player_states/round_010.jsonl",
+        "sha256": "530e075ce278cec598d4eae8c514759b78c8f0cf9cabf1e218f1754338a8ef0b",
+        "records": 970
+      },
+      {
+        "path": "states/player_states/round_011.jsonl",
+        "sha256": "57480454469a287bb8791d5f218718c817ef6982d7f4db0bfb275f37a3802e19",
+        "records": 2270
+      },
+      {
+        "path": "states/player_states/round_012.jsonl",
+        "sha256": "0ec35ffb1f9970b738bc04191c934ca9c307d7b166374972f5173d4958aaa068",
+        "records": 2170
+      },
+      {
+        "path": "states/player_states/round_013.jsonl",
+        "sha256": "8cf7e4e1d05e33ef8fe5eb42e694666fbaf7006519ccad4b74a57566d6090b2a",
+        "records": 420
+      },
+      {
+        "path": "states/player_states/round_014.jsonl",
+        "sha256": "8718d94cce1abbf5265db054548a77c5a8481d424033527c0cb64aeb1d41623e",
+        "records": 1690
+      },
+      {
+        "path": "states/player_states/round_015.jsonl",
+        "sha256": "d001bfff2cac26f27dd44dc1d8ff413b00d4fe42fbdffdcb517a90ec9828fba7",
+        "records": 1060
+      },
+      {
+        "path": "states/player_states/round_016.jsonl",
+        "sha256": "d05ea7efa97272319d81df09b7bc3b5328e7944c5792fb9e8b1bb81b0966ec9b",
+        "records": 480
+      },
+      {
+        "path": "states/player_states/round_017.jsonl",
+        "sha256": "47c561d050acdfddae98f24f7e870c9590f92887df39d61974d802c011e5110a",
+        "records": 580
+      },
+      {
+        "path": "states/player_states/round_018.jsonl",
+        "sha256": "0affe952395e15c00b84fd132b8b3737d0237587d9236b388b01005999e21f27",
+        "records": 1140
+      },
+      {
+        "path": "states/player_states/round_019.jsonl",
+        "sha256": "d1d6a2692278d993502e4de4704336052e76bdc2ce07e15a849022e31badb3ed",
+        "records": 1420
+      },
+      {
+        "path": "states/player_states/round_020.jsonl",
+        "sha256": "f8cb1b4c6707ee8f4cb7ee894eea540aeb11803d2f2ab201db82bdcb1fd81247",
+        "records": 2630
+      },
+      {
+        "path": "states/player_states/round_021.jsonl",
+        "sha256": "9112b487e761a95ea73e21a5b94a8cca91b8351368c3776e9f162f88d8bdc41e",
+        "records": 970
+      },
+      {
+        "path": "states/player_states/round_022.jsonl",
+        "sha256": "288d79aecbc9ddcf11aca4f64f77545a8e474e572e4d8d35ef6c5f41e3293442",
+        "records": 1360
+      },
+      {
+        "path": "states/player_states/round_023.jsonl",
+        "sha256": "a8d233822395e083fa96b0d1321bb7e117528d7362dcc2ab6544bf84790ea6df",
+        "records": 2570
+      },
+      {
+        "path": "states/player_states/round_024.jsonl",
+        "sha256": "3bbeb9b12ea70f2fcb23d878aa43473490ba340935db6afd139ab8e68f272504",
+        "records": 1000
+      },
+      {
+        "path": "states/tactical/gaps.jsonl",
+        "sha256": "0fd21eaf0964fd02107d2257e46a781fee3aa382c236b42d6454f488d19e587e",
+        "records": 8564
+      },
+      {
+        "path": "states/tactical/observed.jsonl.gz",
+        "sha256": "72a4284c315f98a7520834486540dbcecd55d279747be1cf2f3dc2a32abab09e",
+        "records": 1614231
+      },
+      {
+        "path": "states/tactical/oracle.jsonl",
+        "sha256": "cfcace60b0a47e9d25f9be9ee09e352807b6d173445e1814fb1b4ac3c78a272b",
+        "records": 294825
+      },
+      {
+        "path": "states/tactical/sampling.json",
+        "sha256": "a8690d195afba0e8c455f0929d9e5d48a2340ed59ba8d51ef87ee1977544e976",
+        "records": 1
+      }
+    ],
+    "method": "stdlib only; complete hashes, contract/provenance equality, full five-partition joins and causal bounds; no StratAI domain imports",
+    "limit": "Unchanged data equality is not new physical/legal certification; no recomputation of unchanged game algorithms or live Redis/publication."
+  },
+  "smoke_execution_summary": {
+    "distinct_approved_demos": 1,
+    "parse_calls_total": 2,
+    "final_attempt": 2,
+    "reason_for_repeat": "First smoke passed; a subsequent failing regression exposed an already-queued v11 job overriding the worker version. Fixed and repeated suites and the same match in a new TEMP directory."
+  },
+  "smoke_attempts": [
+    {
+      "attempt": 1,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-aud-f01-smoke-04aj1m79",
+      "result": {
+        "bundle": "..\\data\\exports\\.tmp\\demo-a11eb0d600ee702c9edb-522405172\\match_demo-a11eb0d600ee702c9edb",
+        "distinct_demos": 1,
+        "http_status_at_intentional_barrier": 422,
+        "obsolete_version_http_status": 422,
+        "ok": true,
+        "omitted_version_cancellation_status": 408,
+        "parse_calls": 1,
+        "parser_schema_version": "v16",
+        "published": false,
+        "redis_calls": [
+          "set",
+          "eval"
+        ],
+        "redis_real": false,
+        "retained": true,
+        "root_artifacts": 73,
+        "scope": "Real Node payload, Go HandleProcessDemo, parser/export/root manifest and Python validator. Redis and HTTP transport isolated; retention-only overlay; stop before publication.",
+        "seconds": 426.4051923,
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "validator": {
+          "status": "passed",
+          "validator_version": "stratai.canonical_validator@2",
+          "failure_type": null,
+          "errors": [],
+          "warnings": [
+            "causal_availability",
+            "combat_consistency",
+            "corpus_quality",
+            "economy_consistency",
+            "engagement_consistency",
+            "lineage_completeness",
+            "utility_consistency"
+          ]
+        },
+        "validator_seconds": 332.4678676
+      },
+      "environment_from_retained_launcher": {
+        "STRATAI_AUD_F01_ROOT": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-aud-f01-smoke-04aj1m79",
+        "STRATAI_AUD_F01_RETAIN_OVERLAY": "1",
+        "STRATAI_BUILD_ID": "working-tree-aud-f01-20260920",
+        "CS2_MAPS_DIR": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "CANONICAL_VALIDATOR_PYTHON": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "CANONICAL_VALIDATOR_SCRIPT": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\scripts\\publication_validator.py",
+        "CANONICAL_VALIDATOR_TIMEOUT_SECONDS": "1200",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PIP_NO_INDEX": "1",
+        "GOPROXY": "off",
+        "GOTOOLCHAIN": "local",
+        "npm_config_offline": "true"
+      }
+    },
+    {
+      "attempt": 2,
+      "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-aud-f01-smoke-z37p4mco",
+      "result": {
+        "bundle": "..\\data\\exports\\.tmp\\demo-a11eb0d600ee702c9edb-2326543019\\match_demo-a11eb0d600ee702c9edb",
+        "distinct_demos": 1,
+        "http_status_at_intentional_barrier": 422,
+        "obsolete_version_http_status": 422,
+        "ok": true,
+        "omitted_version_cancellation_status": 408,
+        "parse_calls": 1,
+        "parser_schema_version": "v16",
+        "published": false,
+        "redis_calls": [
+          "set",
+          "eval"
+        ],
+        "redis_real": false,
+        "retained": true,
+        "root_artifacts": 73,
+        "scope": "Real Node payload, Go HandleProcessDemo, parser/export/root manifest and Python validator. Redis and HTTP transport isolated; retention-only overlay; stop before publication.",
+        "seconds": 433.1927674,
+        "source_alias": "demo-a11eb0d600ee702c9edb",
+        "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "validator": {
+          "status": "passed",
+          "validator_version": "stratai.canonical_validator@2",
+          "failure_type": null,
+          "errors": [],
+          "warnings": [
+            "causal_availability",
+            "combat_consistency",
+            "corpus_quality",
+            "economy_consistency",
+            "engagement_consistency",
+            "lineage_completeness",
+            "utility_consistency"
+          ]
+        },
+        "validator_seconds": 332.1721952
+      },
+      "environment_from_retained_launcher": {
+        "STRATAI_AUD_F01_ROOT": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-aud-f01-smoke-z37p4mco",
+        "STRATAI_AUD_F01_RETAIN_OVERLAY": "1",
+        "STRATAI_BUILD_ID": "working-tree-aud-f01-20260920",
+        "CS2_MAPS_DIR": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "CANONICAL_VALIDATOR_PYTHON": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "CANONICAL_VALIDATOR_SCRIPT": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service\\scripts\\publication_validator.py",
+        "CANONICAL_VALIDATOR_TIMEOUT_SECONDS": "1200",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PIP_NO_INDEX": "1",
+        "GOPROXY": "off",
+        "GOTOOLCHAIN": "local",
+        "npm_config_offline": "true"
+      }
+    }
+  ],
+  "first_attempt_node_source": {
+    "path": "outputs/stratai-aud-f01-repair-20260920/intermediate/pipelineV2.constant-only.js",
+    "bytes": 27472,
+    "sha256": "092e68397e43ddb96635655e8b90ff451c3722c9c7f476c47471bcfbf3fb33f8"
+  },
+  "final_smoke_preflight": {
+    "path": "outputs/stratai-aud-f01-repair-20260920/smoke-preflight-r2.json",
+    "bytes": 1207,
+    "sha256": "61b4be7c6c076a2e6b7afa89083fbd6b006a00c6c5712a76eda96be337059948"
+  },
+  "preservation": {
+    "path": "outputs/stratai-aud-f01-repair-20260920/source-preservation.json",
+    "bytes": 530,
+    "sha256": "8d841703a1fcc3358c5c61846cd7b9eb76b08a9275a614c90d9d98836fbb6bbb"
+  },
+  "smoke_inventory": {
+    "path": "outputs/stratai-aud-f01-repair-20260920/smoke-inventory.json",
+    "bytes": 52556,
+    "sha256": "cce18b38f5dbcb29d8f5bbf5d71f14d6f8b19f0fe6ad7cd9ddc26083b6ce1310"
+  },
+  "protected_after": {
+    "path": "outputs/stratai-aud-f01-repair-20260920/protected-after.json",
+    "bytes": 830962,
+    "sha256": "3a45ba43eaeebbb8a768473c9a26d481e00029340daff264eed915e8a6986c5d"
+  },
+  "limits": [
+    "Redis/Steam/live HTTP/authentication not executed",
+    "no publication or commit/rollback exercise",
+    "retention-only compiler overlay",
+    "no new physical/legal capability or independent evaluation"
+  ],
+  "AUD_T01": "expectation and Redis-independent contractual coverage repaired; three Redis cases not executed",
+  "other_findings": "AUD-C01,D01,D02,D03,E01,E02,O01 remain open",
+  "closure_checks": "outputs/stratai-aud-f01-repair-20260920/closure-checks.json"
+}

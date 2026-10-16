@@ -1,0 +1,158 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "source_candidate_manifest_sha256",
+    "source_candidate_data_sha256",
+    "protocol_sha256",
+    "catalog_version",
+    "catalog_sha256",
+    "training_allowed",
+    "product_supported",
+    "comparison_allowed",
+    "artifact",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_opportunities_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_candidate_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_candidate_data_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "protocol_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "catalog_version": {
+      "const": "1.7.0"
+    },
+    "catalog_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "economy_opportunities.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "team_round_records",
+        "initial_teams_available",
+        "initial_teams_unavailable",
+        "observed_windows",
+        "partial_execution_records",
+        "actor_checkpoint_records",
+        "observed_numeric_differences",
+        "inventory_transitions",
+        "execution_callbacks",
+        "boundary_callbacks",
+        "rules_compatible_for_comparison",
+        "classified_actions"
+      ],
+      "properties": {
+        "team_round_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "initial_teams_available": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "initial_teams_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_windows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partial_execution_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actor_checkpoint_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed_numeric_differences": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inventory_transitions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "execution_callbacks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "boundary_callbacks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rules_compatible_for_comparison": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classified_actions": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_opportunities_manifest@1",
+  "x-stratai-training-authorized": false,
+  "x-stratai-status": "candidate_not_materialized_in_3.8"
+}

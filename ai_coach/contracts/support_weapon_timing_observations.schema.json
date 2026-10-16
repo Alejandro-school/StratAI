@@ -1,0 +1,782 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_weapon_timing_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_weapon_timing_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source",
+        "clock_source",
+        "attempt_source",
+        "position_source",
+        "motion_source",
+        "physical_source"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "motion_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "physical_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "native_weapon_timing_deliveries_and_exact_support_cuts@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deliveries",
+        "states",
+        "cuts"
+      ],
+      "properties": {
+        "deliveries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "frame",
+              "tick",
+              "entity_life",
+              "kind",
+              "property",
+              "previous",
+              "value"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "entity_life": {
+                "type": "string",
+                "pattern": "^support-timing-entity-[0-9]{6}$"
+              },
+              "kind": {
+                "enum": [
+                  "created",
+                  "creation_replay",
+                  "update",
+                  "destroyed"
+                ]
+              },
+              "property": {
+                "type": "string"
+              },
+              "previous": {
+                "$ref": "#/$defs/scalar"
+              },
+              "value": {
+                "$ref": "#/$defs/scalar"
+              }
+            }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "sequence",
+                  "first_cut",
+                  "instance",
+                  "epoch",
+                  "entity_life",
+                  "handle",
+                  "class_name",
+                  "created_frame",
+                  "fields",
+                  "field_sequences",
+                  "reference",
+                  "kind"
+                ],
+                "properties": {
+                  "sequence": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "first_cut": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "instance": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "epoch": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "entity_life": {
+                    "type": "string",
+                    "pattern": "^support-timing-entity-[0-9]{6}$"
+                  },
+                  "handle": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "class_name": {
+                    "const": "CCSPlayerPawn"
+                  },
+                  "created_frame": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "m_pWeaponServices.m_hActiveWeapon",
+                      "m_pWeaponServices.m_flNextAttack",
+                      "m_flSimulationTime",
+                      "m_nTickBase"
+                    ],
+                    "properties": {
+                      "m_pWeaponServices.m_hActiveWeapon": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_pWeaponServices.m_flNextAttack": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_flSimulationTime": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_nTickBase": {
+                        "$ref": "#/$defs/scalar"
+                      }
+                    }
+                  },
+                  "field_sequences": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "m_pWeaponServices.m_hActiveWeapon",
+                      "m_pWeaponServices.m_flNextAttack",
+                      "m_flSimulationTime",
+                      "m_nTickBase"
+                    ],
+                    "properties": {
+                      "m_pWeaponServices.m_hActiveWeapon": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_pWeaponServices.m_flNextAttack": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_flSimulationTime": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_nTickBase": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  "reference": {
+                    "$ref": "#/$defs/reference"
+                  },
+                  "kind": {
+                    "const": "pawn"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "sequence",
+                  "first_cut",
+                  "instance",
+                  "epoch",
+                  "entity_life",
+                  "handle",
+                  "class_name",
+                  "created_frame",
+                  "fields",
+                  "field_sequences",
+                  "reference",
+                  "kind"
+                ],
+                "properties": {
+                  "sequence": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "first_cut": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "instance": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "epoch": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "entity_life": {
+                    "type": "string",
+                    "pattern": "^support-timing-entity-[0-9]{6}$"
+                  },
+                  "handle": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "class_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "created_frame": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "fields": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "m_hOwnerEntity",
+                      "m_nNextPrimaryAttackTick",
+                      "m_flNextPrimaryAttackTickRatio",
+                      "m_nNextSecondaryAttackTick",
+                      "m_flNextSecondaryAttackTickRatio",
+                      "m_nPostponeFireReadyTicks",
+                      "m_flPostponeFireReadyFrac"
+                    ],
+                    "properties": {
+                      "m_hOwnerEntity": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_nNextPrimaryAttackTick": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_flNextPrimaryAttackTickRatio": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_nNextSecondaryAttackTick": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_flNextSecondaryAttackTickRatio": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_nPostponeFireReadyTicks": {
+                        "$ref": "#/$defs/scalar"
+                      },
+                      "m_flPostponeFireReadyFrac": {
+                        "$ref": "#/$defs/scalar"
+                      }
+                    }
+                  },
+                  "field_sequences": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "m_hOwnerEntity",
+                      "m_nNextPrimaryAttackTick",
+                      "m_flNextPrimaryAttackTickRatio",
+                      "m_nNextSecondaryAttackTick",
+                      "m_flNextSecondaryAttackTickRatio",
+                      "m_nPostponeFireReadyTicks",
+                      "m_flPostponeFireReadyFrac"
+                    ],
+                    "properties": {
+                      "m_hOwnerEntity": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_nNextPrimaryAttackTick": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_flNextPrimaryAttackTickRatio": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_nNextSecondaryAttackTick": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_flNextSecondaryAttackTickRatio": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_nPostponeFireReadyTicks": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "m_flPostponeFireReadyFrac": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  "reference": {
+                    "$ref": "#/$defs/reference"
+                  },
+                  "kind": {
+                    "const": "weapon"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "clock_order",
+              "delivery_sequence",
+              "state_sequence",
+              "players"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "clock_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "delivery_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "pawn_handle",
+                    "pawn_life",
+                    "pawn_state_sequence",
+                    "weapon_state_sequence",
+                    "weapon_life",
+                    "weapon_status"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[a-f0-9]{20}$"
+                    },
+                    "pawn_handle": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "pawn_life": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^support-pawn-[0-9]{6}$"
+                    },
+                    "pawn_state_sequence": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 1
+                    },
+                    "weapon_state_sequence": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 1
+                    },
+                    "weapon_life": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^support-weapon-[0-9]{6}$"
+                    },
+                    "weapon_status": {
+                      "enum": [
+                        "current_pawn_unavailable",
+                        "current_weapon_unavailable",
+                        "current_weapon_owner_unaccredited",
+                        "physical_weapon_identity_unavailable",
+                        "observed"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scalar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "native_type",
+        "declared_type",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "observed",
+            "absent",
+            "unsupported_type",
+            "nonfinite"
+          ]
+        },
+        "native_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "declared_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": [
+                "number",
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "handle",
+        "target_life"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "resolved",
+            "absent",
+            "unsupported_type",
+            "invalid_sentinel",
+            "entity_unavailable",
+            "serial_mismatch",
+            "kind_or_life_unavailable",
+            "destroyed"
+          ]
+        },
+        "handle": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_life": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^support-timing-entity-[0-9]{6}$"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "stratai.ai_coach_reason_codes@1",
+  "version": "1.0.0",
+  "reason_codes": [
+    {
+      "id": "BUNDLE_VALIDATION_FAILED",
+      "meaning": "El bundle no conserva un estado de validación canónica aprobado."
+    },
+    {
+      "id": "DECISION_FAMILY_NOT_MATERIALIZED",
+      "meaning": "Ningún tipo de decisión de la capacidad está materializado en los bundles recorridos."
+    },
+    {
+      "id": "DUPLICATE_IDENTIFIER",
+      "meaning": "Un identificador que debe ser único aparece más de una vez."
+    },
+    {
+      "id": "ELIGIBLE_REQUIRED_EVIDENCE_PRESENT",
+      "meaning": "La familia está materializada y toda la evidencia obligatoria está disponible."
+    },
+    {
+      "id": "GZIP_STREAM_CORRUPT",
+      "meaning": "Un stream gzip declarado por un manifest no puede leerse de forma segura."
+    },
+    {
+      "id": "INVALID_FIELD_TYPE",
+      "meaning": "Un campo tiene un tipo incompatible con el contrato."
+    },
+    {
+      "id": "INVALID_IDENTIFIER_TYPE",
+      "meaning": "Un identificador de join no es una cadena no vacía."
+    },
+    {
+      "id": "JOIN_REFERENCE_MISSING",
+      "meaning": "Una referencia de join no existe en la partición o estado de destino."
+    },
+    {
+      "id": "ORACLE_IN_OBSERVED",
+      "meaning": "Información oracle o posterior fue inyectada dentro de observed."
+    },
+    {
+      "id": "OUTCOME_BEFORE_T0",
+      "meaning": "Un outcome aparece antes del T0 de la decisión."
+    },
+    {
+      "id": "PARTIAL_PROXY_ONLY",
+      "meaning": "La única señal disponible es un proxy parcial que no satisface el campo requerido."
+    },
+    {
+      "id": "PARTITION_KEY_MISMATCH",
+      "meaning": "Las particiones causales no comparten exactamente sus claves de join."
+    },
+    {
+      "id": "REQUIRED_ARTIFACT_MISSING",
+      "meaning": "Un manifest no declara o no resuelve un artefacto obligatorio."
+    },
+    {
+      "id": "REQUIRED_FIELD_MISSING",
+      "meaning": "Un ejemplo materializado no contiene un campo obligatorio."
+    },
+    {
+      "id": "REQUIRED_FIELD_UNAVAILABLE",
+      "meaning": "El productor declara que un campo obligatorio no está disponible."
+    },
+    {
+      "id": "T0_AVAILABILITY_VIOLATION",
+      "meaning": "Una entrada observada sólo está disponible después de T0."
+    },
+    {
+      "id": "TACTICAL_GROUND_TRUTH_SOURCE_FORBIDDEN",
+      "meaning": "La fuente no pertenece a un contrato de ground truth táctico autorizado."
+    },
+    {
+      "id": "UNKNOWN_REASON_CODE",
+      "meaning": "El resultado contiene un reason code no registrado."
+    },
+    {
+      "id": "UNSUPPORTED_SCHEMA",
+      "meaning": "El schema declarado no coincide con el contrato admitido."
+    }
+  ]
+}

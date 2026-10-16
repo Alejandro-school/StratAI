@@ -1,0 +1,571 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_objective_position_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_objective_position_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source",
+        "clock_source",
+        "attempt_source"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "native_object_geometry_deliveries_births_and_support_cuts@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deliveries",
+        "births",
+        "states",
+        "cuts"
+      ],
+      "properties": {
+        "deliveries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "frame",
+              "tick",
+              "entity_life",
+              "kind",
+              "property",
+              "previous",
+              "value"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "entity_life": {
+                "type": "string",
+                "pattern": "^support-(item|clock-object)-[0-9]{6}$"
+              },
+              "kind": {
+                "enum": [
+                  "created",
+                  "creation_replay",
+                  "update",
+                  "destroyed"
+                ]
+              },
+              "property": {
+                "type": "string"
+              },
+              "previous": {
+                "$ref": "#/$defs/scalar"
+              },
+              "value": {
+                "$ref": "#/$defs/scalar"
+              }
+            }
+          }
+        },
+        "births": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "delivery_sequence",
+              "object"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "delivery_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "object": {
+                "$ref": "#/$defs/object"
+              }
+            }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "first_cut",
+              "objects"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "objects": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/object"
+                }
+              }
+            }
+          }
+        },
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "clock_order",
+              "state_sequence",
+              "delivery_sequence",
+              "birth_sequence"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "clock_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "delivery_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "birth_sequence": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scalar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "native_type",
+        "declared_type",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "observed",
+            "absent",
+            "unsupported_type",
+            "nonfinite"
+          ]
+        },
+        "native_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "declared_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": [
+                "number",
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "handle",
+        "target_life"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "resolved",
+            "absent",
+            "unsupported_type",
+            "invalid_sentinel",
+            "entity_unavailable",
+            "serial_mismatch",
+            "kind_or_life_unavailable",
+            "destroyed"
+          ]
+        },
+        "handle": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_life": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^support-pawn-[0-9]{6,}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "parent_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "handle",
+        "target_life"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "resolved",
+            "absent",
+            "unsupported_type",
+            "invalid_sentinel",
+            "entity_unavailable",
+            "serial_mismatch",
+            "kind_or_life_unavailable",
+            "destroyed"
+          ]
+        },
+        "handle": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_life": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^support-(pawn|item|clock-object)-[0-9]{6}$"
+        }
+      }
+    },
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_life",
+        "handle",
+        "class_name",
+        "created_frame",
+        "fields",
+        "field_sequences",
+        "owner",
+        "defuser",
+        "parent"
+      ],
+      "properties": {
+        "entity_life": {
+          "type": "string",
+          "pattern": "^support-(item|clock-object)-[0-9]{6}$"
+        },
+        "handle": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "class_name": {
+          "enum": [
+            "CC4",
+            "CPlantedC4"
+          ]
+        },
+        "created_frame": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fields": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/scalar"
+          }
+        },
+        "field_sequences": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "owner": {
+          "$ref": "#/$defs/reference"
+        },
+        "defuser": {
+          "$ref": "#/$defs/reference"
+        },
+        "parent": {
+          "$ref": "#/$defs/parent_reference"
+        }
+      }
+    }
+  }
+}

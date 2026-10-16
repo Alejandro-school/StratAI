@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_navigation_path@2",
+  "title": "ObservedNavigationPath",
+  "contract_version": "2.0.0",
+  "description": "Contrato candidato causal para alcance, distancia NAV y escenarios temporales internos. No predice una llegada ni permite comunicar tiempos exactos al jugador y no modifica bundles canonicos 3.8.0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "identity_semantics",
+    "causal_role",
+    "source",
+    "join_keys",
+    "round_number",
+    "t0_tick",
+    "availability",
+    "origin_motion",
+    "direct_distance",
+    "reachability",
+    "path_distance",
+    "internal_timing",
+    "abstention_reasons",
+    "provenance"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_navigation_path@2"},
+    "contract_version": {"const": "2.0.0"},
+    "identity_semantics": {"const": "join_only"},
+    "causal_role": {"const": "model_input_observation"},
+    "source": {"const": "replay_position_pair_navigation_derivation"},
+    "join_keys": {"$ref": "#/$defs/joinKeys"},
+    "round_number": {"type": "integer", "minimum": 1},
+    "t0_tick": {"type": "integer", "minimum": 0},
+    "availability": {"$ref": "#/$defs/availability"},
+    "origin_motion": {"$ref": "#/$defs/motionContext"},
+    "direct_distance": {"$ref": "#/$defs/distanceFact"},
+    "reachability": {"$ref": "#/$defs/booleanFact"},
+    "path_distance": {"$ref": "#/$defs/distanceFact"},
+    "internal_timing": {"$ref": "#/$defs/internalTiming"},
+    "abstention_reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "joinKeys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["match_id", "round_id", "query_id", "origin_player_id", "target_player_id"],
+      "properties": {
+        "match_id": {"type": "string", "minLength": 1},
+        "round_id": {"type": "string", "minLength": 1},
+        "query_id": {"type": "string", "minLength": 1},
+        "origin_player_id": {"type": "string", "minLength": 1},
+        "target_player_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin_tick", "target_tick", "graph_tick"],
+      "properties": {
+        "origin_tick": {"type": "integer", "minimum": 0},
+        "target_tick": {"type": "integer", "minimum": 0},
+        "graph_tick": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "motionContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "availability_tick",
+        "horizontal_speed_status",
+        "horizontal_speed_world_units_per_second",
+        "horizontal_speed_source",
+        "active_weapon_status",
+        "active_weapon",
+        "is_walking",
+        "is_ducking",
+        "is_scoped"
+      ],
+      "properties": {
+        "availability_tick": {"type": ["integer", "null"], "minimum": 0},
+        "horizontal_speed_status": {"enum": ["derived", "unavailable"]},
+        "horizontal_speed_world_units_per_second": {"type": ["number", "null"], "minimum": 0},
+        "horizontal_speed_source": {"type": ["string", "null"], "minLength": 1},
+        "active_weapon_status": {"enum": ["observed", "unavailable"]},
+        "active_weapon": {"type": ["string", "null"], "minLength": 1},
+        "is_walking": {"type": ["boolean", "null"]},
+        "is_ducking": {"type": ["boolean", "null"]},
+        "is_scoped": {"type": ["boolean", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"horizontal_speed_status": {"const": "derived"}}},
+          "then": {
+            "properties": {
+              "availability_tick": {"type": "integer", "minimum": 0},
+              "horizontal_speed_world_units_per_second": {"type": "number", "minimum": 0},
+              "horizontal_speed_source": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"horizontal_speed_status": {"const": "unavailable"}}},
+          "then": {
+            "properties": {
+              "horizontal_speed_world_units_per_second": {"const": null},
+              "horizontal_speed_source": {"const": null}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"active_weapon_status": {"const": "observed"}}},
+          "then": {
+            "properties": {
+              "availability_tick": {"type": "integer", "minimum": 0},
+              "active_weapon": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"active_weapon_status": {"const": "unavailable"}}},
+          "then": {"properties": {"active_weapon": {"const": null}}}
+        }
+      ]
+    },
+    "distanceFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value_world_units"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]},
+        "value_world_units": {"type": ["number", "null"], "minimum": 0}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "derived"}}},
+          "then": {"properties": {"value_world_units": {"type": "number", "minimum": 0}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"properties": {"value_world_units": {"const": null}}}
+        }
+      ]
+    },
+    "booleanFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]},
+        "value": {"type": ["boolean", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "derived"}}},
+          "then": {"properties": {"value": {"type": "boolean"}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"properties": {"value": {"const": null}}}
+        }
+      ]
+    },
+    "timingScenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value_milliseconds",
+        "speed_world_units_per_second",
+        "speed_source",
+        "assumption",
+        "unavailability_reason"
+      ],
+      "properties": {
+        "status": {"enum": ["estimated", "unavailable"]},
+        "value_milliseconds": {"type": ["number", "null"], "minimum": 0},
+        "speed_world_units_per_second": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "speed_source": {"type": "string", "minLength": 1},
+        "assumption": {"type": "string", "minLength": 1},
+        "unavailability_reason": {"type": ["string", "null"], "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "estimated"}}},
+          "then": {
+            "properties": {
+              "value_milliseconds": {"type": "number", "minimum": 0},
+              "speed_world_units_per_second": {"type": "number", "exclusiveMinimum": 0},
+              "unavailability_reason": {"const": null}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {
+            "properties": {
+              "value_milliseconds": {"const": null},
+              "speed_world_units_per_second": {"const": null},
+              "unavailability_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
+    },
+    "internalTiming": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intended_use",
+        "user_facing_mode",
+        "decision_semantics",
+        "estimate_semantics",
+        "exact_user_facing_time_allowed",
+        "arrival_prediction",
+        "scenarios"
+      ],
+      "properties": {
+        "intended_use": {"const": "internal_decision_support_only"},
+        "user_facing_mode": {"const": "qualitative_conditional_with_uncertainty_only"},
+        "decision_semantics": {"const": "constraint_signal_not_recommendation"},
+        "estimate_semantics": {"const": "scenario_reference_not_arrival_prediction"},
+        "exact_user_facing_time_allowed": {"const": false},
+        "arrival_prediction": {"const": false},
+        "scenarios": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "optimistic_uninterrupted_250ups_baseline",
+            "active_weapon_uninterrupted_baseline",
+            "observed_pace_projection"
+          ],
+          "properties": {
+            "optimistic_uninterrupted_250ups_baseline": {"$ref": "#/$defs/timingScenario"},
+            "active_weapon_uninterrupted_baseline": {"$ref": "#/$defs/timingScenario"},
+            "observed_pace_projection": {"$ref": "#/$defs/timingScenario"}
+          }
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reference", "sha256"],
+      "properties": {
+        "status": {"enum": ["loaded", "unavailable"]},
+        "reference": {"type": ["string", "null"], "minLength": 1},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "loaded"}}},
+          "then": {
+            "properties": {
+              "reference": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {
+            "properties": {"reference": {"const": null}, "sha256": {"const": null}}
+          }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_artifact",
+        "graph_contract_version",
+        "shortest_path_algorithm",
+        "endpoint_association_method",
+        "endpoint_tolerance_world_units",
+        "endpoint_vertical_tolerance_world_units",
+        "edge_weight_method",
+        "timing_scenario_contract",
+        "weapon_speed_table_contract",
+        "origin_association_world_units",
+        "target_association_world_units",
+        "graph_asset",
+        "input_fields"
+      ],
+      "properties": {
+        "source_artifact": {"const": "replay_positions_motion_context_and_static_nav_in_memory"},
+        "graph_contract_version": {"const": "nav_area_connections_with_polygons@2"},
+        "shortest_path_algorithm": {"const": "directed_dijkstra_stable_ties@1"},
+        "endpoint_association_method": {"const": "containing_nav_polygon_xy_then_nearest_center_3d@2"},
+        "endpoint_tolerance_world_units": {"const": 96},
+        "endpoint_vertical_tolerance_world_units": {"const": 128},
+        "edge_weight_method": {"const": "nav_area_center_euclidean_world_units@1"},
+        "timing_scenario_contract": {"const": "navigation_internal_timing_scenarios@1"},
+        "weapon_speed_table_contract": {"const": "cs2_weapon_max_speed_table@1"},
+        "origin_association_world_units": {"type": ["number", "null"], "minimum": 0},
+        "target_association_world_units": {"type": ["number", "null"], "minimum": 0},
+        "graph_asset": {"$ref": "#/$defs/asset"},
+        "input_fields": {
+          "const": [
+            "active_weapon_at_t0",
+            "horizontal_speed_at_t0",
+            "is_ducking_at_t0",
+            "is_scoped_at_t0",
+            "is_walking_at_t0",
+            "nav_area_connections",
+            "origin_availability_tick",
+            "origin_position",
+            "target_availability_tick",
+            "target_position"
+          ]
+        }
+      }
+    }
+  }
+}

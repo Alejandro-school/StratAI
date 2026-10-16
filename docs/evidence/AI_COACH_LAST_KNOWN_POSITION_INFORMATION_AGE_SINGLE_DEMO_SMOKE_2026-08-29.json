@@ -1,0 +1,213 @@
+{
+  "schema_id": "stratai.ai_coach_last_known_position_information_age_single_demo_evidence@1",
+  "date": "2026-08-29",
+  "status": "passed",
+  "phase": "1B.6",
+  "gate_1b": "pending",
+  "training_allowed": false,
+  "scope": "last-known pawn/origin position and information age derived only from causal observed visual contact",
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "same_match_reused_after_failure": true,
+    "source_read_only": true,
+    "approved_bundles_read_only": 44,
+    "outputs_only_under_temp": true,
+    "published_or_promoted": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "approved_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "validation_status": "passed",
+    "parser_schema_version": "v16",
+    "export_format_version": "3.8.0"
+  },
+  "contracts": {
+    "candidate_schema_id": "stratai.observed_last_known_position@1",
+    "candidate_contract_version": "1.0.0",
+    "full_demo_schema_id": "stratai.observed_last_known_position_full_demo@1",
+    "upstream_contact_schema_id": "stratai.observed_visual_contact@1",
+    "spatial_semantics": "subject_pawn_origin_at_confirmed_visual_contact",
+    "coordinate_system": "source2_world_xyz",
+    "age_unit": "milliseconds",
+    "position_source": "confirmed_visual_contact_subject_pawn_origin",
+    "age_source": "tick_delta_from_confirmed_visual_contact",
+    "canonical_bundle_changed": false
+  },
+  "attempts": [
+    {
+      "kind": "producer",
+      "attempt": 1,
+      "build_identifier": "working-tree-last-known-position-information-age-20260829-r1",
+      "status": "failed_closed",
+      "stage": "last_known_position_full_demo",
+      "error_code": "last_known_position_full_demo_rejected",
+      "error": "round 1 candidate producer: rows are not deterministically ordered",
+      "duration_seconds": 70.486,
+      "output_files": 0,
+      "fix": "sort visual evaluations by the public opaque participant aliases, with a two-digit-ID regression test"
+    },
+    {
+      "kind": "producer",
+      "attempt": 2,
+      "build_identifier": "working-tree-last-known-position-information-age-20260829-r2",
+      "status": "passed",
+      "stage": "complete",
+      "duration_seconds": 149.360,
+      "parse_demo_result_instances": 1,
+      "output_files": 85,
+      "output_bytes": 795330775
+    },
+    {
+      "kind": "independent_validator",
+      "attempt": 1,
+      "status": "failed_closed",
+      "error": "summary does not recompute",
+      "cause": "strict Python type equality rejected equivalent JSON number encodings emitted by Go: integer lexical form versus floating-point recomputation",
+      "producer_rerun_required": false,
+      "fix": "accept equal JSON int/float number values while keeping booleans distinct; add regression test"
+    },
+    {
+      "kind": "independent_validator",
+      "attempt": 2,
+      "status": "passed",
+      "duration_seconds": 664.097,
+      "producer_rerun_required": false
+    }
+  ],
+  "exact_producer_shell": "PowerShell",
+  "exact_producer_working_directory": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+  "exact_producer_command": "go run ./cmd/canonical-export --demo 'E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem' --output 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-last-known-20260829-fc0ab7534e144fff96663a2e07e13666' --alias 'demo-a11eb0d600ee702c9edb' --checksum 'a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262' --maps-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps' --build-id 'working-tree-last-known-position-information-age-20260829-r2' --ai-coach-full-demo-validation --navigation-smoke-queries 64 --visual-contact-smoke-frames 256",
+  "successful_result": {
+    "round_numbers": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+    "round_count": 24,
+    "row_count": 777284,
+    "participant_count": 10,
+    "directed_pairs": 50,
+    "contact_updates": 24893,
+    "contact_refreshes": 24031,
+    "carries": 320271,
+    "unavailable": 432120,
+    "round_resets": 24,
+    "life_resets": 0,
+    "contact_observations": {
+      "true": 24893,
+      "false": 752391,
+      "unavailable": 0
+    },
+    "carry_sources": {
+      "negative_contact": 320271,
+      "unavailable_contact": 0
+    },
+    "abstention_reasons": {
+      "information_age_unavailable": 432120,
+      "last_known_position_unavailable": 432120,
+      "no_prior_confirmed_visual_contact": 432120
+    },
+    "age_distribution_ms": {
+      "observed_count": 345164,
+      "zero_count": 24893,
+      "positive_count": 320271,
+      "minimum": 0.0,
+      "p50": 8500.0,
+      "p95": 55437.5,
+      "maximum": 139312.5,
+      "buckets": {
+        "0": 24893,
+        "gt_0_le_250": 9978,
+        "gt_250_le_1000": 22542,
+        "gt_1000_le_5000": 74803,
+        "gt_5000": 212948
+      }
+    },
+    "causal_and_privacy_checks": {
+      "future_source_ticks": 0,
+      "hidden_current_positions": 0,
+      "age_recompute_mismatches": 0,
+      "carry_recompute_mismatches": 0,
+      "raw_identity_hits": 0
+    }
+  },
+  "successful_artifacts": [
+    {
+      "path": "observed_last_known_position_full_demo.json",
+      "bytes": 1797,
+      "sha256": "0bfa1cfc9a82cb43b3b860fbc33b9293decf2532b39da6107494c8773ce841b3"
+    },
+    {
+      "path": "observed_last_known_position_rows.jsonl.gz",
+      "bytes": 16425270,
+      "sha256": "8bb7519e5cad02b123fba9e18dc60480a9eee2c37b4fe6c8f90b0bf1b615f3be",
+      "logical_bytes": 1059773230,
+      "logical_sha256": "011d46178b7cc76053d6d627ca3f9b56405ad888cde5ce2c4a5f68da44de5dc0"
+    },
+    {
+      "path": "match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+      "bytes": 33496,
+      "sha256": "c3bec6b9305e3bb42d25b9621d0fe6c8d1f6872fa1a3fe45a4deeea2dbb2a870"
+    }
+  ],
+  "canonical_bundle": {
+    "semantic_errors": 0,
+    "files": 73,
+    "bytes": 735286380,
+    "declared_artifacts": 72,
+    "export_format_version": "3.8.0",
+    "parser_version": "v16"
+  },
+  "regression_artifacts": {
+    "navigation_smoke": {"rows": 64, "reachable": 64, "sha256": "ab4af82431dcc3dc8b4fbcc890bbcc38f3f65f6252694db413fe78098518fe21"},
+    "visual_contact_smoke": {"evaluations": 12800, "contacts": 16, "sha256": "af0bf8404444bb2fb1aa07151808c782a8a5d72125f211624af13e2151701473"},
+    "navigation_full_demo": {"rows": 28718, "reachable": 28277, "rows_sha256": "fa0b3ffba4debf9398c3317f866e493cf94801346adc0c25f52ef854cb148a3c"},
+    "visual_contact_full_demo": {"evaluations": 777284, "episodes": 2992, "audit_records": 780276, "audit_sha256": "6d923f254e6d3cb29cd9a10a3615dbb20d360b4c418bb7a8a4b803a9e50f7da7"},
+    "weapon_state_full_demo": {"rows": 294825, "rows_sha256": "724a78955b17c1dc9ba8493e4aa9fd1c156a716d953dbcc3d02acd1a44be3931"},
+    "utility_initial_velocity_full_demo": {"rows": 403, "observed": 398, "unavailable": 5, "rows_sha256": "3827c0bc6974443f8f0f6dde86ea54f0f6ad03d7dd6f36c6103e484062c4a7ec"},
+    "decision_example_direct_audit": {"runs": 2, "deterministic": true, "sha256": "02a69f5e897500d8f8f3d11801637f30796b09de25c0ad091eb3e2e7e3a6fb21", "examples": 918, "joins_failed": 0}
+  },
+  "automated_verification": [
+    {"command": "go test -count=1 ./parser ./cmd/canonical-export", "status": "passed"},
+    {"command": "python -m pytest ai_coach/tests -q", "status": "passed; 143 tests"},
+    {"command": "python -m ruff check ai_coach", "status": "passed"},
+    {"command": "python -m ai_coach.contracts.validate_contract", "status": "passed; 17 capabilities, 15 decisions, 51 actions, 18 outcomes, 55 fields, 8 runtime schemas, 18 reason codes"},
+    {"command": "npm run check:all", "status": "passed; frontend 88, Node 14 passed/3 skipped, all Go packages, backend Python 43, frontend build"},
+    {"command": "python -m ai_coach.contracts.validate_last_known_position_full_demo ...", "status": "passed; full schema, hashes, privacy, causal state and ages independently recomputed"},
+    {"command": "validate_navigation_smoke / validate_visual_contact_smoke / validate_full_demo / validate_weapon_state_full_demo / validate_utility_initial_velocity_full_demo", "status": "passed on the same successful temporary output"},
+    {"command": "golden_demo_semantic_runner.validate_direct_bundle(...) ", "status": "passed; 0 errors"},
+    {"command": "build_direct_bundle_audit_summary(...), twice", "status": "passed; deterministic digest and 918/918 joins"}
+  ],
+  "protected_state": {
+    "pre_utc": "2026-08-29T09:54:21.2614777Z",
+    "post_utc": "2026-08-29T11:09:41.4155096Z",
+    "all_equal": true,
+    "trees": {
+      "demos": {"files": 100, "bytes": 13589310951, "metadata_sha256": "b2e68292260f20c0edfa663acb4dd8d3fdcd78cc7acf5c02c1abd63b6a6081df", "content_sha256": "90148fe21a9f292d3b113b51a481e7e0e4f0482406a5c59db5f8c586cd186bfe"},
+      "analyzed_demos": {"files": 3013, "bytes": 27264064316, "metadata_sha256": "57452310039c829854b1cd3a39b98b8b0f29268511a52e50df1a2c100ebf97e5", "content_sha256": "48f5ad8771a67c5762658acf5513c2348218c837108fba9110ba74f2b598f54b"},
+      "failed": {"files": 727, "bytes": 5245908800, "metadata_sha256": "7003e3a0c8353be4642cd5f1556a3dfd2fff84ec7e4f72a3882b6c9c08c95f59", "content_sha256": "1e1277bff8c96c467e94f8efce68458452913a74aafc8ab8964226732c009e41"},
+      "staging": {"files": 0, "bytes": 0, "metadata_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+      "backend_data_exports": {"files": 1242, "bytes": 1353261344, "metadata_sha256": "ec459e860895e8b16ab6cae4fbb0a0ef5d366fe3d0c6f52eface0d293cf5e466", "content_sha256": "cf68f699a93f3cca8114dcbdc13a0d6b7a49b2d4e46ace3e25c911e5cc53a324"}
+    },
+    "approved_manifests": {"count": 44, "passed": 44, "parser_v16": 44, "export_3_8_0": 44, "content_sha256": "a236d872c0272ade790c3af5fc688f71897147492596a6fceea7951281418571"},
+    "faceit_demos_git": {"head": "f132c8de4bcc97650352ec5a647fdf3985f11353", "branch": "main", "clean": true},
+    "release": {"current": "stratai-2c6db440231d463a", "current_sha256": "600d3f69631c12112fa2af11fdf2a23813529bfba536806ba19627db3a8ee799", "files": 9, "bytes": 24047407, "metadata_sha256": "41c5e50806ec1a167dd1c415b56a35571a06cb7dc943298388f3923e965091a7", "content_sha256": "c04d3a7be1bddb567efa38c43781ec4975e593b50d293fe0ae649753b0852310", "release_json_sha256": "fe62c434595d7eb29c6796cf85661039fe3fc8a3c7d1551d77e27a5ddcac5572"}
+  },
+  "cleanup": {
+    "status": "passed",
+    "temporary_roots": [
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-last-known-20260829-3dc7cb44e6bb4999bc8c4cdc22d39bb2",
+      "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-last-known-20260829-fc0ab7534e144fff96663a2e07e13666"
+    ],
+    "all_absent_after_cleanup": true,
+    "removed_files": 85,
+    "removed_bytes": 795330775,
+    "recoverable": false
+  },
+  "limitations": [
+    "The candidate is not materialized in the 44 canonical 3.8.0 bundles.",
+    "FLD-LAST-KNOWN-POSITION and FLD-INFORMATION-AGE retain their historical FALTA_EXTRAER catalog state.",
+    "Age is factual elapsed time, not a learned or hand-written freshness class.",
+    "No recommendation, action label, tactical intent, counterfactual or outcome is produced.",
+    "The real smoke contained no unavailable visual-contact evaluations and no observed life reset; synthetic tests cover both boundaries."
+  ],
+  "next_demonstrated_blocker": "versioned and human-reviewed Mirage exposure-angle spatial semantics for peek_hold_or_reposition; no automatic cover/exit claims and no canonical migration authority"
+}

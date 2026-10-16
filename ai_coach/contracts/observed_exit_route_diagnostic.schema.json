@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_exit_route_diagnostic@1",
+  "title": "Causal objective exit-route diagnostic",
+  "contract_version": "1.0.0",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_id", "contract_version", "source_alias", "map_id", "round_number", "t0_tick", "availability_tick", "participant_alias", "training_allowed", "product_supported", "position_world", "posture_context", "sample", "candidates", "provenance"],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_exit_route_diagnostic@1"}, "contract_version": {"const": "1.0.0"},
+    "source_alias": {"type": "string", "pattern": "^demo-[0-9a-f]{20}$"}, "map_id": {"type": "string", "minLength": 1},
+    "round_number": {"type": "integer", "minimum": 1}, "t0_tick": {"type": "integer", "minimum": 0}, "availability_tick": {"type": "integer", "minimum": 0},
+    "participant_alias": {"type": "string", "pattern": "^participant-[0-9]{3}$"}, "training_allowed": {"const": false}, "product_supported": {"const": false},
+    "position_world": {"oneOf": [{"$ref": "#/$defs/vector"}, {"type": "null"}]},
+    "posture_context": {"$ref": "#/$defs/posture"}, "sample": {"$ref": "#/$defs/sample_fact"},
+    "candidates": {"type": "array", "items": {"$ref": "#/$defs/candidate"}}, "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "nullable_string": {"type": ["string", "null"]}, "reasons": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "vector": {"type": "object", "additionalProperties": false, "required": ["x", "y", "z"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}},
+    "posture": {"type": "object", "additionalProperties": false, "required": ["availability_tick", "is_ducking", "is_walking", "is_scoped", "active_weapon_status", "active_weapon", "horizontal_speed_status", "horizontal_speed_world_units_per_second", "horizontal_speed_source"], "properties": {
+      "availability_tick": {"type": ["integer", "null"], "minimum": 0}, "is_ducking": {"type": ["boolean", "null"]}, "is_walking": {"type": ["boolean", "null"]}, "is_scoped": {"type": ["boolean", "null"]},
+      "active_weapon_status": {"enum": ["observed", "unavailable"]}, "active_weapon": {"type": ["string", "null"]},
+      "horizontal_speed_status": {"enum": ["derived", "unavailable"]}, "horizontal_speed_world_units_per_second": {"type": ["number", "null"], "minimum": 0}, "horizontal_speed_source": {"$ref": "#/$defs/nullable_string"}
+    }},
+    "sample_fact": {"type": "object", "additionalProperties": false, "required": ["status", "reason_codes", "sample_id", "sample_alias"], "properties": {"status": {"enum": ["observed", "unavailable"]}, "reason_codes": {"$ref": "#/$defs/reasons"}, "sample_id": {"$ref": "#/$defs/nullable_string"}, "sample_alias": {"$ref": "#/$defs/nullable_string"}}},
+    "distance_fact": {"type": "object", "additionalProperties": false, "required": ["status", "value_world_units"], "properties": {"status": {"enum": ["derived", "unavailable"]}, "value_world_units": {"type": ["number", "null"], "minimum": 0}}},
+    "bool_fact": {"type": "object", "additionalProperties": false, "required": ["status", "value"], "properties": {"status": {"enum": ["derived", "unavailable"]}, "value": {"type": ["boolean", "null"]}}},
+    "objective": {"type": "object", "additionalProperties": false, "required": ["direction", "reason_codes", "reachability", "origin_association_world_units", "destination_association_world_units"], "properties": {"direction": {"const": "origin_to_destination"}, "reason_codes": {"$ref": "#/$defs/reasons"}, "reachability": {"$ref": "#/$defs/bool_fact"}, "origin_association_world_units": {"type": ["number", "null"], "minimum": 0}, "destination_association_world_units": {"type": ["number", "null"], "minimum": 0}}},
+    "scenario": {"type": "object", "additionalProperties": false, "required": ["status", "value_milliseconds", "speed_world_units_per_second", "speed_source", "assumption", "unavailability_reason"], "properties": {"status": {"enum": ["estimated", "unavailable"]}, "value_milliseconds": {"type": ["number", "null"], "minimum": 0}, "speed_world_units_per_second": {"type": ["number", "null"], "exclusiveMinimum": 0}, "speed_source": {"type": "string", "minLength": 1}, "assumption": {"type": "string", "minLength": 1}, "unavailability_reason": {"$ref": "#/$defs/nullable_string"}}},
+    "timing": {"type": "object", "additionalProperties": false, "required": ["intended_use", "user_facing_mode", "decision_semantics", "estimate_semantics", "exact_user_facing_time_allowed", "arrival_prediction", "scenarios"], "properties": {
+      "intended_use": {"const": "internal_decision_support_only"}, "user_facing_mode": {"const": "qualitative_conditional_with_uncertainty_only"}, "decision_semantics": {"const": "constraint_signal_not_recommendation"}, "estimate_semantics": {"const": "scenario_reference_not_arrival_prediction"}, "exact_user_facing_time_allowed": {"const": false}, "arrival_prediction": {"const": false},
+      "scenarios": {"type": "object", "additionalProperties": false, "required": ["optimistic_uninterrupted_250ups_baseline", "active_weapon_uninterrupted_baseline", "observed_pace_projection"], "properties": {"optimistic_uninterrupted_250ups_baseline": {"$ref": "#/$defs/scenario"}, "active_weapon_uninterrupted_baseline": {"$ref": "#/$defs/scenario"}, "observed_pace_projection": {"$ref": "#/$defs/scenario"}}}
+    }},
+    "physical": {"type": "object", "additionalProperties": false, "required": ["navigation_schema_id", "navigation_contract_version", "direct_distance", "path_distance", "internal_timing"], "properties": {"navigation_schema_id": {"const": "stratai.observed_navigation_path@2"}, "navigation_contract_version": {"const": "2.0.0"}, "direct_distance": {"$ref": "#/$defs/distance_fact"}, "path_distance": {"$ref": "#/$defs/distance_fact"}, "internal_timing": {"$ref": "#/$defs/timing"}}},
+    "tactical": {"type": "object", "additionalProperties": false, "required": ["status", "reason_codes", "review_status", "annotation_id", "classification", "author_id", "reviewer_id", "evidence"], "properties": {"status": {"const": "unavailable"}, "reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}, "review_status": {"const": "pending_review"}, "annotation_id": {"type": "string", "pattern": "^exit-annotation-[0-9]{4}$"}, "classification": {"type": "null"}, "author_id": {"type": "null"}, "reviewer_id": {"type": "null"}, "evidence": {"type": "array", "maxItems": 0}}},
+    "candidate": {"type": "object", "additionalProperties": false, "required": ["candidate_id", "candidate_alias", "destination_world", "objective_viability", "physical_cost", "tactical_evaluation"], "properties": {"candidate_id": {"type": "string", "pattern": "^exit-sample-[0-9]{3}/candidate-[0-9]{3}$"}, "candidate_alias": {"type": "string", "minLength": 1}, "destination_world": {"$ref": "#/$defs/vector"}, "objective_viability": {"$ref": "#/$defs/objective"}, "physical_cost": {"$ref": "#/$defs/physical"}, "tactical_evaluation": {"$ref": "#/$defs/tactical"}}},
+    "provenance": {"type": "object", "additionalProperties": false, "required": ["position_source", "posture_source", "motion_source", "package_schema_id", "package_contract_version", "package_asset_version", "package_sha256", "geometry_revision", "nav_asset_sha256", "tactical_review_status", "input_fields"], "properties": {
+      "position_source": {"const": "replay_player_state_position_16hz"}, "posture_source": {"const": "replay_player_state_causal_context_16hz"}, "motion_source": {"const": "observed_navigation_path_at_t0"},
+      "package_schema_id": {"const": "stratai.exit_route_map_package@1"}, "package_contract_version": {"const": "1.0.0"}, "package_asset_version": {"$ref": "#/$defs/nullable_string"}, "package_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}, "geometry_revision": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}, "nav_asset_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}, "tactical_review_status": {"type": ["string", "null"], "enum": ["pending_review", "approved", null]},
+      "input_fields": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+    }}
+  }
+}

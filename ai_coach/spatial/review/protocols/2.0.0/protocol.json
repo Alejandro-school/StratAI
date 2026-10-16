@@ -1,0 +1,102 @@
+{
+  "schema_id": "stratai.spatial_context_review_protocol@2",
+  "contract_version": "2.0.0",
+  "protocol_version": "2.0.0",
+  "handbook": {
+    "version": "2.0.0",
+    "relative_path": "HANDBOOK.md",
+    "sha256": "1923032ed62e4ffe748cc24eee91783a864ef95efde2845230485d3e91c4ac1c"
+  },
+  "published_at": "2026-09-02T00:00:00Z",
+  "scope": {
+    "map_id": "de_mirage",
+    "families": ["exposure", "cover", "exit_route"],
+    "purpose": "demo_contextual_spatial_human_review",
+    "excluded_uses": [
+      "training",
+      "product_support",
+      "canonical_materialization",
+      "release",
+      "corpus_reprocessing",
+      "recommendation_generation"
+    ]
+  },
+  "roles": {
+    "independent_reviewer_count": 2,
+    "reviewer_slots": ["reviewer_a", "reviewer_b"],
+    "adjudicator_required_on_conflict": true,
+    "adjudicator_must_be_distinct": true,
+    "identity_policy": "opaque_pseudonym_no_public_identity_in_artifact"
+  },
+  "question_sets": [
+    {
+      "family": "exposure",
+      "prompt_id": "spatial-context-question-01",
+      "question": "¿El sector resaltado representa de forma plausible una apertura real desde la posición y orientación observadas?",
+      "claim_boundary": "Compara el sector y sus rayos con el radar y T0; no juzgues seguridad, intención, resultado ni la calidad de una jugada.",
+      "options": [
+        {"answer_id": "supported", "label": "Sí, coincide", "description": "La superposición y los datos visibles respaldan la afirmación.", "requires_reason": true},
+        {"answer_id": "not_supported", "label": "No coincide", "description": "La evidencia visible contradice la afirmación.", "requires_reason": true},
+        {"answer_id": "missing_context", "label": "Falta información", "description": "Falta un dato necesario que debería estar visible.", "requires_reason": true},
+        {"answer_id": "not_evaluable", "label": "No se puede leer", "description": "El gráfico o los datos están rotos o son ilegibles.", "requires_reason": true},
+        {"answer_id": "abstain", "label": "Me abstengo", "description": "No puedo emitir este juicio con suficiente confianza.", "requires_reason": true}
+      ]
+    },
+    {
+      "family": "cover",
+      "prompt_id": "spatial-context-question-02",
+      "question": "¿La pared y los nueve probes mostrados respaldan cobertura física desde la dirección marcada para esta postura?",
+      "claim_boundary": "Valora sólo la oclusión del volumen en la situación T0; no conviertas cobertura física en seguridad o recomendación.",
+      "options": [
+        {"answer_id": "supported", "label": "Sí, coincide", "description": "La superposición y los datos visibles respaldan la afirmación.", "requires_reason": true},
+        {"answer_id": "not_supported", "label": "No coincide", "description": "La evidencia visible contradice la afirmación.", "requires_reason": true},
+        {"answer_id": "missing_context", "label": "Falta información", "description": "Falta un dato necesario que debería estar visible.", "requires_reason": true},
+        {"answer_id": "not_evaluable", "label": "No se puede leer", "description": "El gráfico o los datos están rotos o son ilegibles.", "requires_reason": true},
+        {"answer_id": "abstain", "label": "Me abstengo", "description": "No puedo emitir este juicio con suficiente confianza.", "requires_reason": true}
+      ]
+    },
+    {
+      "family": "exit_route",
+      "prompt_id": "spatial-context-question-03",
+      "question": "¿La polilínea NAV mostrada representa un recorrido físicamente transitable entre la posición observada y el destino?",
+      "claim_boundary": "Comprueba el recorrido sobre Mirage y su conectividad; no infieras que sea seguro, óptimo o recomendable.",
+      "options": [
+        {"answer_id": "supported", "label": "Sí, coincide", "description": "La superposición y los datos visibles respaldan la afirmación.", "requires_reason": true},
+        {"answer_id": "not_supported", "label": "No coincide", "description": "La evidencia visible contradice la afirmación.", "requires_reason": true},
+        {"answer_id": "missing_context", "label": "Falta información", "description": "Falta un dato necesario que debería estar visible.", "requires_reason": true},
+        {"answer_id": "not_evaluable", "label": "No se puede leer", "description": "El gráfico o los datos están rotos o son ilegibles.", "requires_reason": true},
+        {"answer_id": "abstain", "label": "Me abstengo", "description": "No puedo emitir este juicio con suficiente confianza.", "requires_reason": true}
+      ]
+    }
+  ],
+  "evidence_gate": {
+    "observed_demo_context_required": true,
+    "radar_registration_required": true,
+    "route_polyline_required": true,
+    "future_or_outcome_allowed": false,
+    "unreviewable_units_delivered": false
+  },
+  "blinding": {
+    "reviewer_visible_partition": "reviewer_view",
+    "audit_partition_visible_to_reviewer": false,
+    "prior_responses_visible": false
+  },
+  "workflow": {
+    "response_schema_id": "stratai.spatial_context_review_response@2",
+    "adjudication_schema_id": "stratai.spatial_context_review_adjudication@2",
+    "two_independent_responses_required": true
+  },
+  "privacy": {
+    "public_identity_allowed": false,
+    "absolute_paths_allowed": false,
+    "oracle_enemy_state_allowed": false
+  },
+  "authorization": {
+    "review_execution_authorized": true,
+    "training_use_authorized": false,
+    "product_supported": false,
+    "canonical_materialization": false,
+    "release_authorized": false,
+    "corpus_reprocessing_authorized": false
+  }
+}

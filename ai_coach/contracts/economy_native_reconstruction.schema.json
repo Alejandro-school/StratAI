@@ -1,0 +1,470 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_native_reconstruction@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "source_manifest_sha256",
+    "source_data_sha256",
+    "source_candidate_manifest_sha256",
+    "rule_assessment",
+    "records",
+    "summary"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_native_reconstruction@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "source_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_data_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_candidate_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rule_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "game_identity",
+        "status",
+        "price_scope",
+        "blockers",
+        "comparison_allowed"
+      ],
+      "properties": {
+        "game_identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "build_num",
+            "patch_version",
+            "network_protocol"
+          ],
+          "properties": {
+            "build_num": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value",
+                "observed_values"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "observed",
+                    "unavailable",
+                    "conflicting"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "observed_values": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "patch_version": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value",
+                "observed_values"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "observed",
+                    "unavailable",
+                    "conflicting"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "observed_values": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "network_protocol": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value",
+                "observed_values"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "observed",
+                    "unavailable",
+                    "conflicting"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "observed_values": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "status": {
+          "const": "compatibility_unverified"
+        },
+        "price_scope": {
+          "const": "observed_sellback_entry_cost_not_general_shop_price"
+        },
+        "blockers": {
+          "const": [
+            "versioned_price_asset_binding_missing",
+            "reward_schedule_and_prior_bonus_unverified",
+            "purchasable_loadout_and_item_limits_unverified",
+            "refund_rules_unverified",
+            "teammate_acceptance_unobserved"
+          ]
+        },
+        "comparison_allowed": {
+          "const": false
+        }
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "observation_id",
+          "previous_observation_id",
+          "instance",
+          "actor_alias",
+          "side",
+          "interval_start_tick",
+          "interval_end_tick",
+          "scope",
+          "purchase_counter_status",
+          "purchase_counter_reason",
+          "purchase_counter_differences",
+          "sellback_status",
+          "sellback_reason",
+          "sellback_entries_added",
+          "sellback_entries_removed",
+          "transaction_timing",
+          "refund_amount",
+          "basket",
+          "decision_eligible"
+        ],
+        "properties": {
+          "observation_id": {
+            "type": "string",
+            "pattern": "^n[0-9]{8}$"
+          },
+          "previous_observation_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^n[0-9]{8}$"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^p[0-9]{4,}$"
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T",
+              "unknown"
+            ]
+          },
+          "interval_start_tick": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "interval_end_tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "scope": {
+            "enum": [
+              "competitive_execution",
+              "boundary_or_unlinked"
+            ]
+          },
+          "purchase_counter_status": {
+            "enum": [
+              "available",
+              "unavailable"
+            ]
+          },
+          "purchase_counter_reason": {
+            "type": "string"
+          },
+          "purchase_counter_differences": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "item_definition_index",
+                "before",
+                "after",
+                "delta"
+              ],
+              "properties": {
+                "item_definition_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "before": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "after": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "delta": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "sellback_status": {
+            "enum": [
+              "available",
+              "unavailable"
+            ]
+          },
+          "sellback_reason": {
+            "type": "string"
+          },
+          "sellback_entries_added": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "item_definition_index",
+                "recorded_cost",
+                "previous_armor",
+                "previous_helmet",
+                "native_item_handle"
+              ],
+              "properties": {
+                "item_definition_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "recorded_cost": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "previous_armor": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 4294967295
+                },
+                "previous_helmet": {
+                  "type": "boolean"
+                },
+                "native_item_handle": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              }
+            }
+          },
+          "sellback_entries_removed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "item_definition_index",
+                "recorded_cost",
+                "previous_armor",
+                "previous_helmet",
+                "native_item_handle"
+              ],
+              "properties": {
+                "item_definition_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535
+                },
+                "recorded_cost": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "previous_armor": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 4294967295
+                },
+                "previous_helmet": {
+                  "type": "boolean"
+                },
+                "native_item_handle": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                }
+              }
+            }
+          },
+          "transaction_timing": {
+            "const": "interval_only_no_subtick_order"
+          },
+          "refund_amount": {
+            "const": null
+          },
+          "basket": {
+            "const": null
+          },
+          "decision_eligible": {
+            "const": false
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "records",
+        "counter_intervals_available",
+        "positive_counter_differences",
+        "negative_counter_differences",
+        "sellback_intervals_available",
+        "sellback_entries_added",
+        "sellback_entries_removed",
+        "competitive_execution_records",
+        "classified_actions",
+        "verified_rule_packages"
+      ],
+      "properties": {
+        "records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "counter_intervals_available": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "positive_counter_differences": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "negative_counter_differences": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sellback_intervals_available": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sellback_entries_added": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sellback_entries_removed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "competitive_execution_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classified_actions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verified_rule_packages": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<style>
+[hidden]{display:none!important}.round-context{margin:20px 4vw 0;padding:18px;border:1px solid var(--line);background:#fff;line-height:1.6}.round-context p{margin:5px 0}.round-clocks{display:flex;flex-wrap:wrap;gap:12px 28px}.round-clocks strong{font-variant-numeric:tabular-nums}.round-context.excluded{border-left:4px solid var(--accent)}
+</style>
+<script id="round-data" type="application/json">__ROUND_JSON__</script>
+<script>
+const roundData=JSON.parse(document.getElementById('round-data').textContent);
+const roundPanel=node('section',undefined,'round-context');roundPanel.setAttribute('aria-label','Contexto y reloj de ronda');
+const kindLabel=node('strong'), clocksPanel=node('div',undefined,'round-clocks'), elapsedLabel=node('p'), leftLabel=node('p'), bombLabel=node('p'), pauseLabel=node('p'), contextNote=node('p',undefined,'muted');
+clocksPanel.append(elapsedLabel,leftLabel,bombLabel,pauseLabel);roundPanel.append(kindLabel,clocksPanel,contextNote);document.querySelector('header').after(roundPanel);
+function roundTime(f){if(f.status==='not_applicable')return 'No corresponde';if(f.status!=='observed')return 'Sin dato confirmado';const cs=Math.round(Math.max(0,f.value)*100);return Math.floor(cs/6000)+':'+((cs%6000)/100).toFixed(2).padStart(5,'0')}
+const drawOriginal=draw;
+draw=function(){drawOriginal();const f=roundData.frames[Number(slider.value)],g=f.eligibility,c=f.native_clock;
+kindLabel.textContent=({knife:'Ronda de cuchillos · Excluida del análisis táctico',warmup:'Calentamiento · Excluido del análisis táctico',bomb_objective:'Ronda con objetivo C4',unknown:'Tipo de ronda sin confirmar'})[g.kind];
+roundPanel.classList.toggle('excluded',g.kind==='knife'||g.kind==='warmup');
+elapsedLabel.textContent='Transcurrido de ronda: '+roundTime(f.round_elapsed_seconds);
+leftLabel.textContent='Restante de ronda: '+roundTime(c.round_remaining_seconds);
+bombLabel.textContent='Restante de bomba: '+roundTime(c.bomb_remaining_seconds);
+pauseLabel.textContent='Reloj: '+(c.pause_state.value==='paused'?'En pausa':c.pause_state.value==='running'?'En marcha':'Estado sin confirmar');
+contextNote.textContent='El transcurrido se mide desde el fin de la congelación. La cuenta atrás usa el reloj nativo; no reproduce necesariamente el redondeo del HUD.'+(roundData.scope==='pending_context'?' El análisis táctico queda pendiente de confirmar el contexto de este tramo.':'');
+document.getElementById('time').textContent='Tramo: '+document.getElementById('time').textContent;
+};draw();
+if(roundData.scope==='excluded'){
+  document.querySelector('main').hidden=true;stop();
+  contextNote.textContent='Esta ronda se conserva como evidencia y se omite de interpretación, puntuación táctica y recomendaciones.';
+}
+</script>

@@ -1,0 +1,591 @@
+{
+  "phase": "ICT-I1.A",
+  "date": "2026-09-21",
+  "status": "functional_validated_temporaries_retained",
+  "source": {
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "distinct_approved_matches": 1,
+    "build_identifier": "working-tree-ict-i1a-20260921",
+    "binary_sha256": "cd095caffdc2ae53d20abfba8f5b32f294d5643e5ded640f013e553c01a2873c"
+  },
+  "versions": {
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "quality": 12,
+    "catalog": "1.7.0",
+    "temporal_contract": "1.0.0-candidate.1",
+    "runtime_schemas": 107,
+    "reason_codes": 19,
+    "human_contract": "1.51",
+    "plan": "2.60"
+  },
+  "verification_commands": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 112.689,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\check-all.log"
+    },
+    "ai-coach": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 941.329,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\ai-coach.log"
+    },
+    "contract": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.contracts.validate_contract"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 8.556,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\contract.log"
+    },
+    "final-targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_temporal_description.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 28.368,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\final-targeted.log"
+    },
+    "build": {
+      "command": [
+        "go",
+        "build",
+        "-overlay",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\overlay.json",
+        "-o",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\canonical-export.exe",
+        "./cmd/canonical-export"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 16.238,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\build.log"
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\demo-a11eb0d600ee702c9edb.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\capture",
+        "--alias",
+        "demo-a11eb0d600ee702c9edb",
+        "--checksum",
+        "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-ict-i1a-20260921",
+        "--ai-coach-support-c4-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 167.567,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\producer.log"
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.ledger_io",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\ledger"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 1237.647,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\materialize.log"
+    },
+    "validate": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.ledger_io",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\ledger"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 1212.141,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\validate.log"
+    }
+  },
+  "canonical": {
+    "ok": true,
+    "errors": [],
+    "seconds": 593.665,
+    "command": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\smoke.py",
+      "canonical"
+    ]
+  },
+  "audit_command": [
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+    "-B",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\audit.py"
+  ],
+  "independent_audit": {
+    "ok": true,
+    "seconds": 45.056,
+    "counts": {
+      "independently_checked_positions": 205324,
+      "independently_checked_alive": 306740,
+      "independently_checked_physical_facts": 1217088,
+      "independently_checked_C4_negative": 191554,
+      "actor_cuts": 306740,
+      "records": 61432,
+      "independently_recomputed_displacements": 205045,
+      "zero_displacements": 37150,
+      "nonzero_displacements": 167895,
+      "independently_checked_C4_positive": 13770
+    },
+    "variants": {
+      "active_weapon:observed:present": 204851,
+      "active_weapon:unavailable:cut_unavailable": 8573,
+      "active_weapon:unavailable:not_alive": 92843,
+      "active_weapon:unavailable:weapon_identity_unavailable": 473,
+      "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_in_magazine:observed:present": 132405,
+      "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+      "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+      "ammo_in_magazine:unavailable:not_alive": 92843,
+      "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+      "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_reserve:observed:present": 132724,
+      "ammo_reserve:unavailable:cut_unavailable": 8573,
+      "ammo_reserve:unavailable:not_alive": 92843,
+      "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+      "displacement:observed:present": 205045,
+      "displacement:unavailable:no_previous_sample": 9,
+      "displacement:unavailable:not_alive": 162,
+      "displacement:unavailable:previous_actor_unavailable": 73971,
+      "displacement:unavailable:sample_gap_or_boundary": 27553,
+      "ducking:observed:present": 205324,
+      "ducking:unavailable:cut_unavailable": 8573,
+      "ducking:unavailable:not_alive": 92843,
+      "has_c4:observed:False:present": 191554,
+      "has_c4:observed:True:present": 13770,
+      "has_c4:unavailable:None:cut_unavailable": 8573,
+      "has_c4:unavailable:None:not_alive": 92843,
+      "reloading:not_applicable:non_ammunition_weapon": 72127,
+      "reloading:observed:present": 131136,
+      "reloading:unavailable:cut_unavailable": 8573,
+      "reloading:unavailable:not_alive": 92843,
+      "reloading:unavailable:reload_signal_unavailable": 1588,
+      "reloading:unavailable:weapon_identity_unavailable": 473,
+      "view_angles:observed:present": 205324,
+      "view_angles:unavailable:cut_unavailable": 8573,
+      "view_angles:unavailable:not_alive": 92843,
+      "walking:observed:present": 205324,
+      "walking:unavailable:cut_unavailable": 8573,
+      "walking:unavailable:not_alive": 92843
+    },
+    "known_cases": {
+      "K1": {
+        "tick": 8524,
+        "record_id": "3908b4d6298fa06859ae1e930cda044d8d772ba0cf2f446fb0db3594742b9be6",
+        "players": [
+          {
+            "alias": "T1",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T2",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T3",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T4",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": true
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T5",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Smoke Grenade"
+            }
+          }
+        ],
+        "human_answer_used_as_input": false,
+        "tactical_plan": "unknown",
+        "known_development_not_independent_evaluation": true
+      },
+      "K2": {
+        "tick": 8636,
+        "record_id": "c4a6ab8d8e4f4cd1c6703f2455affe0d638bb4b7350a656c87473c55925d633b",
+        "players": [
+          {
+            "alias": "T1",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T2",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T3",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T4",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": true
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T5",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Smoke Grenade"
+            }
+          }
+        ],
+        "human_answer_used_as_input": false,
+        "tactical_plan": "unknown",
+        "known_development_not_independent_evaluation": true
+      }
+    },
+    "limits": [
+      "No physical route, legal enemy perception, intent, tactical superiority or independent evaluation accredited.",
+      "Real coverage is limited to variants present in this match; adversarial absences are regression fixtures."
+    ]
+  },
+  "temporal_manifest": {
+    "artifact": {
+      "bytes": 585246946,
+      "path": "temporal_descriptions.jsonl",
+      "sha256": "c8b261d52fc9301621843cfac46f4b5c49bba73d455b3feb23da8c02e62993ff"
+    },
+    "comparison_allowed": false,
+    "configuration": "own_ally_sampled_description@1",
+    "contract_version": "1.0.0-candidate.1",
+    "counts": {
+      "active_weapon:observed:present": 204851,
+      "active_weapon:unavailable:cut_unavailable": 8573,
+      "active_weapon:unavailable:not_alive": 92843,
+      "active_weapon:unavailable:weapon_identity_unavailable": 473,
+      "actors": 306740,
+      "alive:observed:present": 306740,
+      "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_in_magazine:observed:present": 132405,
+      "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+      "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+      "ammo_in_magazine:unavailable:not_alive": 92843,
+      "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+      "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_reserve:observed:present": 132724,
+      "ammo_reserve:unavailable:cut_unavailable": 8573,
+      "ammo_reserve:unavailable:not_alive": 92843,
+      "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+      "ducking:observed:present": 205324,
+      "ducking:unavailable:cut_unavailable": 8573,
+      "ducking:unavailable:not_alive": 92843,
+      "excluded:cut_unavailable": 8573,
+      "excluded:none": 205324,
+      "excluded:not_alive": 92843,
+      "has_c4:observed:present": 205324,
+      "has_c4:unavailable:cut_unavailable": 8573,
+      "has_c4:unavailable:not_alive": 92843,
+      "hypotheses_unavailable": 245728,
+      "missing_previous_actors": 11,
+      "position:observed:present": 205324,
+      "position:unavailable:cut_unavailable": 8573,
+      "position:unavailable:not_alive": 92843,
+      "records": 61432,
+      "reloading:not_applicable:non_ammunition_weapon": 72127,
+      "reloading:observed:present": 131136,
+      "reloading:unavailable:cut_unavailable": 8573,
+      "reloading:unavailable:not_alive": 92843,
+      "reloading:unavailable:reload_signal_unavailable": 1588,
+      "reloading:unavailable:weapon_identity_unavailable": 473,
+      "sampled_displacement:observed:present": 205045,
+      "sampled_displacement:unavailable:no_previous_sample": 9,
+      "sampled_displacement:unavailable:not_alive": 162,
+      "sampled_displacement:unavailable:previous_actor_unavailable": 73971,
+      "sampled_displacement:unavailable:sample_gap_or_boundary": 27553,
+      "view_angles:observed:present": 205324,
+      "view_angles:unavailable:cut_unavailable": 8573,
+      "view_angles:unavailable:not_alive": 92843,
+      "walking:observed:present": 205324,
+      "walking:unavailable:cut_unavailable": 8573,
+      "walking:unavailable:not_alive": 92843
+    },
+    "product_supported": false,
+    "schema_id": "stratai.temporal_description_manifest@1",
+    "sides": [
+      "CT",
+      "T"
+    ],
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_artifacts": {
+      "support_c4_observations.json": {
+        "bytes": 14368199,
+        "path": "support_c4_observations.json",
+        "sha256": "12d1e91fa3415c984e44e0920351cecde36f2c94712ac2c46cc30b5f1ac2a375"
+      },
+      "support_objective_observations.json": {
+        "bytes": 112277192,
+        "path": "support_objective_observations.json",
+        "sha256": "c32ed154d93ff1cd46e5179ece76249bb25aa55e0a55c28eb8ea4cc007afeab9"
+      },
+      "support_observations.json": {
+        "bytes": 91847801,
+        "path": "support_observations.json",
+        "sha256": "0bd766e9560692ea78aaaa00304793c1f9e45a2fc46413c81c4fe76ac0919f8b"
+      },
+      "support_physical_observations.json": {
+        "bytes": 177194917,
+        "path": "support_physical_observations.json",
+        "sha256": "a9f35a07938815da8d38ff92a1cd01dc1714f2563f584a23420c194dca311d42"
+      }
+    },
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "through_sequence": 30716,
+    "training_allowed": false
+  },
+  "raw_source_counts": {
+    "sampled_cuts": 30716,
+    "expected_CT_T_records": 61432,
+    "own_ally_actor_cuts": 306740,
+    "phases": {
+      "playing": 27948,
+      "postround": 2768
+    }
+  },
+  "real_prefix_invariance": {
+    "ok": true,
+    "records_compared": 1417,
+    "cut": {
+      "sequence": 1417,
+      "frame": 8654,
+      "tick": 8636,
+      "epoch": 0,
+      "instance": 2,
+      "round_number": 1,
+      "tick_rate": 64,
+      "sample_step": 4,
+      "phase": "playing"
+    },
+    "record_id": "c4a6ab8d8e4f4cd1c6703f2455affe0d638bb4b7350a656c87473c55925d633b",
+    "seconds": 37.365,
+    "controls": [
+      "future replaced with unreadable payloads",
+      "hidden enemy state corrupted",
+      "hidden enemy physical context and inventory corrupted",
+      "human answers and C0 outcomes injected",
+      "whole-artifact manifest hash altered"
+    ],
+    "originals_modified": false,
+    "new_demo_parses": 0,
+    "known_development_not_independent_tactical_evaluation": true
+  },
+  "real_prefix_command": [
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+    "-B",
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\real_prefix_check.py"
+  ],
+  "sources": {
+    "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+    "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+    "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588",
+    "ai_coach\\contracts\\temporal_description.schema.json": "45a893f43f40471aaf82e4e61d9c4ee31ed77f52aa2ee383c87a1ef695e9cbb1"
+  },
+  "guard": "empty strict TEMP descendant without links/reparse; exclusive writes",
+  "supporting_code_and_schemas": {
+    "ai_coach/support/anchors.py": "3cfa48e8ec8c74a5ec861c980017dd1dffcd02c15256348eddb0152105c37db7",
+    "ai_coach/support/preparation.py": "f542ee9b00afe8a816b1dcb9d7fed7acdc1784ea29ae91f8f4b528c4b8349661",
+    "ai_coach/support/physical.py": "60a113524d599be3e5539395678c36b900de5b7345e5be3a2ff540e67db1d2ad",
+    "ai_coach/support/objective.py": "58f273622faada38303f4e24922c248db476179a0f8e30c929ce3bf5c952f462",
+    "ai_coach/support/c4.py": "8b5342fbbb1278350a5f00d8239f776cbc46ae32be4c85eb694e052a31d81247",
+    "ai_coach/economy/candidate_io.py": "eb3c111e102e259a176d0cf8187dcb8d696e5a50209ad45a36d8816506ab52f4",
+    "ai_coach/contracts/runtime_contracts.py": "d471bd78d20d151add0576c02a40c71c9e2372217a724a784f8f4f226c7edcd2",
+    "ai_coach/contracts/support_observations.schema.json": "cd8a62bb7585068e788f3d9c37375551face293ecad08fc3dfe3705ec75563d6",
+    "ai_coach/contracts/support_physical_observations.schema.json": "7548e618f05d8c43d607bdf78ec7cd51b9c9be7201884c0c6a7171dc5f777958",
+    "ai_coach/contracts/support_objective_observations.schema.json": "82d363d333dc7ee58f987d20baf31f97881ba40e8bfc7cd6c56f8d2e7f278735",
+    "ai_coach/contracts/support_c4_observations.schema.json": "19b2a706dde0c1be59882742d3411f602044cac4c70ce6b2c39fb2e4ed0c16f7",
+    "outputs/stratai-ict-i1a-20260921/audit.py": "9f5efe75fc1248642e0cda1ce05910ad3ce1e1eb6ac8df50b2c08c7c88ff094e",
+    "outputs/stratai-ict-i1a-20260921/real_prefix_check.py": "98190c0d7e258d6f5aa29db1b608d35eddbfea47cd01982ce9b6f5f7b461366f"
+  },
+  "environment": {
+    "python": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+    "jsonschema": "4.26.0"
+  },
+  "performance_probe": {
+    "path": "outputs\\stratai-ict-i1a-20260921\\prefix-profile-200.txt",
+    "sha256": "7ab2d4e3e2437144087354088a3e340b0d52cd06e82f8c125681b3efa2c3eab7",
+    "method": "cProfile on a 200-cut prefix of the same fresh capture, after tests; no second demo parse",
+    "finding": "Most cumulative time is schema validation; no validation was removed or bypassed."
+  },
+  "retention_overlay": {
+    "overlay_difference": "Only automatic staging deletion disabled; no producer logic changed.",
+    "overlay_sha256": "1fedf81a458d7062d2a2abf304572e889b5d3eac513e44024f9f6a3114156a5b",
+    "go_main_sha256": "d81c18d3240a21b229aa693061cc825d21d5332a5d6cd9c56f47b1f3048daa06"
+  },
+  "retained": {
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo",
+    "files": 83,
+    "bytes": 2068944645,
+    "inventory": "outputs\\stratai-ict-i1a-20260921\\temporary-inventory.json",
+    "inventory_sha256": "82ad400571fa030f2f3f709291dcdc9874dc0a4a0bc140f14f249b33310db042",
+    "cleanup_requested": false
+  },
+  "protected_approved_manifests": {
+    "count": 44,
+    "unchanged": true,
+    "fingerprint_file": "outputs\\stratai-ict-i1a-20260921\\protected-manifests-before.json",
+    "sha256": "895ecb9108f0cc4295ca023cf500aa6cd315faf7f342739a2b24c0ca8479526d"
+  },
+  "expert_framing": "ICT-I1 E01-E04 already recorded in Excel v6; no new tactical criteria or workbook edits.",
+  "limits": {
+    "tactical_hypotheses_enabled": 0,
+    "recommendations": 0,
+    "eligible_capabilities": 0,
+    "independent_tactical_evaluation": false,
+    "S2_S3": "unchanged",
+    "training_allowed": false,
+    "corpus_reprocessing": false,
+    "promotion": false,
+    "contexts_projected": [
+      "support_positions_alive_identity",
+      "physical_7_facts",
+      "C4_possession"
+    ],
+    "other_contexts": "Existing contracts remain separate; not claimed as new ledger coverage."
+  }
+}

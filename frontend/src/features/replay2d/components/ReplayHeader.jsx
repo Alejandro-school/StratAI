@@ -9,7 +9,15 @@ export function ReplayHeader({
   tScore,
   onRoundChange,
 }) {
-  const phase = frame?.bomb?.state === "planted" || frame?.bomb?.state === "defusing"
+  const bomb = frame?.bomb;
+  const carrier = frame?.players?.find((p) => String(p.steam_id) === String(bomb?.carrier_id));
+  const objectiveLabel = { carried: "transportado", dropped: "caído", planting: "plantando",
+    planted: "plantado", defusing: "desactivando", defused: "desactivado", exploded: "detonado", resolved: "resuelto" }[bomb?.state] || "desconocido";
+  const roundContext = frame?.round_context;
+  const phase = roundContext ? ({ ended: `FINALIZADA${roundContext.winner ? ` · ${roundContext.winner}` : ''}`,
+    preplant: 'LIVE', planted: 'POST-PLANT', freezetime: 'FREEZE' }[roundContext.phase] || 'FASE DESCONOCIDA')
+    : bomb?.objective_phase === "resolved" ? "FINALIZADA"
+    : bomb?.state === "planted" || bomb?.state === "defusing"
     ? "POST-PLANT"
     : (frame?.time_remaining || 0) > 115 ? "FREEZE" : "LIVE";
   return (
@@ -33,9 +41,15 @@ export function ReplayHeader({
         <span className="t">T</span>
       </div>
       <div className="r2-round-state">
+        <span className="r2-objective-status">C4 {objectiveLabel}{carrier ? ` · ${carrier.name}` : ""}
+          <small>{bomb?.objective_phase === "resolved" ? (bomb.was_planted_this_round ? "Hubo plantado" : "Objetivo cerrado")
+            : bomb?.position_status === "observed" ? "Ubicación observada"
+              : bomb?.last_observed_position ? "Última muestra indicada en el mapa" : "Ubicación desconocida"}</small>
+        </span>
         <span className={`r2-live-pill ${phase === "LIVE" ? "active" : ""}`}>{phase}</span>
-        <time className={(frame?.time_remaining || 0) <= 10 ? "danger" : ""}>
-          {formatClock(frame?.time_remaining)}
+        <time aria-label={roundContext && frame?.time_remaining == null ? 'Reloj no disponible' : 'Tiempo restante'}
+          className={Number.isFinite(frame?.time_remaining) && frame.time_remaining <= 10 ? "danger" : ""}>
+          {roundContext && frame?.time_remaining == null ? '—' : formatClock(frame?.time_remaining)}
         </time>
       </div>
     </header>

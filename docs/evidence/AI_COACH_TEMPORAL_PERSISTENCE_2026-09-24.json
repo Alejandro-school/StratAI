@@ -1,0 +1,577 @@
+{
+  "ok": true,
+  "date": "2026-09-24",
+  "phase": "ICT-I2 temporal persistence",
+  "expert_answer_verbatim": "Mantener posibilidad hasta contradicción",
+  "criterion_receipt": "docs/evidence/AI_COACH_TEMPORAL_PERSISTENCE_CRITERION_2026-09-24.json",
+  "configuration": "collective_c4_approach@2-temporal-provisional",
+  "schema_id": "stratai.contextual_interpretation@2",
+  "runtime_schemas": 112,
+  "reason_codes": 19,
+  "catalog_version": "1.7.0",
+  "parameter": {
+    "contradiction_motion_seconds": 1.0,
+    "pause_expiry_seconds": null,
+    "status": "provisional engineering choice declared before R2 v2 execution"
+  },
+  "commands": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 113.742,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\check-all.log"
+    },
+    "ai-coach": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 1,
+      "seconds": 526.761,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\ai-coach.log"
+    },
+    "contract": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.contracts.validate_contract"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 5.419,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\contract.log"
+    },
+    "final-targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_temporal_detector.py",
+        "ai_coach/tests/test_contextual_interpretation.py",
+        "ai_coach/tests/test_review_completion.py",
+        "ai_coach/tests/test_temporal_description.py",
+        "ai_coach/tests/test_accelerated_support_schema.py",
+        "ai_coach/tests/test_support_anchors.py",
+        "ai_coach/tests/test_support_physical.py",
+        "ai_coach/tests/test_support_objective.py",
+        "ai_coach/tests/test_support_c4.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 43.321,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\final-targeted.log"
+    },
+    "build": {
+      "command": [
+        "go",
+        "build",
+        "-overlay",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\overlay.json",
+        "-o",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\canonical-export.exe",
+        "./cmd/canonical-export"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 17.11,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\build.log"
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\demo-066944f5acb806ba5f81.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\capture",
+        "--alias",
+        "demo-066944f5acb806ba5f81",
+        "--checksum",
+        "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-contextual-temporal-persistence-20260924",
+        "--ai-coach-support-c4-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 79.0,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\producer.log"
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.contextual_io",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\capture\\smoke_run_demo-066944f5acb806ba5f81",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\ledger",
+        "--side",
+        "T",
+        "--intervals",
+        "6318:6378",
+        "6318:6382",
+        "--map-vmap",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 25.375,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\materialize.log"
+    },
+    "validate": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.contextual_io",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\capture\\smoke_run_demo-066944f5acb806ba5f81",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x\\ledger",
+        "--side",
+        "T",
+        "--intervals",
+        "6318:6378",
+        "6318:6382",
+        "--map-vmap",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps\\de_mirage\\de_mirage_texto.vmap"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 24.105,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\validate.log"
+    }
+  },
+  "canonical_validation": {
+    "ok": true,
+    "errors": [],
+    "seconds": 266.166,
+    "command": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-temporal-persistence-20260924\\smoke.py",
+      "canonical"
+    ]
+  },
+  "full_suite_count_assertion_resolution": "1994 tests passed. The only failure expected 111 registered schemas instead of 112. That assertion was updated; all affected tests passed in final-targeted. No production source changed after the full suite or preflight seal. The failed full-run log is retained, not reported as a clean full run.",
+  "smoke": {
+    "ok": true,
+    "source_alias": "demo-066944f5acb806ba5f81",
+    "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+    "configuration": "collective_c4_approach@2-temporal-provisional",
+    "schema_id": "stratai.contextual_interpretation@2",
+    "checks": {
+      "causal_references": 942,
+      "approach_signals": 8,
+      "motion_steps": 200,
+      "motion_counters": 8,
+      "unchanged_factual_samples": 65
+    },
+    "readings": [
+      {
+        "cut": 6378,
+        "origin": 6355,
+        "survivors": 4,
+        "destination": "A",
+        "carrier_away_seconds": 0.0,
+        "update": "initial"
+      },
+      {
+        "cut": 6382,
+        "origin": 6355,
+        "survivors": 4,
+        "destination": "A",
+        "carrier_away_seconds": 0.1875,
+        "update": "maintained"
+      }
+    ],
+    "protected_files_unchanged": 77,
+    "functional_sources_match_preflight": true,
+    "counts": {
+      "coaching_abstentions": 2,
+      "compatible": 2,
+      "episodes": 2,
+      "hypotheses": 2,
+      "samples_in_episodes": 126
+    },
+    "retained_files": 83,
+    "retained_bytes": 1113810560,
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x",
+    "seconds": 2.048,
+    "real_variants": [
+      "small_carrier_adjustment",
+      "stationary_samples",
+      "ally_retreat",
+      "explicit_death",
+      "renewed_group_approach"
+    ],
+    "variants_only_in_software_controls": [
+      "long_whole_group_pause",
+      "C4_or_identity_discontinuity",
+      "sustained_carrier_retreat",
+      "new_destination"
+    ],
+    "training_allowed": false,
+    "independent_generalization_accredited": false
+  },
+  "preflight": {
+    "source_alias": "demo-066944f5acb806ba5f81",
+    "source_sha256": "066944f5acb806ba5f8118426535d7adbfb75980510a63f715fc21b147d6f574",
+    "distinct_approved_matches": 1,
+    "approved_bundles": 44,
+    "build_identifier": "working-tree-contextual-temporal-persistence-20260924",
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-persistence-smoke-614krm5x",
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "quality": 12,
+    "temporal_contract": "1.0.0-candidate.1",
+    "schema_id": "stratai.temporal_description@1",
+    "binary_sha256": "eea54eb43375b50d4e1485241b129eace342f0776820784a87741704625f9ce3",
+    "overlay_sha256": "1fedf81a458d7062d2a2abf304572e889b5d3eac513e44024f9f6a3114156a5b",
+    "go_main_sha256": "d81c18d3240a21b229aa693061cc825d21d5332a5d6cd9c56f47b1f3048daa06",
+    "overlay_difference": "Only automatic staging deletion disabled; no producer logic changed.",
+    "guard": "empty strict TEMP descendant without links/reparse; exclusive writes",
+    "sources": {
+      "ai_coach\\interpretation\\coaching.py": "f46940337d46709dc3a43ace1686604fcb358860f73a5e886b7e9904b7821e27",
+      "ai_coach\\interpretation\\context.py": "94954dc9fda62094f26925d8d5b7229edf420b16e19af352551393a581c2aa36",
+      "ai_coach\\interpretation\\contextual_io.py": "1633023636a1bcfe1c4c8d15af8ea86772649e6800e3564cd691b39671938082",
+      "ai_coach\\interpretation\\detector.py": "db2ee961307a1b1bd86132384846e628d0584d8068f796a7e17c63c6677a3337",
+      "ai_coach\\interpretation\\evaluation.py": "988f5bfa04f5af4e27ed5f1cc85d2b74bf0e12b06c492976836f19ef7613a967",
+      "ai_coach\\interpretation\\inventory.py": "db1859f355830a05eb3e15ee158d70b8dc9d04bc9f50b4e775b00cb03328fab0",
+      "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+      "ai_coach\\interpretation\\replay_report.py": "8b63cfdb326c52c39a8fb81939f1b3592886d066db3911980d4bf108b3ed588e",
+      "ai_coach\\interpretation\\review.py": "10cc44e238c11ab7c23db194f3afe5ade602a8c3a06dc3699794ae54759d9162",
+      "ai_coach\\interpretation\\review_packet.py": "0e9eb66e12aa2621f52381bddec1fc358db416b06e2e01fe75b6de163c42caef",
+      "ai_coach\\interpretation\\spatial_reference.py": "10ef95b807e33818f529dbe1f1cbac8975c33e858292727285a451fc1dca62e5",
+      "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+      "ai_coach\\interpretation\\temporal_detector.py": "cca62b81a036fc999e5bb3527cc4dec76247ded50aebc1b645ca8e57d55fcd14",
+      "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588",
+      "ai_coach\\contracts\\temporal_description.schema.json": "45a893f43f40471aaf82e4e61d9c4ee31ed77f52aa2ee383c87a1ef695e9cbb1",
+      "ai_coach\\contracts\\contextual_input.schema.json": "c6afa5bb204178ae681b11402f9b408050b02c191d9719b6635819c04c1cf7c4",
+      "ai_coach\\contracts\\contextual_review.schema.json": "fac49c4b7504fd9d89023f8fa494b30a57cc2fa39d4f9213108379a2d766b8ea",
+      "ai_coach\\contracts\\contextual_review_packet.schema.json": "dca2f1679b3d8a1ad0caa11c2994e6d05a1c48e92b4522970b067a13e88fe666",
+      "ai_coach\\contracts\\contextual_temporal_interpretation.schema.json": "72987b9d24d304b722f48f450992ca117c711b3009ff90f9a31b229bc2823036",
+      "ai_coach\\contracts\\cover_map_package.schema.json": "27aaab11a38e4ff22f6faaaa9c585014884b9dc3981d9cd4e267c16caa7152cc",
+      "ai_coach\\contracts\\cover_support_manifest.schema.json": "c295208ad9e3a9e571ca07195614d516eb70934f69b61419e1fc6113c97cf494",
+      "ai_coach\\contracts\\decision_example.schema.json": "6b41bab970d3da4d41948b0bb0cbf2bbf6a59bd3fc0f49bea0ce1fe9fc7464f8",
+      "ai_coach\\contracts\\decision_example_v2.schema.json": "f211e1fd215f2cd776ef0cf55438805b10fab36f454d1805d129de0f3d731d3c",
+      "ai_coach\\contracts\\decision_example_v3.schema.json": "ac664b8d241651bd835f3b6d51cec87e109f667b35974d694dda8c5e20b0930f",
+      "ai_coach\\contracts\\economy_candidate_manifest.schema.json": "275e6b146d499a7872bcfaca53843bd61446923fbbe6a88ffa6932d4805e3720",
+      "ai_coach\\contracts\\economy_candidate_manifest_v2.schema.json": "1577ae8dff08f85ddfafc390eca6b9748e9899edb75524e7721a2cd734b2d106",
+      "ai_coach\\contracts\\economy_cashflow_observations.schema.json": "f4df01e87c92587b03f9177ee076d2733e9246cac3257cf8b7088d405590bdca",
+      "ai_coach\\contracts\\economy_cashflow_reconciliation.schema.json": "32744c539664262d294f6c5cf3f64e4584adcbb317dbdd4ca2e147a4acd6ad6d",
+      "ai_coach\\contracts\\economy_entry_identity_links.schema.json": "6478ce65f08eae929cabde1c78a55c05110a06a0a368c0382c393d5a823ab9e3",
+      "ai_coach\\contracts\\economy_entry_observations.schema.json": "189519a736698ab103b9e1b3dce0312b786ebb5e490bc3e30b445fbcb2623d13",
+      "ai_coach\\contracts\\economy_native_identity.schema.json": "bc82307db006385bcb2abbab19bdfa6f7bd19dfbdaf85ffa71290c22f2d42a08",
+      "ai_coach\\contracts\\economy_native_reconstruction.schema.json": "759ee3def5fc84ea455f046fb4919f17c483eaa4859d238265f75256ea282997",
+      "ai_coach\\contracts\\economy_native_sources.schema.json": "b689d6a2e618cbf249525a29cd2c492e04d3f61500c3dfa655b0e62c827ce8eb",
+      "ai_coach\\contracts\\economy_native_sources_manifest.schema.json": "f4bdbcacf2aee3cf4d4d1111c3cbbbda9d166c1ee3a180fefee7fd68f7607e43",
+      "ai_coach\\contracts\\economy_opportunities.schema.json": "d7d375b3c028eb93c148cc4b180dfe5ce4d05e45d42542ca467ef843ebf0942b",
+      "ai_coach\\contracts\\economy_opportunities_manifest.schema.json": "1b322a5722ee11367ebf67e75324bf54619339b644bf32af03798988d4b736e3",
+      "ai_coach\\contracts\\economy_opportunity_protocol.schema.json": "27517da5bc1331b9ca1aab6906ea763c01c1f0b70621c2ca7a879096807a6a47",
+      "ai_coach\\contracts\\economy_ownership_observations.schema.json": "3f364855ee099ed37c0e438e385c428e73fbc4e8b31ea5e50b07378f6d93804f",
+      "ai_coach\\contracts\\economy_ownership_reconciliation.schema.json": "fb5925ce88435680da03f3c51946a47d7e58e621cf4c747554f606fdfefa8a18",
+      "ai_coach\\contracts\\economy_resource_manifest.schema.json": "7123823042510de126bbf4df74a9b99d6f9cd5551497e2b77e84aa947a67ac8c",
+      "ai_coach\\contracts\\economy_rule_assessment.schema.json": "3b1e7a37d4a28f395a4d2e0fdc86b51a52ddfe66f767fcc6f3684fa59339567e",
+      "ai_coach\\contracts\\economy_rule_context.schema.json": "bc75f22749994b7be12c95f66afe4e1b0738e6877158e19747eedeb49d3ae38e",
+      "ai_coach\\contracts\\economy_rule_context_assessment.schema.json": "22f1ae83fe31aea7795b04fa68e9347c689e9f1699fb2cabe76814b738e4a326",
+      "ai_coach\\contracts\\economy_rule_context_manifest.schema.json": "f57b3b5d71dc743fdbcf4d43a25b677bf0fde7f2ab30b12f4fc5f1d6000f6807",
+      "ai_coach\\contracts\\economy_rule_package.schema.json": "b820efb6de79af0c5b7b829224631879f265f8de3a5c50768c6daee513a42976",
+      "ai_coach\\contracts\\economy_rule_source_registry.schema.json": "98fde462032e65192710463fff147b25e7c189a5c54a17fb30b67be15f6ae65b",
+      "ai_coach\\contracts\\economy_session_payload.schema.json": "7ff18ccacdc1032201ddc4baa110ad3b0799a5fdd9504147e8fee6ac5e1e7907",
+      "ai_coach\\contracts\\economy_transaction_trace.schema.json": "aab1fcd6c1a5e61f80200a74b01326e8d4a1c444e204246ae94c51ddbb1f0124",
+      "ai_coach\\contracts\\exit_route_map_package.schema.json": "7605bcff7eb8f3cf89468938264e1ee6e1a5de746392a5b2a93b904b8598271a",
+      "ai_coach\\contracts\\exit_route_support_manifest.schema.json": "1dc4f4c0de7a85b1b26c869dc04ae456cf02e2e7cc21dbebb52228f572e3e10d",
+      "ai_coach\\contracts\\exposure_angle_map_package.schema.json": "e6b6c7b2f2baa0db78106979a6cadfa3feecfa887ae5c04997dcc1a58c1102df",
+      "ai_coach\\contracts\\exposure_angle_support_manifest.schema.json": "f7be594074f199a08738a9435099ac7a366f51a7fe2b0367e91d736c0026e12e",
+      "ai_coach\\contracts\\observed_cover_diagnostic.schema.json": "19dc9e60eb37d38bfcac1bd675f7b612bc7d8252d965a2ac7a64bd1691bfaf92",
+      "ai_coach\\contracts\\observed_cover_diagnostic_v2.schema.json": "d6576f4c70835bab66c814231ace06f6b5ed8582a320bc937e8030d47284bde6",
+      "ai_coach\\contracts\\observed_economy_candidate.schema.json": "215aa502696a1dee17271a33faf73e286a94c5de0196621bde9ade72df8cbbcf",
+      "ai_coach\\contracts\\observed_economy_candidate_v2.schema.json": "f84bbe4de97e9d78d462eac1d98f44df1a0c4c5e0d0e3c4922e630c6234ad874",
+      "ai_coach\\contracts\\observed_exit_route_diagnostic.schema.json": "20673ce2dad67b2a2651ac6f0a9970002233dd92962ccfec5bb676db9c9e6650",
+      "ai_coach\\contracts\\observed_exit_route_diagnostic_v2.schema.json": "89815fa45b1603f18560ed72cbf6d9db45fcbf338e570f6688ed6bc2b9326ac6",
+      "ai_coach\\contracts\\observed_exposure_angle_diagnostic.schema.json": "b0fbe7f1e8a967a98fac7d3a427ac5e6250dad0b814c4f40330b63a9ac20d72f",
+      "ai_coach\\contracts\\observed_exposure_angle_diagnostic_v2.schema.json": "39b8be3d8bfd3f10f0bdedcb86ddda1d152426e650f14cc83162f0e0fd1c28a6",
+      "ai_coach\\contracts\\observed_last_known_position.schema.json": "c1366fe1b678ef37d726d75c83b229a7aacdf75526afcbae402824b0a1a624e2",
+      "ai_coach\\contracts\\observed_navigation_path.schema.json": "0ca3b5daac026c3d72ed73f0d7fb12c7f43a4bf336ecf47824f263bc6f495e14",
+      "ai_coach\\contracts\\observed_utility_initial_velocity.schema.json": "d4a319a1c915afeace6909387cbc0a9ed0c591cee18219b7a16d9da90deed420",
+      "ai_coach\\contracts\\observed_visual_contact.schema.json": "5cd70094306875ffcf66fe4728449b171f3a6dc152e23f34724f1a758c0e2462",
+      "ai_coach\\contracts\\observed_weapon_state.schema.json": "451e4edd8c848f58eea92ff850c29c43b8e1ae61b38af9643c1b5a705b61af70",
+      "ai_coach\\contracts\\spatial_candidate_artifact.schema.json": "6fcbc318907ec084875e7c40e84c05785e7fecc06af8f351dbf7ec2fbb57acd2",
+      "ai_coach\\contracts\\spatial_candidate_manifest.schema.json": "d88ff835c367785294f69cf6d23261698998b9e556efe01dafbe5b0074074a94",
+      "ai_coach\\contracts\\spatial_candidate_manifest_v2.schema.json": "7fa099a28d94ab6ba43108c8dd9f6267425b2a3b543e8d535458845decf8c346",
+      "ai_coach\\contracts\\spatial_context_review_adjudication.schema.json": "a4c63a1803e2252472687a532969c18bb2f0d9898ee9fe6aecea5abb3c954b1f",
+      "ai_coach\\contracts\\spatial_context_review_batch.schema.json": "3d12f5a2eb806e56ca21039db536dc4b7806fb0ec6fdbefc424ec83ef9f53d14",
+      "ai_coach\\contracts\\spatial_context_review_protocol.schema.json": "099d713364bb8ac3b040be44a1b4a02a729b3aef86e689fb75b60e4aceece400",
+      "ai_coach\\contracts\\spatial_context_review_response.schema.json": "571a4dca2fb026614ea4900e949c40796f31e79f9f128ac61b335f6946ec715e",
+      "ai_coach\\contracts\\spatial_fact_join.schema.json": "174248172e6a62c7cf4640b0ea5b99804ad2c4791a3b1018d8dbc9beeaa549a0",
+      "ai_coach\\contracts\\spatial_human_review_adjudication.schema.json": "412431799992d68df0c7b00b91ca6c18f7bd8802c1260ae9397607742b4b64b6",
+      "ai_coach\\contracts\\spatial_human_review_batch.schema.json": "07c3ff7dbd252e5f06ca89453661fe8b8fc2eb07d8e623cbfc5ed16034a75845",
+      "ai_coach\\contracts\\spatial_human_review_protocol.schema.json": "369c14f4373de20d5537175362232a455020cea570944cfc9f4cc7484be2a10b",
+      "ai_coach\\contracts\\spatial_human_review_response.schema.json": "012bf53aa506791bc0823c30b3080f2bb2eb617322119f5d293ca2b23a1f715c",
+      "ai_coach\\contracts\\spatial_participant_bridge.schema.json": "4f5a306ea67f9b0c20468f0cc1b636cebf9c9b630fbd705fb9f44de32673f687",
+      "ai_coach\\contracts\\support_anchors.schema.json": "acd6086f7ecd407762e46b46360debe9c9c2e0843b1392c08ad0c70f8e095e92",
+      "ai_coach\\contracts\\support_anchor_protocol.schema.json": "f3473a9d717b2badde651cb49e564ec3cfe99248ad5dbc5db5b9d5e705bd32f5",
+      "ai_coach\\contracts\\support_attempt_origin_context.schema.json": "23f68b64b438b198bfa3d7d28cf5f674b53cdb2f61ab3baa4c6513288fe71069",
+      "ai_coach\\contracts\\support_attempt_origin_observations.schema.json": "4e3f4d2961ebd716bbc0c46db28653bff0b7a44e7078aa62926635431917da14",
+      "ai_coach\\contracts\\support_c4_context.schema.json": "227488ffdba8f31b1b18228200b725405273ee84fe09213b55597b97a8df043e",
+      "ai_coach\\contracts\\support_c4_observations.schema.json": "19b2a706dde0c1be59882742d3411f602044cac4c70ce6b2c39fb2e4ed0c16f7",
+      "ai_coach\\contracts\\support_inventory_observations.schema.json": "79e2ed76430c3f80257c2f4e4df41dce41811d0db2c82524133dc9aa6215815e",
+      "ai_coach\\contracts\\support_native_motion_context.schema.json": "9f31ab04ece52e195d92421edfe3433d2050270796bd2d310bb0d8e051e7b563",
+      "ai_coach\\contracts\\support_native_motion_observations.schema.json": "11bbc7a26aecaca93c31c565c13a6b95c40e5f8d3f5bbc46ed108c5c8c18f1e6",
+      "ai_coach\\contracts\\support_navigation_context.schema.json": "5c5ce2f5e81055ec4f5c40957c6ecb371cda86dc6597c7d5baf91602e33c4894",
+      "ai_coach\\contracts\\support_navigation_observations.schema.json": "f05ee5d71be2dceb4993ee56f421a237ef1cd098995ee53e0a673bb961d8677b",
+      "ai_coach\\contracts\\support_objective_clock_context.schema.json": "f97c1050ac1552d327b7ac8dfe83af435b09e56f5b626b0a0f8b5eb510fa6311",
+      "ai_coach\\contracts\\support_objective_clock_observations.schema.json": "bb64a4ad7a5087d8113b03653d583acc439bed43e198fc6f3266f99e752c16db",
+      "ai_coach\\contracts\\support_objective_context.schema.json": "a807057ab9359bbc418077ffaff98508d49ba8f12face3c935d5de8c4c446c5e",
+      "ai_coach\\contracts\\support_objective_observations.schema.json": "82d363d333dc7ee58f987d20baf31f97881ba40e8bfc7cd6c56f8d2e7f278735",
+      "ai_coach\\contracts\\support_objective_position_context.schema.json": "447eaace9578bbbc9538c4f3d19f21f0324fab576a379b203dce1996f2aa11dd",
+      "ai_coach\\contracts\\support_objective_position_observations.schema.json": "ba05df052248506af48ab43cf455b4a96ff1726f17a2c862e42c5188cb0aa219",
+      "ai_coach\\contracts\\support_observations.schema.json": "cd8a62bb7585068e788f3d9c37375551face293ecad08fc3dfe3705ec75563d6",
+      "ai_coach\\contracts\\support_physical_context.schema.json": "a38f1576340c255dec68cf6bd331ba60cfe8b76df4b99dd0af8f38cc75225329",
+      "ai_coach\\contracts\\support_physical_observations.schema.json": "7548e618f05d8c43d607bdf78ec7cd51b9c9be7201884c0c6a7171dc5f777958",
+      "ai_coach\\contracts\\support_preparation_attempt_origin_cut.schema.json": "d1b08de70e4a1b9ccd13ce2aedd87f913ca5abe1e0967ea126e41cb61ad88420",
+      "ai_coach\\contracts\\support_preparation_attempt_origin_manifest.schema.json": "2f82360fdc1205d8deaf8c7ec3e430997806afd00fda66378f1dffc7bef8738b",
+      "ai_coach\\contracts\\support_preparation_c4_cut.schema.json": "13362e9c680930b0ca2c41ce4b0fed27d8413972a5f8ef67030f5dea58a62d57",
+      "ai_coach\\contracts\\support_preparation_c4_manifest.schema.json": "0ea12c04918e72174103039d90f54d7137ef1dfc7f8f41c556f2328a9da30db4",
+      "ai_coach\\contracts\\support_preparation_cut.schema.json": "8d1ece0f53e4dfdfdf45e93518477594fe09741e351518c3cfb2a0e6f290eaae",
+      "ai_coach\\contracts\\support_preparation_manifest.schema.json": "b7819f01a7db6753f5d8e501b9cf67ff89fe17f66e8657f305d08c035a50f649",
+      "ai_coach\\contracts\\support_preparation_native_motion_cut.schema.json": "8ed80df93ae782cf8afc84b3bb7bf7e238ccfd5f1b58af79f3c323898324c474",
+      "ai_coach\\contracts\\support_preparation_native_motion_manifest.schema.json": "734911f4a426c884be2e4e45cd885d40a8933c3170da64c6666aa72eb5f274e9",
+      "ai_coach\\contracts\\support_preparation_objective_clock_cut.schema.json": "d0960bd7abd4294307ea25a9ef450ca40b6aca6c6040017b6f0903a44aced7ae",
+      "ai_coach\\contracts\\support_preparation_objective_clock_manifest.schema.json": "9a0b57e60352952f67812dd570a1a34afd5960b7179f95d1a3d779b56f00ca38",
+      "ai_coach\\contracts\\support_preparation_objective_cut.schema.json": "742261bcea88188b6705c6997e140aac30c5574cc581fc8db412d05cea9fda4b",
+      "ai_coach\\contracts\\support_preparation_objective_manifest.schema.json": "eb22e4fd77484a822b3586fda9bfa45fbc90d840e3d94034ff17684ea331f56d",
+      "ai_coach\\contracts\\support_preparation_objective_position_cut.schema.json": "cdeb0025c8cea5e61fddcb9374347d77ab429d686a2b7dbeba88da2cf7c21aa0",
+      "ai_coach\\contracts\\support_preparation_objective_position_manifest.schema.json": "5281e54ca240a567ba550e95b4ce440a9be62d38f46d1a344137aeb773464ffd",
+      "ai_coach\\contracts\\support_preparation_pair.schema.json": "e41faac76da54a9bc6adbcb8ffb806a2c0ee3c8f28ffb5a07580a9b9d17937c2",
+      "ai_coach\\contracts\\support_preparation_physical_cut.schema.json": "6bf340f630d0c4b36bcbef4629007863b32bdaed94886677d44761dc75998290",
+      "ai_coach\\contracts\\support_preparation_physical_manifest.schema.json": "964b9e760538ea61ce95a7cb12d4ccf8ba652455b0f3b10bbc9ff6a22315fda4",
+      "ai_coach\\contracts\\support_preparation_protocol.schema.json": "7789ad0037e0188d56d0d5fbeb53c1209e347250593bf055967319733d363356",
+      "ai_coach\\contracts\\support_preparation_visual_contact_cut.schema.json": "6acbd2013fcb0aae9415e28582bd91b7c720c473c934401d1a36a26ad1bf91af",
+      "ai_coach\\contracts\\support_preparation_visual_contact_manifest.schema.json": "360754b35a34c43a872cb0a06be46d3401cca4a4489eb018c85e7c394a6d74dd",
+      "ai_coach\\contracts\\support_preparation_weapon_timing_cut.schema.json": "55dd44ae2e78b1a0bb3e1283136ebf33e437b426d28593b07247682928c83c5d",
+      "ai_coach\\contracts\\support_preparation_weapon_timing_manifest.schema.json": "f0ee6cd4a7ad36dbe3a35702ca2a348ce7e1153b168f0ecc20413bc0c4f74f03",
+      "ai_coach\\contracts\\support_visual_contact_context.schema.json": "82d99f911a4fccb8dc7224f1b7cb74872de78e04e92ffd1c09fb74a50f4fedec",
+      "ai_coach\\contracts\\support_visual_contact_observations.schema.json": "0c4fb4668f2ddb453ede026b01aba5612974cc9dcedb76e3a26c8926380bd902",
+      "ai_coach\\contracts\\support_weapon_timing_context.schema.json": "b946bfa51e4c984efa1cd29dbb867ef65df59610efebf18a1a209b8661ec3802",
+      "ai_coach\\contracts\\support_weapon_timing_observations.schema.json": "186a24a7bb704e45fbc0421e55d43228f6accd4aedde5413d286718f29267959",
+      "ai_coach\\contracts\\task_eligibility.schema.json": "7b0bcdaf1625ae2c01b0821bd6d4c84dbe0693b44a4275fd619a9a92833485c6",
+      "backend\\go-service\\handlers\\support_attempt_origin.go": "395c2da8955c0bcd3f403058513a589f096981b6611f50cc630edf0649bd3112",
+      "backend\\go-service\\handlers\\support_attempt_origin_test.go": "d0a5f987d6c12b98e43e9a917d4d411bab53eff4d211f09b3bafb9966fa86e02",
+      "backend\\go-service\\handlers\\support_c4.go": "49bcccff6b20181233a138d0e479954a39aec62c09808c9204023645d440f388",
+      "backend\\go-service\\handlers\\support_c4_test.go": "0c076b9a3ef389de98140ce5babb6584d5ce03df645550930e6d3e957cb9cfe7",
+      "backend\\go-service\\handlers\\support_inventory.go": "eebb9fa09bae2b668417f8b101fb59a015722350ecefe37862c3e980eeb65efe",
+      "backend\\go-service\\handlers\\support_inventory_test.go": "7faa2d250d3424f9a0f0c766a76c8d022b7867bc3f55e55bd97b9d00b6ba7687",
+      "backend\\go-service\\handlers\\support_native_motion.go": "2c3134ecc7a4a960cd476f162afd6262ef2038ca07975f6b8f75ee415cb1d242",
+      "backend\\go-service\\handlers\\support_native_motion_test.go": "aa88a309b23103e7a067f549147a11029a9a41d4ef5b937ea4dfd345e11d50ae",
+      "backend\\go-service\\handlers\\support_objective.go": "3edd2331b57365562667e4b6f9f117ee5e09d537da6732f8f72d25bfaaa701b5",
+      "backend\\go-service\\handlers\\support_objective_clock.go": "5783fed011c7f16108497a2360fe067ec0559e89221465554086d87453bd0379",
+      "backend\\go-service\\handlers\\support_objective_clock_test.go": "2b23805fa810c4c17ef8ee84127f7f672cc557ddf88d248ed876947eae830198",
+      "backend\\go-service\\handlers\\support_objective_position.go": "ef9cecc60204c5c02a3964c4e5718e5e751bbe484c4e0fd6fcc2e871515bcaf8",
+      "backend\\go-service\\handlers\\support_objective_position_test.go": "45135f85b9cc55829b2699811907ef97923796d3aeaac8fe5b78921d01ab5ee4",
+      "backend\\go-service\\handlers\\support_objective_test.go": "321aff7c508d8477414cab5be7dd01c6cc5feba789a6e2c4bd11802eb3fce866",
+      "backend\\go-service\\handlers\\support_observations.go": "5f91e9da87e5d0b6dc22cafa6f3aa02470fc046d788a9e82b68fc5155efc7efa",
+      "backend\\go-service\\handlers\\support_observations_test.go": "8c0f1c78ee3f545fcc4262e4b15aa2782a5aff089da2318a6169d9ea1c9ce885",
+      "backend\\go-service\\handlers\\support_physical.go": "7accde64c3316ba0199e865faf391d749db3e38a866ae30828a5cf16ba7d2189",
+      "backend\\go-service\\handlers\\support_physical_test.go": "5cca5cd9fe397e6ebfade5c1df2ad12d51c84479eaa404b0e1cf0d01d8c055b8",
+      "backend\\go-service\\handlers\\support_visual_contact.go": "d10b962b161b856567fc968a0deeeb228600c5e52d6725ee464bb4c22f8d2a4c",
+      "backend\\go-service\\handlers\\support_visual_contact_test.go": "baf856bbcdd1cefa5e246a2c42108e4034a6901ef641f6ad0effdbd95997a05a",
+      "backend\\go-service\\handlers\\support_weapon_timing.go": "e711c49e5079d0926023b1a0973d34d875e8ff6be366ea3e4494f03d49d7a321",
+      "backend\\go-service\\handlers\\support_weapon_timing_test.go": "fe521bd671ecca0acc5f0d0f3c2e33b07068c5f13457fb15f1aade577b55654d",
+      "backend\\go-service\\cmd\\canonical-export\\support_inventory.go": "cd19c64a732d529fe53162db2142830705ac9181104ed75ae722fc11cbc2ea36",
+      "backend\\go-service\\cmd\\canonical-export\\support_c4.go": "8e057bdce2a7f4af96ada4321eac8f49aad7dd351d2fcffebd510871cb656547",
+      "backend\\go-service\\models\\support_inventory.go": "1242864c2e5ab1ae72e80c4d2f989936df9b5521a53bc278aab3609a184fe90e",
+      "backend\\go-service\\models\\context.go": "eb69b42a013cb2101a1426d3b72ccd77cddf48fe747d8ff046d915115a52961e",
+      "backend\\go-service\\parser\\parser.go": "f764668dfe9a6430229a1f2ed36556e8b7b5db6efb10b8a97bfee1e9d848b0c8",
+      "ai_coach\\interpretation\\review_packet.html": "bc5ce32b7e6d34b210a08fe87fec1a7d4f3406b503ca7c833cf4fbc038de4623",
+      "ai_coach\\contracts\\accelerated_support_schema.py": "234b9f58441704183e82cf7918e9ebdf07110e6928418cce00f281bd68b93ca3",
+      "ai_coach\\support\\anchors.py": "861d7ebd8468ccd7153d1ba02792cd70d5b72fc9b22c967b9ae1b6015e0c4d9b",
+      "backend\\requirements.txt": "d7e223a50874ed9271b0b82b9116a6b37b329b6592610e4e08d547c559ebe929"
+    }
+  },
+  "regression": {
+    "counts": {
+      "abstained": 65,
+      "episodes": 84,
+      "compatible": 19
+    },
+    "distinct_matches": 7,
+    "old_predictions_reproduced": 84,
+    "seconds": 195.871,
+    "scope": "Previously exposed development regression, no new human labels.",
+    "R1": {
+      "status": "abstained",
+      "destinations": []
+    },
+    "R2": {
+      "status": "compatible",
+      "destinations": [
+        "A"
+      ],
+      "parameter_sensitivity": {
+        "0.5": {
+          "status": "abstained",
+          "destinations": []
+        },
+        "1.0": {
+          "status": "compatible",
+          "destinations": [
+            "A"
+          ]
+        },
+        "2.0": {
+          "status": "compatible",
+          "destinations": [
+            "A"
+          ]
+        }
+      }
+    }
+  },
+  "workbook": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_changed_cells": [
+      "A29",
+      "B29",
+      "C29",
+      "D29",
+      "E29",
+      "F29",
+      "G29"
+    ],
+    "sheet": "Contexto colectivo",
+    "literal_reviews_preserved": true,
+    "visual_review": true,
+    "output_sha256": "7feb5fe456a7765531015eff96c8d1ed121926bca20e808d715a5e0248f8f1c7"
+  },
+  "training_allowed": false,
+  "product_supported": false,
+  "independent_generalization_accredited": false,
+  "remaining": [
+    "independent_exposure_and_overlap_audit_and_blind_reviews",
+    "verified_map_build_and_zones",
+    "legal_opponent_information",
+    "viable_alternatives_and_supported_comparison",
+    "profile_practice_followup"
+  ],
+  "retention": "All isolated temporary artifacts and intermediate diagnostic results retained; no cleanup or promotion.",
+  "graph_discovery": "list_projects failed: Transport closed; filesystem fallback used.",
+  "artifacts": [
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/real-regression.json",
+      "bytes": 179216,
+      "sha256": "76809e0135220225b0890064b411d431610f0e7c7d2062cbfecb32b87299f973"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/real-regression-final.json",
+      "bytes": 599519,
+      "sha256": "abfcfbf3e6119a60aca2eb5510af2e9ddf3f8b0ee92110b1d560c6c0065c844b"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/smoke-audit.json",
+      "bytes": 22634,
+      "sha256": "10fade69471dd580a2967aa8d0393b4fbe644c9c4881a18ae3f9c11223f9f917"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/preflight.json",
+      "bytes": 22051,
+      "sha256": "4c4e0740c7ecc6b45b96aa8b662b16abaee93d4c1ad6fd3acb8a08ad24fc5e27"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/smoke.py",
+      "bytes": 7010,
+      "sha256": "6dbbfcacdfcbab865fd4573111234ec9525d7cd64dae85d972df8f8a538491bc"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/audit_smoke.py",
+      "bytes": 7010,
+      "sha256": "e5295ecd6c4987d2086b938d6d3d3f098d7f0fe47728ef5a163b658e5a0500fe"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/run_checks.py",
+      "bytes": 2010,
+      "sha256": "7f282427371e4891c533e6cf3c1d456c6bae2304e05a97948fc481bf1f7fbc7a"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/check_real.py",
+      "bytes": 4560,
+      "sha256": "e0f94b0122422d144b9926c29c7ffffddcb8e108c1b1d8a0273a0500bb066e6e"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/workbook-verification.json",
+      "bytes": 410,
+      "sha256": "51a56963a02781ff2c2ac1d6f00a59065a01f8af5157140852616a75fd29290d"
+    },
+    {
+      "path": "outputs/stratai-temporal-persistence-20260924/StratAI_Plan_del_coach_ICT_I2_v14.xlsx",
+      "bytes": 113243,
+      "sha256": "7feb5fe456a7765531015eff96c8d1ed121926bca20e808d715a5e0248f8f1c7"
+    },
+    {
+      "path": "ai_coach/interpretation/temporal_detector.py",
+      "bytes": 19343,
+      "sha256": "cca62b81a036fc999e5bb3527cc4dec76247ded50aebc1b645ca8e57d55fcd14"
+    },
+    {
+      "path": "ai_coach/interpretation/contextual_io.py",
+      "bytes": 15292,
+      "sha256": "1633023636a1bcfe1c4c8d15af8ea86772649e6800e3564cd691b39671938082"
+    },
+    {
+      "path": "ai_coach/interpretation/coaching.py",
+      "bytes": 1633,
+      "sha256": "f46940337d46709dc3a43ace1686604fcb358860f73a5e886b7e9904b7821e27"
+    },
+    {
+      "path": "ai_coach/contracts/runtime_contracts.py",
+      "bytes": 61177,
+      "sha256": "6d1a487d45204de5127e491eff30c73f25ccf148788162f4e1e28466021155bf"
+    },
+    {
+      "path": "ai_coach/contracts/contextual_temporal_interpretation.schema.json",
+      "bytes": 43463,
+      "sha256": "72987b9d24d304b722f48f450992ca117c711b3009ff90f9a31b229bc2823036"
+    },
+    {
+      "path": "ai_coach/tests/test_temporal_detector.py",
+      "bytes": 13400,
+      "sha256": "62216c7db0a3e50a59409ee5bd955add663b2f20452b71be843fb651cbeaa446"
+    },
+    {
+      "path": "ai_coach/tests/test_contract.py",
+      "bytes": 2893,
+      "sha256": "fa8a8a447e44d02083782bc2d7bd099d00d4dc50f2c6e2d63aa662107a3a4dae"
+    },
+    {
+      "path": "ai_coach/tests/test_spatial_review_protocol.py",
+      "bytes": 5009,
+      "sha256": "7ee69b6cc88e9c754feb6001c230608bc593f5e3322f507f08a9a3dc6c8f6928"
+    }
+  ]
+}

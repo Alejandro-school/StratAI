@@ -1,0 +1,584 @@
+{
+  "date": "2026-09-26",
+  "scope": "presentation_only_fixed_review_situation",
+  "request_literal": "Por tanto, hay que modificar el html no?",
+  "instrument": "stratai.review_web@5",
+  "publication": {
+    "version": {
+      "id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_054524877820819182332414a5237182",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "version_number": 7,
+      "source": {
+        "commit_sha": "41fec2543cedf5bd9188636adc2fc9ef91d4795b"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_00000000b71881f487da6d8571ef6b37",
+        "content_hash": "sha256:564d45ec5b0a100f8e9632341da27f547f07d9efd7fcdc3e395d2b5558e6a240",
+        "size_bytes": 11448320,
+        "file_count": 40
+      },
+      "screenshot_url": null,
+      "deployment_id": null
+    },
+    "deployment": {
+      "id": "appgdep_6ab79c6a82088191bb0cc9708c123e10",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "title": "StratAI · Revisión de 34 casos",
+      "version_id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_054524877820819182332414a5237182",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6ab6ca78f2bc81918ef415064532155d",
+      "failure_message": null,
+      "env_set_revision": 5,
+      "updated_at": "2026-09-26T10:20:48.293942+00:00"
+    }
+  },
+  "verification": {
+    "site_build": "passed",
+    "site_tests": 18,
+    "protected_inputs_unchanged": 70,
+    "hosted": {
+      "ok": true,
+      "cases": [
+        {
+          "case": "E03",
+          "three_fields": true,
+          "sha256": "433f475cc8f9f088791de802ead781df93a48002a65d3e578bc1191b378b4039"
+        },
+        {
+          "case": "E04",
+          "three_fields": true,
+          "sha256": "2b7455d6fb5eba0be1901bb05e3e4ce96e4a5a257c00aba34d296d18ce3d690c"
+        },
+        {
+          "case": "E05",
+          "three_fields": true,
+          "sha256": "3e0a568bad4e90d6b2c902d5b007dae1b631c6167ae30740226de63dd9723d1d"
+        },
+        {
+          "case": "E06",
+          "three_fields": true,
+          "sha256": "d68fd8446170fe57a20cbe00637834f74417735ca550041046ce108b75fabbbe"
+        },
+        {
+          "case": "E07",
+          "three_fields": true,
+          "sha256": "158d4097dfe5e9c6c599ac49eead57e1433215641885e05c0e513ada4e8d5387"
+        },
+        {
+          "case": "E08",
+          "three_fields": true,
+          "sha256": "b400468a3644dbaa7479aa69ba770018463d541cba6594483db33a647832514a"
+        },
+        {
+          "case": "E09",
+          "three_fields": true,
+          "sha256": "bf30a3a32b0c4c00f493d1cf33c178369c6896528213a6e09929aec0b7ba7efa"
+        },
+        {
+          "case": "E10",
+          "three_fields": true,
+          "sha256": "e1a8db95c1d1d1646e7ab4dec77a8b6b62e63640a56657e052035e0493fa785f"
+        },
+        {
+          "case": "E11",
+          "three_fields": true,
+          "sha256": "7c40f076c7cf0496f5c06dabf3467f528afeea4cbef47cc06c0943ba92cd3f71"
+        },
+        {
+          "case": "E12",
+          "three_fields": true,
+          "sha256": "e4339673891cdbe2df41f850ee194c6006f9217d4b0dbcf6b8d1d78c937516ab"
+        },
+        {
+          "case": "E13",
+          "three_fields": true,
+          "sha256": "292f9ec99d1dcd4c26b527b7ba8a1b60645e774546a51bb4f8a8bda057b6b98f"
+        },
+        {
+          "case": "E14",
+          "three_fields": true,
+          "sha256": "1c8a64d71722e462d177dedee7908c210817e197a8e1a425ea12c4b0fa749ca6"
+        },
+        {
+          "case": "E15",
+          "three_fields": true,
+          "sha256": "01e80758f7e16d2003e25c9043991305c89eafba40c69d27acb9bfbcc87736d8"
+        },
+        {
+          "case": "E16",
+          "three_fields": true,
+          "sha256": "af200cb204e62acc499b1d984497fe7ae007e508906b9fcea111e73278cb2ddb"
+        },
+        {
+          "case": "E17",
+          "three_fields": true,
+          "sha256": "66f56f8e27026510131c9074ba48306aaba46036b6ce4829e60b39d2ea016190"
+        },
+        {
+          "case": "E18",
+          "three_fields": true,
+          "sha256": "96d96f03b2b2612fe7d79f70f8ce2f3cf82bae83e52e5b4d2e128960e3142171"
+        },
+        {
+          "case": "E19",
+          "three_fields": true,
+          "sha256": "16c82df8e7318427aefdae44047160ba9993c6f4b44768610d1b3c626f56942c"
+        },
+        {
+          "case": "E20",
+          "three_fields": true,
+          "sha256": "b97904bdee8f7a5a503d0ff53d1e222ed4107bbed9e490f7739105136d98832a"
+        },
+        {
+          "case": "E21",
+          "three_fields": true,
+          "sha256": "a60bc08aeebf80ba332c225482b12311aa0b95c90fb51c107aac4d6db969e581"
+        },
+        {
+          "case": "E22",
+          "three_fields": true,
+          "sha256": "d43013d7236d55cc42b7118ba641a7e13145d9582448d0174b7533bec04eec19"
+        },
+        {
+          "case": "E23",
+          "three_fields": true,
+          "sha256": "bec19a409c8ed7a9be7b23bec8dc38c4b02677cb443b3fef602cd9fb4094d40b"
+        },
+        {
+          "case": "E24",
+          "three_fields": true,
+          "sha256": "7269822299fcc2648315afeed764d4bf7885031b187a4a8aebb106bb387bbf9d"
+        },
+        {
+          "case": "E25",
+          "three_fields": true,
+          "sha256": "8b6135b518f80a6e40ad9f24eded82e0d513624baefbb4ec54dd812b1d53412f"
+        },
+        {
+          "case": "E26",
+          "three_fields": true,
+          "sha256": "0c5d21e734a23eb58d8ef106ea7192fa007ded9a77cbaf01ff83613e2cd36bbb"
+        },
+        {
+          "case": "E27",
+          "three_fields": true,
+          "sha256": "e6fe931be4285aa46e088ce18d7b525a7a1d005ea2450f87db041a29f5936d81"
+        },
+        {
+          "case": "E28",
+          "three_fields": true,
+          "sha256": "8562fc759768a965d6adf784c31464936dc1dd5fae759d8f9c721eae59fb3596"
+        },
+        {
+          "case": "E29",
+          "three_fields": true,
+          "sha256": "b163e039f5664d45070875d02cda517957450623591eba4f7c27d4eb653ccea5"
+        },
+        {
+          "case": "E30",
+          "three_fields": true,
+          "sha256": "369c14b961e1eb49580be194525ce56693e1ef985b93c177aad387151ae7b2c5"
+        },
+        {
+          "case": "E31",
+          "three_fields": true,
+          "sha256": "9da6aa0ee0e52474457fa5e1f0728901ce99daef6023dc95064a9f46eb41e1a5"
+        },
+        {
+          "case": "E32",
+          "three_fields": true,
+          "sha256": "ff5afc5d678f0322260d80397c1beff6bfaec22267939aff9a0128dd43bdf4ff"
+        },
+        {
+          "case": "E33",
+          "three_fields": true,
+          "sha256": "423b80307a4260b7b5c91a309c7f4c14c35b2033e7b6cdd890d2a4e337b10736"
+        },
+        {
+          "case": "E34",
+          "three_fields": true,
+          "sha256": "1110fa21301a9e8a2384c0696e1f8160bed8e60cd94ea2804a000a5661e92899"
+        },
+        {
+          "case": "E35",
+          "three_fields": true,
+          "sha256": "a6b5237a84a27e081f15890973a9d96d952cda0359eefa308b4b0d0af4d74a79"
+        },
+        {
+          "case": "E36",
+          "three_fields": true,
+          "sha256": "98e0296d05733c2878f6728bc562ed090c69722b9d1fc3fc6eed8cf731431009"
+        }
+      ],
+      "existing_records_preserved": 12,
+      "new_technical_records": [
+        14,
+        13
+      ],
+      "expert_answers_created": 0,
+      "fields": [
+        "alias",
+        "reading",
+        "missing"
+      ],
+      "omitted_exposure": "not_collected",
+      "old_form_requests_ask_reload": true,
+      "no_platform_login": true,
+      "immutable_versions_and_idempotence": true,
+      "other_reviewers_isolated": true,
+      "clock_format": "mm:ss",
+      "browser_visual_test": false,
+      "instrument": "stratai.review_web@5",
+      "casualty_context_present": true,
+      "kill_context": "callback_event_positions"
+    },
+    "browser_visual_qa": false,
+    "real_demo_smoke": "not_applicable: no replay producer, schema, facts or runtime data contract change",
+    "verification_retry": "Explicit UTF-8 fixed only the local hosted-check reader; product unchanged"
+  },
+  "answer_binding": "existing fixed case / episode / context / served card hash; slider does not change it",
+  "case_targets": [
+    {
+      "case": "E03",
+      "bytes": 1990897,
+      "sha256": "433f475cc8f9f088791de802ead781df93a48002a65d3e578bc1191b378b4039",
+      "embeddedDataPreserved": true,
+      "targetIndex": 454,
+      "targetSequence": 4350,
+      "targetLabel": "Ronda 4 · 00:28 transcurridos"
+    },
+    {
+      "case": "E04",
+      "bytes": 2744903,
+      "sha256": "2b7455d6fb5eba0be1901bb05e3e4ce96e4a5a257c00aba34d296d18ce3d690c",
+      "embeddedDataPreserved": true,
+      "targetIndex": 389,
+      "targetSequence": 6672,
+      "targetLabel": "Ronda 7 · 00:24 transcurridos"
+    },
+    {
+      "case": "E05",
+      "bytes": 6002938,
+      "sha256": "3e0a568bad4e90d6b2c902d5b007dae1b631c6167ae30740226de63dd9723d1d",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1234,
+      "targetSequence": 8669,
+      "targetLabel": "Ronda 8 · 01:17 transcurridos"
+    },
+    {
+      "case": "E06",
+      "bytes": 6201185,
+      "sha256": "d68fd8446170fe57a20cbe00637834f74417735ca550041046ce108b75fabbbe",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1299,
+      "targetSequence": 10686,
+      "targetLabel": "Ronda 9 · 01:21 transcurridos"
+    },
+    {
+      "case": "E07",
+      "bytes": 4259005,
+      "sha256": "158d4097dfe5e9c6c599ac49eead57e1433215641885e05c0e513ada4e8d5387",
+      "embeddedDataPreserved": true,
+      "targetIndex": 779,
+      "targetSequence": 12869,
+      "targetLabel": "Ronda 11 · 00:48 transcurridos"
+    },
+    {
+      "case": "E08",
+      "bytes": 2935015,
+      "sha256": "b400468a3644dbaa7479aa69ba770018463d541cba6594483db33a647832514a",
+      "embeddedDataPreserved": true,
+      "targetIndex": 584,
+      "targetSequence": 15190,
+      "targetLabel": "Ronda 14 · 00:36 transcurridos"
+    },
+    {
+      "case": "E09",
+      "bytes": 795817,
+      "sha256": "bf30a3a32b0c4c00f493d1cf33c178369c6896528213a6e09929aec0b7ba7efa",
+      "embeddedDataPreserved": true,
+      "targetIndex": 64,
+      "targetSequence": 17325,
+      "targetLabel": "Ronda 16 · 00:04 transcurridos"
+    },
+    {
+      "case": "E10",
+      "bytes": 2554619,
+      "sha256": "e1a8db95c1d1d1646e7ab4dec77a8b6b62e63640a56657e052035e0493fa785f",
+      "embeddedDataPreserved": true,
+      "targetIndex": 389,
+      "targetSequence": 19521,
+      "targetLabel": "Ronda 18 · 00:24 transcurridos"
+    },
+    {
+      "case": "E11",
+      "bytes": 6232550,
+      "sha256": "7c40f076c7cf0496f5c06dabf3467f528afeea4cbef47cc06c0943ba92cd3f71",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1364,
+      "targetSequence": 21549,
+      "targetLabel": "Ronda 19 · 01:25 transcurridos"
+    },
+    {
+      "case": "E12",
+      "bytes": 8075071,
+      "sha256": "e4339673891cdbe2df41f850ee194c6006f9217d4b0dbcf6b8d1d78c937516ab",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1689,
+      "targetSequence": 23607,
+      "targetLabel": "Ronda 20 · 01:45 transcurridos"
+    },
+    {
+      "case": "E13",
+      "bytes": 620733,
+      "sha256": "292f9ec99d1dcd4c26b527b7ba8a1b60645e774546a51bb4f8a8bda057b6b98f",
+      "embeddedDataPreserved": true,
+      "targetIndex": 64,
+      "targetSequence": 65,
+      "targetLabel": "Ronda 1 · 00:04 transcurridos"
+    },
+    {
+      "case": "E14",
+      "bytes": 2568746,
+      "sha256": "1c8a64d71722e462d177dedee7908c210817e197a8e1a425ea12c4b0fa749ca6",
+      "embeddedDataPreserved": true,
+      "targetIndex": 519,
+      "targetSequence": 2795,
+      "targetLabel": "Ronda 2 · 00:32 transcurridos"
+    },
+    {
+      "case": "E15",
+      "bytes": 1076550,
+      "sha256": "01e80758f7e16d2003e25c9043991305c89eafba40c69d27acb9bfbcc87736d8",
+      "embeddedDataPreserved": true,
+      "targetIndex": 194,
+      "targetSequence": 5601,
+      "targetLabel": "Ronda 5 · 00:12 transcurridos"
+    },
+    {
+      "case": "E16",
+      "bytes": 5752537,
+      "sha256": "af200cb204e62acc499b1d984497fe7ae007e508906b9fcea111e73278cb2ddb",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1234,
+      "targetSequence": 8247,
+      "targetLabel": "Ronda 7 · 01:17 transcurridos"
+    },
+    {
+      "case": "E17",
+      "bytes": 736590,
+      "sha256": "66f56f8e27026510131c9074ba48306aaba46036b6ce4829e60b39d2ea016190",
+      "embeddedDataPreserved": true,
+      "targetIndex": 64,
+      "targetSequence": 11110,
+      "targetLabel": "Ronda 10 · 00:04 transcurridos"
+    },
+    {
+      "case": "E18",
+      "bytes": 3027058,
+      "sha256": "96d96f03b2b2612fe7d79f70f8ce2f3cf82bae83e52e5b4d2e128960e3142171",
+      "embeddedDataPreserved": true,
+      "targetIndex": 649,
+      "targetSequence": 13647,
+      "targetLabel": "Ronda 11 · 00:40 transcurridos"
+    },
+    {
+      "case": "E19",
+      "bytes": 2100559,
+      "sha256": "16c82df8e7318427aefdae44047160ba9993c6f4b44768610d1b3c626f56942c",
+      "embeddedDataPreserved": true,
+      "targetIndex": 389,
+      "targetSequence": 16564,
+      "targetLabel": "Ronda 14 · 00:24 transcurridos"
+    },
+    {
+      "case": "E20",
+      "bytes": 4269480,
+      "sha256": "b97904bdee8f7a5a503d0ff53d1e222ed4107bbed9e490f7739105136d98832a",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1104,
+      "targetSequence": 19244,
+      "targetLabel": "Ronda 16 · 01:09 transcurridos"
+    },
+    {
+      "case": "E21",
+      "bytes": 1783962,
+      "sha256": "a60bc08aeebf80ba332c225482b12311aa0b95c90fb51c107aac4d6db969e581",
+      "embeddedDataPreserved": true,
+      "targetIndex": 259,
+      "targetSequence": 22011,
+      "targetLabel": "Ronda 19 · 00:16 transcurridos"
+    },
+    {
+      "case": "E22",
+      "bytes": 4127506,
+      "sha256": "d43013d7236d55cc42b7118ba641a7e13145d9582448d0174b7533bec04eec19",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1039,
+      "targetSequence": 24544,
+      "targetLabel": "Ronda 20 · 01:04 transcurridos"
+    },
+    {
+      "case": "E23",
+      "bytes": 1695247,
+      "sha256": "bec19a409c8ed7a9be7b23bec8dc38c4b02677cb443b3fef602cd9fb4094d40b",
+      "embeddedDataPreserved": true,
+      "targetIndex": 259,
+      "targetSequence": 27374,
+      "targetLabel": "Ronda 23 · 00:16 transcurridos"
+    },
+    {
+      "case": "E24",
+      "bytes": 4070055,
+      "sha256": "7269822299fcc2648315afeed764d4bf7885031b187a4a8aebb106bb387bbf9d",
+      "embeddedDataPreserved": true,
+      "targetIndex": 844,
+      "targetSequence": 29955,
+      "targetLabel": "Ronda 24 · 00:52 transcurridos"
+    },
+    {
+      "case": "E25",
+      "bytes": 618320,
+      "sha256": "8b6135b518f80a6e40ad9f24eded82e0d513624baefbb4ec54dd812b1d53412f",
+      "embeddedDataPreserved": true,
+      "targetIndex": 64,
+      "targetSequence": 65,
+      "targetLabel": "Ronda 1 · 00:04 transcurridos"
+    },
+    {
+      "case": "E26",
+      "bytes": 5164462,
+      "sha256": "0c5d21e734a23eb58d8ef106ea7192fa007ded9a77cbaf01ff83613e2cd36bbb",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1104,
+      "targetSequence": 3405,
+      "targetLabel": "Ronda 3 · 01:09 transcurridos"
+    },
+    {
+      "case": "E27",
+      "bytes": 6808003,
+      "sha256": "e6fe931be4285aa46e088ce18d7b525a7a1d005ea2450f87db041a29f5936d81",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1819,
+      "targetSequence": 6525,
+      "targetLabel": "Ronda 5 · 01:53 transcurridos"
+    },
+    {
+      "case": "E28",
+      "bytes": 5078527,
+      "sha256": "8562fc759768a965d6adf784c31464936dc1dd5fae759d8f9c721eae59fb3596",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1299,
+      "targetSequence": 9839,
+      "targetLabel": "Ronda 8 · 01:21 transcurridos"
+    },
+    {
+      "case": "E29",
+      "bytes": 3953404,
+      "sha256": "b163e039f5664d45070875d02cda517957450623591eba4f7c27d4eb653ccea5",
+      "embeddedDataPreserved": true,
+      "targetIndex": 909,
+      "targetSequence": 12932,
+      "targetLabel": "Ronda 10 · 00:56 transcurridos"
+    },
+    {
+      "case": "E30",
+      "bytes": 1075725,
+      "sha256": "369c14b961e1eb49580be194525ce56693e1ef985b93c177aad387151ae7b2c5",
+      "embeddedDataPreserved": true,
+      "targetIndex": 194,
+      "targetSequence": 16453,
+      "targetLabel": "Ronda 14 · 00:12 transcurridos"
+    },
+    {
+      "case": "E31",
+      "bytes": 947047,
+      "sha256": "9da6aa0ee0e52474457fa5e1f0728901ce99daef6023dc95064a9f46eb41e1a5",
+      "embeddedDataPreserved": true,
+      "targetIndex": 129,
+      "targetSequence": 19631,
+      "targetLabel": "Ronda 17 · 00:08 transcurridos"
+    },
+    {
+      "case": "E32",
+      "bytes": 5149041,
+      "sha256": "ff5afc5d678f0322260d80397c1beff6bfaec22267939aff9a0128dd43bdf4ff",
+      "embeddedDataPreserved": true,
+      "targetIndex": 909,
+      "targetSequence": 22667,
+      "targetLabel": "Ronda 18 · 00:56 transcurridos"
+    },
+    {
+      "case": "E33",
+      "bytes": 7681090,
+      "sha256": "423b80307a4260b7b5c91a309c7f4c14c35b2033e7b6cdd890d2a4e337b10736",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1559,
+      "targetSequence": 25714,
+      "targetLabel": "Ronda 20 · 01:37 transcurridos"
+    },
+    {
+      "case": "E34",
+      "bytes": 2634969,
+      "sha256": "1110fa21301a9e8a2384c0696e1f8160bed8e60cd94ea2804a000a5661e92899",
+      "embeddedDataPreserved": true,
+      "targetIndex": 389,
+      "targetSequence": 28972,
+      "targetLabel": "Ronda 23 · 00:24 transcurridos"
+    },
+    {
+      "case": "E35",
+      "bytes": 5907170,
+      "sha256": "a6b5237a84a27e081f15890973a9d96d952cda0359eefa308b4b0d0af4d74a79",
+      "embeddedDataPreserved": true,
+      "targetIndex": 1169,
+      "targetSequence": 32074,
+      "targetLabel": "Ronda 25 · 01:13 transcurridos"
+    },
+    {
+      "case": "E36",
+      "bytes": 3333304,
+      "sha256": "98e0296d05733c2878f6728bc562ed090c69722b9d1fc3fc6eed8cf731431009",
+      "embeddedDataPreserved": true,
+      "targetIndex": 584,
+      "targetSequence": 35418,
+      "targetLabel": "Ronda 28 · 00:36 transcurridos"
+    }
+  ],
+  "source_hashes": {
+    "build.mjs": "343740ff912f3f3d4db0ff82da5faa5a900a67f276620d0561f7c65a9d88336a",
+    "web/situation.js": "56f72112662c98322e8a4dd22067ce3371eeac9eb219dde038f790f2133398b4",
+    "web/situation-view.js": "f27b6eca336c235a65c7a871e95af04350ed25807e4503e59d2905a2f031b8c3",
+    "web/situation.html": "b49e71ed90428a025ab85654bcfee07bc961680166cde2d30a8f0034d2aaa240",
+    "web/situation.css": "c91e45f5436e8fcd88a1026594446036c82893102135df80b2f8e93e3fee2be6",
+    "web/form.html": "3d51182f08fa62f731aaa24c079f236db2049b6af2891ebcf8927c91cd2d0498",
+    "web/review.js": "857bf7216d1aed8b0b3f8f70171da016b940df980c975abbbc6fa1a82c8fbaae",
+    "server/worker.js": "ffeca09d255e2dc86459f93fcd6a8489ef257f3b1c15922112fbee2195f55f1d",
+    "test/situation.test.js": "a4c5a7cedee9e9c98e82463288e658b9a3754dd2492dabd9a988aacb5f9d35d2",
+    "test/worker.test.js": "f94c185d7db8b58e5631f57d94c783fc6917edf188735c1b233ec9580929af7e",
+    "OPERATIONS.md": "951816f78c222ba99d255c49efaed805f46dcab9fd3202336cd0185f061a586a"
+  },
+  "workbook": {
+    "version": 22,
+    "changed": false,
+    "reason": "No new game judgment or tactical parameter"
+  },
+  "unchanged": [
+    "selection",
+    "replay inputs",
+    "four factual JSON blocks",
+    "detector",
+    "predictions",
+    "three form fields",
+    "database schema",
+    "invitation and session secrets"
+  ],
+  "expert_answers_created": 0,
+  "training": false,
+  "retained_sqlite": "C:/Users/kerch/AppData/Local/Temp/stratai-review-web-c77Ylf",
+  "retained_artifact_root": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-situation-review-20260926"
+}

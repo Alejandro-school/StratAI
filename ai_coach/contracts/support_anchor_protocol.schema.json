@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_anchor_protocol@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "scope",
+    "capability_reference",
+    "decision_id",
+    "selection",
+    "unit",
+    "history_samples",
+    "nominal_sample_hz",
+    "history_rule",
+    "selection_equation",
+    "threshold_semantics",
+    "t0",
+    "deduplication",
+    "future_window_seconds",
+    "future_rule",
+    "legal_features",
+    "future_and_oracle_used_for_selection",
+    "physical_entry_accredited",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_anchor_protocol@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "scope": {
+      "const": "factual_support_research_only"
+    },
+    "capability_reference": {
+      "const": "CAP-TEAM-001"
+    },
+    "decision_id": {
+      "const": null
+    },
+    "selection": {
+      "const": "sampled_pair_separation_increase_onset"
+    },
+    "unit": {
+      "const": "directed_actor_ally_instance"
+    },
+    "history_samples": {
+      "const": 3
+    },
+    "nominal_sample_hz": {
+      "const": 16
+    },
+    "history_rule": {
+      "const": "same_instance_epoch_lives_side_connected_alive_playing_exact_sample_steps"
+    },
+    "selection_equation": {
+      "const": "d2_previous <= d2_before_previous AND d2_current > d2_previous"
+    },
+    "threshold_semantics": {
+      "const": "zero_sign_change_of_quantized_observed_distance_not_tactical_threshold"
+    },
+    "t0": {
+      "const": "current_FrameDone_sample_after_observed_increase_not_before_physical_entry"
+    },
+    "deduplication": {
+      "const": "one_onset_per_directed_pair_and_source_sequence_no_retrigger_during_continuous_increase"
+    },
+    "future_window_seconds": {
+      "const": 2
+    },
+    "future_rule": {
+      "const": "exact_horizon_sample_and_complete_same_life_playing_cadence_otherwise_unavailable"
+    },
+    "legal_features": {
+      "const": "self_and_selected_ally_positions_alive_from_three_prefix_samples_only"
+    },
+    "future_and_oracle_used_for_selection": {
+      "const": false
+    },
+    "physical_entry_accredited": {
+      "const": false
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    }
+  }
+}

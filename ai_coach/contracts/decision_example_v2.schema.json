@@ -1,0 +1,622 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.ai_coach_decision_example@2",
+  "title": "DecisionExample",
+  "contract_version": "2.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "example_id",
+    "decision_family",
+    "join_keys",
+    "t0_tick",
+    "observed",
+    "oracle",
+    "outcomes",
+    "historical_profile",
+    "references",
+    "evidence",
+    "candidate_version",
+    "training_allowed",
+    "map_id",
+    "spatial_evidence"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.ai_coach_decision_example@2"
+    },
+    "contract_version": {
+      "const": "2.0.0"
+    },
+    "example_id": {
+      "type": "string",
+      "pattern": "^decision-[0-9a-f]{64}$"
+    },
+    "decision_family": {
+      "enum": [
+        "spacing_or_trade_connection",
+        "peek_hold_or_reposition"
+      ]
+    },
+    "join_keys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "match_id",
+        "decision_id",
+        "round_number",
+        "actor_player_id",
+        "observed_state_ref"
+      ],
+      "properties": {
+        "match_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_id": {
+          "type": "string",
+          "pattern": "^decision-[0-9a-f]{64}$"
+        },
+        "round_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "actor_player_id": {
+          "type": "string",
+          "pattern": "^participant-[0-9]{3}$"
+        },
+        "observed_state_ref": {
+          "type": "string",
+          "pattern": "^state-[0-9a-f]{64}$"
+        }
+      }
+    },
+    "t0_tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed": {
+      "$ref": "#/$defs/observedPartition"
+    },
+    "oracle": {
+      "$ref": "#/$defs/oraclePartition"
+    },
+    "outcomes": {
+      "$ref": "#/$defs/outcomePartition"
+    },
+    "historical_profile": {
+      "$ref": "#/$defs/profilePartition"
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_action",
+        "outcome",
+        "quality"
+      ],
+      "properties": {
+        "observed_action": {
+          "$ref": "#/$defs/artifactReference"
+        },
+        "outcome": {
+          "$ref": "#/$defs/artifactReference"
+        },
+        "quality": {
+          "$ref": "#/$defs/artifactReference"
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/artifactReference"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "candidate_version": {
+      "const": "3.9.0-candidate.1"
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "map_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spatial_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+        "FLD-GEOMETRIC-OCCLUSION",
+        "FLD-NAV-EXIT-PATH"
+      ],
+      "properties": {
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "sample_tick",
+            "row_reference",
+            "provenance",
+            "package",
+            "units"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "present",
+                "missing",
+                "null"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sample_tick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "row_reference": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/artifactReference"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "package": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason_codes",
+                "contract_version",
+                "asset_version",
+                "package_sha256",
+                "geometry_revision",
+                "product_supported"
+              ],
+              "properties": {
+                "status": {
+                  "const": "available"
+                },
+                "reason_codes": {
+                  "const": []
+                },
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "asset_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "package_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "geometry_revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "product_supported": {
+                  "const": false
+                }
+              }
+            },
+            "units": {
+              "const": {
+                "position": "world_units",
+                "distance": "world_units",
+                "angle": "degrees",
+                "time": "milliseconds"
+              }
+            }
+          }
+        },
+        "FLD-GEOMETRIC-OCCLUSION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "sample_tick",
+            "row_reference",
+            "provenance",
+            "package",
+            "units"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "present",
+                "missing",
+                "null"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sample_tick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "row_reference": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/artifactReference"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "package": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason_codes",
+                "contract_version",
+                "asset_version",
+                "package_sha256",
+                "geometry_revision",
+                "product_supported"
+              ],
+              "properties": {
+                "status": {
+                  "const": "available"
+                },
+                "reason_codes": {
+                  "const": []
+                },
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "asset_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "package_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "geometry_revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "product_supported": {
+                  "const": false
+                }
+              }
+            },
+            "units": {
+              "const": {
+                "position": "world_units",
+                "distance": "world_units",
+                "angle": "degrees",
+                "time": "milliseconds"
+              }
+            }
+          }
+        },
+        "FLD-NAV-EXIT-PATH": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "sample_tick",
+            "row_reference",
+            "provenance",
+            "package",
+            "units"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "present",
+                "missing",
+                "null"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sample_tick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "row_reference": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/artifactReference"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "package": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason_codes",
+                "contract_version",
+                "asset_version",
+                "package_sha256",
+                "geometry_revision",
+                "product_supported"
+              ],
+              "properties": {
+                "status": {
+                  "const": "available"
+                },
+                "reason_codes": {
+                  "const": []
+                },
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "asset_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "package_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "geometry_revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "product_supported": {
+                  "const": false
+                }
+              }
+            },
+            "units": {
+              "const": {
+                "position": "world_units",
+                "distance": "world_units",
+                "angle": "degrees",
+                "time": "milliseconds"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "availabilityBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "availability_tick",
+        "status",
+        "values"
+      ],
+      "properties": {
+        "availability_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "derived",
+            "inferred",
+            "unavailable"
+          ]
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "observedPartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "referenced_state",
+        "tactical_state",
+        "context",
+        "quality",
+        "spatial_facts"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "referenced_state": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "tactical_state": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "context": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "quality": {
+          "type": "object"
+        },
+        "spatial_facts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+            "FLD-GEOMETRIC-OCCLUSION",
+            "FLD-NAV-EXIT-PATH"
+          ],
+          "properties": {
+            "FLD-GEOMETRIC-CLEARANCE-SECTORS": {
+              "$ref": "#/$defs/availabilityBlock"
+            },
+            "FLD-GEOMETRIC-OCCLUSION": {
+              "$ref": "#/$defs/availabilityBlock"
+            },
+            "FLD-NAV-EXIT-PATH": {
+              "$ref": "#/$defs/availabilityBlock"
+            }
+          }
+        }
+      }
+    },
+    "oraclePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_only",
+        "available",
+        "status",
+        "values"
+      ],
+      "properties": {
+        "audit_only": {
+          "const": true
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "outcomePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label_or_evaluation_only",
+        "outcome_tick",
+        "values"
+      ],
+      "properties": {
+        "label_or_evaluation_only": {
+          "const": true
+        },
+        "outcome_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "profilePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strictly_before_t0",
+        "status",
+        "values"
+      ],
+      "properties": {
+        "strictly_before_t0": {
+          "const": true
+        },
+        "status": {
+          "const": "not_materialized"
+        },
+        "values": {
+          "type": "null"
+        }
+      }
+    },
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_type",
+        "schema_id",
+        "path",
+        "line"
+      ],
+      "properties": {
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

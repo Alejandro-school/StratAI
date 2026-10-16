@@ -1,0 +1,475 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_rule_assessment@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "source_manifest_sha256",
+    "source_data_sha256",
+    "source_candidate_manifest_sha256",
+    "rule_package_sha256",
+    "rule_registry_sha256",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "status",
+    "identity",
+    "price_partition",
+    "price_checks",
+    "configuration_checks",
+    "blockers",
+    "summary",
+    "source_coverage"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_rule_assessment@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_data_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_candidate_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rule_package_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rule_registry_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "status": {
+      "const": "reference_audit_not_rule_approval"
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "native",
+        "candidate_revisions",
+        "lookup_status",
+        "lookup_method",
+        "build_binding",
+        "compatible_for_comparison"
+      ],
+      "properties": {
+        "native": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "build_num",
+            "patch_version",
+            "network_protocol"
+          ],
+          "properties": {
+            "build_num": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value",
+                "observed_values"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "observed",
+                    "unavailable",
+                    "conflicting"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "observed_values": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "patch_version": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value",
+                "observed_values"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "observed",
+                    "unavailable",
+                    "conflicting"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "observed_values": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            "network_protocol": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "value",
+                "observed_values"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "observed",
+                    "unavailable",
+                    "conflicting"
+                  ]
+                },
+                "value": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 1
+                },
+                "observed_values": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "candidate_revisions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          }
+        },
+        "lookup_status": {
+          "enum": [
+            "native_identity_conflicting",
+            "native_patch_unavailable",
+            "patch_label_candidates_only",
+            "no_patch_label_candidate"
+          ]
+        },
+        "lookup_method": {
+          "const": "remove_patch_label_dots_diagnostic_only_not_build_equivalence"
+        },
+        "build_binding": {
+          "const": "unverified"
+        },
+        "compatible_for_comparison": {
+          "const": false
+        }
+      }
+    },
+    "price_partition": {
+      "const": "execution_diagnostics_only_never_initial_features"
+    },
+    "price_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "observation_id",
+          "entry_index",
+          "instance",
+          "actor_alias",
+          "tick",
+          "item_definition_index",
+          "recorded_cost",
+          "reference_price",
+          "result",
+          "effective_shop_price",
+          "player_error"
+        ],
+        "properties": {
+          "observation_id": {
+            "type": "string",
+            "pattern": "^n[0-9]{8}$"
+          },
+          "entry_index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "actor_alias": {
+            "type": "string",
+            "pattern": "^p[0-9]{4,}$"
+          },
+          "tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "item_definition_index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "recorded_cost": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reference_price": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "result": {
+            "enum": [
+              "equal_reference",
+              "different_reference",
+              "reference_unavailable",
+              "reference_conflicting"
+            ]
+          },
+          "effective_shop_price": {
+            "const": null
+          },
+          "player_error": {
+            "const": false
+          }
+        }
+      }
+    },
+    "configuration_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "instance",
+          "t0_tick",
+          "name",
+          "native_status",
+          "native_value",
+          "availability_tick",
+          "native_source",
+          "reference_status",
+          "reference_default",
+          "result",
+          "default_applied_to_demo"
+        ],
+        "properties": {
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "t0_tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "native_status": {
+            "enum": [
+              "observed",
+              "not_captured_by_source_contract",
+              "native_value_unavailable",
+              "not_available_at_round_start"
+            ]
+          },
+          "native_value": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "availability_tick": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "native_source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reference_status": {
+            "enum": [
+              "reference",
+              "unavailable",
+              "conflicting"
+            ]
+          },
+          "reference_default": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "result": {
+            "enum": [
+              "equal_reference",
+              "different_reference",
+              "not_comparable"
+            ]
+          },
+          "default_applied_to_demo": {
+            "const": false
+          }
+        }
+      }
+    },
+    "blockers": {
+      "const": [
+        "exact_demo_to_asset_build_binding_unverified",
+        "server_overrides_not_proved_by_reference_defaults",
+        "prior_loss_bonus_state_unverified",
+        "purchasable_loadout_and_limits_unverified",
+        "complete_transactions_and_refund_rules_unverified",
+        "teammate_acceptance_unobserved"
+      ]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "price_checks",
+        "equal_reference_prices",
+        "different_reference_prices",
+        "unavailable_reference_prices",
+        "configuration_checks",
+        "native_configuration_observed",
+        "different_reference_defaults",
+        "approved_rule_packages",
+        "classified_player_errors"
+      ],
+      "properties": {
+        "price_checks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "equal_reference_prices": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "different_reference_prices": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unavailable_reference_prices": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "configuration_checks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "native_configuration_observed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "different_reference_defaults": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "approved_rule_packages": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classified_player_errors": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "source_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshots",
+        "connected_complete_lists",
+        "disconnected_snapshots",
+        "connected_incomplete_lists"
+      ],
+      "properties": {
+        "snapshots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "connected_complete_lists": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "disconnected_snapshots": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "connected_incomplete_lists": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

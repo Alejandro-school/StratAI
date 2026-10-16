@@ -1,0 +1,14 @@
+{
+  "version": "1",
+  "fields": {
+    "//c_game_mode": "int32",
+    "//c_game_type": "int32",
+    "//ct_arms": "reference_name_sha256",
+    "//ct_models/": "reference_name_sha256",
+    "//default_game_mode": "int32",
+    "//default_game_type": "int32",
+    "//numSlots": "int32",
+    "//t_arms": "reference_name_sha256",
+    "//t_models/": "reference_name_sha256"
+  }
+}

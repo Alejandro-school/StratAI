@@ -41,25 +41,44 @@ async function cacheResult(matchId, result) {
   });
 }
 
+function releaseBot(pending) {
+  if (!pending.bot) return;
+  pending.bot.activeRequests = Math.max(0, pending.bot.activeRequests - 1);
+  pending.bot = null;
+}
+
+function finishRequest(pending, error, result) {
+  if (pendingRequests.get(pending.matchId) !== pending) return;
+  clearTimeout(pending.timeout);
+  clearTimeout(pending.retryTimer);
+  pendingRequests.delete(pending.matchId);
+  releaseBot(pending);
+  if (error) pending.reject(error);
+  else pending.resolve(result);
+}
+
 function sendRequest(pending) {
+  if (pendingRequests.get(pending.matchId) !== pending) return;
   const bot = botPool.getAvailableBot();
   if (!bot) {
-    clearTimeout(pending.timeout);
-    pending.reject(new Error('No Steam GC session is available'));
-    pendingRequests.delete(pending.matchId);
+    finishRequest(pending, new Error('No Steam GC session is available'));
     return;
   }
   pending.bot = bot;
   bot.activeRequests += 1;
-  bot.csgo._send(
-    Language.MatchListRequestFullGameInfo,
-    Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo,
-    {
-      matchid: pending.decoded.matchId,
-      outcomeid: pending.decoded.outcomeId,
-      token: pending.decoded.token,
-    },
-  );
+  try {
+    bot.csgo._send(
+      Language.MatchListRequestFullGameInfo,
+      Protos.CMsgGCCStrike15_v2_MatchListRequestFullGameInfo,
+      {
+        matchid: pending.decoded.matchId,
+        outcomeid: pending.decoded.outcomeId,
+        token: pending.decoded.token,
+      },
+    );
+  } catch (error) {
+    finishRequest(pending, error);
+  }
 }
 
 function findDemoUrl(rounds) {
@@ -88,16 +107,13 @@ function configureMatchListeners() {
       if (!demoUrl) {
         if (pending.retries < pending.maxRetries) {
           pending.retries += 1;
-          if (pending.bot) {
-            pending.bot.activeRequests = Math.max(0, pending.bot.activeRequests - 1);
-          }
-          setTimeout(() => sendRequest(pending), 1000);
+          releaseBot(pending);
+          clearTimeout(pending.retryTimer);
+          pending.retryTimer = setTimeout(() => sendRequest(pending), 1000);
         } else {
-          clearTimeout(pending.timeout);
-          pendingRequests.delete(matchId);
           const error = new Error('Steam GC did not return a demo URL');
           error.pipelineCode = 'demo_url_unavailable';
-          pending.reject(error);
+          finishRequest(pending, error);
         }
         continue;
       }
@@ -112,13 +128,8 @@ function configureMatchListeners() {
         mapName: lastRound?.reservation?.game_map_key || '',
         matchID: matchId,
       };
-      clearTimeout(pending.timeout);
-      pendingRequests.delete(matchId);
-      if (pending.bot) {
-        pending.bot.activeRequests = Math.max(0, pending.bot.activeRequests - 1);
-      }
       cacheResult(matchId, result).catch(() => {});
-      pending.resolve(result);
+      finishRequest(pending, null, result);
     }
   };
 
@@ -127,11 +138,12 @@ function configureMatchListeners() {
   }
 }
 
-async function resolveSharecode(sharecode, maxRetries = 2) {
+async function resolveSharecode(sharecode, maxRetries = 2, forceRefresh = false) {
   configureMatchListeners();
   const decoded = new ShareCode(sharecode).decode();
   const matchId = decoded.matchId.toString();
-  const cached = await readCachedResult(matchId);
+  if (forceRefresh) await redisClient.del(cacheKey(matchId));
+  const cached = forceRefresh ? null : await readCachedResult(matchId);
   if (cached) return cached;
   if (pendingRequests.has(matchId)) return pendingRequests.get(matchId).promise;
 
@@ -152,11 +164,7 @@ async function resolveSharecode(sharecode, maxRetries = 2) {
     bot: null,
   };
   pending.timeout = setTimeout(() => {
-    pendingRequests.delete(matchId);
-    if (pending.bot) {
-      pending.bot.activeRequests = Math.max(0, pending.bot.activeRequests - 1);
-    }
-    rejectPromise(new Error(`Steam GC timed out for match ${matchId}`));
+    finishRequest(pending, new Error(`Steam GC timed out for match ${matchId}`));
   }, 30000);
   pendingRequests.set(matchId, pending);
   sendRequest(pending);

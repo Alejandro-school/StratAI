@@ -1,0 +1,484 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_physical_manifest@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "decision_eligible",
+    "physical_entry_status",
+    "tactical_commitment_status",
+    "references",
+    "artifact",
+    "coverage"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_physical_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "decision_eligible": {
+      "const": false
+    },
+    "physical_entry_status": {
+      "const": "not_accredited"
+    },
+    "tactical_commitment_status": {
+      "const": "not_accredited"
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "physical_source",
+        "support_source",
+        "preparation_protocol"
+      ],
+      "properties": {
+        "physical_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "preparation_protocol": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256",
+        "records"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "records": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "counts",
+        "matrix"
+      ],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cuts",
+            "actor_cuts",
+            "candidates"
+          ],
+          "properties": {
+            "cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "candidates": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "matrix": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "actor_alias",
+              "ally_alias",
+              "side",
+              "instance",
+              "epoch",
+              "candidates",
+              "both_available",
+              "self",
+              "ally"
+            ],
+            "properties": {
+              "actor_alias": {
+                "type": "string",
+                "pattern": "^support-actor-[0-9a-f]{20}$"
+              },
+              "ally_alias": {
+                "type": "string",
+                "pattern": "^support-actor-[0-9a-f]{20}$"
+              },
+              "side": {
+                "enum": [
+                  "CT",
+                  "T"
+                ]
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidates": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "both_available": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "view_angles",
+                  "walking",
+                  "ducking",
+                  "active_weapon",
+                  "ammo_in_magazine",
+                  "ammo_reserve",
+                  "reloading",
+                  "interval_average_velocity"
+                ],
+                "properties": {
+                  "view_angles": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "walking": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ducking": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "active_weapon": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ammo_in_magazine": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ammo_reserve": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "reloading": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "interval_average_velocity": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "self": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "view_angles",
+                  "walking",
+                  "ducking",
+                  "active_weapon",
+                  "ammo_in_magazine",
+                  "ammo_reserve",
+                  "reloading",
+                  "interval_average_velocity"
+                ],
+                "properties": {
+                  "view_angles": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "walking": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ducking": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "active_weapon": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ammo_in_magazine": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ammo_reserve": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "reloading": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "interval_average_velocity": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              },
+              "ally": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "view_angles",
+                  "walking",
+                  "ducking",
+                  "active_weapon",
+                  "ammo_in_magazine",
+                  "ammo_reserve",
+                  "reloading",
+                  "interval_average_velocity"
+                ],
+                "properties": {
+                  "view_angles": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "walking": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ducking": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "active_weapon": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ammo_in_magazine": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ammo_reserve": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "reloading": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "interval_average_velocity": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

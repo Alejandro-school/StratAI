@@ -1,0 +1,95 @@
+{
+  "date": "2026-09-26",
+  "request_literal": "Y no puede ser sin login? Y aparte, donde escriben su respuesta para el caso? No les voy a hacer que me den un bloc de notas. Implementalo en la web. Aparte corrige los tiempos para que aparezca solo minutos ys egundos",
+  "status": "implemented_published_verified",
+  "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+  "source_commit": "18bb33bc27de01587d2db3d2198a8d4ac494f67f",
+  "version_id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_a762b5f58450819196ffa639dac80f24",
+  "deployment_id": "appgdep_6ab70d6a63c48191a79b7370ec81bf03",
+  "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+  "platform_access": "public",
+  "application_access": "unpredictable invitation / separate owner link",
+  "invitation_tokens_in_evidence": false,
+  "account_required": false,
+  "durable_storage": "D1 / DB / responses",
+  "instrument": "stratai.review_web@1",
+  "cases": 34,
+  "cases_range": "E03-E36",
+  "embedded_json_blocks_preserved": 102,
+  "time_display": "mm:ss, floor to whole seconds, raw replay values unchanged",
+  "automated_tests": {
+    "command": "npm test",
+    "passed": 6,
+    "failed": 0,
+    "scope": "standalone review site; real SQLite, auth, isolation, revisions, retry, clock and all cards"
+  },
+  "production_checks": {
+    "invitation_page": {
+      "status": 200,
+      "bytes": 4084
+    },
+    "no_invite_/": {
+      "status": 401
+    },
+    "no_invite_/fichas/E03": {
+      "status": 401
+    },
+    "no_invite_/fichas/E36.html": {
+      "status": 401
+    },
+    "no_invite_/api/me": {
+      "status": 401
+    },
+    "no_invite_/api/admin/responses": {
+      "status": 401
+    },
+    "wrong_token_denied": true,
+    "login_guest": {
+      "status": 200
+    },
+    "http_only_secure_cookie": true,
+    "index": true,
+    "guest_denied_/api/admin/responses": true,
+    "guest_denied_/respuestas": true,
+    "database_available": true,
+    "all_34_cards": true,
+    "no_plaintext_static_bypass": true,
+    "login_test": {
+      "status": 200
+    },
+    "durable_post": {
+      "status": 201
+    },
+    "idempotent_retry": true,
+    "revision_saved": true,
+    "persistent_versions_read": true,
+    "reviewer_isolation": true,
+    "login_owner": {
+      "status": 200
+    },
+    "owner_reads_submissions": true,
+    "records_survive_redeployment": true,
+    "technical_tests_hidden_by_default": true,
+    "cross_origin_write_denied": true,
+    "no_platform_bypass_used": true
+  },
+  "hosted_cards": 34,
+  "protected_files_unchanged": 160,
+  "browser_visual_test": false,
+  "preview_http_status": 200,
+  "runtime_replay_changes": 0,
+  "demos_processed": 0,
+  "smoke_applicability": "No replay producer, derived fact, canonical schema or runtime replay data contract changed. This is review collection and presentation only.",
+  "human_reviews_created": 0,
+  "technical_records_retained": 6,
+  "technical_records_hidden_from_default_view": true,
+  "predictions_modified": false,
+  "training": false,
+  "workbook": "v20 unchanged: no new expert game judgment received",
+  "limitations": [
+    "Invitation bearer can forward access. Alias is self-declared.",
+    "Review identity lives in a signed browser cookie; another browser starts a separate identity.",
+    "No browser interaction/visual QA in this turn; HTTP, script parsing, worker and storage checks passed."
+  ],
+  "retention": "Previous builds, archives, failed first public check, and temporary SQLite tests retained. No cleanup."
+}

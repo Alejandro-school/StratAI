@@ -1,0 +1,293 @@
+{
+  "schema_id": "stratai.ai_coach_multimap_exposure_angles_mirage_single_demo_evidence@1",
+  "date": "2026-08-29",
+  "status": "passed",
+  "phase": "1B.7",
+  "gate_1b": "pending",
+  "training_allowed": false,
+  "scope": "map-agnostic versioned exposure-angle geometry contract with only a partial de_mirage candidate package",
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "producer_attempts": 1,
+    "source_read_only": true,
+    "approved_bundles_read_only": 44,
+    "outputs_only_under_temp": true,
+    "published_or_promoted": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "map_id": "de_mirage",
+    "rounds": 24,
+    "parser_schema_version": "v16",
+    "export_format_version": "3.8.0"
+  },
+  "contracts": {
+    "package_schema_id": "stratai.exposure_angle_map_package@1",
+    "support_manifest_schema_id": "stratai.exposure_angle_support_manifest@1",
+    "diagnostic_schema_id": "stratai.observed_exposure_angle_diagnostic@1",
+    "full_demo_report_schema_id": "stratai.observed_exposure_angle_full_demo_report@1",
+    "contract_version": "1.0.0",
+    "coordinate_system": "source2_world",
+    "units": "source2_world_units",
+    "angular_normalization": "[0,360)",
+    "angular_interval": "start_inclusive_end_exclusive",
+    "canonical_bundle_changed": false,
+    "cover_in_scope": false,
+    "exit_route_in_scope": false
+  },
+  "source_asset_audit": {
+    "protected_assets_modified": false,
+    "geometry_used": [
+      {
+        "role": "physics_gltf",
+        "reference": "de_mirage/de_mirage_physics.gltf",
+        "bytes": 60726,
+        "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451"
+      },
+      {
+        "role": "physics_buffer",
+        "reference": "de_mirage/de_mirage_physics.bin",
+        "bytes": 14378364,
+        "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e"
+      },
+      {
+        "role": "sample_seed_catalog",
+        "reference": "de_mirage/de_mirage_places.json",
+        "bytes": 4268,
+        "sha256": "6ba2ed20019e0bcc0bf7762cebcbd4f84fa0849c2f8d1ddb64e2cb10436e32cf",
+        "interpretation": "coordinate seeds only; source names are not tactical labels"
+      }
+    ],
+    "audited_but_not_used_as_tactical_truth": [
+      {
+        "role": "nav_mesh",
+        "reference": "de_mirage/de_mirage.nav",
+        "bytes": 471905,
+        "sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e"
+      }
+    ]
+  },
+  "mirage_candidate_package": {
+    "asset_version": "1.0.0-candidate.1",
+    "package_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+    "geometry_revision": "46924b6e46278ec51ea3dcf69016f15b23ed859be37671c2124e10b074effef1",
+    "generation_request_sha256": "06643fd681bf69700fd17e2d29de8cfa1ae2052e11d3b4e1e8607195cfbe85c9",
+    "azimuth_step_degrees": 15,
+    "maximum_ray_distance": 2048,
+    "minimum_clearance_distance": 512,
+    "sampling_height_units": 64,
+    "sample_count": 8,
+    "geometry_sector_count": 25,
+    "tactical_annotation_placeholders": 25,
+    "coverage": "partial_reference_samples",
+    "full_map_coverage": false,
+    "geometry_validation": {
+      "status": "approved",
+      "author_id": "stratai.geometry-generator@1",
+      "reviewer_id": "stratai.exposure-package-validator@1",
+      "evidence_kind": "automated reproducible geometry only"
+    },
+    "tactical_review": {
+      "status": "pending_review",
+      "author_id": null,
+      "reviewer_id": null,
+      "evidence": [],
+      "product_supported": false
+    },
+    "deterministic_regeneration": {
+      "runs": 2,
+      "first_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+      "second_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+      "stored_sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94"
+    }
+  },
+  "map_support": {
+    "architecturally_compatible_with_additional_packages": true,
+    "implemented_candidate_maps": ["de_mirage"],
+    "product_supported_maps": [],
+    "explicitly_not_claimed_as_implemented": [
+      "de_dust2",
+      "de_inferno",
+      "de_ancient",
+      "de_nuke",
+      "de_anubis",
+      "de_train"
+    ],
+    "unknown_or_invalid_resolution": "unavailable",
+    "mirage_fallback_allowed": false
+  },
+  "attempts": [
+    {
+      "kind": "producer",
+      "attempt": 1,
+      "build_identifier": "working-tree-exposure-angles-mirage-1b7-20260829-r1",
+      "status": "passed",
+      "stage": "complete",
+      "duration_seconds": 102.464,
+      "parse_demo_result_instances": 1,
+      "output_files": 76,
+      "output_bytes": 736008015
+    },
+    {
+      "kind": "independent_exposure_validator",
+      "attempt": 1,
+      "status": "passed",
+      "duration_seconds": 7.6
+    },
+    {
+      "kind": "canonical_bundle_semantic_validator",
+      "attempt": 1,
+      "status": "passed",
+      "semantic_errors": 0
+    }
+  ],
+  "exact_producer_shell": "PowerShell",
+  "exact_producer_working_directory": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+  "exact_producer_command": "go run ./cmd/canonical-export --demo 'E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem' --output 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-exposure-angles-1b7-20260829' --alias 'demo-a11eb0d600ee702c9edb' --checksum 'a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262' --maps-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps' --exposure-packages-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\spatial\\exposure' --build-id 'working-tree-exposure-angles-mirage-1b7-20260829-r1' --ai-coach-exposure-angle-validation",
+  "successful_result": {
+    "input_frames": 29520,
+    "selected_frames": 1857,
+    "sampling_hz": 1,
+    "participant_aliases": 10,
+    "records": 12802,
+    "geometry_observed": 883,
+    "geometry_unavailable": 11919,
+    "geometry_reason_counts": {
+      "outside_declared_sample_coverage": 11919
+    },
+    "samples_hit": {
+      "sample-001": 55,
+      "sample-002": 22,
+      "sample-003": 63,
+      "sample-004": 105,
+      "sample-005": 193,
+      "sample-006": 61,
+      "sample-007": 208,
+      "sample-008": 176
+    },
+    "ambiguous_sample_overlaps": 0,
+    "tactical_observed": 0,
+    "tactical_abstentions": 12802,
+    "tactical_reason_counts": {
+      "human_review_pending": 883,
+      "outside_declared_sample_coverage": 11919
+    },
+    "causal_and_privacy_checks": {
+      "future_ticks": 0,
+      "oracle_or_outcome_fields": 0,
+      "raw_identity_fields": 0,
+      "angle_recompute_mismatches": 0,
+      "bounds_or_sample_mismatches": 0
+    }
+  },
+  "artifacts": [
+    {
+      "path": "observed_exposure_angle_full_demo.json",
+      "bytes": 1891,
+      "sha256": "98be1ba6ae6fc54abac532821cc61e4a2be293e377243da3b9e575c8e58f6a5b"
+    },
+    {
+      "path": "observed_exposure_angle_diagnostic.jsonl.gz",
+      "bytes": 422357,
+      "sha256": "20b86c93ad7c014db06a7257b66a0d7f552be8b9576dbcb71d2dce46d0b3aa4a",
+      "logical_bytes": 15274659,
+      "logical_sha256": "75c47f5b94576cb1204c657b94ef1e36771218fc4c8bb09ddfbf6acc00d6dce5"
+    },
+    {
+      "path": "match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+      "bytes": 33487,
+      "sha256": "570da4b6042d2f8898d2c4fbe41ffeec626185f316c68248cc8116ec1ad2b38c"
+    },
+    {
+      "path": "ai_coach/spatial/exposure/packages/de_mirage/1.0.0-candidate.1/package.json",
+      "bytes": 43328,
+      "sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94"
+    },
+    {
+      "path": "ai_coach/spatial/exposure/support_manifest.json",
+      "bytes": 607,
+      "sha256": "45aae8d770b956e8a9a94a6a68a66d027aa7ec1eef425112737c329d7b584e15"
+    }
+  ],
+  "canonical_bundle": {
+    "semantic_errors": 0,
+    "files": 73,
+    "bytes": 735286371,
+    "declared_artifacts": 72,
+    "export_format_version": "3.8.0",
+    "parser_version": "v16"
+  },
+  "automated_verification": [
+    {
+      "command": "go test -count=1 ./pkg/exposure ./parser ./cmd/canonical-export ./cmd/exposure-package-generator",
+      "status": "passed"
+    },
+    {
+      "command": "python -m pytest -q ai_coach/tests",
+      "status": "passed; 158 tests"
+    },
+    {
+      "command": "python -m ruff check affected AI Coach paths",
+      "status": "passed"
+    },
+    {
+      "command": "npm run check:all",
+      "status": "passed; frontend 88, Node 14 passed/3 skipped, all Go packages, backend Python 43, frontend build"
+    },
+    {
+      "command": "exposure-package-generator twice from protected Mirage inputs",
+      "status": "passed; byte-identical to stored package"
+    },
+    {
+      "command": "python -m ai_coach.contracts.validate_exposure_angle_full_demo ... --require-geometry-observed --require-geometry-unavailable --require-pending-tactical-review",
+      "status": "passed; schema, hashes, angles, half-open sectors, bounds, provenance, counts, causal isolation and abstentions independently recomputed"
+    },
+    {
+      "command": "golden_demo_semantic_runner.validate_direct_bundle(...) ",
+      "status": "passed; 0 errors"
+    }
+  ],
+  "protected_state": {
+    "pre_utc": "2026-08-29T15:47:02.1013581Z",
+    "post_utc": "2026-08-29T16:02:53.6803402Z",
+    "all_equal": true,
+    "trees": {
+      "demos": {"files": 100, "bytes": 13589310951, "newest_utc": "2026-08-25T13:44:10.7561159Z"},
+      "analyzed_demos": {"files": 3013, "bytes": 27264064316, "newest_utc": "2026-08-25T16:55:21.8954941Z"},
+      "failed": {"files": 727, "bytes": 5245908800, "newest_utc": "2026-08-25T12:58:53.9269942Z"},
+      "staging": {"files": 0, "bytes": 0},
+      "backend_data_exports": {"files": 1242, "bytes": 1353261344, "newest_utc": "2026-08-21T16:16:08.8696869Z"}
+    },
+    "approved_manifests": {
+      "count": 44,
+      "manifest_set_sha256": "42cb1daad3acefc35d5587fbb8b62b190d72b1856c86497fa6f225daba70e786"
+    },
+    "faceit_demos_git": {
+      "head": "f132c8de4bcc97650352ec5a647fdf3985f11353",
+      "clean": true
+    },
+    "release": {
+      "current": "stratai-2c6db440231d463a",
+      "current_sha256": "600d3f69631c12112fa2af11fdf2a23813529bfba536806ba19627db3a8ee799"
+    }
+  },
+  "cleanup": {
+    "status": "passed",
+    "temporary_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-exposure-angles-1b7-20260829",
+    "files": 76,
+    "bytes": 736008015,
+    "all_absent_after_cleanup": true,
+    "recoverable": false
+  },
+  "limitations": [
+    "Only de_mirage has an implemented candidate package; no map is product-supported.",
+    "The eight geometry samples are partial reference coverage and must not be extrapolated to the full map.",
+    "Ray clearance sectors are reproducible geometry, not tactical exposure truth.",
+    "Human tactical review is pending and every tactical output abstains.",
+    "FLD-EXPOSURE-ANGLES remains historically REQUIERE_CLASIFICACION and is not materialized in canonical 3.8.0 bundles.",
+    "FLD-COVER and FLD-EXIT-ROUTE remain out of scope and unavailable."
+  ],
+  "next_phase": "1B.8 map-agnostic cover contract and partial de_mirage reference package, without exit-route work or canonical migration"
+}

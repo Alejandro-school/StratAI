@@ -35,6 +35,7 @@ export function useReplayController({
   initialRound,
   externalControl,
   onAvailabilityChange,
+  perspective = null,
 }) {
   const queryClient = useQueryClient();
   const initialUrl = useRef(urlState()).current;
@@ -74,7 +75,7 @@ export function useReplayController({
     return { ...frame, shots: activeCombatShotsAtTick(combatShots, tick) };
   }, [combatShots, frames, tick]);
   const progress = endTick > startTick ? clamp((tick - startTick) / (endTick - startTick), 0, 1) : 0;
-  const effectiveRate = directorRate(events, tick, tickRate, directorMode, playbackRate);
+  const effectiveRate = directorRate(events, tick, tickRate, !perspective && directorMode, playbackRate);
 
   const setTick = useCallback((next) => {
     const numeric = Number(typeof next === "function" ? next(tickRef.current) : next);
@@ -176,14 +177,14 @@ export function useReplayController({
   }, [metadata, onAvailabilityChange]);
 
   useEffect(() => {
-    if (!isPlaying && !isAiPlaying) return undefined;
+    if (!isPlaying && !(isAiPlaying && !perspective)) return undefined;
     let previous = performance.now();
     const animate = (now) => {
       // Preserve real elapsed time during a temporarily expensive canvas frame.
       // The wider cap still prevents a huge jump after returning to a hidden tab.
       const delta = Math.min(now - previous, 250);
       previous = now;
-      const speed = directorRate(events, tickRef.current, tickRate, directorMode, playbackRate);
+      const speed = directorRate(events, tickRef.current, tickRate, !perspective && directorMode, playbackRate);
       const next = tickRef.current + (delta / 1000) * tickRate * speed;
       if (next >= endTick) {
         setTick(endTick);
@@ -201,14 +202,14 @@ export function useReplayController({
     return () => {
       if (frameRequest.current) cancelAnimationFrame(frameRequest.current);
     };
-  }, [directorMode, endTick, events, isAiPlaying, isPlaying, playbackRate, setTick, tickRate]);
+  }, [directorMode, endTick, events, isAiPlaying, isPlaying, playbackRate, setTick, tickRate, perspective]);
 
   useEffect(() => {
     if (isAiPlaying || activeClip) updateCurrentTick(tick);
   }, [activeClip, isAiPlaying, tick, updateCurrentTick]);
 
   useEffect(() => {
-    if (!activeClip || !roundsSummary.length) return;
+    if (perspective || !activeClip || !roundsSummary.length) return;
     const index = roundsSummary.findIndex((round) => round.round === activeClip.round);
     if (index >= 0 && index + 1 !== roundIndex) {
       pendingTick.current = activeClip.startTick;
@@ -218,7 +219,7 @@ export function useReplayController({
     }
     if (isAiPlaying) setIsPlaying(true);
     if (activeClip.focusPlayerId) setFocusPlayerId(String(activeClip.focusPlayerId));
-  }, [activeClip, isAiPlaying, roundIndex, roundsSummary, setTick]);
+  }, [activeClip, isAiPlaying, roundIndex, roundsSummary, setTick, perspective]);
 
   useEffect(() => {
     if (!isAiPlaying && activeClip) setIsPlaying(false);
@@ -277,6 +278,10 @@ export function useReplayController({
   }, [roundIndex, roundsSummary.length]);
   const seekProgress = useCallback((value) => setTick(startTick + clamp(value, 0, 1) * (endTick - startTick)), [endTick, setTick, startTick]);
   const seekEvent = useCallback((event) => setTick(event.tick), [setTick]);
+  const togglePlayback = useCallback(() => {
+    if (!isPlaying && tickRef.current >= endTick) setTick(startTick);
+    setIsPlaying((playing) => !playing);
+  }, [endTick, isPlaying, setTick, startTick]);
   const closestIndex = closestFrameIndex(frames, tick);
 
   return {
@@ -305,6 +310,7 @@ export function useReplayController({
     aiAnnotations,
     activeClip,
     setIsPlaying,
+    togglePlayback,
     setPlaybackRate,
     setDirectorMode,
     setFocusPlayerId,

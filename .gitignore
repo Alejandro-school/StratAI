@@ -71,6 +71,7 @@ backend/data/
 # Estado local de herramientas de agentes
 .tokensave/
 .pytest_cache/
+pytest-cache-files-*/
 .ruff_cache/
 backend/go-service/.profile-run/
 
@@ -95,7 +96,6 @@ frontend/build/
  
 # Carpeta frontend adicional
 frontend/.cache/
-frontend/build/
 
 # Artefactos de Go específicos del proyecto
 backend/go-service/main.exe
@@ -105,8 +105,32 @@ backend/go-service/IA.zip
 /stratai-go-release/
 
 # Otros
-cookies.txt
 .browser-profile/
 .codebase-memory/
 .cache/
 .tmp-*.png
+
+# Capturas y artefactos regenerables de revisión local
+.playwright-cli/
+/output/playwright/
+/outputs/**/retained-builds/
+/outputs/**/packaging-stage/
+/outputs/**/packaging-v*/
+/outputs/**/publish-stage/
+/outputs/**/publish-final/
+/outputs/security-fixes-2026-10-15/tooling/
+/outputs/security-fixes-2026-10-15/clean-python/
+/outputs/security-fixes-2026-10-15/pytest-*/
+/outputs/security-fixes-2026-10-15/source-snapshot/
+
+# Source assets required by the official landing and its regression checks.
+!frontend/public/landing-world/mirage-exploration.glb
+!frontend/public/landing-world/mirage-textured.glb
+!frontend/public/landing-world/mirage-lowpc.glb
+!frontend/public/images/Landing/CoachIA-.png
+!frontend/public/images/Landing/InteractiveMap.png
+!frontend/public/images/Landing/Challenges.png
+!frontend/public/images/Landing/ImagenReplay.png
+!frontend/public/videos/
+frontend/public/videos/*
+!frontend/public/videos/ChatIA.mp4

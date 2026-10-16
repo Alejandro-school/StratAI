@@ -1,6 +1,9 @@
 package models
 
-import "cs2-demo-service/pkg/objective"
+import (
+	"cs2-demo-service/pkg/objective"
+	"cs2-demo-service/pkg/sound"
+)
 
 // ========================================
 // REPLAY 2D DATA STRUCTURES
@@ -33,17 +36,47 @@ type MapConfig struct {
 
 // ReplayRound contains all frames and events for one round
 type ReplayRound struct {
-	Round       int           `json:"round"`
-	StartTick   int           `json:"start_tick"`
-	EndTick     int           `json:"end_tick"`
-	Winner      string        `json:"winner"` // "CT", "T", or ""
-	Frames      []ReplayFrame `json:"frames"`
-	Events      []ReplayEvent `json:"events"`
-	CombatShots []ReplayShot  `json:"combat_shots"`
+	SoundInformation *sound.Information      `json:"sound_information,omitempty"`
+	UtilityVision    *ReplayUtilityVision    `json:"utility_vision,omitempty"`
+	EventContext     *ReplayEventContext     `json:"event_context,omitempty"`
+	Round            int                     `json:"round"`
+	StartTick        int                     `json:"start_tick"`
+	EndTick          int                     `json:"end_tick"`
+	Winner           string                  `json:"winner"` // "CT", "T", or ""
+	Frames           []ReplayFrame           `json:"frames"`
+	Events           []ReplayEvent           `json:"events"`
+	CombatShots      []ReplayShot            `json:"combat_shots"`
+	CalculatedVision *ReplayCalculatedVision `json:"calculated_vision,omitempty"`
+}
+
+// Optional candidate extension. These are estimates, not accredited perception.
+type ReplayCalculatedVision struct {
+	SchemaID     string               `json:"schema_id"`
+	Producer     string               `json:"producer"`
+	SampleStride int                  `json:"sample_stride_ticks"`
+	Samples      []ReplayVisionSample `json:"samples"`
+}
+
+type ReplayVisionSample struct {
+	Tick             int                       `json:"tick"`
+	AvailabilityTick int                       `json:"availability_tick"`
+	Status           string                    `json:"status"`
+	Contacts         []ReplayCalculatedContact `json:"contacts"`
+}
+
+type ReplayCalculatedContact struct {
+	ObserverID   uint64  `json:"observer_id,string"`
+	SubjectID    uint64  `json:"subject_id,string"`
+	ObserverSide string  `json:"observer_side"`
+	SubjectSide  string  `json:"subject_side"`
+	X            float64 `json:"x"`
+	Y            float64 `json:"y"`
+	Z            float64 `json:"z"`
 }
 
 // ReplayFrame is a snapshot at a specific tick
 type ReplayFrame struct {
+	RoundContext  *ReplayRoundContext  `json:"round_context,omitempty"`
 	Tick          int                  `json:"tick"`
 	TimeRemaining float64              `json:"time_remaining"`
 	Players       []ReplayPlayerState  `json:"players"`
@@ -55,29 +88,56 @@ type ReplayFrame struct {
 
 // ReplayPlayerState is the state of a player at a given tick
 type ReplayPlayerState struct {
-	SteamID       uint64   `json:"steam_id,string"`
-	Name          string   `json:"name"`
-	Team          string   `json:"team"` // "CT" or "T"
-	X             int      `json:"x"`    // Rounded to int for smaller JSON
-	Y             int      `json:"y"`    // Rounded to int for smaller JSON
-	Z             float64  `json:"z"`
-	Yaw           float32  `json:"yaw"`   // View direction (horizontal)
-	Pitch         float32  `json:"pitch"` // View direction (vertical)
-	Health        int      `json:"health"`
-	Armor         int      `json:"armor"`
-	Alive         bool     `json:"alive"`
-	Weapon        string   `json:"weapon"`
-	Weapons       []string `json:"weapons,omitempty"`
-	HasDefuseKit  bool     `json:"has_defuse_kit,omitempty"`
-	HasHelmet     bool     `json:"has_helmet,omitempty"`
-	HasC4         bool     `json:"has_c4,omitempty"`
-	FlashDuration float64  `json:"flash_duration,omitempty"` // Seconds remaining of flash blindness
-	Money         int      `json:"money"`
-	IsDucking     bool     `json:"is_ducking,omitempty"`
-	IsWalking     bool     `json:"is_walking,omitempty"`
-	IsScoped      bool     `json:"is_scoped,omitempty"`
-	IsReloading   bool     `json:"is_reloading,omitempty"`
-	IsDefusing    bool     `json:"is_defusing,omitempty"`
+	InventoryContext *ReplayInventoryContext `json:"inventory_context,omitempty"`
+	SteamID          uint64                  `json:"steam_id,string"`
+	Name             string                  `json:"name"`
+	Team             string                  `json:"team"` // "CT" or "T"
+	X                int                     `json:"x"`    // Rounded to int for smaller JSON
+	Y                int                     `json:"y"`    // Rounded to int for smaller JSON
+	Z                float64                 `json:"z"`
+	Yaw              float32                 `json:"yaw"`   // View direction (horizontal)
+	Pitch            float32                 `json:"pitch"` // View direction (vertical)
+	Health           int                     `json:"health"`
+	Armor            int                     `json:"armor"`
+	Alive            bool                    `json:"alive"`
+	Weapon           string                  `json:"weapon"`
+	Weapons          []string                `json:"weapons,omitempty"`
+	HasDefuseKit     bool                    `json:"has_defuse_kit,omitempty"`
+	HasHelmet        bool                    `json:"has_helmet,omitempty"`
+	HasC4            bool                    `json:"has_c4,omitempty"`
+	FlashDuration    float64                 `json:"flash_duration,omitempty"` // Seconds remaining of flash blindness
+	Money            int                     `json:"money"`
+	IsDucking        bool                    `json:"is_ducking,omitempty"`
+	IsWalking        bool                    `json:"is_walking,omitempty"`
+	IsScoped         bool                    `json:"is_scoped,omitempty"`
+	IsReloading      bool                    `json:"is_reloading,omitempty"`
+	IsDefusing       bool                    `json:"is_defusing,omitempty"`
+
+	// Causal visual-contact inputs are retained only in memory for the next
+	// versioned producer. They deliberately do not alter the current replay or
+	// canonical 3.8.0 JSON contracts.
+	EyeX                 float64 `json:"-"`
+	EyeY                 float64 `json:"-"`
+	EyeZ                 float64 `json:"-"`
+	EyePositionAvailable bool    `json:"-"`
+	EyePositionSource    string  `json:"-"`
+	ViewAnglesAvailable  bool    `json:"-"`
+	ZoomLevel            int     `json:"-"`
+	ZoomLevelAvailable   bool    `json:"-"`
+
+	// Causal movement and current-weapon observations retained in memory for
+	// internal navigation timing. They do not alter replay or canonical 3.8.0.
+	MotionHorizontalSpeed         float64 `json:"-"`
+	MotionAvailable               bool    `json:"-"`
+	MotionSource                  string  `json:"-"`
+	MotionAvailabilityTick        int     `json:"-"`
+	ObservedActiveWeapon          string  `json:"-"`
+	ActiveWeaponObservationStatus string  `json:"-"`
+	ActiveWeaponAvailabilityTick  int     `json:"-"`
+
+	// Candidate weapon/ammo/reload facts are captured from the same causal
+	// 16 Hz replay snapshot. Pointer values preserve observed zero and false.
+	ObservedWeaponState ReplayWeaponStateObservation `json:"-"`
 }
 
 // ReplayProjectile is a grenade in flight
@@ -93,6 +153,9 @@ type ReplayProjectile struct {
 
 // ReplayActiveEffect is a deployed smoke, molotov fire, etc.
 type ReplayActiveEffect struct {
+	ProjectileID        string    `json:"projectile_id,omitempty"`
+	EffectID            string    `json:"effect_id,omitempty"`
+	ThrowerID           uint64    `json:"thrower_id,omitempty,string"`
 	Type                string    `json:"type"` // "smoke", "inferno"
 	X                   float64   `json:"x"`
 	Y                   float64   `json:"y"`
@@ -127,12 +190,15 @@ type ReplayShot struct {
 
 // ReplayBombState represents the bomb's current state
 type ReplayBombState struct {
+	SchemaID            string          `json:"schema_id,omitempty"`
+	ObservationTick     int             `json:"observation_tick"`
 	State               objective.State `json:"state"`
 	ObjectivePhase      objective.Phase `json:"objective_phase"`
 	IsPlantedNow        bool            `json:"is_planted_now"`
 	WasPlantedThisRound bool            `json:"was_planted_this_round"`
 	X                   float64         `json:"x"`
 	Y                   float64         `json:"y"`
+	Z                   float64         `json:"z"`
 	CarrierID           *uint64         `json:"carrier_id,string"`
 	Site                string          `json:"site,omitempty"`
 	PlantTick           int             `json:"plant_tick,omitempty"`
@@ -186,8 +252,14 @@ type ReplayEvent struct {
 	SourceThrowID     string   `json:"source_throw_id,omitempty"`
 
 	// For bomb events
-	Site     string `json:"site,omitempty"`
-	PlayerID uint64 `json:"player_id,omitempty,string"`
+	Site              string          `json:"site,omitempty"`
+	PlayerID          uint64          `json:"player_id,omitempty,string"`
+	PlayerTeam        string          `json:"player_team,omitempty"`
+	ObjectiveState    objective.State `json:"state_after,omitempty"`
+	ObjectiveSequence uint64          `json:"objective_sequence,omitempty"`
+	ObjectivePhase    objective.Phase `json:"objective_phase,omitempty"`
+	Source            string          `json:"source,omitempty"`
+	AvailabilityTick  int             `json:"availability_tick,omitempty"`
 }
 
 // ========================================
@@ -197,12 +269,15 @@ type ReplayEvent struct {
 
 // ReplayRoundData is the working data for current round
 type ReplayRoundData struct {
-	Round     int
-	StartTick int
-	EndTick   int
-	Winner    string
-	Frames    []ReplayFrame
-	Events    []ReplayEvent
+	SoundInformation *sound.Information
+	UtilityVision    *ReplayUtilityVision
+	EventContext     *ReplayEventContext
+	Round            int
+	StartTick        int
+	EndTick          int
+	Winner           string
+	Frames           []ReplayFrame
+	Events           []ReplayEvent
 }
 
 // ========================================

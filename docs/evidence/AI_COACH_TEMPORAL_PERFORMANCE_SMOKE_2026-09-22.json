@@ -1,0 +1,612 @@
+{
+  "ok": true,
+  "closed_at_utc": "2026-09-22T09:10:21Z",
+  "distinct_smoke_matches": 1,
+  "preflight": {
+    "source_alias": "demo-a11eb0d600ee702c9edb",
+    "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "distinct_approved_matches": 1,
+    "approved_bundles": 44,
+    "build_identifier": "working-tree-temporal-performance-20260922",
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0",
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "quality": 12,
+    "temporal_contract": "1.0.0-candidate.1",
+    "schema_id": "stratai.temporal_description@1",
+    "binary_sha256": "cd095caffdc2ae53d20abfba8f5b32f294d5643e5ded640f013e553c01a2873c",
+    "overlay_sha256": "1fedf81a458d7062d2a2abf304572e889b5d3eac513e44024f9f6a3114156a5b",
+    "go_main_sha256": "d81c18d3240a21b229aa693061cc825d21d5332a5d6cd9c56f47b1f3048daa06",
+    "overlay_difference": "Only automatic staging deletion disabled; no producer logic changed.",
+    "guard": "empty strict TEMP descendant without links/reparse; exclusive writes",
+    "sources": {
+      "ai_coach\\interpretation\\ledger_io.py": "c2a6f7c9ad7c54a8fbf7cede528d3e395bf05ad80d1ee186be1a706d471709e7",
+      "ai_coach\\interpretation\\temporal.py": "a58ee11821596daf86788593ee64d6c6dcabc82825646974c9bd5e3f5d1034de",
+      "ai_coach\\interpretation\\__init__.py": "9a3528bffe6517557aaaf75f542cfd3a4df1be92d091ea87634ff8457e7ee588",
+      "ai_coach\\contracts\\temporal_description.schema.json": "45a893f43f40471aaf82e4e61d9c4ee31ed77f52aa2ee383c87a1ef695e9cbb1",
+      "ai_coach\\contracts\\accelerated_support_schema.py": "234b9f58441704183e82cf7918e9ebdf07110e6928418cce00f281bd68b93ca3",
+      "ai_coach\\support\\anchors.py": "861d7ebd8468ccd7153d1ba02792cd70d5b72fc9b22c967b9ae1b6015e0c4d9b",
+      "backend\\requirements.txt": "d7e223a50874ed9271b0b82b9116a6b37b329b6592610e4e08d547c559ebe929"
+    }
+  },
+  "commands": {
+    "check-all": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm",
+        "run",
+        "check:all"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 87.749,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-20260922\\check-all.log"
+    },
+    "ai-coach": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 358.906,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-20260922\\ai-coach.log"
+    },
+    "contract": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.contracts.validate_contract"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 3.363,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-20260922\\contract.log"
+    },
+    "final-targeted": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "ai_coach/tests/test_temporal_description.py",
+        "ai_coach/tests/test_accelerated_support_schema.py",
+        "ai_coach/tests/test_support_anchors.py",
+        "ai_coach/tests/test_support_physical.py",
+        "ai_coach/tests/test_support_objective.py",
+        "ai_coach/tests/test_support_c4.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "-q"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 26.531,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\final-targeted.log"
+    },
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\demo-a11eb0d600ee702c9edb.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture",
+        "--alias",
+        "demo-a11eb0d600ee702c9edb",
+        "--checksum",
+        "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-temporal-performance-20260922",
+        "--ai-coach-support-c4-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 75.348,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\producer.log"
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.ledger_io",
+        "materialize",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\ledger"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 64.729,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\materialize.log"
+    },
+    "validate": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "ai_coach.interpretation.ledger_io",
+        "validate",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-smoke-m7fl32i0\\ledger"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 66.472,
+      "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-performance-final-20260922\\validate.log"
+    }
+  },
+  "versions": {
+    "python": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+    "jsonschema": "4.26.0",
+    "jsonschema-rs": "0.57.1"
+  },
+  "baseline_generation_seconds": 1237.647,
+  "benchmark": {
+    "input": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-ict-i1a-6r5w7pdo\\capture\\smoke_run_demo-a11eb0d600ee702c9edb",
+    "output": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-temporal-performance-benchmark-afp2wn0b",
+    "stages": [
+      {
+        "stage": "load_and_validate_sources",
+        "seconds": 12.958362100000159
+      }
+    ],
+    "seconds": 65.50874619999922,
+    "counts": {
+      "active_weapon:observed:present": 204851,
+      "active_weapon:unavailable:cut_unavailable": 8573,
+      "active_weapon:unavailable:not_alive": 92843,
+      "active_weapon:unavailable:weapon_identity_unavailable": 473,
+      "actors": 306740,
+      "alive:observed:present": 306740,
+      "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_in_magazine:observed:present": 132405,
+      "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+      "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+      "ammo_in_magazine:unavailable:not_alive": 92843,
+      "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+      "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_reserve:observed:present": 132724,
+      "ammo_reserve:unavailable:cut_unavailable": 8573,
+      "ammo_reserve:unavailable:not_alive": 92843,
+      "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+      "ducking:observed:present": 205324,
+      "ducking:unavailable:cut_unavailable": 8573,
+      "ducking:unavailable:not_alive": 92843,
+      "excluded:cut_unavailable": 8573,
+      "excluded:none": 205324,
+      "excluded:not_alive": 92843,
+      "has_c4:observed:present": 205324,
+      "has_c4:unavailable:cut_unavailable": 8573,
+      "has_c4:unavailable:not_alive": 92843,
+      "hypotheses_unavailable": 245728,
+      "missing_previous_actors": 11,
+      "position:observed:present": 205324,
+      "position:unavailable:cut_unavailable": 8573,
+      "position:unavailable:not_alive": 92843,
+      "records": 61432,
+      "reloading:not_applicable:non_ammunition_weapon": 72127,
+      "reloading:observed:present": 131136,
+      "reloading:unavailable:cut_unavailable": 8573,
+      "reloading:unavailable:not_alive": 92843,
+      "reloading:unavailable:reload_signal_unavailable": 1588,
+      "reloading:unavailable:weapon_identity_unavailable": 473,
+      "sampled_displacement:observed:present": 205045,
+      "sampled_displacement:unavailable:no_previous_sample": 9,
+      "sampled_displacement:unavailable:not_alive": 162,
+      "sampled_displacement:unavailable:previous_actor_unavailable": 73971,
+      "sampled_displacement:unavailable:sample_gap_or_boundary": 27553,
+      "view_angles:observed:present": 205324,
+      "view_angles:unavailable:cut_unavailable": 8573,
+      "view_angles:unavailable:not_alive": 92843,
+      "walking:observed:present": 205324,
+      "walking:unavailable:cut_unavailable": 8573,
+      "walking:unavailable:not_alive": 92843
+    },
+    "ledger_sha256": "c8b261d52fc9301621843cfac46f4b5c49bba73d455b3feb23da8c02e62993ff",
+    "reference_sha256": "c8b261d52fc9301621843cfac46f4b5c49bba73d455b3feb23da8c02e62993ff",
+    "byte_identical": true
+  },
+  "counts": {
+    "active_weapon:observed:present": 204851,
+    "active_weapon:unavailable:cut_unavailable": 8573,
+    "active_weapon:unavailable:not_alive": 92843,
+    "active_weapon:unavailable:weapon_identity_unavailable": 473,
+    "actors": 306740,
+    "alive:observed:present": 306740,
+    "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+    "ammo_in_magazine:observed:present": 132405,
+    "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+    "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+    "ammo_in_magazine:unavailable:not_alive": 92843,
+    "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+    "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+    "ammo_reserve:observed:present": 132724,
+    "ammo_reserve:unavailable:cut_unavailable": 8573,
+    "ammo_reserve:unavailable:not_alive": 92843,
+    "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+    "ducking:observed:present": 205324,
+    "ducking:unavailable:cut_unavailable": 8573,
+    "ducking:unavailable:not_alive": 92843,
+    "excluded:cut_unavailable": 8573,
+    "excluded:none": 205324,
+    "excluded:not_alive": 92843,
+    "has_c4:observed:present": 205324,
+    "has_c4:unavailable:cut_unavailable": 8573,
+    "has_c4:unavailable:not_alive": 92843,
+    "hypotheses_unavailable": 245728,
+    "missing_previous_actors": 11,
+    "position:observed:present": 205324,
+    "position:unavailable:cut_unavailable": 8573,
+    "position:unavailable:not_alive": 92843,
+    "records": 61432,
+    "reloading:not_applicable:non_ammunition_weapon": 72127,
+    "reloading:observed:present": 131136,
+    "reloading:unavailable:cut_unavailable": 8573,
+    "reloading:unavailable:not_alive": 92843,
+    "reloading:unavailable:reload_signal_unavailable": 1588,
+    "reloading:unavailable:weapon_identity_unavailable": 473,
+    "sampled_displacement:observed:present": 205045,
+    "sampled_displacement:unavailable:no_previous_sample": 9,
+    "sampled_displacement:unavailable:not_alive": 162,
+    "sampled_displacement:unavailable:previous_actor_unavailable": 73971,
+    "sampled_displacement:unavailable:sample_gap_or_boundary": 27553,
+    "view_angles:observed:present": 205324,
+    "view_angles:unavailable:cut_unavailable": 8573,
+    "view_angles:unavailable:not_alive": 92843,
+    "walking:observed:present": 205324,
+    "walking:unavailable:cut_unavailable": 8573,
+    "walking:unavailable:not_alive": 92843
+  },
+  "canonical_equivalence": {
+    "ok": true,
+    "byte_identical_artifacts": 72,
+    "artifacts": [
+      "canonical\\causal\\decision_features.jsonl",
+      "canonical\\causal\\decisions.jsonl",
+      "canonical\\causal\\oracle_context.jsonl",
+      "canonical\\causal\\outcomes.jsonl",
+      "canonical\\causal\\quality_masks.jsonl",
+      "canonical\\core\\match.json",
+      "canonical\\core\\match_metadata.json",
+      "canonical\\core\\participants.json",
+      "canonical\\core\\rounds.json",
+      "canonical\\derived\\clutch_events.json",
+      "canonical\\derived\\economy_players.json",
+      "canonical\\derived\\economy_rounds.json",
+      "canonical\\derived\\engagements.json",
+      "canonical\\derived\\player_stats.json",
+      "canonical\\derived\\trades.json",
+      "canonical\\diagnostics\\quality_report.json",
+      "canonical\\events\\combat_events.jsonl",
+      "canonical\\events\\objective_events.jsonl",
+      "canonical\\events\\utility_events.jsonl",
+      "canonical\\presentation\\replay\\index.json",
+      "canonical\\presentation\\replay\\round_001.json.gz",
+      "canonical\\presentation\\replay\\round_002.json.gz",
+      "canonical\\presentation\\replay\\round_003.json.gz",
+      "canonical\\presentation\\replay\\round_004.json.gz",
+      "canonical\\presentation\\replay\\round_005.json.gz",
+      "canonical\\presentation\\replay\\round_006.json.gz",
+      "canonical\\presentation\\replay\\round_007.json.gz",
+      "canonical\\presentation\\replay\\round_008.json.gz",
+      "canonical\\presentation\\replay\\round_009.json.gz",
+      "canonical\\presentation\\replay\\round_010.json.gz",
+      "canonical\\presentation\\replay\\round_011.json.gz",
+      "canonical\\presentation\\replay\\round_012.json.gz",
+      "canonical\\presentation\\replay\\round_013.json.gz",
+      "canonical\\presentation\\replay\\round_014.json.gz",
+      "canonical\\presentation\\replay\\round_015.json.gz",
+      "canonical\\presentation\\replay\\round_016.json.gz",
+      "canonical\\presentation\\replay\\round_017.json.gz",
+      "canonical\\presentation\\replay\\round_018.json.gz",
+      "canonical\\presentation\\replay\\round_019.json.gz",
+      "canonical\\presentation\\replay\\round_020.json.gz",
+      "canonical\\presentation\\replay\\round_021.json.gz",
+      "canonical\\presentation\\replay\\round_022.json.gz",
+      "canonical\\presentation\\replay\\round_023.json.gz",
+      "canonical\\presentation\\replay\\round_024.json.gz",
+      "canonical\\states\\player_states\\round_001.jsonl",
+      "canonical\\states\\player_states\\round_002.jsonl",
+      "canonical\\states\\player_states\\round_003.jsonl",
+      "canonical\\states\\player_states\\round_004.jsonl",
+      "canonical\\states\\player_states\\round_005.jsonl",
+      "canonical\\states\\player_states\\round_006.jsonl",
+      "canonical\\states\\player_states\\round_007.jsonl",
+      "canonical\\states\\player_states\\round_008.jsonl",
+      "canonical\\states\\player_states\\round_009.jsonl",
+      "canonical\\states\\player_states\\round_010.jsonl",
+      "canonical\\states\\player_states\\round_011.jsonl",
+      "canonical\\states\\player_states\\round_012.jsonl",
+      "canonical\\states\\player_states\\round_013.jsonl",
+      "canonical\\states\\player_states\\round_014.jsonl",
+      "canonical\\states\\player_states\\round_015.jsonl",
+      "canonical\\states\\player_states\\round_016.jsonl",
+      "canonical\\states\\player_states\\round_017.jsonl",
+      "canonical\\states\\player_states\\round_018.jsonl",
+      "canonical\\states\\player_states\\round_019.jsonl",
+      "canonical\\states\\player_states\\round_020.jsonl",
+      "canonical\\states\\player_states\\round_021.jsonl",
+      "canonical\\states\\player_states\\round_022.jsonl",
+      "canonical\\states\\player_states\\round_023.jsonl",
+      "canonical\\states\\player_states\\round_024.jsonl",
+      "canonical\\states\\tactical\\gaps.jsonl",
+      "canonical\\states\\tactical\\observed.jsonl.gz",
+      "canonical\\states\\tactical\\oracle.jsonl",
+      "canonical\\states\\tactical\\sampling.json"
+    ],
+    "only_canonical_difference": "manifest.lineage.build_identifier.value",
+    "baseline_semantic_validation": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-ict-i1a-20260921\\canonical.json",
+    "baseline_receipt_sha256": "96c8e809c8d29a1c4922212cf81d0ad878290db7f46afd700aa1f4e9081923ba",
+    "baseline_inventory_sha256": "82ad400571fa030f2f3f709291dcdc9874dc0a4a0bc140f14f249b33310db042",
+    "new_manifest_validated_by_source_loader": true,
+    "full_canonical_semantics_not_rerun": "72 identical artifacts retain the previously checked semantics; only build provenance changed"
+  },
+  "independent_audit": {
+    "ok": true,
+    "seconds": 18.641,
+    "counts": {
+      "independently_checked_positions": 205324,
+      "independently_checked_alive": 306740,
+      "independently_checked_physical_facts": 1217088,
+      "independently_checked_C4_negative": 191554,
+      "actor_cuts": 306740,
+      "records": 61432,
+      "independently_recomputed_displacements": 205045,
+      "zero_displacements": 37150,
+      "nonzero_displacements": 167895,
+      "independently_checked_C4_positive": 13770
+    },
+    "variants": {
+      "active_weapon:observed:present": 204851,
+      "active_weapon:unavailable:cut_unavailable": 8573,
+      "active_weapon:unavailable:not_alive": 92843,
+      "active_weapon:unavailable:weapon_identity_unavailable": 473,
+      "ammo_in_magazine:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_in_magazine:observed:present": 132405,
+      "ammo_in_magazine:unavailable:cut_unavailable": 8573,
+      "ammo_in_magazine:unavailable:native_fields_absent_or_invalid": 319,
+      "ammo_in_magazine:unavailable:not_alive": 92843,
+      "ammo_in_magazine:unavailable:weapon_identity_unavailable": 473,
+      "ammo_reserve:not_applicable:non_ammunition_weapon": 72127,
+      "ammo_reserve:observed:present": 132724,
+      "ammo_reserve:unavailable:cut_unavailable": 8573,
+      "ammo_reserve:unavailable:not_alive": 92843,
+      "ammo_reserve:unavailable:weapon_identity_unavailable": 473,
+      "displacement:observed:present": 205045,
+      "displacement:unavailable:no_previous_sample": 9,
+      "displacement:unavailable:not_alive": 162,
+      "displacement:unavailable:previous_actor_unavailable": 73971,
+      "displacement:unavailable:sample_gap_or_boundary": 27553,
+      "ducking:observed:present": 205324,
+      "ducking:unavailable:cut_unavailable": 8573,
+      "ducking:unavailable:not_alive": 92843,
+      "has_c4:observed:False:present": 191554,
+      "has_c4:observed:True:present": 13770,
+      "has_c4:unavailable:None:cut_unavailable": 8573,
+      "has_c4:unavailable:None:not_alive": 92843,
+      "reloading:not_applicable:non_ammunition_weapon": 72127,
+      "reloading:observed:present": 131136,
+      "reloading:unavailable:cut_unavailable": 8573,
+      "reloading:unavailable:not_alive": 92843,
+      "reloading:unavailable:reload_signal_unavailable": 1588,
+      "reloading:unavailable:weapon_identity_unavailable": 473,
+      "view_angles:observed:present": 205324,
+      "view_angles:unavailable:cut_unavailable": 8573,
+      "view_angles:unavailable:not_alive": 92843,
+      "walking:observed:present": 205324,
+      "walking:unavailable:cut_unavailable": 8573,
+      "walking:unavailable:not_alive": 92843
+    },
+    "known_cases": {
+      "K1": {
+        "tick": 8524,
+        "record_id": "12d0466463bc20e3b1665b673c07db55ac0eab6544764071461e6ab61f4caad2",
+        "players": [
+          {
+            "alias": "T1",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T2",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T3",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T4",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": true
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T5",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Smoke Grenade"
+            }
+          }
+        ],
+        "human_answer_used_as_input": false,
+        "tactical_plan": "unknown",
+        "known_development_not_independent_evaluation": true
+      },
+      "K2": {
+        "tick": 8636,
+        "record_id": "0f70d0f688affd81c3d1bad3e60b1519802300956665b6d5051d0496605a2afd",
+        "players": [
+          {
+            "alias": "T1",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T2",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T3",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T4",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": true
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Glock-18"
+            }
+          },
+          {
+            "alias": "T5",
+            "position_matches": true,
+            "C4": {
+              "reason": null,
+              "status": "observed",
+              "value": false
+            },
+            "weapon": {
+              "reason": null,
+              "status": "observed",
+              "value": "Smoke Grenade"
+            }
+          }
+        ],
+        "human_answer_used_as_input": false,
+        "tactical_plan": "unknown",
+        "known_development_not_independent_evaluation": true
+      }
+    },
+    "limits": [
+      "No physical route, legal enemy perception, intent, tactical superiority or independent evaluation accredited.",
+      "Real coverage is limited to variants present in this match; adversarial absences are regression fixtures."
+    ]
+  },
+  "causal_invariance": {
+    "ok": true,
+    "records_compared": 1417,
+    "cut": {
+      "sequence": 1417,
+      "frame": 8654,
+      "tick": 8636,
+      "epoch": 0,
+      "instance": 2,
+      "round_number": 1,
+      "tick_rate": 64,
+      "sample_step": 4,
+      "phase": "playing"
+    },
+    "record_id": "0f70d0f688affd81c3d1bad3e60b1519802300956665b6d5051d0496605a2afd",
+    "seconds": 5.32,
+    "controls": [
+      "future replaced with unreadable payloads",
+      "hidden enemy state corrupted",
+      "hidden enemy physical context and inventory corrupted",
+      "human answers and C0 outcomes injected",
+      "whole-artifact manifest hash altered"
+    ],
+    "originals_modified": false,
+    "new_demo_parses": 0,
+    "known_development_not_independent_tactical_evaluation": true
+  },
+  "inventory_sha256": "a32b73f3b5c2c0e7ec514cfb2c15ee36e21925ad09d466f7c2a14219261bdcbb",
+  "runtime_contract_changed": false,
+  "eligible_capabilities_added": 0,
+  "final_unicode_compatibility_fix": "Reference fallback for escaped lone surrogates; affected tests rerun, same demo reparsed in new TEMP",
+  "final_ledger_equals_intermediate_byte_for_byte": true,
+  "trained_models": 0,
+  "training_allowed": false
+}

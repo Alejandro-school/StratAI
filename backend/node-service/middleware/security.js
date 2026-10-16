@@ -101,7 +101,7 @@ function canonicalServiceRequest(req) {
 }
 
 async function internalOnly(req, res, next) {
-  if (config.allowUnsignedLocalInternal && isLocalRequest(req)) {
+  if (config.env !== 'production' && config.allowUnsignedLocalInternal && isLocalRequest(req)) {
     return next();
   }
 

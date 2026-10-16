@@ -2,13 +2,14 @@
   "name": "stratai",
   "private": true,
   "scripts": {
-    "start:all": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "start:all:with-demos": "concurrently \"npm run backend\" \"npm run node-service\" \"npm run go-service\" \"npm run frontend\"",
+    "start:all": "npm run check:services && concurrently --kill-others \"npm run backend\" \"npm run node-service\" \"npm run go-service\" \"npm run frontend\"",
+    "check:services": "node scripts/check-demo-services.cjs",
     "backend": ".\\backend\\venv\\Scripts\\python.exe -m uvicorn backend.app.main:app --reload",
     "node-service": "node backend/node-service/index.js",
     "go-service": "cd backend/go-service && go run main.go",
     "frontend": "npm --prefix frontend start",
     "build:frontend": "npm --prefix frontend run build",
+    "check:docs": "node scripts/check-docs.mjs",
     "test:frontend": "npm --prefix frontend test",
     "test:node": "npm --prefix backend/node-service test",
     "test:go": "cd backend/go-service && go test ./...",
@@ -21,7 +22,7 @@
     "dotenv": "^17.2.3"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1",
+    "concurrently": "^9.2.5",
     "playwright": "^1.61.1"
   }
 }

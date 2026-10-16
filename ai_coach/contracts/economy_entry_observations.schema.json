@@ -1,0 +1,490 @@
+{
+  "type": "object",
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_initial_features_or_player_knowledge"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "schema_id": {
+      "const": "stratai.economy_entry_observations@1"
+    },
+    "source_ownership": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_ownership_observations.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "cut_contract": {
+      "const": "fresh_sellback_read_in_same_ownership_FrameDone_no_parser_advance"
+    },
+    "source_property": {
+      "const": "m_pBuyServices.m_vecSellbackPurchaseEntries"
+    },
+    "observations": {
+      "type": "object",
+      "properties": {
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ownership_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "ownership_cut",
+              "state_sequence"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "ownership_state_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "pawns": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "entity_alias": {
+                      "type": "string",
+                      "pattern": "^native-entity-[0-9]{6}$"
+                    },
+                    "status": {
+                      "enum": [
+                        "observed",
+                        "partial",
+                        "absent",
+                        "unsupported_type",
+                        "outside_probe"
+                      ]
+                    },
+                    "length": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "entries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "index": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "fields": {
+                            "type": "object",
+                            "properties": {
+                              "m_unDefIdx": {
+                                "type": "object",
+                                "properties": {
+                                  "status": {
+                                    "enum": [
+                                      "observed",
+                                      "absent",
+                                      "unsupported_type"
+                                    ]
+                                  },
+                                  "native_type": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "integer",
+                                      "boolean",
+                                      "null"
+                                    ],
+                                    "minimum": -2147483648,
+                                    "maximum": 4294967295
+                                  }
+                                },
+                                "required": [
+                                  "status",
+                                  "native_type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "m_nCost": {
+                                "type": "object",
+                                "properties": {
+                                  "status": {
+                                    "enum": [
+                                      "observed",
+                                      "absent",
+                                      "unsupported_type"
+                                    ]
+                                  },
+                                  "native_type": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "integer",
+                                      "boolean",
+                                      "null"
+                                    ],
+                                    "minimum": -2147483648,
+                                    "maximum": 4294967295
+                                  }
+                                },
+                                "required": [
+                                  "status",
+                                  "native_type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "m_nPrevArmor": {
+                                "type": "object",
+                                "properties": {
+                                  "status": {
+                                    "enum": [
+                                      "observed",
+                                      "absent",
+                                      "unsupported_type"
+                                    ]
+                                  },
+                                  "native_type": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "integer",
+                                      "boolean",
+                                      "null"
+                                    ],
+                                    "minimum": -2147483648,
+                                    "maximum": 4294967295
+                                  }
+                                },
+                                "required": [
+                                  "status",
+                                  "native_type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "m_bPrevHelmet": {
+                                "type": "object",
+                                "properties": {
+                                  "status": {
+                                    "enum": [
+                                      "observed",
+                                      "absent",
+                                      "unsupported_type"
+                                    ]
+                                  },
+                                  "native_type": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "integer",
+                                      "boolean",
+                                      "null"
+                                    ],
+                                    "minimum": -2147483648,
+                                    "maximum": 4294967295
+                                  }
+                                },
+                                "required": [
+                                  "status",
+                                  "native_type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "m_hItem": {
+                                "type": "object",
+                                "properties": {
+                                  "status": {
+                                    "enum": [
+                                      "observed",
+                                      "absent",
+                                      "unsupported_type"
+                                    ]
+                                  },
+                                  "native_type": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 64
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": [
+                                      "integer",
+                                      "boolean",
+                                      "null"
+                                    ],
+                                    "minimum": -2147483648,
+                                    "maximum": 4294967295
+                                  }
+                                },
+                                "required": [
+                                  "status",
+                                  "native_type",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "m_unDefIdx",
+                              "m_nCost",
+                              "m_nPrevArmor",
+                              "m_bPrevHelmet",
+                              "m_hItem"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "item": {
+                            "type": "object",
+                            "properties": {
+                              "handle": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 4294967295
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "status": {
+                                "enum": [
+                                  "absent",
+                                  "unsupported_type",
+                                  "invalid_sentinel",
+                                  "entity_unavailable",
+                                  "serial_mismatch",
+                                  "kind_mismatch",
+                                  "resolved"
+                                ]
+                              },
+                              "target_alias": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "pattern": "^native-entity-[0-9]{6}$"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "handle",
+                              "status",
+                              "target_alias"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "entity_definition": {
+                            "type": "object",
+                            "properties": {
+                              "status": {
+                                "enum": [
+                                  "observed",
+                                  "absent",
+                                  "unsupported_type"
+                                ]
+                              },
+                              "native_type": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 64
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "value": {
+                                "type": [
+                                  "integer",
+                                  "boolean",
+                                  "null"
+                                ],
+                                "minimum": -2147483648,
+                                "maximum": 4294967295
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "native_type",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "required": [
+                          "index",
+                          "fields",
+                          "item",
+                          "entity_definition"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "entity_alias",
+                    "status",
+                    "length",
+                    "entries"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "sequence",
+              "first_cut",
+              "ownership_state_sequence",
+              "pawns"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "cuts",
+        "states"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "schema_id",
+    "source_ownership",
+    "cut_contract",
+    "source_property",
+    "observations"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_entry_observations@1",
+  "x-stratai-training-authorized": false
+}

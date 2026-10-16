@@ -4,14 +4,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../auth/useAuth';
 import { API_URL } from '../../utils/api';
+import { clearPrivateBrowserData } from '../../auth/browserPrivacy';
+import { queryClient } from '../../lib/queryClient';
 import {
   BarChart2, Target, Brain, TrendingUp, LogOut, Map, MessageSquare
 } from 'lucide-react';
 
 const NavigationFrame = ({ children }) => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [logoutError, setLogoutError] = useState('');
   const tabsRef = useRef(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
 
@@ -46,13 +49,20 @@ const NavigationFrame = ({ children }) => {
 
   const handleLogout = async (e) => {
     e.stopPropagation();
+    setLogoutError('');
     try {
-      await fetch(`${API_URL}/auth/steam/logout`, {
+      const response = await fetch(`${API_URL}/auth/steam/logout`, {
         method: 'POST',
         credentials: 'include',
       });
+      if (!response.ok) throw new Error('No se ha podido cerrar la sesión. Inténtalo de nuevo.');
+      await queryClient.cancelQueries();
+      queryClient.clear();
+      clearPrivateBrowserData();
+      setUser(null);
       window.location.href = '/';
     } catch (error) {
+      setLogoutError('No se ha podido cerrar la sesión. Inténtalo de nuevo.');
       console.error("Error al cerrar sesión", error);
     }
   };
@@ -60,6 +70,7 @@ const NavigationFrame = ({ children }) => {
   return (
     <div className="hud-layout">
       <a className="skip-link" href="#main-content">Saltar al contenido</a>
+      {logoutError && <p role="alert">{logoutError}</p>}
       {/* Top Navigation Bar */}
       <header className="hud-header">
         {/* Logo */}

@@ -1,12 +1,31 @@
+import json
+import pytest
+
 from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 from starlette.middleware.sessions import SessionMiddleware
 
 from backend.app.routes import replay_annotations
 from backend.app.utils import replay_annotations as annotation_storage
+from backend.tests.session_support import install_session_store
+from backend.tests.test_replay_access_security import write_replay_bundle
 
 
 def create_client(tmp_path, monkeypatch) -> TestClient:
+    sessions = install_session_store(monkeypatch)
+    exports = tmp_path / "exports"
+    bundle = exports / "match_match-1"
+    write_replay_bundle(bundle)
+    (bundle / "canonical" / "player_stats.json").write_text(json.dumps({"players": [
+        {"metrics": {"steam_id": "76561198000000001"}},
+        {"metrics": {"steam_id": "76561198000000002"}},
+    ]}), encoding="utf-8")
+    monkeypatch.setattr(replay_annotations, "EXPORTS_PATH", exports)
+
+    async def not_limited(*_args, **_kwargs):
+        return False, 60
+
+    monkeypatch.setattr(replay_annotations.rate_limiter, "is_rate_limited", not_limited)
     def ensure_user_directory(steam_id: str):
         user_dir = tmp_path / steam_id
         user_dir.mkdir(parents=True, exist_ok=True)
@@ -19,7 +38,7 @@ def create_client(tmp_path, monkeypatch) -> TestClient:
 
     @app.post("/test/session/{steam_id}")
     async def set_session(steam_id: str, request: Request) -> dict:
-        request.session["steam_id"] = steam_id
+        request.session["sid"] = await sessions.create(steam_id)
         return {"ok": True}
 
     return TestClient(app)
@@ -75,3 +94,13 @@ def test_annotations_require_session_and_validate_ranges(tmp_path, monkeypatch) 
     payload = annotation_payload()
     payload["points"][0]["x"] = 50000
     assert client.post("/match/match-1/replay/annotations", json=payload).status_code == 422
+
+
+@pytest.mark.parametrize("field", ["start_tick", "end_tick", "type", "points", "text", "color"])
+def test_patch_rejects_explicit_null_without_corrupting_storage(tmp_path, monkeypatch, field):
+    client = create_client(tmp_path, monkeypatch)
+    client.post("/test/session/76561198000000001")
+    created = client.post("/match/match-1/replay/annotations", json=annotation_payload()).json()
+    response = client.patch(f"/match/match-1/replay/annotations/{created['id']}", json={field: None})
+    assert response.status_code == 422
+    assert client.get("/match/match-1/replay/annotations").json() == [created]

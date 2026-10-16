@@ -1,0 +1,21 @@
+# Direct runtime dependencies. Compile with uv; install the hashed requirements.txt.
+fastapi==0.143.1
+uvicorn==0.46.0
+requests==2.33.1
+httpx==0.28.1
+python-dotenv==1.2.2
+redis==7.4.0
+itsdangerous==2.2.0
+pydantic==2.13.3
+aiosqlite==0.22.1
+cryptography==50.0.2
+prometheus-client>=0.24,<1
+jsonschema==4.26.0
+jsonschema-rs==0.57.1
+numpy==2.4.4
+
+# Security floors for transitive dependencies; never force incompatible overrides.
+starlette>=1.3.1
+anyio>=4.14.2
+idna>=3.15
+urllib3>=2.8.0

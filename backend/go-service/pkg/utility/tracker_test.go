@@ -425,7 +425,7 @@ func TestFlightTerminalIsIndependentOfCallbackPermutation(t *testing.T) {
 		for number, tick := range []int{2301, 2302, 2303} {
 			position := Vector{X: float64(tick)}
 			tracker.RecordTrajectoryPosition(23, 231, tick, position)
-			tracker.RecordBounce(23, 231, tick, position, AvailabilityObserved, number+1)
+			tracker.RecordBounce(23, 231, 0, AvailabilityUnavailable, tick, position, AvailabilityObserved, number+1)
 		}
 		tracker.RecordDestroy(testHint(23, 231, TypeHE, 1, 2304, Vector{X: 2304}))
 		if !terminalFirst {
@@ -466,10 +466,10 @@ func TestDestroyWithoutPositionLeavesFrameTrajectoryPartial(t *testing.T) {
 func TestDestroyPrunesBouncesAtAndAfterTerminal(t *testing.T) {
 	tracker := NewTracker()
 	id, _ := tracker.RecordThrow(testThrowInput(25, 251, TypeDecoy, 1, Vector{}))
-	tracker.RecordBounce(25, 251, 2501, Vector{X: 1}, AvailabilityObserved, 1)
-	tracker.RecordBounce(25, 251, 2502, Vector{X: 2}, AvailabilityObserved, 2)
+	tracker.RecordBounce(25, 251, 0, AvailabilityUnavailable, 2501, Vector{X: 1}, AvailabilityObserved, 1)
+	tracker.RecordBounce(25, 251, 0, AvailabilityUnavailable, 2502, Vector{X: 2}, AvailabilityObserved, 2)
 	tracker.RecordDestroy(testHint(25, 251, TypeDecoy, 1, 2502, Vector{X: 2}))
-	if tracker.RecordBounce(25, 251, 2503, Vector{X: 3}, AvailabilityObserved, 3) {
+	if tracker.RecordBounce(25, 251, 0, AvailabilityUnavailable, 2503, Vector{X: 3}, AvailabilityObserved, 3) {
 		t.Fatal("bounce after destroy was accepted")
 	}
 
@@ -662,8 +662,10 @@ func snapshotFlashEffects(inputs []FlashInput) []FlashEffect {
 
 func testThrowInput(round, entityID int, utilityType Type, actorID uint64, position Vector) ThrowInput {
 	return ThrowInput{
-		Round: round, RuntimeEntityID: entityID, EntitySource: SourceProjectileEntity,
-		Type: utilityType, TypeSource: SourceWeaponInstance,
+		Round: round, RuntimeEntityID: entityID,
+		RuntimeEntitySerial: entityID + 1000, RuntimeEntitySerialStatus: AvailabilityObserved,
+		EntitySource: SourceProjectileEntity,
+		Type:         utilityType, TypeSource: SourceWeaponInstance,
 		Actor: testPlayer(actorID, "thrower", "T"),
 		Launch: ThrowSnapshot{
 			Tick:     TickObservation{Tick: round * 100, Status: AvailabilityObserved, Source: SourceProjectileThrow},
@@ -674,8 +676,10 @@ func testThrowInput(round, entityID int, utilityType Type, actorID uint64, posit
 
 func testHint(round, entityID int, utilityType Type, actorID uint64, tick int, position Vector) CallbackHint {
 	return CallbackHint{
-		Round: round, RuntimeEntityID: entityID, EntitySource: SourceProjectileEntity,
-		Type: utilityType, ActorID: actorID, Tick: tick,
+		Round: round, RuntimeEntityID: entityID,
+		RuntimeEntitySerial: entityID + 1000, RuntimeEntitySerialStatus: AvailabilityObserved,
+		EntitySource: SourceProjectileEntity,
+		Type:         utilityType, ActorID: actorID, Tick: tick,
 		Position: position, PositionStatus: AvailabilityObserved,
 	}
 }

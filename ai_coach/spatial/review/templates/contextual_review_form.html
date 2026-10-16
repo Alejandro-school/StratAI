@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+  <title>Revisión espacial situada · Mirage</title>
+  <style>
+    :root {
+      --ink:#13251f; --muted:#68736d; --paper:#f3f0e7; --panel:#fffdf6;
+      --line:#c8c2b3; --green:#164f3d; --green2:#2f7d5e; --orange:#ee5a32;
+      --amber:#e8b64d; --blue:#52a8c8; --shadow:0 18px 60px rgba(20,36,29,.13);
+    }
+    *{box-sizing:border-box}
+    html{background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    body{margin:0;min-width:320px}
+    button,input{font:inherit}
+    button{color:inherit}
+    .topline{height:7px;background:linear-gradient(90deg,var(--orange) 0 18%,var(--amber) 18% 29%,var(--green) 29% 100%)}
+    .shell{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 7px)}
+    aside{border-right:1px solid var(--line);padding:26px 22px;position:sticky;top:0;height:calc(100vh - 7px);overflow:auto;background:#e9e5d9}
+    .eyebrow{font:700 11px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+    .brand{font:800 27px/1.05 Georgia,serif;margin:8px 0 11px}
+    .intro{font-size:13px;line-height:1.55;color:#53615b;margin:0 0 20px}
+    .progress-label{display:flex;justify-content:space-between;font:700 12px ui-monospace,monospace;margin-bottom:7px}
+    .progress-track{height:7px;border:1px solid var(--green);background:transparent}
+    .progress-bar{height:100%;width:0;background:var(--green);transition:width .2s}
+    .case-index{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:18px 0 25px}
+    .case-dot{height:42px;border:1px solid #6d746e;background:transparent;font:700 12px ui-monospace,monospace;cursor:pointer}
+    .case-dot:hover,.case-dot[aria-current="true"]{border-color:var(--orange);box-shadow:inset 0 0 0 2px var(--orange)}
+    .case-dot.is-complete{background:var(--green);color:white;border-color:var(--green)}
+    .guardrail{border-top:1px solid var(--line);padding-top:17px;font-size:12px;line-height:1.55}
+    .guardrail strong{display:block;color:var(--orange);margin-bottom:5px}
+    main{min-width:0;padding:28px clamp(22px,4vw,66px) 48px}
+    .mast{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+    .case-meta{font:700 12px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+    h1{font:700 clamp(28px,3.5vw,52px)/1.02 Georgia,serif;max-width:1050px;margin:9px 0 0}
+    .badge{border:1px solid var(--green);padding:9px 12px;background:var(--panel);white-space:nowrap;font:700 11px ui-monospace,monospace;letter-spacing:.08em}
+    .brief{border-left:5px solid var(--orange);background:var(--panel);padding:16px 18px;margin:0 0 22px;font-size:15px;line-height:1.55;max-width:1100px}
+    .evidence-grid{display:grid;grid-template-columns:minmax(500px,1.55fr) minmax(280px,.75fr);gap:18px;align-items:stretch}
+    .map-card,.context-card,.probe-card,.decision{border:1px solid #58635d;background:var(--panel)}
+    .card-head{display:flex;justify-content:space-between;gap:16px;padding:13px 15px;border-bottom:1px solid var(--line);font:700 11px ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase}
+    .map-wrap{position:relative;background:#d8d4c7;min-height:510px;display:grid;place-items:center;overflow:hidden}
+    #map{display:block;width:100%;height:510px;background:#ddd7c8}
+    .map-legend{position:absolute;left:14px;bottom:14px;display:flex;flex-wrap:wrap;gap:7px;background:rgba(255,253,246,.92);padding:8px 10px;border:1px solid rgba(19,37,31,.3);font-size:11px}
+    .key{display:inline-flex;align-items:center;gap:5px}
+    .swatch{width:10px;height:10px;border-radius:50%}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+    .metric{padding:13px 14px;min-height:72px;border-right:1px solid var(--line)}
+    .metric:last-child{border-right:0}
+    .metric b{display:block;font:700 20px Georgia,serif;margin-bottom:5px}
+    .metric span{font:700 9px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .context-card{display:flex;flex-direction:column}
+    .context-body{padding:19px;display:flex;flex-direction:column;gap:17px;height:100%}
+    .observed{display:inline-flex;align-items:center;align-self:flex-start;gap:7px;border:1px solid var(--green2);color:var(--green);padding:7px 9px;font:800 11px ui-monospace,monospace;letter-spacing:.08em}
+    .observed:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green2)}
+    .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+    .fact{background:var(--panel);padding:12px}
+    .fact span{display:block;font:700 9px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+    .fact b{font:700 16px Georgia,serif;overflow-wrap:anywhere}
+    .guide{margin-top:auto;background:#edf2ed;border:1px solid #b7c6bb;padding:15px}
+    .guide h2{font:700 18px Georgia,serif;margin:0 0 9px}
+    .guide ul{margin:0;padding-left:18px;font-size:13px;line-height:1.5}
+    .no-claim{background:#fff1e8;border:1px solid #efb49e;padding:13px;font-size:12px;line-height:1.45}
+    .probe-card{grid-column:1/-1;display:none;padding:16px}
+    .probe-card.is-visible{display:grid;grid-template-columns:210px 1fr;gap:20px;align-items:center}
+    .probe-grid{display:grid;grid-template-columns:repeat(3,48px);gap:9px;justify-content:center}
+    .probe{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:800 11px ui-monospace,monospace;border:3px solid var(--orange);background:#fff;color:var(--orange)}
+    .probe.hit{background:var(--green);border-color:var(--green);color:#fff}
+    .probe-copy h2{font:700 23px Georgia,serif;margin:0 0 7px}
+    .probe-copy p{margin:0;color:var(--muted);line-height:1.5}
+    .decision{margin-top:24px;padding:20px}
+    .decision h2{font:700 26px Georgia,serif;margin:0 0 6px}
+    .decision .help{margin:0 0 16px;color:var(--muted);font-size:13px}
+    .options{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+    .option{position:relative;border:1px solid #667069;min-height:105px;padding:14px;cursor:pointer;background:#fffdf8}
+    .option:has(input:checked){border-color:var(--orange);box-shadow:inset 0 0 0 2px var(--orange);background:#fff3eb}
+    .option input{position:absolute;opacity:0;pointer-events:none}
+    .option b{display:block;font-size:14px;margin-bottom:7px}
+    .option span{font-size:11px;line-height:1.4;color:var(--muted)}
+    .reason-panel{margin-top:17px;border-top:1px solid var(--line);padding-top:16px}
+    .reason-panel[hidden]{display:none}
+    .reason-panel h3{font-size:13px;margin:0 0 9px}
+    .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+    .reason{border:1px solid var(--line);padding:10px;background:#fff;display:flex;gap:8px;align-items:flex-start;font-size:12px;cursor:pointer}
+    .reason:has(input:checked){border-color:var(--green);background:#edf5f0}
+    .actions{display:flex;justify-content:space-between;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+    .button{border:1px solid var(--ink);background:transparent;padding:12px 17px;font-weight:800;cursor:pointer}
+    .button.primary{background:var(--orange);border-color:var(--orange);color:white}
+    .button:disabled{opacity:.45;cursor:not-allowed}
+    .close-panel{margin-top:22px;border:2px solid var(--green);padding:20px;background:#eef4ef}
+    .close-panel[hidden]{display:none}
+    .close-panel h2{font:700 25px Georgia,serif;margin:0 0 8px}
+    .attest{display:flex;gap:9px;align-items:flex-start;margin:14px 0}
+    .noscript{padding:20px;background:#9d2618;color:#fff;font-weight:700}
+    .map-label{paint-order:stroke;stroke:#fffdf6;stroke-width:2.5px;stroke-linejoin:round;font:700 8px ui-monospace,monospace;fill:var(--ink)}
+    @media(max-width:1050px){.evidence-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.context-card{min-height:0}.probe-card.is-visible{grid-template-columns:1fr}.reasons{grid-template-columns:1fr 1fr}}
+    @media(max-width:720px){.shell{display:block}aside{position:static;width:auto;height:auto;border-right:0;border-bottom:1px solid var(--line)}.case-index{grid-template-columns:repeat(6,1fr)}main{padding:22px 12px 40px}.mast{display:block}.badge{display:inline-block;margin-top:15px}.evidence-grid{display:block}.context-card{margin-top:12px}.map-wrap,#map{height:390px;min-height:390px}.metrics{grid-template-columns:1fr 1fr}.metric:nth-child(2){border-right:0}.metric:nth-child(-n+2){border-bottom:1px solid var(--line)}.options,.reasons{grid-template-columns:1fr}.actions{flex-direction:column}.button{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <noscript><div class="noscript">Este formulario necesita JavaScript local. No realiza conexiones de red.</div></noscript>
+  <div class="shell">
+    <aside>
+      <div class="eyebrow">Instrumento v2 · situado</div>
+      <div class="brand">Mirage<br>Spatial Review</div>
+      <p class="intro">Cada caso proviene de una demo aprobada. El mapa, la posición T0 y la geometría pertenecen a la misma observación.</p>
+      <div class="progress-label"><span id="progress-text">0 / 12</span><span>COMPLETADOS</span></div>
+      <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+      <nav class="case-index" id="case-index" aria-label="Casos"></nav>
+      <div class="guardrail">
+        <strong>Qué estás validando</strong>
+        Correspondencia física entre la superposición y Mirage en T0.
+        <strong style="margin-top:12px">Qué no estás validando</strong>
+        Enemigos, seguridad, intención, jugada óptima, recomendación o resultado.
+      </div>
+    </aside>
+    <main>
+      <header class="mast">
+        <div>
+          <div class="case-meta" id="case-meta"></div>
+          <h1 id="question"></h1>
+        </div>
+        <div class="badge">DEMO REAL · MIRAGE · HASTA T0</div>
+      </header>
+      <p class="brief" id="claim"></p>
+      <section class="evidence-grid">
+        <article class="map-card">
+          <div class="card-head"><span>Radar registrado + evidencia objetiva</span><span id="geometry-kind"></span></div>
+          <div class="map-wrap">
+            <svg id="map" role="img" aria-label="Radar de Mirage con la situación observada"></svg>
+            <div class="map-legend">
+              <span class="key"><i class="swatch" style="background:#ee5a32"></i> participante T0</span>
+              <span class="key"><i class="swatch" style="background:#52a8c8"></i> muestra geométrica</span>
+              <span class="key"><i class="swatch" style="background:#164f3d"></i> evidencia</span>
+            </div>
+          </div>
+          <div class="metrics" id="metrics"></div>
+        </article>
+        <article class="context-card">
+          <div class="card-head"><span>Contexto observado</span><span>T0 causal</span></div>
+          <div class="context-body">
+            <div class="observed">DISPONIBLE</div>
+            <div class="facts" id="facts"></div>
+            <div class="guide"><h2>Qué debes mirar</h2><ul id="checklist"></ul></div>
+            <div class="no-claim"><strong>No demuestra:</strong> seguridad, calidad táctica, intención, mejor jugada ni desenlace.</div>
+          </div>
+        </article>
+        <article class="probe-card" id="probe-card">
+          <div class="probe-grid" id="probe-grid"></div>
+          <div class="probe-copy"><h2 id="probe-title"></h2><p id="probe-copy"></p></div>
+        </article>
+      </section>
+      <section class="decision">
+        <h2>Tu valoración</h2>
+        <p class="help">Elige una respuesta y un motivo. «No coincide» exige una contradicción visible; «Falta información» significa que falta un dato que debería mostrarse.</p>
+        <div class="options" id="options"></div>
+        <div class="reason-panel" id="reason-panel" hidden>
+          <h3>Motivo principal</h3>
+          <div class="reasons" id="reasons"></div>
+        </div>
+        <div class="actions">
+          <button class="button" id="previous" type="button">← Caso anterior</button>
+          <button class="button primary" id="next" type="button">Guardar y continuar →</button>
+        </div>
+      </section>
+      <section class="close-panel" id="close-panel" hidden>
+        <h2>Revisión lista para exportar</h2>
+        <p>Las respuestas sólo existen en esta pestaña. Descarga el JSON antes de cerrar o recargar.</p>
+        <label class="attest"><input id="attestation" type="checkbox"><span>Confirmo que he respondido de forma independiente y no he consultado las respuestas de otra persona.</span></label>
+        <button class="button primary" id="export" type="button" disabled>Descargar 12 respuestas JSON</button>
+        <p id="export-status"></p>
+      </section>
+    </main>
+  </div>
+  <script>
+    "use strict";
+    const packet = __STRATAI_CONTEXT_REVIEW_PACKET__;
+    const units = [...packet.review_units].sort((a,b) => a.display_order-b.display_order);
+    const answers = new Map();
+    let current = 0;
+    const $ = id => document.getElementById(id);
+    const els = {
+      meta:$("case-meta"), question:$("question"), claim:$("claim"), index:$("case-index"),
+      progressText:$("progress-text"), progressBar:$("progress-bar"), map:$("map"),
+      kind:$("geometry-kind"), metrics:$("metrics"), facts:$("facts"), checklist:$("checklist"),
+      options:$("options"), reasonPanel:$("reason-panel"), reasons:$("reasons"),
+      previous:$("previous"), next:$("next"), probeCard:$("probe-card"), probeGrid:$("probe-grid"),
+      probeTitle:$("probe-title"), probeCopy:$("probe-copy"), close:$("close-panel"),
+      attestation:$("attestation"), export:$("export"), exportStatus:$("export-status")
+    };
+    const reasonSets = {
+      supported:[["overlay_matches_map","La superposición coincide con la estructura visible del mapa"],["measurements_are_coherent","Las medidas y marcadores son coherentes entre sí"],["path_is_visibly_continuous","El recorrido mostrado es continuo y transitable"]],
+      not_supported:[["overlay_conflicts_with_map","La superposición entra en conflicto con la estructura del mapa"],["measurements_conflict","Los datos visibles se contradicen"],["path_crosses_blocked_structure","La ruta parece atravesar estructura no transitable"]],
+      missing_context:[["position_or_orientation_missing","Falta posición u orientación necesaria"],["registration_or_scale_missing","Falta registro o escala del mapa"],["route_or_probe_detail_missing","Falta detalle de ruta, rayos o probes"]],
+      not_evaluable:[["radar_illegible","El radar no se puede leer"],["overlay_illegible","La superposición no se distingue"],["interface_or_data_broken","La interfaz o los datos parecen rotos"]],
+      abstain:[["insufficient_domain_confidence","No tengo suficiente confianza técnica"],["ambiguous_visible_evidence","La evidencia visible me resulta ambigua"],["other_independent_abstention","Me abstengo por otro motivo independiente"]]
+    };
+    function svg(name, attrs) {
+      const node = document.createElementNS("http://www.w3.org/2000/svg", name);
+      Object.entries(attrs || {}).forEach(([key,value]) => node.setAttribute(key,String(value)));
+      return node;
+    }
+    function point(world) {
+      const t=packet.coordinate_transform;
+      return {x:(world.x-t.pos_x)/t.scale,y:(t.pos_y-world.y)/t.scale};
+    }
+    function endpoint(world, angle, distance) {
+      const rad=angle*Math.PI/180;
+      return point({x:world.x+Math.cos(rad)*distance,y:world.y+Math.sin(rad)*distance,z:world.z});
+    }
+    function label(group, x, y, text, anchor) {
+      const node=svg("text",{x:x,y:y,class:"map-label","text-anchor":anchor||"start"});
+      node.textContent=text; group.appendChild(node);
+    }
+    function collectPoints(g) {
+      let ps=[point(g.origin_world),point(g.sample_origin_world||g.origin_world)];
+      if(g.evidence_type==="situated_directed_navigation_path") ps=ps.concat(g.path_points_world.map(point));
+      if(g.evidence_type==="situated_angular_clearance_sector") ps=ps.concat(g.supporting_rays.map(r=>endpoint(g.sample_origin_world,r.azimuth_degrees,r.hit_distance_units===null?g.ray_limit_world_units:r.hit_distance_units)));
+      if(g.evidence_type==="situated_player_volume_occlusion") ps.push(endpoint(g.sample_origin_world,g.incoming_azimuth_degrees,Math.min(g.maximum_ray_distance_world_units,450)));
+      return ps.filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y));
+    }
+    function viewBoxFor(g) {
+      const ps=collectPoints(g); let minX=Math.min(...ps.map(p=>p.x)),maxX=Math.max(...ps.map(p=>p.x));
+      let minY=Math.min(...ps.map(p=>p.y)),maxY=Math.max(...ps.map(p=>p.y));
+      let size=Math.max(250,maxX-minX,maxY-minY)*1.38; size=Math.min(1010,size);
+      let x=(minX+maxX-size)/2,y=(minY+maxY-size)/2;
+      x=Math.max(0,Math.min(1024-size,x)); y=Math.max(0,Math.min(1024-size,y));
+      return [x,y,size,size];
+    }
+    function defs() {
+      const d=svg("defs");
+      const marker=svg("marker",{id:"arrow","markerWidth":9,"markerHeight":9,refX:8,refY:4.5,orient:"auto",markerUnits:"userSpaceOnUse"});
+      marker.appendChild(svg("path",{d:"M 0 0 L 9 4.5 L 0 9 z",fill:"#164f3d"})); d.appendChild(marker);
+      const orange=svg("marker",{id:"arrow-orange","markerWidth":9,"markerHeight":9,refX:8,refY:4.5,orient:"auto",markerUnits:"userSpaceOnUse"});
+      orange.appendChild(svg("path",{d:"M 0 0 L 9 4.5 L 0 9 z",fill:"#ee5a32"})); d.appendChild(orange);
+      return d;
+    }
+    function baseMap(g) {
+      const map=els.map; map.replaceChildren(); map.setAttribute("viewBox",viewBoxFor(g).join(" "));
+      map.appendChild(defs()); map.appendChild(svg("image",{href:packet.radar_data_uri,x:0,y:0,width:1024,height:1024,preserveAspectRatio:"none"}));
+      return map;
+    }
+    function observedMarker(map,g) {
+      const p=point(g.origin_world); const sample=point(g.sample_origin_world||g.origin_world);
+      if(Math.hypot(p.x-sample.x,p.y-sample.y)>2) map.appendChild(svg("line",{x1:p.x,y1:p.y,x2:sample.x,y2:sample.y,stroke:"#52a8c8","stroke-width":4,"stroke-dasharray":"7 5","vector-effect":"non-scaling-stroke"}));
+      map.appendChild(svg("circle",{cx:sample.x,cy:sample.y,r:9,fill:"#52a8c8",stroke:"#fff","stroke-width":3,"vector-effect":"non-scaling-stroke"}));
+      map.appendChild(svg("circle",{cx:p.x,cy:p.y,r:11,fill:"#ee5a32",stroke:"#fff","stroke-width":3,"vector-effect":"non-scaling-stroke"}));
+      const yaw=g.view_yaw_degrees;
+      if(Number.isFinite(yaw)){const q=endpoint(g.origin_world,yaw,180);map.appendChild(svg("line",{x1:p.x,y1:p.y,x2:q.x,y2:q.y,stroke:"#ee5a32","stroke-width":4,"marker-end":"url(#arrow-orange)","vector-effect":"non-scaling-stroke"}));}
+      label(map,p.x+16,p.y-15,"T0","start");
+    }
+    function renderExposure(g) {
+      const map=baseMap(g),o=point(g.sample_origin_world),start=g.sector.start_degrees,width=g.sector.width_degrees;
+      const rays=[...g.supporting_rays].sort((a,b)=>((a.azimuth_degrees-start+360)%360)-((b.azimuth_degrees-start+360)%360));
+      const ends=rays.map(r=>endpoint(g.sample_origin_world,r.azimuth_degrees,r.hit_distance_units===null?g.ray_limit_world_units:r.hit_distance_units));
+      if(ends.length>1) map.appendChild(svg("polygon",{points:[[o.x,o.y],...ends.map(p=>[p.x,p.y])].map(p=>p.join(",")).join(" "),fill:"rgba(232,182,77,.24)",stroke:"#e8b64d","stroke-width":3,"vector-effect":"non-scaling-stroke"}));
+      rays.forEach((r,i)=>map.appendChild(svg("line",{x1:o.x,y1:o.y,x2:ends[i].x,y2:ends[i].y,stroke:r.clearance_met?"#164f3d":"#ee5a32","stroke-width":r.clearance_met?3:2,"stroke-dasharray":r.hit_distance_units===null?"9 6":"none","vector-effect":"non-scaling-stroke"})));
+      observedMarker(map,g); els.kind.textContent="APERTURA ANGULAR";
+      setMetrics([[format(start)+"°","inicio"],[format(width)+"°","anchura"],[String(rays.length),"rayos"],[format(g.sample_horizontal_offset_units)+" u","desfase muestra"]]);
+      setChecklist(["Ubica el marcador naranja T0 y su orientación.","Comprueba que la muestra azul cae en la misma zona física.","Sigue los rayos y el sector sobre pasillos y paredes reales."]);
+      hideProbes();
+    }
+    function renderCover(g) {
+      const map=baseMap(g),o=point(g.sample_origin_world),from=endpoint(g.sample_origin_world,g.incoming_azimuth_degrees,Math.min(g.maximum_ray_distance_world_units,450));
+      map.appendChild(svg("line",{x1:from.x,y1:from.y,x2:o.x,y2:o.y,stroke:"#fffdf6","stroke-width":10,"stroke-dasharray":"11 7","vector-effect":"non-scaling-stroke"}));
+      map.appendChild(svg("line",{x1:from.x,y1:from.y,x2:o.x,y2:o.y,stroke:"#164f3d","stroke-width":6,"stroke-dasharray":"11 7","marker-end":"url(#arrow)","vector-effect":"non-scaling-stroke"}));
+      observedMarker(map,g); label(map,(from.x+o.x)/2,(from.y+o.y)/2-10,"DIRECCIÓN EVALUADA","middle"); els.kind.textContent="COBERTURA FÍSICA";
+      const count=g.profile.occluded_probe_count;
+      setMetrics([[g.posture_id==="crouching"?"agachado":"de pie","postura"],[count+"/9","probes ocluidos"],[g.profile.complete_volume_occlusion?"sí":"no","oclusión completa"],[format(g.incoming_azimuth_degrees)+"°","dirección"]]);
+      setChecklist(["Localiza T0 junto a una estructura física.","Sigue la línea discontinua hacia el volumen del jugador.","Contrasta la pared visible con el patrón de nueve probes."]);
+      els.probeCard.classList.add("is-visible"); els.probeGrid.replaceChildren(...g.profile.probes.map((probe,index)=>{const n=document.createElement("div");n.className="probe"+(probe.occluded_within_protection_distance?" hit":"");n.textContent=probe.occluded_within_protection_distance?"BLOQ":"LIBRE";n.title="Probe "+(index+1)+(probe.hit_distance_units===null?" · sin impacto":" · impacto "+format(probe.hit_distance_units)+" u");return n;}));
+      els.probeTitle.textContent=count+" de 9 probes bloqueados";
+      els.probeCopy.textContent="Verde = ocluido dentro de la distancia de protección. Contorno naranja = libre. La matriz representa el volumen corporal en postura "+(g.posture_id==="crouching"?"agachada.":"de pie.");
+    }
+    function renderRoute(g) {
+      const map=baseMap(g),pts=g.path_points_world.map(point),path=pts.map((p,i)=>(i?"L ":"M ")+p.x+" "+p.y).join(" ");
+      map.appendChild(svg("path",{d:path,fill:"none",stroke:"#fffdf6","stroke-width":11,"stroke-linecap":"round","stroke-linejoin":"round","vector-effect":"non-scaling-stroke"}));
+      map.appendChild(svg("path",{d:path,fill:"none",stroke:"#164f3d","stroke-width":6,"stroke-linecap":"round","stroke-linejoin":"round","marker-end":"url(#arrow)","vector-effect":"non-scaling-stroke"}));
+      pts.slice(1,-1).forEach((p,i)=>{if(i%Math.max(1,Math.floor(pts.length/24))===0)map.appendChild(svg("circle",{cx:p.x,cy:p.y,r:4,fill:"#e8b64d",stroke:"#fff","stroke-width":2,"vector-effect":"non-scaling-stroke"}));});
+      observedMarker(map,g); const end=point(g.destination_world);map.appendChild(svg("circle",{cx:end.x,cy:end.y,r:13,fill:"#164f3d",stroke:"#fff","stroke-width":4,"vector-effect":"non-scaling-stroke"}));label(map,end.x+17,end.y-14,"DESTINO","start"); els.kind.textContent="RUTA NAV COMPLETA";
+      const c=g.objective_connectivity;
+      setMetrics([["sí","alcanzable"],[format(c.path_distance_world_units)+" u","distancia NAV"],[format(c.direct_distance_world_units)+" u","distancia directa"],[String(g.path_points_world.length),"puntos de ruta"]]);
+      setChecklist(["Sigue toda la línea verde desde T0 hasta destino.","Comprueba que gira por espacios transitables del radar.","No valores si el recorrido es seguro, corto o conveniente."]);
+      hideProbes();
+    }
+    function hideProbes(){els.probeCard.classList.remove("is-visible");els.probeGrid.replaceChildren();}
+    function setMetrics(items){els.metrics.replaceChildren(...items.map(([value,labelText])=>{const n=document.createElement("div");n.className="metric";const b=document.createElement("b"),s=document.createElement("span");b.textContent=value;s.textContent=labelText;n.append(b,s);return n;}));}
+    function setChecklist(items){els.checklist.replaceChildren(...items.map(text=>{const li=document.createElement("li");li.textContent=text;return li;}));}
+    function fact(labelText,value){const n=document.createElement("div");n.className="fact";const s=document.createElement("span"),b=document.createElement("b");s.textContent=labelText;b.textContent=value===null||value===undefined?"—":String(value);n.append(s,b);return n;}
+    function format(value){return new Intl.NumberFormat("es-ES",{maximumFractionDigits:1}).format(value);}
+    function renderFacts(context){
+      const values=[["Ronda",context.round_number],["Tick T0",context.t0_tick],["Participante",context.participant_alias],["Orientación",Number.isFinite(context.view_yaw_degrees)?format(context.view_yaw_degrees)+"°":"—"],["Postura",context.posture_id==="crouching"?"agachado":context.posture_id==="standing"?"de pie":"—"],["Arma",context.active_weapon||"—"],["Velocidad",Number.isFinite(context.horizontal_speed_world_units_per_second)?format(context.horizontal_speed_world_units_per_second)+" u/s":"—"],["Disponibilidad",context.availability_tick<=context.t0_tick?"hasta T0":"inválida"]];
+      els.facts.replaceChildren(...values.map(v=>fact(v[0],v[1])));
+    }
+    function renderIndex(){
+      els.index.replaceChildren(...units.map((unit,index)=>{const b=document.createElement("button");b.type="button";b.className="case-dot"+(answers.has(unit.review_unit_id)&&answers.get(unit.review_unit_id).reason_code?" is-complete":"");b.textContent=String(index+1).padStart(2,"0");b.setAttribute("aria-current",index===current?"true":"false");b.addEventListener("click",()=>{current=index;render();});return b;}));
+    }
+    function renderOptions(unit,saved){
+      els.options.replaceChildren(...unit.reviewer_view.options.map(option=>{const l=document.createElement("label");l.className="option";const input=document.createElement("input");input.type="radio";input.name="answer";input.value=option.answer_id;input.checked=saved&&saved.answer_id===option.answer_id;input.addEventListener("change",()=>{answers.set(unit.review_unit_id,{answer_id:option.answer_id,reason_code:null,completed_at:null,response_id:saved&&saved.response_id||null});renderReasons(unit,answers.get(unit.review_unit_id));updateProgress();});const b=document.createElement("b"),s=document.createElement("span");b.textContent=option.label;s.textContent=option.description;l.append(input,b,s);return l;}));
+      renderReasons(unit,saved);
+    }
+    function renderReasons(unit,saved){
+      if(!saved||!saved.answer_id){els.reasonPanel.hidden=true;els.reasons.replaceChildren();return;}
+      els.reasonPanel.hidden=false;
+      els.reasons.replaceChildren(...reasonSets[saved.answer_id].map(([code,text])=>{const l=document.createElement("label");l.className="reason";const input=document.createElement("input");input.type="radio";input.name="reason";input.value=code;input.checked=saved.reason_code===code;input.addEventListener("change",()=>{const record=answers.get(unit.review_unit_id);record.reason_code=code;record.completed_at=new Date().toISOString();record.response_id=record.response_id||"scr-"+randomHex(12);answers.set(unit.review_unit_id,record);renderIndex();updateProgress();});const span=document.createElement("span");span.textContent=text;l.append(input,span);return l;}));
+    }
+    function randomHex(bytes){const values=new Uint8Array(bytes);crypto.getRandomValues(values);return Array.from(values,value=>value.toString(16).padStart(2,"0")).join("");}
+    function updateProgress(){const complete=[...answers.values()].filter(v=>v.answer_id&&v.reason_code).length;els.progressText.textContent=complete+" / "+units.length;els.progressBar.style.width=(complete/units.length*100)+"%";const all=complete===units.length;els.close.hidden=!all;els.export.disabled=!(all&&els.attestation.checked);if(all)els.close.scrollIntoView({behavior:"smooth",block:"nearest"});}
+    function render(){
+      const unit=units[current],view=unit.reviewer_view,saved=answers.get(unit.review_unit_id);
+      els.meta.textContent="CASO "+String(current+1).padStart(2,"0")+" DE "+units.length+" · "+view.case_kind.replace("_"," ");
+      els.question.textContent=view.question;els.claim.textContent=view.claim_boundary;renderFacts(view.observed_context);
+      if(view.case_kind==="exposure")renderExposure(view.objective_geometry);else if(view.case_kind==="cover")renderCover(view.objective_geometry);else renderRoute(view.objective_geometry);
+      renderOptions(unit,saved);renderIndex();els.previous.disabled=current===0;els.next.textContent=current===units.length-1?"Ir al cierre →":"Guardar y continuar →";updateProgress();window.scrollTo({top:0,behavior:"smooth"});
+    }
+    function next(){const unit=units[current],saved=answers.get(unit.review_unit_id);if(!saved||!saved.answer_id||!saved.reason_code){els.reasonPanel.hidden=false;els.reasonPanel.scrollIntoView({behavior:"smooth",block:"center"});return;}if(current<units.length-1){current++;render();}else{els.close.hidden=false;els.close.scrollIntoView({behavior:"smooth",block:"center"});}}
+    function exportResponses(){
+      const responses=units.map(unit=>{const a=answers.get(unit.review_unit_id);return {schema_id:packet.response_schema_id,contract_version:"2.0.0",response_id:a.response_id,batch_id:packet.batch_id,review_unit_id:unit.review_unit_id,reviewer_slot:packet.reviewer_slot,reviewer_pseudonym:packet.reviewer_pseudonym,answer_id:a.answer_id,reason_codes:[a.reason_code],completed_at:a.completed_at,visible_evidence_sha256:unit.visible_evidence_sha256,protocol_version:packet.protocol_version,handbook_version:packet.handbook_version,independence_attestation:true};});
+      const bundle={schema_id:"stratai.spatial_context_review_response_bundle@2",contract_version:"2.0.0",session_id:packet.session_id,batch_id:packet.batch_id,reviewer_slot:packet.reviewer_slot,responses:responses};
+      const blob=new Blob([JSON.stringify(bundle,null,2)+"\n"],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=packet.reviewer_slot+"-"+packet.batch_id+"-responses.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);els.exportStatus.textContent="Archivo descargado. Entrégalo únicamente al coordinador.";
+    }
+    els.previous.addEventListener("click",()=>{if(current>0){current--;render();}});
+    els.next.addEventListener("click",next);
+    els.attestation.addEventListener("change",()=>updateProgress());
+    els.export.addEventListener("click",exportResponses);
+    window.addEventListener("beforeunload",event=>{if(answers.size){event.preventDefault();event.returnValue="";}});
+    render();
+  </script>
+</body>
+</html>

@@ -3,11 +3,11 @@
 | Campo | Valor |
 |---|---|
 | Estado | Canónico |
-| Versión | 1.1 |
-| Fecha | 27 de agosto de 2026 |
+| Versión | 1.3 |
+| Fecha | 22 de septiembre de 2026 |
 | Equipo objetivo | Dos personas |
-| Restricción | Mínima inversión antes de validar el coach integral de Mirage |
-| Documento de ejecución | [AI_COACH_IMPLEMENTATION_PLAN.md](./AI_COACH_IMPLEMENTATION_PLAN.md) |
+| Inversión | Por etapas según evidencia de utilidad; presupuesto ampliable sin autorización automática de gasto |
+| Documento de ejecución | [AI_COACH_IMPLEMENTATION_PLAN.md](AI_COACH_IMPLEMENTATION_PLAN.md) |
 
 ## Cómo usar este documento
 
@@ -27,14 +27,23 @@ Los informes de auditoría y contratos de datos permanecen como evidencia técni
 
 ## 1. Decisión de producto
 
-StratAI será inicialmente un coach personalizado pospartida. Analizará una demo completa, localizará decisiones relevantes, identificará errores respaldados por evidencia y propondrá una acción mejor que estuviera disponible con la información razonable del jugador en ese momento.
+StratAI será un coach personalizado pospartida que acompaña la mejora del jugador. Analizará demos completas, localizará decisiones relevantes, reconocerá errores y acciones positivas respaldados por evidencia y propondrá alternativas realizables con la información razonable disponible en cada momento.
 
-No será un panel de estadísticas, un chatbot que improvise consejos ni un agente que intente jugar CS2. El producto deberá unir cuatro cosas:
+**Fuente del análisis, reiterada por el usuario el 22/09/2026:** la replay de la
+partida real (`.dem`), descargada o ya disponible. Este recorrido no incorpora
+grabación de pantalla en la web, no exige vídeos personales de los jugadores y
+no genera partidas o muestras artificiales para obtenerlos. Los clips o vistas
+de evidencia mencionados en este documento deben proceder de la replay. Cuando
+una información concreta no pueda acreditarse desde las fuentes admitidas, se
+conserva su incertidumbre sin convertir una grabación del jugador en requisito
+del producto. Esta restricción no modifica los hechos ni autoriza inferencias
+de percepción, entrenamiento o adquisiciones masivas.
 
-1. una observación verificable de la demo;
-2. una alternativa concreta y realizable;
-3. una estimación comparativa de su valor;
-4. una explicación adaptada al historial del jugador.
+El ciclo de producto será:
+
+**Partida → perfil contextual → una o dos prioridades → práctica y misiones → verificación en oportunidades posteriores → ajuste del plan.**
+
+Cada prioridad unirá una observación verificable, una conducta que merezca mantener o cambiar, una explicación adaptada al jugador y una forma de practicar y comprobar su evolución. El coach distinguirá entre comprender una decisión, poder ejecutarla y mantener el hábito en partidas reales. Completar un ejercicio no prueba por sí solo que se haya aprendido.
 
 El usuario debe sentir que el coach ha visto su partida y comprende sus hábitos, no que está recitando reglas genéricas.
 
@@ -45,12 +54,11 @@ El producto tendrá dos flujos distintos que compartirán exactamente el mismo c
 
 Las demos del usuario no entrarán automáticamente en el entrenamiento global. Su reutilización exigirá consentimiento, anonimización, controles de calidad, versionado y posibilidad de retirada.
 
-La versión 1.1 distingue dos entregas que antes se confundían:
+La primera validación será un **piloto privado de Mirage asistido por coaches humanos**, centrado en economía, apoyo al compañero y mecánica observable, con perfil y plan de práctica desde el inicio. Peek/hold/reposición conserva su función de prueba técnica espacial; su automatización completa no es un requisito indiscriminado para probar una capacidad independiente.
 
-- el **vertical técnico inicial**, limitado a dos familias para demostrar que la cadena completa funciona;
-- el **coach integral de Mirage**, que será la primera versión que podrá presentarse como coach completo.
+El **coach integral de Mirage** seguirá siendo la primera entrega pública del producto. El piloto privado no se presentará como coach completo ni acreditará capacidades automáticas que aún no existan. Cada consejo del piloto conserva los mismos límites de evidencia, viabilidad y abstención; la intervención humana no rellena hechos ausentes.
 
-Diseñar el vertical primero no reduce el alcance final. El catálogo completo de capacidades y sus necesidades de datos se cerrará antes de entrenar o ampliar el corpus.
+El catálogo final de capacidades y sus necesidades de datos se diseña completo. Su ejecución por etapas no reduce ese alcance ni autoriza por sí sola entrenamiento, adquisición o publicación.
 
 ---
 
@@ -136,18 +144,30 @@ Una jugada de alto valor para un profesional puede no ser la de mayor valor para
 
 La recomendación debe ser ambiciosa pero ejecutable para la persona que la recibe.
 
+La alternativa apropiada para jugar hoy y la habilidad que conviene desarrollar son decisiones distintas. El plan puede enseñar una acción todavía difícil para el jugador sin recomendar que la fuerce durante una ronda. El perfil describe capacidades y patrones por contexto; no encasilla a la persona en un rol, estilo o nivel permanente.
+
+### 3.4 Dónde interviene el criterio humano
+
+La máquina acredita hechos recomputables: geometría y colisiones, visibilidad física, FOV/humo, estado de arma, NAV, conectividad, recorridos, inventario y outcomes observados. Una persona no certifica rayos, polígonos o distancias que el sistema puede validar automáticamente.
+
+El ground truth humano compara decisiones tácticas completas. El revisor recibe sólo la información legal en `T0`, la acción realizada y alternativas ya filtradas como físicamente viables; puede preferir una, declararlas equivalentes, rechazar todas o abstenerse por contexto insuficiente, y registra razones y confianza. Se crea una muestra inicial antes del primer recomendador y, más adelante, se añaden lotes seleccionados por incertidumbre, desacuerdo, rareza y OOD junto con una cuota aleatoria.
+
+Las respuestas se versionan y controlan antes de un reentrenamiento offline. No existe aprendizaje online directo desde un clic, y el test humano bloqueado nunca se reutiliza para entrenar, seleccionar casos o ajustar thresholds.
+
 ---
 
 ## 4. Resultado esperado para el usuario
 
 Después de procesar una partida, el producto mostrará como máximo tres correcciones prioritarias, hasta dos acciones positivas cuando estén respaldadas y un patrón longitudinal cuando haya suficiente historial.
 
+De esa revisión saldrán como máximo una o dos prioridades activas, acordes con el tiempo disponible y los objetivos del jugador. Cada una tendrá práctica o misión, criterio de oportunidad y una próxima revisión. Puede mantenerse una prioridad entre partidas; el sistema no inventará un problema nuevo para renovar el informe.
+
 Cada corrección incluirá:
 
-- ronda y momento exacto;
+- ronda y momento exacto como localizador del clip, no como afirmación de que el jugador conocía ese reloj exacto;
 - acción observada;
 - mejor acción estimada;
-- lugar, timing y condición de ejecución;
+- lugar, margen temporal cualitativo y condición de ejecución;
 - diferencia de valor o categoría comparativa;
 - separación entre decisión y ejecución;
 - clip, replay o eventos de evidencia;
@@ -157,7 +177,9 @@ Cada corrección incluirá:
 
 Ejemplo de salida objetivo:
 
-> **Entrada sin conexión en connector, ronda 18.** La flash del compañero ya estaba en vuelo y era observable en `T0`; la mejor alternativa estimada era esperar entre uno y dos segundos para entrar con ella. El peek inmediato te exponía a dos ángulos y dejaba el trade a más de tres segundos. Aunque ganaste el primer duelo, la decisión tenía menor valor esperado. Este patrón aparece seis veces en tus últimas ocho partidas de Mirage. Confianza media-alta.
+> **Entrada sin conexión en connector, ronda 18.** La flash del compañero ya estaba en vuelo y era observable en `T0`; la mejor alternativa estimada era esperar brevemente para entrar con ella. El peek inmediato te exponía a dos ángulos y dejaba al compañero demasiado lejos para un trade limpio. Aunque ganaste el primer duelo, la decisión tenía menor valor esperado. Este patrón aparece seis veces en tus últimas ocho partidas de Mirage. Confianza media-alta.
+
+Los relojes exactos de la demo y los cálculos de ETA —*estimated time of arrival*, tiempo estimado de llegada— pueden existir como señales internas. No representan lo que el jugador sabía con precisión ni predicen cuánto tardará realmente entre paradas, combates, limpieza de ángulos, aceleración o cambios de arma. El coach no dirá «tardabas exactamente 15 segundos» ni deducirá automáticamente «debías guardar» a partir de esa cifra. Comunicará margen amplio, suficiente, ajustado, crítico, inviable o desconocido, de forma condicional. Una referencia optimista que ya excede el margen puede ayudar a descartar una acción; que una referencia optimista quepa en el margen no demuestra por sí sola que la acción fuese viable. Si la conclusión cambia con supuestos razonables, se expresa con incertidumbre o se abstiene.
 
 ---
 
@@ -170,11 +192,11 @@ StratAI debe llegar a valorar todas las áreas relevantes que una demo permita o
 | Entrega | Propósito | Cuándo termina |
 |---|---|---|
 | Contrato integral | Definir todas las capacidades, decisiones, acciones, datos, límites y modelos | Cada familia tiene contrato y matriz de datos, aunque todavía no esté implementada |
-| Vertical técnico inicial | Probar la cadena completa en Mirage con trade/spacing y peek/hold/reposición | Pasa sus gates causal, espacial, de alternativas y revisión humana |
+| Piloto privado asistido | Validar en Mirage economía, apoyo y mecánica observable mediante revisión humana, perfil y práctica; peek sigue como prueba espacial | Cada consejo pasa los requisitos de su capacidad y se comprueban comprensión, aplicación y seguimiento del plan |
 | Coach integral de Mirage | Cubrir el núcleo completo de coaching observable en Mirage | Todas las familias activas pasan su gate propio y se integran en un único informe |
 | Expansión multimapa | Repetir geometría, zonas, corpus y evaluación por mapa | Cada mapa supera su gate antes de publicar recomendaciones |
 
-El vertical técnico es una prueba interna de arquitectura. No define por sí solo el producto terminado.
+Las pruebas técnicas y el piloto privado producen evidencia para construir el producto. No acreditan por sí solos cobertura integral ni publicación. El plan fija qué puede probarse en cada momento y sus dependencias reales.
 
 ### 5.1 Combate y mecánica observable
 
@@ -238,7 +260,7 @@ Voz, intención y experiencia auditiva subjetiva quedan fuera mientras no exista
 
 - Rotar demasiado pronto, demasiado tarde o por una ruta insegura.
 - Abandonar, recuperar o duplicar innecesariamente una zona.
-- Sobre-rotaciones y tiempos de llegada.
+- Sobre-rotaciones y margen de llegada cualitativo; los escenarios numéricos de ETA son sólo apoyo interno.
 - Relación entre información disponible, control aliado, bomba y distribución del equipo.
 - Mantener, ceder, recuperar o intercambiar espacio.
 
@@ -250,7 +272,7 @@ Las zonas, conexiones y rutas son clasificaciones propias de StratAI construidas
 - Momento y lugar de plantado.
 - Protección del plantado y estructura de postplant.
 - Retake, intento de defuse o save.
-- Uso del tiempo, kit, utilidad, distancias y rutas alcanzables.
+- Uso del margen temporal, kit, utilidad, distancias y rutas alcanzables sin atribuir conciencia exacta del reloj al jugador.
 - Abandono correcto de un objetivo que ya no es recuperable.
 
 ### 5.9 Ventaja, riesgo y situaciones especiales
@@ -364,35 +386,29 @@ Una corrección solo es publicable si:
 
 ## 8. Personalización
 
-No se entrenará un modelo neuronal diferente para cada jugador. El coach integral combinará modelos globales especialistas con un perfil estadístico regularizado.
+### 8.1 Perfil desde la primera experiencia
 
-El perfil almacenará desviaciones contextuales respecto a jugadores comparables:
+El piloto privado ya incluirá un perfil sencillo y trazable. El jugador podrá indicar objetivos, tiempo disponible y preferencias; las demos aportarán fortalezas, dificultades y oportunidades observadas por mapa, lado, zona, arma, economía, fase y compañía. Los datos declarados y los observados conservarán fuentes distintas.
 
-- mapa, lado y zona;
-- arma y economía;
-- fase de ronda;
-- acompañado o aislado;
-- tipo de duelo;
-- acción elegida;
-- decisión y ejecución;
-- evolución reciente.
+Con poco historial se muestran hipótesis provisionales y referencias generales prudentes. Un patrón exige repetición en partidas y oportunidades comparables, con incertidumbre visible; un número de partidas por sí solo no acredita una capacidad ni obliga a usar un modelo más complejo. El sistema compartirá modelos o reglas generales y ajustará el perfil con regularización, sin entrenar un modelo por usuario.
 
-La estimación personal se contraerá hacia el baseline global cuando haya pocas muestras:
+El prior usado para evaluar una partida sólo contiene su pasado. Una vez cerrada la revisión, esa partida puede actualizar el perfil que orienta el siguiente plan. El usuario podrá inspeccionar los casos que sostienen un patrón y borrar su historial conforme a la política de privacidad.
 
-$$
-perfil = \frac{n}{n+k}\cdot observadoPersonal + \frac{k}{n+k}\cdot baselineGlobal
-$$
+### 8.2 Una o dos prioridades y un plan realizable
 
-### Madurez del perfil
+El coach revisará todas las familias soportadas y elegirá una o dos prioridades activas según importancia, recurrencia por oportunidad, confianza, capacidad de mejora, requisitos previos y esfuerzo. Incluirá fortalezas que convenga mantener. Adaptará dificultad y carga a la persona, sin asumir que imitar una acción profesional sea su mejor opción actual.
 
-| Historial | Comportamiento del coach |
-|---|---|
-| 1-4 partidas | Predominan los modelos globales; no se afirman hábitos estables |
-| 5-14 partidas | Primeros patrones personales con incertidumbre visible |
-| 15-30 partidas | Perfil contextual útil y comparación temporal |
-| Más de 30 | Posible embedding ligero si demuestra mejora sobre el baseline |
+La biblioteca de prácticas comenzará con ejercicios y variantes revisados por coaches. Cada práctica o misión tendrá objetivo, evidencia de origen, condiciones de aplicación y excepción, dificultad, dedicación orientativa y criterio de revisión. Podrá consistir en comprender una situación, practicar su ejecución o aplicar una conducta cuando aparezca una oportunidad en partida. El LLM explicará y adaptará la presentación de este contenido; no inventará su eficacia ni sus criterios de éxito.
 
-La personalización no consistirá en mencionar el nombre del usuario. Consistirá en cambiar el diagnóstico, la prioridad y la alternativa según su historial y capacidad.
+La misión nunca prevalece sobre el objetivo de la ronda o una decisión mejor respaldada. No se exige acercarse siempre al compañero, sobrevivir a toda costa o gastar utilidad para completar una tarea. Si no aparece una oportunidad válida, se registra «sin oportunidad» y no un fracaso. El jugador puede ajustar la carga o aportar contexto sin que eso se convierta en una etiqueta táctica automática.
+
+### 8.3 Verificar aprendizaje y ajustar
+
+Se distinguirán práctica asignada, práctica declarada o verificada, rendimiento en el ejercicio y transferencia a nuevas partidas. El progreso se medirá en oportunidades comparables, considerando dificultad y contexto; se comprobará también después de retirar ayudas y tras un intervalo. Una caída de oportunidades porque el jugador evita participar no cuenta como mejora.
+
+Una práctica completada, una kill, el K/D, el rango o la victoria no demuestran por sí solos que el plan funcione. El seguimiento mostrará conducta, oportunidades, incertidumbre y posibles efectos adversos sobre otras áreas. Si no hay señal suficiente, el coach mantendrá el plan, lo simplificará o pedirá más evidencia; no afirmará mejora ni empeoramiento por obligación.
+
+Aprender qué acción era preferible y aprender qué práctica mejora a una persona requieren evidencias distintas. El historial pedagógico conservará qué plan se ofreció, qué se hizo y qué ocurrió después. La adaptación del plan mediante reglas revisadas no equivale a reentrenar modelos globales: cualquier aprendizaje de modelos seguirá siendo offline, versionado y evaluado antes de su promoción.
 
 ---
 
@@ -431,7 +447,7 @@ El LLM recibirá hechos, alternativas, confianza y limitaciones ya calculadas. S
 - explicar;
 - responder preguntas de seguimiento;
 - adaptar profundidad y tono;
-- convertir recomendaciones en ejercicios;
+- explicar prácticas y misiones revisadas y seleccionadas para el jugador;
 - reconocer contradicciones;
 - abstenerse cuando falte evidencia.
 
@@ -442,56 +458,37 @@ El LLM recibirá hechos, alternativas, confianza y limitaciones ya calculadas. S
 
 La memoria conversacional y el perfil táctico serán stores separados. El usuario podrá borrar ambos.
 
+### 9.3 Contexto aportado y corrección del coach
+
+El jugador podrá aclarar una decisión o cuestionar el análisis. «Mi compañero me pidió esperar» se conservará como contexto declarado, con autoría y momento, no como un hecho extraído de la demo ni una entrada retrospectiva del snapshot T0. El coach podrá revisar su interpretación de forma condicional, explicar qué cambia y qué sigue sin poder comprobar.
+
+Una respuesta del usuario no modifica la evidencia original, no convierte una preferencia en verdad táctica ni actualiza un modelo global. Los desacuerdos pueden enviarse al flujo de revisión autorizado y las correcciones conservan trazabilidad. Las preferencias de práctica sí pueden ajustar el siguiente plan sin fingir una nueva validación científica.
+
 ---
 
-## 10. Arquitectura lean del producto
+## 10. Arquitectura del ciclo de coaching
 
 ```mermaid
 flowchart LR
-    A[Demo validada] --> B[Hechos canónicos de Go]
-    B --> C[Ventanas causales por familia]
-    C --> D[Reglas verificables]
-    C --> E[Modelos tabulares especialistas]
-    C --> F[Índice de situaciones similares]
-    D --> G[Generador de alternativas]
-    F --> G
-    E --> H[Valores y outcomes calibrados]
-    G --> I[Ranking conservador común]
-    H --> I
-    J[Perfil personal regularizado] --> I
-    I --> K[Evidence Pack]
-    K --> L[Coach conversacional]
+    A[Demo validada] --> B[Hechos legales y oportunidades]
+    B --> C[Alternativas viables y evaluación por capacidad]
+    C --> D[Hallazgos y acciones positivas con evidencia]
+    P[Perfil previo] --> C
+    D --> E[Una o dos prioridades]
+    P --> E
+    E --> F[Práctica y misiones revisadas]
+    F --> G[Aplicación en oportunidades posteriores]
+    G --> H[Verificar transferencia y ajustar]
+    H --> P
+    D --> L[Conversación fundamentada]
+    F --> L
 ```
 
-### Componentes obligatorios
+Los hechos y filtros físicos, el juicio táctico, el perfil y la elección de prácticas son responsabilidades distintas. Cada una conserva evidencia, incertidumbre y límites. El piloto puede apoyarse en coaches para valorar decisiones y preparar planes; debe identificar esa intervención y conservar registros que permitan evaluar su futura automatización.
 
-1. **Proveedores de hechos:** Go, geometría y observabilidad producen información legal en `T0`.
-2. **Reglas verificables:** detectan hechos geométricos o contractuales claros.
-3. **Especialistas prescriptivos:** trade, peek, mecánica, utilidad, economía, rotación y objetivo comparan acciones.
-4. **Modelos tabulares especialistas:** CatBoost es candidato solo donde una familia prescriptiva necesite aprendizaje; una regla puede seguir siendo la solución promovida si funciona mejor.
-5. **Evaluadores transversales:** ventaja, riesgo, tiempo y clutch combinan outcomes de varios especialistas.
-6. **Recuperación de casos:** aporta alternativas reales y soporte.
-7. **Generador de acciones:** propone pocas opciones válidas.
-8. **Ranking conservador:** selecciona la mejor estimada o se abstiene.
-9. **Perfil personal:** ajusta valor, prioridad y ejecución usando historia anterior.
-10. **Evidence Pack:** contrato único entre análisis y lenguaje.
-11. **LLM:** conversación y explicación, nunca fuente primaria del juicio.
+Las reglas, referencias estadísticas, recuperación de casos y modelos especialistas compiten por mejorar resultados medidos. Ninguna familia tiene obligación de entrenar un modelo si una regla revisada resuelve su tarea. El Evidence Pack separa el análisis del lenguaje; el LLM explica y conversa sin decidir por sí solo qué acción era mejor.
 
-### Tecnología prevista para la primera versión integral
-
-- Parquet y DuckDB para datasets e investigación.
-- Python para construcción de ventanas, modelos y evaluación.
-- Reglas y promedios contextuales como baseline mínimo.
-- Regresión logística o lineal regularizada como baseline aprendido.
-- CatBoost como primera opción por familia para combinar números, categorías y ausencias en CPU.
-- LightGBM o XGBoost únicamente como comparación cuando exista una razón medible.
-- Modelos separados o cabezas separadas para los outcomes de cada familia; no una etiqueta opaca universal de «jugada correcta».
-- Inferencia batch en CPU.
-- Índice local de situaciones similares.
-- Servicio FastAPI existente para exponer resultados.
-- LLM externo bajo límites de coste para la conversación.
-
-Un modelo temporal pequeño, como una TCN o GRU, solo se evaluará en familias donde el orden de los movimientos demuestre ser imprescindible. Un Transformer temporal compacto se estudiará después únicamente si esas opciones no bastan. Cualquier modelo temporal deberá superar al baseline tabular en un test congelado antes de incorporarse. No se usará deep learning por defecto.
+Los contratos de datos y la biblioteca de prácticas se conservan al automatizar más trabajo. Se podrá sustituir un método de evaluación o selección sin perder historial, evidencia ni criterios de aprendizaje. La [arquitectura de modelos](ai-coach/AI_COACH_MODEL_ARCHITECTURE.md) compara las opciones técnicas y el [plan](AI_COACH_IMPLEMENTATION_PLAN.md) fija su orden y gates; este esquema define el comportamiento objetivo, no componentes ya disponibles.
 
 ---
 
@@ -499,7 +496,7 @@ Un modelo temporal pequeño, como una TCN o GRU, solo se evaluará en familias d
 
 El espacio de acciones será pequeño y jerárquico. No se intentará representar cada movimiento de ratón.
 
-El contrato integral definirá desde el principio todas las familias. El vertical técnico activará primero las acciones necesarias para trade/spacing y peek/hold/reposición. El coach integral de Mirage no estará terminado hasta activar el núcleo completo con un gate independiente por familia.
+El contrato integral definirá desde el principio todas las familias. El piloto privado seleccionará acciones de economía, apoyo y mecánica observable que puedan reconstruirse y revisarse con seguridad; peek conserva una prueba técnica espacial separada. El coach integral de Mirage no estará terminado hasta activar el núcleo completo con un gate independiente por familia.
 
 ### Posicionamiento
 
@@ -573,18 +570,22 @@ Las acciones concretas incluirán zona, ruta, timing y condiciones cuando los da
 
 ## 12. Alcance de las primeras entregas
 
-### 12.1 Vertical técnico inicial
+### 12.1 Piloto privado de Mirage asistido por humanos
 
-El vertical técnico debe demostrar en Mirage:
+El piloto debe comprobar el ciclo de coaching con participantes informados de su alcance y de la intervención humana:
 
-- cobertura prescriptiva de `spacing_or_trade_connection` y `peek_hold_or_reposition`;
+- situaciones verificables de economía, apoyo al compañero y mecánica observable, con requisitos propios por capacidad;
 - una alternativa viable y respaldada por cada corrección;
+- ejemplos positivos que merezca conservar, sin confundir un resultado favorable con una buena decisión;
 - evidencia navegable en replay;
 - decisión y ejecución separadas;
-- ranking, incertidumbre y abstención;
-- un Evidence Pack que el lenguaje no pueda alterar.
+- perfil inicial, una o dos prioridades, práctica y misiones con condiciones y excepciones;
+- seguimiento de oportunidades posteriores, incluida la ausencia de oportunidad;
+- incertidumbre, abstención y evidencia que el lenguaje no pueda alterar.
 
-Esta entrega valida la arquitectura de extremo a extremo. Puede utilizarse internamente y en pruebas controladas, pero no se presentará como el coach completo.
+Los coaches validarán diagnósticos y prácticas; los jugadores permitirán comprobar comprensión, aplicación y carga. Se evaluará por separado la transferencia del aprendizaje. La muestra y los umbrales viven en el plan y se fijan antes de evaluar, sin confundir una prueba exploratoria con validación suficiente para publicación.
+
+Peek/hold/reposición continúa como prueba técnica para hechos espaciales y alternativas. No bloqueará capacidades independientes cuando sus requisitos estén satisfechos; tampoco se presentará como resuelto mientras falte evidencia. El piloto no promociona el corpus, modelos ni soporte público de forma implícita.
 
 ### 12.2 Coach integral de Mirage
 
@@ -599,11 +600,12 @@ La primera versión presentable como coach debe integrar, con profundidad propor
 - rotaciones y control del mapa;
 - bomba, postplant, retake, save y tiempo;
 - gestión de ventaja, riesgo y clutch;
-- patrones longitudinales del jugador.
+- patrones longitudinales del jugador;
+- prioridades, prácticas y misiones adaptadas, con verificación y ajuste en partidas posteriores.
 
 Cada familia tendrá elegibilidad, dataset, modelo o regla, umbral de confianza, test humano y posibilidad de abstención propios. «Integral» significa que todas las áreas están representadas y que el sistema puede juzgarlas cuando hay evidencia; no significa que deba inventar un hallazgo en cada ronda.
 
-La experiencia seguirá mostrando como máximo tres correcciones prioritarias y hasta dos acciones positivas por partida. El sistema reunirá especialistas distintos en un único informe sencillo.
+La experiencia seguirá mostrando como máximo tres correcciones prioritarias y hasta dos acciones positivas por partida, convertidas en una o dos prioridades activas. El sistema reunirá las capacidades en un informe y un plan de mejora coherentes.
 
 ### 12.3 Expansión a otros mapas
 
@@ -620,6 +622,7 @@ Mirage será el primer mapa completo. El pipeline puede procesar otros mapas par
 - Coaching en tiempo real.
 - Razonamiento fiable sobre voz e intención del equipo.
 - Afirmaciones exactas sobre teclas, ratón, atención mental o sonido subjetivamente percibido.
+- Afirmaciones al jugador de segundos exactos de llegada o de conciencia exacta del reloj; esos valores sólo pueden ser anclas o señales internas con incertidumbre.
 - Simulación exacta de futuros.
 - Recomendaciones fuera del soporte observado.
 - Servidor GPU permanente.
@@ -669,10 +672,13 @@ Antes de ampliar la arquitectura, el coach integral de Mirage debe alcanzar obje
 - tasa de alternativas fuera de distribución;
 - recurrencias personales confirmadas;
 - uso de preguntas de seguimiento;
-- cambio del patrón en partidas posteriores;
+- cambio del patrón por oportunidad comparable en partidas posteriores;
+- comprensión del consejo y aplicación de las prácticas;
+- transferencia a situaciones nuevas y mantenimiento sin ayudas;
+- dificultad y carga adecuadas, ausencia de oportunidad y efectos sobre otras capacidades;
 - coste y latencia por partida.
 
-La prioridad será precisión sobre cobertura. Cero hallazgos es preferible a un consejo falso.
+La prioridad será precisión sobre cobertura. Cero hallazgos es preferible a un consejo falso. La finalización de tareas y la satisfacción se medirán aparte de la mejora demostrada. K/D, rango y winrate son señales complementarias: no sustituyen la calidad de decisión ni acreditan por sí solos el efecto del entrenamiento.
 
 ---
 
@@ -681,14 +687,14 @@ La prioridad será precisión sobre cobertura. Cero hallazgos es preferible a un
 Decisiones vigentes:
 
 - Dos personas deben poder comprender y mantener todo el sistema.
-- No se compra una GPU para la primera versión integral.
-- El entrenamiento inicial debe funcionar en CPU local.
-- El gasto externo acumulado antes del piloto tendrá un límite de 1.000 EUR.
-- El primer mes debe poder ejecutarse con un gasto de 0-100 EUR.
+- El presupuesto es ampliable por etapas según la evidencia de utilidad; el antiguo techo de 1.000 EUR deja de definir el alcance.
+- El plan concreta los escenarios de validación y sus costes, separando gasto externo y trabajo de los fundadores. Una previsión de presupuesto no autoriza contratación, compras ni consumo de servicios.
+- La inversión se prioriza en coaches, jugadores, datos válidos y evaluación longitudinal antes de automatizar más trabajo.
+- CPU local es el punto de partida. Una GPU puntual o propia sólo se considerará si una prueba demuestra su beneficio y el coste total resulta justificado; disponer de presupuesto no obliga a usarla.
 - Cada servicio adicional necesita una razón medible y un límite de coste.
-- El dinero se prioriza para datos válidos y evaluación humana, no para modelos grandes.
+- No se plantea entrenar un modelo gigante ni un LLM propio como requisito para este producto.
 
-El recurso escaso es el tiempo de desarrollo. Toda complejidad debe justificar una mejora medible sobre el baseline.
+El plan mantiene escenarios, mediciones y decisiones de inversión. Toda complejidad debe justificar una mejora medible; las horas de coaches, jugadores y fundadores se contabilizan aunque no todas impliquen un pago externo.
 
 ---
 
@@ -702,13 +708,19 @@ El recurso escaso es el tiempo de desarrollo. Toda complejidad debe justificar u
 6. Decisión y ejecución se evalúan por separado.
 7. La personalización empieza con regularización, no con fine-tuning por jugador.
 8. El catálogo integral de capacidades, datos y límites se define antes de entrenar o ampliar el corpus.
-9. Cada familia tiene contrato, elegibilidad, modelo, métricas y gate propios.
+9. Cada familia tiene contrato, elegibilidad, método de análisis evaluado —regla o modelo—, métricas y gate propios.
 10. Se comparan reglas y modelos tabulares especialistas antes de usar deep learning.
 11. FACEIT se usa como factoría offline de datos, no como dependencia del runtime web.
 12. Las demos del usuario y las de entrenamiento comparten extractor, pero no finalidad ni consentimiento.
 13. Demos, datasets y modelos no se versionan en Git.
 14. El producto puede abstenerse.
 15. Cada claim debe ser trazable a evidencia y versión.
+16. Los hechos geométricos y NAV se validan automáticamente; el humano juzga decisiones tácticas contextualizadas, no números aislados.
+17. Toda etiqueta humana entra por un dataset versionado y evaluación offline; si se usa para entrenar, el entrenamiento también es offline. Nunca actualiza producción de forma inmediata.
+18. Perfil, prioridades y prácticas forman parte del piloto desde el inicio, con alcance e incertidumbre explícitos.
+19. Cada misión define oportunidades y excepciones; no incentiva perjudicar al equipo para mejorar una métrica.
+20. Contexto declarado por el usuario, hechos de demo y evaluación humana mantienen su procedencia separada.
+21. La eficacia de una práctica se verifica aparte de la corrección del consejo y de la finalización de la tarea.
 
 ---
 
@@ -729,18 +741,20 @@ Una nueva técnica no constituye por sí sola una razón para ampliar la arquite
 
 ## 19. Definiciones de terminado
 
-### 19.1 Vertical técnico
+### 19.1 Piloto privado asistido
 
-El vertical técnico estará terminado cuando las dos primeras familias puedan:
+El piloto privado estará evaluado cuando sus capacidades priorizadas puedan:
 
 1. reconstruir una decisión causal de Mirage;
 2. comparar la acción observada con alternativas físicamente válidas;
 3. separar decisión y ejecución;
 4. abrir la evidencia correcta en el replay;
-5. calibrar incertidumbre y abstenerse;
-6. superar sus benchmarks y revisión humana congelados.
+5. expresar incertidumbre y abstenerse bajo revisión humana;
+6. construir un perfil provisional y proponer una o dos prioridades con prácticas revisadas;
+7. comprobar comprensión, aplicación, oportunidades y transferencia posterior con los criterios fijados en el plan;
+8. distinguir resultados exploratorios de los benchmarks necesarios para automatizar o publicar.
 
-Este resultado demuestra que la arquitectura funciona. No autoriza a describir StratAI como coach integral.
+El cierre registra también si la hipótesis de utilidad fue refutada o quedó inconclusa. La intervención humana debe quedar identificada; este resultado no autoriza a describir StratAI como coach integral ni como un sistema completamente automático.
 
 ### 19.2 Coach integral de Mirage
 
@@ -755,9 +769,11 @@ La primera versión del producto estará terminada cuando un usuario pueda:
 7. entender confianza, soporte y limitaciones;
 8. preguntar y repreguntar al coach sin que el LLM invente el juicio;
 9. consultar patrones construidos solo con su pasado;
-10. obtener un plan de mejora adaptado;
+10. obtener una o dos prioridades y un plan de práctica/misiones adaptado a sus capacidades, objetivos y disponibilidad;
 11. ver una abstención clara cuando la demo o los datos no permiten juzgar;
-12. recibir recomendaciones solo de familias que hayan superado su gate propio.
+12. recibir recomendaciones solo de familias que hayan superado su gate propio;
+13. comprobar la aplicación por oportunidad, incluida la ausencia de oportunidad, y consultar cómo se ajusta el plan;
+14. distinguir práctica completada de aprendizaje observado en partidas posteriores.
 
 Todas las familias deben estar representadas. Una familia puede abstenerse en un caso concreto, pero no puede omitirse del producto porque nunca se diseñó, midió o evaluó.
 

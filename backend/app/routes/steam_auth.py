@@ -9,6 +9,7 @@ import httpx
 import redis.asyncio as aioredis
 from fastapi import APIRouter, HTTPException, Request
 from starlette.responses import RedirectResponse
+from ..auth import sessions
 
 from ..config import (
     FRONTEND_URL,
@@ -156,14 +157,10 @@ async def steam_callback(request: Request, state: str) -> RedirectResponse:
     steam_id = await _verify_openid_response(request, _callback_url(state))
     username, avatar = await _load_profile(steam_id)
 
+    await sessions.session_store.revoke(request.session.get("sid"))
+    sid = await sessions.session_store.create(steam_id, username, avatar)
     request.session.clear()
-    request.session.update(
-        {
-            "steam_id": steam_id,
-            "username": username,
-            "avatar": avatar,
-        }
-    )
+    request.session["sid"] = sid
     await redis.sadd(f"{PIPELINE_NAMESPACE}:users", steam_id)
     logging.info("Steam login verified for user ending in %s", steam_id[-4:])
     return RedirectResponse(f"{FRONTEND_URL}/steam-login-success", status_code=303)
@@ -171,18 +168,19 @@ async def steam_callback(request: Request, state: str) -> RedirectResponse:
 
 @router.get("/auth/steam/status")
 async def steam_status(request: Request) -> dict[str, Any]:
-    steam_id = request.session.get("steam_id")
-    if not steam_id:
+    profile = await sessions.session_profile(request)
+    if profile is None:
         return {"authenticated": False}
     return {
         "authenticated": True,
-        "steam_id": steam_id,
-        "username": request.session.get("username", ""),
-        "avatar": request.session.get("avatar", ""),
+        "steam_id": profile["steam_id"],
+        "username": profile.get("username", ""),
+        "avatar": profile.get("avatar", ""),
     }
 
 
 @router.post("/auth/steam/logout")
 async def steam_logout(request: Request) -> dict[str, str]:
+    await sessions.session_store.revoke(request.session.get("sid"))
     request.session.clear()
     return {"message": "Sesión cerrada correctamente"}

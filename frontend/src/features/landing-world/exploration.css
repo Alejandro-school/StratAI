@@ -1,0 +1,26 @@
+/* The map owns gestures only inside its canvas; panels keep native scrolling. */
+.landing-world .world-loading{padding:24px;text-align:center}
+.landing-world .world-loading>span:not(.loading-brand){font-size:11px;line-height:1.7;color:#a5bba9;max-width:30ch}
+.landing-world .world-loading-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;max-width:calc(100vw - 40px);margin-top:12px}
+.landing-world .world-loading-actions a,.landing-world .world-loading-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;font-size:12px;border:1px solid #bbd0bd88;background:#183834;color:#d0eed5}
+.landing-world .world-loading-actions a{background:var(--mint);color:#102720;border-color:var(--mint)}
+.landing-world .world-loading-actions a:hover,.landing-world .world-loading-actions button:hover{filter:brightness(1.12)}
+.landing-world .world-stage,.landing-world .world-stage>div{touch-action:none!important}
+.landing-world .world-stage:focus-visible{outline:2px solid var(--mint);outline-offset:-4px}
+.landing-world.mode-exploring .world-stage{cursor:grab}
+.landing-world.mode-exploring .world-stage[data-dragging=true]{cursor:grabbing}
+.landing-world.feature-open .world-stage{cursor:default}
+.landing-world .flight-copy{position:absolute;left:6%;top:29%;animation:world-copy-in .7s ease-out both}
+.landing-world .flight-copy p{font-family:Rajdhani,sans-serif;font-size:clamp(38px,4vw,60px);line-height:1.1;font-weight:600;color:var(--mint)}
+.landing-world .flight-copy span{display:block;font-size:13px;line-height:1.8;color:#d1ded2;margin-top:15px}
+.landing-world .camera-tools{position:fixed;z-index:40;left:44px;bottom:130px;max-width:390px}
+.landing-world .camera-tools>p{font-size:12px;line-height:1.8;color:#e0eadb;text-shadow:0 2px 8px #071519}
+.landing-world .camera-tools>p>span{display:block;font-size:10px;color:#c6d8c7;margin-bottom:12px}
+.landing-world .camera-tools>div{display:flex;gap:1px;border:1px solid #89a79766;width:fit-content;background:#102325f5}
+.landing-world .camera-tools button{display:flex;align-items:center;justify-content:center;gap:9px;border:0;background:transparent;min-width:44px;min-height:44px;padding:10px 13px;color:#d5e4d4;font-size:11px}
+.landing-world .camera-tools button+button{border-left:1px solid #89a79733}
+.landing-world .camera-tools button:hover{background:#30503f;color:var(--mint)}
+.landing-world.mode-aerial .world-intro{animation:world-copy-in .65s ease-out both}
+@media(min-width:1900px){.landing-world .camera-tools{left:60px}.landing-world .flight-copy{left:8%}}
+@media(max-width:760px){.landing-world .camera-tools{left:22px;bottom:145px;right:20px;max-width:none}.landing-world .camera-tools>p{font-size:11px}.landing-world .camera-tools>p>span{font-size:10px;margin-bottom:8px;max-width:290px}.landing-world .camera-tools button{padding-inline:11px}.landing-world .flight-copy{left:25px;top:24%}.landing-world .world-intro{top:20%}}
+@media(max-width:390px){.landing-world .camera-tools>p>span{max-width:240px}.landing-world .camera-tools button{min-width:42px;min-height:42px;padding-inline:9px}.landing-world .camera-tools{bottom:146px}.landing-world .world-intro h1{font-size:60px}}

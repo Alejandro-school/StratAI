@@ -2,14 +2,29 @@ from datetime import datetime, timezone
 from typing import Literal, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, Response
-from pydantic import BaseModel, ConfigDict, Field
+from fastapi import APIRouter, Depends, HTTPException, Response, Request
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+from starlette.concurrency import run_in_threadpool
 
 from ..auth.dependencies import SteamUser, require_steam_user
+from ..auth.match_access import require_match_access
+from ..config import REDIS_URL
+from ..middleware.rate_limit import get_rate_limiter
 from ..middleware.security import sanitize_match_id
-from ..utils.replay_annotations import load_annotations, save_annotations
+from ..utils.replay_annotations import load_annotations, mutate_annotations, AnnotationQuotaExceeded
+from ..utils.user_aggregates import EXPORTS_PATH
 
 router = APIRouter(tags=["replay-annotations"])
+rate_limiter = get_rate_limiter(REDIS_URL)
+
+
+async def _storage_call(function, *args):
+    try:
+        return await run_in_threadpool(function, *args)
+    except AnnotationQuotaExceeded as error:
+        raise HTTPException(413, "Se ha alcanzado el límite de anotaciones.") from error
+    except (OSError, ValueError) as error:
+        raise HTTPException(503, "No se pueden acceder a las anotaciones.") from error
 
 
 class AnnotationPoint(BaseModel):
@@ -32,6 +47,13 @@ class AnnotationCreate(BaseModel):
 
 class AnnotationPatch(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
+    @model_validator(mode="before")
+    @classmethod
+    def reject_explicit_null(cls, value):
+        if isinstance(value, dict) and any(item is None for item in value.values()):
+            raise ValueError("Omit unchanged fields; annotation fields cannot be null")
+        return value
 
     start_tick: Optional[int] = Field(default=None, ge=0)
     end_tick: Optional[int] = Field(default=None, ge=0)
@@ -72,29 +94,35 @@ async def get_replay_annotations(
     match_id: str,
     user: SteamUser = Depends(require_steam_user),
 ) -> list[dict]:
-    return load_annotations(user.steam_id, _match_id(match_id))
+    safe_match_id = _match_id(match_id)
+    require_match_access(safe_match_id, user, EXPORTS_PATH)
+    return await _storage_call(load_annotations, user.steam_id, safe_match_id)
 
 
 @router.post("/match/{match_id}/replay/annotations", response_model=Annotation, status_code=201)
+@rate_limiter.limit(60, 60)
 async def create_replay_annotation(
+    request: Request,
     match_id: str,
     payload: AnnotationCreate,
     user: SteamUser = Depends(require_steam_user),
 ) -> dict:
     steam_id = user.steam_id
     safe_match_id = _match_id(match_id)
+    require_match_access(safe_match_id, user, EXPORTS_PATH)
     annotation = _model_dict(payload)
     _validate_range(annotation)
     now = datetime.now(timezone.utc).isoformat()
     annotation.update(id=str(uuid4()), created_at=now, updated_at=now)
-    annotations = load_annotations(steam_id, safe_match_id)
-    annotations.append(annotation)
-    save_annotations(steam_id, safe_match_id, annotations)
+    await _storage_call(mutate_annotations, steam_id, safe_match_id,
+                        lambda annotations: [*annotations, annotation])
     return annotation
 
 
 @router.patch("/match/{match_id}/replay/annotations/{annotation_id}", response_model=Annotation)
+@rate_limiter.limit(60, 60)
 async def update_replay_annotation(
+    request: Request,
     match_id: str,
     annotation_id: str,
     payload: AnnotationPatch,
@@ -102,29 +130,40 @@ async def update_replay_annotation(
 ) -> dict:
     steam_id = user.steam_id
     safe_match_id = _match_id(match_id)
-    annotations = load_annotations(steam_id, safe_match_id)
-    index = next((i for i, item in enumerate(annotations) if item.get("id") == annotation_id), None)
-    if index is None:
-        raise HTTPException(status_code=404, detail="Annotation not found")
-    updated = {**annotations[index], **_model_dict(payload, exclude_unset=True)}
-    _validate_range(updated)
-    updated["updated_at"] = datetime.now(timezone.utc).isoformat()
-    annotations[index] = updated
-    save_annotations(steam_id, safe_match_id, annotations)
+    require_match_access(safe_match_id, user, EXPORTS_PATH)
+    updated = {}
+
+    def update(annotations):
+        index = next((i for i, item in enumerate(annotations) if item.get("id") == annotation_id), None)
+        if index is None:
+            raise HTTPException(status_code=404, detail="Annotation not found")
+        updated.update({**annotations[index], **_model_dict(payload, exclude_unset=True)})
+        _validate_range(updated)
+        updated["updated_at"] = datetime.now(timezone.utc).isoformat()
+        annotations[index] = updated
+        return annotations
+
+    await _storage_call(mutate_annotations, steam_id, safe_match_id, update)
     return updated
 
 
 @router.delete("/match/{match_id}/replay/annotations/{annotation_id}", status_code=204)
+@rate_limiter.limit(60, 60)
 async def delete_replay_annotation(
+    request: Request,
     match_id: str,
     annotation_id: str,
     user: SteamUser = Depends(require_steam_user),
 ) -> Response:
     steam_id = user.steam_id
     safe_match_id = _match_id(match_id)
-    annotations = load_annotations(steam_id, safe_match_id)
-    remaining = [item for item in annotations if item.get("id") != annotation_id]
-    if len(remaining) == len(annotations):
-        raise HTTPException(status_code=404, detail="Annotation not found")
-    save_annotations(steam_id, safe_match_id, remaining)
+    require_match_access(safe_match_id, user, EXPORTS_PATH)
+
+    def remove(annotations):
+        remaining = [item for item in annotations if item.get("id") != annotation_id]
+        if len(remaining) == len(annotations):
+            raise HTTPException(status_code=404, detail="Annotation not found")
+        return remaining
+
+    await _storage_call(mutate_annotations, steam_id, safe_match_id, remove)
     return Response(status_code=204)

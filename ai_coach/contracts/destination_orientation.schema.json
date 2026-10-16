@@ -1,0 +1,416 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stratai.local/schemas/destination_orientation@1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_id": {
+      "const": "stratai.destination_orientation@1"
+    },
+    "rule_id": {
+      "const": "ally_site_middle_orientation@1-provisional"
+    },
+    "orientation_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidate_context_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "native_place_context_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "instance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "round_number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tick_rate": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sample_step": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "phase": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sequence",
+        "frame",
+        "tick",
+        "epoch",
+        "instance",
+        "round_number",
+        "tick_rate",
+        "sample_step",
+        "phase"
+      ]
+    },
+    "status": {
+      "enum": [
+        "hypothesis",
+        "abstain",
+        "out_of_scope"
+      ]
+    },
+    "preferred_site": {
+      "enum": [
+        "A",
+        "B",
+        null
+      ]
+    },
+    "preferred_qualification": {
+      "enum": [
+        "more_likely",
+        null
+      ]
+    },
+    "alternatives": {
+      "type": "array",
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "site": {
+            "enum": [
+              "A",
+              "B"
+            ]
+          },
+          "qualification": {
+            "const": "possible_not_excluded"
+          }
+        },
+        "required": [
+          "site",
+          "qualification"
+        ]
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "enum": [
+          "t_side_only",
+          "postplant_outside_preplant_orientation",
+          "confirmed_round_kind_excluded",
+          "round_eligibility_unknown",
+          "objective_phase_unknown_or_conflicting",
+          "ally_survivor_count_incomplete",
+          "configuration_not_covered_more_observation_required",
+          "native_source_not_materialized",
+          "map_outside_reviewed_scope",
+          "current_ally_identity_life_or_position_unavailable",
+          "current_native_place_value_unavailable",
+          "ally_site_and_middle_support_reunion_hypothesis"
+        ]
+      }
+    },
+    "observed_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "perspective_side": {
+          "enum": [
+            "T",
+            "CT"
+          ]
+        },
+        "objective_phase": {
+          "enum": [
+            "preplant",
+            "postplant",
+            "unknown"
+          ]
+        },
+        "eligibility_kind": {
+          "enum": [
+            "bomb_objective",
+            "unknown",
+            "knife",
+            "warmup"
+          ]
+        },
+        "allies": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "side": {
+              "enum": [
+                "T",
+                "CT"
+              ]
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "partial"
+              ]
+            },
+            "alive": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 5
+            },
+            "observed_alive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "observed_dead": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5
+            },
+            "unknown": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 5
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "side",
+            "status",
+            "alive",
+            "observed_alive",
+            "observed_dead",
+            "unknown",
+            "reason"
+          ]
+        },
+        "native_source_status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "native_places": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "actor_alias": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "property": {
+                "const": "m_szLastPlaceName"
+              },
+              "value_status": {
+                "enum": [
+                  "observed",
+                  "empty_string",
+                  "unset",
+                  "absent_property",
+                  "entity_unavailable",
+                  "lookup_error",
+                  "read_error",
+                  "unsupported_type",
+                  "unavailable"
+                ]
+              },
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "last_delivery": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "frame": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "tick": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "epoch": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "instance": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "round_number": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "value_status": {
+                        "enum": [
+                          "observed",
+                          "empty_string",
+                          "unset",
+                          "absent_property",
+                          "entity_unavailable",
+                          "lookup_error",
+                          "read_error",
+                          "unsupported_type",
+                          "unavailable"
+                        ]
+                      },
+                      "value": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "frame",
+                      "tick",
+                      "epoch",
+                      "instance",
+                      "round_number",
+                      "value_status",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "actor_alias",
+              "label",
+              "property",
+              "value_status",
+              "value",
+              "last_delivery"
+            ]
+          }
+        }
+      },
+      "required": [
+        "perspective_side",
+        "objective_phase",
+        "eligibility_kind",
+        "allies",
+        "native_source_status",
+        "native_places"
+      ]
+    },
+    "inference": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "basis": {
+              "const": "site_ally_as_possible_support_reunion_destination"
+            },
+            "site_ally": {
+              "type": "string"
+            },
+            "middle_ally": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "basis",
+            "site_ally",
+            "middle_ally"
+          ]
+        }
+      ]
+    },
+    "limitations": {
+      "const": [
+        "ordinal_hypothesis_not_calibrated_probability",
+        "native_place_property_not_accredited_geometric_zone",
+        "delivery_age_is_not_a_spatial_expiry_threshold",
+        "intent_and_next_action_not_observed",
+        "alternative_destination_not_excluded",
+        "route_accessibility_time_and_support_effectiveness_unverified",
+        "preparing_entry_not_assessed",
+        "only_reviewed_two_alive_site_and_middle_configuration"
+      ]
+    },
+    "prepare_entry_assessed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    }
+  },
+  "required": [
+    "schema_id",
+    "rule_id",
+    "orientation_id",
+    "candidate_context_id",
+    "native_place_context_id",
+    "cut",
+    "status",
+    "preferred_site",
+    "preferred_qualification",
+    "alternatives",
+    "reasons",
+    "observed_facts",
+    "inference",
+    "limitations",
+    "prepare_entry_assessed",
+    "training_allowed",
+    "product_supported"
+  ]
+}

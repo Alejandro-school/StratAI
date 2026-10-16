@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_preparation_objective_clock_manifest@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "decision_eligible",
+    "physical_entry_status",
+    "tactical_commitment_status",
+    "references",
+    "artifact",
+    "coverage"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_preparation_objective_clock_manifest@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[0-9a-f]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "decision_eligible": {
+      "const": false
+    },
+    "physical_entry_status": {
+      "const": "not_accredited"
+    },
+    "tactical_commitment_status": {
+      "const": "not_accredited"
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "objective_source",
+        "support_source",
+        "preparation_protocol",
+        "c4_source",
+        "clock_source"
+      ],
+      "properties": {
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "preparation_protocol": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "bytes",
+        "sha256",
+        "records"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "const": "support_preparation_objective_clock_cuts.jsonl"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "records": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "counts",
+        "matrix"
+      ],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "cuts",
+            "actor_cuts",
+            "candidates"
+          ],
+          "properties": {
+            "cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_cuts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "candidates": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "matrix": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "actor_alias",
+              "ally_alias",
+              "side",
+              "instance",
+              "epoch",
+              "candidates",
+              "both_available",
+              "fact_status_counts"
+            ],
+            "properties": {
+              "actor_alias": {
+                "type": "string",
+                "pattern": "^support-actor-[0-9a-f]{20}$"
+              },
+              "ally_alias": {
+                "type": "string",
+                "pattern": "^support-actor-[0-9a-f]{20}$"
+              },
+              "side": {
+                "enum": [
+                  "CT",
+                  "T"
+                ]
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "candidates": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "both_available": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "pause_state",
+                  "clock_state",
+                  "round_remaining_seconds",
+                  "round_clock_state",
+                  "bomb_remaining_seconds",
+                  "bomb_clock_state",
+                  "attempt_state",
+                  "attempt_remaining_seconds",
+                  "attempt_progress",
+                  "defuse_deadline_margin_seconds"
+                ],
+                "properties": {
+                  "pause_state": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "clock_state": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "round_remaining_seconds": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "round_clock_state": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "bomb_remaining_seconds": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "bomb_clock_state": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "attempt_state": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "attempt_remaining_seconds": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "attempt_progress": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "defuse_deadline_margin_seconds": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "fact_status_counts": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "self.pause_state",
+                  "self.clock_state",
+                  "self.round_remaining_seconds",
+                  "self.round_clock_state",
+                  "self.bomb_remaining_seconds",
+                  "self.bomb_clock_state",
+                  "self.attempt_state",
+                  "self.attempt_remaining_seconds",
+                  "self.attempt_progress",
+                  "self.defuse_deadline_margin_seconds",
+                  "ally.pause_state",
+                  "ally.clock_state",
+                  "ally.round_remaining_seconds",
+                  "ally.round_clock_state",
+                  "ally.bomb_remaining_seconds",
+                  "ally.bomb_clock_state",
+                  "ally.attempt_state",
+                  "ally.attempt_remaining_seconds",
+                  "ally.attempt_progress",
+                  "ally.defuse_deadline_margin_seconds"
+                ],
+                "properties": {
+                  "self.pause_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.clock_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.round_remaining_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.round_clock_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.bomb_remaining_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.bomb_clock_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.attempt_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.attempt_remaining_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.attempt_progress": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "self.defuse_deadline_margin_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.pause_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.clock_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.round_remaining_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.round_clock_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.bomb_remaining_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.bomb_clock_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.attempt_state": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.attempt_remaining_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.attempt_progress": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "ally.defuse_deadline_margin_seconds": {
+                    "type": "object",
+                    "propertyNames": {
+                      "pattern": "^(observed|unavailable|not_applicable):[a-z_]+$"
+                    },
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

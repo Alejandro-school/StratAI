@@ -1,0 +1,811 @@
+{
+  "schema_id": "stratai.ai_coach_economy_causal_state_evidence@1",
+  "date": "2026-09-05",
+  "phase": "3A",
+  "status": "complete",
+  "training_allowed": false,
+  "product_supported": false,
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "producer_passes": 1,
+    "candidate_validation_attempts": 2,
+    "canonical_validation_passes": 1,
+    "approved_bundles_read_only": 44,
+    "sources_read_only": 50,
+    "outputs_only_under_temp": true,
+    "downloads": 0,
+    "corpus_reprocessing": false,
+    "release_mutated": false,
+    "current_mutated": false,
+    "publication_or_promotion": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "approved_root_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "approval_status": "passed",
+    "map_id": "de_mirage",
+    "canonical_rounds": 24,
+    "observed_round_instances": 25,
+    "participants": 10,
+    "development_only": true
+  },
+  "versions": {
+    "candidate": "1.0.0-candidate.1",
+    "candidate_schema": "stratai.observed_economy_candidate@1",
+    "candidate_manifest": "stratai.economy_candidate_manifest@1",
+    "base_export": "3.8.0",
+    "base_parser": "v16",
+    "base_manifest": "stratai.canonical_manifest@3",
+    "catalog": "1.6.0",
+    "build_id": "working-tree-economy-3a-20260905-r1",
+    "binary_sha256": "a995b2e95815de7d47c2a372fd054a32a9e23e62aaafb53ac3c3fb8f31f14dbc",
+    "selected_source_files": 239,
+    "selected_source_inventory_sha256": "824fc6ba30d475b09a552a1d327fbb718746171fc02ab511f299146450200617",
+    "referenced_economy_configs": {
+      "legacy_prices": {
+        "version": "stratai.cs2_prices@1",
+        "sha256": "643ec4ff6e87351673d13aa8be784e4f371382ebae89dfab97fe0fe8e07fae0b",
+        "use": "reference_only_not_applied"
+      },
+      "legacy_rules": {
+        "version": "stratai.cs2_economy_rules@1",
+        "sha256": "cc9ea39fc3ede0430573bb71ffebaf1e3429e5dd42fa4a7d5ab549725ececc43",
+        "use": "reference_only_not_applied"
+      }
+    }
+  },
+  "verification": {
+    "npm_run_check_all": "passed",
+    "frontend_tests": 88,
+    "frontend_files": 23,
+    "node_passed": 14,
+    "node_skipped": 3,
+    "go": "all packages passed",
+    "backend_python_passed": 43,
+    "frontend_build": "passed",
+    "ai_coach_full_suite": {
+      "passed": 276,
+      "seconds": 54.64
+    },
+    "final_targeted_suite": {
+      "passed": 39,
+      "seconds": 3.95,
+      "reason": "canonical money envelopes fixed in independent validator"
+    },
+    "runtime_contracts": {
+      "schemas": 35,
+      "reason_codes": 19
+    },
+    "ruff_new_python": "passed",
+    "candidate_validator": {
+      "ok": true,
+      "schema_id": "stratai.economy_candidate_validation@1",
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "summary": {
+        "round_instances": 25,
+        "participants": 10,
+        "initial_snapshots": 25,
+        "freeze_snapshots": 25,
+        "end_snapshots": 25,
+        "initial_actors": 250,
+        "prepurchase_available": 77,
+        "money_observed": 748,
+        "money_zero": 47,
+        "inventory_observed": 748,
+        "execution_events": 1044,
+        "other_events": 547,
+        "prior_allied_drop_links": 0,
+        "unresolved_pickups": 1547
+      },
+      "independently_recomputed_comparisons": 460,
+      "training_allowed": false,
+      "seconds": 1.254
+    },
+    "canonical_semantic": {
+      "errors": [],
+      "seconds": 361.232
+    },
+    "documentation": {
+      "documents": 48,
+      "local_links": 207,
+      "missing": [],
+      "active_prompts": [
+        "AI_COACH_ECONOMY_CAUSAL_STATE_CLEANUP_PHASE_PROMPT.md"
+      ],
+      "preexisting_files_in_baseline": 805,
+      "changed_preexisting_files": [
+        "README.md",
+        "ai_coach/contracts/runtime_contracts.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "backend/go-service/cmd/canonical-export/main.go",
+        "backend/go-service/models/context.go",
+        "backend/go-service/parser/parser.go",
+        "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+        "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "docs/README.md",
+        "docs/ai-coach-validation.md",
+        "docs/archive/ai-coach/README.md",
+        "docs/prompts/AI_COACH_ECONOMY_CAUSAL_STATE_PHASE_PROMPT.md"
+      ],
+      "unexpected_preexisting_changes": [],
+      "previous_evidence_files": 15,
+      "previous_evidence_unchanged": true,
+      "catalog_unchanged": true,
+      "temporary_interface_unchanged": true
+    },
+    "git_diff_check": "passed",
+    "operational_closure_documentation": {
+      "documents": 48,
+      "local_links": 208,
+      "missing_links": 0,
+      "active_prompts": 1,
+      "git_diff_check": "passed",
+      "functional_tests_repeated": false
+    }
+  },
+  "validator_correction": {
+    "first_attempt": "rejected canonical money envelopes due to incorrect scalar assumption",
+    "correction": "read amount/status from the existing 3.8 envelope and update regression fixture",
+    "producer_changed": false,
+    "artifacts_changed": false,
+    "final_validation": "same already-generated demo output passed after targeted tests"
+  },
+  "commands": {
+    "working_directory": "backend/go-service",
+    "build": "go build -o 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3a-work-1iloxh8s\\canonical-export.exe' ./cmd/canonical-export",
+    "producer": "& (Join-Path $taskWork 'canonical-export.exe') --demo $approvedDemo --output $economyRunRoot --alias $sourceAlias --checksum $sourceSHA256 --maps-root ../data/maps --build-id working-tree-economy-3a-20260905-r1 --ai-coach-economy-candidate",
+    "bindings": {
+      "sourceAlias": "demo-a11eb0d600ee702c9edb",
+      "sourceSHA256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "economyRunRoot": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3a-smoke-04feac4db16b4a529ce3d804247665f8",
+      "taskWork": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3a-work-1iloxh8s",
+      "approvedDemo": "Local approved source resolved by the SHA-256 above; original match filename is not retained"
+    },
+    "tests": [
+      "npm run check:all",
+      "backend/venv/Scripts/python.exe -B -m pytest ai_coach/tests -q",
+      "backend/venv/Scripts/python.exe -B -m pytest ai_coach/tests/test_economy_candidate.py ai_coach/tests/test_contract.py ai_coach/tests/test_spatial_review_protocol.py -q",
+      "backend/venv/Scripts/python.exe -B -m ai_coach.contracts.validate_contract",
+      "backend/venv/Scripts/python.exe -m ruff check ai_coach/contracts/validate_economy_candidate.py ai_coach/tests/test_economy_candidate.py"
+    ],
+    "independent_validator": "validate_candidate(root / \"economy_candidate_manifest.json\", expected_sha256=sha, require_observed=True)",
+    "canonical_validator": "validate_direct_bundle(root / (\"match_\" + alias), alias, sha)",
+    "validator_driver": "backend/venv/Scripts/python.exe -B C:/Users/kerch/AppData/Local/Temp/stratai-3a-work-1iloxh8s/inspect_smoke.py"
+  },
+  "durations_seconds": {
+    "producer": 88.355,
+    "candidate_validation": 1.254,
+    "canonical_validation": 361.232
+  },
+  "coverage": {
+    "initial_abstentions": {
+      "observed_at_round_start_without_prior_activity": 77,
+      "activity_at_or_before_initial": 173
+    },
+    "event_attributions": {
+      "pickup:purchase_or_pickup_unresolved": 1547,
+      "refund:callback_only": 44
+    },
+    "native_context_coverage": {
+      "mp_buytime:observed": 75,
+      "mp_freezetime:observed": 75,
+      "mp_maxmoney:unavailable": 75,
+      "mp_maxrounds:observed": 75,
+      "mp_overtime_enable:observed": 75,
+      "mp_startmoney:observed": 75,
+      "score_CT:observed": 75,
+      "score_T:observed": 75
+    },
+    "native_actor_coverage": {
+      "armor:observed": 748,
+      "buy_zone:observed": 748,
+      "equipment_value_native:observed": 748,
+      "helmet:observed": 748,
+      "inventory:observed": 748,
+      "kit:observed": 748,
+      "money:observed": 748,
+      "spent_native:observed": 748,
+      "armor:unavailable": 2,
+      "buy_zone:unavailable": 2,
+      "equipment_value_native:unavailable": 2,
+      "helmet:unavailable": 2,
+      "inventory:unavailable": 2,
+      "kit:unavailable": 2,
+      "money:unavailable": 2,
+      "spent_native:unavailable": 2
+    },
+    "comparison_results": {
+      "equal": 460
+    },
+    "complete_prebuy_team_opportunities": 5,
+    "duplicate_inventory_owners": [],
+    "round_numbers": [
+      1,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "opaque_initial_examples": [
+      {
+        "instance": 1,
+        "side": "CT",
+        "t0_tick": 1,
+        "actors": [
+          {
+            "alias": "p0001",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0004",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0007",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0008",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0009",
+            "money": 0,
+            "inventory_count": 1
+          }
+        ]
+      },
+      {
+        "instance": 1,
+        "side": "T",
+        "t0_tick": 1,
+        "actors": [
+          {
+            "alias": "p0002",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0003",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0005",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0006",
+            "money": 0,
+            "inventory_count": 1
+          },
+          {
+            "alias": "p0010",
+            "money": 0,
+            "inventory_count": 1
+          }
+        ]
+      }
+    ],
+    "complete_teams_with_repeated_round_number": 4,
+    "complete_teams_with_unambiguous_round_number": 1,
+    "complete_team_state_is_not_decision_eligibility": true
+  },
+  "variants": {
+    "real": [
+      "signed/unsigned native money/equipment properties",
+      "true zero money and false flags",
+      "missing/disconnected actor properties",
+      "missing mp_maxmoney",
+      "refund callbacks",
+      "pickups at/after initial capture and outside freeze",
+      "retained inventories and side switch",
+      "two instances with displayed round number 1"
+    ],
+    "fixtures_only": [
+      "prior allied drop reference and reference consumption",
+      "malformed native sentinel/type",
+      "future-fact and opponent isolation",
+      "false/rehashed reconciliation",
+      "unsafe outputs and links/junctions"
+    ]
+  },
+  "protected_assets": {
+    "before": {
+      "approved_bundles": 44,
+      "source_files": 50,
+      "files": 4356,
+      "hashed_files": 181,
+      "bytes": 42372398910,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+      "seconds": 4.87
+    },
+    "after": {
+      "approved_bundles": 44,
+      "source_files": 50,
+      "files": 4356,
+      "hashed_files": 181,
+      "bytes": 42372398910,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+      "seconds": 1.6,
+      "unchanged": true
+    },
+    "comparison": "All selected file paths, sizes and mtimes; hashes for 181 control files including approved manifests, source demo and every release file. Other artifact bodies were not rehashed after the smoke.",
+    "previous_evidence_files": 15,
+    "previous_evidence_unchanged": true,
+    "catalog_unchanged": true,
+    "spatial_1b12_temporaries": "untouched; previous operational debt remains"
+  },
+  "temporary_output": {
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3a-smoke-04feac4db16b4a529ce3d804247665f8",
+    "files": 75,
+    "bytes": 736832581,
+    "artifacts": [
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/economy_candidate_manifest.json",
+        "bytes": 997,
+        "sha256": "04ec5a224c70ddd4b4c837a1cbcf3bf70f9b1e2bad88da5cc4bc583017e281e1"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/decision_features.jsonl",
+        "bytes": 943125,
+        "sha256": "f7aecaf6e422fcf40881939321dd5252f2ec9c846fb996a0cf955b5e76f6093c"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/decisions.jsonl",
+        "bytes": 748167,
+        "sha256": "71b9b12adbfae51a3e0a0829d9447572eddef9d884e278e06fda35fbd5a320f3"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/oracle_context.jsonl",
+        "bytes": 300787,
+        "sha256": "d064f5095d1919b799e11c830a5794480992319af5eeb00e4e3b8d6a16591fd0"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/outcomes.jsonl",
+        "bytes": 708197,
+        "sha256": "1a695b21cf1e2730484b24a30459ac01144c9527a334fa0ea9a07f61de0a62fe"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/quality_masks.jsonl",
+        "bytes": 633103,
+        "sha256": "f73b62a72f9691a98f4a9468c220c8a41c7a0b48f70f540a48fda891f9d7edb8"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/match.json",
+        "bytes": 518,
+        "sha256": "58abe622323076c3f5dd3141a39af2ef20ae787279a22e1b210b2788a83d3cd5"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/match_metadata.json",
+        "bytes": 3111,
+        "sha256": "b3926d8b69c01063aae6263f45992c31803667095900cb970e803d31f3fe7ad2"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/participants.json",
+        "bytes": 1690,
+        "sha256": "5b7260c9c683284c70860b31fa86d4d4220cd211552ae9e921c1bf46998e18a0"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/rounds.json",
+        "bytes": 31617,
+        "sha256": "9d91425d55b922d710f5c5f6efe415bc0c15282df878ad440a8445552bd483b1"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/clutch_events.json",
+        "bytes": 20236,
+        "sha256": "d3dd0af96d9db07aa94d1ca86367f0ee25ef60fc79d0d35f1f6cfd241e2d3ca1"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/economy_players.json",
+        "bytes": 2431113,
+        "sha256": "99c77dbbac7150a9a145b1e5c13cf4809d1830f8c08107c1b002bc0b65f225f5"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/economy_rounds.json",
+        "bytes": 143948,
+        "sha256": "282fee3457a3164d16fbe1ba197aacb2ee6a04915f3bca6b40c9d4b20dbc28e1"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/engagements.json",
+        "bytes": 2407877,
+        "sha256": "d2d937d917bcbe5a5181ff636a9deaef07e5358fec5a8759424e5c9b1606fd5e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/player_stats.json",
+        "bytes": 76949,
+        "sha256": "e1893fc9c785f94bc283d720a986bdcec92f894e011aa5ae09a663071559ffc6"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/trades.json",
+        "bytes": 940410,
+        "sha256": "8f72c8b3a981211221eb8df7af96258d58b07442e8e1272561da44ddd7df2e1d"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/diagnostics/quality_report.json",
+        "bytes": 41022,
+        "sha256": "a441b0bde3a0dc5864a25c277f79e3c9cfe3de03402a79a57ddb667704eea4d6"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/events/combat_events.jsonl",
+        "bytes": 28186495,
+        "sha256": "38e32a9fe52721f36cfe4cd34d7a19c51f11a953d5560a852b46e6f0f08f7001"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/events/objective_events.jsonl",
+        "bytes": 84844,
+        "sha256": "10133351f5519724c81aa70bdb9671e8b7415c56a6b857a2954f1872a5c2c6cd"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/events/utility_events.jsonl",
+        "bytes": 7628563,
+        "sha256": "cad3638efdf4adc004d8a3716ec48cdf73020dd6fac3f5d6facd274fe190565b"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+        "bytes": 33471,
+        "sha256": "2f36d303cf05839289bfcb376fb4d5a7ff6b2619456f15f8712edfcdd0296edf"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/index.json",
+        "bytes": 913078,
+        "sha256": "c245787ec38578462f48771f15a80bbf99f393267ba053995f25409b96e14624"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_001.json.gz",
+        "bytes": 162747,
+        "sha256": "3fe79f8a8d5bd7b3f60dbdf40c7e983ffcad42e489ff11262fb5b6d6a147cf1a"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_002.json.gz",
+        "bytes": 213506,
+        "sha256": "e338e282a4382255a7cadc805d33ca07b468367822262b3ca858d20ee4bc9079"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_003.json.gz",
+        "bytes": 233568,
+        "sha256": "0bab0f7cbd377d2722dd077653fa30c2f28bf5db8db070acd9cd0270ef095aa2"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_004.json.gz",
+        "bytes": 180300,
+        "sha256": "6bcb21328aff54660ef8d05d84793ef81d5057c95cd72312618fc73154d14566"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_005.json.gz",
+        "bytes": 222234,
+        "sha256": "ad622ac68deb114ccbbddf7cab26d306830bfa06b7c2eaae1a5e9f223ccde8f3"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_006.json.gz",
+        "bytes": 212890,
+        "sha256": "722843c30c56e9ed796fdad2600525478cbefa26874e13209a8cadf8d15524a1"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_007.json.gz",
+        "bytes": 362678,
+        "sha256": "08590d83388196d4868fb484d239b1310c98d1113ba2b0efcd38d7380a0af4cf"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_008.json.gz",
+        "bytes": 462706,
+        "sha256": "c512ab2614ba76449006873f863e6cee02410ceb9393d95f5cd776a029aabada"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_009.json.gz",
+        "bytes": 249116,
+        "sha256": "6227f1b638614bcb683514bd31a19b6aa1b73576e10db16202c3cfe3181f1b64"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_010.json.gz",
+        "bytes": 205254,
+        "sha256": "3ec9a6a84edad3e92a9cd8eb6bc031a2e1eb3e84a92d2b97a024492964dfae02"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_011.json.gz",
+        "bytes": 354267,
+        "sha256": "88cb9d581954bde20b80994f12962deaa768e1f9dd52f981288bb103ea1460d2"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_012.json.gz",
+        "bytes": 289052,
+        "sha256": "b84976d2001a8bcfc0202f2059e1da5f6b1959185ed2ef0667b7fd6b0337011c"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_013.json.gz",
+        "bytes": 94892,
+        "sha256": "63829342a74264f88e4ecbe9002f268d3dcdee981558b05dc204dc77a2e3a4e3"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_014.json.gz",
+        "bytes": 231343,
+        "sha256": "b274472dcaaf7c1f57926bf9c3d02fa33944f250db2312061af6eccfcb506d36"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_015.json.gz",
+        "bytes": 218248,
+        "sha256": "bfb52cf53f6ca1b0b46990ea2e171731eb7e3ac07e7cf1e00fea2a3920c6c2e1"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_016.json.gz",
+        "bytes": 121284,
+        "sha256": "d6faace8be32c151f08e447b30452f3c01251cb08a3a39b7c815977e7bcbd2b7"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_017.json.gz",
+        "bytes": 155697,
+        "sha256": "881d6426b3a5057b7bed785bf33b8cee3a36ad13ae01a62aafe4447bd8045652"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_018.json.gz",
+        "bytes": 199997,
+        "sha256": "45a9ba636b6d36c557056411e041d9d84af1ec4aea828b92abaa5d25db133203"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_019.json.gz",
+        "bytes": 259603,
+        "sha256": "df6b72f4c35dd0e993b8ba7290e6542b05e77595842c9a1cc0c3883115ee32a2"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_020.json.gz",
+        "bytes": 443292,
+        "sha256": "a0545914a3c7f4b30d5044e021a317b73f2302d45448ce57846b12c71ee670ee"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_021.json.gz",
+        "bytes": 244502,
+        "sha256": "050ffa986538fecaef9aad8aed5feda54386ccb600a6405d817dfe36f9bfd42a"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_022.json.gz",
+        "bytes": 245569,
+        "sha256": "529ec42070ad5701c921ad755a09e4a87a23239f7b9ad3eef3f850edc0c8837a"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_023.json.gz",
+        "bytes": 414980,
+        "sha256": "9d5e195e7f122a276f25f3ca8b41958b16bd337c12c5807a63271e9744731a0c"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_024.json.gz",
+        "bytes": 199085,
+        "sha256": "049a4533d39667e5b40dbb968a80d8773bf4365cfb943d0643a6c244a8fb90cd"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_001.jsonl",
+        "bytes": 1513537,
+        "sha256": "52b355df02b25657fcf51a9e8889fae6dcf905a4be4705c5a74d6df406d5d21d"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_002.jsonl",
+        "bytes": 1105991,
+        "sha256": "9774084281375e918c2b715d75bc66e5c652e080195750244ef8979831994e06"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_003.jsonl",
+        "bytes": 1746464,
+        "sha256": "1c7f11b8112f4d71602c008a2817e262e7f8ba5b5f12cc0cc6d6698494a19b33"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_004.jsonl",
+        "bytes": 846493,
+        "sha256": "6f4fd5463e9a142f6321db456bfbeb416d09ddb2c610f2262ca5e6c200909a7e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_005.jsonl",
+        "bytes": 952450,
+        "sha256": "02dd9892c8f749f5dd49a3001420d3a42b1231de7b5e6ee40dacc449b3867c9a"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_006.jsonl",
+        "bytes": 1384698,
+        "sha256": "28acac3b4a25cff0571af2a9d95333ef369419292d0a485057a447b6e5ea8b48"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_007.jsonl",
+        "bytes": 2333422,
+        "sha256": "bf7e886420ded8495413c230796386c2162f849720bf0316bc557873f0486a5e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_008.jsonl",
+        "bytes": 3041624,
+        "sha256": "60aed38b1ba112a36fc307ef09bb0813dea6adb455f04a2a2d4abee7d1caf496"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_009.jsonl",
+        "bytes": 1627863,
+        "sha256": "9614d710935a67851562fb1d5da2be06bab11fd39a268766a5d41327afefe22e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_010.jsonl",
+        "bytes": 1097787,
+        "sha256": "530e075ce278cec598d4eae8c514759b78c8f0cf9cabf1e218f1754338a8ef0b"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_011.jsonl",
+        "bytes": 2556951,
+        "sha256": "57480454469a287bb8791d5f218718c817ef6982d7f4db0bfb275f37a3802e19"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_012.jsonl",
+        "bytes": 2429097,
+        "sha256": "0ec35ffb1f9970b738bc04191c934ca9c307d7b166374972f5173d4958aaa068"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_013.jsonl",
+        "bytes": 477073,
+        "sha256": "8cf7e4e1d05e33ef8fe5eb42e694666fbaf7006519ccad4b74a57566d6090b2a"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_014.jsonl",
+        "bytes": 1902908,
+        "sha256": "8718d94cce1abbf5265db054548a77c5a8481d424033527c0cb64aeb1d41623e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_015.jsonl",
+        "bytes": 1200579,
+        "sha256": "d001bfff2cac26f27dd44dc1d8ff413b00d4fe42fbdffdcb517a90ec9828fba7"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_016.jsonl",
+        "bytes": 546391,
+        "sha256": "d05ea7efa97272319d81df09b7bc3b5328e7944c5792fb9e8b1bb81b0966ec9b"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_017.jsonl",
+        "bytes": 661377,
+        "sha256": "47c561d050acdfddae98f24f7e870c9590f92887df39d61974d802c011e5110a"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_018.jsonl",
+        "bytes": 1290725,
+        "sha256": "0affe952395e15c00b84fd132b8b3737d0237587d9236b388b01005999e21f27"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_019.jsonl",
+        "bytes": 1604520,
+        "sha256": "d1d6a2692278d993502e4de4704336052e76bdc2ce07e15a849022e31badb3ed"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_020.jsonl",
+        "bytes": 2960473,
+        "sha256": "f8cb1b4c6707ee8f4cb7ee894eea540aeb11803d2f2ab201db82bdcb1fd81247"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_021.jsonl",
+        "bytes": 1097109,
+        "sha256": "9112b487e761a95ea73e21a5b94a8cca91b8351368c3776e9f162f88d8bdc41e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_022.jsonl",
+        "bytes": 1536741,
+        "sha256": "288d79aecbc9ddcf11aca4f64f77545a8e474e572e4d8d35ef6c5f41e3293442"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_023.jsonl",
+        "bytes": 2898340,
+        "sha256": "a8d233822395e083fa96b0d1321bb7e117528d7362dcc2ab6544bf84790ea6df"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_024.jsonl",
+        "bytes": 1134507,
+        "sha256": "3bbeb9b12ea70f2fcb23d878aa43473490ba340935db6afd139ab8e68f272504"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/gaps.jsonl",
+        "bytes": 5553259,
+        "sha256": "0fd21eaf0964fd02107d2257e46a781fee3aa382c236b42d6454f488d19e587e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/observed.jsonl.gz",
+        "bytes": 54977486,
+        "sha256": "72a4284c315f98a7520834486540dbcecd55d279747be1cf2f3dc2a32abab09e"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/oracle.jsonl",
+        "bytes": 584552932,
+        "sha256": "cfcace60b0a47e9d25f9be9ee09e352807b6d173445e1814fb1b4ac3c78a272b"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/sampling.json",
+        "bytes": 427,
+        "sha256": "a8690d195afba0e8c455f0929d9e5d48a2340ed59ba8d51ef87ee1977544e976"
+      },
+      {
+        "path": "smoke_run_demo-a11eb0d600ee702c9edb/observed_economy_candidate.json",
+        "bytes": 1545229,
+        "sha256": "fed55c5f3a7c53564ed81bbadd5148a247e9496d956a99b94ddc2f638c4d8b43"
+      }
+    ]
+  },
+  "temporary_output_cleanup": {
+    "status": "verified_absent",
+    "verified_at_utc": "2026-09-05 13:29:50 UTC",
+    "still_present": false,
+    "files": 0,
+    "bytes": 0,
+    "original_files": 75,
+    "original_bytes": 736832581,
+    "evidence_recorded_before_cleanup": true,
+    "removal_executed_by_agent": false,
+    "removal_actor": "not_observed",
+    "repeat_parse_to_resolve_cleanup": false,
+    "prior_blocked_state": {
+      "status": "blocked_by_automatic_approval_review",
+      "reason": "blocked by policy",
+      "action": "Remove-Item -LiteralPath (exact new 3A smoke directory) -Recurse -Force",
+      "command_executed": false,
+      "evidence_recorded_before_cleanup": true,
+      "pre_attempt_evidence_sha256": "8cb579a61aa29fb9c5abf36e21130963dc1ba4042d988ee1442d4128c385784d",
+      "still_present": true,
+      "files": 75,
+      "bytes": 736832581,
+      "repeat_parse_to_resolve_cleanup": false
+    },
+    "rechecks": [
+      {
+        "recorded_at_utc": "2026-09-05 13:25:16 UTC",
+        "trigger": "User requested execution of the next planned step",
+        "precheck_evidence_sha256": "7e177867fa9c286030c7cf520b4f59c8f7d5fcbe96ac94e09a088a942e6d3426",
+        "resolved_exact_temporary_target": true,
+        "ancestor_and_descendant_links": false,
+        "files": 75,
+        "bytes": 736832581,
+        "artifact_hashes_verified": 75,
+        "command": "Remove-Item -LiteralPath 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3a-smoke-04feac4db16b4a529ce3d804247665f8' -Recurse -Force -ErrorAction Stop",
+        "command_executed": false,
+        "result": "rejected_by_automatic_approval_review",
+        "reason": "blocked by policy",
+        "postcheck_still_present": true,
+        "postcheck_files": 75,
+        "postcheck_bytes": 736832581,
+        "producer_or_smoke_repeated": false,
+        "spatial_1b12_temporaries_touched": false
+      },
+      {
+        "recorded_at_utc": "2026-09-05 13:29:50 UTC",
+        "parent_accessible": true,
+        "target_exists": false,
+        "matching_parent_entries": 0,
+        "command_executed": false,
+        "result": "absence_verified",
+        "removed_by_agent": false,
+        "removal_actor": "not_observed",
+        "removal_time": "not_observed",
+        "producer_or_smoke_repeated": false,
+        "precheck_evidence_sha256": "c643e7baaf67c4227f1da3b9ce3f94784d8a616f8f86ee3a073c86078a4c59be"
+      }
+    ]
+  },
+  "next_measured_blocker": "Improve causal initial coverage and prove competitive round-instance correspondence before economic comparisons.",
+  "next_action": "Execute 3B: improve causal initial coverage and prove competitive round-instance correspondence; prompt prepared, functional work not started."
+}

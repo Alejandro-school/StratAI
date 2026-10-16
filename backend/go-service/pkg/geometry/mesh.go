@@ -56,24 +56,31 @@ func (box AABB) Intersects(origin, dir r3.Vector, maxDist float64) bool {
 
 	for i := 0; i < 3; i++ {
 		var invD, t0, t1 float64
-		var minVal, maxVal, originVal float64
+		var minVal, maxVal, originVal, direction float64
 
 		if i == 0 {
-			invD = 1.0 / dir.X
+			direction = dir.X
 			minVal = box.Min.X
 			maxVal = box.Max.X
 			originVal = origin.X
 		} else if i == 1 {
-			invD = 1.0 / dir.Y
+			direction = dir.Y
 			minVal = box.Min.Y
 			maxVal = box.Max.Y
 			originVal = origin.Y
 		} else {
-			invD = 1.0 / dir.Z
+			direction = dir.Z
 			minVal = box.Min.Z
 			maxVal = box.Max.Z
 			originVal = origin.Z
 		}
+		if direction == 0 {
+			if originVal < minVal || originVal > maxVal {
+				return false
+			}
+			continue
+		}
+		invD = 1.0 / direction
 
 		t0 = (minVal - originVal) * invD
 		t1 = (maxVal - originVal) * invD
@@ -89,7 +96,9 @@ func (box AABB) Intersects(origin, dir r3.Vector, maxDist float64) bool {
 			tMax = t1
 		}
 
-		if tMax <= tMin {
+		// A triangle's bounding box can have zero thickness. Equality is a
+		// valid box hit; the exact triangle test decides obstruction afterwards.
+		if tMax < tMin {
 			return false
 		}
 	}
@@ -187,6 +196,18 @@ func CalculateBounds(triangles []Triangle) AABB {
 
 // LoadGLTF loads a .gltf or .glb file and returns a Mesh
 func LoadGLTF(path string) (*Mesh, error) {
+	return loadGLTF(path, false)
+}
+
+// LoadReplayVisionGLTF includes ordinary opaque world surfaces. The legacy
+// collision profile is retained for frozen canonical/support producers.
+// Glass, chainlink and movement/grenade-only clips are not opaque vision walls.
+// This remains a static-geometry estimate, not native player perception.
+func LoadReplayVisionGLTF(path string) (*Mesh, error) {
+	return loadGLTF(path, true)
+}
+
+func loadGLTF(path string, replayVision bool) (*Mesh, error) {
 	doc, err := gltf.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open gltf: %w", err)
@@ -204,17 +225,24 @@ func LoadGLTF(path string) (*Mesh, error) {
 		"passbullets", // explicitly blocks bullets
 		"window",      // glass/windows
 	}
+	include := func(name string) bool {
+		name = strings.ToLower(name)
+		if replayVision {
+			return strings.HasPrefix(name, "physics_group") &&
+				!strings.Contains(name, "glass") && !strings.Contains(name, "chainlink")
+		}
+		for _, group := range includeGroups {
+			if strings.Contains(name, group) {
+				return true
+			}
+		}
+		return false
+	}
 
 	for _, mesh := range doc.Meshes {
 		// Check if mesh name matches any of our included groups
 		meshName := strings.ToLower(mesh.Name)
-		meshIncluded := false
-		for _, group := range includeGroups {
-			if strings.Contains(meshName, group) {
-				meshIncluded = true
-				break
-			}
-		}
+		meshIncluded := include(meshName)
 
 		for _, primitive := range mesh.Primitives {
 			// We only support TRIANGLES (mode 4)
@@ -228,12 +256,7 @@ func LoadGLTF(path string) (*Mesh, error) {
 				matIdx := int(*primitive.Material)
 				if matIdx < len(doc.Materials) {
 					matName := strings.ToLower(doc.Materials[matIdx].Name)
-					for _, group := range includeGroups {
-						if strings.Contains(matName, group) {
-							shouldInclude = true
-							break
-						}
-					}
+					shouldInclude = include(matName)
 				}
 			}
 
@@ -357,6 +380,9 @@ func LoadGLTF(path string) (*Mesh, error) {
 	}
 
 	// Build BVH
+	if replayVision && len(triangles) == 0 {
+		return nil, fmt.Errorf("no opaque world triangles for replay vision")
+	}
 	fmt.Println("Building BVH...")
 	bvhRoot := BuildBVH(triangles, 0)
 	fmt.Println("BVH Built.")

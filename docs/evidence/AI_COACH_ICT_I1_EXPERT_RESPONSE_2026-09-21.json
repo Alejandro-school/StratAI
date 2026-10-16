@@ -1,0 +1,28 @@
+{
+  "id": "ICT-I1-EXPERT-RESPONSE-20260921",
+  "date": "2026-09-21",
+  "author": "user_expert",
+  "source": "project_conversation",
+  "kind": "general_contextual_criteria",
+  "question": "Si interpretábamos que el equipo iba a entrar en B, pero algunos jugadores se detienen o retroceden, ¿qué información mirarías para distinguir una reorganización de un verdadero cambio de plan?",
+  "literal": "Pues hay varios factores a tener en cuenta.\n\n- Puede ser porque uno de los nuestros haya visto a varios jugadores defenediendo B, por ejemplo 3 ( lo normal son 2), lo que complicaria la entrada y conviene cambiar de plan. O bien que haya tirado 3 molotovs, 3 granadas o algún indicativo de que hay 3 personas en B\n- Si todo el equipo esta en B esto no serviria, pero por ejemplo si tenemos un compañero en medio y hace una kill, es posible que convenga cambiar de ruta y contemplar aprovechar el espacio que ha dejado la persona que ha muerto.&#x20;\n- También ver la posibilidad de que sea un fake, por ejemplo, que haya 2 jugadores en B, que tiren full utilidad pero que sea una forma de los CT roten y dejar el punto de A mas facil de acceder.&#x20;\n- Se podría también valorar en caso de que una persona que esta intentando coger información lo maten los CT. Y eso haga que se intente cambiar de plan.",
+  "literal_encoding_note": "Se conservan los caracteres, erratas y entidades &#x20; recibidos. El Excel decodifica únicamente esas dos entidades de espacio para presentación, sin corregir palabras.",
+  "exposure": "User saw the known K1/K2 development material, prior questions and the ICT-I1 proposal; this is open design framing, not blind evaluation.",
+  "new_real_demo_case": false,
+  "machine_detected_events": false,
+  "factors": [
+    {"id": "ICT-I1-E01", "literal": "Puede ser porque uno de los nuestros haya visto a varios jugadores defenediendo B, por ejemplo 3 ( lo normal son 2), lo que complicaria la entrada y conviene cambiar de plan. O bien que haya tirado 3 molotovs, 3 granadas o algún indicativo de que hay 3 personas en B"},
+    {"id": "ICT-I1-E02", "literal": "Si todo el equipo esta en B esto no serviria, pero por ejemplo si tenemos un compañero en medio y hace una kill, es posible que convenga cambiar de ruta y contemplar aprovechar el espacio que ha dejado la persona que ha muerto.&#x20;"},
+    {"id": "ICT-I1-E03", "literal": "También ver la posibilidad de que sea un fake, por ejemplo, que haya 2 jugadores en B, que tiren full utilidad pero que sea una forma de los CT roten y dejar el punto de A mas facil de acceder.&#x20;"},
+    {"id": "ICT-I1-E04", "literal": "Se podría también valorar en caso de que una persona que esta intentando coger información lo maten los CT. Y eso haga que se intente cambiar de plan."}
+  ],
+  "scope_limits": {
+    "user_supplied_four_possible_factors": true,
+    "exhaustive_decision_policy": false,
+    "universal_numeric_thresholds_agreed": false,
+    "tactical_quality_or_best_route_approved": false,
+    "independent_evaluation": false,
+    "known_K1_K2_readings_changed": false,
+    "new_factual_source_provided": false
+  }
+}

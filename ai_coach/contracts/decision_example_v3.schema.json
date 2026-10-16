@@ -1,0 +1,1099 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.ai_coach_decision_example@3",
+  "title": "DecisionExample",
+  "contract_version": "3.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "example_id",
+    "decision_family",
+    "join_keys",
+    "t0_tick",
+    "observed",
+    "oracle",
+    "outcomes",
+    "historical_profile",
+    "references",
+    "evidence",
+    "candidate_version",
+    "training_allowed",
+    "map_id",
+    "spatial_evidence"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.ai_coach_decision_example@3"
+    },
+    "contract_version": {
+      "const": "3.0.0"
+    },
+    "example_id": {
+      "type": "string",
+      "pattern": "^decision-[0-9a-f]{64}$"
+    },
+    "decision_family": {
+      "enum": [
+        "spacing_or_trade_connection",
+        "peek_hold_or_reposition"
+      ]
+    },
+    "join_keys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "match_id",
+        "decision_id",
+        "round_number",
+        "actor_player_id",
+        "observed_state_ref"
+      ],
+      "properties": {
+        "match_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_id": {
+          "type": "string",
+          "pattern": "^decision-[0-9a-f]{64}$"
+        },
+        "round_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "actor_player_id": {
+          "type": "string",
+          "pattern": "^participant-[0-9]{3}$"
+        },
+        "observed_state_ref": {
+          "type": "string",
+          "pattern": "^state-[0-9a-f]{64}$"
+        }
+      }
+    },
+    "t0_tick": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed": {
+      "$ref": "#/$defs/observedPartition"
+    },
+    "oracle": {
+      "$ref": "#/$defs/oraclePartition"
+    },
+    "outcomes": {
+      "$ref": "#/$defs/outcomePartition"
+    },
+    "historical_profile": {
+      "$ref": "#/$defs/profilePartition"
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_action",
+        "outcome",
+        "quality"
+      ],
+      "properties": {
+        "observed_action": {
+          "$ref": "#/$defs/artifactReference"
+        },
+        "outcome": {
+          "$ref": "#/$defs/artifactReference"
+        },
+        "quality": {
+          "$ref": "#/$defs/artifactReference"
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "$ref": "#/$defs/artifactReference"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "candidate_version": {
+      "const": "3.9.0-candidate.2"
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "map_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spatial_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+        "FLD-GEOMETRIC-OCCLUSION",
+        "FLD-NAV-EXIT-PATH"
+      ],
+      "properties": {
+        "FLD-GEOMETRIC-CLEARANCE-SECTORS": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "sample_tick",
+            "row_reference",
+            "provenance",
+            "package",
+            "units"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "present",
+                "missing",
+                "null"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sample_tick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "row_reference": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/artifactReference"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "package": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason_codes",
+                "contract_version",
+                "asset_version",
+                "package_sha256",
+                "geometry_revision",
+                "product_supported"
+              ],
+              "properties": {
+                "status": {
+                  "const": "available"
+                },
+                "reason_codes": {
+                  "const": []
+                },
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "asset_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "package_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "geometry_revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "product_supported": {
+                  "const": false
+                }
+              }
+            },
+            "units": {
+              "const": {
+                "position": "world_units",
+                "distance": "world_units",
+                "angle": "degrees",
+                "time": "milliseconds"
+              }
+            }
+          }
+        },
+        "FLD-GEOMETRIC-OCCLUSION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "sample_tick",
+            "row_reference",
+            "provenance",
+            "package",
+            "units"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "present",
+                "missing",
+                "null"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sample_tick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "row_reference": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/artifactReference"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "package": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason_codes",
+                "contract_version",
+                "asset_version",
+                "package_sha256",
+                "geometry_revision",
+                "product_supported"
+              ],
+              "properties": {
+                "status": {
+                  "const": "available"
+                },
+                "reason_codes": {
+                  "const": []
+                },
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "asset_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "package_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "geometry_revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "product_supported": {
+                  "const": false
+                }
+              }
+            },
+            "units": {
+              "const": {
+                "position": "world_units",
+                "distance": "world_units",
+                "angle": "degrees",
+                "time": "milliseconds"
+              }
+            }
+          }
+        },
+        "FLD-NAV-EXIT-PATH": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "sample_tick",
+            "row_reference",
+            "provenance",
+            "package",
+            "units",
+            "diagnostic"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "missing",
+                "null"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "sample_tick": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "row_reference": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/artifactReference"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "provenance": {
+              "type": [
+                "object",
+                "null"
+              ]
+            },
+            "package": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "reason_codes",
+                "contract_version",
+                "asset_version",
+                "package_sha256",
+                "geometry_revision",
+                "product_supported"
+              ],
+              "properties": {
+                "status": {
+                  "const": "available"
+                },
+                "reason_codes": {
+                  "const": []
+                },
+                "contract_version": {
+                  "const": "1.0.0"
+                },
+                "asset_version": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "package_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "geometry_revision": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "product_supported": {
+                  "const": false
+                }
+              }
+            },
+            "units": {
+              "const": {
+                "position": "world_units",
+                "distance": "world_units",
+                "angle": "degrees",
+                "time": "milliseconds"
+              }
+            },
+            "diagnostic": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "scope",
+                "status",
+                "reason_codes",
+                "values"
+              ],
+              "properties": {
+                "scope": {
+                  "const": "partial_nav_graph"
+                },
+                "status": {
+                  "enum": [
+                    "present",
+                    "missing",
+                    "null"
+                  ]
+                },
+                "reason_codes": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "values": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "maxProperties": 0
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "sample",
+                        "candidates",
+                        "posture_context"
+                      ],
+                      "properties": {
+                        "sample": {
+                          "$ref": "#/$defs/nav_sample_fact"
+                        },
+                        "candidates": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/nav_candidate"
+                          }
+                        },
+                        "posture_context": {
+                          "$ref": "#/$defs/nav_posture"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "availabilityBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "availability_tick",
+        "status",
+        "values"
+      ],
+      "properties": {
+        "availability_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "derived",
+            "inferred",
+            "unavailable"
+          ]
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "observedPartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "referenced_state",
+        "tactical_state",
+        "context",
+        "quality",
+        "spatial_facts"
+      ],
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "referenced_state": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "tactical_state": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "context": {
+          "$ref": "#/$defs/availabilityBlock"
+        },
+        "quality": {
+          "type": "object"
+        },
+        "spatial_facts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "FLD-GEOMETRIC-CLEARANCE-SECTORS",
+            "FLD-GEOMETRIC-OCCLUSION",
+            "FLD-NAV-EXIT-PATH"
+          ],
+          "properties": {
+            "FLD-GEOMETRIC-CLEARANCE-SECTORS": {
+              "$ref": "#/$defs/availabilityBlock"
+            },
+            "FLD-GEOMETRIC-OCCLUSION": {
+              "$ref": "#/$defs/availabilityBlock"
+            },
+            "FLD-NAV-EXIT-PATH": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "availability_tick",
+                "status",
+                "values"
+              ],
+              "properties": {
+                "availability_tick": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "status": {
+                  "const": "unavailable"
+                },
+                "values": {
+                  "const": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "oraclePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_only",
+        "available",
+        "status",
+        "values"
+      ],
+      "properties": {
+        "audit_only": {
+          "const": true
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unavailable"
+          ]
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "outcomePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label_or_evaluation_only",
+        "outcome_tick",
+        "values"
+      ],
+      "properties": {
+        "label_or_evaluation_only": {
+          "const": true
+        },
+        "outcome_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "values": {
+          "type": "object"
+        }
+      }
+    },
+    "profilePartition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strictly_before_t0",
+        "status",
+        "values"
+      ],
+      "properties": {
+        "strictly_before_t0": {
+          "const": true
+        },
+        "status": {
+          "const": "not_materialized"
+        },
+        "values": {
+          "type": "null"
+        }
+      }
+    },
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_type",
+        "schema_id",
+        "path",
+        "line"
+      ],
+      "properties": {
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "nav_nullable_string": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "nav_sample_reason": {
+      "type": "string",
+      "enum": [
+        "map_not_registered",
+        "package_file_missing",
+        "package_hash_mismatch",
+        "contract_version_incompatible",
+        "asset_version_incompatible",
+        "map_id_mismatch",
+        "package_invalid",
+        "source_asset_mismatch",
+        "outside_declared_sample_coverage",
+        "ambiguous_sample_overlap",
+        "position_unavailable"
+      ]
+    },
+    "nav_objective_reason": {
+      "type": "string",
+      "enum": [
+        "nav_graph_unavailable",
+        "both_endpoints_outside_nav_tolerance",
+        "origin_outside_nav_tolerance",
+        "target_outside_nav_tolerance",
+        "no_navigable_connection"
+      ]
+    },
+    "nav_vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "nav_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "availability_tick",
+        "is_ducking",
+        "is_walking",
+        "is_scoped",
+        "active_weapon_status",
+        "active_weapon",
+        "horizontal_speed_status",
+        "horizontal_speed_world_units_per_second",
+        "horizontal_speed_source"
+      ],
+      "properties": {
+        "availability_tick": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "is_ducking": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_walking": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "is_scoped": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "active_weapon_status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "active_weapon": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "horizontal_speed_status": {
+          "enum": [
+            "derived",
+            "unavailable"
+          ]
+        },
+        "horizontal_speed_world_units_per_second": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "horizontal_speed_source": {
+          "$ref": "#/$defs/nav_nullable_string"
+        }
+      }
+    },
+    "nav_sample_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason_codes",
+        "sample_id",
+        "sample_alias"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nav_sample_reason"
+          }
+        },
+        "sample_id": {
+          "$ref": "#/$defs/nav_nullable_string"
+        },
+        "sample_alias": {
+          "$ref": "#/$defs/nav_nullable_string"
+        }
+      }
+    },
+    "nav_distance_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value_world_units"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "derived",
+            "unavailable"
+          ]
+        },
+        "value_world_units": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "nav_bool_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "derived",
+            "unavailable"
+          ]
+        },
+        "value": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "nav_objective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_id",
+        "direction",
+        "reason_codes",
+        "reachability",
+        "origin_association_world_units",
+        "destination_association_world_units"
+      ],
+      "properties": {
+        "field_id": {
+          "const": "FLD-NAV-EXIT-PATH"
+        },
+        "direction": {
+          "const": "origin_to_destination"
+        },
+        "reason_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/nav_objective_reason"
+          }
+        },
+        "reachability": {
+          "$ref": "#/$defs/nav_bool_fact"
+        },
+        "origin_association_world_units": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "destination_association_world_units": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "nav_scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "value_milliseconds",
+        "speed_world_units_per_second",
+        "speed_source",
+        "assumption",
+        "unavailability_reason"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "estimated",
+            "unavailable"
+          ]
+        },
+        "value_milliseconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "speed_world_units_per_second": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "speed_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assumption": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unavailability_reason": {
+          "$ref": "#/$defs/nav_nullable_string"
+        }
+      }
+    },
+    "nav_timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intended_use",
+        "user_facing_mode",
+        "decision_semantics",
+        "estimate_semantics",
+        "exact_user_facing_time_allowed",
+        "arrival_prediction",
+        "scenarios"
+      ],
+      "properties": {
+        "intended_use": {
+          "const": "internal_decision_support_only"
+        },
+        "user_facing_mode": {
+          "const": "qualitative_conditional_with_uncertainty_only"
+        },
+        "decision_semantics": {
+          "const": "constraint_signal_not_recommendation"
+        },
+        "estimate_semantics": {
+          "const": "scenario_reference_not_arrival_prediction"
+        },
+        "exact_user_facing_time_allowed": {
+          "const": false
+        },
+        "arrival_prediction": {
+          "const": false
+        },
+        "scenarios": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "optimistic_uninterrupted_250ups_baseline",
+            "active_weapon_uninterrupted_baseline",
+            "observed_pace_projection"
+          ],
+          "properties": {
+            "optimistic_uninterrupted_250ups_baseline": {
+              "$ref": "#/$defs/nav_scenario"
+            },
+            "active_weapon_uninterrupted_baseline": {
+              "$ref": "#/$defs/nav_scenario"
+            },
+            "observed_pace_projection": {
+              "$ref": "#/$defs/nav_scenario"
+            }
+          }
+        }
+      }
+    },
+    "nav_physical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "navigation_schema_id",
+        "navigation_contract_version",
+        "direct_distance",
+        "path_distance",
+        "internal_timing"
+      ],
+      "properties": {
+        "navigation_schema_id": {
+          "const": "stratai.observed_navigation_path@2"
+        },
+        "navigation_contract_version": {
+          "const": "2.0.0"
+        },
+        "direct_distance": {
+          "$ref": "#/$defs/nav_distance_fact"
+        },
+        "path_distance": {
+          "$ref": "#/$defs/nav_distance_fact"
+        },
+        "internal_timing": {
+          "$ref": "#/$defs/nav_timing"
+        }
+      }
+    },
+    "nav_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "candidate_alias",
+        "destination_world",
+        "objective_viability",
+        "physical_cost"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "pattern": "^exit-sample-[0-9]{3}/candidate-[0-9]{3}$"
+        },
+        "candidate_alias": {
+          "type": "string",
+          "minLength": 1
+        },
+        "destination_world": {
+          "$ref": "#/$defs/nav_vector"
+        },
+        "objective_viability": {
+          "$ref": "#/$defs/nav_objective"
+        },
+        "physical_cost": {
+          "$ref": "#/$defs/nav_physical"
+        }
+      }
+    }
+  }
+}

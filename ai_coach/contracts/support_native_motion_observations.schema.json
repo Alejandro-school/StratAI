@@ -1,0 +1,835 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.support_native_motion_observations@1",
+  "x-stratai-training-authorized": false,
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "references",
+    "capture_contract",
+    "observations"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "stratai.support_native_motion_observations@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_source",
+        "objective_source",
+        "c4_source",
+        "clock_source",
+        "attempt_source",
+        "position_source"
+      ],
+      "properties": {
+        "support_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "objective_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "c4_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "clock_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "attempt_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "position_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "bytes",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    },
+    "capture_contract": {
+      "const": "native_pawn_motion_deliveries_and_exact_support_cuts@1"
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deliveries",
+        "states",
+        "cuts"
+      ],
+      "properties": {
+        "deliveries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "frame",
+              "tick",
+              "entity_life",
+              "kind",
+              "property",
+              "previous",
+              "value"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "entity_life": {
+                "type": "string",
+                "pattern": "^support-motion-pawn-[0-9]{6}$"
+              },
+              "kind": {
+                "enum": [
+                  "created",
+                  "creation_replay",
+                  "update",
+                  "destroyed"
+                ]
+              },
+              "property": {
+                "type": "string"
+              },
+              "previous": {
+                "$ref": "#/$defs/scalar"
+              },
+              "value": {
+                "$ref": "#/$defs/scalar"
+              }
+            }
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sequence",
+              "first_cut",
+              "instance",
+              "epoch",
+              "entity_life",
+              "handle",
+              "class_name",
+              "created_frame",
+              "fields",
+              "field_sequences",
+              "ground",
+              "parent"
+            ],
+            "properties": {
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_cut": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "entity_life": {
+                "type": "string",
+                "pattern": "^support-motion-pawn-[0-9]{6}$"
+              },
+              "handle": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "class_name": {
+                "const": "CCSPlayerPawn"
+              },
+              "created_frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "fields": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "m_vecVelocity",
+                  "m_vecAbsVelocity",
+                  "m_vecBaseVelocity",
+                  "m_vecVelocity.m_vecX",
+                  "m_vecVelocity.m_vecY",
+                  "m_vecVelocity.m_vecZ",
+                  "m_vecAbsVelocity.m_vecX",
+                  "m_vecAbsVelocity.m_vecY",
+                  "m_vecAbsVelocity.m_vecZ",
+                  "m_vecVelocity[0]",
+                  "m_vecVelocity[1]",
+                  "m_vecVelocity[2]",
+                  "m_fFlags",
+                  "m_hGroundEntity",
+                  "m_nGroundBodyIndex",
+                  "m_MoveType",
+                  "m_nActualMoveType",
+                  "m_MoveCollide",
+                  "CBodyComponent.m_hParent",
+                  "m_hMoveParent",
+                  "m_iParentAttachment",
+                  "m_flSimulationTime",
+                  "m_nTickBase",
+                  "m_pMovementServices.m_flMaxspeed",
+                  "m_pMovementServices.m_flFallVelocity",
+                  "m_pMovementServices.m_nLastLandedTick",
+                  "m_pMovementServices.m_flLastLandedFrac",
+                  "m_pMovementServices.m_flLastLandedVelocityX",
+                  "m_pMovementServices.m_flLastLandedVelocityY",
+                  "m_pMovementServices.m_flLastLandedVelocityZ",
+                  "m_pMovementServices.m_nLastJumpTick",
+                  "m_pMovementServices.m_flLastJumpFrac",
+                  "m_pMovementServices.m_flLastJumpVelocityZ"
+                ],
+                "properties": {
+                  "m_vecVelocity": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecAbsVelocity": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecBaseVelocity": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecVelocity.m_vecX": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecVelocity.m_vecY": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecVelocity.m_vecZ": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecAbsVelocity.m_vecX": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecAbsVelocity.m_vecY": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecAbsVelocity.m_vecZ": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecVelocity[0]": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecVelocity[1]": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_vecVelocity[2]": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_fFlags": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_hGroundEntity": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_nGroundBodyIndex": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_MoveType": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_nActualMoveType": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_MoveCollide": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "CBodyComponent.m_hParent": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_hMoveParent": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_iParentAttachment": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_flSimulationTime": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_nTickBase": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flMaxspeed": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flFallVelocity": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_nLastLandedTick": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flLastLandedFrac": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flLastLandedVelocityX": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flLastLandedVelocityY": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flLastLandedVelocityZ": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_nLastJumpTick": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flLastJumpFrac": {
+                    "$ref": "#/$defs/scalar"
+                  },
+                  "m_pMovementServices.m_flLastJumpVelocityZ": {
+                    "$ref": "#/$defs/scalar"
+                  }
+                }
+              },
+              "field_sequences": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "m_vecVelocity",
+                  "m_vecAbsVelocity",
+                  "m_vecBaseVelocity",
+                  "m_vecVelocity.m_vecX",
+                  "m_vecVelocity.m_vecY",
+                  "m_vecVelocity.m_vecZ",
+                  "m_vecAbsVelocity.m_vecX",
+                  "m_vecAbsVelocity.m_vecY",
+                  "m_vecAbsVelocity.m_vecZ",
+                  "m_vecVelocity[0]",
+                  "m_vecVelocity[1]",
+                  "m_vecVelocity[2]",
+                  "m_fFlags",
+                  "m_hGroundEntity",
+                  "m_nGroundBodyIndex",
+                  "m_MoveType",
+                  "m_nActualMoveType",
+                  "m_MoveCollide",
+                  "CBodyComponent.m_hParent",
+                  "m_hMoveParent",
+                  "m_iParentAttachment",
+                  "m_flSimulationTime",
+                  "m_nTickBase",
+                  "m_pMovementServices.m_flMaxspeed",
+                  "m_pMovementServices.m_flFallVelocity",
+                  "m_pMovementServices.m_nLastLandedTick",
+                  "m_pMovementServices.m_flLastLandedFrac",
+                  "m_pMovementServices.m_flLastLandedVelocityX",
+                  "m_pMovementServices.m_flLastLandedVelocityY",
+                  "m_pMovementServices.m_flLastLandedVelocityZ",
+                  "m_pMovementServices.m_nLastJumpTick",
+                  "m_pMovementServices.m_flLastJumpFrac",
+                  "m_pMovementServices.m_flLastJumpVelocityZ"
+                ],
+                "properties": {
+                  "m_vecVelocity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecAbsVelocity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecBaseVelocity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecVelocity.m_vecX": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecVelocity.m_vecY": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecVelocity.m_vecZ": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecAbsVelocity.m_vecX": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecAbsVelocity.m_vecY": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecAbsVelocity.m_vecZ": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecVelocity[0]": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecVelocity[1]": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_vecVelocity[2]": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_fFlags": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_hGroundEntity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_nGroundBodyIndex": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_MoveType": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_nActualMoveType": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_MoveCollide": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "CBodyComponent.m_hParent": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_hMoveParent": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_iParentAttachment": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_flSimulationTime": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_nTickBase": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flMaxspeed": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flFallVelocity": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_nLastLandedTick": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flLastLandedFrac": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flLastLandedVelocityX": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flLastLandedVelocityY": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flLastLandedVelocityZ": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_nLastJumpTick": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flLastJumpFrac": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "m_pMovementServices.m_flLastJumpVelocityZ": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              },
+              "ground": {
+                "$ref": "#/$defs/reference"
+              },
+              "parent": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          }
+        },
+        "cuts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence",
+              "frame",
+              "tick",
+              "instance",
+              "epoch",
+              "clock_order",
+              "delivery_sequence",
+              "state_sequence",
+              "players"
+            ],
+            "properties": {
+              "source_sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "frame": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tick": {
+                "type": "integer"
+              },
+              "instance": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "epoch": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "clock_order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "delivery_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "state_sequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "players": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "actor_alias",
+                    "pawn_handle",
+                    "pawn_life",
+                    "state_sequence"
+                  ],
+                  "properties": {
+                    "actor_alias": {
+                      "type": "string",
+                      "pattern": "^support-actor-[a-f0-9]{20}$"
+                    },
+                    "pawn_handle": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0,
+                      "maximum": 4294967295
+                    },
+                    "pawn_life": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^support-pawn-[0-9]{6}$"
+                    },
+                    "state_sequence": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scalar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "native_type",
+        "declared_type",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "observed",
+            "absent",
+            "unsupported_type",
+            "nonfinite"
+          ]
+        },
+        "native_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "declared_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": [
+                "number",
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "handle",
+        "target_life",
+        "class_name"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "resolved",
+            "absent",
+            "unsupported_type",
+            "invalid_sentinel",
+            "entity_unavailable",
+            "serial_mismatch",
+            "kind_or_life_unavailable",
+            "destroyed"
+          ]
+        },
+        "handle": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_life": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^support-motion-reference-[0-9]{6}$"
+        },
+        "class_name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

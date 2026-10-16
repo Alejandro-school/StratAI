@@ -8,9 +8,11 @@ export default function SteamLoginSuccess() {
   const navigate = useNavigate();
   const { user, authError } = useAuth();
   const [callbackError, setCallbackError] = useState(null);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setCallbackError(null);
 
     const run = async () => {
       try {
@@ -30,33 +32,6 @@ export default function SteamLoginSuccess() {
           navigate("/history-code", { replace: true });
           return;
         }
-        if (pipeline.temporary_interface_mode) {
-          navigate("/dashboard", { replace: true });
-          return;
-        }
-
-        let friendship = null;
-        for (let attempt = 0; attempt < 6; attempt += 1) {
-          const friendRes = await fetch(`${API_URL}/steam/check-friend-status`, {
-            credentials: "include",
-            signal: controller.signal,
-          });
-          if (!friendRes.ok) throw new Error(`Friend check failed: ${friendRes.status}`);
-          friendship = await friendRes.json();
-          if (
-            friendship.is_friend
-            || (!friendship.service_down && friendship.status !== "unknown")
-          ) {
-            break;
-          }
-          await new Promise((resolve) => setTimeout(resolve, 1500));
-          if (controller.signal.aborted) return;
-        }
-        if (!friendship?.is_friend) {
-          navigate("/bot-instructions", { replace: true });
-          return;
-        }
-
         navigate("/dashboard", { replace: true });
       } catch (err) {
         if (err.name === "AbortError" || controller.signal.aborted) return;
@@ -71,12 +46,17 @@ export default function SteamLoginSuccess() {
 
     run();
     return () => controller.abort();
-  }, [authError, navigate, user]);
+  }, [authError, navigate, retry, user]);
 
   if (callbackError) {
     return (
       <div role="alert" style={{ color: "#fff", textAlign: "center", marginTop: "2rem" }}>
         <p>{callbackError}</p>
+        {user?.authenticated && !authError && (
+          <button type="button" onClick={() => setRetry((value) => value + 1)}>
+            Reintentar
+          </button>
+        )}
         <button type="button" onClick={() => navigate("/", { replace: true })}>
           Volver al inicio
         </button>

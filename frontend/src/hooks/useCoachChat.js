@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createCoachMessage } from '../utils/coachMessageTypes';
 import { mockAiCoachResponse } from '../mocks/aiCoachResponses';
+import { readCoachHistory, saveCoachHistory } from '../auth/browserPrivacy';
 
 /* ── Helper: next unique ID ── */
 const nextId = () => Date.now() + Math.random();
@@ -208,39 +209,34 @@ const buildFollowupResponse = (text) => {
    HOOK
 ══════════════════════════════════════ */
 
-const SESSION_CHAT_KEY = 'stratai_coach_chat_history';
+// History and pending replies belong to one authenticated identity.
 
 const useCoachChat = (user) => {
+  const owner = user?.steam_id || null;
   const [chatInput, setChatInput] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
-  const [messages, setMessages] = useState(() => {
-    // Lazy initialization from session storage
-    if (typeof window !== 'undefined') {
-      try {
-        const stored = sessionStorage.getItem(SESSION_CHAT_KEY);
-        if (stored) {
-          return JSON.parse(stored);
-        }
-      } catch (err) {
-        console.error('Error reading chat history from session storage:', err);
-      }
-    }
-    return [];
-  });
-
-  // Sync messages to session storage on change
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        sessionStorage.setItem(SESSION_CHAT_KEY, JSON.stringify(messages));
-      } catch (err) {
-        console.error('Error saving chat history to session storage:', err);
-      }
-    }
-  }, [messages]);
-
-  // Use ref to prevent React StrictMode double-mount from duplicating greeting
+  const [conversation, setConversation] = useState(() => ({ owner, messages: readCoachHistory(owner) }));
+  const messages = conversation.owner === owner ? conversation.messages : [];
+  const pendingReplies = useRef(new Set());
   const hasGreetedRef = useRef(false);
+  const setMessages = useCallback(update => {
+    setConversation(current => current.owner !== owner ? current : {
+      owner, messages: (typeof update === 'function' ? update(current.messages) : update).slice(-100),
+    });
+  }, [owner]);
+
+  useEffect(() => {
+    setConversation(current => current.owner === owner ? current : { owner, messages: readCoachHistory(owner) });
+    setChatInput('');
+    setIsAiTyping(false);
+    hasGreetedRef.current = false;
+    const pending = pendingReplies.current;
+    return () => { pending.forEach(cancel => cancel()); pending.clear(); };
+  }, [owner]);
+
+  useEffect(() => {
+    if (conversation.owner === owner) saveCoachHistory(owner, conversation.messages);
+  }, [conversation, owner]);
 
   const quickActions = useMemo(
     () => ['Quiero mejorar mi puntería', 'Hazme un plan de utilidad', 'Quiero ser más consistente'],
@@ -287,19 +283,22 @@ const useCoachChat = (user) => {
     }, speed);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [setMessages]);
 
   /* ── Queue multiple AI messages sequentially with typewriter ── */
   const queueAiMessages = useCallback((msgDataArray) => {
-    if (!msgDataArray.length) return;
+    if (!owner || !msgDataArray.length) return;
 
     setIsAiTyping(true);
     let idx = 0;
     const cleanups = [];
+    const cancel = () => cleanups.forEach(fn => fn?.());
+    pendingReplies.current.add(cancel);
 
     const typeNext = () => {
       if (idx >= msgDataArray.length) {
         setIsAiTyping(false);
+        pendingReplies.current.delete(cancel);
         return;
       }
 
@@ -321,12 +320,12 @@ const useCoachChat = (user) => {
     typeNext();
 
     // Return cleanup
-    return () => cleanups.forEach((fn) => fn?.());
-  }, [addAiMessageWithTyping]);
+    return cancel;
+  }, [addAiMessageWithTyping, owner]);
 
   /* ── Proactive greeting: called by Dashboard when matches load ── */
   const sendProactiveGreeting = useCallback((matches) => {
-    if (hasGreetedRef.current) return;
+    if (!owner || hasGreetedRef.current) return;
     hasGreetedRef.current = true;
 
     // Do not send greeting if we already have restored messages (user navigated back to the tab)
@@ -334,11 +333,11 @@ const useCoachChat = (user) => {
 
     const greetingMessages = buildPatternGreeting(user?.username, matches);
     queueAiMessages(greetingMessages);
-  }, [user?.username, queueAiMessages, messages.length]);
+  }, [owner, user?.username, queueAiMessages, messages.length]);
 
   /* ── Auto-analyze match: called by Dashboard when "Analizar" is clicked ── */
   const analyzeMatch = useCallback((match) => {
-    if (!match) return;
+    if (!owner || !match) return;
 
     const mapName = (match.map_name || match.map || 'mapa').replace('de_', '');
     const score = `${match.team_score ?? '?'}-${match.opponent_score ?? '?'}`;
@@ -361,12 +360,12 @@ const useCoachChat = (user) => {
     };
 
     queueAiMessages([analysisData]);
-  }, [queueAiMessages]);
+  }, [owner, queueAiMessages, setMessages]);
 
   /* ── Standard user message ── */
   const submitMessage = useCallback((value) => {
     const cleanValue = value.trim();
-    if (!cleanValue) return;
+    if (!owner || !cleanValue) return;
 
     const userMessage = createCoachMessage({
       id: nextId(),
@@ -379,13 +378,13 @@ const useCoachChat = (user) => {
 
     const responseData = buildFollowupResponse(cleanValue);
     queueAiMessages([responseData]);
-  }, [queueAiMessages]);
+  }, [owner, queueAiMessages, setMessages]);
 
   return {
     messages,
-    chatInput,
+    chatInput: conversation.owner === owner ? chatInput : '',
     setChatInput,
-    isAiTyping,
+    isAiTyping: Boolean(owner && conversation.owner === owner && isAiTyping),
     quickActions,
     submitMessage,
     sendProactiveGreeting,

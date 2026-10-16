@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_candidate_artifact@1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "descriptor_version",
+    "path",
+    "schema_id",
+    "format",
+    "compression",
+    "bytes",
+    "sha256",
+    "record_count"
+  ],
+  "properties": {
+    "descriptor_version": {
+      "const": "1.0.0"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "format": {
+      "enum": [
+        "json",
+        "jsonl"
+      ]
+    },
+    "compression": {
+      "enum": [
+        "none",
+        "gzip"
+      ]
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "record_count": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

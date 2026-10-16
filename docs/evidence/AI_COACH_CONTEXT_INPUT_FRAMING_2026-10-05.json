@@ -1,0 +1,31 @@
+{
+  "kind": "expert_cs2_framing_and_ct_product_focus",
+  "date": "2026-10-05",
+  "recorded_at_utc": "2026-10-05T07:46:04.394682+00:00",
+  "source": "User reply in this conversation to the preceding CS2 scope proposal.",
+  "literal": "Me encaja bastante bien. Para Ct realente lo único que hay que mirar es si su estrategia de defensa esta dando efecto y si no hay cambios para intentar parar las entradas de T y amoldarse a sus ataques, corregirlo. CT como tal no tiene mucha estrategia ya que es mas defensa. La IA debe saber interpretar patrones de los T y decir si la defensa esta siendo buena o no, y porque. \nEl resto de información lo veo todo correcto. Por tanto, vamos con la siguiente fase. Que debemos hacer?",
+  "literal_utf8_sha256": "9c131b23b4eeacd5490312bb9e3e1782431fd00389b67effbeb561e6d212cf88",
+  "accepted_cs2_scope": [
+    "Common factual input: frame, objective, players/distribution, resources, events and available causal history.",
+    "Per-datum source, reference, observation/availability, perspective, unknowns and conflicts.",
+    "Preserve E03 @5, other cases @9, and later native supplements separately.",
+    "Shared T/CT structure where source and perspective are accredited; no tactical inference added by the adapter."
+  ],
+  "ct_focus_attributed_to_user": "Interpret T attack patterns, explain defensive effectiveness and adaptation; correct ineffective defence when changes are justified.",
+  "user_opinion_not_automatic_taxonomy": "CT como tal no tiene mucha estrategia ya que es mas defensa.",
+  "operational_limits_attributed_to_agent": [
+    "Round outcomes can inform retrospective description but do not alone prove a good/bad defensive decision.",
+    "Individual and team legal information remain separate from spectator information.",
+    "Prescriptive correction still requires a better supported viable alternative under the product contract.",
+    "Repeated T patterns and absence of CT adaptation require comparable prior observations; no universal number of rounds or new labels is approved."
+  ],
+  "authorization": "CS2 scope is framed; its dependent implementation can proceed within that scope without asking again. This receipt only records framing.",
+  "pending_in_their_own_phases": [
+    "Specific CT tactical cases and operational criteria on real causal material.",
+    "Semantic specialist, provider/model, comparative experiment and budget.",
+    "Independent tactical evaluation, prescriptive coaching and promotion."
+  ],
+  "workbook_criterion_id": "IC40",
+  "training": false,
+  "expert_free_text_auto_labeled": false
+}

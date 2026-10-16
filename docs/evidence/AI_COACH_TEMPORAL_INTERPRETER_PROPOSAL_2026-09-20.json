@@ -1,0 +1,53 @@
+{
+  "phase": "ICT-I1 preparation",
+  "status": "proposal_ready_expert_framing_pending",
+  "proposal": {
+    "path": "docs/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md",
+    "bytes": 10708,
+    "sha256": "8842ce6e501897ead1d331a747b3003300c94c46a8f47bf60c5f7299c893d9a7"
+  },
+  "implementation_started": false,
+  "expert_criteria_received_this_phase": false,
+  "workbooks_unchanged": true,
+  "new_parsing": false,
+  "preservation": {
+    "ok": true,
+    "baseline_files": 1513,
+    "changed_existing": [
+      "README.md",
+      "ai_coach/contracts/capability_catalog.json",
+      "ai_coach/contracts/runtime_contracts.py",
+      "ai_coach/contracts/spatial_candidate.py",
+      "ai_coach/datasets/spatial_candidate.py",
+      "ai_coach/tests/test_contract.py",
+      "ai_coach/tests/test_spatial_candidate.py",
+      "ai_coach/tests/test_spatial_review_protocol.py",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/canonical-spatial-candidate-v3.9.md",
+      "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md"
+    ],
+    "unexpected_changes": [],
+    "protected_inventory_unchanged": true,
+    "HEAD_unchanged": true,
+    "staging_unchanged": true
+  },
+  "snapshots": [
+    {
+      "path": "outputs/stratai-audit-followup-20260920/proposal-closed/docs/AI_COACH_TEMPORAL_INTERPRETER_PROPOSAL.md",
+      "bytes": 10708,
+      "sha256": "8842ce6e501897ead1d331a747b3003300c94c46a8f47bf60c5f7299c893d9a7"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/proposal-closed/docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 146606,
+      "sha256": "47fdcd5445b95987add60beaf35c56c5d9b7b86ac8c0780d117701fa8b9440c4"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/proposal-closed/docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 1622,
+      "sha256": "f0085233e3a043930fcfbb8a02b4edd8f3b4ea28a72e3813b78919d1610621cc"
+    }
+  ],
+  "next_action": "Receive expert framing; preserve literal and update relevant workbook rows before dependent implementation"
+}

@@ -1,0 +1,829 @@
+{
+  "id": "ICT-D1-F01-K1-P2",
+  "date": "2026-09-17",
+  "kind": "documentary_real_case_preparation",
+  "status": "prepared_pending_human_interpretation",
+  "case_id": "F01-K1",
+  "case_version": "0.2",
+  "source": {
+    "alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "approval_reference": "docs/evidence/AI_COACH_SUPPORT_PREPARATION_VISUAL_CONTACT_SINGLE_DEMO_SMOKE_2026-09-15.json",
+    "approval_reference_sha256": "53fb488bac1c8652700a70335c35b61e25dbd652db78ceb9efd358bf62335f67",
+    "build": "working-tree-support-preparation-visual-contact-3e21-20260915-r1",
+    "parser": "v16",
+    "canonical_export": "3.8.0",
+    "source_files": [
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\presentation\\replay\\round_001.json.gz",
+        "bytes": 162747,
+        "sha256": "3fe79f8a8d5bd7b3f60dbdf40c7e983ffcad42e489ff11262fb5b6d6a147cf1a"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\presentation\\replay\\index.json",
+        "bytes": 913078,
+        "sha256": "c245787ec38578462f48771f15a80bbf99f393267ba053995f25409b96e14624"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb\\canonical\\states\\player_states\\round_001.jsonl",
+        "bytes": 1513537,
+        "sha256": "52b355df02b25657fcf51a9e8889fae6dcf905a4be4705c5a74d6df406d5d21d"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_observations.json",
+        "bytes": 91847836,
+        "sha256": "c462c31356beb08755006011216aaf9ab42146e5eccee62b49bc9b30de0510ef"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_physical_observations.json",
+        "bytes": 177194952,
+        "sha256": "6520c64639d881fe0d792c73c311c72d4ea996130a4754980501761da793ec9c"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_c4_observations.json",
+        "bytes": 14368234,
+        "sha256": "177cb608b27f5c690303464b6597293c69f25c335d65c33cbe5845ebfe4c4446"
+      },
+      {
+        "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3e21-smoke-pk2356yk\\smoke_run_demo-a11eb0d600ee702c9edb\\support_objective_clock_observations.json",
+        "bytes": 166882153,
+        "sha256": "21b641a604263083ee307c7f69dde565c6a1a7e4c98772d00fb80f55a7740fcf"
+      }
+    ]
+  },
+  "cut": {
+    "round": 1,
+    "tick": 8524,
+    "frame": 8542,
+    "source_sequence": 1389,
+    "instance": 2,
+    "epoch": 0,
+    "own_side": "T",
+    "perspective": "retrospective own-team descriptive state; rival legal contact not reconstructed",
+    "native_seconds_remaining": 103,
+    "seconds_since_freeze_end": 12,
+    "score_before": [
+      0,
+      0
+    ],
+    "alive": {
+      "T": 5,
+      "CT": 5
+    }
+  },
+  "own_players": [
+    {
+      "alias": "T1",
+      "team": "T",
+      "x": -749,
+      "y": 603,
+      "z": -80.55352783203125,
+      "yaw": 179.78543,
+      "pitch": -0.6324005,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "Knife"
+      ],
+      "money": 150,
+      "is_walking": true,
+      "precise_position": {
+        "x": -749.2498779296875,
+        "y": 603.4122314453125,
+        "z": -80.55352783203125
+      }
+    },
+    {
+      "alias": "T2",
+      "team": "T",
+      "x": -596,
+      "y": 607,
+      "z": -79.5172119140625,
+      "yaw": -176.29692,
+      "pitch": 0.6777191,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "Knife"
+      ],
+      "money": 150,
+      "is_walking": true,
+      "precise_position": {
+        "x": -595.5859375,
+        "y": 606.6651611328125,
+        "z": -79.5172119140625
+      }
+    },
+    {
+      "alias": "T3",
+      "team": "T",
+      "x": -527,
+      "y": 605,
+      "z": -80.63134765625,
+      "yaw": -179.53891,
+      "pitch": 0.6602173,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "Knife"
+      ],
+      "money": 150,
+      "is_walking": true,
+      "precise_position": {
+        "x": -526.6585693359375,
+        "y": 604.6589965820312,
+        "z": -80.63134765625
+      }
+    },
+    {
+      "alias": "T4",
+      "team": "T",
+      "x": -446,
+      "y": 613,
+      "z": -80.6204833984375,
+      "yaw": -158.23746,
+      "pitch": 1.5648651,
+      "health": 100,
+      "armor": 100,
+      "alive": true,
+      "weapon": "Glock-18",
+      "weapons": [
+        "Glock-18",
+        "C4",
+        "Knife"
+      ],
+      "has_c4": true,
+      "money": 150,
+      "is_walking": true,
+      "precise_position": {
+        "x": -446.1278076171875,
+        "y": 612.5263061523438,
+        "z": -80.6204833984375
+      }
+    },
+    {
+      "alias": "T5",
+      "team": "T",
+      "x": -161,
+      "y": 576,
+      "z": -69.7674560546875,
+      "yaw": -179.70853,
+      "pitch": 75.27214,
+      "health": 100,
+      "armor": 0,
+      "alive": true,
+      "weapon": "Smoke Grenade",
+      "weapons": [
+        "Glock-18",
+        "Flashbang",
+        "Smoke Grenade",
+        "Knife"
+      ],
+      "money": 100,
+      "precise_position": {
+        "x": -161.033935546875,
+        "y": 576.0478515625,
+        "z": -69.7674560546875
+      }
+    }
+  ],
+  "corroborations": [
+    {
+      "context": "clock",
+      "path": "C:/Users/kerch/AppData/Local/Temp/stratai-3e16-smoke-lvtd21_g/preparation_objective_clock_context/support_preparation_objective_clock_cuts.jsonl",
+      "sha256": "933ae012c42be1e23a61c63d370ef3b64aba3c45f337909eb96454c89ccae363",
+      "line": 1389,
+      "record": {
+        "schema_id": "stratai.support_preparation_objective_clock_cut@1",
+        "cut": {
+          "sequence": 1389,
+          "frame": 8542,
+          "tick": 8524,
+          "epoch": 0,
+          "instance": 2,
+          "tick_rate": 64,
+          "sample_step": 4
+        },
+        "actors": [
+          {
+            "alias": "T1",
+            "initial": {
+              "pause_state": {
+                "status": "observed",
+                "value": "running",
+                "reason": null
+              },
+              "clock_state": {
+                "status": "observed",
+                "value": "aligned_native_round_origin",
+                "reason": null
+              },
+              "round_remaining_seconds": {
+                "status": "observed",
+                "value": 103,
+                "reason": null
+              },
+              "round_clock_state": {
+                "status": "observed",
+                "value": "active",
+                "reason": null
+              },
+              "bomb_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "bomb_clock_state": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "attempt_state": {
+                "status": "observed",
+                "value": "none",
+                "reason": null
+              },
+              "attempt_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "attempt_progress": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "defuse_deadline_margin_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              }
+            }
+          },
+          {
+            "alias": "T5",
+            "initial": {
+              "pause_state": {
+                "status": "observed",
+                "value": "running",
+                "reason": null
+              },
+              "clock_state": {
+                "status": "observed",
+                "value": "aligned_native_round_origin",
+                "reason": null
+              },
+              "round_remaining_seconds": {
+                "status": "observed",
+                "value": 103,
+                "reason": null
+              },
+              "round_clock_state": {
+                "status": "observed",
+                "value": "active",
+                "reason": null
+              },
+              "bomb_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "bomb_clock_state": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "attempt_state": {
+                "status": "observed",
+                "value": "none",
+                "reason": null
+              },
+              "attempt_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "attempt_progress": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "defuse_deadline_margin_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              }
+            }
+          },
+          {
+            "alias": "T3",
+            "initial": {
+              "pause_state": {
+                "status": "observed",
+                "value": "running",
+                "reason": null
+              },
+              "clock_state": {
+                "status": "observed",
+                "value": "aligned_native_round_origin",
+                "reason": null
+              },
+              "round_remaining_seconds": {
+                "status": "observed",
+                "value": 103,
+                "reason": null
+              },
+              "round_clock_state": {
+                "status": "observed",
+                "value": "active",
+                "reason": null
+              },
+              "bomb_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "bomb_clock_state": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "attempt_state": {
+                "status": "observed",
+                "value": "none",
+                "reason": null
+              },
+              "attempt_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "attempt_progress": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "defuse_deadline_margin_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              }
+            }
+          },
+          {
+            "alias": "T4",
+            "initial": {
+              "pause_state": {
+                "status": "observed",
+                "value": "running",
+                "reason": null
+              },
+              "clock_state": {
+                "status": "observed",
+                "value": "aligned_native_round_origin",
+                "reason": null
+              },
+              "round_remaining_seconds": {
+                "status": "observed",
+                "value": 103,
+                "reason": null
+              },
+              "round_clock_state": {
+                "status": "observed",
+                "value": "active",
+                "reason": null
+              },
+              "bomb_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "bomb_clock_state": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "attempt_state": {
+                "status": "observed",
+                "value": "none",
+                "reason": null
+              },
+              "attempt_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "attempt_progress": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "defuse_deadline_margin_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              }
+            }
+          },
+          {
+            "alias": "T2",
+            "initial": {
+              "pause_state": {
+                "status": "observed",
+                "value": "running",
+                "reason": null
+              },
+              "clock_state": {
+                "status": "observed",
+                "value": "aligned_native_round_origin",
+                "reason": null
+              },
+              "round_remaining_seconds": {
+                "status": "observed",
+                "value": 103,
+                "reason": null
+              },
+              "round_clock_state": {
+                "status": "observed",
+                "value": "active",
+                "reason": null
+              },
+              "bomb_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "bomb_clock_state": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_active_planted_phase"
+              },
+              "attempt_state": {
+                "status": "observed",
+                "value": "none",
+                "reason": null
+              },
+              "attempt_remaining_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "attempt_progress": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              },
+              "defuse_deadline_margin_seconds": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "no_current_own_attempt"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "context": "c4",
+      "path": "C:/Users/kerch/AppData/Local/Temp/stratai-3e15-smoke-gxyzz9ce/preparation_c4_context/support_preparation_c4_cuts.jsonl",
+      "sha256": "954cda24064d3cb7fc2aa8e87dd6ef276dcd04fde32aa6ca057a136980e51330",
+      "line": 1389,
+      "record": {
+        "schema_id": "stratai.support_preparation_c4_cut@1",
+        "cut": {
+          "sequence": 1389,
+          "frame": 8542,
+          "tick": 8524,
+          "epoch": 0,
+          "instance": 2,
+          "tick_rate": 64,
+          "sample_step": 4
+        },
+        "actors": [
+          {
+            "alias": "T1",
+            "initial": {
+              "has_c4": {
+                "status": "observed",
+                "value": false,
+                "reason": null
+              },
+              "carrier_player_position": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "not_a_carrier"
+              },
+              "physical_c4_position": {
+                "status": "unavailable",
+                "value": null,
+                "reason": "not_observed_in_legal_view"
+              }
+            }
+          },
+          {
+            "alias": "T5",
+            "initial": {
+              "has_c4": {
+                "status": "observed",
+                "value": false,
+                "reason": null
+              },
+              "carrier_player_position": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "not_a_carrier"
+              },
+              "physical_c4_position": {
+                "status": "unavailable",
+                "value": null,
+                "reason": "not_observed_in_legal_view"
+              }
+            }
+          },
+          {
+            "alias": "T3",
+            "initial": {
+              "has_c4": {
+                "status": "observed",
+                "value": false,
+                "reason": null
+              },
+              "carrier_player_position": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "not_a_carrier"
+              },
+              "physical_c4_position": {
+                "status": "unavailable",
+                "value": null,
+                "reason": "not_observed_in_legal_view"
+              }
+            }
+          },
+          {
+            "alias": "T4",
+            "initial": {
+              "has_c4": {
+                "status": "observed",
+                "value": true,
+                "reason": null
+              },
+              "carrier_player_position": {
+                "status": "observed",
+                "value": {
+                  "x": -446,
+                  "y": 613,
+                  "z": -80.6204833984375
+                },
+                "reason": null
+              },
+              "physical_c4_position": {
+                "status": "unavailable",
+                "value": null,
+                "reason": "not_observed_in_legal_view"
+              }
+            }
+          },
+          {
+            "alias": "T2",
+            "initial": {
+              "has_c4": {
+                "status": "observed",
+                "value": false,
+                "reason": null
+              },
+              "carrier_player_position": {
+                "status": "not_applicable",
+                "value": null,
+                "reason": "not_a_carrier"
+              },
+              "physical_c4_position": {
+                "status": "unavailable",
+                "value": null,
+                "reason": "not_observed_in_legal_view"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "data": {
+      "status": "passed",
+      "case_id": "F01-K1",
+      "version": "0.2",
+      "source_frames_read_only": true,
+      "selected_tick": 8524,
+      "source_sequence": 1389,
+      "five_actor_exact_replay_match": true,
+      "prefix_frames": 193,
+      "prefix_step_ticks": 4,
+      "last_four_seconds_frames": 65,
+      "future_frames_in_evidence": 0,
+      "replay_events_until_cut": 0,
+      "alive_counts": {
+        "T": 5,
+        "CT": 5
+      },
+      "native_round_remaining_seconds": 103,
+      "elapsed_since_round_start_seconds": 12,
+      "source_hashes_unchanged": 7,
+      "corroborating_context_hashes": [
+        {
+          "context": "clock",
+          "path": "C:/Users/kerch/AppData/Local/Temp/stratai-3e16-smoke-lvtd21_g/preparation_objective_clock_context/support_preparation_objective_clock_cuts.jsonl",
+          "sha256": "933ae012c42be1e23a61c63d370ef3b64aba3c45f337909eb96454c89ccae363",
+          "line": 1389
+        },
+        {
+          "context": "c4",
+          "path": "C:/Users/kerch/AppData/Local/Temp/stratai-3e15-smoke-gxyzz9ce/preparation_c4_context/support_preparation_c4_cuts.jsonl",
+          "sha256": "954cda24064d3cb7fc2aa8e87dd6ef276dcd04fde32aa6ca057a136980e51330",
+          "line": 1389
+        }
+      ],
+      "T5_last_second_fixed_xy": true,
+      "not_claimed": [
+        "tactical correctness",
+        "complete legal contact",
+        "voice",
+        "exact reserve/magazine semantics",
+        "exact demo-to-map build compatibility"
+      ]
+    },
+    "documents": {
+      "status": "passed",
+      "protected_files": 60,
+      "source_files_rechecked": 7,
+      "local_links": 224,
+      "prompts": [
+        "AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md"
+      ],
+      "whitespace": [
+        {
+          "file": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+          "exit_code": 1,
+          "output": ""
+        },
+        {
+          "file": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+          "exit_code": 1,
+          "output": ""
+        },
+        {
+          "file": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+          "exit_code": 1,
+          "output": ""
+        },
+        {
+          "file": "docs/README.md",
+          "exit_code": 1,
+          "output": ""
+        },
+        {
+          "file": "docs/AI_COACH_F01_K1_REVIEW_v0.2.md",
+          "exit_code": 1,
+          "output": ""
+        },
+        {
+          "file": "docs/archive/ai-coach/AI_COACH_F01_K1_PREPARATION_PHASE_2026-09-17.md",
+          "exit_code": 1,
+          "output": ""
+        }
+      ],
+      "visual_review": "PNG inspected; 5 distinct aliases, C4, 4s prefix and yaw; hollow-marker legend and CT wording clarified",
+      "independent_review": "Two agent reviews: source verification and clarity; no human tactical approval",
+      "errors": []
+    }
+  },
+  "selection": {
+    "purpose": "repair review format, not assess tactical accuracy",
+    "first_round_has_no_prior_competitive_history": true,
+    "preparer_opened_complete_round_files": true,
+    "preparer_examined_later_own_samples": true,
+    "blind": false,
+    "later_samples_in_delivered_case": false,
+    "agent_plan_hypotheses_in_delivered_case": false
+  },
+  "human_review": {
+    "response": null,
+    "status": "pending",
+    "prior_18_responses_apply_to": "v0.1 only",
+    "effective_exposure": "not yet recorded for this version"
+  },
+  "preservation": {
+    "workbook_modified": false,
+    "workbook_sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c",
+    "v01_cards_modified": false,
+    "previous_evidence_modified": false
+  },
+  "limits": {
+    "tactical_correctness": false,
+    "complete_legal_contact": false,
+    "voice_or_knowledge_reconstructed": false,
+    "exact_demo_assets_compatibility": false,
+    "automatic_callouts_adopted": false,
+    "exact_ammunition_semantics_used": false,
+    "new_model": false,
+    "new_runtime": false,
+    "new_schema": false,
+    "new_demo_passes": 0,
+    "functional_tests": "not applicable: documentary preparation",
+    "new_smoke": "not applicable: read-only use of retained outputs; no changed producer",
+    "S2_S3_closed": false,
+    "eligible_capabilities": 0,
+    "training_allowed": false
+  },
+  "next_action": "Collect human interpretation and format sufficiency for this single version before any next cut or implementation",
+  "retention": {
+    "work_directory": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745",
+    "inventory": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/inventory.json",
+    "output_directory": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-review-20260917-0a53280",
+    "prefix": "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/cut.json",
+    "prefix_sha256": "cc90c1436ff8ab840566b66a68858170ee73cac02ac631cedaae5184a16600a8",
+    "scripts": [
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/extract-cut.py",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/verify-cut.py",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/render-map.mjs",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/close-preparation.mjs"
+    ]
+  },
+  "commands": [
+    [
+      "backend/venv/Scripts/python.exe",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/extract-cut.py"
+    ],
+    [
+      "backend/venv/Scripts/python.exe",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/verify-cut.py"
+    ],
+    [
+      "C:/Users/kerch/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/render-map.mjs"
+    ],
+    [
+      "C:/Users/kerch/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "C:/Users/kerch/AppData/Local/Temp/stratai-f01-k1-preparation-0a53280f9a29431295bb4296019d4745/close-preparation.mjs"
+    ]
+  ],
+  "artifact_hashes": [
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "cf965b62fe88cc24c03e3e9861eb34a25264e3b5f9ce89a77619e3dd16ca2fce"
+    },
+    {
+      "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+      "sha256": "48075968b92dbc5e30751a734d6d7a27aace31323209ee86c82b80b184d0303f"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "a71a9a589e3b38adf03a592d1ee7a71c43c59673ee5315b36c0d12600dfe32cf"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "56be69a4c0dd49ed86947a710581d96230f5f71c0d65ab62f9bce0c85ac7fc9d"
+    },
+    {
+      "path": "docs/AI_COACH_F01_K1_REVIEW_v0.2.md",
+      "sha256": "a905945de22e2c63082a7d2bb350f4eb09e4439938439c1941cac24c63dcdeab"
+    },
+    {
+      "path": "docs/archive/ai-coach/AI_COACH_F01_K1_PREPARATION_PHASE_2026-09-17.md",
+      "sha256": "6e9af4dfa5f9d379d6630ecf173b757ed29e7a9903340c7b7c974f1764b21f91"
+    },
+    {
+      "path": "outputs/stratai-f01-k1-review-20260917-0a53280/F01-K1_v0.2_mapa.png",
+      "sha256": "c8da288f7bff2ae19abdc5d1278a2e71b0964b74b503868d9be1389584971825"
+    },
+    {
+      "path": "outputs/stratai-f01-k1-review-20260917-0a53280/F01-K1_v0.2_mapa.svg",
+      "sha256": "989a24b628c802f8f669fe71de9a4dc53f9fad8c12e8206b6212ce05dfaa2daa"
+    }
+  ],
+  "radar": {
+    "path": "frontend/public/maps/de_mirage_radar_psd.webp",
+    "sha256": "062729376c7ad5cd86db90f8cb48eddaf11a410483804d0426e133254e70f799",
+    "projection": {
+      "reference_size": 1024,
+      "pos_x": -3230,
+      "pos_y": 1713,
+      "scale": 5
+    },
+    "last_four_seconds_ticks": [
+      8268,
+      8524
+    ],
+    "orientation": "horizontal yaw only",
+    "height": "five observed z values in case document; floor not certified"
+  }
+}

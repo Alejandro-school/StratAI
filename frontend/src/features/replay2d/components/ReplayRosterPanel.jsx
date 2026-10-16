@@ -1,4 +1,5 @@
 import { Skull } from "lucide-react";
+import { describeReplayPlace } from "../domain/replayPlaces";
 import {
   buildPlayerLoadout,
   describePlayerLoadout,
@@ -79,6 +80,15 @@ const PlayerVitals = ({ player, health, armor }) => (
 );
 
 const PlayerRow = ({ player, selected, number, onSelect }) => {
+  const placeDescription = player.alive ? describeReplayPlace(player.place) : null;
+  if (["confirmed_visual_contact", "calculated_visual_contact"].includes(player.knowledge)) return (
+    <button type="button" className={`r2-player-row ${player.team.toLowerCase()} ${selected ? "selected" : ""}`}
+      aria-label={`${player.name}, ${player.knowledge === "calculated_visual_contact" ? "contacto estimado" : "contacto visual"}; recursos desconocidos. ${placeDescription || ""}`} aria-pressed={selected}
+      onClick={() => onSelect(playerIdentity(player))}>
+      <span className="r2-player-identity"><strong>{player.name}</strong><small>{player.knowledge === "calculated_visual_contact" ? "Contacto estimado" : "Contacto visual"} · recursos desconocidos</small>
+        {placeDescription && <small className="r2-player-place">{placeDescription}</small>}</span>
+    </button>
+  );
   const health = Math.max(0, player.health || 0);
   const armor = Math.max(0, player.armor || 0);
   const money = MONEY_FORMAT.format(Number(player.money || 0));
@@ -89,12 +99,13 @@ const PlayerRow = ({ player, selected, number, onSelect }) => {
       className={`r2-player-row ${player.team.toLowerCase()} ${!player.alive ? "dead" : ""} ${selected ? "selected" : ""}`}
       onClick={() => onSelect(playerIdentity(player))}
       aria-pressed={selected}
-      aria-label={`${player.name}, ${health} de vida, ${armor} de armadura, $${money}. ${loadoutDescription}`}
+      aria-label={`${player.name}, ${health} de vida, ${armor} de armadura, $${money}. ${loadoutDescription}. ${placeDescription || ""}`}
       title={loadoutDescription}
     >
       <PlayerVitals player={player} health={health} armor={armor} />
       <span className="r2-player-identity">
         <strong title={player.name}><i>{number}</i>{player.name || "Jugador"}</strong>
+        {placeDescription && <small className="r2-player-place">{placeDescription}</small>}
         <small>
           <span className="r2-player-money">${money}</span>
           {player.has_defuse_kit && (
@@ -124,7 +135,7 @@ const TeamBlock = ({ team, players, score, focusPlayerId, onSelect }) => (
         <PlayerRow
           key={playerIdentity(player)}
           player={player}
-          number={index + 1}
+          number={player.display_number || index + 1}
           selected={playerIdentity(player) === String(focusPlayerId)}
           onSelect={onSelect}
         />

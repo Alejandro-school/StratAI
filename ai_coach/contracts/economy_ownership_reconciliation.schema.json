@@ -1,0 +1,440 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_id": {
+      "const": "stratai.economy_ownership_reconciliation@1"
+    },
+    "contract_version": {
+      "const": "1.0.0-candidate.1"
+    },
+    "source_alias": {
+      "type": "string",
+      "pattern": "^demo-[a-f0-9]{20}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "build_identifier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "const": "execution_evidence_only_no_initial_features_or_player_knowledge"
+    },
+    "comparison_allowed": {
+      "const": false
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "product_supported": {
+      "const": false
+    },
+    "source_observations": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "const": "economy_ownership_observations.json"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "state_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "first_cut": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "frame": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "demo_tick": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "inventory_complete": {
+            "type": "boolean"
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "entity_alias": {
+                  "type": "string",
+                  "pattern": "^native-entity-[0-9]{6}$"
+                },
+                "status": {
+                  "enum": [
+                    "consistent",
+                    "pair_with_incomplete_inventory",
+                    "actor_unavailable",
+                    "actor_binding_nonunique",
+                    "owner_inventory_conflict",
+                    "duplicate_inventory_claim",
+                    "owner_only",
+                    "inventory_only",
+                    "no_resolved_claim",
+                    "unassigned_in_observed_scope"
+                  ]
+                },
+                "owner_pawn": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^native-entity-[0-9]{6}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "claim_pawns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^native-entity-[0-9]{6}$"
+                  }
+                },
+                "actor_alias": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^p[0-9]{4}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "side": {
+                  "enum": [
+                    "CT",
+                    "T",
+                    null
+                  ]
+                },
+                "opportunity_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^demo-[a-f0-9]{20}:economy:[0-9]{5}:(CT|T)$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "entity_alias",
+                "status",
+                "owner_pawn",
+                "claim_pawns",
+                "actor_alias",
+                "side",
+                "opportunity_id"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "state_sequence",
+          "first_cut",
+          "instance",
+          "frame",
+          "demo_tick",
+          "inventory_complete",
+          "records"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_alias": {
+            "type": "string",
+            "pattern": "^native-entity-[0-9]{6}$"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "from_cut": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "to_cut": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "from_actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^p[0-9]{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "to_actor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^p[0-9]{4}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "from_side": {
+            "enum": [
+              "CT",
+              "T",
+              null
+            ]
+          },
+          "to_side": {
+            "enum": [
+              "CT",
+              "T",
+              null
+            ]
+          },
+          "classification": {
+            "enum": [
+              "holder_changed_between_adjacent_delivery_cuts",
+              "holding_appeared_between_adjacent_delivery_cuts",
+              "holding_disappeared_between_adjacent_delivery_cuts"
+            ]
+          },
+          "cause": {
+            "const": "not_accredited"
+          },
+          "from_status": {
+            "enum": [
+              "consistent",
+              "unassigned_in_observed_scope"
+            ]
+          },
+          "to_status": {
+            "enum": [
+              "consistent",
+              "unassigned_in_observed_scope"
+            ]
+          }
+        },
+        "required": [
+          "entity_alias",
+          "instance",
+          "from_cut",
+          "to_cut",
+          "from_actor",
+          "to_actor",
+          "from_side",
+          "to_side",
+          "classification",
+          "cause",
+          "from_status",
+          "to_status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_id": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "side": {
+            "enum": [
+              "CT",
+              "T"
+            ]
+          },
+          "consistent_state_records": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "comparison_allowed": {
+            "const": false
+          }
+        },
+        "required": [
+          "opportunity_id",
+          "instance",
+          "side",
+          "consistent_state_records",
+          "comparison_allowed"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "cuts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "states": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "equipment_state_records": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status_counts": {
+          "type": "object",
+          "properties": {
+            "consistent": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pair_with_incomplete_inventory": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "actor_binding_nonunique": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "owner_inventory_conflict": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "duplicate_inventory_claim": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "owner_only": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "inventory_only": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "no_resolved_claim": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unassigned_in_observed_scope": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "consistent",
+            "pair_with_incomplete_inventory",
+            "actor_unavailable",
+            "actor_binding_nonunique",
+            "owner_inventory_conflict",
+            "duplicate_inventory_claim",
+            "owner_only",
+            "inventory_only",
+            "no_resolved_claim",
+            "unassigned_in_observed_scope"
+          ],
+          "additionalProperties": false
+        },
+        "consistent_opportunities": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cut_clock_unavailable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "transition_gaps_or_epoch_boundaries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verified_itemized_transactions": {
+          "const": 0
+        },
+        "observed_holding_transitions": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "cuts",
+        "states",
+        "equipment_state_records",
+        "status_counts",
+        "consistent_opportunities",
+        "observed_holding_transitions",
+        "cut_clock_unavailable",
+        "transition_gaps_or_epoch_boundaries",
+        "verified_itemized_transactions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_id",
+    "contract_version",
+    "source_alias",
+    "source_sha256",
+    "build_identifier",
+    "partition",
+    "comparison_allowed",
+    "training_allowed",
+    "product_supported",
+    "source_observations",
+    "states",
+    "transitions",
+    "opportunities",
+    "summary"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.economy_ownership_reconciliation@1",
+  "x-stratai-training-authorized": false
+}

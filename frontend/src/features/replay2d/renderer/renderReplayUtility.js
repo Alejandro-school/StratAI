@@ -75,7 +75,8 @@ export const drawProjectiles = (
 };
 
 export const isReplayEffectVisible = (effect, tick, tickRate = 64) => (
-  effectSecondsRemaining(effect, tick, tickRate) > 0
+  effect.knowledge === 'simulated_team_utility_tracking' ? effect.observation_tick <= tick
+    : effectSecondsRemaining(effect, tick, tickRate) > 0
 );
 
 const drawSmoke = (context, effect, config, viewport, tick, tickRate, reducedMotion) => {
@@ -198,6 +199,22 @@ const drawInferno = (context, effect, config, viewport, tick, tickRate, reducedM
 export const drawEffects = (context, frame, config, viewport, tick, tickRate, reducedMotion) => {
   for (const effect of frame?.active_effects || []) {
     if (!isReplayEffectVisible(effect, tick, tickRate)) continue;
+    if (effect.knowledge === 'simulated_team_utility_tracking') {
+      // Presence is observed at the dated sample. No final expiry or standard
+      // lifetime is converted into a factual countdown for this perspective.
+      const point = worldToScreen(effect, config, viewport);
+      context.beginPath();
+      if (effect.type === 'smoke' && Number.isFinite(effect.radius)) {
+        context.arc(point.x, point.y, (effect.radius / config.scale) * viewport.baseScale * viewport.zoom, 0, TAU);
+      } else if ((effect.hull || []).length >= 6) {
+        const points = [];
+        for (let i=0;i<effect.hull.length;i+=2) points.push({x:effect.hull[i],y:effect.hull[i+1]});
+        pathWorld(context,points,config,viewport);context.closePath();
+      } else continue;
+      context.fillStyle = effect.type === 'smoke' ? 'rgba(179,188,202,0.45)' : 'rgba(255,126,52,0.45)';
+      context.fill();
+      continue;
+    }
     if (effect.type === "smoke") drawSmoke(context, effect, config, viewport, tick, tickRate, reducedMotion);
     if (effect.type === "inferno") drawInferno(context, effect, config, viewport, tick, tickRate, reducedMotion);
   }
@@ -256,4 +273,31 @@ export const getHeShake = (events, tick, tickRate, reducedMotion) => {
   const amplitude = Math.pow(1 - progress, 2) * 5;
   const phase = progress * Math.PI * 9;
   return { x: Math.sin(phase) * amplitude, y: Math.cos(phase * 1.17) * amplitude * 0.68 };
+};
+
+// Separate point glyphs from full omniscient utility geometry. Historical
+// glyphs retain their original coordinates and cannot imply an active effect.
+export const drawUtilityInformation = (context, frame, config, viewport, tickRate) => {
+  context.save();
+  context.strokeStyle = 'rgba(255,199,116,.45)'; context.lineWidth = 1; context.setLineDash([2,4]);
+  for (const segment of frame?.utility_segments || []) {
+    const from = worldToScreen(segment.from, config, viewport), to = worldToScreen(segment.to, config, viewport);
+    context.beginPath(); context.moveTo(from.x,from.y); context.lineTo(to.x,to.y); context.stroke();
+  }
+  context.restore();
+  for (const marker of frame?.utility_markers || []) {
+    if (marker.affiliation === 'own_team' || !marker.position) continue;
+    const point = worldToScreen(marker.position, config, viewport);
+    context.save();
+    context.strokeStyle = marker.state === 'last_observed' ? 'rgba(255,199,116,.45)' : '#ffc774';
+    context.lineWidth = 2;
+    context.setLineDash(marker.state === 'last_observed' ? [3,3] : []);
+    context.beginPath();
+    context.moveTo(point.x,point.y-6); context.lineTo(point.x+6,point.y);
+    context.lineTo(point.x,point.y+6); context.lineTo(point.x-6,point.y); context.closePath(); context.stroke();
+    context.fillStyle = '#ffc774'; context.font = '600 10px system-ui'; context.textAlign = 'left';
+    const age = Number.isFinite(tickRate) && tickRate > 0 ? `${Number((marker.age_ticks/tickRate).toFixed(1))}s` : `${marker.age_ticks}t`;
+    context.fillText(`${marker.utility_type} ~ ${age}`,point.x+9,point.y);
+    context.restore();
+  }
 };

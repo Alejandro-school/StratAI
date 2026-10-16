@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.review_bomb_context@1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "case_id", "source_alias", "source_sha256", "side", "frame_count", "frames", "counts", "source", "source_refs"],
+  "properties": {
+    "schema_id": {"const": "stratai.review_bomb_context@1"},
+    "case_id": {"type": "string", "pattern": "^E[0-9]{2}$"},
+    "source_alias": {"type": "string", "pattern": "^demo-[a-f0-9]{20}$"},
+    "source_sha256": {"$ref": "#/$defs/hash"},
+    "side": {"enum": ["T", "CT"]},
+    "frame_count": {"type": "integer", "minimum": 1},
+    "source": {"const": "replay_bomb_native_snapshot_exact_tick"},
+    "counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "source_refs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["support_sha256", "canonical_manifest_sha256", "replay_round_sha256", "replay_frame_count"],
+      "properties": {
+        "support_sha256": {"$ref": "#/$defs/hash"},
+        "canonical_manifest_sha256": {"$ref": "#/$defs/hash"},
+        "replay_round_sha256": {"$ref": "#/$defs/hash"},
+        "replay_frame_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "frames": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["index", "source_sequence", "tick", "round", "status", "position"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "source_sequence": {"type": "integer", "minimum": 1},
+          "tick": {"type": "integer", "minimum": 0},
+          "round": {"type": "integer", "minimum": 1},
+          "status": {"enum": ["dropped_position", "not_dropped", "review_side_not_eligible", "excluded", "frame_unavailable", "state_conflict", "position_unavailable"]},
+          "position": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/point"}]}
+        },
+        "allOf": [{"if": {"properties": {"status": {"const": "dropped_position"}}},
+          "then": {"properties": {"position": {"$ref": "#/$defs/point"}}},
+          "else": {"properties": {"position": {"type": "null"}}}}]
+      }
+    }
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "point": {"type": "object", "additionalProperties": false, "required": ["x", "y"],
+      "properties": {"x": {"type": "number"}, "y": {"type": "number"}}}
+  }
+}

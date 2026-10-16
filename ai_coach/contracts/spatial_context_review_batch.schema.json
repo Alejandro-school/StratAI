@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.spatial_context_review_batch@2",
+  "title": "Demo-contextual spatial human-review batch",
+  "x-stratai-status": "deprecated_visual_qa_only",
+  "x-stratai-ground-truth-authorized": false,
+  "x-stratai-evaluation-authorized": false,
+  "x-stratai-training-authorized": false,
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_id", "contract_version", "batch_id", "protocol", "source_demo", "presentation", "source_packages", "selection", "blinding", "authorization", "review_units", "summary"],
+  "properties": {
+    "schema_id": {"const": "stratai.spatial_context_review_batch@2"},
+    "contract_version": {"const": "2.0.0"},
+    "batch_id": {"type": "string", "pattern": "^spatial-context-pilot-[0-9a-f]{24}$"},
+    "protocol": {"$ref": "#/$defs/protocol_ref"},
+    "source_demo": {"$ref": "#/$defs/source_demo"},
+    "presentation": {"$ref": "#/$defs/presentation"},
+    "source_packages": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/source_package"}},
+    "selection": {"type": "object", "additionalProperties": false, "required": ["algorithm", "seed_id", "items_per_family", "selected_by_family"], "properties": {
+      "algorithm": {"const": "sha256_rank_distinct_sample_context@2"},
+      "seed_id": {"const": "mirage-contextual-review-pilot-repair-v2"},
+      "items_per_family": {"const": 4},
+      "selected_by_family": {"$ref": "#/$defs/family_counts"}
+    }},
+    "blinding": {"type": "object", "additionalProperties": false, "required": ["reviewer_visible_partition", "audit_partition_visible_to_reviewer", "prior_responses_visible"], "properties": {
+      "reviewer_visible_partition": {"const": "reviewer_view"},
+      "audit_partition_visible_to_reviewer": {"const": false},
+      "prior_responses_visible": {"const": false}
+    }},
+    "authorization": {"$ref": "#/$defs/authorization"},
+    "review_units": {"type": "array", "minItems": 12, "maxItems": 12, "items": {"$ref": "#/$defs/review_unit"}},
+    "summary": {"type": "object", "additionalProperties": false, "required": ["total_review_units", "family_counts", "observed_context_available", "radar_registered", "route_polylines_available", "responses", "adjudications", "training_allowed"], "properties": {
+      "total_review_units": {"const": 12},
+      "family_counts": {"$ref": "#/$defs/family_counts"},
+      "observed_context_available": {"const": 12},
+      "radar_registered": {"const": 12},
+      "route_polylines_available": {"const": 4},
+      "responses": {"const": 0},
+      "adjudications": {"const": 0},
+      "training_allowed": {"const": false}
+    }}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "vector": {"type": "object", "additionalProperties": false, "required": ["x", "y", "z"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}},
+    "family_counts": {"type": "object", "additionalProperties": false, "required": ["exposure", "cover", "exit_route"], "properties": {"exposure": {"const": 4}, "cover": {"const": 4}, "exit_route": {"const": 4}}},
+    "protocol_ref": {"type": "object", "additionalProperties": false, "required": ["schema_id", "protocol_version", "handbook_version", "published_at", "protocol_sha256", "handbook_sha256"], "properties": {
+      "schema_id": {"const": "stratai.spatial_context_review_protocol@2"},
+      "protocol_version": {"const": "2.0.0"},
+      "handbook_version": {"const": "2.0.0"},
+      "published_at": {"type": "string", "format": "date-time"},
+      "protocol_sha256": {"$ref": "#/$defs/sha256"},
+      "handbook_sha256": {"$ref": "#/$defs/sha256"}
+    }},
+    "source_demo": {"type": "object", "additionalProperties": false, "required": ["opaque_alias", "sha256", "map_id", "tick_rate_hz", "sidecar_report_sha256"], "properties": {
+      "opaque_alias": {"type": "string", "pattern": "^demo-[0-9a-f]{20}$"},
+      "sha256": {"$ref": "#/$defs/sha256"},
+      "map_id": {"const": "de_mirage"},
+      "tick_rate_hz": {"type": "number", "exclusiveMinimum": 0},
+      "sidecar_report_sha256": {"type": "object", "additionalProperties": false, "required": ["exposure", "cover", "exit_route"], "properties": {"exposure": {"$ref": "#/$defs/sha256"}, "cover": {"$ref": "#/$defs/sha256"}, "exit_route": {"$ref": "#/$defs/sha256"}}}
+    }},
+    "presentation": {"type": "object", "additionalProperties": false, "required": ["map_label", "radar_asset", "coordinate_transform", "render_contract"], "properties": {
+      "map_label": {"const": "Mirage"},
+      "radar_asset": {"type": "object", "additionalProperties": false, "required": ["relative_path", "sha256", "media_type", "source_pixels"], "properties": {
+        "relative_path": {"const": "frontend/public/maps/de_mirage_radar_psd.webp"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "media_type": {"const": "image/webp"},
+        "source_pixels": {"const": 4096}
+      }},
+      "coordinate_transform": {"type": "object", "additionalProperties": false, "required": ["pos_x", "pos_y", "scale", "logical_pixels", "formula"], "properties": {
+        "pos_x": {"const": -3230}, "pos_y": {"const": 1713}, "scale": {"const": 5}, "logical_pixels": {"const": 1024},
+        "formula": {"const": "pixel_x=(world_x-pos_x)/scale;pixel_y=(pos_y-world_y)/scale"}
+      }},
+      "render_contract": {"const": "mirage_radar_context_overlay@2"}
+    }},
+    "source_package": {"type": "object", "additionalProperties": false, "required": ["family", "schema_id", "asset_version", "package_sha256", "support_manifest_sha256", "geometry_revision"], "properties": {
+      "family": {"enum": ["exposure", "cover", "exit_route"]}, "schema_id": {"type": "string", "minLength": 1}, "asset_version": {"type": "string", "minLength": 1},
+      "package_sha256": {"$ref": "#/$defs/sha256"}, "support_manifest_sha256": {"$ref": "#/$defs/sha256"}, "geometry_revision": {"$ref": "#/$defs/sha256"}
+    }},
+    "authorization": {"type": "object", "additionalProperties": false, "required": ["review_execution_authorized", "training_use_authorized", "product_supported", "canonical_materialization", "release_authorized", "corpus_reprocessing_authorized"], "properties": {
+      "review_execution_authorized": {"const": true}, "training_use_authorized": {"const": false}, "product_supported": {"const": false}, "canonical_materialization": {"const": false}, "release_authorized": {"const": false}, "corpus_reprocessing_authorized": {"const": false}
+    }},
+    "audit_context": {"type": "object", "additionalProperties": false, "required": ["access_scope", "family", "source_join", "package_sha256", "sidecar_row_sha256"], "properties": {
+      "access_scope": {"const": "coordinator_only"}, "family": {"enum": ["exposure", "cover", "exit_route"]}, "source_join": {"type": "string", "minLength": 10}, "package_sha256": {"$ref": "#/$defs/sha256"}, "sidecar_row_sha256": {"$ref": "#/$defs/sha256"}
+    }},
+    "observed_context": {"type": "object", "additionalProperties": false, "required": ["status", "source_kind", "round_number", "t0_tick", "availability_tick", "participant_alias", "position_world", "view_yaw_degrees", "posture_id", "active_weapon", "horizontal_speed_world_units_per_second"], "properties": {
+      "status": {"const": "observed"}, "source_kind": {"const": "approved_demo_causal_sidecar"}, "round_number": {"type": "integer", "minimum": 1}, "t0_tick": {"type": "integer", "minimum": 0}, "availability_tick": {"type": "integer", "minimum": 0},
+      "participant_alias": {"type": "string", "pattern": "^participant-[0-9]{3}$"}, "position_world": {"$ref": "#/$defs/vector"}, "view_yaw_degrees": {"type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 360},
+      "posture_id": {"type": ["string", "null"], "enum": ["standing", "crouching", null]}, "active_weapon": {"type": ["string", "null"]}, "horizontal_speed_world_units_per_second": {"type": ["number", "null"], "minimum": 0}
+    }},
+    "reviewer_view": {"type": "object", "additionalProperties": false, "required": ["case_kind", "prompt_id", "question", "claim_boundary", "options", "observed_context", "objective_geometry", "evidence_limits"], "properties": {
+      "case_kind": {"enum": ["exposure", "cover", "exit_route"]}, "prompt_id": {"type": "string", "pattern": "^spatial-context-question-[0-9]{2}$"}, "question": {"type": "string", "minLength": 30}, "claim_boundary": {"type": "string", "minLength": 30},
+      "options": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"type": "object"}}, "observed_context": {"$ref": "#/$defs/observed_context"}, "objective_geometry": {"type": "object", "minProperties": 5},
+      "evidence_limits": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+    }},
+    "review_unit": {"type": "object", "additionalProperties": false, "required": ["review_unit_id", "display_order", "state", "audit_context", "reviewer_view", "visible_evidence_sha256", "review_responses", "adjudication"], "properties": {
+      "review_unit_id": {"type": "string", "pattern": "^scu-[0-9a-f]{24}$"}, "display_order": {"type": "integer", "minimum": 1, "maximum": 12}, "state": {"const": "pending_review"}, "audit_context": {"$ref": "#/$defs/audit_context"}, "reviewer_view": {"$ref": "#/$defs/reviewer_view"}, "visible_evidence_sha256": {"$ref": "#/$defs/sha256"}, "review_responses": {"type": "array", "maxItems": 0}, "adjudication": {"type": "null"}
+    }}
+  }
+}

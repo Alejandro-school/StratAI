@@ -1,0 +1,356 @@
+{
+  "id": "AI-COACH-Q1",
+  "date": "2026-09-17",
+  "kind": "expert_question_bank_preparation",
+  "status": "questions_prepared_answers_pending",
+  "user_request_verbatim": "Pues venga, crea todas las preguntas y hazlas",
+  "scope": "Cross-family design criteria; not exhaustive round/map annotation or empirical validation.",
+  "bank": "docs/AI_COACH_EXPERT_QUESTIONS.md",
+  "questions": [
+    {
+      "number": 1,
+      "question": "¿Qué señales distinguen una preparación que conserva opciones de una entrada que ya necesita continuidad del equipo?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 2,
+      "question": "¿Qué cambios te harían mantener, pausar o abandonar un plan, y cómo distingues una adaptación razonable de una reacción precipitada?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 3,
+      "question": "Cuando el despliegue admite varias lecturas, ¿qué hechos te hacen inclinarte por una y cuáles te obligan a mantener alternativas abiertas?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 4,
+      "question": "Dentro de una entrada contextual, ¿qué señales usarías para reconocer que se ha ganado espacio, que se ha consolidado o que el intento terminó?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 5,
+      "question": "¿Qué incoherencias entre posiciones, armas, utilidad y bomba te harían cuestionar el reparto de funciones, y qué contextos podrían justificarlo?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 6,
+      "question": "¿Qué debe aportar un jugador separado para que su posición tenga sentido, y qué señales indican que debería incorporarse al grupo?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 7,
+      "question": "¿Cómo decides qué apoyo necesita quien va a tomar contacto: acompañarlo, permitir un intercambio, cubrir otra amenaza o conservar otra posición?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 8,
+      "question": "Si una jugada colectiva falla, ¿cómo distingues un problema del plan, una decisión individual que lo perjudica y una ejecución deficiente?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 9,
+      "question": "Cuando el rival repite ataques por una zona, ¿qué te hace reforzarla, cambiar cómo se defiende, disputar información o prepararte para recuperarla después?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 10,
+      "question": "Ante presión en otra zona, ¿cómo decides quién rota primero y quién mantiene su posición, considerando lo que dejarían descubierto?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 11,
+      "question": "¿Qué indicios distinguen presión o engaño de un ataque que merece una respuesta mayor cuando todavía no se ha localizado el C4?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 12,
+      "question": "¿Qué hace que una posición enemiga vista antes siga siendo útil o haya quedado demasiado desactualizada para decidir?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 13,
+      "question": "En un duelo perdido, ¿qué señales revisas primero para distinguir un problema de mira, disparo o movimiento de una ejecución razonable?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 14,
+      "question": "Para un duelo que sí puede aportar al plan, ¿qué te hace elegir entre mantener, asomar, repetir el ángulo o recolocarte?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 15,
+      "question": "¿Qué circunstancias justifican disparar en movimiento, agacharse o prolongar un spray aunque en otras situaciones corregirías esas acciones?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 16,
+      "question": "¿Cómo decides cuándo merece la pena sacrificar velocidad por discreción, precisión o seguridad durante un recorrido?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 17,
+      "question": "¿Qué hace buena una flash, un humo, una incendiaria o una HE aunque no produzca una baja ni daño?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 18,
+      "question": "¿Qué señales te permiten valorar si una granada llegó a tiempo para la acción que debía facilitar?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 19,
+      "question": "¿Qué te hace preferir conservar una granada para después frente a usarla para resolver el problema actual?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 20,
+      "question": "Cuando se combinan varias granadas, ¿cómo distingues una combinación necesaria de gasto redundante o utilidad que perjudica al propio equipo?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 21,
+      "question": "Si no alcanza para equipar bien a todos, ¿cuándo concentrarías recursos en ciertas armas y cuándo los repartirías entre jugadores y utilidad?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 22,
+      "question": "¿Qué circunstancias justifican una compra limitada o un force que empeore la compra siguiente, y cuáles te harían conservar?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 23,
+      "question": "Entre equipamientos posibles para una misma compra, ¿qué pesa más según el plan: arma, armadura, utilidad, kit o función de cada jugador?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 24,
+      "question": "¿Qué circunstancias justifican arriesgarse para recuperar o conservar equipamiento, y cuándo ese intento ya cuesta más de lo que aporta?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 25,
+      "question": "Al elegir dónde y cuándo plantar, ¿cómo priorizas seguridad inmediata, tiempo disponible y posibilidades de defender la bomba después?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 26,
+      "question": "En un postplant, ¿qué te hace preferir jugar por tiempo, buscar un duelo, mantener un ángulo o cambiar de posición?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 27,
+      "question": "¿Qué factores inclinan un retake hacia intentarlo o guardar, y qué nueva información te haría cambiar esa decisión?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 28,
+      "question": "¿Cómo cambia tu criterio de riesgo al jugar con superioridad, en inferioridad o en clutch, considerando también salud, armas y tiempo?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 29,
+      "question": "Si un jugador repite un fallo pequeño y comete otro grave pero poco frecuente, ¿cómo eliges cuál trabajar primero?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 30,
+      "question": "¿Qué señales indican que una alternativa es un reto adecuado para ese jugador o que todavía necesita practicar una habilidad previa?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 31,
+      "question": "Para un problema identificado, ¿cómo eliges entre explicarlo con ejemplos, practicar fuera de partida o asignar una misión en partidas?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 32,
+      "question": "¿Qué cambios de conducta te harían mantener una misión, subir su dificultad, sustituirla o considerar aprendido lo trabajado?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 33,
+      "question": "Entre dos acciones defendibles, ¿qué diferencia merece una recomendación de cambio y cuál tratarías como preferencia personal?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 34,
+      "question": "Si tú y otro experto interpretáis distinto el mismo caso, ¿qué datos y argumentos revisarías para resolver la discrepancia o conservar ambas lecturas?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 35,
+      "question": "Dentro de economía, apoyo y mecánica, ¿qué tres problemas concretos priorizarías en el primer prototipo por su utilidad para el jugador?",
+      "answer": null,
+      "status": "pending"
+    },
+    {
+      "number": 36,
+      "question": "¿Qué criterios tácticos generalizarías entre mapas y cuáles exigirías volver a revisar con ejemplos específicos de cada mapa?",
+      "answer": null,
+      "status": "pending"
+    }
+  ],
+  "blocks": [
+    {
+      "id": "A",
+      "title": "Interpretar y actualizar el plan"
+    },
+    {
+      "id": "B",
+      "title": "Funciones y cooperación"
+    },
+    {
+      "id": "C",
+      "title": "Defensa, información y rotaciones"
+    },
+    {
+      "id": "D",
+      "title": "Duelos, mira y movimiento"
+    },
+    {
+      "id": "E",
+      "title": "Utilidad"
+    },
+    {
+      "id": "F",
+      "title": "Economía y equipamiento"
+    },
+    {
+      "id": "G",
+      "title": "Bomba, tiempo y ventajas"
+    },
+    {
+      "id": "H",
+      "title": "Aprendizaje y personalización"
+    },
+    {
+      "id": "I",
+      "title": "Revisión y alcance del primer prototipo"
+    }
+  ],
+  "capability_ids": [
+    "CAP-ADVANTAGE-001",
+    "CAP-CLUTCH-001",
+    "CAP-COMBAT-001",
+    "CAP-CROSSHAIR-001",
+    "CAP-ECONOMY-001",
+    "CAP-ENTRY-001",
+    "CAP-INFO-001",
+    "CAP-MOVEMENT-001",
+    "CAP-OBJECTIVE-001",
+    "CAP-PEEK-001",
+    "CAP-POSITION-001",
+    "CAP-PROFILE-001",
+    "CAP-RISK-001",
+    "CAP-ROTATE-001",
+    "CAP-TEAM-001",
+    "CAP-TIME-001",
+    "CAP-UTILITY-001"
+  ],
+  "question_count": 36,
+  "prior_criteria_preserved": true,
+  "new_human_answers": 0,
+  "workbooks_unchanged": [
+    {
+      "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+      "sha256": "9da2162c83ff0a43a33925f51135117d8926c7dbd2ad1dad6466797be401560c"
+    },
+    {
+      "path": "E:/Carpeta compartida/Proyecto IA/StratAI/outputs/stratai-f01-k1-feedback-20260917-06ade91/StratAI_Plan_del_coach_ICT-D1_v3.xlsx",
+      "sha256": "d7ac32d3fecd8229b60fcec6a6090f24708452b81d5bf4d74e2ada95fed925d7"
+    }
+  ],
+  "verification": {
+    "question_numbers_1_to_36": true,
+    "duplicate_questions": 0,
+    "blocks": 9,
+    "capability_ids_valid": 17,
+    "protected_files_unchanged": 62,
+    "protected_inventory": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-expert-questions-ac18ffe8b8f84307b6422ea9c309b192\\protected.json",
+    "local_markdown_links_resolved": 219,
+    "single_prompt": "AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+    "whitespace_checks": [
+      {
+        "file": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "exit_code": 1
+      },
+      {
+        "file": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "exit_code": 1
+      },
+      {
+        "file": "docs/README.md",
+        "exit_code": 1
+      }
+    ],
+    "bank_trailing_whitespace": false,
+    "independent_review": "review_expert_feedback: no substantial repetition or contradiction with prior contextual criteria"
+  },
+  "functional_tests": {
+    "status": "not_applicable",
+    "reason": "Only question bank, plan, prompt, index and documentary evidence changed"
+  },
+  "real_demo_smoke": {
+    "status": "not_applicable",
+    "reason": "No producer/schema/runtime/demo parsing changes"
+  },
+  "implementation_or_training_started": false,
+  "S2_S3": "open",
+  "eligible_capabilities": 0,
+  "training_allowed": false,
+  "next_action": "Receive and record Q1 responses; select minimal real examples where needed and delimit a supported next scope.",
+  "F01_K2": "deferred; not prepared or reviewed; remains candidate for a specific continuity question",
+  "artifacts": [
+    {
+      "path": "docs/AI_COACH_EXPERT_QUESTIONS.md",
+      "sha256": "f1c2cfd53d8616af091a52c591cd91c37fe3c0aa8bb707ab8556a2d1f9eae2fe"
+    },
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "sha256": "3e7fb6c905f68636ac442325ce469938c1fb5316a367e82f3f2ff0b780bbf44b"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "sha256": "4fc708b7c3d87f9660f6a2faecec156822a78f77ae6b0913a88e3131c1242e3a"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "1fb01d082ea151ffb4f98e05946c9af009ccdc3365eb84284ac402eb22121664"
+    }
+  ],
+  "retained_temp": "C:/Users/kerch/AppData/Local/Temp/stratai-expert-questions-ac18ffe8b8f84307b6422ea9c309b192"
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../utils/api';
 import '../styles/Auth/codeForm.css';
@@ -9,32 +9,38 @@ const HistoryCodeForm = () => {
   const [knownCode, setKnownCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const requestRef = useRef(null);
 
-  const waitForValidation = async () => {
+  useEffect(() => () => requestRef.current?.abort(), []);
+
+  const waitForValidation = async (signal) => {
     for (let attempt = 0; attempt < 90; attempt += 1) {
+      signal.throwIfAborted();
       const response = await fetch(`${API_URL}/steam/pipeline-status`, {
         credentials: 'include',
+        signal,
       });
-      if (response.ok) {
-        const status = await response.json();
-        if (status.credential_status === 'configured') return;
-        if (status.credential_status === 'needs_credentials') {
-          throw new Error(
-            'Steam ha rechazado los códigos. Genera un código de autenticación nuevo y comprueba la última partida compartida.',
-          );
-        }
-        if (status.credential_status === 'discovery_failed') {
-          const reason = status.discovery_error_code || 'pipeline_error';
-          throw new Error(
-            `No se pudo consultar Steam (${reason}). El trabajo agotó sus reintentos; vuelve a intentarlo.`,
-          );
-        }
-        const terminalDiscovery = status.jobs?.find(
-          (job) => job.stage === 'failed' && job.error_code === 'steam_credentials_invalid',
+      if (response.status === 401) {
+        throw new Error('Tu sesión ha caducado. Vuelve a iniciar sesión con Steam.');
+      }
+      if (!response.ok) {
+        throw new Error('No se pudo comprobar el historial. Inténtalo de nuevo en unos instantes.');
+      }
+      const status = await response.json();
+      if (status.configured) return;
+      if (status.credential_status === 'needs_credentials') {
+        throw new Error(
+          'Steam ha rechazado los códigos. Genera un código de autenticación nuevo y comprueba la última partida compartida.',
         );
-        if (terminalDiscovery) {
-          throw new Error('Las credenciales de historial ya no son válidas.');
-        }
+      }
+      if (status.credential_status === 'discovery_failed') {
+        throw new Error('No se pudo consultar Steam. Vuelve a intentarlo en unos instantes.');
+      }
+      const terminalDiscovery = status.jobs?.find(
+        (job) => job.stage === 'failed' && job.error_code === 'steam_credentials_invalid',
+      );
+      if (terminalDiscovery) {
+        throw new Error('Las credenciales de historial ya no son válidas.');
       }
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
@@ -44,16 +50,20 @@ const HistoryCodeForm = () => {
   };
 
   const handleGetAndSaveShareCodes = async () => {
+    if (requestRef.current) return;
     if (!authCode.trim() || !knownCode.trim()) {
       setError('Introduce ambos códigos para continuar.');
       return;
     }
     setLoading(true);
     setError('');
+    const controller = new AbortController();
+    requestRef.current = controller;
     try {
       const response = await fetch(`${API_URL}/steam/onboarding`, {
         method: 'POST',
         credentials: 'include',
+        signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           auth_code: authCode.trim(),
@@ -67,15 +77,15 @@ const HistoryCodeForm = () => {
           : data.detail || data.error;
         throw new Error(detail || 'No se pudo iniciar el descubrimiento.');
       }
-      await waitForValidation();
-      navigate('/bot-instructions', {
-        replace: true,
-        state: { discoveryJobId: data.discovery_job_id },
-      });
+      await waitForValidation(controller.signal);
+      if (!controller.signal.aborted) navigate('/dashboard', { replace: true });
     } catch (err) {
-      setError(err.message || 'No se pudo guardar la configuración.');
+      if (!controller.signal.aborted) {
+        setError(err.message || 'No se pudo guardar la configuración.');
+      }
     } finally {
-      setLoading(false);
+      if (!controller.signal.aborted) setLoading(false);
+      if (requestRef.current === controller) requestRef.current = null;
     }
   };
 
@@ -85,14 +95,14 @@ const HistoryCodeForm = () => {
         {/* Columna Izquierda - Formulario */}
         <div className="form-container">
           <header className="form-header">
-            <h2>Configuración de Códigos</h2>
-            <p className="subtitle">Ingresa tus códigos de Steam para detectar partidas automáticamente</p>
+            <h2>Conecta tu historial de partidas</h2>
+            <p className="subtitle">Conecta tu última partida y sincroniza las siguientes automáticamente.</p>
           </header>
 
           <div className="input-group">
             <label htmlFor="authCode">
               <span className="label-text">Código de autenticación</span>
-              <span className="label-hint">Tu código de autenticación de Steam</span>
+              <span className="label-hint">Código de acceso al historial de CS2, no tu contraseña ni un código de Steam Guard</span>
             </label>
             <input
               id="authCode"
@@ -115,7 +125,7 @@ const HistoryCodeForm = () => {
               type="text"
               value={knownCode}
               onChange={(e) => setKnownCode(e.target.value)}
-              placeholder="Ej: CSGO-XXXX-XXXX-XXXX"
+              placeholder="CSGO-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
               className="form-input"
               autoComplete="off"
             />
@@ -129,7 +139,7 @@ const HistoryCodeForm = () => {
             {loading ? 'Procesando...' : 'Guardar y Continuar'}
           </button>
 
-          {error && <p className="error-message">{error}</p>}
+          {error && <p role="alert" className="error-message">{error}</p>}
         </div>
 
         {/* Columna Derecha - Video Tutorial */}

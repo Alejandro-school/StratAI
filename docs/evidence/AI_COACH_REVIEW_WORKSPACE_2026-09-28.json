@@ -1,0 +1,692 @@
+{
+  "date": "2026-09-28",
+  "instrument": "stratai.review_web@6",
+  "request": {
+    "literal": "Bien. Me gustaría hacer varios cambios. Para empezar, quiero que se vea el formulario a la misma altura que el mapa, de tal forma que no tenga que estar bajando y subiendo.\nPor otro lado, cuando los T matan, no aparece, me gustaría que apareciera, o que apareciera el Ct cuando se disparan entre ellos.\nEl texto de cuando un CT mata, es horrible, muy largo y tapa mucho mapa. Corrigelo también.\nEl c4 se puede registrar si alguien lo tira en medio de la ronda, indicalo si ha sido así con un mensaje tipo, el C4 ha sido dropeado por Tx en el minuto xxxx",
+    "optional_clarification": "Mostrar CT cuando hay da?o registrado aunque nadie muera",
+    "assumption": "Da?o confirmado entre T y CT; no todos los disparos sin impacto",
+    "scope": "UI y conexi?n de hechos existentes, sin regla t?ctica nueva ni entrenamiento"
+  },
+  "publication": {
+    "version": {
+      "id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_51ee5bbf36f0819193c3564f0dbecc82",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "version_number": 8,
+      "source": {
+        "commit_sha": "1a2ab1ed420b32416296db0a2e5bc70e7916dafe"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_000000002d2881f4a265c3a47a5836a1",
+        "content_hash": "sha256:420ff481e219a7422cd28f80e67d75a2774655220d04b4d442e514ba422a832f",
+        "size_bytes": 11560960,
+        "file_count": 40
+      },
+      "screenshot_url": null,
+      "deployment_id": null
+    },
+    "deployment": {
+      "id": "appgdep_6aba17743bd48191acc2de76ee9bd64e",
+      "project_id": "appgprj_6ab6ca78f2bc81918ef415064532155d",
+      "title": "StratAI · Revisión de 34 casos",
+      "version_id": "appgprj_6ab6ca78f2bc81918ef415064532155d~appgver_51ee5bbf36f0819193c3564f0dbecc82",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://stratai-revision-tp10.kerch0k.chatgpt.site",
+      "has_mcp": null,
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6ab6ca78f2bc81918ef415064532155d",
+      "failure_message": null,
+      "env_set_revision": 6,
+      "updated_at": "2026-09-28T07:30:25.275538+00:00"
+    }
+  },
+  "tests": {
+    "ok": true,
+    "site_build": true,
+    "site_tests": 23,
+    "targeted_python": 22,
+    "backend_python": 43,
+    "root_python_lint": true,
+    "focused_ruff": true
+  },
+  "hosted_verification": {
+    "ok": true,
+    "cases": [
+      {
+        "case": "E03",
+        "three_fields": true,
+        "sha256": "fb5eeed0eae9c4c699a3995a924fc7ba21fd7f2c034c2581bacb42ea93a4cc72"
+      },
+      {
+        "case": "E04",
+        "three_fields": true,
+        "sha256": "99be07b05e60765d65edb30afd933508e16b5380335b72e7543f4875da6ca6d5"
+      },
+      {
+        "case": "E05",
+        "three_fields": true,
+        "sha256": "565f29e1075e0243a730536998ce7303a53ade8cac3f5b198de4de144abd5932"
+      },
+      {
+        "case": "E06",
+        "three_fields": true,
+        "sha256": "5bbc91dad8077fad03cbe7e46833717f78cefebb885782f399ce4901dba75a84"
+      },
+      {
+        "case": "E07",
+        "three_fields": true,
+        "sha256": "55f1820d53b3f636fcab796fcaba7371d37ebadc20e712bdeee7c82a1ec4010b"
+      },
+      {
+        "case": "E08",
+        "three_fields": true,
+        "sha256": "a6cacf4d55a0d510848460f9fff60ad2a1b72ca2c7da9aeb152ddc1c171c1c2d"
+      },
+      {
+        "case": "E09",
+        "three_fields": true,
+        "sha256": "f18004e8a905d1fcb1701a239e53e38af77ee51f5f011db8c28cfe3b832ed087"
+      },
+      {
+        "case": "E10",
+        "three_fields": true,
+        "sha256": "bc26ab438bdd1650c4b9011cad11003c48385dabd86287fbc3cfffd6849d03f6"
+      },
+      {
+        "case": "E11",
+        "three_fields": true,
+        "sha256": "2a0521cd9e1dfa2014f56bc51afe91e23c7e230756e406d28fba4910fb2385dc"
+      },
+      {
+        "case": "E12",
+        "three_fields": true,
+        "sha256": "672cef405d554e12c95e988664187f5a2bbb39fd33619f95b62e1288b8055314"
+      },
+      {
+        "case": "E13",
+        "three_fields": true,
+        "sha256": "ce487136603b2f0405b19a863b8821758d4ad3efacd7bb84c1a928fc615d6c7b"
+      },
+      {
+        "case": "E14",
+        "three_fields": true,
+        "sha256": "9c35fe9ce806d7d19d655c95e9a4b5058ae3ab5675fa6712564d5533b6eb8299"
+      },
+      {
+        "case": "E15",
+        "three_fields": true,
+        "sha256": "1b59419074064dde429e57fee2d2a0bef7cb5649eb8d66ab13e3eac76aba0b12"
+      },
+      {
+        "case": "E16",
+        "three_fields": true,
+        "sha256": "7a1c0abd4c7a8f39706a86c12cbf6b9eaca5df284accc4ebe386a51444b54777"
+      },
+      {
+        "case": "E17",
+        "three_fields": true,
+        "sha256": "4358ce30de8ed310ba5ba2d6e4a9a07d705b7069d3dba20416ba855232bc1e96"
+      },
+      {
+        "case": "E18",
+        "three_fields": true,
+        "sha256": "57b289f26cbc73c6a65fa7fbf9508820d06cb2d1279ab2725de49b782609f1ea"
+      },
+      {
+        "case": "E19",
+        "three_fields": true,
+        "sha256": "7c26b9b6e33604770620facbcf750586ce651b7775291e2965249b65cf8a4332"
+      },
+      {
+        "case": "E20",
+        "three_fields": true,
+        "sha256": "9f7592cf646e87fc6d7d61721943c5f08cec1134d6ac23fab4a4810be8b0a0d8"
+      },
+      {
+        "case": "E21",
+        "three_fields": true,
+        "sha256": "b3d5e1a1b4e4c2d54bf9cd6b69073970ac6668e72dbeadc3b0a7273a1f9a2c1b"
+      },
+      {
+        "case": "E22",
+        "three_fields": true,
+        "sha256": "29fe91b155c56706c9a13158d6b74006eef99c3bca743089ffba6cd8a7d6f759"
+      },
+      {
+        "case": "E23",
+        "three_fields": true,
+        "sha256": "55ffdfced11b9b96cfe0e309d92f8a4153da78aee2936b23f833ed5f559f1e84"
+      },
+      {
+        "case": "E24",
+        "three_fields": true,
+        "sha256": "941dd2a05dd092ccd6ca9daf17f042a8bfe41e982f5a00b66b9e26d2d6470c57"
+      },
+      {
+        "case": "E25",
+        "three_fields": true,
+        "sha256": "260657ff4e20aebda1364dc3e6b8a8da6a7e60d97cc119c06f3729ce69cac97e"
+      },
+      {
+        "case": "E26",
+        "three_fields": true,
+        "sha256": "e297368fd181bbbd3641a26c66e5ad1409730dbcc8b1ff1817762a7460bd0ec3"
+      },
+      {
+        "case": "E27",
+        "three_fields": true,
+        "sha256": "1dd76cb9c5b77bf18add9fb654bc2563fb649dbde0468acb5af0260206dc28a8"
+      },
+      {
+        "case": "E28",
+        "three_fields": true,
+        "sha256": "b453da3a4e9315abc474ccab1bc0893ee8266c0ab956ff6573f69b4a55de0edf"
+      },
+      {
+        "case": "E29",
+        "three_fields": true,
+        "sha256": "fb1bb55d2d0642de750d040bb23b9a7ef5055322b3146be47b7eb550e89218e6"
+      },
+      {
+        "case": "E30",
+        "three_fields": true,
+        "sha256": "4290fe46d0b9b43dc457bf495efeab7e8133555727a8ed2545e182ef159b8803"
+      },
+      {
+        "case": "E31",
+        "three_fields": true,
+        "sha256": "3cbd0ee153e3b98e0ad1edbe66932f74c951514b3172818c184c9d7d0e083a08"
+      },
+      {
+        "case": "E32",
+        "three_fields": true,
+        "sha256": "1f09d6e06af9a8ae0affbe4128400c975bef95d5d2c21124b1541bb154c1ab5a"
+      },
+      {
+        "case": "E33",
+        "three_fields": true,
+        "sha256": "081a78489163ae84d20aae97fc0d2903c4aa653be167a157a40814aeddf3eda9"
+      },
+      {
+        "case": "E34",
+        "three_fields": true,
+        "sha256": "d12225527e19e66322ada0654e8cd85d783b0076a74db1ddfd939a5cf7e8d6f2"
+      },
+      {
+        "case": "E35",
+        "three_fields": true,
+        "sha256": "44b82206fa9c871da79bf5898e05ec442502d9470d5fa9693999bb099f56c83c"
+      },
+      {
+        "case": "E36",
+        "three_fields": true,
+        "sha256": "4b99e4deafe26f58bf39411b05c7cd75a793818222e7aab83caa7840e00cc01c"
+      }
+    ],
+    "existing_records_preserved": 32,
+    "new_technical_records": [
+      34,
+      33
+    ],
+    "expert_answers_created": 0,
+    "fields": [
+      "alias",
+      "reading",
+      "missing"
+    ],
+    "omitted_exposure": "not_collected",
+    "old_form_requests_ask_reload": true,
+    "no_platform_login": true,
+    "immutable_versions_and_idempotence": true,
+    "other_reviewers_isolated": true,
+    "clock_format": "mm:ss",
+    "browser_visual_test": false,
+    "instrument": "stratai.review_web@6",
+    "casualty_context_present": true,
+    "kill_context": "callback_event_positions"
+  },
+  "preflight": {
+    "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y",
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_matches": 1,
+    "corpus_manifest_hashes": {
+      "demo-b4aea580f276cc47432c": "edc7efe71658afef0bb0ce100210319100864a35e6a0fdc51e3a14ee13b32f2e",
+      "demo-16f8007d930cd56063dd": "c17633027e1f8c389d3fdbb85eb31a958f1d0957c4e5092bedd8ae8ecf8c8f13",
+      "demo-5224a45934f2d5b94c01": "ce5f3cb8b35c2318b55a78f2685bb465fe93578ee66d9685de2babbafcfa6913",
+      "demo-0beb9110ec408f80c39b": "e5d32dcaf5caef5447fe35c1a7b1b45bf197ba189f62a5bda8fc2b9daca417b1",
+      "demo-19d8eb34d820b2b18553": "c87a4159e4837bff177a9f42ec769cf8a4170c27fb2796cb7298b46438aac27a",
+      "demo-d5f90617b4bf38036f3c": "629ae6a83ae49eb1b9591c4b5f1a0f1fdd480f056ed704cc8dc7595d29e40ab8",
+      "demo-2b5a00839d69251d94e8": "f3eacb17ce239e211a92b2fdba062a75fdf62b97c7d48a64ca004fa2f9b04822",
+      "demo-773d35699f83bc3301f6": "04e2362280e1b2039ed1942fc60fc5430360f6a2eec2023be5d66578dfaf4974",
+      "demo-7d26c630af0a2b3adf74": "6a7cb2ee9b9694248038932d1e8efce3316b739dc50d08c8dc5e1345152f2cd7",
+      "demo-b9c9fef71f986463531e": "93e2eebbcce7e0614190f240d19ed6859355a30f8383f90a4a799fe14147f8b5",
+      "demo-7fd8da160b9b9a79fb37": "4d3302a3b64d197dd1879a6d6321f68d51c2dc8024cfe7b7ddea81b9605827e6",
+      "demo-a11eb0d600ee702c9edb": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+      "demo-e4588db759c3e388a28a": "7964ce27535e0cd5f53061bdc83acde09275ad587374b191d13f1c82c61dcae5",
+      "demo-445ee754fdf13603d665": "eafb71746c5f60fe3522740edf9dfe93e5bd44ef0dd0be3a3ed018883a229ca3",
+      "demo-9878534630a68b998f43": "ba17ecb293da3c2c41d1305bf24c9798bc65d0580ad5b28c1d0d2f88bcb79751",
+      "demo-69fe05d62448487164c6": "8dda4a3740bc8e9edf5bcc6b00e05af1b381d5086b119635a05ba2d1fe19da6a",
+      "demo-97d87a091be835f01f5a": "bf8c414d9ac0fd905a264a718c63d2c3b31d20ab9f300ae9aeed3f42b35eb3d3",
+      "demo-560a3000210e30e6feb9": "527fc30554f935ad7e854d284ceee30c96cfddc70dcc14ddc49b09d6b72c0788",
+      "demo-ad48bf05c36fef00f8d4": "b0936446cb34a32441f5b7bbc633e683327c5bbdd935b1db4af012714a5f124f",
+      "demo-d1cf31896e6dd93b68da": "d52b8d42ec0b6a0dd00d518c327ae05ca12a54415bda5d94aa7574edc6ac4291",
+      "demo-86ce234795e3d55bb95b": "9abd881462229639360c1809a9cc3b98b3fead1b84092823d6127e075c63ee78",
+      "demo-1028fce95708dda309ae": "c56985c3c5e44b0cce6c84501962a82d405cada717bd9486658569d9c793f5a2",
+      "demo-7949b6da7301dce89ab3": "24b41214638145c1e43242d347c712c11ac5e7e0a96d217d375a5e7306dc1365",
+      "demo-4808a5438ee9f991fa68": "cbbd7e49b48839fd76425dd5ab43ce322b0a1f1a42e4714238cdff4216687bec",
+      "demo-f3897b8116e8a23e3715": "11f99902075ed67cd0ddf5d0827f5a2c175031b99c0c0573f3efba7199ce0e22",
+      "demo-381bbf14c9ccd5693047": "f239072ac6c4e11c31e2a7adb0dc4bc39e9b339869cf1d1b5234926773dfe70d",
+      "demo-f54b0f4d05b728a7b82a": "597dd1ef4293e3ba378cc00da79ebc4ef2640d978f2c286a243a6304bf963961",
+      "demo-08c5b544a3e0fdbf0291": "0be98e0d82aee950706baa82d54de11469bd187e1827822acc5041e3ae7280dd",
+      "demo-7fea6dde5c22b71c8425": "2c3adc01f5e375ca80fc272dfeb084b41341723a728cb09661cbb9dc4631df76",
+      "demo-e21b1788b82df945ee92": "ccdd163a6e01e9723eaebd4b786e0a089fd1c5a5415c247ade85fa6ecef9ff83",
+      "demo-066944f5acb806ba5f81": "8c4b4d656bde864216151f924253c1469ed66edbc97349c7c3a115d0067496e6",
+      "demo-e8daa09c10ea0fbf5742": "f63b8c790911e6bef931f5de13d0a101e297dd65832aee5162d0bf9a611b9c4a",
+      "demo-0b4af44ba9eebdb69a6b": "e02eefb682efb311dc2a4518f9f29fb8dbaaab9b6305fcfe94ba5c20683dbd86",
+      "demo-faf95fc7bbdef87473b6": "c52e3c33c0a6345515119b2106531f675361ec5278f6883551eb5b0fdd967e5c",
+      "demo-320fc58d45f8c8ca7f03": "f22cfd3d0139eed4cfe633cd4dcbfdcec6a30b6874812626b431617449397846",
+      "demo-cab5667cb4c8e0e77c34": "b918344df66ca7bfb1c2b4237d38832e9d218f3653d3d0a3539076e8c2a2690b",
+      "demo-d88bdfaf6b87ae48c84f": "d3e5f01deb372db236c7380c87f074d1eef847d23c67b8c46cac069b4be0f4b5",
+      "demo-045df2521c790a7d8a69": "5a6023e5c4c6ac75cb4d6a9eba5964e8d1e473a47f6568d7fac5522e641f1300",
+      "demo-6e4a3660d53931747fa8": "92d373bb7a4f9c419f6b760c2eb050815a55eaf31bd290a8c22aa753d2dcda24",
+      "demo-5bdb2dac2277dd9463ac": "bb758067befd6d8bcad1478a9370aea93a7ffca721379c78cefa594b6b993be7",
+      "demo-310597a1cb8f27f26c55": "9bd752915ab8817ecce83a0effa51cf5ce1fb3a5282717a5e1c32a4553b6da0e",
+      "demo-fd7ff4a779cff305d79b": "5afbc30320321139d551cee7c7acca80830b974eeffba34a92ab9968129c219a",
+      "demo-68955f754119bfcd6c1c": "4314134b12a69276bef17920de76064b7b583fb1c1905431254391006e23535b",
+      "demo-a1b04b7f0c43acd728c9": "f6a5b187337c451ad4ad02c1e0135a8b792aef46c7f985604352a30f8731a2e5"
+    },
+    "binary_sha256": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+    "build_identifier": "working-tree-round-context-20260925",
+    "parser": "v16",
+    "canonical": "3.8.0",
+    "quality": 12,
+    "review_extra_context": "stratai.review_extra_context@1",
+    "go_sources_match_recorded_build": true,
+    "sources": {
+      "ai_coach\\interpretation\\review_extra_context.py": "f0ad3044fd5a7cab2fe3be4bb10e0ca82456b291997deb02d2b58ec670b57f15",
+      "ai_coach\\contracts\\review_extra_context.schema.json": "c42014becb4c76dc02f26770d7a192f7f805d6c43d1f44ee1022ed5da1c10874",
+      "outputs\\stratai-review-shared-20260925\\site\\web\\combat-review.js": "7b08ac8cb3cb2c036e9692eda2386371c06d5c8c9b76e329d0d585bfc3c7e99f"
+    }
+  },
+  "smoke": {
+    "ok": true,
+    "source_alias": "demo-0beb9110ec408f80c39b",
+    "source_sha256": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+    "distinct_matches": 1,
+    "counts": {
+      "damage": 155,
+      "c4": 15,
+      "drops": 10,
+      "pickups": 5,
+      "death_drops": 1,
+      "cuts": 8255,
+      "T_damage": 69,
+      "CT_damage": 86,
+      "CT_deaths": 20
+    },
+    "cases": [
+      {
+        "case": "E03",
+        "damage": 11,
+        "c4": 3,
+        "omissions": {}
+      },
+      {
+        "case": "E04",
+        "damage": 5,
+        "c4": 1,
+        "omissions": {}
+      },
+      {
+        "case": "E05",
+        "damage": 20,
+        "c4": 1,
+        "omissions": {}
+      },
+      {
+        "case": "E06",
+        "damage": 27,
+        "c4": 1,
+        "omissions": {
+          "positive_damage_unavailable": 1
+        }
+      },
+      {
+        "case": "E07",
+        "damage": 18,
+        "c4": 1,
+        "omissions": {}
+      },
+      {
+        "case": "E08",
+        "damage": 10,
+        "c4": 0,
+        "omissions": {}
+      },
+      {
+        "case": "E09",
+        "damage": 0,
+        "c4": 1,
+        "omissions": {}
+      },
+      {
+        "case": "E10",
+        "damage": 5,
+        "c4": 1,
+        "omissions": {}
+      },
+      {
+        "case": "E11",
+        "damage": 30,
+        "c4": 4,
+        "omissions": {}
+      },
+      {
+        "case": "E12",
+        "damage": 29,
+        "c4": 2,
+        "omissions": {}
+      }
+    ],
+    "protected_files": 160,
+    "unchanged_corpus_manifests": 44,
+    "schema": "stratai.review_extra_context@1",
+    "independent_fields": [
+      "native identity",
+      "positions",
+      "weapon",
+      "positive damage",
+      "drop and pickup",
+      "death same tick",
+      "availability",
+      "round clock",
+      "marker age",
+      "enemy death"
+    ],
+    "artifacts": {
+      "canonical-export.exe": "b7ac6be18922b29e3b2b2a9a28187d9c1e8f484804da5105b49c0a68b039ecc1",
+      "demo-0beb9110ec408f80c39b.dem": "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+      "timeline.json": "a3a2731218578cded9457a3c71dfcdb73f292dbc6f6579117bbfb25eb1aa6441",
+      "extra\\E03.json": "6ee83697556d54263777e7f7b2209fcca651ac2865f0dff3f8b45c5d72a3ac1d",
+      "extra\\E04.json": "2007a32b88aca243b8e18900d90ff7ec0daa64030bd3a08b1076a9e68db8c3cb",
+      "extra\\E05.json": "89aa1b04396bea22f7fff0da6c75bae291f91fe008c0271eb0925bccb711a7fd",
+      "extra\\E06.json": "109d41df9d266c8d815aca883068f2b231c2d03acc13842335fe3ce06e5490d2",
+      "extra\\E07.json": "42a53dc5f593f810e8b821526792351de39e878bc47d863e9ed8c7c792aaffdd",
+      "extra\\E08.json": "f65cdd58094a936cbb060a7a74a713d0a328f083e135a0567ed49cc2539ae572",
+      "extra\\E09.json": "a7db5f432b4ab270e6448e9e96d5cbb678d53436f77c909cc193fd039600ae9b",
+      "extra\\E10.json": "b2ffdbcfe300c2ef8b1d70708db666181bbc2ee6c2328244ac05b1d5442c003b",
+      "extra\\E11.json": "951553a97144479e667c6d1c9180bcf574e4bc9b8a05c702cf98e007a2412a9f",
+      "extra\\E12.json": "684bbd19392121437f93ed65f910361d27fdc153dfab9a53a6fe31dcb128c088",
+      "extra\\manifest.json": "f7944645b0ca330087ad72f12986b7e4e5eda0b943d64c7d20af22b77a540d56",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_c4_observations.json": "389e3c73e9f6ebd34172096cc840d14b834742002697b1c17a0359d6e4a9a1af",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_inventory_observations.json": "328ca3f859479646b65a02eb2fe78850dd940efb0ad85cf530a0506ca74a1fe1",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_objective_clock_observations.json": "cc376f376e0ff6aaa8ebafc8bd1a5f9a521327da61189a14153a8e278035e476",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_objective_observations.json": "1552e62256d5c016aa3f5d34178c5a7195b8345843f255dd4f4d8dec5559652a",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_observations.json": "614f03792e7a651b6626a8f570ae5138ff496226d47638bed67aa8c98278f7f1",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_physical_observations.json": "5c095fda3b7a8fc6983929f2c2db4c6339a2cd72f7d8128304596879a7815f29",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\support_round_context_observations.json": "00b3a821e52d485b35d7a712de3616cf217762f29f4c175de7673dd6636ac113",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\manifest.json": "38cf5462919cb2e138f7d5164e9a2cfa5caad070413d0ca21c70a952aa87efd9",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\decisions.jsonl": "9c6306436c808d7abde14d4fbe9199d825396c6598e50db1142d99bd21aaaa1b",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\decision_features.jsonl": "72b82a02a9ff03d57869dd9fdf9adadbc4a594c4148c1f4745a63cba19614efd",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\oracle_context.jsonl": "f59aa7922ee59a018c69f81e4afbcb2b71127d8ce9e3ad64cb6473e22245a68c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\outcomes.jsonl": "148bea869a3ac083dea474fe6a4529d7487239ed8e83be9301d5b10cdb6064d2",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\causal\\quality_masks.jsonl": "7414bf94942c1c27dd0fbb9e846cee9e236e3fdfb5c59e3f8a0a01435d8a320e",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\match.json": "56f04f6e5729fddad7d1038bc178f9c49917f0908726e5828c6a1c9ce3e34634",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\match_metadata.json": "f3dbbf6fb620612676cbf972120978b84f588fee76678bbbb9cd2d54dac440ed",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\participants.json": "3a503d8ecb84de1595e4269e8fbb685661af167bc5cdf2c7a7601bce29ca485e",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\core\\rounds.json": "c3af6cda7b98e020906d4796dc2fb462f057f5953f4d06260b7428f664dd03bc",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\clutch_events.json": "98a9e437dd4417ee9b7ab2b27f977a151de312d91214cb27401276e6597ad228",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\economy_players.json": "ac1c0f870d8508c5cd3dcdef78aba6498ccb6cfa0f68879f25942c31c3c70c46",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\economy_rounds.json": "556e8004d5b2ac50a1fc325de5161261c198be93c6eca82e56d3ef309ee4c54b",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\engagements.json": "52f61453b89da74c89834e9b2dd2c75df064a9132b554f709e3270d059fc3f7a",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\player_stats.json": "2a1433ae9b0a85a148e5e4ca9b5f9c7d0e84da078fb24233eb8d865140adee6b",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\derived\\trades.json": "9774e39ec0d00306e8f8d30a649f5c49cc46e19f95e6c0fa00b9b6777c9ecc74",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\diagnostics\\quality_report.json": "c4bb62ab8c342b8c990355d58713b73e322d533f47cb53840ec6fb2714f3d617",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\combat_events.jsonl": "46b5392ac6767765a98d48b17400593c6cf26375561373ed198066d37fd5d92c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\objective_events.jsonl": "8f8451bc18a9cbf05fe44d57ff6386324282178169b0c65490f7c42444ca21fc",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\events\\utility_events.jsonl": "2e6c4cc63cd756bf7b35489a79a7d72f424276539c2409b271c8c4defbfe7283",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_001.jsonl": "45596025a6af5560114aef87e0aa3e81340b19cc7a620e8970e0eedafc66371c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_002.jsonl": "dc4ee1832307689ae5f90c516061d558bba865aa9ab4353e2be6794e7d6be464",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_003.jsonl": "93fd39be8f4fc7402c0884c8a075d9236c19ab143818b21a7e4aac1d31f3e7ad",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_004.jsonl": "3791570ce36380d9b9749c47ebc935a0c72a888e40a638dce0904b96688f7919",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_005.jsonl": "1675ef006cb1be71be63b691f0a60cf599e5d6e186b026e1c3202387c300c2c2",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_006.jsonl": "936d3984936835c8f3b36c2882f5d403aecd201856ec2462124d6e68633478ff",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_007.jsonl": "dcf5c929beef1848b5923184afd3ac6807c83e7abf22fc27d87fcfdfd266e0d3",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_008.jsonl": "be509601cac70c090f69bd0b33c8b1cdbf925ae46a4edd835ea7490ebb93ffde",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_009.jsonl": "1b6411484524390938e339fb605f6bfe6c75d7f10bac48d3cb2b47fab7fad014",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_010.jsonl": "3d953685762d9792149f7a437bb94b2ac2fa56f6de5c9f4fbc61e9673a167cc2",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_011.jsonl": "ac1c54c7fdc1d0210606a3e3d61269ed26a4b31ca770c9cae981c9ec8a5fbdc9",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_012.jsonl": "37bd9270e85d8c3648fc4dbdc3d176f793f3221c6cd0ac0dd8f51b7b996ef5cb",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_013.jsonl": "a36ccbed3205e162bcc37cc41dcddf4db900795ee8ab63cc273bbdae37da525f",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_014.jsonl": "205cc1fe94c542cc3b9f5ed3bd6657e6b1ee1325deefd37b0628ef913ea8905f",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_015.jsonl": "9f55a67a0e546ef077bb3777aa4a063e58c3029d9623ec6231a8a9864e862432",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_016.jsonl": "d576dfb4df4d27af73bc9fa00be764fbed732f6d287135a9dc4b3bf08dea6032",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_017.jsonl": "989ff68dc2f4076526c7a097ea721329bfcb3bcfb5be3e9a2e82f572b21efbec",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_018.jsonl": "d58be7b7137e2494e5d691638a64ce9f6c29638ecadfec17d7b26f735d535577",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_019.jsonl": "8efd00a91800d89c200ca9892188c0f623c5241be4d789831d8f1ee29677a1d0",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\player_states\\round_020.jsonl": "e32b8e3e3ad78b476f9542ef5930e9770ce86e5971259e88ff19a602596b4362",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\gaps.jsonl": "b0d4ec557d6e3d1bdb7254f1de7b1fcf101790aea27d8e996d2a9398e7b8aa56",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\observed.jsonl.gz": "3a52d26575df0e9cdfd50d6592f2058a6e27f4969947822db8a60e84829c34ae",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\oracle.jsonl": "a195edc44708097ed1215714858e68d0c5301a01e65f91e4816fdac6cc754565",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\states\\tactical\\sampling.json": "be96db6e2e215e40999c2f40b43d11b5b84ef7757f2545f733c05fc3f91bf3f7",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\index.json": "d16fc3e20e2565fbde79a4d65d1405c1853d45fe35f5fc644156ba3e2862d8e5",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_001.json.gz": "77702947e5cf032e6e4f62511c15fef90732303723c5babe99efab32bcff6f44",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_002.json.gz": "665094fa50d4700f640dccc672e982933e3149dfc5f165b7e17d3006ba99ac90",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_003.json.gz": "5275fbab3b300e52a70842e1084afe40a4288dd3e2d4c7530ae1e39ff460fec1",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_004.json.gz": "4dd1c70b9b96bdd2ffd484e529e3fbf53383fd0251dc19dca4b3430235f42871",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_005.json.gz": "0b16b3983afa8f7a60abe85ff7a87baae0d12a5ce02e72fa3593f245ea0331c9",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_006.json.gz": "6ae0663aa826c8ccd9b3281232bd6a21e4f33127528de25c60c36da6d46691e8",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_007.json.gz": "3c09a0df02bb9048ac48413fcd125928a1c9af7940a668d19678574ad9dbf646",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_008.json.gz": "654c378609b09bc34444469c586e8ee468de5780edf272f3d9d7ed22d4b5f18f",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_009.json.gz": "05c2c841508b780aac0302073f0533c46447a9e3821a4a3f13b94b6e930c04bb",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_010.json.gz": "6d332eb9635db2341a8cf0f7da6a5d6e42f488a28f6a4aee6d1f9686a6a1fc7a",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_011.json.gz": "1eb2211a5e71f3dfabedfbfae61bc75693609dab5386645e666a29f0174795b6",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_012.json.gz": "ddfefbeee10a8fc0249080f9368017e1d2ddb70766617eb757ee1f327c0652b3",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_013.json.gz": "87d7dfae361ef41079292bc3109a82e249a505d0a4a66bde0edde79632bb8eef",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_014.json.gz": "38dfac3d05aca48fd47a46c3c5fd18f081b512f2abbce8f6a6b86aa28561f2fd",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_015.json.gz": "d77f3ab19b05ddb5a9ceb69895240f26c8f64716e9fca54edfb39e84524f4f21",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_016.json.gz": "ab8d3984608f99ff4067b4d38fe3674d68546e900039772b682db9c9ae08aefe",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_017.json.gz": "92869e536659c97fd05e383055104689d9d3625129c3026b1c695805fec1873c",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_018.json.gz": "c0d6f5d646053b5149bd6ca08cd7278f11d42aaeafb106f15a9dfce35ca81aeb",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_019.json.gz": "f713775b2fd0ebfbe0762cbed3e627f58141d2dec3ac66fc89b6a96b62fc250d",
+      "capture\\smoke_run_demo-0beb9110ec408f80c39b\\match_demo-0beb9110ec408f80c39b\\canonical\\presentation\\replay\\round_020.json.gz": "790e05e4dd210a49e7554daadd521078dcdf36fa9b7715edccc88200a115f1c9"
+    }
+  },
+  "commands": {
+    "producer": {
+      "command": [
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\canonical-export.exe",
+        "--demo",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\demo-0beb9110ec408f80c39b.dem",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\capture",
+        "--alias",
+        "demo-0beb9110ec408f80c39b",
+        "--checksum",
+        "0beb9110ec408f80c39ba19f90729773705108e21d88d0df20b60267a82f91c7",
+        "--maps-root",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps",
+        "--build-id",
+        "working-tree-round-context-20260925",
+        "--ai-coach-support-objective-clock-candidate"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+      "exit_code": 0,
+      "seconds": 101.876
+    },
+    "materialize": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-workspace-20260928\\materialize.py",
+        "--source",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\capture\\smoke_run_demo-0beb9110ec408f80c39b",
+        "--output",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\extra"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 2.461
+    },
+    "timeline": {
+      "command": [
+        "node",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-workspace-20260928\\timeline.mjs",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\extra",
+        "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y\\timeline.json"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 0.565
+    },
+    "audit": {
+      "command": [
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+        "-B",
+        "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-workspace-20260928\\audit.py"
+      ],
+      "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+      "exit_code": 0,
+      "seconds": 18.819
+    }
+  },
+  "presentation": {
+    "form": "same grid row as map on desktop, stacked on mobile",
+    "map_labels": "alias only; details outside map; click/touch/keyboard",
+    "fixed_case_target_preserved": true
+  },
+  "counts": {
+    "cases": 34,
+    "kills": 118,
+    "CT_deaths": 55,
+    "damage": 448,
+    "drops": 32,
+    "pickups": 27,
+    "same_tick_death_drops": 6
+  },
+  "omissions": {
+    "E06": {
+      "positive_damage_unavailable": 1
+    },
+    "E24": {
+      "positive_damage_unavailable": 1
+    },
+    "E28": {
+      "positive_damage_unavailable": 1
+    },
+    "E35": {
+      "positive_damage_unavailable": 1
+    }
+  },
+  "protected_review_inputs": {
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E03.html": "534c1c8a6d518fc515fd80380cc52a138b9ba6916ee10e9ee9c4e2bde80ec9a8",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E04.html": "1b7bed92da37dc1951de75b552156960a67a13540fbe6ef654c9f0c1c240ab78",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E05.html": "86e9b5956b335dd1e090961b38ceeae48f2720bff573abe5d3770799030ed045",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E06.html": "f0536146e4e72eec7a7d991baf136e44c037845c4e73f03dd69623d21d009d54",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E07.html": "7520160ab34ba50d3088c56c6f8fbe0621d5e0838ca7e363d59cb8ec65d02bd1",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E08.html": "1b6b4f1c4bd0a393b7a66582b5609e8846c5a1adcb4c994b6e48d4b40e2dd509",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E09.html": "b80608cebe8134f9ebc9b95847f9b862ed8653bc98279ef9f0dc813e1956eb90",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E10.html": "1441272b54a7519871fd4c54d9a75ad84f875c0b9fed3c4a2ed6d24a585cdc84",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E11.html": "7ad3ec658dc753e5a1dca8871be769ac7facb37a7b678022402936eed1b1bac2",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E12.html": "b6b9455a4e63024a0a0e28eead33d75a71fa4ee4434eb9f9311f264732b6f5e1",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E13.html": "9caf3ff6181a5181b1b05ad64cabe04822ec0c2465013cf9a518d8a115608640",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E14.html": "6620a7a912fd4de3d4cbd870d45a870b8ff57b77f0258b955e5461cc82dd04d5",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E15.html": "cc6a048b1799ccd066afa4fd167ba369958bd5980732149df27c03b9c68c10bf",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E16.html": "507cabe062ab2827b8caa121bce71aed260fae92b05be0438497a7918b15d0ea",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E17.html": "72b0f8380e705d2dd60ce4f3d7f5e1c4a6e86f24be85cb4b096bd766eb04250a",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E18.html": "a2803e7e9f9e8c843dca51735e4f6f172478e05dd92ce448f57109f53ec6ad58",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E19.html": "3f8d203dd87b757988a4d36ffe372fb1ead3e67fd6771d11f5327468d007ce63",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E20.html": "a591de5fb305a2442eab22f78845666f9df20de48de3851e629d8b34ff53d24f",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E21.html": "9ebce8b2eb71209038ffcbeb88310830ffa83b52ad44a0a8b94a215e8a455056",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E22.html": "26366589af0227d9077b4734e003392324c3cf91ceedbd89b950588a03e7ba9e",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E23.html": "e938069699b4ee767379c88cc2f68e31302974f7dde9ead39a4187702ed712f9",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E24.html": "9d6f0199512cfd9e161884c96fc73fbb50d128e2b37895e0fd7398d9dc3df0b5",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E25.html": "623d32d7c889425e15eabb6d176e50581bae2435a88affa6408e8c5c72ff3760",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E26.html": "2b8db8715027a546cb4ea3eac3942fc5dbb73ed27ac7b59f5280144cf6f8bd9b",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E27.html": "5b4a78c3bd01d59e40d495857a1d17957654d4ed4c600e918bd7128d8e9a29e9",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E28.html": "5aa042469245a0e8069fddba1ffdf3e92783600e502bdf4f07c23d9e78dff2a1",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E29.html": "feb1bb9c7c2775e398aed6c23d6869a9521d7352c3c6f288a6be96121012ba24",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E30.html": "3fff591cae416ee6db782803abe0d586f202583d8f3d342ecfdae24d84ac3afb",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E31.html": "74e38336fe2c6da94badb95a59825d66fe27fb42079807854936705ddf2a0945",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E32.html": "0740b64c5ee34efb33564d6f681a1c2ebcb9af7d658069e37cb56eff1152d06f",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E33.html": "503aec729d9070e5f7bf71cb6d544ce0d5d841a298e22aaf5b97a10f6f52f365",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E34.html": "bd7e18255b1f115f7564b7a6d75d500be125b1505c1bc895825b5865f1fd6896",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E35.html": "40545504c68cf7b05c632b947df7c78bc277c4f151f97a616d9756cc91e2affc",
+    "outputs\\stratai-review-shared-20260925\\site\\public\\fichas\\E36.html": "9c954ababb6ce4b358c0dee4e114328c5665c1da5a073c9ead836001fbf5b8f4",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E03.json": "cc0fd5d7a7a4e49ddd54fac109e92accfc9bbb34a14ab45a13784052250a8841",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E04.json": "1f2697f3b5ed0ff23301c77f01a3e338142820ca5b1c936bca27f09d8c5bd396",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E05.json": "024b54130ac9b1b7294252882d99e18632a8dd82beaf842ae3762c03b98c3449",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E06.json": "dfd7a16e724cc809dd9b18dca9bd4a5377a6f78fa1e1c6ecead1fb154d34de23",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E07.json": "4299055481d949519521585f4682b449a31b515be95933c298288711d7a87948",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E08.json": "4d628813e6a07a958404edb78545fa2719a3ef72ae682993bae7d57396c0b37e",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E09.json": "6e691c7f76275a74fb3d7782e66ab574cf4e987504e6b3e785f30ffc0c7c4338",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E10.json": "e7ddfa3909b301409e012a07303dbde3ab72e0ccb84d955ea102b5a222cc37ae",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E11.json": "4609a31a766d8d3b1656cc34e01195fde9d69d068bc4bdb1b47344f45ebb6523",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E12.json": "11d7b648174d1363dbfdb6f55ea0c490ce842e76def75e1297a89d2434b06953",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E13.json": "e9fcc4a83343bac3bc75e983e829883dfd3ac3ef00da75006dbd95a31c649fb0",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E14.json": "9a7298018bf6ae7b01b4738d13dcdb8e1e409453f4fa94626a24d6e7d7d00b4a",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E15.json": "fcf9b523f25c5b1c376d0f5edbac82d7e20e344561038437a2c8543fedaeb072",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E16.json": "c7bfcfb3151d83166df640f9ef8e2242d55703e2f050258967d0a14bf8ad84b7",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E17.json": "4eafc49c5d9fa86827c71dcae250fe94fde623f655d79d63c2b9e84ab7a15051",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E18.json": "33ba32acf784480c1952f798ecb4ba39841e9f60e44948a25773c38791c9f434",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E19.json": "08cc60ba199b715c0ef6e871d84e7928f8256b38fcff1b98798ea6a89e532395",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E20.json": "b69db75bc825360d97d2c22e15d9504d0eb387a0ea4d77e817adbe42395dd411",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E21.json": "5e5cd6a09bc32265ca360bfb7ce5f7935f6a1604abb045e78f98ad97a7ff01ea",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E22.json": "4374496e37a48852f39554df43309139fdcf2b118dc0f4f0e3cac68dbee6f3f0",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E23.json": "a598a5b3272a9bfe20f71051dc9d30e7e3f6fc71a2501079ac0c174298b7dda2",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E24.json": "a190536fd3f8e6380095177a7b41c192c32e3a3509ae00792d2ae04a9908ed7a",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E25.json": "5fea6d72d4a401e72b4879704ab14ad4789cd44b9a4050873271a75de44d726b",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E26.json": "cca1408f7cdccaec2fd80be45a16bcfab60e8329c68b9e15757a29aaa809f0a0",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E27.json": "8e637ebc990a3fbba19dee39f1e1ab7acbd281fc8a2db58dd9c2d48f60ce994d",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E28.json": "f4ab698b426b990d5f5a96a6317b4180066a534a8e5ea561c385e486e9fe67f8",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E29.json": "560e7012104556837f41b43bffde3b99c21267e83cf8c99d5869f3f34e5add5c",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E30.json": "d1bf6d3e74342aa3ef6f5b8033fb758da2953fb23a5003d67a32e6b6d9b82f70",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E31.json": "0bd65b2af53d74e29c5c39e79eefffd99ceacf7ff695f269f1f6a4026d32dd53",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E32.json": "8b431f331f4277bdd133359a22e8963dbdd76fe0a6143c91de6b12f0499f9c43",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E33.json": "0ec3aace178f13e6d09d404250a2064f5a9d3c2b0ee492771c242bfb2eaed227",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E34.json": "940d6e122235e9bb9b773b6758717485593237174f418964df174e73bc62d163",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E35.json": "dcb0384eb651ca7ecb9359333966ee822494bfaf68a57bbf0dccc546c5540805",
+    "outputs\\stratai-review-shared-20260925\\site\\generated\\kill-context\\E36.json": "88dddf05769632937d30fde632541e47664ee108b82d3f31479f7bd4bc959748",
+    "outputs\\stratai-review-shared-20260925\\site\\case-manifest.json": "a715da7e5c503ea3b02cd0d980af33e63b8a384a72aef14e663e059d29ca7848",
+    "outputs\\stratai-review-shared-20260925\\site\\kill-context-manifest.json": "02b8da91700278bf52d42efab754855909119f69a89c153bfc4d83689ab32d1e"
+  },
+  "four_previous_data_blocks_preserved": true,
+  "extra_context_manifest_sha256": "6a0b4934948ba58a6fc751fa8b8d59d03a016a1d0eaafe6846fa5b50f5bf49a1",
+  "source_hashes": {
+    "ai_coach/interpretation/review_extra_context.py": "f0ad3044fd5a7cab2fe3be4bb10e0ca82456b291997deb02d2b58ec670b57f15",
+    "ai_coach/contracts/review_extra_context.schema.json": "c42014becb4c76dc02f26770d7a192f7f805d6c43d1f44ee1022ed5da1c10874",
+    "ai_coach/tests/test_review_extra_context.py": "12afa80171e0b9f85f2c22805a625d8eb0ac02c51328a356b7a2a439daaa6495"
+  },
+  "workbook": {
+    "ok": true,
+    "sheets_preserved": 14,
+    "previous_values_formulas_styles_controls_preserved": true,
+    "only_changed_cells": [
+      "A37",
+      "B37",
+      "C37",
+      "D37",
+      "E37",
+      "F37",
+      "G37"
+    ],
+    "sheet": "Contexto colectivo",
+    "literal_reviews_preserved": true,
+    "visual_review": true,
+    "output_sha256": "1256f5e5e9cf3d712e303399d9a68ad54341cfad5c765af4daab8e387d850ec6"
+  },
+  "retained_roots": [
+    "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-review-workspace-20260928",
+    "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-review-extra-smoke-m0dxor6y",
+    "C:/Users/kerch/AppData/Local/Temp/stratai-review-extra-oaaiprzz",
+    "C:/Users/kerch/AppData/Local/Temp/stratai-review-web-4Zc2rF"
+  ],
+  "runtime_responses_schema_changed": false,
+  "invitation_and_session_secrets_changed": false,
+  "detector_changed": false,
+  "training": false,
+  "browser_visual_test": false,
+  "remaining": "Collect human readings by instrument; frozen detector does not consume combat/C4 supplement"
+}

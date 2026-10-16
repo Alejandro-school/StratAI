@@ -1,0 +1,354 @@
+{
+  "schema_id": "stratai.ai_coach_multimap_cover_mirage_single_demo_evidence@1",
+  "date": "2026-08-31",
+  "status": "passed",
+  "phase": "1B.8",
+  "gate_1b": "pending",
+  "training_allowed": false,
+  "scope": "map-agnostic versioned objective-cover contract with only a partial de_mirage candidate package",
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "producer_attempts": 1,
+    "source_read_only": true,
+    "approved_bundles_read_only": 44,
+    "outputs_only_under_temp": true,
+    "published_or_promoted": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "map_id": "de_mirage",
+    "rounds": 24,
+    "input_frames": 29520,
+    "parser_schema_version": "v16",
+    "export_format_version": "3.8.0"
+  },
+  "contracts": {
+    "package_schema_id": "stratai.cover_map_package@1",
+    "support_manifest_schema_id": "stratai.cover_support_manifest@1",
+    "diagnostic_schema_id": "stratai.observed_cover_diagnostic@1",
+    "full_demo_report_schema_id": "stratai.observed_cover_full_demo_report@1",
+    "contract_version": "1.0.0",
+    "coordinate_system": "source2_world",
+    "units": "source2_world_units",
+    "direction_normalization": "[0,360)",
+    "direction_meaning": "direction_from_player_volume_toward_possible_incoming_line",
+    "canonical_bundle_changed": false,
+    "exposure_angles_changed": false,
+    "exit_route_in_scope": false
+  },
+  "source_asset_audit": {
+    "protected_assets_modified": false,
+    "geometry_used": [
+      {
+        "role": "physics_gltf",
+        "reference": "de_mirage/de_mirage_physics.gltf",
+        "bytes": 60726,
+        "sha256": "ebe745d1d49985273748d8f5edf9320000746bad349a088fb37c194c1ffd6451"
+      },
+      {
+        "role": "physics_buffer",
+        "reference": "de_mirage/de_mirage_physics.bin",
+        "bytes": 14378364,
+        "sha256": "8aa144644105990aa8d06851f268d2217591c1d453344563bf539c955f34b55e"
+      },
+      {
+        "role": "sample_seed_catalog",
+        "reference": "de_mirage/de_mirage_places.json",
+        "bytes": 4268,
+        "sha256": "6ba2ed20019e0bcc0bf7762cebcbd4f84fa0849c2f8d1ddb64e2cb10436e32cf",
+        "interpretation": "coordinate seeds only; source names are not tactical cover labels"
+      }
+    ],
+    "audited_but_not_used_as_cover_truth": [
+      {
+        "role": "nav_mesh",
+        "reference": "de_mirage/de_mirage.nav",
+        "bytes": 471905,
+        "sha256": "83b7f9abbedf193df580608dba1eb3b691098c5e8a74f23c3a0c548d54efcc0e"
+      },
+      {
+        "role": "existing_exposure_candidate",
+        "reference": "ai_coach/spatial/exposure/packages/de_mirage/1.0.0-candidate.1/package.json",
+        "bytes": 43328,
+        "sha256": "9f76c6556ac2e3e51adabf2f618524470815076fc167965687212fc5d7a90b94",
+        "interpretation": "audited read-only; angular clearance is not player-volume cover"
+      }
+    ]
+  },
+  "mirage_candidate_package": {
+    "asset_version": "1.0.0-candidate.1",
+    "generation_request_sha256": "50254c788302a67e6e6ad4e2e1e35d76181ce5476bd718396f0369cfcf45d23d",
+    "package_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+    "package_bytes": 1090654,
+    "support_manifest_sha256": "d7037898cd579827fa57ee681b2f17859cc8403236a709d56688170e73e5e7ed",
+    "geometry_revision": "46924b6e46278ec51ea3dcf69016f15b23ed859be37671c2124e10b074effef1",
+    "player_volume": {
+      "model_id": "cylinder_cross_section_probes@1",
+      "radius_units": 16,
+      "lateral_offsets_units": [-16, 0, 16],
+      "postures": {
+        "crouching": {"volume_height_units": 54, "probe_heights_units": [18, 34, 46]},
+        "standing": {"volume_height_units": 72, "probe_heights_units": [18, 45, 64]}
+      },
+      "probes_per_posture_direction": 9
+    },
+    "azimuth_step_degrees": 15,
+    "maximum_ray_distance_units": 128,
+    "protection_distance_units": 96,
+    "sample_count": 8,
+    "direction_count": 192,
+    "objective_posture_direction_profiles": 384,
+    "tactical_annotation_placeholders": 384,
+    "complete_crouching_profiles_at_sample_origins": 11,
+    "complete_standing_profiles_at_sample_origins": 11,
+    "coverage": "partial_reference_samples",
+    "full_map_coverage": false,
+    "geometry_validation": {
+      "status": "approved",
+      "author_id": "stratai.geometry-generator@1",
+      "reviewer_id": "stratai.cover-package-validator@1",
+      "evidence": [
+        "physics_gltf_sha256",
+        "physics_buffer_sha256",
+        "multi_height_multi_offset_probe_recomputation"
+      ]
+    },
+    "tactical_review": {
+      "status": "pending_review",
+      "author_id": null,
+      "reviewer_id": null,
+      "evidence": [],
+      "classifications_present": 0,
+      "product_supported": false
+    },
+    "deterministic_regeneration": {
+      "runs": 2,
+      "duration_seconds": 1.220,
+      "first_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "second_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c",
+      "stored_sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c"
+    }
+  },
+  "map_support": {
+    "architecturally_compatible_with_additional_packages": true,
+    "implemented_candidate_maps": ["de_mirage"],
+    "product_supported_maps": [],
+    "unknown_or_invalid_resolution": "unavailable",
+    "mirage_fallback_allowed": false
+  },
+  "attempts": [
+    {
+      "kind": "producer",
+      "attempt": 1,
+      "build_identifier": "working-tree-cover-mirage-1b8-20260831-r1",
+      "status": "passed",
+      "stage": "complete",
+      "duration_seconds": 95.236,
+      "parse_demo_result_instances": 1,
+      "output_files": 75,
+      "output_bytes": 735860008
+    },
+    {
+      "kind": "independent_cover_validator",
+      "attempt": 1,
+      "status": "passed",
+      "duration_seconds": 9.784
+    },
+    {
+      "kind": "canonical_bundle_semantic_validator",
+      "attempt": 1,
+      "status": "passed",
+      "duration_seconds": 345.950,
+      "semantic_errors": 0
+    },
+    {
+      "kind": "decision_example_direct_bundle_audit",
+      "attempt": 1,
+      "status": "passed",
+      "duration_seconds": 8.694,
+      "decision_examples": 918,
+      "joins_succeeded": 918,
+      "joins_failed": 0
+    }
+  ],
+  "exact_producer_shell": "PowerShell",
+  "exact_producer_working_directory": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\go-service",
+  "exact_producer_command": "go run ./cmd/canonical-export --demo 'E:\\Carpeta compartida\\Proyecto IA\\Faceit-Demos\\demos\\1-3f9e5224-791f-4a15-ac14-5acaacec9407.dem' --output 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-cover-1b8-20260831-r1' --alias 'demo-a11eb0d600ee702c9edb' --checksum 'a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262' --maps-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\data\\maps' --cover-packages-root 'E:\\Carpeta compartida\\Proyecto IA\\StratAI\\ai_coach\\spatial\\cover' --build-id 'working-tree-cover-mirage-1b8-20260831-r1' --ai-coach-cover-validation",
+  "exact_independent_validator_command": "backend\\venv\\Scripts\\python.exe -m ai_coach.contracts.validate_cover_full_demo <observed_cover_full_demo.json> --registry-root ai_coach\\spatial\\cover --maps-root backend\\data\\maps --expected-source-alias demo-a11eb0d600ee702c9edb --expected-source-sha256 a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --expected-map-id de_mirage --require-observed",
+  "successful_result": {
+    "sampling_hz": 1,
+    "participant_aliases": 10,
+    "records": 12802,
+    "posture_rows": {"crouching": 1119, "standing": 11683},
+    "geometry_observed": 883,
+    "geometry_unavailable": 11919,
+    "directions_observed": 21192,
+    "geometry_reason_counts": {"outside_declared_sample_coverage": 11919},
+    "samples_hit": {
+      "cover-sample-001": 55,
+      "cover-sample-002": 22,
+      "cover-sample-003": 63,
+      "cover-sample-004": 105,
+      "cover-sample-005": 193,
+      "cover-sample-006": 61,
+      "cover-sample-007": 208,
+      "cover-sample-008": 176
+    },
+    "complete_crouching_directions": 26,
+    "complete_standing_directions": 865,
+    "tactical_observed": 0,
+    "tactical_abstentions": 12802,
+    "tactical_reason_counts": {
+      "human_review_pending": 883,
+      "outside_declared_sample_coverage": 11919
+    },
+    "exit_route_observed": 0,
+    "exit_route_abstentions": 12802,
+    "exit_route_reason": "exit_route_out_of_scope",
+    "causal_semantic_and_privacy_checks": {
+      "schema_errors": 0,
+      "package_or_asset_hash_mismatches": 0,
+      "future_fields": 0,
+      "oracle_or_outcome_fields": 0,
+      "raw_identity_fields": 0,
+      "position_selection_mismatches": 0,
+      "yaw_or_direction_mismatches": 0,
+      "posture_profile_mismatches": 0,
+      "probe_aggregate_mismatches": 0,
+      "count_mismatches": 0
+    }
+  },
+  "artifacts": [
+    {
+      "path": "observed_cover_full_demo.json",
+      "bytes": 2191,
+      "sha256": "eedde2ef1cc0394f4f7f23fa0f85217f0c30dab43e0ba80d8d36a71ffc0a5151"
+    },
+    {
+      "path": "observed_cover_diagnostic.jsonl.gz",
+      "bytes": 571456,
+      "sha256": "8d4cab6d6cde0ba3790f5486014285f43dcb7a54d4d9ca3cfbcc1a7c32d3d959",
+      "logical_bytes": 20767931,
+      "logical_sha256": "f8d27767dee0b00d965673bf4fce6954b38fc5ba69475e3bc7c1aff610c5bbfc"
+    },
+    {
+      "path": "match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+      "bytes": 33477,
+      "sha256": "4528e839a357026097e40a8a816aee4284bc6b73138d7167dbb02f7f7d97f81a"
+    },
+    {
+      "path": "ai_coach/spatial/cover/packages/de_mirage/1.0.0-candidate.1/package.json",
+      "bytes": 1090654,
+      "sha256": "94313136aebd680a5b5c4a0b582fda6132499e82845e3e4bc0e98767c58f187c"
+    },
+    {
+      "path": "ai_coach/spatial/cover/support_manifest.json",
+      "bytes": 598,
+      "sha256": "d7037898cd579827fa57ee681b2f17859cc8403236a709d56688170e73e5e7ed"
+    }
+  ],
+  "canonical_bundle": {
+    "semantic_errors": 0,
+    "files": 73,
+    "bytes": 735286361,
+    "declared_artifacts": 72,
+    "decision_examples": 918,
+    "joins_succeeded": 918,
+    "joins_failed": 0,
+    "export_format_version": "3.8.0",
+    "parser_version": "v16"
+  },
+  "automated_verification": [
+    {
+      "command": "go test -count=1 ./pkg/cover ./parser ./cmd/canonical-export ./cmd/cover-package-generator",
+      "status": "passed"
+    },
+    {
+      "command": "go vet ./pkg/cover ./parser ./cmd/canonical-export ./cmd/cover-package-generator",
+      "status": "passed"
+    },
+    {
+      "command": "python -m pytest -q ai_coach/tests",
+      "status": "passed; 175 tests"
+    },
+    {
+      "command": "python -m ruff check ai_coach",
+      "status": "passed"
+    },
+    {
+      "command": "python -m ai_coach.contracts.validate_contract",
+      "status": "passed; 17 capabilities, 15 decisions, 51 actions, 18 outcomes, 55 fields, 14 runtime schemas, 18 reason codes"
+    },
+    {
+      "command": "npm run check:all",
+      "status": "passed; frontend 88, Node 14 passed/3 skipped, all Go packages, backend Python 43, frontend build"
+    },
+    {
+      "command": "cover-package-generator twice from protected Mirage inputs",
+      "status": "passed; both outputs byte-identical to the stored package"
+    },
+    {
+      "command": "python -m ai_coach.contracts.validate_cover_full_demo ... --require-observed",
+      "status": "passed; schema, source and package hashes, sample selection, yaw transforms, posture, all nine probes, counts, provenance, privacy and abstentions independently recomputed"
+    },
+    {
+      "command": "golden_demo_semantic_runner.validate_direct_bundle(...) ",
+      "status": "passed; 0 errors"
+    },
+    {
+      "command": "build_direct_bundle_audit_summary(...) ",
+      "status": "passed; 918 examples, 918 joins succeeded, 0 failed"
+    }
+  ],
+  "protected_state": {
+    "pre_utc": "2026-08-31T15:41:16.1250364Z",
+    "post_utc": "2026-08-31T15:59:56.6891964Z",
+    "all_equal": true,
+    "trees": {
+      "demos": {"files": 100, "bytes": 13589310951, "newest_utc": "2026-08-25T13:44:10.7561159Z"},
+      "analyzed_demos": {"files": 3013, "bytes": 27264064316, "newest_utc": "2026-08-25T16:55:21.8954941Z"},
+      "failed": {"files": 727, "bytes": 5245908800, "newest_utc": "2026-08-25T12:58:53.9269942Z"},
+      "staging": {"files": 0, "bytes": 0},
+      "backend_data_exports": {"files": 1242, "bytes": 1353261344, "newest_utc": "2026-08-21T16:16:08.8696869Z"}
+    },
+    "approved_manifests": {
+      "count": 44,
+      "manifest_set_sha256": "07241cfd17af94681f1b7629a7b52c5f7bb7f7e17111b166cac2f1d8c02a0b76"
+    },
+    "faceit_demos_git": {
+      "head": "f132c8de4bcc97650352ec5a647fdf3985f11353",
+      "clean": true
+    },
+    "release": {
+      "current": "stratai-2c6db440231d463a",
+      "current_sha256": "600d3f69631c12112fa2af11fdf2a23813529bfba536806ba19627db3a8ee799",
+      "files": 9,
+      "bytes": 24047407,
+      "content_sha256": "34405e896fb43dab162a0eb168d64bcccde8c1d7f23d82fa7d968921b423ce29"
+    },
+    "source_demo_unchanged": true,
+    "map_assets_unchanged": true
+  },
+  "cleanup": {
+    "status": "passed",
+    "temporary_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-one-demo-cover-1b8-20260831-r1",
+    "files": 75,
+    "bytes": 735860008,
+    "auxiliary_generation_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-cover-generation-0a020fe69192446fae93c4443e484294",
+    "auxiliary_generation_files": 2,
+    "auxiliary_generation_bytes": 2181308,
+    "all_absent_after_cleanup": true,
+    "recoverable": false
+  },
+  "limitations": [
+    "Only de_mirage has an implemented candidate package; no map is product-supported.",
+    "The eight sample volumes are partial reference coverage and must not be extrapolated to the full map.",
+    "Nine-probe volume occlusion is reproducible objective geometry, not tactical cover truth.",
+    "Human tactical review is pending; every tactical cover output abstains.",
+    "Exit-route derivation is out of scope; every exit-route output abstains explicitly.",
+    "FLD-COVER remains historically REQUIERE_CLASIFICACION and is not materialized in canonical 3.8.0 bundles."
+  ],
+  "next_phase": "1B.9 map-agnostic exit-route contract and partial de_mirage reference package, without canonical migration or execution in this closure"
+}

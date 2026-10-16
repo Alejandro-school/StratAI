@@ -1,0 +1,793 @@
+{
+  "audit_kind": "stratai_integral_audit",
+  "created_utc": "2026-09-19T12:29:08.723290+00:00",
+  "period": [
+    "2026-09-17",
+    "2026-09-19"
+  ],
+  "report": {
+    "path": "docs/archive/ai-coach/AI_COACH_INTEGRAL_AUDIT_2026-09-19.md",
+    "bytes": 28963,
+    "sha256": "96566f6c6a6cd2236acdc22e0f811a89c0463702d390143cb5be4b103c3d660e"
+  },
+  "verdict": "permitido con límites",
+  "permitted_scope": "Mantener interfaz temporal y trabajo técnico/documental sobre hechos acreditados; única siguiente reparación AUD-F01, no ejecutada por esta auditoría.",
+  "blocked_claims": [
+    "pipeline normal verificado",
+    "NAV como tránsito físico acreditado",
+    "contacto visual legal",
+    "prescripción y evaluación independiente",
+    "S2–S3 y entrenamiento",
+    "interpreter phase without expert framing"
+  ],
+  "next_action": {
+    "id": "AUD-F01",
+    "executed": false,
+    "description": "Corregir y verificar contrato Node–Go–validador y regresión contractual de recuperación."
+  },
+  "scope_matrix": {
+    "rows": 168,
+    "classifications": {
+      "No verificable con el material disponible": 38,
+      "Verificado": 110,
+      "Pendiente explícito y coherente con el plan": 12,
+      "Contradicho por evidencia": 8
+    },
+    "unit": "requisitos con solapamientos; no fases únicas ni puntuación global"
+  },
+  "findings": [
+    {
+      "id": "AUD-F01",
+      "severity": "alta",
+      "type": "funcional",
+      "status": "pendiente",
+      "summary": "Node v11 incompatible con validador v16; rechazo del catálogo reproducido, HTTP inferido del código."
+    },
+    {
+      "id": "AUD-C01",
+      "severity": "alta para uso factual",
+      "type": "semántica/contrato",
+      "status": "pendiente",
+      "summary": "NAV candidato no acredita transitabilidad física; preserva sólo cálculo/diagnóstico con procedencia."
+    },
+    {
+      "id": "AUD-E01",
+      "severity": "alta",
+      "type": "evidencia ausente",
+      "status": "no recuperada",
+      "summary": "Retención histórica incompleta; siete raíces pierden 502 archivos entre sesiones, sin atribuir causa/autor."
+    },
+    {
+      "id": "AUD-T01",
+      "severity": "media",
+      "type": "pruebas",
+      "status": "pendiente",
+      "summary": "Recuperación espera v3 en test condicionado; tres tests Node omitidos, Redis no ejecutado."
+    },
+    {
+      "id": "AUD-D01",
+      "severity": "media",
+      "type": "documentación/semántica",
+      "status": "pendiente",
+      "summary": "Catálogo de contacto visual histórico necesita calificación frente a percepción legal no acreditada."
+    },
+    {
+      "id": "AUD-D02",
+      "severity": "baja",
+      "type": "documentación",
+      "status": "pendiente",
+      "summary": "CAP-TIME: MATERIALIZACION frente a RUTAS."
+    },
+    {
+      "id": "AUD-D03",
+      "severity": "baja",
+      "type": "documentación",
+      "status": "pendiente",
+      "summary": "Contrato humano oracle.jsonl.gz frente a oracle.jsonl real."
+    },
+    {
+      "id": "AUD-E02",
+      "severity": "baja",
+      "type": "evidencia de versión",
+      "status": "no localizada",
+      "summary": "Binario v2 previo a anotaciones no localizado; libro recibido y versiones siguientes conservados."
+    },
+    {
+      "id": "AUD-O01",
+      "severity": "opcional",
+      "type": "estilo/guía",
+      "status": "sin modificar",
+      "summary": "Dos reglas Ruff preexistentes y mínimo Go desalineado en README."
+    }
+  ],
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "approved_matches_used": 1,
+    "producer_passes": 2,
+    "modes": [
+      "support_visual_contact",
+      "economy_candidate_11"
+    ],
+    "build_identifier": "working-tree-integral-audit-20260917",
+    "note": "Misma demo; modos standalone separados. Ningún reproceso 44/44 ni publicación."
+  },
+  "executions": {
+    "check-all": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/check-all.json",
+        "bytes": 506,
+        "sha256": "3c549c30316de3d90772ad8b20bb12f79c81340c6a19be2d9a8aee4b319bbe67"
+      },
+      "exit_code": 0,
+      "seconds": 101.254,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/check-all.log",
+        "bytes": 12938,
+        "sha256": "3288374ee87c4830b88581a985041373f4b149324eda39c417c6dfc373107257"
+      }
+    },
+    "ai-coach-tests": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/ai-coach-tests.json",
+        "bytes": 591,
+        "sha256": "de4e118b85a0cc1a683c853dd1a1c868412a77e49eeeaedd09b9526ad56b381e"
+      },
+      "exit_code": 0,
+      "seconds": 557.584,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/ai-coach-tests.log",
+        "bytes": 2195,
+        "sha256": "d6242184470aadbce303bb821333bc5ac4b1f4f6dc7c9a5d7603d1c0172dcb79"
+      }
+    },
+    "scripts-tests": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/scripts-tests.json",
+        "bytes": 601,
+        "sha256": "a69af71ddff9ff90fcbcd7289ec2cad8e17e40afd9738bfff4b436edc3bafa28"
+      },
+      "exit_code": 0,
+      "seconds": 25.207,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/scripts-tests.log",
+        "bytes": 320,
+        "sha256": "893c47d1ededba8ad647f159082f9febbe0a52963fbdfbe457188393c832ed75"
+      }
+    },
+    "contract": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/contract.json",
+        "bytes": 579,
+        "sha256": "00e589f564c4ba4d1b0a5dad52b3b8a8af155e196e6f1fde6f1d0cb90bf3d008"
+      },
+      "exit_code": 0,
+      "seconds": 5.267,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/contract.log",
+        "bytes": 222,
+        "sha256": "c6cd66f0bd7977ff32251e87570453442348a2dbcfa118d4e50f9d83a185cbf3"
+      }
+    },
+    "ai-coach-runtime-lint": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/ai-coach-runtime-lint.json",
+        "bytes": 630,
+        "sha256": "40a698cf6b61409a5790c5b5eb5ede007b4caec6f943b99ebc48addc70051671"
+      },
+      "exit_code": 0,
+      "seconds": 0.299,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/ai-coach-runtime-lint.log",
+        "bytes": 74,
+        "sha256": "a49ed77daff176c882080e57ee654d8b3fae7dda54c72d19b079a5c9432fd0a2"
+      }
+    },
+    "go-mod-verify": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/go-mod-verify.json",
+        "bytes": 487,
+        "sha256": "99aafcb5dce5ea6acd9f2ed1b4309921f460dede3a250688350bea3d0515252c"
+      },
+      "exit_code": 0,
+      "seconds": 6.489,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/go-mod-verify.log",
+        "bytes": 21,
+        "sha256": "b4537ed75f533f993f371954de47e42a793b8e5b0587577de7e27fb3e50696bd"
+      }
+    },
+    "ai-coach-ruff": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/ai-coach-ruff.json",
+        "bytes": 583,
+        "sha256": "e22484badc2510d5d6cddc484925a90c179d68d78ea0cab0aceb7bca840d6a7c"
+      },
+      "exit_code": 1,
+      "seconds": 0.262,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/ai-coach-ruff.log",
+        "bytes": 2676,
+        "sha256": "b504a464b316ad46f2ce355f6147626cb6b25edddd7ef6f4eda6c60ede6fa152"
+      }
+    },
+    "producer-support": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/producer-support.json",
+        "bytes": 1133,
+        "sha256": "3cbca7e1965b78a604a5dc13f7df560c35ea8b777fcfb564b000489d4ce8337c"
+      },
+      "exit_code": 0,
+      "seconds": 150.846,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/producer-support.log",
+        "bytes": 6782,
+        "sha256": "3cff86a944f660f3c347a969a2fb893f4d635c86f7c2a8094bf9636dde68e757"
+      }
+    },
+    "producer-economy": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/producer-economy.json",
+        "bytes": 1165,
+        "sha256": "31474d2814da6282ff11e8f9df28518f047729d7df201fe63d71dea9207f0cf4"
+      },
+      "exit_code": 0,
+      "seconds": 125.164,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/producer-economy.log",
+        "bytes": 6882,
+        "sha256": "c2cb319b6467adeb928a9d73f90b716e558f1b51b2e063ada76dac549302502c"
+      }
+    },
+    "materialize-support": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/materialize-support.json",
+        "bytes": 1166,
+        "sha256": "bb7654462ef1d316d83b5c59bef1ef105a0c1f529470554e45c320bbcb165328"
+      },
+      "exit_code": 0,
+      "seconds": 1130.772,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/materialize-support.log",
+        "bytes": 327,
+        "sha256": "a83527f89c91214413647d6ada7ceab2d8608fc07e5be97725ef7a29bb3d7bd6"
+      }
+    },
+    "materialize-economy": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/materialize-economy.json",
+        "bytes": 891,
+        "sha256": "5132c7919a5ce573c6e8c388d571dc634b9b79cd4ba2dbcb51774df624c4f5c8"
+      },
+      "exit_code": 0,
+      "seconds": 133.081,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/materialize-economy.log",
+        "bytes": 764,
+        "sha256": "770b5c7fd1f8737ebecafad09726a92f15d9a797b0fa29bafced6356be808c26"
+      }
+    },
+    "reader-support": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/reader-support.json",
+        "bytes": 1179,
+        "sha256": "54580bd133a328b00f7f9cf13e031d4761cff0944a088d5b845bc9325002c66a"
+      },
+      "exit_code": 0,
+      "seconds": 989.912,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/reader-support.log",
+        "bytes": 327,
+        "sha256": "a83527f89c91214413647d6ada7ceab2d8608fc07e5be97725ef7a29bb3d7bd6"
+      }
+    },
+    "reader-economy": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/reader-economy.json",
+        "bytes": 903,
+        "sha256": "f8172e33b7be47a354614335cd342a1c0066a1b35528286f08c516ece3353ff7"
+      },
+      "exit_code": 2,
+      "seconds": 0.571,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/reader-economy.log",
+        "bytes": 341,
+        "sha256": "d23435bbab1151fe92da31a0aba195889f85f5a81b91aa3fa6c8ff849f7f768e"
+      }
+    },
+    "reader-economy-r2": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/reader-economy-r2.json",
+        "bytes": 646,
+        "sha256": "f06e8459f277fd177da6ea0ba6b8446111a9c40537c40e0e37d600783fb035a8"
+      },
+      "exit_code": 0,
+      "seconds": 142.398,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/reader-economy-r2.log",
+        "bytes": 1156,
+        "sha256": "92243d9e8672002a002aa2e3585d9441f8fd34c462be78b56d200a7e6307450c"
+      }
+    },
+    "canonical-full-validation": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/canonical-full-validation.json",
+        "bytes": 681,
+        "sha256": "2a2a9de696762833794258b7e5b5bc835ce796be6dd36a53f6d15ec9aea29f3d"
+      },
+      "exit_code": 0,
+      "seconds": 429.531,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/canonical-full-validation.log",
+        "bytes": 387,
+        "sha256": "e4dc037711e842e84b5793c7bf15ef74794a108aa1169ed6e9a54232f955deba"
+      }
+    },
+    "canonical-comparison": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/canonical-comparison.json",
+        "bytes": 654,
+        "sha256": "53f2c66f34374383ca8027af1169f90b5ed26b957f1f0d4d57b34898bc4180b3"
+      },
+      "exit_code": 0,
+      "seconds": 3.13,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/canonical-comparison.log",
+        "bytes": 648,
+        "sha256": "c419dddc772e9cdf095a1f951bb1aff7430f4dfc8175d9970b12b4d3e8558733"
+      }
+    },
+    "canonical-comparison-r2": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/canonical-comparison-r2.json",
+        "bytes": 658,
+        "sha256": "057056610d201651972c064e8fc3feae78fc103069ad6990aa6d77b642c4f098"
+      },
+      "exit_code": 0,
+      "seconds": 2.212,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/canonical-comparison-r2.log",
+        "bytes": 648,
+        "sha256": "7143a87ac89f3eb3c6864077421ec8f4dd62de0aaf15b741a837e3f1abd31cba"
+      }
+    },
+    "source-comparison": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/source-comparison.json",
+        "bytes": 654,
+        "sha256": "e23aa0c5f1cb42a83a22edbd55f5f4b8cf5353f96ad113849af8f266b27b8cb6"
+      },
+      "exit_code": 1,
+      "seconds": 28.466,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/source-comparison.log",
+        "bytes": 655,
+        "sha256": "3164ab0ab2b330782c0c37df354621ba420933acc168e7d015a5627bb8ef2bd2"
+      }
+    },
+    "source-comparison-r2": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/source-comparison-r2.json",
+        "bytes": 657,
+        "sha256": "0d6b864130e3e1cc3c0962194da4095d27096ca8e1ef1c735703d75279bc4590"
+      },
+      "exit_code": 0,
+      "seconds": 50.561,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/source-comparison-r2.log",
+        "bytes": 530,
+        "sha256": "97aaa71d033e5ca161cc99ab10d971389d59819e8aa4a9c1dc9e77b52a70d2a0"
+      }
+    },
+    "independent-cashflow": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/independent-cashflow.json",
+        "bytes": 1134,
+        "sha256": "cbc7132e24fd5a3e339e59bc62423ecaf59b0e0adf835c83f37f0181d1274d72"
+      },
+      "exit_code": 0,
+      "seconds": 24.474,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/independent-cashflow.log",
+        "bytes": 3761,
+        "sha256": "026ad24529648e3e6e78724f507d7da8fa7cfd5dbdc4f531e417cc7685de9582"
+      }
+    },
+    "independent-visual-recomputation": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/independent-visual-recomputation.json",
+        "bytes": 672,
+        "sha256": "81faf074cceb043dc45d96256d0749911542ab84d36c6fbddcb39a0e42fc2966"
+      },
+      "exit_code": 0,
+      "seconds": 72.182,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/independent-visual-recomputation.log",
+        "bytes": 1297,
+        "sha256": "45449901c4f6207890b4c8c5fb5fbe2648523cdabada8305fe97cb1cab054b65"
+      }
+    },
+    "git-diff-check-after": {
+      "receipt": {
+        "path": "outputs/stratai-integral-audit-20260917/git-diff-check-after.json",
+        "bytes": 476,
+        "sha256": "78febc8c9d7bd07425ae8ce8fe7b70e90b40ad239ab03d9c669dd293a964c7bc"
+      },
+      "exit_code": 0,
+      "seconds": 0.151,
+      "log": {
+        "path": "outputs/stratai-integral-audit-20260917/git-diff-check-after.log",
+        "bytes": 3247,
+        "sha256": "db45dbc2c61ed666f3c172c54f12b530311dedeb1b25028f0e5ae49859021038"
+      }
+    }
+  },
+  "smoke": {
+    "canonical": {
+      "ok": true,
+      "errors": [],
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "seconds": 428.986,
+      "bundle": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-audit-support-spp0251k\\smoke_run_demo-a11eb0d600ee702c9edb\\match_demo-a11eb0d600ee702c9edb"
+    },
+    "c0": {
+      "ok": true,
+      "seconds": 61.705,
+      "method": "Independent native delivery replay, current pawn life and coordinates, C0 continuity, own/ally eye-offset/FOV facts, references and full matrix; no application imports",
+      "counts": {
+        "cuts": 30716,
+        "actor_cuts": 199454,
+        "facts": 997270,
+        "candidates": 660686
+      },
+      "matrix_rows": 1040,
+      "deliveries": 275567,
+      "states": 89402,
+      "usable_current_pawns": 213897,
+      "created_lives": 12,
+      "destroyed_lives": 2,
+      "captured_lives": 11,
+      "domains": 25,
+      "recomputed_delivered_fields": 2138970,
+      "recomputed_coordinate_scalars": 1283382,
+      "zero_native_coordinates": {
+        "X": 541,
+        "Y": 541,
+        "Z": 0
+      },
+      "delivery_kinds": {
+        "created": 120,
+        "creation_replay": 120,
+        "update": 275325,
+        "destroyed": 2
+      },
+      "ray_counts": {
+        "false": 768198,
+        "true": 58924
+      },
+      "eye_offset_actor_cuts": 199423,
+      "fov_actor_cut_degrees": {
+        "90": 3625
+      },
+      "c0_identity_samples_checked": 5062988,
+      "continuity_abstention_causes": {
+        "side": 31
+      },
+      "fact_status_counts": {
+        "native_eye_offset:observed:present": 199423,
+        "reference_fov_degrees:unavailable:native_camera_fov_default_or_range_unaccredited": 181946,
+        "flash_clear:unavailable:rendered_flash_opacity_unaccredited": 199454,
+        "smoke_clear:unavailable:smoke_volume_and_coverage_unaccredited": 199454,
+        "visual_contact:unavailable:legal_visual_contact_inputs_unaccredited": 199454,
+        "reference_fov_degrees:observed:present": 3625,
+        "native_eye_offset:unavailable:native_visual_c0_actor_continuity_unaccredited": 31,
+        "reference_fov_degrees:unavailable:native_visual_c0_actor_continuity_unaccredited": 31,
+        "reference_fov_degrees:unavailable:native_camera_fov_transition_unaccredited": 13852
+      },
+      "static_ray_recomputation": {
+        "blocked": 768198,
+        "checked": 827122,
+        "clear": 58924,
+        "mismatches": 0,
+        "unavailable": 0
+      },
+      "source_observations_unchanged_from_3e10": true,
+      "physics_limit": "Segment verifier reruns with identified assets but shares project intersection engine; does not accredit rendered occlusion or legal contact"
+    },
+    "economy": {
+      "cuts": 35485,
+      "states": 1114,
+      "controllers": 13,
+      "monetary_deliveries": 2825,
+      "examined_pawn_pairs": 354426,
+      "omitted_unchanged_snapshot_pairs": 353061,
+      "retained_intervals": 1365,
+      "status_counts": {
+        "not_comparable": 243,
+        "no_change": 156,
+        "deliveries_without_net_change": 0,
+        "counter_decreased": 54,
+        "amounts_match_single_entry": 153,
+        "amounts_match_multiple_entries": 0,
+        "amounts_match_without_unique_object": 759,
+        "residuals_present": 0
+      },
+      "reason_counts": {
+        "actor_binding_unavailable": 23,
+        "controller_claim_nonunique": 4,
+        "controller_or_actor_nonunique_or_absent": 4,
+        "entry_change_unavailable": 243,
+        "incompatible_delivery_cuts": 241,
+        "pawn_lifetime_changed": 4
+      },
+      "verified_itemized_transactions": 0
+    },
+    "limits": [
+      "SDK capture not independently certified",
+      "shared static ray intersection engine",
+      "does not restore historical outputs",
+      "does not exercise live Node-Go-Redis publication",
+      "single match does not cover absent variants or independent evaluation"
+    ]
+  },
+  "tool_incidents": [
+    "reader-economy --validate unsupported; usage exit2, API reader passed later, no new parse",
+    "source-comparison helper assumed frame in physical schema; KeyError corrected only in audit helper, full comparison passed",
+    "canonical-comparison first receipt/result shared name; read-only comparison repeated with distinct names, final result retained"
+  ],
+  "preservation": {
+    "source": {
+      "ok": true,
+      "baseline_files": 1312,
+      "authorized_changed_files": [
+        "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md"
+      ],
+      "unexpected_changes": [],
+      "new_outside_audit": [
+        "docs/archive/ai-coach/AI_COACH_INTEGRAL_AUDIT_2026-09-19.md"
+      ],
+      "unexpected_new": [],
+      "method": "All baseline sizes/mtime, SHA-256 where recorded, missing paths, and git tracked/untracked file list; no dependency/cache inventory."
+    },
+    "protected_inventory_identical": true,
+    "temp": {
+      "ok": true,
+      "checked_utc": "2026-09-19T12:28:03.742544+00:00",
+      "roots": [
+        {
+          "name": "work",
+          "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-integral-audit-work-qbfd0nlf",
+          "files": 4,
+          "all_sizes_and_hashes_unchanged": true
+        },
+        {
+          "name": "support",
+          "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-audit-support-spp0251k",
+          "files": 85,
+          "all_sizes_and_hashes_unchanged": true
+        },
+        {
+          "name": "economy",
+          "root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-audit-economy-cpeplcc3",
+          "files": 87,
+          "all_sizes_and_hashes_unchanged": true
+        }
+      ]
+    },
+    "historical_retention_gap": "Documented separately; no attribution and no deletion attempted by this audit."
+  },
+  "canonical_changes": [
+    {
+      "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 141295,
+      "sha256": "e8259b3462158597f7a67c73267a1b5d3f5360d3935d15c607f5931acbd3ff68"
+    },
+    {
+      "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 5492,
+      "sha256": "43e835a5e02c9873018ebaeae7eeccc1b6a83d25d2434e045913a1abe27419bb"
+    }
+  ],
+  "unchanged_product_state": {
+    "S2_S3": "open",
+    "eligible_capabilities": 0,
+    "interpreter_implemented": false,
+    "K3_prepared": false,
+    "expert_hypotheses_pending": 18,
+    "training_allowed": false
+  },
+  "artifacts": [
+    {
+      "path": "outputs/stratai-integral-audit-20260917/coverage-matrix.md",
+      "bytes": 212930,
+      "sha256": "acb0fdaa9aaf2d344829cea60a6e0fde732d10f871dda4d379e83632f74e70b5"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/coverage-matrix.csv",
+      "bytes": 230862,
+      "sha256": "e368abf6b3552d426483bba322f2bca170ed278eaef5b0857492f72c5f3e438d"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/coverage-matrix.json",
+      "bytes": 303971,
+      "sha256": "2920773052ebde4078616ff02941e33e94d4a2ece54f54932df84cdef9047297"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/matrix-build.json",
+      "bytes": 33511,
+      "sha256": "69c3948e2721397bcbe991569382bc82b851787117e29c5caad4f45741cbd643"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/history-review.md",
+      "bytes": 9502,
+      "sha256": "a5faf6fb743279965687a12d761d462b59e56fa50a867da8c2cc63b000877888"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/history-matrix-v3.json",
+      "bytes": 129780,
+      "sha256": "c37dcc25931e53a0f5ba36dc60891ee601c8c216b217f0235311311413caf1c1"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/history-review-resume-checks.json",
+      "bytes": 186755,
+      "sha256": "afd5acdf1997d8e5ad204a4066e6b792a0dd8f11e874d25ab3caf9eedf523fdb"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/expert-review.md",
+      "bytes": 17778,
+      "sha256": "6b2ce27d5d8ec773b2dfa927d28ab273667c520b14e75730084258e92367710e"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/expert-independent-checks.json",
+      "bytes": 18579,
+      "sha256": "f53d0b45af4e17e928cffe0e79323f9f269ad4cec6aa185e51844aa5d2bcaed0"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/expert-delivery-verification.json",
+      "bytes": 1329,
+      "sha256": "c80ad4b6d6ab95b0cb89668a732de9100dae799529bbea5e3f3e9bc7ca57e7d5"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/expert-artifact-open.json",
+      "bytes": 7911,
+      "sha256": "b88b4bff79c8c5591696beb3ff3e14716800f2bfebbca2c9119a6920148796eb"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/expert-current-k1-k2.png",
+      "bytes": 111879,
+      "sha256": "995778c2ec5966192c54e86a485b183d8cd91a359251bbb1bbcf79c47ed6075c"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/expert-current-formulas.png",
+      "bytes": 19735,
+      "sha256": "140ebb5f425bc8310f183171ca9de542a4ae69b016f074353b6f88a919a45e04"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/implementation-review.md",
+      "bytes": 18266,
+      "sha256": "7510ef96f317b5487df8d2b14a9370fc8f215d040cf900a1c5c4a678709e75d7"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/implementation-version-repro.json",
+      "bytes": 2472,
+      "sha256": "bc4d9c26492b779e7eaeb37c4c9a3a1c1873e76428118c802f3141b7f48cf8dc"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/test-review-sample.json",
+      "bytes": 2027,
+      "sha256": "a5cea7e270a10a0f3fdf78ffcddbb2b1dc563f8579f7c0337de2676fb9d2ef7a"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/verification-summary.json",
+      "bytes": 2485,
+      "sha256": "aee9542c5009e22ae235b3a959d431c9ee15507f95eb5e858caf33c99bd46814"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/versions.json",
+      "bytes": 1234,
+      "sha256": "2311e50efe3f01c0f162093836aef1c374ff1e227a9189e33c1b4663659ec24a"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/audit-binaries.json",
+      "bytes": 738,
+      "sha256": "5f9f284ec41bab2c08a2f95d6c0340192a53059eefa8e3d0b5a929fdcc3c13f9"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/graph-status-final.json",
+      "bytes": 10813,
+      "sha256": "0e29b942d9f45eed4a55a7b5abf14e0d84e639d13065fb2fb68714b0c9c1d569"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/graph-coverage-final.json",
+      "bytes": 6605,
+      "sha256": "01422d6800375b9e4010c38084e4248060c623a4589854cdd88f0fb7e3dcdb86"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/canonical-support.json",
+      "bytes": 351,
+      "sha256": "191942c14c33c894e87691c09e02fd6b3e7740fdc14624f085fd50e1e3eb5ffa"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/canonical-artifact-comparison.json",
+      "bytes": 28438,
+      "sha256": "e4f51fe9b73e45b69603394aa1b455278a7baef5f709ccb9c2fd3b1f8eda5313"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/current-source-comparison.json",
+      "bytes": 7615,
+      "sha256": "d022665ebc9fef42260739867126dfc51fe878d91e34dfadea19eccab8984071"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/independent-visual-audit.json",
+      "bytes": 340352,
+      "sha256": "a151018838e374e93a43ae77a45d7e4cc8072720b718935465d168fbcc9615dc"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/implementation-cashflow-check.json",
+      "bytes": 3706,
+      "sha256": "282ed8da6aca6b93e552afc720051c907f0a5a57a1aba3e18be0616b6a33e0d2"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/reader-economy-validation.json",
+      "bytes": 1287,
+      "sha256": "11d6e98a20ea1defbe48f43380a67dc92af4fe127a3b9c1d6a7d81eefc781ecf"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/current-temp-inventory.json",
+      "bytes": 47389,
+      "sha256": "0bc6e6d828b048b187853840b30d33dd212ffe6b5c029a6b0f0a36d89707145e"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/temp-retention-final.json",
+      "bytes": 681,
+      "sha256": "97c6c1cc5583e2ea3209f2e5f08bccf40aab062c14d9dd8f6512b81f3d5dbffc"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/source-preservation-final.json",
+      "bytes": 504,
+      "sha256": "02bf8bac16754fb9b6995a0e8ca9785130116f9cd36fec8c3788cf6e1756b80a"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/current-source-vs-3e21.json",
+      "bytes": 193,
+      "sha256": "76992abcd0e9dc20d11da6b7047efd47c9754e00c880698a7296cc461a325fbb"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/protected-before.json",
+      "bytes": 621838,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/protected-after.json",
+      "bytes": 621838,
+      "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/resume-preservation-20260919.json",
+      "bytes": 248,
+      "sha256": "a42542ab83a2572744989db695e9339af63db01addbc44c68d1ae83f9bce3c99"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/before-hashes.json",
+      "bytes": 514,
+      "sha256": "c2567f501e6dee098e7f465e483d7059d9d4e115e2670ad379535dd0b49a46a8"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/git-status-before.txt",
+      "bytes": 40197,
+      "sha256": "b8701aa3b796857811197724da0c2d50102efe582ef3de56512fb74e34f815b0"
+    },
+    {
+      "path": "outputs/stratai-integral-audit-20260917/git-head-before.txt",
+      "bytes": 45,
+      "sha256": "7f317ce965c1251e005f161f6afc580cddc7ee88c247e22dc4c2ace59f13b5e2"
+    }
+  ],
+  "closure_document_check_receipts": {
+    "local_links": "outputs/stratai-integral-audit-20260917/document-links-after.json",
+    "delivery_inventory": "outputs/stratai-integral-audit-20260917/audit-delivery-inventory.json",
+    "closure_link_check": "outputs/stratai-integral-audit-20260917/closure-links.json"
+  }
+}

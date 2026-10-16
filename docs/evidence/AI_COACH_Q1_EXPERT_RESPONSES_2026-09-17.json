@@ -1,0 +1,1070 @@
+{
+  "id": "AI-COACH-Q1-EXPERT-RESPONSES",
+  "date": "2026-09-17",
+  "kind": "expert_design_response_receipt",
+  "status": "36_responses_and_3_clarifications_received_with_contextual_criteria_and_partial_limits",
+  "scope": "Recepción de criterios de diseño. No ejecución de modelo, ground truth final, prueba táctica independiente ni verificación de mecánicas.",
+  "source": {
+    "user_message_receipt": "C:/Users/kerch/AppData/Local/Temp/stratai-q1-feedback-df08ccc6f07b45b2babea6dd66eef49f/user-response.txt",
+    "user_message_sha256": "DBD3C692D3C77B6600719E5C383AFE3CCF67401F316C91E93E812C686F3E0026",
+    "question_bank": "docs/AI_COACH_EXPERT_QUESTIONS.md",
+    "question_bank_preparation_evidence": "docs/evidence/AI_COACH_EXPERT_QUESTIONS_2026-09-17.json",
+    "question_bank_preparation_sha256": "A0A2339AD0468DDFC3E25FB527802A06B3E1FB76AAF5005A2B689FD0E34C6FB7",
+    "attribution": "Respuestas del usuario experto recibidas en conversación; síntesis y límites redactados por el agente.",
+    "normalization": "Se retiran únicamente numeración/prefijos de pregunta y entidades HTML de espacio. Se preservan erratas, puntuación y redacción. La agrupación del mensaje deja 13–36 bajo C; el enlace se realiza por número y el bloque del banco se conserva aparte.",
+    "answer_timestamp_note": "Fecha de recepción del bloque; no se atribuye una hora individual a cada respuesta.",
+    "followup_scope": "Se conservan las 36 respuestas iniciales y las tres aclaraciones posteriores Q1/Q18/Q26, con sus preguntas y literales separados. No se sustituyen las respuestas originales.",
+    "clarification_receipt": "C:/Users/kerch/AppData/Local/Temp/stratai-q1-feedback-df08ccc6f07b45b2babea6dd66eef49f/clarifications.json",
+    "clarification_receipt_sha256": "9CF31C166BF4A3057C0DEE35710762E5F7FBAC4C6C488CD39146373D8C21D09D"
+  },
+  "status_definitions": {
+    "received_criterion": "Respuesta recibida que aporta criterio suficiente para esta pregunta de diseño en su alcance expresado. No resuelve los límites registrados, no universaliza la regla ni valida hechos, modelos o recomendación.",
+    "received_partial": "Respuesta recibida que aporta elementos de diseño, pero deja partes sustantivas de la pregunta sin resolver.",
+    "received_clarification_pending": "Respuesta recibida sin resolver la pregunta por incomprensión o perspectiva por aclarar.",
+    "resolved_for_design": "Se aplica a received_criterion o received_criterion_with_clarification sólo en el alcance expresado, conservando open_limit; nunca significa capacidad funcional, regla ejecutable ni evaluación aprobada.",
+    "received_criterion_with_clarification": "Respuesta inicial recibida y aclaración posterior que aporta criterio contextual para la pregunta. No acredita reglas universales, efectos físicos, causalidad ni evaluación aprobada."
+  },
+  "pending_questions": [],
+  "pending_questions_scope": "Las tres aclaraciones prioritarias Q1/Q18/Q26 ya se recibieron. La lista vacía no cierra los límites parciales ni solicita nuevas respuestas en esta recepción.",
+  "partial_response_questions": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    12,
+    15,
+    16,
+    19,
+    20,
+    21,
+    27,
+    28,
+    29,
+    30,
+    32,
+    33,
+    34,
+    35
+  ],
+  "counts": {
+    "questions": 36,
+    "responses_received": 36,
+    "clarifications_received": 3,
+    "received_criterion_with_clarification": 3,
+    "received_partial": 22,
+    "received_criterion": 11
+  },
+  "preserved_limits": [
+    "La respuesta humana no convierte en hecho verificado una afirmación mecánica sobre armadura/dispersión, HE/visión u otro efecto físico.",
+    "Lurk y funciones de equipo son contextuales; no se impone un lurker en toda estrategia ni se etiqueta a un jugador sólo por estar separado.",
+    "Repetir utilidad en una zona no acredita redundancia sin contexto y tiempos; la revisión no exige ratios o timings universales.",
+    "El porcentaje de éxito de Q34 no es un estimador validado ni demuestra superioridad causal.",
+    "El material es desarrollo abierto; no reemplaza evaluación independiente, soporte, rúbrica o test final.",
+    "No hay nuevos datos extraídos, runtime, schemas, entrenamiento, adquisición, promoción o cambios de CURRENT.",
+    "S2–S3, cero capacidades elegibles y dependencias factuales conservan su estado.",
+    "Las 18 valoraciones de Hipótesis de diseño v0.1 y las revisiones de fichas previas conservan su propio estado; este recibo no las completa.",
+    "Q1/Q18/Q26 cuentan con aclaración contextual, sin convertir número de actores, momento de flash, resultado del duelo o distribución postplant en reglas universales."
+  ],
+  "answers": [
+    {
+      "number": 1,
+      "question": "¿Qué señales distinguen una preparación que conserva opciones de una entrada que ya necesita continuidad del equipo?",
+      "answer_verbatim": "No entiendo esta pregunta.",
+      "agent_synthesis": "El experto distingue una entrada probable por señales conjuntas de varios jugadores avanzando y disparando con C4 presente; jugadores que miran sin avanzar pueden estar buscando información.",
+      "open_limit": "Avance, disparos y C4 son señales contextuales, no requisitos universales ni prueba de intención acordada. «1 o 2» es un contraste del ejemplo, no un umbral; no convierte ausencia de avance en espera táctica ni acredita continuidad física.",
+      "status": "received_criterion_with_clarification",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "A",
+        "title": "Interpretar y actualizar el plan",
+        "casuistica_ranges": [
+          "C026–C030",
+          "C050",
+          "C057–C059"
+        ],
+        "capability_ids": [
+          "CAP-ENTRY-001",
+          "CAP-TIME-001",
+          "CAP-ROTATE-001"
+        ]
+      },
+      "initial_status": "received_clarification_pending",
+      "initial_resolved_for_design": false,
+      "initial_agent_synthesis": "El usuario no entiende la pregunta sobre preparación y continuidad de la entrada.",
+      "initial_open_limit": "Reformular con lenguaje concreto o un corte real suficiente. No se ha recibido un criterio sobre cuándo requiere continuidad el equipo.",
+      "clarification_ref": "Q1-CLARIFICATION-01",
+      "synthesis_scope": "Síntesis actual de la aclaración; el literal original y la síntesis inicial se conservan por separado."
+    },
+    {
+      "number": 2,
+      "question": "¿Qué cambios te harían mantener, pausar o abandonar un plan, y cómo distingues una adaptación razonable de una reacción precipitada?",
+      "answer_verbatim": "Esto es Subjetivo, y hay muchos facotres que te hacen mantener, pausar o abandonar un plan, por ejemplo si decidimos hacer un split, es un plan que en base a como avanza la ronda se va a hacia un sitio u otro, es un plan que se va construyendo durante la ronda y que no es lineal ni siempre es igual, de echo, nunca es igual. Los rusheos son los planes que se suelen mantener, que es, ir sin parar hasta una bomba. Pero cuando juegas lento, juegas y ejecutas el plan según la información que vas adquiriendo durante la ronda. Enemigos, alguna kill, etc.",
+      "agent_synthesis": "El usuario describe planes que se construyen durante la ronda: split y juego lento se adaptan a la información; los rusheos suelen mantener avance continuo.",
+      "open_limit": "Falta concretar cómo distinguir adaptación razonable de reacción precipitada. «Suelen» no establece que todo rush deba continuar ni que todos los splits sigan la misma secuencia.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "A",
+        "title": "Interpretar y actualizar el plan",
+        "casuistica_ranges": [
+          "C026–C030",
+          "C050",
+          "C057–C059"
+        ],
+        "capability_ids": [
+          "CAP-ENTRY-001",
+          "CAP-TIME-001",
+          "CAP-ROTATE-001"
+        ]
+      }
+    },
+    {
+      "number": 3,
+      "question": "Cuando el despliegue admite varias lecturas, ¿qué hechos te hacen inclinarte por una y cuáles te obligan a mantener alternativas abiertas?",
+      "answer_verbatim": "Puedes influir muchos factores, si hay un enemigo dominando en la partida, vas a intentar evitar ese jugador, puede ser un factor a tener en cuenta, también depende de como te sientas tu o tu equipo atacando un punto, hay posiciones donde una persona juega mas agusto que otra, no hay una verdad absoluta en esto.",
+      "agent_synthesis": "Señala el rendimiento de un rival y la comodidad del jugador o del equipo en ciertas posiciones como factores que pueden influir en la elección de plan.",
+      "open_limit": "Son motivos posibles, no pruebas de qué plan se está ejecutando. La comodidad subjetiva requiere atribución; faltan señales para resolver o mantener varias interpretaciones del despliegue.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "A",
+        "title": "Interpretar y actualizar el plan",
+        "casuistica_ranges": [
+          "C026–C030",
+          "C050",
+          "C057–C059"
+        ],
+        "capability_ids": [
+          "CAP-ENTRY-001",
+          "CAP-TIME-001",
+          "CAP-ROTATE-001"
+        ]
+      }
+    },
+    {
+      "number": 4,
+      "question": "Dentro de una entrada contextual, ¿qué señales usarías para reconocer que se ha ganado espacio, que se ha consolidado o que el intento terminó?",
+      "answer_verbatim": "El mapa suele tener una linea imaginaria, que quiero decir con esto? Hay posiciones tipicas de Ct y T. Si algunas de estas posiciones es tomada por el bando contrario, has ganado control de mapa, por ejemplo, si en Mirage, un CT toma apartamenos de B, que es una zona mas de T, gana control de mapa y puede indicar a su equipo que los T no estan por esa zona, acotando la información de donde se puede encontrar el equipo y así reorganizar la defensa. Eso no significa que tomar la zona de apartamenos sea correcto, es una opción arriesgada, si mueres dejas una zona desprotejida por la que puede acceder el enemigo.",
+      "agent_synthesis": "Entiende ganar control como ocupar posiciones habitualmente del otro bando; usa el avance CT por apartamentos B de Mirage y su coste defensivo como ejemplo contextual.",
+      "open_limit": "Responde a ganar control, pero no concreta consolidación ni final del intento. Ocupar una zona no acredita ausencia total de rivales, transmisión de información ni conveniencia; no convertir la línea imaginaria en frontera universal.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "A",
+        "title": "Interpretar y actualizar el plan",
+        "casuistica_ranges": [
+          "C026–C030",
+          "C050",
+          "C057–C059"
+        ],
+        "capability_ids": [
+          "CAP-ENTRY-001",
+          "CAP-TIME-001",
+          "CAP-ROTATE-001"
+        ]
+      }
+    },
+    {
+      "number": 5,
+      "question": "¿Qué incoherencias entre posiciones, armas, utilidad y bomba te harían cuestionar el reparto de funciones, y qué contextos podrían justificarlo?",
+      "answer_verbatim": "Si tienes SMGS, escopetas, armas de corto alcance, se suele jugar en sitios cerrados para tener mas impacto, igual que a la inversa, si tienes AWP o rifles largos, juegas en sitios largos. La bomba siempre se suele proteger mas y el jugador que tiene utilidad la usa para ganar espacio.",
+      "agent_synthesis": "Relaciona armas con distancias y espacios, la protección del portador C4 y el empleo de utilidad para ganar espacio.",
+      "open_limit": "Son preferencias generales expresadas por el experto. Faltan excepciones y criterios concretos para cuestionar un reparto; no fijar roles o posiciones obligatorios por tipo de arma.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "B",
+        "title": "Funciones y cooperación",
+        "casuistica_ranges": [
+          "C018",
+          "C021–C030",
+          "C051",
+          "C071"
+        ],
+        "capability_ids": [
+          "CAP-TEAM-001",
+          "CAP-POSITION-001",
+          "CAP-ENTRY-001",
+          "CAP-OBJECTIVE-001",
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 6,
+      "question": "¿Qué debe aportar un jugador separado para que su posición tenga sentido, y qué señales indican que debería incorporarse al grupo?",
+      "answer_verbatim": "Hay un rol que es el lurcker. Que es pillar a los enemigos por detras, o hacer ruido para distraer, cortar rotaciones etc, siempre hay un jugador que hace este rol en estrategias avanzadas. Eso no significa que siempre que haya un jugador solo sea lurcker.",
+      "agent_synthesis": "Describe funciones de lurk como llegar por detrás, distraer o cortar rotaciones, y advierte que estar solo no identifica por sí mismo ese rol.",
+      "open_limit": "No responde cuándo debe incorporarse al grupo. La afirmación de que siempre existe ese rol en estrategias avanzadas queda atribuida al usuario y no se convierte en requisito universal ni hecho verificado.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "B",
+        "title": "Funciones y cooperación",
+        "casuistica_ranges": [
+          "C018",
+          "C021–C030",
+          "C051",
+          "C071"
+        ],
+        "capability_ids": [
+          "CAP-TEAM-001",
+          "CAP-POSITION-001",
+          "CAP-ENTRY-001",
+          "CAP-OBJECTIVE-001",
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 7,
+      "question": "¿Cómo decides qué apoyo necesita quien va a tomar contacto: acompañarlo, permitir un intercambio, cubrir otra amenaza o conservar otra posición?",
+      "answer_verbatim": "Depende del contexto, la flash es la granada mas utilizada para asomar una esquina, el humo se utiliza para cubrirte de algun angulo y no estar expuesto a varias zonas. Pero a veces, si tienes información es mejor no usar utilidad para entrar en sigilo. Todo es muy relativo, no hay una verdad absoluta.",
+      "agent_synthesis": "Propone flash para facilitar una exposición y humo para reducir ángulos; admite entrar con sigilo sin utilidad cuando la información lo favorece.",
+      "open_limit": "Falta comparar explícitamente acompañamiento, intercambio, cobertura de otra amenaza y mantenimiento de posición. El uso descrito no acredita efecto visual, seguridad o apoyo físico en un caso.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "B",
+        "title": "Funciones y cooperación",
+        "casuistica_ranges": [
+          "C018",
+          "C021–C030",
+          "C051",
+          "C071"
+        ],
+        "capability_ids": [
+          "CAP-TEAM-001",
+          "CAP-POSITION-001",
+          "CAP-ENTRY-001",
+          "CAP-OBJECTIVE-001",
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 8,
+      "question": "Si una jugada colectiva falla, ¿cómo distingues un problema del plan, una decisión individual que lo perjudica y una ejecución deficiente?",
+      "answer_verbatim": "Puede ser diferencia de equipamiento, que el rival haya jugado bien, no tiene porque ser un error tuyo. Aunque a veces si, la descordinacción se ve. Como por ejemplo entrar 1 a 1 en vez de los 5 a la vez, tirar humos al mismo sitio, flashes que ciegan a compañeros, etc.",
+      "agent_synthesis": "Una jugada fallida puede explicarse por equipamiento o buena actuación rival; propone revisar descoordinación, entradas aisladas y utilidad que se solapa o perjudica al equipo.",
+      "open_limit": "Son señales de revisión contextual, no errores automáticos. Entrar secuencialmente o coincidir granadas puede estar justificado; separar plan, decisión y ejecución exige reconstruir el episodio y alternativas viables.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "B",
+        "title": "Funciones y cooperación",
+        "casuistica_ranges": [
+          "C018",
+          "C021–C030",
+          "C051",
+          "C071"
+        ],
+        "capability_ids": [
+          "CAP-TEAM-001",
+          "CAP-POSITION-001",
+          "CAP-ENTRY-001",
+          "CAP-OBJECTIVE-001",
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 9,
+      "question": "Cuando el rival repite ataques por una zona, ¿qué te hace reforzarla, cambiar cómo se defiende, disputar información o prepararte para recuperarla después?",
+      "answer_verbatim": "Se suele reforzar la zona con algún jugador mas o cambiar la estrategia, la idea consiste en amoldarse un poco a la situación",
+      "agent_synthesis": "Propone adaptarse al patrón rival reforzando la zona o cambiando la estrategia.",
+      "open_limit": "No diferencia todavía qué contexto favorece reforzar, cambiar la defensa, obtener información o ceder para recuperar. No registrar una regla automática de sumar jugadores ante repetición.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "C",
+        "title": "Defensa, información y rotaciones",
+        "casuistica_ranges": [
+          "C017–C020",
+          "C025–C026",
+          "C043–C050"
+        ],
+        "capability_ids": [
+          "CAP-POSITION-001",
+          "CAP-INFO-001",
+          "CAP-ROTATE-001",
+          "CAP-TEAM-001"
+        ]
+      }
+    },
+    {
+      "number": 10,
+      "question": "Ante presión en otra zona, ¿cómo decides quién rota primero y quién mantiene su posición, considerando lo que dejarían descubierto?",
+      "answer_verbatim": "Comunicación. Decir quien rota y quien se queda es la clave. Si no hay comunicación, no se sabe. Normalmente rota la persona mas cercana al sitio afectado.",
+      "agent_synthesis": "Sitúa la comunicación como clave del reparto de rotaciones y señala que normalmente rota quien está más cerca.",
+      "open_limit": "Sin registro de voz, la comunicación queda desconocida, no ausente. Cercanía no acredita ruta ni oportunidad; faltan criterios sobre quién mantiene y el coste de dejar su posición.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "C",
+        "title": "Defensa, información y rotaciones",
+        "casuistica_ranges": [
+          "C017–C020",
+          "C025–C026",
+          "C043–C050"
+        ],
+        "capability_ids": [
+          "CAP-POSITION-001",
+          "CAP-INFO-001",
+          "CAP-ROTATE-001",
+          "CAP-TEAM-001"
+        ]
+      }
+    },
+    {
+      "number": 11,
+      "question": "¿Qué indicios distinguen presión o engaño de un ataque que merece una respuesta mayor cuando todavía no se ha localizado el C4?",
+      "answer_verbatim": "Si no se ha localizado el c4 como bien indicas, puede ser un \"fake\", ante estos casos no se hace una rotación de todo el equipo, puede que el resto de compañeros se acerquen un poco al punto, pero no deberian perder sus posiciones defensivas hasta no estar seguros de que el ejecute es en el site.",
+      "agent_synthesis": "Ante presión sin C4 localizado, considera posible un fake y propone conservar posiciones defensivas mientras otros se aproximan sin comprometer a todo el equipo.",
+      "open_limit": "La respuesta no convierte ver C4 en requisito universal para toda rotación. Debe concretarse qué otros hechos permiten confirmar suficiente compromiso rival y qué responsabilidades conserva cada actor.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "C",
+        "title": "Defensa, información y rotaciones",
+        "casuistica_ranges": [
+          "C017–C020",
+          "C025–C026",
+          "C043–C050"
+        ],
+        "capability_ids": [
+          "CAP-POSITION-001",
+          "CAP-INFO-001",
+          "CAP-ROTATE-001",
+          "CAP-TEAM-001"
+        ]
+      }
+    },
+    {
+      "number": 12,
+      "question": "¿Qué hace que una posición enemiga vista antes siga siendo útil o haya quedado demasiado desactualizada para decidir?",
+      "answer_verbatim": "El tiempo, ni mas ni menos. Siempre hay que tenerlo en cuenta para que no afecte a posterior, pero bueno.",
+      "agent_synthesis": "Identifica la antigüedad de la información como factor central para juzgar una posición enemiga conocida.",
+      "open_limit": "No define cuándo deja de ser útil en cada contexto ni cómo influyen desplazamientos posibles, contactos nuevos o control aliado. No inventar un tiempo fijo de caducidad ni completar trayectorias ocultas.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "C",
+        "title": "Defensa, información y rotaciones",
+        "casuistica_ranges": [
+          "C017–C020",
+          "C025–C026",
+          "C043–C050"
+        ],
+        "capability_ids": [
+          "CAP-POSITION-001",
+          "CAP-INFO-001",
+          "CAP-ROTATE-001",
+          "CAP-TEAM-001"
+        ]
+      }
+    },
+    {
+      "number": 13,
+      "question": "En un duelo perdido, ¿qué señales revisas primero para distinguir un problema de mira, disparo o movimiento de una ejecución razonable?",
+      "answer_verbatim": "Posición de la mira, si estabas moviendote o no, forma de disparar, control de recoil",
+      "agent_synthesis": "Prioriza revisar posición de mira, movimiento, forma de disparar y control del recoil al analizar un duelo.",
+      "open_limit": "La lista orienta revisión mecánica; no etiqueta todo duelo perdido como fallo. La causa concreta requiere señales observables y resolución suficiente, separada de la decisión de tomar el duelo.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "D",
+        "title": "Duelos, mira y movimiento",
+        "casuistica_ranges": [
+          "C001–C016",
+          "C019",
+          "C063",
+          "C065–C066"
+        ],
+        "capability_ids": [
+          "CAP-COMBAT-001",
+          "CAP-CROSSHAIR-001",
+          "CAP-MOVEMENT-001",
+          "CAP-PEEK-001",
+          "CAP-RISK-001"
+        ]
+      }
+    },
+    {
+      "number": 14,
+      "question": "Para un duelo que sí puede aportar al plan, ¿qué te hace elegir entre mantener, asomar, repetir el ángulo o recolocarte?",
+      "answer_verbatim": "Ver donde esta tu equipo y tener contexto del plan que se va a ejecutar, y decidir si tomar el riesgo vale la pena o no. Para saber si merece la pena el riesgo, hay que tener en cuenta la situación, bando, tiempo, etc.",
+      "agent_synthesis": "Relaciona la elección de duelo con posición del equipo, plan, bando, tiempo y valoración contextual del riesgo.",
+      "open_limit": "No ofrece una regla única entre mantener, asomar, repetir y recolocarse. El criterio no acredita rutas, exposición ni superioridad de alternativas; esas comparaciones siguen requiriendo evidencia del caso.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "D",
+        "title": "Duelos, mira y movimiento",
+        "casuistica_ranges": [
+          "C001–C016",
+          "C019",
+          "C063",
+          "C065–C066"
+        ],
+        "capability_ids": [
+          "CAP-COMBAT-001",
+          "CAP-CROSSHAIR-001",
+          "CAP-MOVEMENT-001",
+          "CAP-PEEK-001",
+          "CAP-RISK-001"
+        ]
+      }
+    },
+    {
+      "number": 15,
+      "question": "¿Qué circunstancias justifican disparar en movimiento, agacharse o prolongar un spray aunque en otras situaciones corregirías esas acciones?",
+      "answer_verbatim": "La distancia y si se te ha ido el recoil al empezarlo, etc.",
+      "agent_synthesis": "Menciona distancia y pérdida de control del recoil como factores para valorar la ejecución.",
+      "open_limit": "No separa aún cuándo disparar en movimiento, agacharse o prolongar un spray resulta razonable. No deducir una técnica concreta ni parámetros universales de esta respuesta breve.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "D",
+        "title": "Duelos, mira y movimiento",
+        "casuistica_ranges": [
+          "C001–C016",
+          "C019",
+          "C063",
+          "C065–C066"
+        ],
+        "capability_ids": [
+          "CAP-COMBAT-001",
+          "CAP-CROSSHAIR-001",
+          "CAP-MOVEMENT-001",
+          "CAP-PEEK-001",
+          "CAP-RISK-001"
+        ]
+      }
+    },
+    {
+      "number": 16,
+      "question": "¿Cómo decides cuándo merece la pena sacrificar velocidad por discreción, precisión o seguridad durante un recorrido?",
+      "answer_verbatim": "Cuando no sepan donde estas, si estas tu solo contra alguien, etc. Si sabes donde estan los enemigos, puedes intentar sorprenderlos.",
+      "agent_synthesis": "Relaciona discreción con no haber sido localizado, situaciones de uno contra uno y la posibilidad de sorprender con información sobre el rival.",
+      "open_limit": "No concreta todavía el equilibrio con urgencia temporal, velocidad o exposición. Que la demo no registre contacto no demuestra que el rival desconozca al jugador.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "D",
+        "title": "Duelos, mira y movimiento",
+        "casuistica_ranges": [
+          "C001–C016",
+          "C019",
+          "C063",
+          "C065–C066"
+        ],
+        "capability_ids": [
+          "CAP-COMBAT-001",
+          "CAP-CROSSHAIR-001",
+          "CAP-MOVEMENT-001",
+          "CAP-PEEK-001",
+          "CAP-RISK-001"
+        ]
+      }
+    },
+    {
+      "number": 17,
+      "question": "¿Qué hace buena una flash, un humo, una incendiaria o una HE aunque no produzca una baja ni daño?",
+      "answer_verbatim": "Enemigos flahseados, cortar vision, molo para cortar rotación o para sacar a alguien de una posición defensiva, y una HE es daño realmente, puedes usarla para quitar visión.",
+      "agent_synthesis": "Valora utilidad por cegar, cortar visión, impedir rotaciones o desalojar una posición; relaciona HE principalmente con daño y menciona otro uso visual.",
+      "open_limit": "Son funciones expresadas por el experto. La afirmación sobre HE y visión no se verifica aquí ni habilita un efecto físico; cada granada requiere acreditar efecto, momento y relación con la acción.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "E",
+        "title": "Utilidad",
+        "casuistica_ranges": [
+          "C031–C036"
+        ],
+        "capability_ids": [
+          "CAP-UTILITY-001"
+        ]
+      }
+    },
+    {
+      "number": 18,
+      "question": "¿Qué señales te permiten valorar si una granada llegó a tiempo para la acción que debía facilitar?",
+      "answer_verbatim": "No entiendo la pregunta",
+      "agent_synthesis": "El experto valora dónde explota la flash y su efecto sobre el aliado; que explote después de asomar no la hace necesariamente mala si facilita el duelo, y señala cegar al compañero como perjuicio.",
+      "open_limit": "El instante relativo no basta para juzgar la flash. Su efecto visual y relación con la acción necesitan evidencia; ganar el duelo no valida por sí solo la utilidad ni prueba que lo causara. No convertir cualquier cegamiento aislado en un veredicto sin contexto.",
+      "status": "received_criterion_with_clarification",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "E",
+        "title": "Utilidad",
+        "casuistica_ranges": [
+          "C031–C036"
+        ],
+        "capability_ids": [
+          "CAP-UTILITY-001"
+        ]
+      },
+      "initial_status": "received_clarification_pending",
+      "initial_resolved_for_design": false,
+      "initial_agent_synthesis": "El usuario no entiende la pregunta sobre si una granada llegó a tiempo.",
+      "initial_open_limit": "Reformular distinguiendo el momento de la utilidad y la acción que debía facilitar, mediante lenguaje claro o un caso real suficiente. No se ha recibido un criterio temporal.",
+      "clarification_ref": "Q1-CLARIFICATION-18",
+      "synthesis_scope": "Síntesis actual de la aclaración; el literal original y la síntesis inicial se conservan por separado."
+    },
+    {
+      "number": 19,
+      "question": "¿Qué te hace preferir conservar una granada para después frente a usarla para resolver el problema actual?",
+      "answer_verbatim": "No lo se, se usa cuando la situación lo requiere, hacer daño, etc. No me la reserva \"por si\" Simplemente si se donde hay un enemigo la uso.",
+      "agent_synthesis": "El usuario prioriza utilizar la granada cuando ve una necesidad concreta, por ejemplo un enemigo localizado, y rechaza reservarla genéricamente por si acaso.",
+      "open_limit": "No concreta la comparación entre valor inmediato y una necesidad posterior específica. No convertir información de un enemigo en obligación universal de lanzar ni inferir posición conocida sin fuente.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "E",
+        "title": "Utilidad",
+        "casuistica_ranges": [
+          "C031–C036"
+        ],
+        "capability_ids": [
+          "CAP-UTILITY-001"
+        ]
+      }
+    },
+    {
+      "number": 20,
+      "question": "Cuando se combinan varias granadas, ¿cómo distingues una combinación necesaria de gasto redundante o utilidad que perjudica al propio equipo?",
+      "answer_verbatim": "Si tiras 2 humos al mismo sitio, 2 molos, 2 flashes, no se, redundancia basicamente.",
+      "agent_synthesis": "Usa granadas del mismo tipo al mismo lugar como ejemplo de posible redundancia.",
+      "open_limit": "La duplicación espacial por sí sola no prueba desperdicio. Faltan contexto, tiempos, duración de efectos, objetivo y complementariedad; conservar además la posibilidad de perjuicio al propio equipo sin inventar su efecto.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "E",
+        "title": "Utilidad",
+        "casuistica_ranges": [
+          "C031–C036"
+        ],
+        "capability_ids": [
+          "CAP-UTILITY-001"
+        ]
+      }
+    },
+    {
+      "number": 21,
+      "question": "Si no alcanza para equipar bien a todos, ¿cuándo concentrarías recursos en ciertas armas y cuándo los repartirías entre jugadores y utilidad?",
+      "answer_verbatim": "En la economia siempre es recomendable ir equiparados con expeciones. Siempre es prioritario escudo antes que un rifle sin chaleco, ya que reduce la dispersión, daño etc. Vas con mucha desventaja sin chaleco. Pero también depende de la ronda, no es lo mismo ir 3-3 que 10-11 y que este apunto de acabar la partida",
+      "agent_synthesis": "Prefiere equipamiento relativamente parejo, con excepciones, prioriza chaleco frente a rifle sin él y considera el marcador y cercanía al final.",
+      "open_limit": "La pregunta sobre concentrar o repartir recursos sólo queda parcialmente contestada. Las afirmaciones sobre armadura, dispersión y daño permanecen atribuidas y requieren verificación técnica; no se convierten en reglas físicas o prioridad universal.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "F",
+        "title": "Economía y equipamiento",
+        "casuistica_ranges": [
+          "C037–C042",
+          "C062"
+        ],
+        "capability_ids": [
+          "CAP-ECONOMY-001",
+          "CAP-ADVANTAGE-001"
+        ]
+      }
+    },
+    {
+      "number": 22,
+      "question": "¿Qué circunstancias justifican una compra limitada o un force que empeore la compra siguiente, y cuáles te harían conservar?",
+      "answer_verbatim": "Si queda poco para el cambio de bando o para acabar la partida. También hay una casuística, si tienes menos de x cantidad, sin bono, vas a tener que hacer 2 ecos fuerzes o no, por tanto, es tonteria hacer eco porque la siguente tampoco tendrás suficiente dinero. así que fuerza y prueba suerte.",
+      "agent_synthesis": "Propone considerar force cerca del cambio de lado o final, y comparar si ahorrar permitiría realmente una compra posterior mejor.",
+      "open_limit": "El supuesto de dos ecos con o sin force exige saldo, bonus, costes y horizonte acreditados. No rellenar la cantidad «x» ni generar una regla económica ejecutable desde el ejemplo.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "F",
+        "title": "Economía y equipamiento",
+        "casuistica_ranges": [
+          "C037–C042",
+          "C062"
+        ],
+        "capability_ids": [
+          "CAP-ECONOMY-001",
+          "CAP-ADVANTAGE-001"
+        ]
+      }
+    },
+    {
+      "number": 23,
+      "question": "Entre equipamientos posibles para una misma compra, ¿qué pesa más según el plan: arma, armadura, utilidad, kit o función de cada jugador?",
+      "answer_verbatim": "Depende del rol de cada jugador, pero armadura siempre lo priorizaria. Luego arma y utilidad, dejando kit para lo ultimo. Kit con que haya 1-2 por equipo sirve.",
+      "agent_synthesis": "Expresa prioridad personal de armadura, después arma y utilidad, con kit al final, condicionada al rol; considera suficiente uno o dos kits por equipo.",
+      "open_limit": "La cifra y el orden son preferencias expresadas, no umbrales aprobados universales. Su aplicación depende de reparto, dinero, inventario, plan y oportunidades de recuperar o utilizar kit.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "F",
+        "title": "Economía y equipamiento",
+        "casuistica_ranges": [
+          "C037–C042",
+          "C062"
+        ],
+        "capability_ids": [
+          "CAP-ECONOMY-001",
+          "CAP-ADVANTAGE-001"
+        ]
+      }
+    },
+    {
+      "number": 24,
+      "question": "¿Qué circunstancias justifican arriesgarse para recuperar o conservar equipamiento, y cuándo ese intento ya cuesta más de lo que aporta?",
+      "answer_verbatim": "Solo si lo tienes cerca, si no, posiblmenete este custodiado. O bien que no tengas nada que perder, porque vas a eco e intentar conseguir un arma y guardar.",
+      "agent_synthesis": "Considera recuperar equipamiento si está cerca o si una ronda de eco ofrece una oportunidad de conseguir arma y conservarla.",
+      "open_limit": "Cercanía no prueba seguridad ni lejanía demuestra custodia enemiga. Faltan geometría e información del caso antes de valorar coste, riesgo y posibilidad real de guardar.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "F",
+        "title": "Economía y equipamiento",
+        "casuistica_ranges": [
+          "C037–C042",
+          "C062"
+        ],
+        "capability_ids": [
+          "CAP-ECONOMY-001",
+          "CAP-ADVANTAGE-001"
+        ]
+      }
+    },
+    {
+      "number": 25,
+      "question": "Al elegir dónde y cuándo plantar, ¿cómo priorizas seguridad inmediata, tiempo disponible y posibilidades de defender la bomba después?",
+      "answer_verbatim": "Siempre es mejor dejar la bomba que se vea desde varios angulos para defenderla mas facilmente. Pero si vas apurado o tienes enemigos cerca, planta donde puedas",
+      "agent_synthesis": "Prefiere un plantado defendible desde varios ángulos, cediendo esa preferencia cuando tiempo o enemigos cercanos obligan a priorizar plantar.",
+      "open_limit": "Es un criterio condicionado, no una garantía de plantado óptimo. Lugar, exposición, información, reloj y posiciones de defensa deben comprobarse; no fijar un sitio universal.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "G",
+        "title": "Bomba, tiempo y ventajas",
+        "casuistica_ranges": [
+          "C051–C069"
+        ],
+        "capability_ids": [
+          "CAP-OBJECTIVE-001",
+          "CAP-TIME-001",
+          "CAP-ADVANTAGE-001",
+          "CAP-RISK-001",
+          "CAP-CLUTCH-001"
+        ]
+      }
+    },
+    {
+      "number": 26,
+      "question": "En un postplant, ¿qué te hace preferir jugar por tiempo, buscar un duelo, mantener un ángulo o cambiar de posición?",
+      "answer_verbatim": "Los posplant es intentar hacer kills y entrar, no tiene mucho misterio, solo tienes que evaluar si te da tiempo a defusar y planear la estrategia",
+      "agent_synthesis": "Para T con C4 plantado, prioriza vigilar la bomba y adaptar el reparto a cuántos T quedan: con cinco describe despliegue para abarcar y cubrir; en inferioridad, sigilo y sorpresa para reducir la desventaja.",
+      "open_limit": "La vigilancia es el objetivo expresado, no obligación de que todos miren directamente C4 o conserven una formación fija. Cinco vivos e inferioridad son contextos del ejemplo; faltan posiciones/tiempo/recursos del caso y no se exige un duelo o sigilo en toda inferioridad.",
+      "status": "received_criterion_with_clarification",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "G",
+        "title": "Bomba, tiempo y ventajas",
+        "casuistica_ranges": [
+          "C051–C069"
+        ],
+        "capability_ids": [
+          "CAP-OBJECTIVE-001",
+          "CAP-TIME-001",
+          "CAP-ADVANTAGE-001",
+          "CAP-RISK-001",
+          "CAP-CLUTCH-001"
+        ]
+      },
+      "initial_status": "received_clarification_pending",
+      "initial_resolved_for_design": false,
+      "initial_agent_synthesis": "La respuesta describe conseguir bajas, entrar y evaluar tiempo para defusar, lo que parece corresponder al retake CT.",
+      "initial_open_limit": "Aclarar la perspectiva: falta el criterio del lado T después de plantar entre jugar por tiempo, buscar duelo, mantener o cambiar posición. No reemplazar ni corregir el literal como si el usuario hubiera contestado esa perspectiva.",
+      "clarification_ref": "Q1-CLARIFICATION-26",
+      "synthesis_scope": "Síntesis actual de la aclaración; el literal original y la síntesis inicial se conservan por separado."
+    },
+    {
+      "number": 27,
+      "question": "¿Qué factores inclinan un retake hacia intentarlo o guardar, y qué nueva información te haría cambiar esa decisión?",
+      "answer_verbatim": "Tiempo y enemigos vivos",
+      "agent_synthesis": "Identifica tiempo y número de enemigos vivos como factores para decidir retake o guardar.",
+      "open_limit": "No responde qué nueva información haría cambiar la decisión ni detalla salud, recursos, kit o economía. No convertir sólo esos dos factores en una política completa de retake.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "G",
+        "title": "Bomba, tiempo y ventajas",
+        "casuistica_ranges": [
+          "C051–C069"
+        ],
+        "capability_ids": [
+          "CAP-OBJECTIVE-001",
+          "CAP-TIME-001",
+          "CAP-ADVANTAGE-001",
+          "CAP-RISK-001",
+          "CAP-CLUTCH-001"
+        ]
+      }
+    },
+    {
+      "number": 28,
+      "question": "¿Cómo cambia tu criterio de riesgo al jugar con superioridad, en inferioridad o en clutch, considerando también salud, armas y tiempo?",
+      "answer_verbatim": "Si vas con superioridad intentas ir mas en bloque y coorinado, si estas en inferioridad intentas jugar mas calmado y buscando una kill para equilibrar la balanza.",
+      "agent_synthesis": "En superioridad favorece actuar agrupados y coordinados; en inferioridad, jugar con calma y buscar una baja que reduzca la desventaja.",
+      "open_limit": "Falta diferenciar clutch y el efecto de salud, armas y tiempo. Son tendencias contextuales, no obligaciones de agruparse siempre o buscar cualquier duelo en inferioridad.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "G",
+        "title": "Bomba, tiempo y ventajas",
+        "casuistica_ranges": [
+          "C051–C069"
+        ],
+        "capability_ids": [
+          "CAP-OBJECTIVE-001",
+          "CAP-TIME-001",
+          "CAP-ADVANTAGE-001",
+          "CAP-RISK-001",
+          "CAP-CLUTCH-001"
+        ]
+      }
+    },
+    {
+      "number": 29,
+      "question": "Si un jugador repite un fallo pequeño y comete otro grave pero poco frecuente, ¿cómo eliges cuál trabajar primero?",
+      "answer_verbatim": "Yo analizaria las situaciones que mas repercuten en la decisión de una ronda, Pero esto hay que enfocarlo en que errores vams a mostrar.",
+      "agent_synthesis": "Prioriza situaciones con mayor repercusión en la ronda y pide relacionarlo con qué errores se mostrarán al usuario.",
+      "open_limit": "Queda pendiente cómo combinar impacto, recurrencia, oportunidad y facilidad de corrección. No asumir que un error raro siempre supera a un patrón pequeño ni usar el resultado como medida directa de impacto.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "H",
+        "title": "Aprendizaje y personalización",
+        "casuistica_ranges": [
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 30,
+      "question": "¿Qué señales indican que una alternativa es un reto adecuado para ese jugador o que todavía necesita practicar una habilidad previa?",
+      "answer_verbatim": "Algo repetitivo, mal posicionamiento, malas decisiones, mala decisión economica, según su bloques",
+      "agent_synthesis": "Menciona errores repetidos de posicionamiento, decisiones y economía por bloques.",
+      "open_limit": "La respuesta trata recurrencia y selección de problemas, pero no resuelve cómo ajustar dificultad o identificar habilidades previas necesarias. No registrar la recurrencia como prueba de que una alternativa sea ejecutable para ese jugador.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "H",
+        "title": "Aprendizaje y personalización",
+        "casuistica_ranges": [
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 31,
+      "question": "Para un problema identificado, ¿cómo eliges entre explicarlo con ejemplos, practicar fuera de partida o asignar una misión en partidas?",
+      "answer_verbatim": "Siempre hay que explicarlo con ejemplo, y aparte ponerle una mision para que lo practique.",
+      "agent_synthesis": "Prefiere explicar los problemas con ejemplos y acompañarlos de una misión de práctica.",
+      "open_limit": "No distingue todavía qué problemas requieren práctica fuera de partida frente a misión en partida. La preferencia de formato no prueba eficacia ni exige una misión nueva por cada observación.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "H",
+        "title": "Aprendizaje y personalización",
+        "casuistica_ranges": [
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 32,
+      "question": "¿Qué cambios de conducta te harían mantener una misión, subir su dificultad, sustituirla o considerar aprendido lo trabajado?",
+      "answer_verbatim": "Depende de como avance el usuario",
+      "agent_synthesis": "Propone adaptar la misión al progreso del usuario.",
+      "open_limit": "Faltan cambios observables y condiciones para mantener, aumentar dificultad, sustituir o considerar aprendido. No inventar criterios de dominio ni atribuir progreso a la misión sin evaluación.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "H",
+        "title": "Aprendizaje y personalización",
+        "casuistica_ranges": [
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-PROFILE-001"
+        ]
+      }
+    },
+    {
+      "number": 33,
+      "question": "Entre dos acciones defendibles, ¿qué diferencia merece una recomendación de cambio y cuál tratarías como preferencia personal?",
+      "answer_verbatim": "Depende del impacto de la acción",
+      "agent_synthesis": "Usa el impacto de la acción como criterio para distinguir una recomendación de cambio.",
+      "open_limit": "No define aún cómo estimar ese impacto ni cuándo una diferencia queda como preferencia personal o equivalencia. No introducir umbrales numéricos ni forzar una opción ganadora.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "I",
+        "title": "Revisión y alcance del primer prototipo",
+        "casuistica_ranges": [
+          "C064–C066",
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-RISK-001",
+          "CAP-PROFILE-001"
+        ],
+        "scope_note": "Alcance transversal y familias del piloto; relación por bloque, no asignación exclusiva por respuesta."
+      }
+    },
+    {
+      "number": 34,
+      "question": "Si tú y otro experto interpretáis distinto el mismo caso, ¿qué datos y argumentos revisarías para resolver la discrepancia o conservar ambas lecturas?",
+      "answer_verbatim": "por % de éxito o conservar ambas lecturas",
+      "agent_synthesis": "Propone contrastar porcentaje de éxito o conservar ambas lecturas ante desacuerdo experto.",
+      "open_limit": "El porcentaje es un criterio expresado, no un estimador validado. Faltan definición de éxito, comparabilidad, soporte e incertidumbre; el resultado observado no prueba superioridad causal ni resuelve por sí solo el desacuerdo.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "I",
+        "title": "Revisión y alcance del primer prototipo",
+        "casuistica_ranges": [
+          "C064–C066",
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-RISK-001",
+          "CAP-PROFILE-001"
+        ],
+        "scope_note": "Alcance transversal y familias del piloto; relación por bloque, no asignación exclusiva por respuesta."
+      }
+    },
+    {
+      "number": 35,
+      "question": "Dentro de economía, apoyo y mecánica, ¿qué tres problemas concretos priorizarías en el primer prototipo por su utilidad para el jugador?",
+      "answer_verbatim": "Toma de decisiones, capacidad de entender el contexto de la partida, es lo que mas va a ayudar al jugador a colocarse, entender el juego, coger ventaja sobre los enemigos etc.",
+      "agent_synthesis": "Prioriza toma de decisiones y comprensión del contexto por su utilidad para posicionarse y obtener ventaja.",
+      "open_limit": "Define una prioridad transversal, pero no enumera tres problemas concretos separados de economía, apoyo y mecánica. No inventar esas tres prioridades ni cambiar el alcance del piloto automáticamente.",
+      "status": "received_partial",
+      "response_received": true,
+      "resolved_for_design": false,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "I",
+        "title": "Revisión y alcance del primer prototipo",
+        "casuistica_ranges": [
+          "C064–C066",
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-RISK-001",
+          "CAP-PROFILE-001"
+        ],
+        "scope_note": "Alcance transversal y familias del piloto; relación por bloque, no asignación exclusiva por respuesta."
+      }
+    },
+    {
+      "number": 36,
+      "question": "¿Qué criterios tácticos generalizarías entre mapas y cuáles exigirías volver a revisar con ejemplos específicos de cada mapa?",
+      "answer_verbatim": "Aim, uso de utilidad, cada mapa se tiene que entender de una forma distinta, pero una flash mal tirada, un molo mal tirado, una rafaga mal echa, da igual el mapa, esta mal y punto.",
+      "agent_synthesis": "Considera transferibles aspectos de aim y calidad mecánica de utilidad, mientras cada mapa exige comprensión propia.",
+      "open_limit": "La transferencia no valida automáticamente otro mapa ni lineups, zonas o efectos. Determinar si una flash, molotov o ráfaga está mal ejecutada exige contexto y hechos; no convertir ejemplos generales en etiquetas universales.",
+      "status": "received_criterion",
+      "response_received": true,
+      "resolved_for_design": true,
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "I",
+        "title": "Revisión y alcance del primer prototipo",
+        "casuistica_ranges": [
+          "C064–C066",
+          "C070–C075"
+        ],
+        "capability_ids": [
+          "CAP-RISK-001",
+          "CAP-PROFILE-001"
+        ],
+        "scope_note": "Alcance transversal y familias del piloto; relación por bloque, no asignación exclusiva por respuesta."
+      }
+    }
+  ],
+  "initial_pending_questions": [
+    1,
+    18,
+    26
+  ],
+  "initial_counts": {
+    "questions": 36,
+    "responses_received": 36,
+    "received_clarification_pending": 3,
+    "received_partial": 22,
+    "received_criterion": 11
+  },
+  "clarifications": [
+    {
+      "clarification_id": "Q1-CLARIFICATION-01",
+      "number": 1,
+      "question": "Aclaro la 1 con un ejemplo hipotético: varios T avanzan por apartamentos de B en Mirage. ¿Qué observarías para decir «están tomando espacio y aún pueden cambiar de plan» frente a «ya están entrando y el resto debe acompañar»? Puede no existir una frontera clara; me interesa cómo lo interpretarías.",
+      "answer_verbatim": "Si veo a varios jugadores avanzando por apartamento, disparando y aparte la bomba, es un indicador claro, si solo veo a 1 o 2 jugadores mirando pero sin avanzar, puede que esten buscando información",
+      "agent_synthesis": "El experto distingue una entrada probable por señales conjuntas de varios jugadores avanzando y disparando con C4 presente; jugadores que miran sin avanzar pueden estar buscando información.",
+      "open_limit": "Avance, disparos y C4 son señales contextuales, no requisitos universales ni prueba de intención acordada. «1 o 2» es un contraste del ejemplo, no un umbral; no convierte ausencia de avance en espera táctica ni acredita continuidad física.",
+      "status": "received_criterion_with_clarification",
+      "response_received": true,
+      "resolved_for_design": true,
+      "source_receipt_index": 0,
+      "source_note": "Aclaración del usuario en conversación; pregunta y literal conservados en recibo separado.",
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "A",
+        "title": "Interpretar y actualizar el plan",
+        "casuistica_ranges": [
+          "C026–C030",
+          "C050",
+          "C057–C059"
+        ],
+        "capability_ids": [
+          "CAP-ENTRY-001",
+          "CAP-TIME-001",
+          "CAP-ROTATE-001"
+        ]
+      }
+    },
+    {
+      "clarification_id": "Q1-CLARIFICATION-18",
+      "number": 18,
+      "question": "La 18 trata de coordinación: en un ejemplo hipotético, una flash explota cuando el compañero ya ha asomado y recibido disparos; en otro, explota justo antes de que asome. ¿Cómo valorarías si esa flash estuvo bien coordinada y qué contexto podría cambiar tu juicio?",
+      "answer_verbatim": "Depende de donde explote, si explota en tu espalda aunque ya hayas asomado, y te ayuda a ganar el duelo, es buena flash, si te ciega a ti, es mala flash",
+      "agent_synthesis": "El experto valora dónde explota la flash y su efecto sobre el aliado; que explote después de asomar no la hace necesariamente mala si facilita el duelo, y señala cegar al compañero como perjuicio.",
+      "open_limit": "El instante relativo no basta para juzgar la flash. Su efecto visual y relación con la acción necesitan evidencia; ganar el duelo no valida por sí solo la utilidad ni prueba que lo causara. No convertir cualquier cegamiento aislado en un veredicto sin contexto.",
+      "status": "received_criterion_with_clarification",
+      "response_received": true,
+      "resolved_for_design": true,
+      "source_receipt_index": 1,
+      "source_note": "Aclaración del usuario en conversación; pregunta y literal conservados en recibo separado.",
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "E",
+        "title": "Utilidad",
+        "casuistica_ranges": [
+          "C031–C036"
+        ],
+        "capability_ids": [
+          "CAP-UTILITY-001"
+        ]
+      }
+    },
+    {
+      "clarification_id": "Q1-CLARIFICATION-26",
+      "number": 26,
+      "question": "En la 26 no especifiqué el bando: tu respuesta parece describir al CT recuperando el site para desactivar. Mi pregunta era por los T con la bomba ya plantada: ¿qué te hace preferir esconderte y esperar, vigilar la bomba o buscar al CT?",
+      "answer_verbatim": "Siempre vas a vigilar la bomba, y por normal general influye cuanta gente de lso T estan vivos, si son los 5 vivos, se suelen desplegar para abarcar mas mapa y cubrir mas, no los 5 escondidos, en cambio si estas en desventaja númerica, se suele jugar en sigilo e intentar sorprender para equilibrar la balanza",
+      "agent_synthesis": "Para T con C4 plantado, prioriza vigilar la bomba y adaptar el reparto a cuántos T quedan: con cinco describe despliegue para abarcar y cubrir; en inferioridad, sigilo y sorpresa para reducir la desventaja.",
+      "open_limit": "La vigilancia es el objetivo expresado, no obligación de que todos miren directamente C4 o conserven una formación fija. Cinco vivos e inferioridad son contextos del ejemplo; faltan posiciones/tiempo/recursos del caso y no se exige un duelo o sigilo en toda inferioridad.",
+      "status": "received_criterion_with_clarification",
+      "response_received": true,
+      "resolved_for_design": true,
+      "source_receipt_index": 2,
+      "source_note": "Aclaración del usuario en conversación; pregunta y literal conservados en recibo separado.",
+      "mapping": {
+        "basis": "question_bank_block_not_exclusive_case_assignment",
+        "block": "G",
+        "title": "Bomba, tiempo y ventajas",
+        "casuistica_ranges": [
+          "C051–C069"
+        ],
+        "capability_ids": [
+          "CAP-OBJECTIVE-001",
+          "CAP-TIME-001",
+          "CAP-ADVANTAGE-001",
+          "CAP-RISK-001",
+          "CAP-CLUTCH-001"
+        ]
+      }
+    }
+  ]
+}

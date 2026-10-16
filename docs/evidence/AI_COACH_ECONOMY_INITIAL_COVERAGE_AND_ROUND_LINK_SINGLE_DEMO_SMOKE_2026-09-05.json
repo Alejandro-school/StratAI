@@ -1,0 +1,1213 @@
+{
+  "schema_id": "stratai.ai_coach_economy_initial_frontier_evidence@1",
+  "date": "2026-09-05",
+  "phase": "3B",
+  "status": "implemented_validated_operationally_closed",
+  "recorded_at_utc": "2026-09-05T14:59:07.978945+00:00",
+  "training_allowed": false,
+  "product_supported": false,
+  "single_demo_policy": {
+    "distinct_matches": 1,
+    "producer_passes": 1,
+    "candidate_validation_passes": 3,
+    "canonical_validation_passes": 1,
+    "approved_bundles_read_only": 44,
+    "sources_read_only": 50,
+    "downloads": 0,
+    "corpus_reprocessing": false,
+    "release_mutated": false,
+    "current_mutated": false,
+    "publication_or_promotion": false
+  },
+  "source": {
+    "opaque_alias": "demo-a11eb0d600ee702c9edb",
+    "sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+    "bytes": 330945844,
+    "approved_root_manifest_sha256": "b17deba4ef4f81c8f80e9541947f32ebf2baf22c8c7d8a459232e6f37bc33be5",
+    "approval_status": "passed",
+    "map_id": "de_mirage",
+    "canonical_rounds": 24,
+    "development_only": true
+  },
+  "versions": {
+    "candidate": "1.0.0-candidate.2",
+    "candidate_schema": "stratai.observed_economy_candidate@2",
+    "candidate_manifest": "stratai.economy_candidate_manifest@2",
+    "base_export": "3.8.0",
+    "base_parser": "v16",
+    "base_quality": 12,
+    "base_manifest": "stratai.canonical_manifest@3",
+    "catalog": "1.6.0",
+    "build_id": "working-tree-economy-3b-20260905-r1",
+    "binary_sha256": "74bf00db3e2f4bbe0e9d31804d30b767c6ebbe3c6f2d552d06390de6937a6f81",
+    "build_source_inventory_sha256": "14423f094f216ba026335c1b56438dc761dcf70514049c2a7103daf9860c17f9",
+    "build_source_files": 258,
+    "producer_files_unchanged_after_smoke": 203,
+    "demoinfocs": "v5.2.0"
+  },
+  "sdk_frontier_audit": {
+    "files": [
+      {
+        "path": "demoinfocs/parsing.go",
+        "sha256": "6ea170cc211df76e2b9abede0d4ae9134317cc6c9afc41157fd375848f700360"
+      },
+      {
+        "path": "demoinfocs/game_events.go",
+        "sha256": "c794e671be4fba55c2ad5560f8f9cb6fc716280ae399206629f34d12c5cdb157"
+      },
+      {
+        "path": "demoinfocs/datatables.go",
+        "sha256": "d8b8a5918e004c994e4ee2dbe35bff78ec606bc2ff513407755603c41504aa76"
+      }
+    ],
+    "finding": "handleFrameParsed processes queued round progression and delayed item callbacks before FrameDone; native properties can already be updated at RoundStart. Direct refunds can precede the queued round start. Callback sequence is not engine subtick order."
+  },
+  "verification": {
+    "npm_run_check_all": "passed",
+    "frontend_tests": 88,
+    "frontend_files": 23,
+    "node_passed": 14,
+    "node_skipped": 3,
+    "go": "all packages passed",
+    "backend_python_passed": 43,
+    "frontend_build": "passed",
+    "ai_coach_full_suite": {
+      "passed": 312,
+      "seconds": 68.21
+    },
+    "final_targeted_suite": {
+      "passed": 78,
+      "seconds": 10.98,
+      "reason": "require-observed demands competitive teams and common initial accessor dispatches v2 without bypassing the round gate; producer unchanged"
+    },
+    "runtime_contracts": {
+      "schemas": 37,
+      "reason_codes": 19
+    },
+    "ruff_new_python": "passed",
+    "candidate_validator": {
+      "ok": true,
+      "schema_id": "stratai.economy_candidate_validation@2",
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "summary": {
+        "round_instances": 25,
+        "participants": 10,
+        "initial_snapshots": 25,
+        "freeze_snapshots": 25,
+        "end_snapshots": 25,
+        "initial_actors": 250,
+        "prepurchase_available": 77,
+        "money_observed": 748,
+        "money_zero": 47,
+        "inventory_observed": 748,
+        "execution_events": 1044,
+        "other_events": 547,
+        "prior_allied_drop_links": 0,
+        "unresolved_pickups": 1547,
+        "round_start_probes": 25,
+        "competitive_round_links": 23,
+        "excluded_round_links": 2
+      },
+      "independently_recomputed_comparisons": 460,
+      "training_allowed": false,
+      "independently_recomputed_round_links": 25,
+      "round_link_reasons": {
+        "official_end_unavailable": 2,
+        "unique_identity_start_official_end_and_roster": 23
+      },
+      "initial_coverage": {
+        "initial_actors_accredited": 77,
+        "competitive_initial_actors": 64,
+        "competitive_complete_teams": 3,
+        "abstentions": {
+          "activity_in_initial_tick": 173
+        },
+        "selected_sources": {
+          "round_start_probe": 77
+        }
+      },
+      "seconds": 3.675
+    },
+    "canonical_semantic_validator": {
+      "errors": [],
+      "seconds": 314.564
+    },
+    "producer": {
+      "exit_code": 0,
+      "seconds": 86.414,
+      "output_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-smoke-h3466t8c",
+      "source_alias": "demo-a11eb0d600ee702c9edb",
+      "source_sha256": "a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262",
+      "build_id": "working-tree-economy-3b-20260905-r1",
+      "binary_sha256": "74bf00db3e2f4bbe0e9d31804d30b767c6ebbe3c6f2d552d06390de6937a6f81",
+      "command": "& $economyBinary --demo $approvedDemo --output $economyRunRoot --alias demo-a11eb0d600ee702c9edb --checksum a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --maps-root ../data/maps --build-id working-tree-economy-3b-20260905-r1 --ai-coach-economy-candidate --economy-candidate-version 2",
+      "cwd": "backend/go-service"
+    },
+    "common_accessor_competitive_teams": 3,
+    "documentation": {
+      "documents": 50,
+      "local_links": 225,
+      "missing": [],
+      "active_prompts": [
+        "AI_COACH_ECONOMY_INITIAL_COVERAGE_CLEANUP_PHASE_PROMPT.md"
+      ],
+      "preexisting_files_in_baseline": 904,
+      "changed_preexisting_files": [
+        "README.md",
+        "ai_coach/contracts/runtime_contracts.py",
+        "ai_coach/contracts/validate_economy_candidate.py",
+        "ai_coach/tests/test_contract.py",
+        "ai_coach/tests/test_spatial_review_protocol.py",
+        "backend/go-service/cmd/canonical-export/economy_candidate.go",
+        "backend/go-service/cmd/canonical-export/economy_candidate_test.go",
+        "backend/go-service/cmd/canonical-export/main.go",
+        "backend/go-service/handlers/economy_observation.go",
+        "backend/go-service/handlers/economy_observation_test.go",
+        "backend/go-service/models/observed_economy.go",
+        "backend/go-service/parser/parser.go",
+        "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+        "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "docs/README.md",
+        "docs/archive/ai-coach/README.md",
+        "docs/canonical-economy-candidate-v1.md",
+        "docs/prompts/AI_COACH_ECONOMY_INITIAL_COVERAGE_AND_ROUND_LINK_PHASE_PROMPT.md"
+      ],
+      "unexpected_preexisting_changes": [],
+      "previous_evidence_files": 16,
+      "previous_evidence_unchanged": true,
+      "catalog_unchanged": true,
+      "temporary_interface_unchanged": true
+    },
+    "git_diff_check": "passed"
+  },
+  "coverage": {
+    "v1_control_counts": {
+      "round_instances": 25,
+      "participants": 10,
+      "initial_snapshots": 25,
+      "freeze_snapshots": 25,
+      "end_snapshots": 25,
+      "initial_actors": 250,
+      "prepurchase_available": 77,
+      "money_observed": 748,
+      "money_zero": 47,
+      "inventory_observed": 748,
+      "execution_events": 1044,
+      "other_events": 547,
+      "prior_allied_drop_links": 0,
+      "unresolved_pickups": 1547
+    },
+    "v2_coverage": {
+      "initial_actors_accredited": 77,
+      "competitive_initial_actors": 64,
+      "competitive_complete_teams": 3,
+      "abstentions": {
+        "activity_in_initial_tick": 173
+      },
+      "selected_sources": {
+        "round_start_probe": 77
+      }
+    },
+    "rounds": [
+      {
+        "instance": 1,
+        "number": 1,
+        "start_tick": 1,
+        "end_tick": 3182,
+        "official_end_tick": null,
+        "link": {
+          "status": "excluded",
+          "reason": "official_end_unavailable",
+          "canonical_round_id": null,
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 1,
+        "frame_tick": 1,
+        "probe_sequence": 2,
+        "frame_sequence": 3
+      },
+      {
+        "instance": 2,
+        "number": 1,
+        "start_tick": 6061,
+        "end_tick": 12068,
+        "official_end_tick": 12516,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:001",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [
+          "CT",
+          "T"
+        ],
+        "probe_tick": 6061,
+        "frame_tick": 6061,
+        "probe_sequence": 145,
+        "frame_sequence": 146
+      },
+      {
+        "instance": 3,
+        "number": 2,
+        "start_tick": 12516,
+        "end_tick": 19580,
+        "official_end_tick": 20028,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:002",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 12516,
+        "frame_tick": 12516,
+        "probe_sequence": 167,
+        "frame_sequence": 187
+      },
+      {
+        "instance": 4,
+        "number": 3,
+        "start_tick": 20028,
+        "end_tick": 26264,
+        "official_end_tick": 26712,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:003",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 20028,
+        "frame_tick": 20028,
+        "probe_sequence": 258,
+        "frame_sequence": 274
+      },
+      {
+        "instance": 5,
+        "number": 4,
+        "start_tick": 26712,
+        "end_tick": 30369,
+        "official_end_tick": 30817,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:004",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 26712,
+        "frame_tick": 26712,
+        "probe_sequence": 321,
+        "frame_sequence": 335
+      },
+      {
+        "instance": 6,
+        "number": 5,
+        "start_tick": 30817,
+        "end_tick": 34765,
+        "official_end_tick": 35213,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:005",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 30817,
+        "frame_tick": 30817,
+        "probe_sequence": 375,
+        "frame_sequence": 391
+      },
+      {
+        "instance": 7,
+        "number": 6,
+        "start_tick": 35213,
+        "end_tick": 40418,
+        "official_end_tick": 40866,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:006",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 35213,
+        "frame_tick": 35213,
+        "probe_sequence": 457,
+        "frame_sequence": 471
+      },
+      {
+        "instance": 8,
+        "number": 7,
+        "start_tick": 40866,
+        "end_tick": 48752,
+        "official_end_tick": 49200,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:007",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 40866,
+        "frame_tick": 40866,
+        "probe_sequence": 505,
+        "frame_sequence": 519
+      },
+      {
+        "instance": 9,
+        "number": 8,
+        "start_tick": 49200,
+        "end_tick": 59097,
+        "official_end_tick": 59545,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:008",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 49200,
+        "frame_tick": 49200,
+        "probe_sequence": 586,
+        "frame_sequence": 604
+      },
+      {
+        "instance": 10,
+        "number": 9,
+        "start_tick": 59545,
+        "end_tick": 65453,
+        "official_end_tick": 65901,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:009",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 59545,
+        "frame_tick": 59545,
+        "probe_sequence": 681,
+        "frame_sequence": 695
+      },
+      {
+        "instance": 11,
+        "number": 10,
+        "start_tick": 65901,
+        "end_tick": 70257,
+        "official_end_tick": 70705,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:010",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 65901,
+        "frame_tick": 65901,
+        "probe_sequence": 754,
+        "frame_sequence": 772
+      },
+      {
+        "instance": 12,
+        "number": 11,
+        "start_tick": 70705,
+        "end_tick": 79218,
+        "official_end_tick": 79666,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:011",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 70705,
+        "frame_tick": 70705,
+        "probe_sequence": 838,
+        "frame_sequence": 854
+      },
+      {
+        "instance": 13,
+        "number": 12,
+        "start_tick": 79666,
+        "end_tick": 87875,
+        "official_end_tick": 88419,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:012",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 79666,
+        "frame_tick": 79666,
+        "probe_sequence": 915,
+        "frame_sequence": 935
+      },
+      {
+        "instance": 14,
+        "number": 13,
+        "start_tick": 88419,
+        "end_tick": 91441,
+        "official_end_tick": 91889,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:013",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 88419,
+        "frame_tick": 88419,
+        "probe_sequence": 1011,
+        "frame_sequence": 1033
+      },
+      {
+        "instance": 15,
+        "number": 14,
+        "start_tick": 91889,
+        "end_tick": 98567,
+        "official_end_tick": 99015,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:014",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 91889,
+        "frame_tick": 91889,
+        "probe_sequence": 1056,
+        "frame_sequence": 1072
+      },
+      {
+        "instance": 16,
+        "number": 15,
+        "start_tick": 99015,
+        "end_tick": 103659,
+        "official_end_tick": 104107,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:015",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 99015,
+        "frame_tick": 99015,
+        "probe_sequence": 1112,
+        "frame_sequence": 1130
+      },
+      {
+        "instance": 17,
+        "number": 16,
+        "start_tick": 104107,
+        "end_tick": 106892,
+        "official_end_tick": 107340,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:016",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 104107,
+        "frame_tick": 104107,
+        "probe_sequence": 1193,
+        "frame_sequence": 1213
+      },
+      {
+        "instance": 18,
+        "number": 17,
+        "start_tick": 107340,
+        "end_tick": 110476,
+        "official_end_tick": 110924,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:017",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 107340,
+        "frame_tick": 107340,
+        "probe_sequence": 1268,
+        "frame_sequence": 1284
+      },
+      {
+        "instance": 19,
+        "number": 18,
+        "start_tick": 110924,
+        "end_tick": 115831,
+        "official_end_tick": 116279,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:018",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 110924,
+        "frame_tick": 110924,
+        "probe_sequence": 1339,
+        "frame_sequence": 1353
+      },
+      {
+        "instance": 20,
+        "number": 19,
+        "start_tick": 116279,
+        "end_tick": 122077,
+        "official_end_tick": 122525,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:019",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [
+          "CT"
+        ],
+        "probe_tick": 116279,
+        "frame_tick": 116279,
+        "probe_sequence": 1387,
+        "frame_sequence": 1399
+      },
+      {
+        "instance": 21,
+        "number": 20,
+        "start_tick": 122525,
+        "end_tick": 132201,
+        "official_end_tick": 132649,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:020",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 122525,
+        "frame_tick": 122525,
+        "probe_sequence": 1448,
+        "frame_sequence": 1464
+      },
+      {
+        "instance": 22,
+        "number": 21,
+        "start_tick": 132649,
+        "end_tick": 137017,
+        "official_end_tick": 137465,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:021",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 132649,
+        "frame_tick": 132649,
+        "probe_sequence": 1538,
+        "frame_sequence": 1552
+      },
+      {
+        "instance": 23,
+        "number": 22,
+        "start_tick": 137465,
+        "end_tick": 143080,
+        "official_end_tick": 143528,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:022",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 137465,
+        "frame_tick": 137465,
+        "probe_sequence": 1634,
+        "frame_sequence": 1650
+      },
+      {
+        "instance": 24,
+        "number": 23,
+        "start_tick": 143528,
+        "end_tick": 153021,
+        "official_end_tick": 153469,
+        "link": {
+          "status": "verified",
+          "reason": "unique_identity_start_official_end_and_roster",
+          "canonical_round_id": "demo-a11eb0d600ee702c9edb:round:023",
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 143528,
+        "frame_tick": 143528,
+        "probe_sequence": 1720,
+        "frame_sequence": 1738
+      },
+      {
+        "instance": 25,
+        "number": 24,
+        "start_tick": 153469,
+        "end_tick": 157921,
+        "official_end_tick": null,
+        "link": {
+          "status": "excluded",
+          "reason": "official_end_unavailable",
+          "canonical_round_id": null,
+          "source": "canonical/core/rounds.json+derived/economy_players.json"
+        },
+        "complete_initial_teams": [],
+        "probe_tick": 153469,
+        "frame_tick": 153469,
+        "probe_sequence": 1804,
+        "frame_sequence": 1818
+      }
+    ],
+    "round_link_reasons": {
+      "official_end_unavailable": 2,
+      "unique_identity_start_official_end_and_roster": 23
+    },
+    "probe_frame_fact_comparison": {
+      "armor:equal": 250,
+      "buy_zone:equal": 250,
+      "equipment_value_native:equal": 250,
+      "helmet:equal": 250,
+      "inventory:equal": 250,
+      "kit:equal": 250,
+      "money:equal": 250,
+      "spent_native:equal": 250
+    },
+    "native_rules": {
+      "freeze:True:observed": 25,
+      "match_started:True:observed": 25,
+      "warmup:False:observed": 25
+    },
+    "initial_tick_callback_locations": {
+      "after_probe:pickup": 353
+    },
+    "competitive_complete_teams_via_accessor": 3,
+    "future_and_opponent_invariance_checks": 3,
+    "duplicate_inventory_owners": 0
+  },
+  "comparison_with_3a": {
+    "initial_actors": {
+      "before": 250,
+      "after": 250
+    },
+    "prebuy_actor_count_v1_control": {
+      "before": 77,
+      "after": 77
+    },
+    "initial_actor_activity_exclusions": {
+      "before": 173,
+      "after": 173
+    },
+    "previous_complete_teams": 5,
+    "previous_complete_teams_with_nonrepeated_number": 1,
+    "current_verified_competitive_complete_teams": 3,
+    "interpretation": "No numerical recovery by earlier callback. All 2000 probe/frame native actor facts match. Round correspondence accredits both teams in round 1 plus CT in round 19; preliminary instance and round 24 lack official end and are excluded. No advice or eligible decision."
+  },
+  "tested_boundaries": [
+    "same-tick pickup/drop/refund before probe, after probe and after first frame",
+    "pre-round native callback survives reset",
+    "complete early probe and whole-observation fallback without backdating",
+    "missing native property, spend, disconnect, side change",
+    "duplicate inventory entity; prior drop reference consumption and round reset",
+    "future facts/context, oracle extra fields and reused sequence rejected",
+    "canonical identity/start/official-end/roster joins recomputed after rehash",
+    "duplicate canonical row and repeated observer instance excluded",
+    "future events/refunds/results/next rounds and opponent economy invariance",
+    "v1 reader and normal 3.8 path preserved",
+    "unsafe TEMP destinations, overwrite and mixed modes rejected before parsing for versions 1 and 2",
+    "common v1/v2 accessor cannot bypass competitive correspondence for v2 artifacts"
+  ],
+  "protected_data_invariance": {
+    "approved_bundles": 44,
+    "source_files": 50,
+    "files": 4356,
+    "hashed_files": 181,
+    "bytes": 42372398910,
+    "sha256": "48383ef118a5512cc3da63585e9a48a1948ea260c80566f1ba70be0904ce0c15",
+    "seconds": 1.598,
+    "unchanged": true,
+    "comparison_scope": "Paths, sizes and mtimes for 4356 files; SHA-256 of 181 control files, including the selected source, all approved manifests and release files. Other 44-bundle artifact bodies were not rehashed."
+  },
+  "preserved_prior_evidence": {
+    "count": 16,
+    "unchanged": true,
+    "sha256_by_path": {
+      "docs/evidence/AI_COACH_DECISION_EXAMPLE_COVERAGE_MIRAGE_44_2026-08-27.json": "ad4849fefcbd6e71cfc571d2e99447a842ea1965d19ae6952501ace95d6d34af",
+      "docs/evidence/AI_COACH_ECONOMY_CAUSAL_STATE_SINGLE_DEMO_SMOKE_2026-09-05.json": "c6d712c582966ad8ae97822a1f43ccb333bd47ccbbf432f9f87b295233cc229c",
+      "docs/evidence/AI_COACH_ETA_SINGLE_DEMO_SMOKE_2026-08-28.json": "8276a322cc1de9b6cb330f6db11a16f0fb284f5f70a40929abbda093904181cc",
+      "docs/evidence/AI_COACH_FULL_MATCH_VALIDATION_2026-08-28.json": "f52e70ced794633e5b892452e224813326393e81a63eb09a91ea8f30d449401c",
+      "docs/evidence/AI_COACH_FULL_SINGLE_DEMO_VALIDATION_2026-08-28.json": "479a8add175b4efe2e9bc3f246d15fc7d39d6873d52a78e6ba40804c567a6c1c",
+      "docs/evidence/AI_COACH_LAST_KNOWN_POSITION_INFORMATION_AGE_SINGLE_DEMO_SMOKE_2026-08-29.json": "9c35df5e8df8ccfebc87726558142ef830be257f5da75ef9e2246ea5646410cb",
+      "docs/evidence/AI_COACH_MIRAGE_44_AUDIT_2026-08-27.json": "38c39620e4714357c716e5884bdb6199a610916a33d7a47af55a1e986c0e2bb9",
+      "docs/evidence/AI_COACH_MULTIMAP_COVER_MIRAGE_SINGLE_DEMO_SMOKE_2026-08-31.json": "856387402e4181ab1c8dce7320410ef41ea2dcc136369b8d02d3511339e0e000",
+      "docs/evidence/AI_COACH_MULTIMAP_EXIT_ROUTE_MIRAGE_SINGLE_DEMO_SMOKE_2026-08-31.json": "144a7cba439bc3baee006cb3a3d36600e97941f2c7bd665f0063fdcd55bcecb7",
+      "docs/evidence/AI_COACH_MULTIMAP_EXPOSURE_ANGLES_MIRAGE_SINGLE_DEMO_SMOKE_2026-08-29.json": "a79adef56757fb14bcf5efa7f8fd327572dbb78201fc38fa380df3ec307e21cc",
+      "docs/evidence/AI_COACH_SPATIAL_CONTEXTUAL_REVIEW_INSTRUMENT_REPAIR_2026-09-02.json": "11dcfda25fc1e04110dcdabeda841424f0bbd98f104714fcb599f23d6e1986ea",
+      "docs/evidence/AI_COACH_SPATIAL_FACTS_CANONICAL_MATERIALIZATION_SINGLE_DEMO_SMOKE_2026-09-05.json": "6ad7428f22d2040ebb5ec680f4411c6fc13eb9b020ad34491c346a3e0e9e8564",
+      "docs/evidence/AI_COACH_SPATIAL_FACT_BOUNDARY_SINGLE_DEMO_SMOKE_2026-09-04.json": "918137384e7d145af71873e709d5f8f38f1cefc0d994e287079f6ab9f8469fc5",
+      "docs/evidence/AI_COACH_SPATIAL_HUMAN_REVIEW_PROTOCOL_MIRAGE_PILOT_2026-09-01.json": "b2b6431109771638a3534b48e2f00daf4ea1fc770f005399ed1f2de50f00153f",
+      "docs/evidence/AI_COACH_UTILITY_INITIAL_VELOCITY_SINGLE_DEMO_SMOKE_2026-08-28.json": "64b605175f914624149c846e84d219b956fb88a8aab31ff5cd4fd23df855809f",
+      "docs/evidence/AI_COACH_WEAPON_AMMO_RELOAD_SINGLE_DEMO_SMOKE_2026-08-28.json": "816c867af19506276e682733fd6cdb31310209392f8e0dc6397d74fd5919def1"
+    }
+  },
+  "catalog_unchanged": true,
+  "artifact_inventory": [
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/economy_candidate_manifest.json",
+      "bytes": 1075,
+      "sha256": "3221b570d27cf0307c6e151554b5beae57acbe94ebc36e43e5af5a940f558ad5"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/decision_features.jsonl",
+      "bytes": 943125,
+      "sha256": "f7aecaf6e422fcf40881939321dd5252f2ec9c846fb996a0cf955b5e76f6093c"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/decisions.jsonl",
+      "bytes": 748167,
+      "sha256": "71b9b12adbfae51a3e0a0829d9447572eddef9d884e278e06fda35fbd5a320f3"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/oracle_context.jsonl",
+      "bytes": 300787,
+      "sha256": "d064f5095d1919b799e11c830a5794480992319af5eeb00e4e3b8d6a16591fd0"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/outcomes.jsonl",
+      "bytes": 708197,
+      "sha256": "1a695b21cf1e2730484b24a30459ac01144c9527a334fa0ea9a07f61de0a62fe"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/causal/quality_masks.jsonl",
+      "bytes": 633103,
+      "sha256": "f73b62a72f9691a98f4a9468c220c8a41c7a0b48f70f540a48fda891f9d7edb8"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/match.json",
+      "bytes": 518,
+      "sha256": "58abe622323076c3f5dd3141a39af2ef20ae787279a22e1b210b2788a83d3cd5"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/match_metadata.json",
+      "bytes": 3111,
+      "sha256": "b3926d8b69c01063aae6263f45992c31803667095900cb970e803d31f3fe7ad2"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/participants.json",
+      "bytes": 1690,
+      "sha256": "5b7260c9c683284c70860b31fa86d4d4220cd211552ae9e921c1bf46998e18a0"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/core/rounds.json",
+      "bytes": 31617,
+      "sha256": "9d91425d55b922d710f5c5f6efe415bc0c15282df878ad440a8445552bd483b1"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/clutch_events.json",
+      "bytes": 20236,
+      "sha256": "d3dd0af96d9db07aa94d1ca86367f0ee25ef60fc79d0d35f1f6cfd241e2d3ca1"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/economy_players.json",
+      "bytes": 2431113,
+      "sha256": "99c77dbbac7150a9a145b1e5c13cf4809d1830f8c08107c1b002bc0b65f225f5"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/economy_rounds.json",
+      "bytes": 143948,
+      "sha256": "282fee3457a3164d16fbe1ba197aacb2ee6a04915f3bca6b40c9d4b20dbc28e1"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/engagements.json",
+      "bytes": 2407877,
+      "sha256": "d2d937d917bcbe5a5181ff636a9deaef07e5358fec5a8759424e5c9b1606fd5e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/player_stats.json",
+      "bytes": 76949,
+      "sha256": "e1893fc9c785f94bc283d720a986bdcec92f894e011aa5ae09a663071559ffc6"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/derived/trades.json",
+      "bytes": 940410,
+      "sha256": "8f72c8b3a981211221eb8df7af96258d58b07442e8e1272561da44ddd7df2e1d"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/diagnostics/quality_report.json",
+      "bytes": 41022,
+      "sha256": "a441b0bde3a0dc5864a25c277f79e3c9cfe3de03402a79a57ddb667704eea4d6"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/events/combat_events.jsonl",
+      "bytes": 28186495,
+      "sha256": "38e32a9fe52721f36cfe4cd34d7a19c51f11a953d5560a852b46e6f0f08f7001"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/events/objective_events.jsonl",
+      "bytes": 84844,
+      "sha256": "10133351f5519724c81aa70bdb9671e8b7415c56a6b857a2954f1872a5c2c6cd"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/events/utility_events.jsonl",
+      "bytes": 7628563,
+      "sha256": "cad3638efdf4adc004d8a3716ec48cdf73020dd6fac3f5d6facd274fe190565b"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/manifest.json",
+      "bytes": 33471,
+      "sha256": "3f7122ac70b0dce526e697fa607a4797d73e1e5fc8a1ba3980c23aed02f9e7cd"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/index.json",
+      "bytes": 913078,
+      "sha256": "c245787ec38578462f48771f15a80bbf99f393267ba053995f25409b96e14624"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_001.json.gz",
+      "bytes": 162747,
+      "sha256": "3fe79f8a8d5bd7b3f60dbdf40c7e983ffcad42e489ff11262fb5b6d6a147cf1a"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_002.json.gz",
+      "bytes": 213506,
+      "sha256": "e338e282a4382255a7cadc805d33ca07b468367822262b3ca858d20ee4bc9079"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_003.json.gz",
+      "bytes": 233568,
+      "sha256": "0bab0f7cbd377d2722dd077653fa30c2f28bf5db8db070acd9cd0270ef095aa2"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_004.json.gz",
+      "bytes": 180300,
+      "sha256": "6bcb21328aff54660ef8d05d84793ef81d5057c95cd72312618fc73154d14566"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_005.json.gz",
+      "bytes": 222234,
+      "sha256": "ad622ac68deb114ccbbddf7cab26d306830bfa06b7c2eaae1a5e9f223ccde8f3"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_006.json.gz",
+      "bytes": 212890,
+      "sha256": "722843c30c56e9ed796fdad2600525478cbefa26874e13209a8cadf8d15524a1"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_007.json.gz",
+      "bytes": 362678,
+      "sha256": "08590d83388196d4868fb484d239b1310c98d1113ba2b0efcd38d7380a0af4cf"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_008.json.gz",
+      "bytes": 462706,
+      "sha256": "c512ab2614ba76449006873f863e6cee02410ceb9393d95f5cd776a029aabada"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_009.json.gz",
+      "bytes": 249116,
+      "sha256": "6227f1b638614bcb683514bd31a19b6aa1b73576e10db16202c3cfe3181f1b64"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_010.json.gz",
+      "bytes": 205254,
+      "sha256": "3ec9a6a84edad3e92a9cd8eb6bc031a2e1eb3e84a92d2b97a024492964dfae02"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_011.json.gz",
+      "bytes": 354267,
+      "sha256": "88cb9d581954bde20b80994f12962deaa768e1f9dd52f981288bb103ea1460d2"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_012.json.gz",
+      "bytes": 289052,
+      "sha256": "b84976d2001a8bcfc0202f2059e1da5f6b1959185ed2ef0667b7fd6b0337011c"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_013.json.gz",
+      "bytes": 94892,
+      "sha256": "63829342a74264f88e4ecbe9002f268d3dcdee981558b05dc204dc77a2e3a4e3"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_014.json.gz",
+      "bytes": 231343,
+      "sha256": "b274472dcaaf7c1f57926bf9c3d02fa33944f250db2312061af6eccfcb506d36"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_015.json.gz",
+      "bytes": 218248,
+      "sha256": "bfb52cf53f6ca1b0b46990ea2e171731eb7e3ac07e7cf1e00fea2a3920c6c2e1"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_016.json.gz",
+      "bytes": 121284,
+      "sha256": "d6faace8be32c151f08e447b30452f3c01251cb08a3a39b7c815977e7bcbd2b7"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_017.json.gz",
+      "bytes": 155697,
+      "sha256": "881d6426b3a5057b7bed785bf33b8cee3a36ad13ae01a62aafe4447bd8045652"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_018.json.gz",
+      "bytes": 199997,
+      "sha256": "45a9ba636b6d36c557056411e041d9d84af1ec4aea828b92abaa5d25db133203"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_019.json.gz",
+      "bytes": 259603,
+      "sha256": "df6b72f4c35dd0e993b8ba7290e6542b05e77595842c9a1cc0c3883115ee32a2"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_020.json.gz",
+      "bytes": 443292,
+      "sha256": "a0545914a3c7f4b30d5044e021a317b73f2302d45448ce57846b12c71ee670ee"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_021.json.gz",
+      "bytes": 244502,
+      "sha256": "050ffa986538fecaef9aad8aed5feda54386ccb600a6405d817dfe36f9bfd42a"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_022.json.gz",
+      "bytes": 245569,
+      "sha256": "529ec42070ad5701c921ad755a09e4a87a23239f7b9ad3eef3f850edc0c8837a"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_023.json.gz",
+      "bytes": 414980,
+      "sha256": "9d5e195e7f122a276f25f3ca8b41958b16bd337c12c5807a63271e9744731a0c"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/presentation/replay/round_024.json.gz",
+      "bytes": 199085,
+      "sha256": "049a4533d39667e5b40dbb968a80d8773bf4365cfb943d0643a6c244a8fb90cd"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_001.jsonl",
+      "bytes": 1513537,
+      "sha256": "52b355df02b25657fcf51a9e8889fae6dcf905a4be4705c5a74d6df406d5d21d"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_002.jsonl",
+      "bytes": 1105991,
+      "sha256": "9774084281375e918c2b715d75bc66e5c652e080195750244ef8979831994e06"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_003.jsonl",
+      "bytes": 1746464,
+      "sha256": "1c7f11b8112f4d71602c008a2817e262e7f8ba5b5f12cc0cc6d6698494a19b33"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_004.jsonl",
+      "bytes": 846493,
+      "sha256": "6f4fd5463e9a142f6321db456bfbeb416d09ddb2c610f2262ca5e6c200909a7e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_005.jsonl",
+      "bytes": 952450,
+      "sha256": "02dd9892c8f749f5dd49a3001420d3a42b1231de7b5e6ee40dacc449b3867c9a"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_006.jsonl",
+      "bytes": 1384698,
+      "sha256": "28acac3b4a25cff0571af2a9d95333ef369419292d0a485057a447b6e5ea8b48"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_007.jsonl",
+      "bytes": 2333422,
+      "sha256": "bf7e886420ded8495413c230796386c2162f849720bf0316bc557873f0486a5e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_008.jsonl",
+      "bytes": 3041624,
+      "sha256": "60aed38b1ba112a36fc307ef09bb0813dea6adb455f04a2a2d4abee7d1caf496"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_009.jsonl",
+      "bytes": 1627863,
+      "sha256": "9614d710935a67851562fb1d5da2be06bab11fd39a268766a5d41327afefe22e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_010.jsonl",
+      "bytes": 1097787,
+      "sha256": "530e075ce278cec598d4eae8c514759b78c8f0cf9cabf1e218f1754338a8ef0b"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_011.jsonl",
+      "bytes": 2556951,
+      "sha256": "57480454469a287bb8791d5f218718c817ef6982d7f4db0bfb275f37a3802e19"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_012.jsonl",
+      "bytes": 2429097,
+      "sha256": "0ec35ffb1f9970b738bc04191c934ca9c307d7b166374972f5173d4958aaa068"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_013.jsonl",
+      "bytes": 477073,
+      "sha256": "8cf7e4e1d05e33ef8fe5eb42e694666fbaf7006519ccad4b74a57566d6090b2a"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_014.jsonl",
+      "bytes": 1902908,
+      "sha256": "8718d94cce1abbf5265db054548a77c5a8481d424033527c0cb64aeb1d41623e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_015.jsonl",
+      "bytes": 1200579,
+      "sha256": "d001bfff2cac26f27dd44dc1d8ff413b00d4fe42fbdffdcb517a90ec9828fba7"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_016.jsonl",
+      "bytes": 546391,
+      "sha256": "d05ea7efa97272319d81df09b7bc3b5328e7944c5792fb9e8b1bb81b0966ec9b"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_017.jsonl",
+      "bytes": 661377,
+      "sha256": "47c561d050acdfddae98f24f7e870c9590f92887df39d61974d802c011e5110a"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_018.jsonl",
+      "bytes": 1290725,
+      "sha256": "0affe952395e15c00b84fd132b8b3737d0237587d9236b388b01005999e21f27"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_019.jsonl",
+      "bytes": 1604520,
+      "sha256": "d1d6a2692278d993502e4de4704336052e76bdc2ce07e15a849022e31badb3ed"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_020.jsonl",
+      "bytes": 2960473,
+      "sha256": "f8cb1b4c6707ee8f4cb7ee894eea540aeb11803d2f2ab201db82bdcb1fd81247"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_021.jsonl",
+      "bytes": 1097109,
+      "sha256": "9112b487e761a95ea73e21a5b94a8cca91b8351368c3776e9f162f88d8bdc41e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_022.jsonl",
+      "bytes": 1536741,
+      "sha256": "288d79aecbc9ddcf11aca4f64f77545a8e474e572e4d8d35ef6c5f41e3293442"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_023.jsonl",
+      "bytes": 2898340,
+      "sha256": "a8d233822395e083fa96b0d1321bb7e117528d7362dcc2ab6544bf84790ea6df"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/player_states/round_024.jsonl",
+      "bytes": 1134507,
+      "sha256": "3bbeb9b12ea70f2fcb23d878aa43473490ba340935db6afd139ab8e68f272504"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/gaps.jsonl",
+      "bytes": 5553259,
+      "sha256": "0fd21eaf0964fd02107d2257e46a781fee3aa382c236b42d6454f488d19e587e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/observed.jsonl.gz",
+      "bytes": 54977486,
+      "sha256": "72a4284c315f98a7520834486540dbcecd55d279747be1cf2f3dc2a32abab09e"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/oracle.jsonl",
+      "bytes": 584552932,
+      "sha256": "cfcace60b0a47e9d25f9be9ee09e352807b6d173445e1814fb1b4ac3c78a272b"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/match_demo-a11eb0d600ee702c9edb/canonical/states/tactical/sampling.json",
+      "bytes": 427,
+      "sha256": "a8690d195afba0e8c455f0929d9e5d48a2340ed59ba8d51ef87ee1977544e976"
+    },
+    {
+      "path": "smoke_run_demo-a11eb0d600ee702c9edb/observed_economy_candidate.json",
+      "bytes": 1927445,
+      "sha256": "9429659865dd15b68f8133b16aa8144112959dfe6edd43e6d172b5d2eb9302c3"
+    }
+  ],
+  "cleanup": {
+    "status": "absence_verified_after_user_report",
+    "output_root": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-smoke-h3466t8c",
+    "files": 75,
+    "bytes": 737214875,
+    "evidence_retained_before_cleanup": true,
+    "rejection_recorded_at_utc": "2026-09-05T15:01:36.753694+00:00",
+    "reason": "blocked by policy",
+    "command": "Remove-Item -LiteralPath 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-smoke-h3466t8c' -Recurse -Force -ErrorAction Stop",
+    "attempts_this_phase": 1,
+    "root_still_present": true,
+    "preflight": {
+      "resolved_exact_literal_target": true,
+      "direct_child_of_temp": true,
+      "inventory_matches": true,
+      "reparse_points": 0
+    },
+    "next_action": "Remove only the retained isolated output when execution policy permits or verify external removal; do not rerun parser, smoke, corpus validation or passed suites.",
+    "status_before_external_cleanup": "blocked_by_automatic_approval_review",
+    "operational_closure": {
+      "verified_at_utc": "2026-09-06T08:16:41.129992+00:00",
+      "method": "Exact path absent and absent from accessible parent directory listing",
+      "parent_accessible": true,
+      "user_report": "Listo, continua con el plan.",
+      "agent_deleted": false,
+      "deletion_time": "not_observed",
+      "paths": [
+        {
+          "path": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-smoke-h3466t8c",
+          "exists": false,
+          "listed_in_parent": false
+        }
+      ],
+      "producer_rerun_for_cleanup": false
+    }
+  },
+  "commands": [
+    "& $economyBinary --demo $approvedDemo --output $economyRunRoot --alias demo-a11eb0d600ee702c9edb --checksum a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --maps-root ../data/maps --build-id working-tree-economy-3b-20260905-r1 --ai-coach-economy-candidate --economy-candidate-version 2",
+    "npm run check:all",
+    "backend/venv/Scripts/python.exe -m pytest ai_coach/tests -q",
+    "backend/venv/Scripts/python.exe -m pytest ai_coach/tests/test_economy_initial_frontiers.py ai_coach/tests/test_economy_candidate.py ai_coach/tests/test_contract.py ai_coach/tests/test_spatial_review_protocol.py -q",
+    "backend/venv/Scripts/python.exe -B -m ai_coach.contracts.validate_contract",
+    "backend/venv/Scripts/python.exe -B -m ai_coach.contracts.validate_economy_candidate $economyRunRoot/smoke_run_demo-a11eb0d600ee702c9edb/economy_candidate_manifest.json --expected-source-sha256 a11eb0d600ee702c9edb59e8f3ab54b113a1e552bd65a40ce53a2a0f54df1262 --require-observed",
+    "backend/venv/Scripts/python.exe C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-work-uxi5h_px\\inspect_smoke.py",
+    "backend/venv/Scripts/python.exe C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-work-uxi5h_px\\protected_inventory.py before",
+    "backend/venv/Scripts/python.exe C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-work-uxi5h_px\\protected_inventory.py after"
+  ],
+  "helper_sha256": {
+    "run_smoke.py": "221a964ae14a96defae09152629c17a53fb7e891c517746f61fbbb9c20771346",
+    "inspect_smoke.py": "f3e32e1f6bd90d41f19c88524bcf4562f50dc4d4a00d24a6ca9a2d5e907cd1f9",
+    "protected_inventory.py": "9f9f39f59f2f495d435e4a7be5e7703660327716c3d56f3d83bbf4d723d1b859"
+  },
+  "limitations": [
+    "173 initial actor observations remain ambiguous; callbacks are not purchases",
+    "64 accredited initial actors are linked to verified competitive rounds; 13 accredited actor states excluded by round correspondence",
+    "23 of 24 canonical rounds linked; final round has no official end; preliminary instance also excluded",
+    "mp_maxmoney missing; game-price/reward compatibility remains unverified",
+    "no real drops, disconnections at initial probe or early same-tick refunds in this demo; negative fixtures cover these variants",
+    "three team opportunities are development observations, not independent proof of coaching quality",
+    "economic decision window, observed action reconstruction, baskets, expert review, runtime missions and training remain pending",
+    "spatial 1B.12 cleanup debt remains separate and untouched"
+  ],
+  "command_bindings": {
+    "economyBinary": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-work-uxi5h_px\\canonical-export.exe",
+    "economyRunRoot": "C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-smoke-h3466t8c",
+    "approvedDemo": "Read-only approved source resolved by the retained SHA-256; original match filename not retained",
+    "producer_working_directory": "backend/go-service",
+    "build_command": "go build -o 'C:\\Users\\kerch\\AppData\\Local\\Temp\\stratai-3b-work-uxi5h_px\\canonical-export.exe' ./cmd/canonical-export"
+  },
+  "final_validator_sha256": {
+    "ai_coach/contracts/validate_economy_candidate.py": "da4e0ede520b1586d21df95f14071bc4f7b38dd7c3ad7ca742f49923b0871364",
+    "ai_coach/contracts/economy_initial_frontiers.py": "d7615cf5f368e90a06bdf9f67dc06d0bcfcef9ee0ea4bdd41d113b64a859582d",
+    "ai_coach/tests/test_economy_initial_frontiers.py": "45fcd91a489e0da4fef32995395ed0a8c97752e88bed10564139a3da0b399622"
+  },
+  "status_before_operational_closure": "implemented_validated_pending_cleanup"
+}

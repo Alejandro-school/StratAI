@@ -10,6 +10,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from backend.app.routes import steam_auth
 from backend.app.middleware.security import CSRFMiddleware
+from backend.tests.session_support import install_session_store
 
 
 class FakeRedis:
@@ -141,6 +142,7 @@ def test_login_redirect_ignores_untrusted_host() -> None:
 
 
 def test_callback_state_session_registration_and_csrf(monkeypatch) -> None:
+    install_session_store(monkeypatch)
     fake_redis = FakeRedis()
     monkeypatch.setattr(steam_auth, "redis", fake_redis)
 

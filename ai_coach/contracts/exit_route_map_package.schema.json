@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.exit_route_map_package@1",
+  "title": "Versioned objective exit-route candidate map package",
+  "contract_version": "1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "contract_version", "asset_version", "map_id", "geometry_revision", "coordinates", "navigation_contract", "bounds", "source_assets", "related_geometry_audit", "route_samples", "coverage", "objective_validation", "tactical_review", "tactical_annotations", "limitations"],
+  "properties": {
+    "schema_id": {"const": "stratai.exit_route_map_package@1"},
+    "contract_version": {"const": "1.0.0"},
+    "asset_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+    "map_id": {"type": "string", "pattern": "^de_[a-z0-9_]+$"},
+    "geometry_revision": {"$ref": "#/$defs/sha256"},
+    "coordinates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["system", "units", "axis_convention", "origin_description", "route_direction"],
+      "properties": {
+        "system": {"const": "source2_world"}, "units": {"const": "source2_world_units"},
+        "axis_convention": {"const": "right_handed_z_up_x_forward_y_left"},
+        "origin_description": {"type": "string", "minLength": 1},
+        "route_direction": {"const": "directed_origin_to_destination"}
+      }
+    },
+    "navigation_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["graph_contract_version", "shortest_path_algorithm", "endpoint_association_method", "edge_weight_method", "endpoint_tolerance_world_units", "endpoint_vertical_tolerance_world_units"],
+      "properties": {
+        "graph_contract_version": {"const": "nav_area_connections_with_polygons@2"},
+        "shortest_path_algorithm": {"const": "directed_dijkstra_stable_ties@1"},
+        "endpoint_association_method": {"const": "containing_nav_polygon_xy_then_nearest_center_3d@2"},
+        "edge_weight_method": {"const": "nav_area_center_euclidean_world_units@1"},
+        "endpoint_tolerance_world_units": {"type": "number", "exclusiveMinimum": 0},
+        "endpoint_vertical_tolerance_world_units": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "bounds": {"$ref": "#/$defs/bounds"},
+    "source_assets": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/source_asset"}},
+    "related_geometry_audit": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/related_geometry"}},
+    "route_samples": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/route_sample"}},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["declaration", "full_map_coverage", "sample_count", "candidate_count", "minimum_observed_candidates"],
+      "properties": {
+        "declaration": {"const": "partial_reference_samples"}, "full_map_coverage": {"const": false},
+        "sample_count": {"type": "integer", "minimum": 1}, "candidate_count": {"type": "integer", "minimum": 1},
+        "minimum_observed_candidates": {"type": "integer", "minimum": 1}
+      }
+    },
+    "objective_validation": {"$ref": "#/$defs/review"},
+    "tactical_review": {"$ref": "#/$defs/review"},
+    "tactical_annotations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/annotation"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullable_string": {"type": ["string", "null"]},
+    "vector": {"type": "object", "additionalProperties": false, "required": ["x", "y", "z"], "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}},
+    "bounds": {"type": "object", "additionalProperties": false, "required": ["min", "max"], "properties": {"min": {"$ref": "#/$defs/vector"}, "max": {"$ref": "#/$defs/vector"}}},
+    "source_asset": {
+      "type": "object", "additionalProperties": false, "required": ["role", "reference", "sha256", "use"],
+      "properties": {
+        "role": {"enum": ["nav_mesh", "physics_gltf", "physics_buffer", "sample_seed_catalog"]},
+        "reference": {"type": "string", "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "use": {"enum": ["objective_navigation", "coordinate_seeds_only", "audited_collision_only_not_route_truth"]}
+      }
+    },
+    "related_geometry": {
+      "type": "object", "additionalProperties": false, "required": ["role", "schema_id", "artifact_sha256", "semantic_use"],
+      "properties": {
+        "role": {"enum": ["exposure_package", "cover_package"]}, "schema_id": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"}, "semantic_use": {"const": "audited_separate_geometry_not_used_as_exit_route_truth"}
+      }
+    },
+    "seed_provenance": {
+      "type": "object", "additionalProperties": false, "required": ["source_role", "source_reference", "source_coordinate", "interpretation"],
+      "properties": {"source_role": {"const": "sample_seed_catalog"}, "source_reference": {"type": "string", "minLength": 1}, "source_coordinate": {"type": "string", "minLength": 1}, "interpretation": {"const": "coordinate_seed_only_source_name_is_not_a_tactical_label"}}
+    },
+    "objective": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason_codes", "direct_distance_world_units", "reachable", "path_distance_world_units", "origin_association_world_units", "destination_association_world_units"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]}, "reason_codes": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "direct_distance_world_units": {"type": "number", "minimum": 0}, "reachable": {"type": ["boolean", "null"]},
+        "path_distance_world_units": {"type": ["number", "null"], "minimum": 0},
+        "origin_association_world_units": {"type": ["number", "null"], "minimum": 0},
+        "destination_association_world_units": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "candidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "alias", "destination_world", "destination_provenance", "direction", "objective_connectivity"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^exit-sample-[0-9]{3}/candidate-[0-9]{3}$"}, "alias": {"type": "string", "minLength": 1},
+        "destination_world": {"$ref": "#/$defs/vector"}, "destination_provenance": {"$ref": "#/$defs/seed_provenance"},
+        "direction": {"const": "origin_to_destination"}, "objective_connectivity": {"$ref": "#/$defs/objective"}
+      }
+    },
+    "route_sample": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "alias", "origin_world", "selection_radius_units", "vertical_tolerance_units", "origin_provenance", "candidates"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^exit-sample-[0-9]{3}$"}, "alias": {"type": "string", "minLength": 1},
+        "origin_world": {"$ref": "#/$defs/vector"}, "selection_radius_units": {"type": "number", "exclusiveMinimum": 0},
+        "vertical_tolerance_units": {"type": "number", "exclusiveMinimum": 0}, "origin_provenance": {"$ref": "#/$defs/seed_provenance"},
+        "candidates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/candidate"}}
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false, "required": ["status", "author_id", "reviewer_id", "evidence"],
+      "properties": {"status": {"enum": ["pending_review", "approved"]}, "author_id": {"$ref": "#/$defs/nullable_string"}, "reviewer_id": {"$ref": "#/$defs/nullable_string"}, "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}}
+    },
+    "annotation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "annotation_version", "candidate_ref", "classification", "provenance", "evidence", "author_id", "reviewer_id", "review_status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^exit-annotation-[0-9]{4}$"}, "annotation_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+-candidate\\.[0-9]+$"},
+        "candidate_ref": {"type": "string", "pattern": "^exit-sample-[0-9]{3}/candidate-[0-9]{3}$"}, "classification": {"$ref": "#/$defs/nullable_string"},
+        "provenance": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}, "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "author_id": {"$ref": "#/$defs/nullable_string"}, "reviewer_id": {"$ref": "#/$defs/nullable_string"}, "review_status": {"enum": ["pending_review", "approved"]}
+      }
+    }
+  }
+}

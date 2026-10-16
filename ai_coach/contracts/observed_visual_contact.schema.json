@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_visual_contact@1",
+  "title": "ObservedVisualContactLedger",
+  "contract_version": "1.0.0",
+  "description": "Ledger factual y causal de contacto visual; no reinterpreta los bundles canónicos 3.8.0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "contract_version",
+    "identity_semantics",
+    "causal_role",
+    "join_keys",
+    "t0_tick",
+    "sampling",
+    "evaluations",
+    "contacts"
+  ],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_visual_contact@1"},
+    "contract_version": {"const": "1.0.0"},
+    "identity_semantics": {"const": "join_only"},
+    "causal_role": {"const": "model_input_observation"},
+    "join_keys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["match_id"],
+      "properties": {"match_id": {"type": "string", "minLength": 1}}
+    },
+    "t0_tick": {"type": "integer", "minimum": 0},
+    "sampling": {"$ref": "#/$defs/sampling"},
+    "evaluations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/evaluation"}
+    },
+    "contacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/episode"}
+    }
+  },
+  "$defs": {
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_hz", "tick_rate", "period_ticks", "strategy"],
+      "properties": {
+        "target_hz": {"const": 16},
+        "tick_rate": {"type": "number", "minimum": 16},
+        "period_ticks": {"type": "number", "exclusiveMinimum": 0},
+        "strategy": {"const": "round_anchored_right_closed_no_carry_forward"}
+      }
+    },
+    "joinKeys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["match_id", "round_id", "observer_id", "subject_id", "contact_id"],
+      "properties": {
+        "match_id": {"type": "string", "minLength": 1},
+        "round_id": {"type": "string", "minLength": 1},
+        "observer_id": {"type": "string", "minLength": 1},
+        "subject_id": {"type": "string", "minLength": 1},
+        "contact_id": {"type": ["string", "null"]}
+      }
+    },
+    "booleanFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]},
+        "value": {"type": ["boolean", "null"]}
+      }
+    },
+    "fovFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "inside", "reference_horizontal_fov_deg"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]},
+        "inside": {"type": ["boolean", "null"]},
+        "reference_horizontal_fov_deg": {"type": ["number", "null"], "exclusiveMinimum": 0}
+      }
+    },
+    "smokeFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "occluded", "active_smoke_count"],
+      "properties": {
+        "status": {"enum": ["derived", "unavailable"]},
+        "occluded": {"type": ["boolean", "null"]},
+        "active_smoke_count": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_artifact",
+        "source_schema_version",
+        "source_round",
+        "source_frame_tick",
+        "geometry_status",
+        "eye_position_source",
+        "raycast_method",
+        "fov_method",
+        "smoke_method",
+        "input_fields"
+      ],
+      "properties": {
+        "source_artifact": {"const": "replay_data_in_memory"},
+        "source_schema_version": {"type": ["integer", "null"], "minimum": 1},
+        "source_round": {"type": "integer", "minimum": 1},
+        "source_frame_tick": {"type": "integer", "minimum": 0},
+        "geometry_status": {"enum": ["loaded", "not_loaded", "position_unavailable"]},
+        "eye_position_source": {"type": "string", "minLength": 1},
+        "raycast_method": {"const": "map_mesh_segment_raycast@1"},
+        "fov_method": {"const": "rectangular_frustum_16_9_from_source_4_3@1"},
+        "smoke_method": {"const": "segment_to_smoke_cylinder@1"},
+        "input_fields": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "contract_version",
+        "identity_semantics",
+        "join_keys",
+        "round_number",
+        "tick",
+        "t0_tick",
+        "availability_tick",
+        "status",
+        "causal_role",
+        "visibility_scope",
+        "source",
+        "line_of_sight",
+        "field_of_view",
+        "smoke_occlusion",
+        "visual_contact",
+        "boundary",
+        "abstention_reasons",
+        "provenance"
+      ],
+      "properties": {
+        "schema_id": {"const": "stratai.observed_visual_contact@1"},
+        "contract_version": {"const": "1.0.0"},
+        "identity_semantics": {"const": "join_only"},
+        "join_keys": {"$ref": "#/$defs/joinKeys"},
+        "round_number": {"type": "integer", "minimum": 1},
+        "tick": {"type": "integer", "minimum": 0},
+        "t0_tick": {"type": "integer", "minimum": 0},
+        "availability_tick": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["observed", "unavailable"]},
+        "causal_role": {"const": "model_input_observation"},
+        "visibility_scope": {"const": "enemy_visual_contact_evaluation"},
+        "source": {"const": "replay_visual_contact_derivation"},
+        "line_of_sight": {"$ref": "#/$defs/booleanFact"},
+        "field_of_view": {"$ref": "#/$defs/fovFact"},
+        "smoke_occlusion": {"$ref": "#/$defs/smokeFact"},
+        "visual_contact": {"$ref": "#/$defs/booleanFact"},
+        "boundary": {"enum": ["started", "continued", "ended", "inactive", "unavailable"]},
+        "abstention_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "provenance": {"$ref": "#/$defs/provenance"}
+      }
+    },
+    "episode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "contract_version",
+        "identity_semantics",
+        "join_keys",
+        "round_number",
+        "t0_tick",
+        "start_tick",
+        "end_tick",
+        "last_confirmed_tick",
+        "start_availability_tick",
+        "end_availability_tick",
+        "status",
+        "causal_role"
+      ],
+      "properties": {
+        "schema_id": {"const": "stratai.observed_visual_contact@1"},
+        "contract_version": {"const": "1.0.0"},
+        "identity_semantics": {"const": "join_only"},
+        "join_keys": {"$ref": "#/$defs/joinKeys"},
+        "round_number": {"type": "integer", "minimum": 1},
+        "t0_tick": {"type": "integer", "minimum": 0},
+        "start_tick": {"type": "integer", "minimum": 0},
+        "end_tick": {"type": ["integer", "null"], "minimum": 0},
+        "last_confirmed_tick": {"type": "integer", "minimum": 0},
+        "start_availability_tick": {"type": "integer", "minimum": 0},
+        "end_availability_tick": {"type": ["integer", "null"], "minimum": 0},
+        "status": {"enum": ["open_at_t0", "closed"]},
+        "causal_role": {"const": "model_input_observation"}
+      }
+    }
+  }
+}

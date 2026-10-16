@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const fsPromises = require('fs/promises');
-const http = require('http');
 const https = require('https');
 const path = require('path');
 const { Transform, pipeline } = require('stream');
@@ -25,12 +24,9 @@ function isAllowedHost(hostname) {
 
 function validateDemoUrl(value) {
   const url = new URL(value);
-  const isSecureCdn = url.protocol === 'https:' && isAllowedHost(url.hostname);
-  const isLegacyValveReplay = (
-    url.protocol === 'http:'
-    && LEGACY_VALVE_REPLAY_HOST.test(url.hostname.toLowerCase())
-  );
-  if (!isSecureCdn && !isLegacyValveReplay) {
+  const isSecureCdn = url.protocol === 'https:' && isAllowedHost(url.hostname)
+    && !url.username && !url.password && (!url.port || url.port === '443');
+  if (!isSecureCdn) {
     throw new Error('Demo URL host or protocol is not allowed');
   }
   return url;
@@ -39,10 +35,10 @@ function validateDemoUrl(value) {
 function normalizeGcDemoUrl(value) {
   const url = new URL(value);
   if (
-    ['http:', 'https:'].includes(url.protocol)
+    url.protocol === 'http:'
     && LEGACY_VALVE_REPLAY_HOST.test(url.hostname.toLowerCase())
   ) {
-    url.protocol = 'http:';
+    url.protocol = 'https:';
   }
   return validateDemoUrl(url.href);
 }
@@ -80,8 +76,7 @@ async function validateExistingDemo(filePath) {
 
 function openResponse(url, redirectsLeft = MAX_REDIRECTS) {
   return new Promise((resolve, reject) => {
-    const transport = url.protocol === 'https:' ? https : http;
-    const request = transport.get(url, { timeout: 30000 }, (response) => {
+    const request = https.get(url, { timeout: 30000 }, (response) => {
       if (
         response.statusCode >= 300
         && response.statusCode < 400
@@ -122,6 +117,8 @@ async function writeChecksum(filePath, checksum) {
 }
 
 async function downloadDemo(urlValue, filePath, { onProgress } = {}) {
+  // Validate transport before touching existing files; redirects are checked again.
+  const url = validateDemoUrl(urlValue);
   const existing = await validateExistingDemo(filePath);
   if (existing) return existing;
 
@@ -140,7 +137,6 @@ async function downloadDemo(urlValue, filePath, { onProgress } = {}) {
     throw error;
   }
 
-  const url = validateDemoUrl(urlValue);
   const partPath = `${filePath}.part.${crypto.randomUUID()}`;
   const digest = crypto.createHash('sha256');
   let bytes = 0;

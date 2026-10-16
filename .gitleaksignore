@@ -1,0 +1,11 @@
+# Reviewed synthetic examples only; fingerprints are bound to exact historical
+# commits and lines. No path-wide or rule-wide suppression is applied.
+# Documentation placeholder "replace-with-at-least-32-characters":
+e1825795307d27a6d1a62e95db84a7d8c9012b21:backend/go-service/scripts/README.md:generic-api-key:23
+e1825795307d27a6d1a62e95db84a7d8c9012b21:backend/go-service/scripts/README.md:generic-api-key:40
+e1825795307d27a6d1a62e95db84a7d8c9012b21:docs/canonical-publication-rollback.md:generic-api-key:79
+# Explicit test credentials and cross-language HMAC vector:
+f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:.github/workflows/quality.yml:generic-api-key:60
+f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:backend/testdata/service_auth_vectors.json:generic-api-key:9
+f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:backend/node-service/test/serviceAuth.integration.test.js:generic-api-key:2
+f6f0774102611d4a9afa75bd1cd7f3fb213a8e81:backend/node-service/test/pipeline.integration.test.js:generic-api-key:2

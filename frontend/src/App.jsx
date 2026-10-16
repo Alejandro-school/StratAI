@@ -1,16 +1,13 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./auth/useAuth";
 
-const LandingPage = lazy(() => import('./components/Landing/LandingPage').then((module) => ({
-  default: module.LandingPage,
-})));
+const LandingPage = lazy(() => import('./features/landing-world'));
 const ProtectedAppLayout = lazy(() => import('./components/Layout/ProtectedAppLayout'));
 const SteamLoginSuccess = lazy(() => import("./auth/SteamLoginSuccess"));
 const TacticalMap = lazy(() => import("./pages/TacticalMap"));
 const CoachDashboard = lazy(() => import("./pages/CoachDashboard"));
-const BotInstructions = lazy(() => import("./auth/BotInstructions"));
 const HistoryCodeForm = lazy(() => import("./auth/HistoryCodeForm"));
 const MatchHistoryPage = lazy(() => import("./pages/MatchHistoryPage"));
 const MatchDetails = lazy(() => import("./pages/MatchDetails"));
@@ -68,7 +65,7 @@ const App = () => (
 
           {/* Rutas de detalle y utilidades */}
           <Route path="/match/:steamID/:matchID" element={<MatchDetails />} />
-          <Route path="/bot-instructions" element={<BotInstructions />} />
+          <Route path="/bot-instructions" element={<Navigate to="/steam-login-success" replace />} />
           <Route path="/history-code" element={<HistoryCodeForm />} />
         </Route>
       </Routes>

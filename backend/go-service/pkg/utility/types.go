@@ -12,6 +12,21 @@ const (
 	TypeUnknown    Type = "unknown"
 )
 
+const (
+	InitialVelocityReasonNativeUnavailable         = "native_velocity_property_unavailable"
+	InitialVelocityReasonNativeNonFinite           = "native_velocity_non_finite"
+	InitialVelocityReasonNativeSentinel            = "native_velocity_sentinel"
+	InitialVelocityReasonNativeZeroAmbiguous       = "native_zero_ambiguous"
+	InitialVelocityReasonLaunchPositionUnavailable = "launch_position_unavailable"
+	InitialVelocityReasonTickRateUnavailable       = "tick_rate_unavailable"
+	InitialVelocityReasonInsufficientSamples       = "insufficient_position_samples"
+	InitialVelocityReasonSameTickConflict          = "same_tick_position_conflict"
+	InitialVelocityReasonFlightEnded               = "flight_ended_before_second_sample"
+	InitialVelocityReasonIdentityUnavailable       = "projectile_observation_identity_unavailable"
+	InitialVelocityReasonIdentityConflict          = "projectile_observation_identity_conflict"
+	InitialVelocityReasonEntityReused              = "projectile_entity_reused"
+)
+
 type TypeFamily string
 
 const (
@@ -47,6 +62,7 @@ const (
 	SourceProjectileOwner          = "projectile_owner"
 	SourceProjectilePosition       = "projectile_position"
 	SourceProjectileVelocity       = "projectile_velocity"
+	SourceProjectilePositionDelta  = "projectile_position_delta"
 	SourcePlayerView               = "player_view"
 	SourcePlayerState              = "player_state"
 	SourceVelocityNative           = "native"
@@ -191,6 +207,34 @@ type VelocityObservation struct {
 	Source                 string
 }
 
+// InitialVelocityCandidate is populated only from information available while
+// parsing the launch. It is deliberately separate from the canonical launch
+// observation so a candidate contract can evolve without reinterpreting 3.8.
+type InitialVelocityCandidate struct {
+	Vector                 Vector
+	HorizontalSpeed        float64
+	ObservedTick           int
+	AvailabilityTick       int
+	MeasurementStartTick   int
+	MeasurementEndTick     int
+	MeasurementWindowTicks int
+	TickRate               float64
+	StartPosition          Vector
+	EndPosition            Vector
+	Status                 Availability
+	Source                 string
+	Reason                 string
+	Terminal               bool
+	IdentityStatus         Availability
+	RuntimeEntityID        int
+	RuntimeEntitySerial    int
+	ActorID                uint64
+	Type                   Type
+	PositionSampleTick     int
+	PositionSample         Vector
+	PositionSampleObserved bool
+}
+
 type ThrowSnapshot struct {
 	Tick                      TickObservation
 	Position                  VectorObservation
@@ -275,46 +319,65 @@ type DamageEffect struct {
 }
 
 type Throw struct {
-	ID                     string
-	Round                  int
-	Sequence               int
-	SourceEntityID         int
-	SourceEntityGeneration int
-	EntityStatus           Availability
-	EntitySource           string
-	Type                   Type
-	TypeSource             string
-	Actor                  PlayerRef
-	Launch                 ThrowSnapshot
-	Trajectory             Trajectory
-	Lifecycle              Lifecycle
-	Flashes                []FlashEffect
-	Damage                 []DamageEffect
+	ID                       string
+	Round                    int
+	Sequence                 int
+	SourceEntityID           int
+	SourceEntityGeneration   int
+	SourceEntitySerial       int
+	SourceEntitySerialStatus Availability
+	EntityStatus             Availability
+	EntitySource             string
+	Type                     Type
+	TypeSource               string
+	Actor                    PlayerRef
+	Launch                   ThrowSnapshot
+	InitialVelocityCandidate InitialVelocityCandidate
+	Trajectory               Trajectory
+	Lifecycle                Lifecycle
+	Flashes                  []FlashEffect
+	Damage                   []DamageEffect
 }
 
 type ThrowInput struct {
-	Round           int
-	RuntimeEntityID int
-	EntitySource    string
-	Type            Type
-	TypeSource      string
-	Actor           PlayerRef
-	Launch          ThrowSnapshot
+	Round                     int
+	RuntimeEntityID           int
+	RuntimeEntitySerial       int
+	RuntimeEntitySerialStatus Availability
+	EntitySource              string
+	Type                      Type
+	TypeSource                string
+	Actor                     PlayerRef
+	Launch                    ThrowSnapshot
+}
+
+type InitialVelocityPositionInput struct {
+	Round                     int
+	RuntimeEntityID           int
+	RuntimeEntitySerial       int
+	RuntimeEntitySerialStatus Availability
+	ActorID                   uint64
+	Type                      Type
+	Tick                      int
+	Position                  Vector
+	TickRate                  float64
 }
 
 type CallbackHint struct {
-	Round           int
-	RuntimeEntityID int
-	EntitySource    string
-	Type            Type
-	TypeFamily      TypeFamily
-	ActorID         uint64
-	Actor           PlayerRef
-	Tick            int
-	TickRate        float64
-	Position        Vector
-	PositionStatus  Availability
-	Area            StringObservation
+	Round                     int
+	RuntimeEntityID           int
+	RuntimeEntitySerial       int
+	RuntimeEntitySerialStatus Availability
+	EntitySource              string
+	Type                      Type
+	TypeFamily                TypeFamily
+	ActorID                   uint64
+	Actor                     PlayerRef
+	Tick                      int
+	TickRate                  float64
+	Position                  Vector
+	PositionStatus            Availability
+	Area                      StringObservation
 }
 
 type EffectInput struct {

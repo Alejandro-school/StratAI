@@ -10,6 +10,9 @@ export function ReplayKillFeed({ events, tick, tickRate }) {
   return (
     <ol className="r2-kill-feed" aria-label="Eliminaciones recientes">
       {kills.map((kill) => (
+        kill.knowledge === "simulated_team_communication" ? (
+          <li key={kill.id} className="r2-kill-row"><span className={`r2-kill-player ${kill.victim_team?.toLowerCase()}`}>{kill.victim_name}</span><span>Muerte comunicada</span></li>
+        ) : (
         <li key={kill.id} className={`r2-kill-row r2-killer-${kill.killer_team?.toLowerCase() || "unknown"}`}>
           <span className={`r2-kill-player ${kill.killer_team?.toLowerCase()}`}>{kill.killer_name || "Jugador"}</span>
           {kill.assister_name && (
@@ -33,7 +36,7 @@ export function ReplayKillFeed({ events, tick, tickRate }) {
             )}
           </span>
           <span className={`r2-kill-player ${kill.victim_team?.toLowerCase()}`}>{kill.victim_name || "Jugador"}</span>
-        </li>
+        </li>)
       ))}
     </ol>
   );

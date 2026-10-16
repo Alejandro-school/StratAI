@@ -1,0 +1,406 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stratai.observed_utility_initial_velocity@1",
+  "title": "ObservedUtilityInitialVelocityLedger",
+  "contract_version": "1.0.0",
+  "description": "Contrato candidato causal y separado de 3.8.0 para velocidad inicial de proyectiles de utilidad.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "contract_version", "identity_semantics", "causal_role", "rows"],
+  "properties": {
+    "schema_id": {"const": "stratai.observed_utility_initial_velocity@1"},
+    "contract_version": {"const": "1.0.0"},
+    "identity_semantics": {"const": "join_only"},
+    "causal_role": {"const": "launch_time_observation_only"},
+    "rows": {"type": "array", "items": {"$ref": "#/$defs/row"}}
+  },
+  "$defs": {
+    "vector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "z"],
+      "properties": {
+        "x": {"type": "number"},
+        "y": {"type": "number"},
+        "z": {"type": "number"}
+      }
+    },
+    "positionVector": {
+      "allOf": [
+        {"$ref": "#/$defs/vector"},
+        {
+          "properties": {
+            "x": {"exclusiveMinimum": -3.4028234663852886e38, "exclusiveMaximum": 3.4028234663852886e38},
+            "y": {"exclusiveMinimum": -3.4028234663852886e38, "exclusiveMaximum": 3.4028234663852886e38},
+            "z": {"exclusiveMinimum": -3.4028234663852886e38, "exclusiveMaximum": 3.4028234663852886e38}
+          }
+        }
+      ]
+    },
+    "velocityVector": {
+      "allOf": [
+        {"$ref": "#/$defs/positionVector"},
+        {
+          "not": {
+            "required": ["x", "y", "z"],
+            "properties": {
+              "x": {"const": 0},
+              "y": {"const": 0},
+              "z": {"const": 0}
+            }
+          }
+        }
+      ]
+    },
+    "joinKeys": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["throw_id", "projectile_id", "player_id"],
+      "properties": {
+        "throw_id": {"type": "string", "pattern": "^utility-throw-[0-9]{6}$"},
+        "projectile_id": {"type": ["string", "null"], "pattern": "^projectile-[0-9]{6}$"},
+        "player_id": {"type": ["string", "null"], "pattern": "^participant-[0-9]{3}$"}
+      }
+    },
+    "stringFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "source"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "value": {"enum": ["flashbang", "smoke", "he", "molotov", "incendiary", "decoy", null]},
+        "source": {"enum": ["weapon_instance", "unavailable"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "observed"}}},
+          "then": {"properties": {"value": {"type": "string", "minLength": 1}, "source": {"const": "weapon_instance"}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"properties": {"value": {"const": null}, "source": {"const": "unavailable"}}}
+        }
+      ]
+    },
+    "launchFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "tick", "source"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "tick": {"type": ["integer", "null"], "minimum": 0},
+        "source": {"enum": ["projectile_throw", "unavailable"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "observed"}}},
+          "then": {"properties": {"tick": {"type": "integer", "minimum": 0}, "source": {"const": "projectile_throw"}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {"properties": {"tick": {"const": null}, "source": {"const": "unavailable"}}}
+        }
+      ]
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "start_tick", "end_tick", "tick_count", "tick_rate_hz", "start_position", "end_position", "unit"],
+      "properties": {
+        "method": {"enum": ["native_entity_property_at_projectile_throw", "two_position_delta", "unavailable"]},
+        "start_tick": {"type": ["integer", "null"], "minimum": 0},
+        "end_tick": {"type": ["integer", "null"], "minimum": 0},
+        "tick_count": {"type": ["integer", "null"], "minimum": 0},
+        "tick_rate_hz": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "start_position": {"oneOf": [{"$ref": "#/$defs/positionVector"}, {"type": "null"}]},
+        "end_position": {"oneOf": [{"$ref": "#/$defs/positionVector"}, {"type": "null"}]},
+        "unit": {"const": "ingame_ticks"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"method": {"const": "native_entity_property_at_projectile_throw"}}},
+          "then": {
+            "properties": {
+              "start_tick": {"type": "integer", "minimum": 0},
+              "end_tick": {"type": "integer", "minimum": 0},
+              "tick_count": {"const": 0},
+              "tick_rate_hz": {"const": null},
+              "start_position": {"const": null},
+              "end_position": {"const": null}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"method": {"const": "two_position_delta"}}},
+          "then": {
+            "properties": {
+              "start_tick": {"type": "integer", "minimum": 0},
+              "end_tick": {"type": "integer", "minimum": 0},
+              "tick_count": {"type": "integer", "minimum": 1},
+              "tick_rate_hz": {"type": "number", "exclusiveMinimum": 0},
+              "start_position": {"$ref": "#/$defs/positionVector"},
+              "end_position": {"$ref": "#/$defs/positionVector"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"method": {"const": "unavailable"}}},
+          "then": {
+            "properties": {
+              "start_tick": {"const": null},
+              "end_tick": {"const": null},
+              "tick_count": {"const": null},
+              "tick_rate_hz": {"const": null},
+              "start_position": {"const": null},
+              "end_position": {"const": null}
+            }
+          }
+        }
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser_event", "entity_property", "reconciliation"],
+      "properties": {
+        "parser_event": {"enum": ["GrenadeProjectileThrow", "GrenadeProjectileThrow+FrameDone"]},
+        "entity_property": {"enum": ["m_vecVelocity", "projectile_position", "m_vecVelocity_or_projectile_position"]},
+        "reconciliation": {"enum": ["exact", "ambiguous", "unavailable"]}
+      }
+    },
+    "velocityFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "vector", "horizontal_speed", "units", "coordinate_frame", "observed_tick", "availability_tick", "measurement_window", "source", "provenance"],
+      "properties": {
+        "status": {"enum": ["observed", "unavailable"]},
+        "vector": {"oneOf": [{"$ref": "#/$defs/velocityVector"}, {"type": "null"}]},
+        "horizontal_speed": {"type": ["number", "null"], "minimum": 0},
+        "units": {"const": "source2_world_units_per_second"},
+        "coordinate_frame": {"const": "source2_world_xyz"},
+        "observed_tick": {"type": ["integer", "null"], "minimum": 0},
+        "availability_tick": {"type": ["integer", "null"], "minimum": 0},
+        "measurement_window": {"$ref": "#/$defs/window"},
+        "source": {"enum": ["demoinfocs_grenade_projectile_m_vecVelocity_at_throw", "projectile_position_delta", "unavailable"]},
+        "provenance": {"$ref": "#/$defs/provenance"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "observed"}}},
+          "then": {
+            "properties": {
+              "vector": {"$ref": "#/$defs/velocityVector"},
+              "horizontal_speed": {"type": "number", "minimum": 0},
+              "observed_tick": {"type": "integer", "minimum": 0},
+              "availability_tick": {"type": "integer", "minimum": 0},
+              "source": {"enum": ["demoinfocs_grenade_projectile_m_vecVelocity_at_throw", "projectile_position_delta"]},
+              "provenance": {"properties": {"reconciliation": {"const": "exact"}}}
+            },
+            "allOf": [
+              {
+                "if": {"properties": {"source": {"const": "demoinfocs_grenade_projectile_m_vecVelocity_at_throw"}}},
+                "then": {
+                  "properties": {
+                    "measurement_window": {"properties": {"method": {"const": "native_entity_property_at_projectile_throw"}}},
+                    "provenance": {
+                      "properties": {
+                        "parser_event": {"const": "GrenadeProjectileThrow"},
+                        "entity_property": {"const": "m_vecVelocity"}
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {"properties": {"source": {"const": "projectile_position_delta"}}},
+                "then": {
+                  "properties": {
+                    "measurement_window": {"properties": {"method": {"const": "two_position_delta"}}},
+                    "provenance": {
+                      "properties": {
+                        "parser_event": {"const": "GrenadeProjectileThrow+FrameDone"},
+                        "entity_property": {"const": "projectile_position"}
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "unavailable"}}},
+          "then": {
+            "properties": {
+              "vector": {"const": null},
+              "horizontal_speed": {"const": null},
+              "observed_tick": {"const": null},
+              "availability_tick": {"const": null},
+              "source": {"const": "unavailable"},
+              "measurement_window": {"properties": {"method": {"const": "unavailable"}}},
+              "provenance": {
+                "properties": {
+                  "parser_event": {"const": "GrenadeProjectileThrow"},
+                  "entity_property": {"const": "m_vecVelocity_or_projectile_position"},
+                  "reconciliation": {"enum": ["exact", "ambiguous", "unavailable"]}
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row_id", "round_number", "join_keys", "utility_type", "launch", "initial_velocity", "abstention_reasons"],
+      "properties": {
+        "row_id": {"type": "string", "pattern": "^utility-velocity-[0-9]{6}$"},
+        "round_number": {"type": "integer", "minimum": 1},
+        "join_keys": {"$ref": "#/$defs/joinKeys"},
+        "utility_type": {"$ref": "#/$defs/stringFact"},
+        "launch": {"$ref": "#/$defs/launchFact"},
+        "initial_velocity": {"$ref": "#/$defs/velocityFact"},
+        "abstention_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "throw_identity_unavailable",
+              "throw_identity_ambiguous",
+              "projectile_entity_unavailable",
+              "projectile_identity_ambiguous",
+              "launcher_unavailable_at_launch",
+              "utility_type_unavailable_at_launch",
+              "launch_tick_unavailable",
+              "initial_velocity_unavailable",
+              "initial_velocity_non_finite",
+              "initial_velocity_sentinel",
+              "initial_velocity_tick_mismatch",
+              "initial_velocity_window_invalid",
+              "horizontal_speed_mismatch",
+              "native_velocity_property_unavailable",
+              "native_velocity_non_finite",
+              "native_velocity_sentinel",
+              "native_zero_ambiguous",
+              "launch_position_unavailable",
+              "tick_rate_unavailable",
+              "insufficient_position_samples",
+              "same_tick_position_conflict",
+              "flight_ended_before_second_sample",
+              "projectile_observation_identity_unavailable",
+              "projectile_observation_identity_conflict",
+              "projectile_entity_reused"
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "initial_velocity": {"properties": {"status": {"const": "observed"}}}
+            }
+          },
+          "then": {
+            "properties": {
+              "join_keys": {
+                "properties": {
+                  "projectile_id": {"type": "string", "pattern": "^projectile-[0-9]{6}$"},
+                  "player_id": {"type": "string", "pattern": "^participant-[0-9]{3}$"}
+                }
+              },
+              "utility_type": {"properties": {"status": {"const": "observed"}}},
+              "launch": {"properties": {"status": {"const": "observed"}}},
+              "abstention_reasons": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "initial_velocity": {"properties": {"status": {"const": "unavailable"}}}
+            }
+          },
+          "then": {
+            "properties": {
+              "abstention_reasons": {
+                "minItems": 1,
+                "contains": {"const": "initial_velocity_unavailable"},
+                "minContains": 1,
+                "maxContains": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "initial_velocity": {
+                "properties": {
+                  "status": {"const": "unavailable"},
+                  "provenance": {
+                    "properties": {"reconciliation": {"const": "ambiguous"}}
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "abstention_reasons": {
+                "allOf": [
+                  {
+                    "contains": {"const": "initial_velocity_unavailable"},
+                    "minContains": 1,
+                    "maxContains": 1
+                  },
+                  {
+                    "contains": {
+                      "enum": [
+                        "projectile_observation_identity_conflict",
+                        "projectile_entity_reused"
+                      ]
+                    },
+                    "minContains": 1,
+                    "maxContains": 1
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "initial_velocity": {
+                "properties": {
+                  "status": {"const": "unavailable"},
+                  "provenance": {
+                    "properties": {
+                      "reconciliation": {"enum": ["exact", "unavailable"]}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "abstention_reasons": {
+                "not": {
+                  "contains": {
+                    "enum": [
+                      "projectile_observation_identity_conflict",
+                      "projectile_entity_reused"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

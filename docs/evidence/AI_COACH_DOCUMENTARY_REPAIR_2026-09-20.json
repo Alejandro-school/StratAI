@@ -1,0 +1,86 @@
+{
+  "phase": "AUD-D01/D02/D03",
+  "status": "documentary_repair_verified",
+  "report": {
+    "path": "docs/archive/ai-coach/AI_COACH_DOCUMENTARY_REPAIR_2026-09-20.md",
+    "bytes": 2330,
+    "sha256": "7992a72a0ed5b4875b2be23abf6170fb376f11fc58bc2c4059c65e13d145ca22"
+  },
+  "checks": {
+    "ok": true,
+    "catalog_changes_only_meaning_and_evidence_ref": [
+      "FLD-FOV-CONTACT",
+      "FLD-SMOKE-OCCLUSION",
+      "FLD-VISIBLE-CONTACT"
+    ],
+    "runtime_statuses_ids_actions_outcomes_unchanged": true,
+    "CAP_TIME_status": "DERIVABLE_TRAS_RUTAS",
+    "oracle_path": "states/tactical/oracle.jsonl",
+    "oracle_sha256": "cfcace60b0a47e9d25f9be9ee09e352807b6d173445e1814fb1b4ac3c78a272b",
+    "smoke_required": false,
+    "reason": "Only documentation/meaning strings changed; no runtime/schema/derived-data change."
+  },
+  "contract": {
+    "command": [
+      "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\backend\\venv\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "ai_coach.contracts.validate_contract"
+    ],
+    "cwd": "E:\\Carpeta compartida\\Proyecto IA\\StratAI",
+    "started_utc": "2026-09-20T14:43:44.330456+00:00",
+    "network_dependency_resolution": "disabled",
+    "log": "E:\\Carpeta compartida\\Proyecto IA\\StratAI\\outputs\\stratai-audit-followup-20260920\\d-contract.log",
+    "exit_code": 0,
+    "seconds": 4.62,
+    "log_sha256": "2a81b74847187212d50f38bd1b5efb7c4dacdab60c9cf23eb07a746790345c23",
+    "receipt": {
+      "path": "outputs/stratai-audit-followup-20260920/d-contract.json",
+      "bytes": 580,
+      "sha256": "82f8f19a4b76d0c7425ff044315d0145e964645b50d0aaca19302204ccaaf806"
+    }
+  },
+  "preservation": {
+    "ok": true,
+    "baseline_files": 1513,
+    "changed_existing": [
+      "ai_coach/contracts/capability_catalog.json",
+      "ai_coach/contracts/runtime_contracts.py",
+      "ai_coach/contracts/spatial_candidate.py",
+      "ai_coach/datasets/spatial_candidate.py",
+      "ai_coach/tests/test_contract.py",
+      "ai_coach/tests/test_spatial_review_protocol.py",
+      "docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "docs/canonical-spatial-candidate-v3.9.md",
+      "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md"
+    ],
+    "unexpected_changes": [],
+    "protected_inventory_unchanged": true,
+    "HEAD_unchanged": true,
+    "staging_unchanged": true
+  },
+  "snapshots": [
+    {
+      "path": "outputs/stratai-audit-followup-20260920/d-closed/ai_coach/contracts/capability_catalog.json",
+      "bytes": 160913,
+      "sha256": "c7b3d10246ec59cf912411df7aa3d8459527643be5746b0e95e5083634d850a7"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/d-closed/docs/AI_COACH_CAPABILITY_AND_DATA_CONTRACT.md",
+      "bytes": 83778,
+      "sha256": "b573cbba6c9343eab2298829909c070d489b9eb5e11fbdac45cb700a6144181e"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/d-closed/docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+      "bytes": 144601,
+      "sha256": "dfd33e6a67aa3a7aa2e7933f517c24168e2c852d608173b0b24fc4db54d8fd63"
+    },
+    {
+      "path": "outputs/stratai-audit-followup-20260920/d-closed/docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+      "bytes": 898,
+      "sha256": "569fa453dc7b84babb707217310cc77436dd46d993db725bf37c158838a002e4"
+    }
+  ],
+  "next_action": "AUD-O01"
+}

@@ -1,0 +1,37 @@
+{
+  "case": "R1",
+  "episode_id": "cf87833570641dd0974122f33fd115cb23a3f7e7221b111142b38dbaa3e7e0fc",
+  "context_id": "001efa7125795cfe8d44c93edf4d097f543751df847d64d2a6337765cc503ee7",
+  "source_alias": "demo-045df2521c790a7d8a69",
+  "reviewer": "session_user_expert",
+  "date": "2026-09-23",
+  "literal": "Solo quedan 2 jugadores vivos entonces. En R1 no se puede definir cual es la estrategia a seguir. Es posible que como hay un jugador den B y otro conector, se intente ir hacia B.",
+  "review_kind": "qualitative_tactical_reading",
+  "normalized_by_assistant": {
+    "alive_players": 2,
+    "strategy_identifiable": false,
+    "possible_destination": "B",
+    "hypothesis_strength": "possible_not_confirmed",
+    "reason_from_reviewer": "Distribución de los dos supervivientes: uno en B y otro en conector, según su lectura de la ficha.",
+    "roles": null,
+    "recommended_action": null,
+    "scope": "R1_only_not_a_rule_for_all_two_survivor_situations"
+  },
+  "presentation_context": {
+    "packet": "outputs/stratai-review-presentation-20260923/R1.md",
+    "assistant_supplied_map_orientation_before_review": true,
+    "detector_prediction_shown_before_review_in_this_conversation": false,
+    "prior_private_exposure": "unknown",
+    "independent_blind_review_accredited": false,
+    "inventory_freshness": "unaccredited"
+  },
+  "scoring": {
+    "applied": false,
+    "reason": "La lectura combina estrategia no identificable y destino B posible. No se fuerza a las categorías excluyentes compatible/insufficient_information del evaluador actual ni se equipara ir a B con preparar una entrada.",
+    "correctness_label": null,
+    "agreement": null
+  },
+  "detector_input": false,
+  "detector_adjusted": false,
+  "training_allowed": false
+}

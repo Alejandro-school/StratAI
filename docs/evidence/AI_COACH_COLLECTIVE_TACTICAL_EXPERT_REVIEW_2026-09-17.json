@@ -1,0 +1,331 @@
+{
+  "kind": "expert_development_review_intake",
+  "id": "ICT-D1-R1",
+  "date": "2026-09-17",
+  "source": {
+    "path": "outputs/stratai-tactical-review-20260917-7ed3f25/StratAI_Plan_del_coach_ICT-D1_v2.xlsx",
+    "sha256": "9DA2162C83FF0A43A33925F51135117D8926C7DBD2AD1DAD6466797BE401560C",
+    "sheet": "Fichas tácticas",
+    "range": "F6:G23",
+    "received_snapshot": "C:/Users/kerch/AppData/Local/Temp/stratai-ict-review-intake-6a5be74a4a5f4d1bbe3297a7ef1299eb/received.xlsx",
+    "reviewer": "user_game_expert",
+    "prior_exposure": "not_recorded",
+    "individual_response_dates": "not_recorded"
+  },
+  "responses_verbatim": [
+    {
+      "case_id": "F01-K1",
+      "source_row": 6,
+      "interpretation_cell": "F6",
+      "interpretation": "Sin saber donde estan los jugadores. Parece que T1 y T5 estan buscando información por los apartamentos de T. T3 no se donde esta llevando el C4 ni donde están T2 o T4. Es posible que la estrategia sea un split donde se busca hacer una baja y tomar un punto, o dividirse para buscar información del rival",
+      "missing_information_cell": "G6",
+      "missing_information": "Saber donde estan el resto de jugadores",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F01-K2",
+      "source_row": 7,
+      "interpretation_cell": "F7",
+      "interpretation": "Parece que se va realizar un ejecute en el punto de B. El jugador T4 esta cubriendo posibles rotaciones de los CT. T5 se prepara para lanzar la utilidad que va a ayudar a T1 y T2 a entrar al punto de B",
+      "missing_information_cell": "G7",
+      "missing_information": "Donde esta T3 ahora?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F01-K3",
+      "source_row": 8,
+      "interpretation_cell": "F8",
+      "interpretation": "Se ha ejecutado la primera fase del ejecute en B. T5 apoya con una flash a T1 y T2 para el entry, T3 al llevar el c4 esta un poco mas rezagado por si no entra bien no morir y prácticamente perder la ronda y T4 se queda vigilando la espalda. Aunque en esta situación, T4 debería ayudar a entrar en vez de vigilar la espalda, solo llevan 20 segundos de ronda, no creo que haya ningún CT en esa zona aún",
+      "missing_information_cell": "G8",
+      "missing_information": "Nada",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F02-K1",
+      "source_row": 9,
+      "interpretation_cell": "F9",
+      "interpretation": "Esta todo correcto, parece una defensa estandar en Mirage. Todavia no hay contacto por tanto, lo óptimo es repartir posiciones. Teniendo en cuenta que de las últimas 4, 3 fueron en B, jugaría con un jugador en A, otro conector, 2 en B y uno en ventana con rotación rápida hacia B.",
+      "missing_information_cell": "G9",
+      "missing_information": "Saber si los terros, las 3 de las 4 rondas que han ejecutado en B, han ganado o perdido, si han perdido las 3, B tiene una defensa solida y no hace falta reforzarlo., si los T han ganado esas 3 rondas, convenderia reforzarlo.",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F02-K2",
+      "source_row": 10,
+      "interpretation_cell": "F10",
+      "interpretation": "Si CT1 ve a 2 T cerca de B, debe dar la información, CT3 debería mirar apartamentos con CT2 ya que corta ( El otro acceso a B) Esta tapado por CT4 desde conector. Si los T que ha visto CT1 no es la bomba, no es motivo suficiente para rotación del equipo. ",
+      "missing_information_cell": "G10",
+      "missing_information": "Saber si los T que ha visto CT1 tenian la bomba. También saber la posición de CT2 ya que la desconozco",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F02-K3",
+      "source_row": 11,
+      "interpretation_cell": "F11",
+      "interpretation": "Es una defensa correcta, no entiendo muy bien lo de Lanzar utilidad hacia el acceso. No se que es el Acceso, ni donde esta CT2",
+      "missing_information_cell": "G11",
+      "missing_information": "Donde esta CT2?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F03-K1",
+      "source_row": 12,
+      "interpretation_cell": "F12",
+      "interpretation": "Defensa estandar, todo ok",
+      "missing_information_cell": "G12",
+      "missing_information": "Nada",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F03-K2",
+      "source_row": 13,
+      "interpretation_cell": "F13",
+      "interpretation": "Si CT1 no da la información del contacto, es normal que el resto de jugadores mantengan su posición",
+      "missing_information_cell": "G13",
+      "missing_information": "Nada",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F03-K3",
+      "source_row": 14,
+      "interpretation_cell": "F14",
+      "interpretation": "Es la misma situación que F02-K3",
+      "missing_information_cell": "G14",
+      "missing_information": "Donde esta T2?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F04-K1",
+      "source_row": 15,
+      "interpretation_cell": "F15",
+      "interpretation": "Los T se dividien por las zonas del mapa con el objetivo de presionar y ganar información de la organización de la defensa de CT. Es una estrategia conocida como SPLIT. ",
+      "missing_information_cell": "G15",
+      "missing_information": "Donde esta T2?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F04-K2",
+      "source_row": 16,
+      "interpretation_cell": "F16",
+      "interpretation": "T4 esta intentando presionar por medio con el objetivo de provocar movimientos en la defensa del rival y permitir que los jugadores de A puedan avanzar mas facilmente desequilibrando la defensa de los CT. Aunque avanzar solo por medio no suele ser una buena opción ya que hay muchos angulos desde los cuales te pueden disparar. Sin cobertura es prácticamente un suicidio.",
+      "missing_information_cell": "G16",
+      "missing_information": "Donde esta T2?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F04-K3",
+      "source_row": 17,
+      "interpretation_cell": "F17",
+      "interpretation": "Esta situación es muy poco probable, nadie avanza por medio solo hasta conector, en el 99% de casos ya habría habido contactado en medio, no se puede analizar de forma objetiva.",
+      "missing_information_cell": "G17",
+      "missing_information": "Donde esta T2?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F05-K1",
+      "source_row": 18,
+      "interpretation_cell": "F18",
+      "interpretation": "Si CT1 no da la información del contacto, es normal que el resto de jugadores mantengan su posición. Igualmente una granada no es motivo suficiente para cambiar la estructura de la defensa. Es una defensa estandar y sólida.",
+      "missing_information_cell": "G18",
+      "missing_information": "Como sabes que CT1 es el único en tener esa información? No se puede saber eso.",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F05-K2",
+      "source_row": 19,
+      "interpretation_cell": "F19",
+      "interpretation": "Dado que CT1 y CT2 están en A, CT3 es la única defensa que hay en la zona de medio, por tanto debe mantener su posición y así evitar que los T puedan tomar el control de esa zona o coger a las T por la espalda",
+      "missing_information_cell": "G19",
+      "missing_information": "Nada",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F05-K3",
+      "source_row": 20,
+      "interpretation_cell": "F20",
+      "interpretation": "Que significa esto de evento de bomba plantada en B? Esto es imposible. Sin patron, sin bajas, ni nada, y 2 CT en B. Como van a plantar la bomba? Es una situación 100% imposible",
+      "missing_information_cell": "G20",
+      "missing_information": "Nada",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F06-K1",
+      "source_row": 21,
+      "interpretation_cell": "F21",
+      "interpretation": "Es una distribución correcta, pero T2 no se donde está y es el único que puede proporcionar apoyo a la entrada a un site. Debe ser quien coorinde el ataque cuando tire la flash. Puede ser en B o en otro punto, pero debe ser el. Con 50 segundos hay tiempo de rotar hacia A en caso de que lo quisieran.",
+      "missing_information_cell": "G21",
+      "missing_information": "Nada",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F06-K2",
+      "source_row": 22,
+      "interpretation_cell": "F22",
+      "interpretation": "No se donde ha muerto T2, por tanto  no puedo dar una interpretación adecuada. Se ha perdido la utilidad por tanto ahora hay que ejecutar un entry en algún site sin utilidad. Lo optimo es juntarse e intentar ganar por potencia de fuego.",
+      "missing_information_cell": "G22",
+      "missing_information": "Donde ha muerto T2?",
+      "prior_exposure": "not_recorded"
+    },
+    {
+      "case_id": "F06-K3",
+      "source_row": 23,
+      "interpretation_cell": "F23",
+      "interpretation": "El marcador es 10-10, queda poco tiempo y no tiene utilidad, no sabemos que distribución hay. Es posible que sea correcto guardar y así tener equipamiento para la siguiente ronda y lucharla bien en vez de suicidarse.",
+      "missing_information_cell": "G23",
+      "missing_information": "Me falta saber la economia que tiene mi equipo para interpretar si es correcto entrar e intetnar ganar la ronda o guardar para la siguinte.",
+      "prior_exposure": "not_recorded"
+    }
+  ],
+  "agent_interpretation": [
+    {
+      "case_id": "F01-K1",
+      "summary": "Interpretación limitada por jugadores no localizados.",
+      "treatment": "Enumerar todos los actores. El rango «T1–T5» se leyó como extremos y no expresa posiciones exactas."
+    },
+    {
+      "case_id": "F01-K2",
+      "summary": "Lectura de ejecución B, utilidad y posible cobertura trasera; falta T3.",
+      "treatment": "Conservar esa lectura como revisión contextual y aportar posición de T3 por corte."
+    },
+    {
+      "case_id": "F01-K3",
+      "summary": "Ejecución B interpretada y propuesta de que T4 ayude; se supone que sólo han pasado 20 segundos.",
+      "treatment": "El consejo sobre T4 queda condicionado al reloj y amenazas supuestos. K3 no fijaba tiempo actual."
+    },
+    {
+      "case_id": "F02-K1",
+      "summary": "Defensa estándar según el experto; pide resultados de los ataques previos para decidir si reforzar.",
+      "treatment": "Añadir desarrollo y resultado causal de rondas previas; no etiquetar tres CT automáticamente como refuerzo."
+    },
+    {
+      "case_id": "F02-K2",
+      "summary": "Contacto parcial, relevancia de ver C4 y funciones de apartamentos/corta/conector.",
+      "treatment": "Concretar posiciones y cobertura; separar deber de comunicar de comunicación observada."
+    },
+    {
+      "case_id": "F02-K3",
+      "summary": "Lectura favorable, pero «acceso» y posición de CT2 no se entienden.",
+      "treatment": "Sustituir ubicaciones genéricas por posición y acceso inequívocos antes de validar funciones."
+    },
+    {
+      "case_id": "F03-K1",
+      "summary": "Defensa estándar considerada razonable.",
+      "treatment": "No exigir una explicación de refuerzo para una distribución que también admite despliegue estándar."
+    },
+    {
+      "case_id": "F03-K2",
+      "summary": "Mantener sería normal si CT1 no comunica.",
+      "treatment": "Conservar el condicional: la ausencia de comunicación no está acreditada."
+    },
+    {
+      "case_id": "F03-K3",
+      "summary": "Se remite a F02-K3 y pregunta por T2.",
+      "treatment": "Conservar el alias literal T2; no corregirlo a CT2 sin base. Nuevo formato explicitará identidades y perspectivas, sin revelar posiciones enemigas desconocidas."
+    },
+    {
+      "case_id": "F04-K1",
+      "summary": "Presión e información distribuida, denominada SPLIT por el experto.",
+      "treatment": "Conservar su vocabulario y concretar su significado con ejemplos; no fijar aún una taxonomía universal."
+    },
+    {
+      "case_id": "F04-K2",
+      "summary": "Presión de medio que puede desequilibrar defensa; riesgo de avanzar solo sin cobertura.",
+      "treatment": "La valoración depende de posiciones, ángulos, cobertura e información aún no descritos."
+    },
+    {
+      "case_id": "F04-K3",
+      "summary": "Secuencia objetada por poco realista y no evaluable objetivamente.",
+      "treatment": "Excluir esta premisa como prueba táctica hasta reconstruirla o sustituirla; «99%» es expresión del revisor, no estadística medida."
+    },
+    {
+      "case_id": "F05-K1",
+      "summary": "Contacto/granada insuficientes para cambiar toda la defensa; cuestiona conocimiento exclusivo de CT1.",
+      "treatment": "Corregir: contacto registrado para CT1, comunicación y demás receptores desconocidos."
+    },
+    {
+      "case_id": "F05-K2",
+      "summary": "Mantener conector para preservar control de medio.",
+      "treatment": "Registrar criterio condicionado al reparto y coberturas que faltan, sin regla universal de posición."
+    },
+    {
+      "case_id": "F05-K3",
+      "summary": "Secuencia de plantado objetada como imposible con las premisas mostradas.",
+      "treatment": "Excluir esta secuencia como prueba táctica hasta reconstruir la continuidad. No declarar imposibilidad física general demostrada."
+    },
+    {
+      "case_id": "F06-K1",
+      "summary": "La flash y quien la porta condicionan la coordinación; considera posible cambiar de punto con 50 segundos.",
+      "treatment": "Concretar posición de T2 y rutas. El juicio no acredita cualquier llegada ni una ETA física."
+    },
+    {
+      "case_id": "F06-K2",
+      "summary": "Falta lugar de la muerte; plantea reagrupar y usar potencia de fuego tras perder utilidad.",
+      "treatment": "La ficha sólo acredita pérdida de la única flash del grupo. Completar inventario antes de afirmar ausencia de toda utilidad."
+    },
+    {
+      "case_id": "F06-K3",
+      "summary": "Guardar puede ser razonable por tiempo, recursos y marcador; pide economía del equipo.",
+      "treatment": "Añadir economía e inventario actuales y escenarios de la ronda siguiente sin usar compras futuras."
+    }
+  ],
+  "counts": {
+    "free_interpretations": 18,
+    "missing_information_entries": 18,
+    "explicit_hypothesis_ratings": 0,
+    "pending_hypothesis_ratings": 18,
+    "context_annotations": 0,
+    "material_realism_objections": 2
+  },
+  "preservation": {
+    "source_workbook_modified": false,
+    "original_case_prompts_modified": false,
+    "previous_ten_sheet_content_changes": 0,
+    "user_layout": "Fichas tácticas now A:I; removed columns not restored",
+    "raw_text": "preserved verbatim including original spelling and aliases"
+  },
+  "limits": {
+    "blind_evaluation": false,
+    "ground_truth_final": false,
+    "model_executed": false,
+    "training_allowed": false,
+    "eligible_capabilities": 0,
+    "S2_S3": "open",
+    "functional_smoke": "not applicable: documentation-only receipt"
+  },
+  "next": "Prepare only F01-K1 v0.2 with sufficient positions, current time and context; retain original responses",
+  "verification": {
+    "status": "complete",
+    "report": "C:/Users/kerch/AppData/Local/Temp/stratai-ict-review-intake-6a5be74a4a5f4d1bbe3297a7ef1299eb/verification.json",
+    "report_sha256": "1EBDD75BD85D612D7B010E2CD7AF38C66C3618FAFCEE44284678D9B8F0200C9B",
+    "protected_files_checked": 60,
+    "verbatim_responses_checked": 18,
+    "formula_cells_compared": 4,
+    "local_links_checked": 214,
+    "current_prompt_count": 1,
+    "functional_tests": "not run: documentation-only intake",
+    "functional_smoke": "not applicable: no producer, schema or runtime change",
+    "inventory": "C:/Users/kerch/AppData/Local/Temp/stratai-ict-review-intake-6a5be74a4a5f4d1bbe3297a7ef1299eb/inventory.json",
+    "modified_document_hashes": [
+      {
+        "path": "docs/AI_COACH_IMPLEMENTATION_PLAN.md",
+        "sha256": "2B428764843F997C6E675A7DEDB37B68846487FA4E14DAB241E2549E85D77A98"
+      },
+      {
+        "path": "docs/AI_COACH_COLLECTIVE_TACTICAL_INTERPRETATION_DESIGN.md",
+        "sha256": "DB6AF9E61E5F042F9CA17D4F5B7F4903F1964CE01235099C1C48E1133DF9C745"
+      },
+      {
+        "path": "docs/prompts/AI_COACH_SUPPORT_POSITIVE_DEPENDENCY_PHASE_PROMPT.md",
+        "sha256": "C1A067130798A218F5AAF8CB29C58CD184FC0EE9CA9C6318075B20A10EBA1FD2"
+      },
+      {
+        "path": "docs/README.md",
+        "sha256": "62EC6483DEB2CF4447021B72964250C705DF9112288832797F439B3CF7C4E6B1"
+      },
+      {
+        "path": "docs/archive/ai-coach/AI_COACH_COLLECTIVE_TACTICAL_EXPERT_REVIEW_2026-09-17.md",
+        "sha256": "8C53A5F9F11C15C05CDAB343352EAE73AEEAA6052BC62092C7FC1CDB6AAB975A"
+      }
+    ]
+  }
+}
